@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: editorconfig.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="editorconfig.txt.html#">↑Top↑</a></li>
+<li><a href="editorconfig.txt.html#editorconfig">EditorConfig integration</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="editorconfig.txt" class="t">editorconfig.txt</span>  Nvim
+
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+                                       Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+EditorConfig integration                                        <span id="editorconfig" class="t">editorconfig</span>
+
+Nvim supports EditorConfig. When <a href="insert.txt.html#a" class="d">a</a> file <a href="motion.txt.html#is" class="d">is</a> opened, after running <a href="usr_41.txt.html#ftplugin" class="l">ftplugin</a><a href="change.txt.html#s" class="d">s</a>
+and <a href="autocmd.txt.html#FileType" class="l">FileType</a> autocommands, Nvim searches all parent directories of that file
+<a href="luaref.txt.html#for" class="d">for</a> ".editorconfig" files, parses them, and applies any properties that match
+the opened file. Think of <a href="motion.txt.html#it" class="d">it</a> like <a href="options.txt.html#%27modeline%27" class="o">'modeline'</a> <a href="luaref.txt.html#for" class="d">for</a> an entire (recursive)
+directory. For more information see <a class="u" href="https://editorconfig.org/">https://editorconfig.org/</a>.
+
+                                               <span id="g%3Aeditorconfig" class="t">g:editorconfig</span> <span id="b%3Aeditorconfig" class="t">b:editorconfig</span>
+
+EditorConfig <a href="motion.txt.html#is" class="d">is</a> enabled by default. To disable it, add to your config: 
+<span class="e">    vim.g.editorconfig = false</span>
+
+
+(Vimscript: `let <a href="editorconfig.txt.html#g%3Aeditorconfig" class="d">g:editorconfig</a> <a href="change.txt.html#%3D" class="d">=</a> v:false`). It can also be disabled
+per-buffer by setting the <a href="editorconfig.txt.html#b%3Aeditorconfig" class="l">b:editorconfig</a> buffer-local variable to <span class="e">false</span>.
+
+Nvim stores the applied properties in <a href="editorconfig.txt.html#b%3Aeditorconfig" class="l">b:editorconfig</a> if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not <span class="e">false</span>.
+
+                                              <span id="editorconfig-custom-properties" class="t">editorconfig-custom-properties</span>
+
+New properties can be added by adding <a href="insert.txt.html#a" class="d">a</a> new entry to the "properties" table.
+The table key <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> property name and the value <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> callback function which
+accepts the number of the buffer to be modified, the value of the property in
+the <span class="e">.editorconfig</span> file, and (optionally) <a href="insert.txt.html#a" class="d">a</a> table containing all of the other
+properties and their values (useful <a href="luaref.txt.html#for" class="d">for</a> properties which depend on other
+properties). The value <a href="motion.txt.html#is" class="d">is</a> always <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> and must be coerced if necessary.
+Example: 
+<span class="e"></span>
+<span class="e">    require('editorconfig').properties.foo = function(bufnr, val, opts)</span>
+<span class="e">      if opts.charset and opts.charset ~= "utf-8" then</span>
+<span class="e">        error("foo can only be set when charset is utf-8", 0)</span>
+<span class="e">      end</span>
+<span class="e">      vim.b[bufnr].foo = val</span>
+<span class="e">    end</span>
+
+
+                                                     <span id="editorconfig-properties" class="t">editorconfig-properties</span>
+
+The following properties are supported by default:
+
+
+<a href="mbyte.txt.html#charset" class="d">charset</a>                                                 <span id="editorconfig.charset" class="t">editorconfig.charset</span>
+    One of <span class="e">"utf-8"</span>, <span class="e">"utf-8-bom"</span>, <span class="e">"latin1"</span>, <span class="e">"utf-16be"</span>, or
+    <span class="e">"utf-16le"</span>. Sets the <a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a> and <a href="options.txt.html#%27bomb%27" class="o">'bomb'</a> options.
+
+end_of_line                                         <span id="editorconfig.end_of_line" class="t">editorconfig.end_of_line</span>
+    One of <span class="e">"lf"</span>, <span class="e">"crlf"</span>, or <span class="e">"cr"</span>. These correspond to setting
+    <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> to "unix"<a href="motion.txt.html#%2C" class="d">,</a> "dos"<a href="motion.txt.html#%2C" class="d">,</a> or "mac"<a href="motion.txt.html#%2C" class="d">,</a> respectively.
+
+indent_size                                         <span id="editorconfig.indent_size" class="t">editorconfig.indent_size</span>
+    <a href="insert.txt.html#A" class="d">A</a> number indicating the size of <a href="insert.txt.html#a" class="d">a</a> single indent. Alternatively, use the
+    value "<a href="intro.txt.html#tab" class="d">tab</a>" to use the value of the tab_width property. Sets the
+    <a href="options.txt.html#%27shiftwidth%27" class="o">'shiftwidth'</a> and <a href="options.txt.html#%27softtabstop%27" class="o">'softtabstop'</a> options. If this value <a href="motion.txt.html#is" class="d">is</a> not "<a href="intro.txt.html#tab" class="d">tab</a>" and the
+    tab_width property <a href="motion.txt.html#is" class="d">is</a> not set, <a href="options.txt.html#%27tabstop%27" class="o">'tabstop'</a> <a href="motion.txt.html#is" class="d">is</a> also set to this value.
+
+indent_style                                       <span id="editorconfig.indent_style" class="t">editorconfig.indent_style</span>
+    One of <span class="e">"tab"</span> or <span class="e">"space"</span>. Sets the <a href="options.txt.html#%27expandtab%27" class="o">'expandtab'</a> option.
+
+insert_final_newline                       <span id="editorconfig.insert_final_newline" class="t">editorconfig.insert_final_newline</span>
+    <span class="e">"true"</span> or <span class="e">"false"</span> to ensure the file always has <a href="insert.txt.html#a" class="d">a</a> trailing newline <a href="motion.txt.html#as" class="d">as</a>
+    its last byte. Sets the <a href="options.txt.html#%27fixendofline%27" class="o">'fixendofline'</a> and <a href="options.txt.html#%27endofline%27" class="o">'endofline'</a> options.
+
+max_line_length                                 <span id="editorconfig.max_line_length" class="t">editorconfig.max_line_length</span>
+    <a href="insert.txt.html#A" class="d">A</a> number indicating the maximum length of <a href="insert.txt.html#a" class="d">a</a> single line. Sets the
+    <a href="options.txt.html#%27textwidth%27" class="o">'textwidth'</a> option.
+
+root                                                       <span id="editorconfig.root" class="t">editorconfig.root</span>
+    If "true"<a href="motion.txt.html#%2C" class="d">,</a> then stop searching <a href="luaref.txt.html#for" class="d">for</a> <span class="e">.editorconfig</span> files in parent
+    directories. This property must be <a href="motion.txt.html#at" class="d">at</a> the top-level of the <span class="e">.editorconfig</span>
+    file (i.e. <a href="motion.txt.html#it" class="d">it</a> must not be within <a href="insert.txt.html#a" class="d">a</a> glob section).
+
+spelling_language                             <span id="editorconfig.spelling_language" class="t">editorconfig.spelling_language</span>
+    <a href="insert.txt.html#A" class="d">A</a> code of the format ss or ss-TT, where ss <a href="motion.txt.html#is" class="d">is</a> an ISO 639 language code and
+    TT <a href="motion.txt.html#is" class="d">is</a> an ISO 3166 territory identifier. Sets the <a href="options.txt.html#%27spelllang%27" class="o">'spelllang'</a> option.
+
+tab_width                                             <span id="editorconfig.tab_width" class="t">editorconfig.tab_width</span>
+    The display size of <a href="insert.txt.html#a" class="d">a</a> single <a href="intro.txt.html#tab" class="d">tab</a> character. Sets the <a href="options.txt.html#%27tabstop%27" class="o">'tabstop'</a> option.
+
+trim_trailing_whitespace               <span id="editorconfig.trim_trailing_whitespace" class="t">editorconfig.trim_trailing_whitespace</span>
+    When <span class="e">"true"</span>, trailing <a href="pattern.txt.html#whitespace" class="d">whitespace</a> <a href="motion.txt.html#is" class="d">is</a> automatically removed when the
+    buffer <a href="motion.txt.html#is" class="d">is</a> written.
+
+
+ vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

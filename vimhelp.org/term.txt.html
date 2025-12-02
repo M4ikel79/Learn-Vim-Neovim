@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: term.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="term.txt.html#">↑Top↑</a></li>
+<li><a href="term.txt.html#startup-terminal">Startup</a></li>
+<li><a href="term.txt.html#terminal-options">Terminal options</a></li>
+<li><a href="term.txt.html#window-size">Window size</a></li>
+<li><a href="term.txt.html#slow-fast-terminal">Slow and fast terminals</a></li>
+<li><a href="term.txt.html#mouse-using">Using the mouse</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="term.txt" class="t">term.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 11
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar</span>
+
+
+Terminal information					<span id="terminal-info" class="t">terminal-info</span>
+
+Vim uses information about the <a href="terminal.txt.html#terminal" class="d">terminal</a> you are using to fill the screen and
+recognize what keys you hit.  If this information <a href="motion.txt.html#is" class="d">is</a> not correct, the screen
+may be messed up or keys may not be recognized.  The actions which have to be
+performed on the screen are accomplished by outputting <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#string" class="d">string</a> of
+characters.  <a href="eval.txt.html#Special" class="d">Special</a> keys produce <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#string" class="d">string</a> of characters.  These strings are
+stored in the <a href="terminal.txt.html#terminal" class="d">terminal</a> options, see <a href="term.txt.html#terminal-options" class="l">terminal-options</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="n">NOTE:</span> Most of this <a href="motion.txt.html#is" class="d">is</a> not used when running the <a href="gui.txt.html#GUI" class="l">GUI</a><a href="repeat.txt.html#." class="d">.</a>
+
+1. Startup			<a href="term.txt.html#startup-terminal" class="l">startup-terminal</a>
+2. Terminal <a href="options.txt.html#options" class="d">options</a>		<a href="term.txt.html#terminal-options" class="l">terminal-options</a>
+3. Window size			<a href="term.txt.html#window-size" class="l">window-size</a>
+4. Slow and fast terminals	<a href="term.txt.html#slow-fast-terminal" class="l">slow-fast-terminal</a>
+5. Using the mouse		<a href="term.txt.html#mouse-using" class="l">mouse-using</a>
+
+<span class="h">==============================================================================</span>
+1. Startup						<span id="startup-terminal" class="t">startup-terminal</span>
+
+When Vim <a href="motion.txt.html#is" class="d">is</a> started <a href="insert.txt.html#a" class="d">a</a> default <a href="terminal.txt.html#terminal" class="d">terminal</a> type <a href="motion.txt.html#is" class="d">is</a> assumed.  For the <a href="os_amiga.txt.html#Amiga" class="d">Amiga</a> this <a href="motion.txt.html#is" class="d">is</a>
+<a href="insert.txt.html#a" class="d">a</a> standard CLI window, for <a href="os_win32.txt.html#MS-Windows" class="d">MS-Windows</a> the pc terminal, for <a href="os_unix.txt.html#Unix" class="d">Unix</a> an ansi
+terminal.  <a href="insert.txt.html#A" class="d">A</a> few other <a href="terminal.txt.html#terminal" class="d">terminal</a> types are always available, see below
+<a href="term.txt.html#builtin-terms" class="l">builtin-terms</a><a href="repeat.txt.html#." class="d">.</a>
+
+You can give the <a href="terminal.txt.html#terminal" class="d">terminal</a> name with the '-T' Vim argument.  If <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not given
+Vim will try to get the name from the <a href="starting.txt.html#TERM" class="d">TERM</a> environment variable.
+
+				<span id="termcap" class="t">termcap</span> <span id="terminfo" class="t">terminfo</span> <span id="E557" class="t">E557</span> <span id="E558" class="t">E558</span> <span id="E559" class="t">E559</span>
+On <a href="os_unix.txt.html#Unix" class="d">Unix</a> the <a href="term.txt.html#terminfo" class="d">terminfo</a> database or <a href="term.txt.html#termcap" class="d">termcap</a> file <a href="motion.txt.html#is" class="d">is</a> used.  This <a href="motion.txt.html#is" class="d">is</a> referred to <a href="motion.txt.html#as" class="d">as</a>
+"<a href="term.txt.html#termcap" class="d">termcap</a>" in all the documentation.  At compile time, when running configure,
+the choice whether to use <a href="term.txt.html#terminfo" class="d">terminfo</a> or <a href="term.txt.html#termcap" class="d">termcap</a> <a href="motion.txt.html#is" class="d">is</a> done automatically.  When
+running Vim the output of "<a href="various.txt.html#%3Aversion" class="d">:version</a>" will show <a href="various.txt.html#%2Bterminfo" class="l">+terminfo</a> if <a href="term.txt.html#terminfo" class="d">terminfo</a> <a href="motion.txt.html#is" class="d">is</a>
+used.  Also see <a href="tips.txt.html#xterm-screens" class="l">xterm-screens</a><a href="repeat.txt.html#." class="d">.</a>
+
+On non-Unix systems <a href="insert.txt.html#a" class="d">a</a> <a href="term.txt.html#termcap" class="d">termcap</a> <a href="motion.txt.html#is" class="d">is</a> only available if Vim was compiled with
+TERMCAP defined.
+
+					<span id="builtin-terms" class="t">builtin-terms</span> <span id="builtin_terms" class="t">builtin_terms</span>
+<a href="insert.txt.html#A" class="d">A</a> number of builtin terminals are available.  Since patch 9.0.0280 there <a href="motion.txt.html#is" class="d">is</a> no
+difference between Vim versions.  You can see <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of available builtin
+terminals in the error message you get for `:set term=xxx` (when not running
+the GUI).  Also see <a href="various.txt.html#%2B%2Bbuiltin_terms" class="l">++builtin_terms</a><a href="repeat.txt.html#." class="d">.</a>
+
+If the <a href="term.txt.html#termcap" class="d">termcap</a> code <a href="motion.txt.html#is" class="d">is</a> included Vim will try to get the strings for the
+<a href="terminal.txt.html#terminal" class="d">terminal</a> you are using from the <a href="term.txt.html#termcap" class="d">termcap</a> file and the builtin termcaps.  Both
+are always used, if an entry for the <a href="terminal.txt.html#terminal" class="d">terminal</a> you are using <a href="motion.txt.html#is" class="d">is</a> present.  Which
+one <a href="motion.txt.html#is" class="d">is</a> used first depends on the <a href="options.txt.html#%27ttybuiltin%27" class="o">'ttybuiltin'</a> option:
+
+<a href="options.txt.html#%27ttybuiltin%27" class="o">'ttybuiltin'</a> on		1: builtin <a href="term.txt.html#termcap" class="d">termcap</a>	2: external <a href="term.txt.html#termcap" class="d">termcap</a>
+<a href="options.txt.html#%27ttybuiltin%27" class="o">'ttybuiltin'</a> off	1: external <a href="term.txt.html#termcap" class="d">termcap</a>	2: builtin <a href="term.txt.html#termcap" class="d">termcap</a>
+
+If an option <a href="motion.txt.html#is" class="d">is</a> missing in one of them, <a href="motion.txt.html#it" class="d">it</a> will be obtained from the other
+one.  If an option <a href="motion.txt.html#is" class="d">is</a> present in both, the one first encountered <a href="motion.txt.html#is" class="d">is</a> used.
+
+Which external <a href="term.txt.html#termcap" class="d">termcap</a> file <a href="motion.txt.html#is" class="d">is</a> used varies from system to system and may
+depend on the environment <a href="eval.txt.html#variables" class="d">variables</a> "TERMCAP" and "TERMPATH"<a href="repeat.txt.html#." class="d">.</a>  See "man
+tgetent"<a href="repeat.txt.html#." class="d">.</a>
+
+Settings depending on <a href="terminal.txt.html#terminal" class="d">terminal</a>			<span id="term-dependent-settings" class="t">term-dependent-settings</span>
+
+If you want to set <a href="options.txt.html#options" class="d">options</a> or mappings, depending on the <a href="terminal.txt.html#terminal" class="d">terminal</a> name, you
+can <a href="diff.txt.html#do" class="d">do</a> this best in your .vimrc.  Example: 
+<span class="e"></span>
+<span class="e">   if &amp;term == "xterm"</span>
+<span class="e">     ... xterm maps and settings ...</span>
+<span class="e">   elseif &amp;term =~ "vt10."</span>
+<span class="e">     ... vt100, vt102 maps and settings ...</span>
+<span class="e">   endif</span>
+
+						<span id="raw-terminal-mode" class="t">raw-terminal-mode</span>
+For normal editing the <a href="terminal.txt.html#terminal" class="d">terminal</a> will be <a href="change.txt.html#put" class="d">put</a> into "raw" mode.  The strings
+defined with <a href="term.txt.html#%27t_ti%27" class="o">'t_ti'</a>, <a href="term.txt.html#%27t_TI%27" class="o">'t_TI'</a> and <a href="term.txt.html#%27t_ks%27" class="o">'t_ks'</a> will be sent to the terminal.  Normally
+this puts the <a href="terminal.txt.html#terminal" class="d">terminal</a> in <a href="insert.txt.html#a" class="d">a</a> state where the <a href="term.txt.html#termcap" class="d">termcap</a> codes are valid and
+activates the cursor and function keys.
+When Vim exits the <a href="terminal.txt.html#terminal" class="d">terminal</a> will be <a href="change.txt.html#put" class="d">put</a> back into the mode <a href="motion.txt.html#it" class="d">it</a> was before Vim
+started.  The strings defined with <a href="term.txt.html#%27t_te%27" class="o">'t_te'</a>, <a href="term.txt.html#%27t_TE%27" class="o">'t_TE'</a> and <a href="term.txt.html#%27t_ke%27" class="o">'t_ke'</a> will be sent to
+the terminal.  On the Amiga, with commands that execute an external command
+(e.g., "<a href="change.txt.html#%21%21" class="d">!!</a>"), the <a href="terminal.txt.html#terminal" class="d">terminal</a> will be <a href="change.txt.html#put" class="d">put</a> into <a href="intro.txt.html#Normal" class="d">Normal</a> mode for <a href="insert.txt.html#a" class="d">a</a> moment.  This
+means that you can stop the output to the screen by hitting <a href="insert.txt.html#a" class="d">a</a> <a href="print.txt.html#printing" class="d">printing</a> key.
+Output resumes when you hit <a href="motion.txt.html#%3CBS%3E" class="s">&lt;BS&gt;</a>.
+
+<span class="n">Note:</span> When <a href="term.txt.html#%27t_ti%27" class="o">'t_ti'</a> <a href="motion.txt.html#is" class="d">is</a> not empty, Vim assumes that <a href="motion.txt.html#it" class="d">it</a> causes switching to the
+alternate screen.  This may slightly change what happens when executing <a href="insert.txt.html#a" class="d">a</a>
+shell command or <a href="starting.txt.html#exiting" class="d">exiting</a> Vim.  To avoid this use <a href="term.txt.html#%27t_TI%27" class="o">'t_TI'</a> and <a href="term.txt.html#%27t_TE%27" class="o">'t_TE'</a> (but make
+sure to add to them, not overwrite).
+
+Vim will try to detect what keyboard protocol the <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a> using with the
+<a href="term.txt.html#%27t_RK%27" class="o">'t_RK'</a> <a href="term.txt.html#termcap" class="d">termcap</a> entry.  This <a href="motion.txt.html#is" class="d">is</a> sent after <a href="term.txt.html#%27t_TI%27" class="o">'t_TI'</a>, but only when there <a href="motion.txt.html#is" class="d">is</a> no
+work to <a href="diff.txt.html#do" class="d">do</a> (no typeahead and no pending commands).  That <a href="motion.txt.html#is" class="d">is</a> to avoid the
+response to <a href="intro.txt.html#end" class="d">end</a> up in <a href="insert.txt.html#a" class="d">a</a> shell command or arrive after Vim exits.
+
+						<span id="xterm-bracketed-paste" class="t">xterm-bracketed-paste</span>
+When the <a href="term.txt.html#%27t_BE%27" class="o">'t_BE'</a> option <a href="motion.txt.html#is" class="d">is</a> set then <a href="term.txt.html#%27t_BE%27" class="o">'t_BE'</a> will be sent to the
+<a href="terminal.txt.html#terminal" class="d">terminal</a> when entering "raw" mode and <a href="term.txt.html#%27t_BD%27" class="o">'t_BD'</a> when leaving "raw" mode.  The
+<a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a> then expected to <a href="change.txt.html#put" class="d">put</a> <a href="term.txt.html#%27t_PS%27" class="o">'t_PS'</a> before pasted text and <a href="term.txt.html#%27t_PE%27" class="o">'t_PE'</a> after
+pasted text.  This way Vim can separate text that <a href="motion.txt.html#is" class="d">is</a> pasted from characters
+that are typed.  The pasted text <a href="motion.txt.html#is" class="d">is</a> handled like when the middle mouse button
+<a href="motion.txt.html#is" class="d">is</a> used, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> inserted literally and not interpreted <a href="motion.txt.html#as" class="d">as</a> commands.
+
+Please <span class="n">note:</span> while bracketed paste <a href="motion.txt.html#is" class="d">is</a> trying to prevent nasty side-effects
+from pasting (like the <a href="pattern.txt.html#CTRL-C" class="k">CTRL-C</a> or <span class="s">&lt;ESC&gt;</span> key), it's not <a href="insert.txt.html#a" class="d">a</a> guaranteed security
+measure because different terminals may implement this mode slightly
+differently.  You should still be careful with what you paste into Vim.
+
+When the cursor <a href="motion.txt.html#is" class="d">is</a> in the first column, the pasted text will be inserted
+before it.  Otherwise the pasted text <a href="motion.txt.html#is" class="d">is</a> appended after the cursor position.
+This means one cannot paste after the first column.  Unfortunately Vim does
+not have <a href="insert.txt.html#a" class="d">a</a> way to tell where the mouse pointer was.
+
+<span class="n">Note</span> that in some situations Vim will not recognize the bracketed paste and
+you will get the raw text.  In other situations Vim will only get the first
+pasted character and drop the rest, e.g. when using the "<a href="change.txt.html#r" class="d">r</a>" command.  If you
+have <a href="insert.txt.html#a" class="d">a</a> problem with this, disable bracketed paste by putting this in your
+.vimrc: 
+<span class="e">	set t_BE=</span>
+If this <a href="motion.txt.html#is" class="d">is</a> done while Vim <a href="motion.txt.html#is" class="d">is</a> running the <a href="term.txt.html#%27t_BD%27" class="o">'t_BD'</a> will be sent to the <a href="terminal.txt.html#terminal" class="d">terminal</a>
+to disable bracketed paste.
+
+If <a href="term.txt.html#t_PS" class="l">t_PS</a> or <a href="term.txt.html#t_PE" class="l">t_PE</a> <a href="motion.txt.html#is" class="d">is</a> not set, then <a href="term.txt.html#t_BE" class="l">t_BE</a> will not be used.  This <a href="motion.txt.html#is" class="d">is</a> to make
+sure that bracketed paste <a href="motion.txt.html#is" class="d">is</a> not enabled when the <a href="intro.txt.html#escape" class="d">escape</a> codes surrounding
+pasted text cannot be recognized.
+
+<span class="n">Note:</span> bracketed paste mode will be disabled, when the <a href="options.txt.html#%27esckeys%27" class="o">'esckeys'</a> option <a href="motion.txt.html#is" class="d">is</a> not
+set (also when the <a href="options.txt.html#%27compatible%27" class="o">'compatible'</a> option <a href="motion.txt.html#is" class="d">is</a> set).
+
+If your <a href="terminal.txt.html#terminal" class="d">terminal</a> supports bracketed paste, but the <a href="options.txt.html#options" class="d">options</a> are not set
+automatically, you can try using something like this: 
+<span class="e"></span>
+<span class="e">	if &amp;term =~ "screen"</span>
+<span class="e">	  let &amp;t_BE = "\e[?2004h"</span>
+<span class="e">	  let &amp;t_BD = "\e[?2004l"</span>
+<span class="e">	  exec "set t_PS=\e[200~"</span>
+<span class="e">	  exec "set t_PE=\e[201~"</span>
+<span class="e">	endif</span>
+<span class="e"></span>
+The <a href="term.txt.html#terminfo" class="d">terminfo</a> entries "BE"<a href="motion.txt.html#%2C" class="d">,</a> "BD"<a href="motion.txt.html#%2C" class="d">,</a> "PS" and "PE" were added in ncurses version
+6.4, early 2023, for some terminals.  If you have this version then you may
+not have to manually configure your terminal.
+
+							<span id="tmux-integration" class="t">tmux-integration</span>
+If you experience issues when running Vim inside tmux, here are <a href="insert.txt.html#a" class="d">a</a> few hints.
+You can comment-out parts if something doesn't work (it may depend on the
+<a href="terminal.txt.html#terminal" class="d">terminal</a> that <a href="syntax.txt.html#tmux" class="d">tmux</a> <a href="motion.txt.html#is" class="d">is</a> running in): 
+<span class="e"></span>
+<span class="e">    if !has('gui_running') &amp;&amp; &amp;term =~ '^\%(screen\|tmux\)'</span>
+<span class="e">        " Better mouse support, see  :help 'ttymouse'</span>
+<span class="e">        set ttymouse=sgr</span>
+<span class="e"></span>
+<span class="e">        " Enable true colors, see  :help xterm-true-color</span>
+<span class="e">        let &amp;termguicolors = v:true</span>
+<span class="e">        let &amp;t_8f = "\&lt;Esc&gt;[38;2;%lu;%lu;%lum"</span>
+<span class="e">        let &amp;t_8b = "\&lt;Esc&gt;[48;2;%lu;%lu;%lum"</span>
+<span class="e"></span>
+<span class="e">        " Enable bracketed paste mode, see  :help xterm-bracketed-paste</span>
+<span class="e">        let &amp;t_BE = "\&lt;Esc&gt;[?2004h"</span>
+<span class="e">        let &amp;t_BD = "\&lt;Esc&gt;[?2004l"</span>
+<span class="e">        let &amp;t_PS = "\&lt;Esc&gt;[200~"</span>
+<span class="e">        let &amp;t_PE = "\&lt;Esc&gt;[201~"</span>
+<span class="e"></span>
+<span class="e">        " Enable focus event tracking, see  :help xterm-focus-event</span>
+<span class="e">        let &amp;t_fe = "\&lt;Esc&gt;[?1004h"</span>
+<span class="e">        let &amp;t_fd = "\&lt;Esc&gt;[?1004l"</span>
+<span class="e">	execute "set &lt;FocusGained&gt;=\&lt;Esc&gt;[I"</span>
+<span class="e">        execute "set &lt;FocusLost&gt;=\&lt;Esc&gt;[O"</span>
+<span class="e"></span>
+<span class="e">        " Enable modified arrow keys, see  :help arrow_modifiers</span>
+<span class="e">        execute "silent! set &lt;xUp&gt;=\&lt;Esc&gt;[@;*A"</span>
+<span class="e">        execute "silent! set &lt;xDown&gt;=\&lt;Esc&gt;[@;*B"</span>
+<span class="e">        execute "silent! set &lt;xRight&gt;=\&lt;Esc&gt;[@;*C"</span>
+<span class="e">        execute "silent! set &lt;xLeft&gt;=\&lt;Esc&gt;[@;*D"</span>
+<span class="e">    endif</span>
+
+							<span id="cs7-problem" class="t">cs7-problem</span>
+<span class="n">Note:</span> If the <a href="terminal.txt.html#terminal" class="d">terminal</a> settings are changed after running Vim, you might have
+an illegal combination of settings.  This has been reported on Solaris 2.5
+with "stty cs8 parenb"<a href="motion.txt.html#%2C" class="d">,</a> which <a href="motion.txt.html#is" class="d">is</a> restored <a href="motion.txt.html#as" class="d">as</a> "stty cs7 parenb"<a href="repeat.txt.html#." class="d">.</a>  Use
+"stty cs8 -parenb -istrip" instead, this <a href="motion.txt.html#is" class="d">is</a> restored correctly.
+
+Some <a href="term.txt.html#termcap" class="d">termcap</a> entries are wrong in the sense that after sending <a href="term.txt.html#%27t_ks%27" class="o">'t_ks'</a> the
+cursor keys send codes different from the codes defined in the termcap.  To
+avoid this you can set <a href="term.txt.html#%27t_ks%27" class="o">'t_ks'</a> (and <a href="term.txt.html#%27t_ke%27" class="o">'t_ke'</a>) to empty strings.  This <a href="vim_faq.txt.html#must" class="d">must</a> be
+done during <a href="starting.txt.html#initialization" class="d">initialization</a> (see <a href="starting.txt.html#initialization" class="l">initialization</a>), otherwise it's too late.
+
+Some <a href="term.txt.html#termcap" class="d">termcap</a> entries assume that the highest bit <a href="motion.txt.html#is" class="d">is</a> always reset.  For
+example: The <a href="intro.txt.html#cursor-up" class="d">cursor-up</a> entry for the <a href="os_amiga.txt.html#Amiga" class="d">Amiga</a> could be ":ku=\E[A:"<a href="repeat.txt.html#." class="d">.</a>  But the
+<a href="os_amiga.txt.html#Amiga" class="d">Amiga</a> really sends "\233A"<a href="repeat.txt.html#." class="d">.</a>  This works fine if the highest bit <a href="motion.txt.html#is" class="d">is</a> reset,
+e.g., when using an <a href="os_amiga.txt.html#Amiga" class="d">Amiga</a> over <a href="insert.txt.html#a" class="d">a</a> serial line.  If the cursor keys don't work,
+try the entry ":ku=\233A:"<a href="repeat.txt.html#." class="d">.</a>
+
+Some <a href="term.txt.html#termcap" class="d">termcap</a> entries have the entry ":ku=\E[A:"<a href="repeat.txt.html#." class="d">.</a>  But the <a href="os_amiga.txt.html#Amiga" class="d">Amiga</a> really sends
+"\233A"<a href="repeat.txt.html#." class="d">.</a>  On output "\E[" and "\233" are often equivalent, on input they
+aren't.  You will have to change the <a href="term.txt.html#termcap" class="d">termcap</a> entry, or change the key code with
+the <a href="options.txt.html#%3Aset" class="d">:set</a> command to fix this.
+
+Many cursor key codes start with an <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>.  Vim <a href="vim_faq.txt.html#must" class="d">must</a> find out if this <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+single hit of the <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> key or the start of <a href="insert.txt.html#a" class="d">a</a> cursor key sequence.  It waits
+for <a href="insert.txt.html#a" class="d">a</a> next character to arrive.  If <a href="motion.txt.html#it" class="d">it</a> does not arrive within one second <a href="insert.txt.html#a" class="d">a</a>
+single <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> <a href="motion.txt.html#is" class="d">is</a> assumed.  On very slow systems this may fail, causing cursor
+keys not to work sometimes.  If you discover this problem reset the <a href="options.txt.html#%27timeout%27" class="o">'timeout'</a>
+option.  Vim will wait for the next character to arrive after an <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>.  If
+you want to enter <a href="insert.txt.html#a" class="d">a</a> single <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> you <a href="vim_faq.txt.html#must" class="d">must</a> type <a href="motion.txt.html#it" class="d">it</a> twice.  Resetting the
+<a href="options.txt.html#%27esckeys%27" class="o">'esckeys'</a> option avoids this problem in <a href="insert.txt.html#Insert" class="d">Insert</a> mode, but you lose the
+possibility to use cursor and function keys in <a href="insert.txt.html#Insert" class="d">Insert</a> mode.
+
+On the <a href="os_amiga.txt.html#Amiga" class="d">Amiga</a> the recognition of <a href="windows.txt.html#window" class="d">window</a> resizing <a href="motion.txt.html#is" class="d">is</a> activated only when the
+<a href="terminal.txt.html#terminal" class="d">terminal</a> name <a href="motion.txt.html#is" class="d">is</a> "amiga" or "builtin_amiga"<a href="repeat.txt.html#." class="d">.</a>
+
+Some terminals have confusing codes for the cursor keys.  The televideo 925 <a href="motion.txt.html#is" class="d">is</a>
+such <a href="insert.txt.html#a" class="d">a</a> terminal.  It sends <a href="insert.txt.html#a" class="d">a</a> <a href="motion.txt.html#CTRL-H" class="k">CTRL-H</a> for cursor-left.  This would make <a href="motion.txt.html#it" class="d">it</a>
+impossible to distinguish <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#backspace" class="d">backspace</a> and cursor-left.  To avoid this problem
+<a href="motion.txt.html#CTRL-H" class="k">CTRL-H</a> <a href="motion.txt.html#is" class="d">is</a> never recognized <a href="motion.txt.html#as" class="d">as</a> cursor-left.
+
+					<span id="vt100-cursor-keys" class="t">vt100-cursor-keys</span> <span id="xterm-cursor-keys" class="t">xterm-cursor-keys</span>
+Other terminals (e.g., vt100 and xterm) have cursor keys that send <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>OA,
+<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>OB, etc.  Unfortunately these are valid commands in <a href="insert.txt.html#insert" class="d">insert</a> mode: Stop
+insert, Open <a href="insert.txt.html#a" class="d">a</a> new line above the new one, start <a href="insert.txt.html#inserting" class="d">inserting</a> 'A', 'B', etc.
+Instead of performing these commands Vim will erroneously recognize this typed
+key sequence <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> cursor key movement.  To avoid this and make Vim <a href="diff.txt.html#do" class="d">do</a> what you
+want in either <a href="change.txt.html#case" class="d">case</a> you could use these settings: 
+<span class="e">	:set notimeout		" don't timeout on mappings</span>
+<span class="e">	:set ttimeout		" do timeout on terminal key codes</span>
+<span class="e">	:set timeoutlen=100	" timeout after 100 msec</span>
+This requires the <a href="intro.txt.html#key-codes" class="d">key-codes</a> to be sent within 100 msec in order to recognize
+them <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> cursor key.  When you type you normally are not that fast, so they
+are recognized <a href="motion.txt.html#as" class="d">as</a> individual typed commands, even though Vim receives the same
+sequence of bytes.
+
+				<span id="vt100-function-keys" class="t">vt100-function-keys</span> <span id="xterm-function-keys" class="t">xterm-function-keys</span>
+An xterm can send function keys F1 to F4 in two modes: vt100 compatible or
+not.  Because Vim may not know what the xterm <a href="motion.txt.html#is" class="d">is</a> sending, both types of keys
+are recognized.  The same happens for the <a href="motion.txt.html#%3CHome%3E" class="s">&lt;Home&gt;</a> and <a href="motion.txt.html#%3CEnd%3E" class="s">&lt;End&gt;</a> keys.
+<span class="h">			normal			vt100 </span>
+	<a href="helphelp.txt.html#%3CF1%3E" class="s">&lt;F1&gt;</a>	<a href="term.txt.html#t_k1" class="d">t_k1</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>[11~	<a href="term.txt.html#%3CxF1%3E" class="s">&lt;xF1&gt;</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>OP	    <span id="%3CxF1%3E-xterm" class="t">&lt;xF1&gt;-xterm</span>
+	<a href="term.txt.html#%3CF2%3E" class="s">&lt;F2&gt;</a>	<a href="term.txt.html#t_k2" class="d">t_k2</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>[12~	<a href="term.txt.html#%3CxF2%3E" class="s">&lt;xF2&gt;</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>OQ	    <span id="%3CxF2%3E-xterm" class="t">&lt;xF2&gt;-xterm</span>
+	<a href="term.txt.html#%3CF3%3E" class="s">&lt;F3&gt;</a>	<a href="term.txt.html#t_k3" class="d">t_k3</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>[13~	<a href="term.txt.html#%3CxF3%3E" class="s">&lt;xF3&gt;</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>OR	    <span id="%3CxF3%3E-xterm" class="t">&lt;xF3&gt;-xterm</span>
+	<a href="term.txt.html#%3CF4%3E" class="s">&lt;F4&gt;</a>	<a href="term.txt.html#t_k4" class="d">t_k4</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>[14~	<a href="term.txt.html#%3CxF4%3E" class="s">&lt;xF4&gt;</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>OS	    <span id="%3CxF4%3E-xterm" class="t">&lt;xF4&gt;-xterm</span>
+	<a href="motion.txt.html#%3CHome%3E" class="s">&lt;Home&gt;</a>	<a href="term.txt.html#t_kh" class="d">t_kh</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>[7~	<a href="term.txt.html#%3CxHome%3E" class="s">&lt;xHome&gt;</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>OH	    <span id="%3CxHome%3E-xterm" class="t">&lt;xHome&gt;-xterm</span>
+	<a href="motion.txt.html#%3CEnd%3E" class="s">&lt;End&gt;</a>	<a href="term.txt.html#t_%407" class="d">t_@7</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>[4~	<a href="term.txt.html#%3CxEnd%3E" class="s">&lt;xEnd&gt;</a>	<a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>OF	    <span id="%3CxEnd%3E-xterm" class="t">&lt;xEnd&gt;-xterm</span>
+
+When Vim starts, <a href="term.txt.html#%3CxF1%3E" class="s">&lt;xF1&gt;</a> <a href="motion.txt.html#is" class="d">is</a> mapped to <a href="helphelp.txt.html#%3CF1%3E" class="s">&lt;F1&gt;</a>, <a href="term.txt.html#%3CxF2%3E" class="s">&lt;xF2&gt;</a> to <a href="term.txt.html#%3CF2%3E" class="s">&lt;F2&gt;</a> etc.  This means that
+by default both codes <a href="diff.txt.html#do" class="d">do</a> the same thing.  If you make <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> for <a href="term.txt.html#%3CxF2%3E" class="s">&lt;xF2&gt;</a>,
+because your <a href="terminal.txt.html#terminal" class="d">terminal</a> does have two keys, the default <a href="map.txt.html#mapping" class="d">mapping</a> <a href="motion.txt.html#is" class="d">is</a> overwritten,
+thus you can use the <a href="term.txt.html#%3CF2%3E" class="s">&lt;F2&gt;</a> and <a href="term.txt.html#%3CxF2%3E" class="s">&lt;xF2&gt;</a> keys for something different.
+
+							<span id="xterm-shifted-keys" class="t">xterm-shifted-keys</span>
+Newer versions of xterm support shifted function keys and special keys.  Vim
+recognizes most of them.  Use "<a href="options.txt.html#%3Aset" class="d">:set</a> <a href="term.txt.html#termcap" class="d">termcap</a>" to check which are supported and
+what the codes are.  Mostly these are not in <a href="insert.txt.html#a" class="d">a</a> termcap, they are only
+supported by the builtin_xterm termcap.
+
+							<span id="xterm-modifier-keys" class="t">xterm-modifier-keys</span>
+Newer versions of xterm support Alt and Ctrl for most function keys.  To avoid
+having to add all combinations of Alt, Ctrl and Shift for every key <a href="insert.txt.html#a" class="d">a</a> special
+sequence <a href="motion.txt.html#is" class="d">is</a> recognized <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> of <a href="insert.txt.html#a" class="d">a</a> <a href="term.txt.html#termcap" class="d">termcap</a> entry: "<a href="motion.txt.html#%3B" class="d">;</a>*<a href="change.txt.html#X" class="d">X</a>"<a href="repeat.txt.html#." class="d">.</a>  The "<a href="change.txt.html#X" class="d">X</a>" can be
+any character, often '~' <a href="motion.txt.html#is" class="d">is</a> used.  The "<a href="motion.txt.html#%3B" class="d">;</a>*" stands for an optional modifier
+argument.  ";2" <a href="motion.txt.html#is" class="d">is</a> Shift, ";3" <a href="motion.txt.html#is" class="d">is</a> Alt, ";5" <a href="motion.txt.html#is" class="d">is</a> Ctrl and ";9" <a href="motion.txt.html#is" class="d">is</a> Meta (when
+it's different from Alt).  They can be combined.  Examples: 
+<span class="e">	:set &lt;F8&gt;=^[[19;*~</span>
+<span class="e">	:set &lt;Home&gt;=^[[1;*H</span>
+Another speciality about these codes <a href="motion.txt.html#is" class="d">is</a> that they are not overwritten by
+another code.  That <a href="motion.txt.html#is" class="d">is</a> to avoid that the codes obtained from xterm directly
+<a href="term.txt.html#t_RV" class="l">t_RV</a> overwrite them.
+
+Another special value <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="term.txt.html#termcap" class="d">termcap</a> entry ending in "@;*<a href="change.txt.html#X" class="d">X</a>"<a href="repeat.txt.html#." class="d">.</a>  This <a href="motion.txt.html#is" class="d">is</a> for cursor
+keys, which either use "CSI <a href="change.txt.html#X" class="d">X</a>" or "CSI 1 <a href="motion.txt.html#%3B" class="d">;</a> modifier <a href="change.txt.html#X" class="d">X</a>"<a href="repeat.txt.html#." class="d">.</a>  Thus the "<a href="repeat.txt.html#%40" class="d">@</a>"
+stands for either "1" if <a href="insert.txt.html#a" class="d">a</a> modifier follows, or nothing.
+							<span id="arrow_modifiers" class="t">arrow_modifiers</span>
+Several <a href="terminal.txt.html#terminal" class="d">terminal</a> emulators (alacritty, gnome, konsole, etc.) send special
+codes for keys with modifiers, but these <a href="diff.txt.html#do" class="d">do</a> not have an entry in the
+termcap/terminfo database.  You can make them work by adding <a href="insert.txt.html#a" class="d">a</a> few lines in
+your vimrc.  For example, to make the Control modifier work with arrow keys
+for the gnome terminal: 
+<span class="e">	if &amp;term =~ 'gnome'</span>
+<span class="e">	   execute "set &lt;xUp&gt;=\&lt;Esc&gt;[@;*A"</span>
+<span class="e">	   execute "set &lt;xDown&gt;=\&lt;Esc&gt;[@;*B"</span>
+<span class="e">	   execute "set &lt;xRight&gt;=\&lt;Esc&gt;[@;*C"</span>
+<span class="e">	   execute "set &lt;xLeft&gt;=\&lt;Esc&gt;[@;*D"</span>
+<span class="e">	endif</span>
+							<span id="xterm-scroll-region" class="t">xterm-scroll-region</span>
+The default <a href="term.txt.html#termcap" class="d">termcap</a> entry for xterm on Sun and other platforms does not
+contain the entry for scroll regions.  Add ":cs=\E[%i%d;%dr:" to the xterm
+entry in /etc/termcap and everything should work.
+
+							<span id="xterm-end-home-keys" class="t">xterm-end-home-keys</span>
+On some systems (at least on FreeBSD with XFree86 3.1.2) the codes that the
+<a href="motion.txt.html#%3CEnd%3E" class="s">&lt;End&gt;</a> and <a href="motion.txt.html#%3CHome%3E" class="s">&lt;Home&gt;</a> keys send contain <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#%3CNul%3E" class="s">&lt;Nul&gt;</a> character.  To make these keys send
+the proper key code, add these lines to your ~/.Xdefaults file:
+
+<span class="e">	*VT100.Translations:		#override \n\</span>
+<span class="e">			&lt;Key&gt;Home: string("0x1b") string("[7~") \n\</span>
+<span class="e">			&lt;Key&gt;End: string("0x1b") string("[8~")</span>
+
+						<span id="xterm-8bit" class="t">xterm-8bit</span> <span id="xterm-8-bit" class="t">xterm-8-bit</span>
+Xterm can be run in <a href="insert.txt.html#a" class="d">a</a> mode where <a href="motion.txt.html#it" class="d">it</a> uses 8-bit <a href="intro.txt.html#escape" class="d">escape</a> sequences.  The CSI code
+<a href="motion.txt.html#is" class="d">is</a> used instead of <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>[.  The advantage <a href="motion.txt.html#is" class="d">is</a> that an <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> can quickly be
+recognized in <a href="insert.txt.html#Insert" class="d">Insert</a> mode, because <a href="motion.txt.html#it" class="d">it</a> can't be confused with the start of <a href="insert.txt.html#a" class="d">a</a>
+special key.
+For the builtin <a href="term.txt.html#termcap" class="d">termcap</a> entries, Vim checks if the <a href="options.txt.html#%27term%27" class="o">'term'</a> option contains
+"8bit" anywhere.  It then uses 8-bit characters for the <a href="term.txt.html#termcap" class="d">termcap</a> entries, the
+mouse and <a href="insert.txt.html#a" class="d">a</a> few other things.  You would normally set $TERM in your shell to
+"<a href="term.txt.html#xterm-8bit" class="d">xterm-8bit</a>" and Vim picks this up and adjusts to the 8-bit setting
+automatically.
+When Vim receives <a href="insert.txt.html#a" class="d">a</a> response to the <a href="term.txt.html#t_RV" class="l">t_RV</a> (request version) sequence and <a href="motion.txt.html#it" class="d">it</a>
+starts with CSI, <a href="motion.txt.html#it" class="d">it</a> assumes that the <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a> in 8-bit mode and will
+convert all key sequences to their 8-bit variants.
+
+						<span id="xterm-terminfo-entries" class="t">xterm-terminfo-entries</span>
+For some time the <a href="term.txt.html#terminfo" class="d">terminfo</a> entries were insufficient to describe all the
+features that Vim can use.  The builtin xterm <a href="term.txt.html#termcap" class="d">termcap</a> entries did have these,
+with the result that several terminals that were similar enough to xterm took
+advantage of these by prefixing "xterm-" to the <a href="terminal.txt.html#terminal" class="d">terminal</a> name in $TERM.
+
+This leads to problems, because quite often these terminals are not 100%
+compatible with xterm.  At the start of 2023 several entries have been added
+to the <a href="term.txt.html#terminfo" class="d">terminfo</a> database to make <a href="motion.txt.html#it" class="d">it</a> possible to use these features without
+using the "xterm" workaround.  These are the relevant entries (so far):
+
+<span class="h">	name	xterm value	description </span>
+	RV	"\033[&gt;c"	Request version <a href="term.txt.html#t_RV" class="l">t_RV</a>
+
+	BE	"\033[?2004h"	enable bracketed paste mode <a href="term.txt.html#t_BE" class="l">t_BE</a>
+	BD	"\033[?2004l"	disable bracketed paste mode <a href="term.txt.html#t_BD" class="l">t_BD</a>
+	PS	"\033[200~"	pasted text start <a href="term.txt.html#t_PS" class="l">t_PS</a>
+	PE	"\033[201~"	pasted text <a href="intro.txt.html#end" class="d">end</a> <a href="term.txt.html#t_PE" class="l">t_PE</a>
+
+	XM	"\033[?1006;1004;1000%?%p1%{1}%=%th%el%;"
+				mouse enable <a href="pattern.txt.html#%2F" class="d">/</a> disable <a href="term.txt.html#t_XM" class="l">t_XM</a>
+	FE	"\033[?1004h"	enable focus event tracking <a href="term.txt.html#t_fe" class="l">t_fe</a>
+	FD	"\033[?1004l"	disable focus event tracking <a href="term.txt.html#t_fd" class="l">t_fd</a>
+
+The "XM" entry includes "1006" to enable SGR style mouse reporting.  This
+supports columns above 223.  It also includes "1004" which enables focus
+reporting.
+<span class="n">Note:</span> As of 2023, the "1004" <a href="motion.txt.html#is" class="d">is</a> currently not used by Vim itself, instead
+<a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> recommended to set focus reporting independently of mouse tracking by
+the <a href="term.txt.html#t_fe" class="l">t_fe</a> and <a href="term.txt.html#t_fd" class="l">t_fd</a> entries, <a href="motion.txt.html#as" class="d">as</a> ncurses also starts to use with the latest
+versions (and will then also <a href="intro.txt.html#end" class="d">end</a> up in terminfo/termcap).
+
+						<span id="xterm-kitty" class="t">xterm-kitty</span> <span id="kitty-terminal" class="t">kitty-terminal</span>
+The Kitty <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> special case.  Mainly because <a href="motion.txt.html#it" class="d">it</a> works differently
+from most other terminals, but also because, instead of trying to fit in and
+make <a href="motion.txt.html#it" class="d">it</a> behave like other terminals by default, <a href="motion.txt.html#it" class="d">it</a> dictates how applications
+need to work when using Kitty.  This makes <a href="motion.txt.html#it" class="d">it</a> very difficult for Vim to work
+in <a href="insert.txt.html#a" class="d">a</a> Kitty terminal.  Some exceptions have been hard coded, but <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not <a href="motion.txt.html#at" class="d">at</a>
+all nice to have to make exceptions for one specific terminal.
+
+One of the problems <a href="motion.txt.html#is" class="d">is</a> that the value for $TERM <a href="motion.txt.html#is" class="d">is</a> set to "<a href="term.txt.html#xterm-kitty" class="d">xterm-kitty</a>"<a href="repeat.txt.html#." class="d">.</a>  For
+Vim this <a href="motion.txt.html#is" class="d">is</a> an indication that the <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a> xterm-compatible and the
+builtin xterm <a href="term.txt.html#termcap" class="d">termcap</a> entries should be used.  Many other terminals depend on
+this.  However, Kitty <a href="motion.txt.html#is" class="d">is</a> not fully xterm compatible.  The <a href="intro.txt.html#author" class="d">author</a> suggested to
+ignore the "xterm-" prefix and use the <a href="term.txt.html#terminfo" class="d">terminfo</a> entry anyway, so that <a href="motion.txt.html#is" class="d">is</a> what
+happens now, the builtin xterm <a href="term.txt.html#termcap" class="d">termcap</a> entries are not used.  However, the
+<a href="term.txt.html#t_RV" class="d">t_RV</a> <a href="motion.txt.html#is" class="d">is</a> set, otherwise other things would not work, such <a href="motion.txt.html#as" class="d">as</a> automatically
+setting <a href="options.txt.html#%27ttymouse%27" class="o">'ttymouse'</a> to "sgr" (at least until <a href="term.txt.html#t_XM" class="l">t_XM</a> <a href="motion.txt.html#is" class="d">is</a> being used for this).
+
+It <a href="motion.txt.html#is" class="d">is</a> not clear why kitty sets $TERM to "<a href="term.txt.html#xterm-kitty" class="d">xterm-kitty</a>"<a href="motion.txt.html#%2C" class="d">,</a> the <a href="terminal.txt.html#terminal" class="d">terminal</a> isn't
+really xterm compatible.  "kitty" would be more appropriate, but <a href="insert.txt.html#a" class="d">a</a> <a href="term.txt.html#terminfo" class="d">terminfo</a>
+entry with that name <a href="motion.txt.html#is" class="d">is</a> not widespread.
+
+<span class="n">Note</span> that using the kitty keyboard protocol <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> separate feature, see
+<a href="map.txt.html#kitty-keyboard-protocol" class="l">kitty-keyboard-protocol</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="h">==============================================================================</span>
+2. Terminal <a href="options.txt.html#options" class="d">options</a>		<span id="terminal-options" class="t">terminal-options</span> <span id="termcap-options" class="t">termcap-options</span> <span id="E436" class="t">E436</span>
+
+The <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="options.txt.html#options" class="d">options</a> can be set just like normal options.  But they are not
+shown with the "<a href="options.txt.html#%3Aset" class="d">:set</a> all" command.  Instead use "<a href="options.txt.html#%3Aset" class="d">:set</a> <a href="term.txt.html#termcap" class="d">termcap</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+It <a href="motion.txt.html#is" class="d">is</a> always possible to change individual strings by setting the
+appropriate option.  For example: 
+<span class="e">	:set t_ce=^V^[[K	(CTRL-V, &lt;Esc&gt;, [, K)</span>
+<span class="e"></span>
+The <a href="options.txt.html#options" class="d">options</a> are listed below.  The associated <a href="term.txt.html#termcap" class="d">termcap</a> code <a href="motion.txt.html#is" class="d">is</a> always equal to
+the last two characters of the option name.  Only one <a href="term.txt.html#termcap" class="d">termcap</a> code <a href="motion.txt.html#is" class="d">is</a>
+required: Cursor motion, <a href="term.txt.html#%27t_cm%27" class="o">'t_cm'</a>.
+
+The <a href="options.txt.html#options" class="d">options</a> <a href="term.txt.html#%27t_da%27" class="o">'t_da'</a>, <a href="term.txt.html#%27t_db%27" class="o">'t_db'</a>, <a href="term.txt.html#%27t_ms%27" class="o">'t_ms'</a>, <a href="term.txt.html#%27t_xs%27" class="o">'t_xs'</a>, <a href="term.txt.html#%27t_xn%27" class="o">'t_xn'</a>, <a href="term.txt.html#%27t_xo%27" class="o">'t_xo'</a> represent flags in
+the termcap.  When the <a href="term.txt.html#termcap" class="d">termcap</a> flag <a href="motion.txt.html#is" class="d">is</a> present, the option will be set to "<a href="change.txt.html#y" class="d">y</a>"<a href="repeat.txt.html#." class="d">.</a>
+But any non-empty <a href="eval.txt.html#string" class="d">string</a> means that the flag <a href="motion.txt.html#is" class="d">is</a> set.  An empty <a href="eval.txt.html#string" class="d">string</a> means
+that the flag <a href="motion.txt.html#is" class="d">is</a> not set.  <a href="term.txt.html#%27t_CS%27" class="o">'t_CS'</a> works like this too, but <a href="motion.txt.html#it" class="d">it</a> isn't <a href="insert.txt.html#a" class="d">a</a> <a href="term.txt.html#termcap" class="d">termcap</a>
+flag.
+
+<span class="c">OUTPUT CODES</span>						<span id="terminal-output-codes" class="t">terminal-output-codes</span>
+<span class="h">	option	meaning	</span>
+
+	<a href="term.txt.html#t_AB" class="d">t_AB</a>	set background color (ANSI)			<span id="t_AB" class="t">t_AB</span> <span id="%27t_AB%27" class="t">'t_AB'</span>
+	<a href="term.txt.html#t_AF" class="d">t_AF</a>	set foreground color (ANSI)			<span id="t_AF" class="t">t_AF</span> <span id="%27t_AF%27" class="t">'t_AF'</span>
+	<a href="term.txt.html#t_AL" class="d">t_AL</a>	add number of blank lines			<span id="t_AL" class="t">t_AL</span> <span id="%27t_AL%27" class="t">'t_AL'</span>
+	<a href="term.txt.html#t_al" class="d">t_al</a>	add new blank line				<span id="t_al" class="t">t_al</span> <span id="%27t_al%27" class="t">'t_al'</span>
+	<a href="term.txt.html#t_bc" class="d">t_bc</a>	<a href="intro.txt.html#backspace" class="d">backspace</a> character				<span id="t_bc" class="t">t_bc</span> <span id="%27t_bc%27" class="t">'t_bc'</span>
+	<a href="term.txt.html#t_cd" class="d">t_cd</a>	clear to <a href="intro.txt.html#end" class="d">end</a> of screen				<span id="t_cd" class="t">t_cd</span> <span id="%27t_cd%27" class="t">'t_cd'</span>
+	<a href="term.txt.html#t_ce" class="d">t_ce</a>	clear to <a href="intro.txt.html#end" class="d">end</a> of line				<span id="t_ce" class="t">t_ce</span> <span id="%27t_ce%27" class="t">'t_ce'</span>
+	<a href="term.txt.html#t_cl" class="d">t_cl</a>	clear screen					<span id="t_cl" class="t">t_cl</span> <span id="%27t_cl%27" class="t">'t_cl'</span>
+	<a href="term.txt.html#t_cm" class="d">t_cm</a>	cursor motion (required!)		  <span id="E437" class="t">E437</span> <span id="t_cm" class="t">t_cm</span> <span id="%27t_cm%27" class="t">'t_cm'</span>
+	<a href="term.txt.html#t_Co" class="d">t_Co</a>	number of colors				<span id="t_Co" class="t">t_Co</span> <span id="%27t_Co%27" class="t">'t_Co'</span>
+	<a href="term.txt.html#t_CS" class="d">t_CS</a>	if non-empty, cursor relative to scroll region	<span id="t_CS" class="t">t_CS</span> <span id="%27t_CS%27" class="t">'t_CS'</span>
+	<a href="term.txt.html#t_cs" class="d">t_cs</a>	define <a href="scroll.txt.html#scrolling" class="d">scrolling</a> region				<span id="t_cs" class="t">t_cs</span> <span id="%27t_cs%27" class="t">'t_cs'</span>
+	<a href="term.txt.html#t_CV" class="d">t_CV</a>	define vertical <a href="scroll.txt.html#scrolling" class="d">scrolling</a> region		<span id="t_CV" class="t">t_CV</span> <span id="%27t_CV%27" class="t">'t_CV'</span>
+	<a href="term.txt.html#t_da" class="d">t_da</a>	if non-empty, lines from above scroll down	<span id="t_da" class="t">t_da</span> <span id="%27t_da%27" class="t">'t_da'</span>
+	<a href="term.txt.html#t_db" class="d">t_db</a>	if non-empty, lines from below scroll up	<span id="t_db" class="t">t_db</span> <span id="%27t_db%27" class="t">'t_db'</span>
+	<a href="term.txt.html#t_DL" class="d">t_DL</a>	delete number of lines				<span id="t_DL" class="t">t_DL</span> <span id="%27t_DL%27" class="t">'t_DL'</span>
+	<a href="term.txt.html#t_dl" class="d">t_dl</a>	delete line					<span id="t_dl" class="t">t_dl</span> <span id="%27t_dl%27" class="t">'t_dl'</span>
+	<a href="term.txt.html#t_fs" class="d">t_fs</a>	set <a href="windows.txt.html#window" class="d">window</a> title <a href="intro.txt.html#end" class="d">end</a> (from status line)		<span id="t_fs" class="t">t_fs</span> <span id="%27t_fs%27" class="t">'t_fs'</span>
+	<a href="term.txt.html#t_ke" class="d">t_ke</a>	exit "keypad transmit" mode			<span id="t_ke" class="t">t_ke</span> <span id="%27t_ke%27" class="t">'t_ke'</span>
+	<a href="term.txt.html#t_ks" class="d">t_ks</a>	start "keypad transmit" mode			<span id="t_ks" class="t">t_ks</span> <span id="%27t_ks%27" class="t">'t_ks'</span>
+	<a href="term.txt.html#t_le" class="d">t_le</a>	move cursor one char left			<span id="t_le" class="t">t_le</span> <span id="%27t_le%27" class="t">'t_le'</span>
+	<a href="term.txt.html#t_mb" class="d">t_mb</a>	blinking mode					<span id="t_mb" class="t">t_mb</span> <span id="%27t_mb%27" class="t">'t_mb'</span>
+	<a href="term.txt.html#t_md" class="d">t_md</a>	<a href="syntax.txt.html#bold" class="d">bold</a> mode					<span id="t_md" class="t">t_md</span> <span id="%27t_md%27" class="t">'t_md'</span>
+	<a href="term.txt.html#t_me" class="d">t_me</a>	<a href="intro.txt.html#Normal" class="d">Normal</a> mode (undoes t_mr, t_mb, <a href="term.txt.html#t_md" class="d">t_md</a> and color)	<span id="t_me" class="t">t_me</span> <span id="%27t_me%27" class="t">'t_me'</span>
+	<a href="term.txt.html#t_mr" class="d">t_mr</a>	reverse (invert) mode				<span id="t_mr" class="t">t_mr</span> <span id="%27t_mr%27" class="t">'t_mr'</span>
+								<span id="t_ms" class="t">t_ms</span> <span id="%27t_ms%27" class="t">'t_ms'</span>
+	<a href="term.txt.html#t_ms" class="d">t_ms</a>	if non-empty, cursor can be moved in standout/inverse mode
+	<a href="term.txt.html#t_nd" class="d">t_nd</a>	non destructive <a href="intro.txt.html#space" class="d">space</a> character			<span id="t_nd" class="t">t_nd</span> <span id="%27t_nd%27" class="t">'t_nd'</span>
+	<a href="term.txt.html#t_op" class="d">t_op</a>	reset to original color pair			<span id="t_op" class="t">t_op</span> <span id="%27t_op%27" class="t">'t_op'</span>
+	<a href="term.txt.html#t_RI" class="d">t_RI</a>	cursor number of chars right			<span id="t_RI" class="t">t_RI</span> <span id="%27t_RI%27" class="t">'t_RI'</span>
+	<a href="term.txt.html#t_Sb" class="d">t_Sb</a>	set background color				<span id="t_Sb" class="t">t_Sb</span> <span id="%27t_Sb%27" class="t">'t_Sb'</span>
+	<a href="term.txt.html#t_Sf" class="d">t_Sf</a>	set foreground color				<span id="t_Sf" class="t">t_Sf</span> <span id="%27t_Sf%27" class="t">'t_Sf'</span>
+	<a href="term.txt.html#t_se" class="d">t_se</a>	<a href="syntax.txt.html#standout" class="d">standout</a> <a href="intro.txt.html#end" class="d">end</a>					<span id="t_se" class="t">t_se</span> <span id="%27t_se%27" class="t">'t_se'</span>
+	<a href="term.txt.html#t_so" class="d">t_so</a>	<a href="syntax.txt.html#standout" class="d">standout</a> mode					<span id="t_so" class="t">t_so</span> <span id="%27t_so%27" class="t">'t_so'</span>
+	<a href="term.txt.html#t_sr" class="d">t_sr</a>	scroll reverse (backward)			<span id="t_sr" class="t">t_sr</span> <span id="%27t_sr%27" class="t">'t_sr'</span>
+	<a href="term.txt.html#t_te" class="d">t_te</a>	<a href="intro.txt.html#end" class="d">end</a> of "<a href="term.txt.html#termcap" class="d">termcap</a>" mode				<span id="t_te" class="t">t_te</span> <span id="%27t_te%27" class="t">'t_te'</span>
+	<a href="term.txt.html#t_ti" class="d">t_ti</a>	<a href="change.txt.html#put" class="d">put</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> into "<a href="term.txt.html#termcap" class="d">termcap</a>" mode		<span id="t_ti" class="t">t_ti</span> <span id="%27t_ti%27" class="t">'t_ti'</span>
+	<a href="term.txt.html#t_ts" class="d">t_ts</a>	set <a href="windows.txt.html#window" class="d">window</a> title start (to status line)		<span id="t_ts" class="t">t_ts</span> <span id="%27t_ts%27" class="t">'t_ts'</span>
+	<a href="term.txt.html#t_ue" class="d">t_ue</a>	<a href="syntax.txt.html#underline" class="d">underline</a> <a href="intro.txt.html#end" class="d">end</a>					<span id="t_ue" class="t">t_ue</span> <span id="%27t_ue%27" class="t">'t_ue'</span>
+	<a href="term.txt.html#t_us" class="d">t_us</a>	<a href="syntax.txt.html#underline" class="d">underline</a> mode					<span id="t_us" class="t">t_us</span> <span id="%27t_us%27" class="t">'t_us'</span>
+	<a href="term.txt.html#t_ut" class="d">t_ut</a>	clearing uses the current background color	<span id="t_ut" class="t">t_ut</span> <span id="%27t_ut%27" class="t">'t_ut'</span>
+	<a href="term.txt.html#t_vb" class="d">t_vb</a>	visual bell					<span id="t_vb" class="t">t_vb</span> <span id="%27t_vb%27" class="t">'t_vb'</span>
+	<a href="term.txt.html#t_ve" class="d">t_ve</a>	cursor visible					<span id="t_ve" class="t">t_ve</span> <span id="%27t_ve%27" class="t">'t_ve'</span>
+	<a href="term.txt.html#t_vi" class="d">t_vi</a>	cursor invisible				<span id="t_vi" class="t">t_vi</span> <span id="%27t_vi%27" class="t">'t_vi'</span>
+	<a href="term.txt.html#t_vs" class="d">t_vs</a>	cursor very visible (blink)			<span id="t_vs" class="t">t_vs</span> <span id="%27t_vs%27" class="t">'t_vs'</span>
+								<span id="t_xs" class="t">t_xs</span> <span id="%27t_xs%27" class="t">'t_xs'</span>
+	<a href="term.txt.html#t_xs" class="d">t_xs</a>	if non-empty, <a href="syntax.txt.html#standout" class="d">standout</a> not erased by overwriting (hpterm)
+								<span id="t_xn" class="t">t_xn</span> <span id="%27t_xn%27" class="t">'t_xn'</span>
+	<a href="term.txt.html#t_xn" class="d">t_xn</a>	if non-empty, <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> character <a href="motion.txt.html#at" class="d">at</a> the last screen cell
+		does not cause <a href="scroll.txt.html#scrolling" class="d">scrolling</a>
+								<span id="t_xo" class="t">t_xo</span> <span id="%27t_xo%27" class="t">'t_xo'</span>
+	<a href="term.txt.html#t_xo" class="d">t_xo</a>	if non-empty, <a href="terminal.txt.html#terminal" class="d">terminal</a> uses xon/xoff handshaking, <a href="map.txt.html#mapping" class="d">mapping</a>
+		<span class="k">CTRL-S</span> will not be possible then, since <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> used for flow
+		<a href="intro.txt.html#control" class="d">control</a> (used by vt420 terminal).  Setting this flag has only
+		an effect when <a href="starting.txt.html#starting" class="d">starting</a> Vim.
+	<a href="term.txt.html#t_ZH" class="d">t_ZH</a>	italics mode					<span id="t_ZH" class="t">t_ZH</span> <span id="%27t_ZH%27" class="t">'t_ZH'</span>
+	<a href="term.txt.html#t_ZR" class="d">t_ZR</a>	italics <a href="intro.txt.html#end" class="d">end</a>					<span id="t_ZR" class="t">t_ZR</span> <span id="%27t_ZR%27" class="t">'t_ZR'</span>
+
+Added by Vim (there are no standard codes for these):
+	<a href="term.txt.html#t_AU" class="d">t_AU</a>	set <a href="syntax.txt.html#underline" class="d">underline</a> color (ANSI)			<span id="t_AU" class="t">t_AU</span> <span id="%27t_AU%27" class="t">'t_AU'</span>
+	<a href="term.txt.html#t_Ce" class="d">t_Ce</a>	<a href="syntax.txt.html#undercurl" class="d">undercurl</a> and <a href="syntax.txt.html#underline" class="d">underline</a> <a href="intro.txt.html#end" class="d">end</a>			<span id="t_Ce" class="t">t_Ce</span> <span id="%27t_Ce%27" class="t">'t_Ce'</span>
+	<a href="term.txt.html#t_Cs" class="d">t_Cs</a>	<a href="syntax.txt.html#undercurl" class="d">undercurl</a> (curly underline) mode		<span id="t_Cs" class="t">t_Cs</span> <span id="%27t_Cs%27" class="t">'t_Cs'</span>
+	<a href="term.txt.html#t_CF" class="d">t_CF</a>	set alternate font (using <a href="index.txt.html#index" class="d">index</a> <a href="motion.txt.html#0" class="d">0</a> <a href="motion.txt.html#-" class="d">-</a> 10)		<span id="t_CF" class="t">t_CF</span> <span id="%27t_CF%27" class="t">'t_CF'</span>
+	<a href="term.txt.html#t_Us" class="d">t_Us</a>	double <a href="syntax.txt.html#underline" class="d">underline</a> mode				<span id="t_Us" class="t">t_Us</span> <span id="%27t_Us%27" class="t">'t_Us'</span>
+	<a href="term.txt.html#t_ds" class="d">t_ds</a>	dotted <a href="syntax.txt.html#underline" class="d">underline</a> mode				<span id="t_ds" class="t">t_ds</span> <span id="%27t_ds%27" class="t">'t_ds'</span>
+	<a href="term.txt.html#t_Ds" class="d">t_Ds</a>	dashed <a href="syntax.txt.html#underline" class="d">underline</a> mode				<span id="t_Ds" class="t">t_Ds</span> <span id="%27t_Ds%27" class="t">'t_Ds'</span>
+	<a href="term.txt.html#t_Te" class="d">t_Te</a>	<a href="syntax.txt.html#strikethrough" class="d">strikethrough</a> <a href="intro.txt.html#end" class="d">end</a>				<span id="t_Te" class="t">t_Te</span> <span id="%27t_Te%27" class="t">'t_Te'</span>
+	<a href="term.txt.html#t_Ts" class="d">t_Ts</a>	<a href="syntax.txt.html#strikethrough" class="d">strikethrough</a> mode				<span id="t_Ts" class="t">t_Ts</span> <span id="%27t_Ts%27" class="t">'t_Ts'</span>
+	<a href="term.txt.html#t_IS" class="d">t_IS</a>	set icon text start				<span id="t_IS" class="t">t_IS</span> <span id="%27t_IS%27" class="t">'t_IS'</span>
+	<a href="term.txt.html#t_IE" class="d">t_IE</a>	set icon text <a href="intro.txt.html#end" class="d">end</a>				<span id="t_IE" class="t">t_IE</span> <span id="%27t_IE%27" class="t">'t_IE'</span>
+	<a href="term.txt.html#t_WP" class="d">t_WP</a>	set <a href="windows.txt.html#window" class="d">window</a> position (Y, X) in pixels		<span id="t_WP" class="t">t_WP</span> <span id="%27t_WP%27" class="t">'t_WP'</span>
+	<a href="term.txt.html#t_GP" class="d">t_GP</a>	get <a href="windows.txt.html#window" class="d">window</a> position (Y, X) in pixels		<span id="t_GP" class="t">t_GP</span> <span id="%27t_GP%27" class="t">'t_GP'</span>
+	<a href="term.txt.html#t_WS" class="d">t_WS</a>	set <a href="windows.txt.html#window" class="d">window</a> size (height, width in cells)	<span id="t_WS" class="t">t_WS</span> <span id="%27t_WS%27" class="t">'t_WS'</span>
+	<a href="term.txt.html#t_VS" class="d">t_VS</a>	cursor normally visible (no blink)		<span id="t_VS" class="t">t_VS</span> <span id="%27t_VS%27" class="t">'t_VS'</span>
+	<a href="term.txt.html#t_SI" class="d">t_SI</a>	start <a href="insert.txt.html#insert" class="d">insert</a> mode (bar cursor shape)		<span id="t_SI" class="t">t_SI</span> <span id="%27t_SI%27" class="t">'t_SI'</span>
+	<a href="term.txt.html#t_SR" class="d">t_SR</a>	start replace mode (underline cursor shape)	<span id="t_SR" class="t">t_SR</span> <span id="%27t_SR%27" class="t">'t_SR'</span>
+	<a href="term.txt.html#t_EI" class="d">t_EI</a>	<a href="intro.txt.html#end" class="d">end</a> <a href="insert.txt.html#insert" class="d">insert</a> or replace mode (block cursor shape)	<span id="t_EI" class="t">t_EI</span> <span id="%27t_EI%27" class="t">'t_EI'</span>
+		<a href="term.txt.html#termcap-cursor-shape" class="l">termcap-cursor-shape</a>
+	<a href="term.txt.html#t_RV" class="d">t_RV</a>	request <a href="terminal.txt.html#terminal" class="d">terminal</a> version <a href="eval.txt.html#string" class="d">string</a> (works for	<span id="t_RV" class="t">t_RV</span> <span id="%27t_RV%27" class="t">'t_RV'</span>
+		xterm and other <a href="terminal.txt.html#terminal" class="d">terminal</a> emulators)  The
+		response <a href="motion.txt.html#is" class="d">is</a> stored in <a href="eval.txt.html#v%3Atermresponse" class="l">v:termresponse</a> <a href="term.txt.html#xterm-8bit" class="l">xterm-8bit</a>
+		<a href="options.txt.html#%27ttymouse%27" class="o">'ttymouse'</a> <a href="term.txt.html#xterm-codes" class="l">xterm-codes</a>
+	<a href="term.txt.html#t_XM" class="d">t_XM</a>	enable/disable mouse reporting,			<span id="t_XM" class="t">t_XM</span> <span id="%27t_XM%27" class="t">'t_XM'</span>
+		see <a href="term.txt.html#mouse-reporting" class="l">mouse-reporting</a> below
+	<a href="term.txt.html#t_RK" class="d">t_RK</a>	request <a href="terminal.txt.html#terminal" class="d">terminal</a> keyboard protocol state;	<span id="t_RK" class="t">t_RK</span> <span id="%27t_RK%27" class="t">'t_RK'</span>
+		sent after <a href="term.txt.html#t_TI" class="l">t_TI</a>
+	<a href="term.txt.html#t_u7" class="d">t_u7</a>	request cursor position (for xterm)		<span id="t_u7" class="t">t_u7</span> <span id="%27t_u7%27" class="t">'t_u7'</span>
+		see <a href="options.txt.html#%27ambiwidth%27" class="o">'ambiwidth'</a>
+		The response <a href="motion.txt.html#is" class="d">is</a> stored in <a href="eval.txt.html#v%3Atermu7resp" class="l">v:termu7resp</a>
+	<a href="term.txt.html#t_RF" class="d">t_RF</a>	request <a href="terminal.txt.html#terminal" class="d">terminal</a> foreground color		<span id="t_RF" class="t">t_RF</span> <span id="%27t_RF%27" class="t">'t_RF'</span>
+		The response <a href="motion.txt.html#is" class="d">is</a> stored in <a href="eval.txt.html#v%3Atermrfgresp" class="l">v:termrfgresp</a>
+	<a href="term.txt.html#t_RB" class="d">t_RB</a>	request <a href="terminal.txt.html#terminal" class="d">terminal</a> background color		<span id="t_RB" class="t">t_RB</span> <span id="%27t_RB%27" class="t">'t_RB'</span>
+		The response <a href="motion.txt.html#is" class="d">is</a> stored in <a href="eval.txt.html#v%3Atermrbgresp" class="l">v:termrbgresp</a>
+	<a href="term.txt.html#t_8f" class="d">t_8f</a>	set foreground color (R, G, B)			<span id="t_8f" class="t">t_8f</span> <span id="%27t_8f%27" class="t">'t_8f'</span>
+		<a href="term.txt.html#xterm-true-color" class="l">xterm-true-color</a>
+	<a href="term.txt.html#t_8b" class="d">t_8b</a>	set background color (R, G, B)			<span id="t_8b" class="t">t_8b</span> <span id="%27t_8b%27" class="t">'t_8b'</span>
+		<a href="term.txt.html#xterm-true-color" class="l">xterm-true-color</a>
+	<a href="term.txt.html#t_8u" class="d">t_8u</a>	set <a href="syntax.txt.html#underline" class="d">underline</a> color (R, G, B)			<span id="t_8u" class="t">t_8u</span> <span id="%27t_8u%27" class="t">'t_8u'</span>
+	<a href="term.txt.html#t_BE" class="d">t_BE</a>	enable bracketed paste mode			<span id="t_BE" class="t">t_BE</span> <span id="%27t_BE%27" class="t">'t_BE'</span>
+		<a href="term.txt.html#xterm-bracketed-paste" class="l">xterm-bracketed-paste</a>
+	<a href="term.txt.html#t_BD" class="d">t_BD</a>	disable bracketed paste mode			<span id="t_BD" class="t">t_BD</span> <span id="%27t_BD%27" class="t">'t_BD'</span>
+		<a href="term.txt.html#xterm-bracketed-paste" class="l">xterm-bracketed-paste</a>
+	<a href="term.txt.html#t_SC" class="d">t_SC</a>	set cursor color start				<span id="t_SC" class="t">t_SC</span> <span id="%27t_SC%27" class="t">'t_SC'</span>
+	<a href="term.txt.html#t_EC" class="d">t_EC</a>	set cursor color <a href="intro.txt.html#end" class="d">end</a>				<span id="t_EC" class="t">t_EC</span> <span id="%27t_EC%27" class="t">'t_EC'</span>
+	<a href="term.txt.html#t_SH" class="d">t_SH</a>	set cursor shape				<span id="t_SH" class="t">t_SH</span> <span id="%27t_SH%27" class="t">'t_SH'</span>
+	<a href="term.txt.html#t_RC" class="d">t_RC</a>	request <a href="terminal.txt.html#terminal" class="d">terminal</a> cursor blinking		<span id="t_RC" class="t">t_RC</span> <span id="%27t_RC%27" class="t">'t_RC'</span>
+		The response <a href="motion.txt.html#is" class="d">is</a> stored in <a href="eval.txt.html#v%3Atermblinkresp" class="l">v:termblinkresp</a>
+	<a href="term.txt.html#t_RS" class="d">t_RS</a>	request <a href="terminal.txt.html#terminal" class="d">terminal</a> cursor style			<span id="t_RS" class="t">t_RS</span> <span id="%27t_RS%27" class="t">'t_RS'</span>
+		The response <a href="motion.txt.html#is" class="d">is</a> stored in <a href="eval.txt.html#v%3Atermstyleresp" class="l">v:termstyleresp</a>
+	<a href="term.txt.html#t_ST" class="d">t_ST</a>	save <a href="windows.txt.html#window" class="d">window</a> title to stack			<span id="t_ST" class="t">t_ST</span> <span id="%27t_ST%27" class="t">'t_ST'</span>
+	<a href="term.txt.html#t_RT" class="d">t_RT</a>	restore <a href="windows.txt.html#window" class="d">window</a> title from stack			<span id="t_RT" class="t">t_RT</span> <span id="%27t_RT%27" class="t">'t_RT'</span>
+	<a href="term.txt.html#t_Si" class="d">t_Si</a>	save icon text to stack				<span id="t_Si" class="t">t_Si</span> <span id="%27t_Si%27" class="t">'t_Si'</span>
+	<a href="term.txt.html#t_Ri" class="d">t_Ri</a>	restore icon text from stack			<span id="t_Ri" class="t">t_Ri</span> <span id="%27t_Ri%27" class="t">'t_Ri'</span>
+	<a href="term.txt.html#t_TE" class="d">t_TE</a>	<a href="intro.txt.html#end" class="d">end</a> of "raw" mode				<span id="t_TE" class="t">t_TE</span> <span id="%27t_TE%27" class="t">'t_TE'</span>
+	<a href="term.txt.html#t_TI" class="d">t_TI</a>	<a href="change.txt.html#put" class="d">put</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> into "raw" mode			<span id="t_TI" class="t">t_TI</span> <span id="%27t_TI%27" class="t">'t_TI'</span>
+	<a href="term.txt.html#t_fe" class="d">t_fe</a>	enable focus-event tracking			<span id="t_fe" class="t">t_fe</span> <span id="%27t_fe%27" class="t">'t_fe'</span>
+		<a href="term.txt.html#xterm-focus-event" class="l">xterm-focus-event</a>
+	<a href="term.txt.html#t_fd" class="d">t_fd</a>	disable focus-event tracking			<span id="t_fd" class="t">t_fd</span> <span id="%27t_fd%27" class="t">'t_fd'</span>
+		<a href="term.txt.html#xterm-focus-event" class="l">xterm-focus-event</a>
+
+Some codes have <a href="insert.txt.html#a" class="d">a</a> start, middle and <a href="intro.txt.html#end" class="d">end</a> part.  The start and <a href="intro.txt.html#end" class="d">end</a> are defined
+by the <a href="term.txt.html#termcap" class="d">termcap</a> option, the middle part <a href="motion.txt.html#is" class="d">is</a> text.
+	set title text:     <a href="term.txt.html#t_ts" class="d">t_ts</a> <span class="s">{title text}</span> <a href="term.txt.html#t_fs" class="d">t_fs</a>
+	set icon text:      <a href="term.txt.html#t_IS" class="d">t_IS</a> <span class="s">{icon text}</span> <a href="term.txt.html#t_IE" class="d">t_IE</a>
+	set cursor color:   <a href="term.txt.html#t_SC" class="d">t_SC</a>  <span class="s">{color name}</span>  <a href="term.txt.html#t_EC" class="d">t_EC</a>
+
+<a href="term.txt.html#t_SH" class="d">t_SH</a> <a href="vim_faq.txt.html#must" class="d">must</a> take one argument:
+	0, 1 or none	blinking block cursor
+	2		block cursor
+	3		blinking <a href="syntax.txt.html#underline" class="d">underline</a> cursor
+	4		<a href="syntax.txt.html#underline" class="d">underline</a> cursor
+	5		blinking vertical <a href="motion.txt.html#bar" class="d">bar</a> cursor
+	6		vertical <a href="motion.txt.html#bar" class="d">bar</a> cursor
+
+<a href="term.txt.html#t_RS" class="d">t_RS</a> <a href="motion.txt.html#is" class="d">is</a> sent only if the response to <a href="term.txt.html#t_RV" class="d">t_RV</a> has been received.  It <a href="motion.txt.html#is" class="d">is</a> not used
+on <a href="os_mac.txt.html#Mac" class="d">Mac</a> OS when Terminal.app could be recognized from the termresponse.
+
+							<span id="mouse-reporting" class="t">mouse-reporting</span>
+Many terminals can report mouse clicks and some can report mouse <a href="intro.txt.html#movement" class="d">movement</a> and
+dragging.  Vim needs to know what codes are being used for this.
+
+The "XM" terminfo/termcap entry <a href="motion.txt.html#is" class="d">is</a> used for this.  Vim also has the <a href="options.txt.html#%27ttymouse%27" class="o">'ttymouse'</a>
+option to specify the mouse protocol being used.  See the option for the
+possible values.
+
+If Vim can read the "XM" terminfo/termcap entry then <a href="motion.txt.html#it" class="d">it</a> will be used for
+enabling and disabling the mouse reporting.  If <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> missing, then the value
+from <a href="options.txt.html#%27ttymouse%27" class="o">'ttymouse'</a> <a href="motion.txt.html#is" class="d">is</a> used to decide how to <a href="diff.txt.html#do" class="d">do</a> this.
+
+If the "XM" entry exists and the first number <a href="motion.txt.html#is" class="d">is</a> "1006" then <a href="options.txt.html#%27ttymouse%27" class="o">'ttymouse'</a> will
+be set to "sgr"<a href="motion.txt.html#%2C" class="d">,</a> unless <a href="motion.txt.html#it" class="d">it</a> was already set earlier.
+
+
+<span class="c">KEY CODES</span>						<span id="terminal-key-codes" class="t">terminal-key-codes</span>
+<span class="n">Note:</span> Use the <a href="intro.txt.html#%3C%3E" class="d">&lt;&gt;</a> form if possible
+
+<span class="h">	option	name		meaning	</span>
+
+	<a href="term.txt.html#t_ku" class="d">t_ku</a>	<a href="motion.txt.html#%3CUp%3E" class="s">&lt;Up&gt;</a>		arrow up			<span id="t_ku" class="t">t_ku</span> <span id="%27t_ku%27" class="t">'t_ku'</span>
+	<a href="term.txt.html#t_kd" class="d">t_kd</a>	<a href="motion.txt.html#%3CDown%3E" class="s">&lt;Down&gt;</a>		arrow down			<span id="t_kd" class="t">t_kd</span> <span id="%27t_kd%27" class="t">'t_kd'</span>
+	<a href="term.txt.html#t_kr" class="d">t_kr</a>	<a href="motion.txt.html#%3CRight%3E" class="s">&lt;Right&gt;</a>		arrow right			<span id="t_kr" class="t">t_kr</span> <span id="%27t_kr%27" class="t">'t_kr'</span>
+	<a href="term.txt.html#t_kl" class="d">t_kl</a>	<a href="motion.txt.html#%3CLeft%3E" class="s">&lt;Left&gt;</a>		arrow left			<span id="t_kl" class="t">t_kl</span> <span id="%27t_kl%27" class="t">'t_kl'</span>
+		<a href="term.txt.html#%3CxUp%3E" class="s">&lt;xUp&gt;</a>		alternate arrow up		<span id="%3CxUp%3E" class="t">&lt;xUp&gt;</span>
+		<a href="term.txt.html#%3CxDown%3E" class="s">&lt;xDown&gt;</a>		alternate arrow down		<span id="%3CxDown%3E" class="t">&lt;xDown&gt;</span>
+		<a href="term.txt.html#%3CxRight%3E" class="s">&lt;xRight&gt;</a>	alternate arrow right		<span id="%3CxRight%3E" class="t">&lt;xRight&gt;</span>
+		<a href="term.txt.html#%3CxLeft%3E" class="s">&lt;xLeft&gt;</a>		alternate arrow left		<span id="%3CxLeft%3E" class="t">&lt;xLeft&gt;</span>
+		<a href="scroll.txt.html#%3CS-Up%3E" class="s">&lt;S-Up&gt;</a>		<a href="intro.txt.html#shift" class="d">shift</a> arrow up
+		<a href="scroll.txt.html#%3CS-Down%3E" class="s">&lt;S-Down&gt;</a>	<a href="intro.txt.html#shift" class="d">shift</a> arrow down
+	<a href="term.txt.html#t_%25i" class="d">t_%i</a>	<a href="motion.txt.html#%3CS-Right%3E" class="s">&lt;S-Right&gt;</a>	<a href="intro.txt.html#shift" class="d">shift</a> arrow right		<span id="t_%25i" class="t">t_%i</span> <span id="%27t_%25i%27" class="t">'t_%i'</span>
+	<a href="term.txt.html#t_%234" class="d">t_#4</a>	<a href="motion.txt.html#%3CS-Left%3E" class="s">&lt;S-Left&gt;</a>	<a href="intro.txt.html#shift" class="d">shift</a> arrow left		<span id="t_%234" class="t">t_#4</span> <span id="%27t_%234%27" class="t">'t_#4'</span>
+	<a href="term.txt.html#t_k1" class="d">t_k1</a>	<a href="helphelp.txt.html#%3CF1%3E" class="s">&lt;F1&gt;</a>		function key 1			<span id="t_k1" class="t">t_k1</span> <span id="%27t_k1%27" class="t">'t_k1'</span>
+		<a href="term.txt.html#%3CxF1%3E" class="s">&lt;xF1&gt;</a>		alternate F1			<span id="%3CxF1%3E" class="t">&lt;xF1&gt;</span>
+	<a href="term.txt.html#t_k2" class="d">t_k2</a>	<a href="term.txt.html#%3CF2%3E" class="s">&lt;F2&gt;</a>		function key 2		<span id="%3CF2%3E" class="t">&lt;F2&gt;</span>  	<span id="t_k2" class="t">t_k2</span> <span id="%27t_k2%27" class="t">'t_k2'</span>
+		<a href="term.txt.html#%3CxF2%3E" class="s">&lt;xF2&gt;</a>		alternate F2			<span id="%3CxF2%3E" class="t">&lt;xF2&gt;</span>
+	<a href="term.txt.html#t_k3" class="d">t_k3</a>	<a href="term.txt.html#%3CF3%3E" class="s">&lt;F3&gt;</a>		function key 3		<span id="%3CF3%3E" class="t">&lt;F3&gt;</span>  	<span id="t_k3" class="t">t_k3</span> <span id="%27t_k3%27" class="t">'t_k3'</span>
+		<a href="term.txt.html#%3CxF3%3E" class="s">&lt;xF3&gt;</a>		alternate F3			<span id="%3CxF3%3E" class="t">&lt;xF3&gt;</span>
+	<a href="term.txt.html#t_k4" class="d">t_k4</a>	<a href="term.txt.html#%3CF4%3E" class="s">&lt;F4&gt;</a>		function key 4		<span id="%3CF4%3E" class="t">&lt;F4&gt;</span>  	<span id="t_k4" class="t">t_k4</span> <span id="%27t_k4%27" class="t">'t_k4'</span>
+		<a href="term.txt.html#%3CxF4%3E" class="s">&lt;xF4&gt;</a>		alternate F4			<span id="%3CxF4%3E" class="t">&lt;xF4&gt;</span>
+	<a href="term.txt.html#t_k5" class="d">t_k5</a>	<a href="term.txt.html#%3CF5%3E" class="s">&lt;F5&gt;</a>		function key 5		<span id="%3CF5%3E" class="t">&lt;F5&gt;</span>  	<span id="t_k5" class="t">t_k5</span> <span id="%27t_k5%27" class="t">'t_k5'</span>
+	<a href="term.txt.html#t_k6" class="d">t_k6</a>	<a href="term.txt.html#%3CF6%3E" class="s">&lt;F6&gt;</a>		function key 6		<span id="%3CF6%3E" class="t">&lt;F6&gt;</span>  	<span id="t_k6" class="t">t_k6</span> <span id="%27t_k6%27" class="t">'t_k6'</span>
+	<a href="term.txt.html#t_k7" class="d">t_k7</a>	<a href="term.txt.html#%3CF7%3E" class="s">&lt;F7&gt;</a>		function key 7		<span id="%3CF7%3E" class="t">&lt;F7&gt;</span>  	<span id="t_k7" class="t">t_k7</span> <span id="%27t_k7%27" class="t">'t_k7'</span>
+	<a href="term.txt.html#t_k8" class="d">t_k8</a>	<a href="term.txt.html#%3CF8%3E" class="s">&lt;F8&gt;</a>		function key 8		<span id="%3CF8%3E" class="t">&lt;F8&gt;</span>  	<span id="t_k8" class="t">t_k8</span> <span id="%27t_k8%27" class="t">'t_k8'</span>
+	<a href="term.txt.html#t_k9" class="d">t_k9</a>	<a href="term.txt.html#%3CF9%3E" class="s">&lt;F9&gt;</a>		function key 9		<span id="%3CF9%3E" class="t">&lt;F9&gt;</span>  	<span id="t_k9" class="t">t_k9</span> <span id="%27t_k9%27" class="t">'t_k9'</span>
+	<a href="term.txt.html#t_k%3B" class="d">t_k;</a>	<a href="term.txt.html#%3CF10%3E" class="s">&lt;F10&gt;</a>		function key 10		<span id="%3CF10%3E" class="t">&lt;F10&gt;</span>  	<span id="t_k%3B" class="t">t_k;</span> <span id="%27t_k%3B%27" class="t">'t_k;'</span>
+	<a href="term.txt.html#t_F1" class="d">t_F1</a>	<a href="term.txt.html#%3CF11%3E" class="s">&lt;F11&gt;</a>		function key 11		<span id="%3CF11%3E" class="t">&lt;F11&gt;</span>  	<span id="t_F1" class="t">t_F1</span> <span id="%27t_F1%27" class="t">'t_F1'</span>
+	<a href="term.txt.html#t_F2" class="d">t_F2</a>	<a href="term.txt.html#%3CF12%3E" class="s">&lt;F12&gt;</a>		function key 12		<span id="%3CF12%3E" class="t">&lt;F12&gt;</span>  	<span id="t_F2" class="t">t_F2</span> <span id="%27t_F2%27" class="t">'t_F2'</span>
+	<a href="term.txt.html#t_F3" class="d">t_F3</a>	<a href="term.txt.html#%3CF13%3E" class="s">&lt;F13&gt;</a>		function key 13		<span id="%3CF13%3E" class="t">&lt;F13&gt;</span>  	<span id="t_F3" class="t">t_F3</span> <span id="%27t_F3%27" class="t">'t_F3'</span>
+	<a href="term.txt.html#t_F4" class="d">t_F4</a>	<a href="term.txt.html#%3CF14%3E" class="s">&lt;F14&gt;</a>		function key 14		<span id="%3CF14%3E" class="t">&lt;F14&gt;</span>  	<span id="t_F4" class="t">t_F4</span> <span id="%27t_F4%27" class="t">'t_F4'</span>
+	<a href="term.txt.html#t_F5" class="d">t_F5</a>	<a href="term.txt.html#%3CF15%3E" class="s">&lt;F15&gt;</a>		function key 15		<span id="%3CF15%3E" class="t">&lt;F15&gt;</span>  	<span id="t_F5" class="t">t_F5</span> <span id="%27t_F5%27" class="t">'t_F5'</span>
+	<a href="term.txt.html#t_F6" class="d">t_F6</a>	<a href="term.txt.html#%3CF16%3E" class="s">&lt;F16&gt;</a>		function key 16		<span id="%3CF16%3E" class="t">&lt;F16&gt;</span>  	<span id="t_F6" class="t">t_F6</span> <span id="%27t_F6%27" class="t">'t_F6'</span>
+	<a href="term.txt.html#t_F7" class="d">t_F7</a>	<a href="term.txt.html#%3CF17%3E" class="s">&lt;F17&gt;</a>		function key 17		<span id="%3CF17%3E" class="t">&lt;F17&gt;</span>  	<span id="t_F7" class="t">t_F7</span> <span id="%27t_F7%27" class="t">'t_F7'</span>
+	<a href="term.txt.html#t_F8" class="d">t_F8</a>	<a href="term.txt.html#%3CF18%3E" class="s">&lt;F18&gt;</a>		function key 18		<span id="%3CF18%3E" class="t">&lt;F18&gt;</span>  	<span id="t_F8" class="t">t_F8</span> <span id="%27t_F8%27" class="t">'t_F8'</span>
+	<a href="term.txt.html#t_F9" class="d">t_F9</a>	<a href="term.txt.html#%3CF19%3E" class="s">&lt;F19&gt;</a>		function key 19		<span id="%3CF19%3E" class="t">&lt;F19&gt;</span>  	<span id="t_F9" class="t">t_F9</span> <span id="%27t_F9%27" class="t">'t_F9'</span>
+		<a href="intro.txt.html#%3CS-F1%3E" class="s">&lt;S-F1&gt;</a>		shifted function key 1
+		<a href="term.txt.html#%3CS-xF1%3E" class="s">&lt;S-xF1&gt;</a>		alternate <a href="intro.txt.html#%3CS-F1%3E" class="s">&lt;S-F1&gt;</a>		<span id="%3CS-xF1%3E" class="t">&lt;S-xF1&gt;</span>
+		<a href="term.txt.html#%3CS-F2%3E" class="s">&lt;S-F2&gt;</a>		shifted function key 2		<span id="%3CS-F2%3E" class="t">&lt;S-F2&gt;</span>
+		<a href="term.txt.html#%3CS-xF2%3E" class="s">&lt;S-xF2&gt;</a>		alternate <a href="term.txt.html#%3CS-F2%3E" class="s">&lt;S-F2&gt;</a>		<span id="%3CS-xF2%3E" class="t">&lt;S-xF2&gt;</span>
+		<a href="term.txt.html#%3CS-F3%3E" class="s">&lt;S-F3&gt;</a>		shifted function key 3		<span id="%3CS-F3%3E" class="t">&lt;S-F3&gt;</span>
+		<a href="term.txt.html#%3CS-xF3%3E" class="s">&lt;S-xF3&gt;</a>		alternate <a href="term.txt.html#%3CS-F3%3E" class="s">&lt;S-F3&gt;</a>		<span id="%3CS-xF3%3E" class="t">&lt;S-xF3&gt;</span>
+		<a href="term.txt.html#%3CS-F4%3E" class="s">&lt;S-F4&gt;</a>		shifted function key 4		<span id="%3CS-F4%3E" class="t">&lt;S-F4&gt;</span>
+		<a href="term.txt.html#%3CS-xF4%3E" class="s">&lt;S-xF4&gt;</a>		alternate <a href="term.txt.html#%3CS-F4%3E" class="s">&lt;S-F4&gt;</a>		<span id="%3CS-xF4%3E" class="t">&lt;S-xF4&gt;</span>
+		<a href="term.txt.html#%3CS-F5%3E" class="s">&lt;S-F5&gt;</a>		shifted function key 5		<span id="%3CS-F5%3E" class="t">&lt;S-F5&gt;</span>
+		<a href="term.txt.html#%3CS-F6%3E" class="s">&lt;S-F6&gt;</a>		shifted function key 6		<span id="%3CS-F6%3E" class="t">&lt;S-F6&gt;</span>
+		<a href="term.txt.html#%3CS-F7%3E" class="s">&lt;S-F7&gt;</a>		shifted function key 7		<span id="%3CS-F7%3E" class="t">&lt;S-F7&gt;</span>
+		<a href="term.txt.html#%3CS-F8%3E" class="s">&lt;S-F8&gt;</a>		shifted function key 8		<span id="%3CS-F8%3E" class="t">&lt;S-F8&gt;</span>
+		<a href="term.txt.html#%3CS-F9%3E" class="s">&lt;S-F9&gt;</a>		shifted function key 9		<span id="%3CS-F9%3E" class="t">&lt;S-F9&gt;</span>
+		<a href="term.txt.html#%3CS-F10%3E" class="s">&lt;S-F10&gt;</a>		shifted function key 10		<span id="%3CS-F10%3E" class="t">&lt;S-F10&gt;</span>
+		<a href="term.txt.html#%3CS-F11%3E" class="s">&lt;S-F11&gt;</a>		shifted function key 11		<span id="%3CS-F11%3E" class="t">&lt;S-F11&gt;</span>
+		<a href="term.txt.html#%3CS-F12%3E" class="s">&lt;S-F12&gt;</a>		shifted function key 12		<span id="%3CS-F12%3E" class="t">&lt;S-F12&gt;</span>
+	<a href="term.txt.html#t_%251" class="d">t_%1</a>	<a href="helphelp.txt.html#%3CHelp%3E" class="s">&lt;Help&gt;</a>		<a href="helphelp.txt.html#help" class="d">help</a> key			<span id="t_%251" class="t">t_%1</span> <span id="%27t_%251%27" class="t">'t_%1'</span>
+	<a href="term.txt.html#t_%268" class="d">t_&amp;8</a>	<a href="undo.txt.html#%3CUndo%3E" class="s">&lt;Undo&gt;</a>		<a href="undo.txt.html#undo" class="d">undo</a> key			<span id="t_%268" class="t">t_&amp;8</span> <span id="%27t_%268%27" class="t">'t_&amp;8'</span>
+	<a href="term.txt.html#t_kI" class="d">t_kI</a>	<a href="insert.txt.html#%3CInsert%3E" class="s">&lt;Insert&gt;</a>	<a href="insert.txt.html#insert" class="d">insert</a> key			<span id="t_kI" class="t">t_kI</span> <span id="%27t_kI%27" class="t">'t_kI'</span>
+		<span class="s">&lt;kInsert&gt;</span>	keypad <a href="insert.txt.html#insert" class="d">insert</a> key
+	<a href="term.txt.html#t_kD" class="d">t_kD</a>	<a href="change.txt.html#%3CDel%3E" class="s">&lt;Del&gt;</a>		delete key			<span id="t_kD" class="t">t_kD</span> <span id="%27t_kD%27" class="t">'t_kD'</span>
+	<a href="term.txt.html#t_kb" class="d">t_kb</a>	<a href="motion.txt.html#%3CBS%3E" class="s">&lt;BS&gt;</a>		<a href="intro.txt.html#backspace" class="d">backspace</a> key			<span id="t_kb" class="t">t_kb</span> <span id="%27t_kb%27" class="t">'t_kb'</span>
+	<a href="term.txt.html#t_kB" class="d">t_kB</a>	<a href="term.txt.html#%3CS-Tab%3E" class="s">&lt;S-Tab&gt;</a>		back-tab (shift-tab)  <span id="%3CS-Tab%3E" class="t">&lt;S-Tab&gt;</span>  	<span id="t_kB" class="t">t_kB</span> <span id="%27t_kB%27" class="t">'t_kB'</span>
+	<a href="term.txt.html#t_kh" class="d">t_kh</a>	<a href="motion.txt.html#%3CHome%3E" class="s">&lt;Home&gt;</a>		<a href="intro.txt.html#home" class="d">home</a> key			<span id="t_kh" class="t">t_kh</span> <span id="%27t_kh%27" class="t">'t_kh'</span>
+	<a href="term.txt.html#t_%232" class="d">t_#2</a>	<a href="term.txt.html#%3CS-Home%3E" class="s">&lt;S-Home&gt;</a>	shifted <a href="intro.txt.html#home" class="d">home</a> key     <span id="%3CS-Home%3E" class="t">&lt;S-Home&gt;</span>  	<span id="t_%232" class="t">t_#2</span> <span id="%27t_%232%27" class="t">'t_#2'</span>
+		<a href="term.txt.html#%3CxHome%3E" class="s">&lt;xHome&gt;</a>		alternate <a href="intro.txt.html#home" class="d">home</a> key		<span id="%3CxHome%3E" class="t">&lt;xHome&gt;</span>
+	<a href="term.txt.html#t_%407" class="d">t_@7</a>	<a href="motion.txt.html#%3CEnd%3E" class="s">&lt;End&gt;</a>		<a href="intro.txt.html#end" class="d">end</a> key				<span id="t_%407" class="t">t_@7</span> <span id="%27t_%407%27" class="t">'t_@7'</span>
+	t_*7	<a href="term.txt.html#%3CS-End%3E" class="s">&lt;S-End&gt;</a>		shifted <a href="intro.txt.html#end" class="d">end</a> key	<span id="%3CS-End%3E" class="t">&lt;S-End&gt;</span> <span id="t_star7" class="t">t_star7</span> <span id="%27t_star7%27" class="t">'t_star7'</span>
+		<a href="term.txt.html#%3CxEnd%3E" class="s">&lt;xEnd&gt;</a>		alternate <a href="intro.txt.html#end" class="d">end</a> key		<span id="%3CxEnd%3E" class="t">&lt;xEnd&gt;</span>
+	<a href="term.txt.html#t_kP" class="d">t_kP</a>	<a href="scroll.txt.html#%3CPageUp%3E" class="s">&lt;PageUp&gt;</a>	<a href="intro.txt.html#page-up" class="d">page-up</a> key			<span id="t_kP" class="t">t_kP</span> <span id="%27t_kP%27" class="t">'t_kP'</span>
+	<a href="term.txt.html#t_kN" class="d">t_kN</a>	<a href="scroll.txt.html#%3CPageDown%3E" class="s">&lt;PageDown&gt;</a>	<a href="intro.txt.html#page-down" class="d">page-down</a> key			<span id="t_kN" class="t">t_kN</span> <span id="%27t_kN%27" class="t">'t_kN'</span>
+	<a href="term.txt.html#t_K1" class="d">t_K1</a>	<a href="motion.txt.html#%3CkHome%3E" class="s">&lt;kHome&gt;</a>		keypad <a href="intro.txt.html#home" class="d">home</a> key			<span id="t_K1" class="t">t_K1</span> <span id="%27t_K1%27" class="t">'t_K1'</span>
+	<a href="term.txt.html#t_K4" class="d">t_K4</a>	<a href="motion.txt.html#%3CkEnd%3E" class="s">&lt;kEnd&gt;</a>		keypad <a href="intro.txt.html#end" class="d">end</a> key			<span id="t_K4" class="t">t_K4</span> <span id="%27t_K4%27" class="t">'t_K4'</span>
+	<a href="term.txt.html#t_K3" class="d">t_K3</a>	<a href="scroll.txt.html#%3CkPageUp%3E" class="s">&lt;kPageUp&gt;</a>	keypad <a href="intro.txt.html#page-up" class="d">page-up</a> key		<span id="t_K3" class="t">t_K3</span> <span id="%27t_K3%27" class="t">'t_K3'</span>
+	<a href="term.txt.html#t_K5" class="d">t_K5</a>	<a href="scroll.txt.html#%3CkPageDown%3E" class="s">&lt;kPageDown&gt;</a>	keypad <a href="intro.txt.html#page-down" class="d">page-down</a> key		<span id="t_K5" class="t">t_K5</span> <span id="%27t_K5%27" class="t">'t_K5'</span>
+	<a href="term.txt.html#t_K6" class="d">t_K6</a>	<a href="term.txt.html#%3CkPlus%3E" class="s">&lt;kPlus&gt;</a>		keypad plus key	      <span id="%3CkPlus%3E" class="t">&lt;kPlus&gt;</span>  	<span id="t_K6" class="t">t_K6</span> <span id="%27t_K6%27" class="t">'t_K6'</span>
+	<a href="term.txt.html#t_K7" class="d">t_K7</a>	<a href="term.txt.html#%3CkMinus%3E" class="s">&lt;kMinus&gt;</a>	keypad minus key     <span id="%3CkMinus%3E" class="t">&lt;kMinus&gt;</span>  	<span id="t_K7" class="t">t_K7</span> <span id="%27t_K7%27" class="t">'t_K7'</span>
+	<a href="term.txt.html#t_K8" class="d">t_K8</a>	<a href="term.txt.html#%3CkDivide%3E" class="s">&lt;kDivide&gt;</a>	keypad divide	    <span id="%3CkDivide%3E" class="t">&lt;kDivide&gt;</span>  	<span id="t_K8" class="t">t_K8</span> <span id="%27t_K8%27" class="t">'t_K8'</span>
+	<a href="term.txt.html#t_K9" class="d">t_K9</a>	<a href="term.txt.html#%3CkMultiply%3E" class="s">&lt;kMultiply&gt;</a>	keypad multiply   <span id="%3CkMultiply%3E" class="t">&lt;kMultiply&gt;</span>  	<span id="t_K9" class="t">t_K9</span> <span id="%27t_K9%27" class="t">'t_K9'</span>
+	<a href="term.txt.html#t_KA" class="d">t_KA</a>	<a href="term.txt.html#%3CkEnter%3E" class="s">&lt;kEnter&gt;</a>	keypad enter key     <span id="%3CkEnter%3E" class="t">&lt;kEnter&gt;</span>  	<span id="t_KA" class="t">t_KA</span> <span id="%27t_KA%27" class="t">'t_KA'</span>
+	<a href="term.txt.html#t_KB" class="d">t_KB</a>	<a href="term.txt.html#%3CkPoint%3E" class="s">&lt;kPoint&gt;</a>	keypad decimal point <span id="%3CkPoint%3E" class="t">&lt;kPoint&gt;</span>  	<span id="t_KB" class="t">t_KB</span> <span id="%27t_KB%27" class="t">'t_KB'</span>
+	<a href="term.txt.html#t_KC" class="d">t_KC</a>	<a href="term.txt.html#%3Ck0%3E" class="s">&lt;k0&gt;</a>		keypad <a href="motion.txt.html#0" class="d">0</a>		 <span id="%3Ck0%3E" class="t">&lt;k0&gt;</span>  	<span id="t_KC" class="t">t_KC</span> <span id="%27t_KC%27" class="t">'t_KC'</span>
+	<a href="term.txt.html#t_KD" class="d">t_KD</a>	<a href="term.txt.html#%3Ck1%3E" class="s">&lt;k1&gt;</a>		keypad 1		 <span id="%3Ck1%3E" class="t">&lt;k1&gt;</span>  	<span id="t_KD" class="t">t_KD</span> <span id="%27t_KD%27" class="t">'t_KD'</span>
+	<a href="term.txt.html#t_KE" class="d">t_KE</a>	<a href="term.txt.html#%3Ck2%3E" class="s">&lt;k2&gt;</a>		keypad 2		 <span id="%3Ck2%3E" class="t">&lt;k2&gt;</span>  	<span id="t_KE" class="t">t_KE</span> <span id="%27t_KE%27" class="t">'t_KE'</span>
+	<a href="term.txt.html#t_KF" class="d">t_KF</a>	<a href="term.txt.html#%3Ck3%3E" class="s">&lt;k3&gt;</a>		keypad 3		 <span id="%3Ck3%3E" class="t">&lt;k3&gt;</span>  	<span id="t_KF" class="t">t_KF</span> <span id="%27t_KF%27" class="t">'t_KF'</span>
+	<a href="term.txt.html#t_KG" class="d">t_KG</a>	<a href="term.txt.html#%3Ck4%3E" class="s">&lt;k4&gt;</a>		keypad 4		 <span id="%3Ck4%3E" class="t">&lt;k4&gt;</span>  	<span id="t_KG" class="t">t_KG</span> <span id="%27t_KG%27" class="t">'t_KG'</span>
+	<a href="term.txt.html#t_KH" class="d">t_KH</a>	<a href="term.txt.html#%3Ck5%3E" class="s">&lt;k5&gt;</a>		keypad 5		 <span id="%3Ck5%3E" class="t">&lt;k5&gt;</span>  	<span id="t_KH" class="t">t_KH</span> <span id="%27t_KH%27" class="t">'t_KH'</span>
+	<a href="term.txt.html#t_KI" class="d">t_KI</a>	<a href="term.txt.html#%3Ck6%3E" class="s">&lt;k6&gt;</a>		keypad 6		 <span id="%3Ck6%3E" class="t">&lt;k6&gt;</span>  	<span id="t_KI" class="t">t_KI</span> <span id="%27t_KI%27" class="t">'t_KI'</span>
+	<a href="term.txt.html#t_KJ" class="d">t_KJ</a>	<a href="term.txt.html#%3Ck7%3E" class="s">&lt;k7&gt;</a>		keypad 7		 <span id="%3Ck7%3E" class="t">&lt;k7&gt;</span>  	<span id="t_KJ" class="t">t_KJ</span> <span id="%27t_KJ%27" class="t">'t_KJ'</span>
+	<a href="term.txt.html#t_KK" class="d">t_KK</a>	<a href="term.txt.html#%3Ck8%3E" class="s">&lt;k8&gt;</a>		keypad 8		 <span id="%3Ck8%3E" class="t">&lt;k8&gt;</span>  	<span id="t_KK" class="t">t_KK</span> <span id="%27t_KK%27" class="t">'t_KK'</span>
+	<a href="term.txt.html#t_KL" class="d">t_KL</a>	<a href="term.txt.html#%3Ck9%3E" class="s">&lt;k9&gt;</a>		keypad 9		 <span id="%3Ck9%3E" class="t">&lt;k9&gt;</span>  	<span id="t_KL" class="t">t_KL</span> <span id="%27t_KL%27" class="t">'t_KL'</span>
+		<a href="term.txt.html#%3CMouse%3E" class="s">&lt;Mouse&gt;</a>		leader of mouse code		<span id="%3CMouse%3E" class="t">&lt;Mouse&gt;</span>
+
+	<a href="term.txt.html#t_PS" class="d">t_PS</a>	<span class="s">&lt;PasteStart&gt;</span>	start of bracketed paste	<span id="t_PS" class="t">t_PS</span> <span id="%27t_PS%27" class="t">'t_PS'</span>
+				<a href="term.txt.html#xterm-bracketed-paste" class="l">xterm-bracketed-paste</a>
+	<a href="term.txt.html#t_PE" class="d">t_PE</a>	<span class="s">&lt;PasteEnd&gt;</span>	<a href="intro.txt.html#end" class="d">end</a> of bracketed paste		<span id="t_PE" class="t">t_PE</span> <span id="%27t_PE%27" class="t">'t_PE'</span>
+				<a href="term.txt.html#xterm-bracketed-paste" class="l">xterm-bracketed-paste</a>
+		<span class="s">&lt;FocusGained&gt;</span>	Vim <a href="windows.txt.html#window" class="d">window</a> got focus (internal only)
+		<span class="s">&lt;FocusLost&gt;</span>	Vim <a href="windows.txt.html#window" class="d">window</a> lost focus (internal only)
+
+<span class="n">Note</span> about <a href="term.txt.html#t_so" class="d">t_so</a> and t_mr: When the <a href="term.txt.html#termcap" class="d">termcap</a> entry "so" <a href="motion.txt.html#is" class="d">is</a> not present the
+entry for "mr" <a href="motion.txt.html#is" class="d">is</a> used.  And vice versa.  The same <a href="motion.txt.html#is" class="d">is</a> done for "se" and "me"<a href="repeat.txt.html#." class="d">.</a>
+If your <a href="terminal.txt.html#terminal" class="d">terminal</a> supports both inversion and <a href="syntax.txt.html#standout" class="d">standout</a> mode, you can see two
+different modes.  If your <a href="terminal.txt.html#terminal" class="d">terminal</a> supports only one of the modes, both will
+look the same.
+
+							<span id="keypad-comma" class="t">keypad-comma</span>
+The keypad keys, when they are not mapped, behave like the equivalent normal
+key.  There <a href="motion.txt.html#is" class="d">is</a> one exception: if you have <a href="insert.txt.html#a" class="d">a</a> comma on the keypad instead of <a href="insert.txt.html#a" class="d">a</a>
+decimal point, Vim will use <a href="insert.txt.html#a" class="d">a</a> dot anyway.  Use these mappings to fix that: 
+<span class="e">	:noremap &lt;kPoint&gt; ,</span>
+<span class="e">	:noremap! &lt;kPoint&gt; ,</span>
+							<span id="xterm-codes" class="t">xterm-codes</span>
+There <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> special trick to obtain the key codes which currently only works
+for xterm.  When <a href="term.txt.html#t_RV" class="l">t_RV</a> <a href="motion.txt.html#is" class="d">is</a> defined and <a href="insert.txt.html#a" class="d">a</a> response <a href="motion.txt.html#is" class="d">is</a> received which indicates
+an xterm with patchlevel 141 or higher, Vim uses special <a href="intro.txt.html#escape" class="d">escape</a> sequences to
+request the key codes directly from the xterm.  The responses are used to
+adjust the <a href="various.txt.html#various" class="d">various</a> t_ codes.  This avoids the problem that the xterm can
+produce different codes, depending on the mode <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> in (8-bit, VT102,
+VT220, etc.).  The result <a href="motion.txt.html#is" class="d">is</a> that codes like <a href="term.txt.html#%3CxF1%3E" class="s">&lt;xF1&gt;</a> are no longer needed.
+
+One of the codes that can change <a href="motion.txt.html#is" class="d">is</a> <a href="term.txt.html#%27t_Co%27" class="o">'t_Co'</a>, the number of colors.  This will
+trigger <a href="insert.txt.html#a" class="d">a</a> redraw.  If this <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> problem, reset the <a href="options.txt.html#%27xtermcodes%27" class="o">'xtermcodes'</a> option <a href="motion.txt.html#as" class="d">as</a>
+early <a href="motion.txt.html#as" class="d">as</a> possible: 
+<span class="e">	set noxtermcodes</span>
+<span class="e"></span>
+<span class="n">Note:</span> Requesting the key codes <a href="motion.txt.html#is" class="d">is</a> only done on startup.  If the xterm <a href="options.txt.html#options" class="d">options</a>
+are changed after Vim has started, the <a href="intro.txt.html#escape" class="d">escape</a> sequences may not be recognized
+anymore.
+
+							<span id="xterm-true-color" class="t">xterm-true-color</span>
+Vim supports using <a href="vim9.txt.html#true" class="d">true</a> colors in the <a href="terminal.txt.html#terminal" class="d">terminal</a> (taken from <a href="syntax.txt.html#highlight-guifg" class="l">highlight-guifg</a>
+and <a href="syntax.txt.html#highlight-guibg" class="l">highlight-guibg</a>), given that the <a href="terminal.txt.html#terminal" class="d">terminal</a> supports this.  To make this
+work the <a href="options.txt.html#%27termguicolors%27" class="o">'termguicolors'</a> option needs to be set.
+See <a class="u" href="https://github.com/termstandard/colors">https://github.com/termstandard/colors</a> for <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of terminals that
+support <a href="vim9.txt.html#true" class="d">true</a> colors.
+
+For telling the <a href="terminal.txt.html#terminal" class="d">terminal</a> what RGB color to use the <a href="term.txt.html#t_8f" class="l">t_8f</a> and <a href="term.txt.html#t_8b" class="l">t_8b</a> <a href="term.txt.html#termcap" class="d">termcap</a>
+entries are used.  These are set by default to values that work for most
+terminals.  If that does not work for your <a href="terminal.txt.html#terminal" class="d">terminal</a> you can set them manually.
+The default values are set like this: 
+<span class="e">	 let &amp;t_8f = "\&lt;Esc&gt;[38;2;%lu;%lu;%lum"</span>
+<span class="e">	 let &amp;t_8b = "\&lt;Esc&gt;[48;2;%lu;%lu;%lum"</span>
+<span class="e"></span>
+Some terminals accept similar sequences, with semicolons replaced by colons
+and an extra colon after the number 2 (this <a href="motion.txt.html#is" class="d">is</a> conformant to the ISO 8613-6
+standard, but <a href="various.txt.html#less" class="d">less</a> widely supported): 
+<span class="e">	 let &amp;t_8f = "\&lt;Esc&gt;[38:2::%lu:%lu:%lum"</span>
+<span class="e">	 let &amp;t_8b = "\&lt;Esc&gt;[48:2::%lu:%lu:%lum"</span>
+<span class="e"></span>
+These <a href="options.txt.html#options" class="d">options</a> contain printf strings, with <a href="builtin.txt.html#printf%28%29" class="l">printf()</a> (actually, its <a href="change.txt.html#C" class="d">C</a>
+equivalent hence <span class="e">l</span> modifier) invoked with the t_ option value and three
+unsigned long integers that may have any value between <a href="motion.txt.html#0" class="d">0</a> and 255 (inclusive)
+representing red, green and blue colors respectively.
+
+							<span id="xterm-resize" class="t">xterm-resize</span>
+Window resizing with xterm only works if the allowWindowOps resource <a href="motion.txt.html#is" class="d">is</a>
+enabled.  On some systems and versions of xterm it's disabled by default
+because someone thought <a href="motion.txt.html#it" class="d">it</a> would be <a href="insert.txt.html#a" class="d">a</a> security issue.  It's not clear if this
+<a href="motion.txt.html#is" class="d">is</a> actually the case.
+
+To overrule the default, <a href="change.txt.html#put" class="d">put</a> this line in your ~/.Xdefaults or
+~/.Xresources:
+
+<span class="e">	XTerm*allowWindowOps:		true</span>
+<span class="e"></span>
+And run "xrdb -merge .Xresources" to make <a href="motion.txt.html#it" class="d">it</a> effective.  You can check the
+value with the context menu (right mouse button while CTRL key <a href="motion.txt.html#is" class="d">is</a> pressed),
+there should be <a href="insert.txt.html#a" class="d">a</a> tick <a href="motion.txt.html#at" class="d">at</a> allow-window-ops.
+
+							<span id="xterm-focus-event" class="t">xterm-focus-event</span>
+Some terminals including xterm support the focus event tracking feature.
+If this feature <a href="motion.txt.html#is" class="d">is</a> enabled by the <a href="term.txt.html#%27t_fe%27" class="o">'t_fe'</a> sequence, special key sequences are
+sent from the <a href="terminal.txt.html#terminal" class="d">terminal</a> to Vim every time the <a href="terminal.txt.html#terminal" class="d">terminal</a> gains or loses focus.
+Vim fires focus events <a href="motion.txt.html#%28" class="d">(</a><a href="autocmd.txt.html#FocusGained" class="l">FocusGained</a><a href="pattern.txt.html#%2F" class="d">/</a><a href="autocmd.txt.html#FocusLost" class="l">FocusLost</a><a href="motion.txt.html#%29" class="d">)</a> by handling them accordingly.
+Focus event tracking <a href="motion.txt.html#is" class="d">is</a> disabled by <a href="insert.txt.html#a" class="d">a</a> <a href="term.txt.html#%27t_fd%27" class="o">'t_fd'</a> sequence when <a href="starting.txt.html#exiting" class="d">exiting</a> "raw" mode.
+If you would like to disable this feature, add the following to your .vimrc: 
+<span class="e">	set t_fd=</span>
+<span class="e">	set t_fe=</span>
+If your <a href="terminal.txt.html#terminal" class="d">terminal</a> does support this but Vim does not recognize the terminal,
+you may have to set the <a href="options.txt.html#options" class="d">options</a> yourself: 
+<span class="e">	let &amp;t_fe = "\&lt;Esc&gt;[?1004h"</span>
+<span class="e">	let &amp;t_fd = "\&lt;Esc&gt;[?1004l"</span>
+<span class="e">	execute "set &lt;FocusGained&gt;=\&lt;Esc&gt;[I"</span>
+<span class="e">        execute "set &lt;FocusLost&gt;=\&lt;Esc&gt;[O"</span>
+If this causes garbage to show when Vim starts up then <a href="motion.txt.html#it" class="d">it</a> doesn't work.
+
+							<span id="termcap-colors" class="t">termcap-colors</span>
+<span class="n">Note</span> about colors: The <a href="term.txt.html#%27t_Co%27" class="o">'t_Co'</a> option tells Vim the number of colors available.
+When <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> non-zero, the <a href="term.txt.html#%27t_AB%27" class="o">'t_AB'</a> and <a href="term.txt.html#%27t_AF%27" class="o">'t_AF'</a> <a href="options.txt.html#options" class="d">options</a> are used to set the color.
+If one of these <a href="motion.txt.html#is" class="d">is</a> not available, <a href="term.txt.html#%27t_Sb%27" class="o">'t_Sb'</a> and <a href="term.txt.html#%27t_Sf%27" class="o">'t_Sf'</a> are used.  <a href="term.txt.html#%27t_me%27" class="o">'t_me'</a> <a href="motion.txt.html#is" class="d">is</a> used
+to reset to the default colors.  Also see <a href="options.txt.html#%27termguicolors%27" class="o">'termguicolors'</a>.
+When the <a href="gui.txt.html#GUI" class="d">GUI</a> <a href="motion.txt.html#is" class="d">is</a> running <a href="term.txt.html#%27t_Co%27" class="o">'t_Co'</a> <a href="motion.txt.html#is" class="d">is</a> set to 16777216.
+
+				<span id="termcap-cursor-shape" class="t">termcap-cursor-shape</span> <span id="termcap-cursor-color" class="t">termcap-cursor-color</span>
+When Vim enters <a href="insert.txt.html#Insert" class="d">Insert</a> mode the <a href="term.txt.html#%27t_SI%27" class="o">'t_SI'</a> <a href="intro.txt.html#escape" class="d">escape</a> sequence <a href="motion.txt.html#is" class="d">is</a> sent.  When Vim
+enters <a href="insert.txt.html#Replace" class="d">Replace</a> mode the <a href="term.txt.html#%27t_SR%27" class="o">'t_SR'</a> <a href="intro.txt.html#escape" class="d">escape</a> sequence <a href="motion.txt.html#is" class="d">is</a> sent if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> set, otherwise
+<a href="term.txt.html#%27t_SI%27" class="o">'t_SI'</a> <a href="motion.txt.html#is" class="d">is</a> sent.  When leaving <a href="insert.txt.html#Insert" class="d">Insert</a> mode or <a href="insert.txt.html#Replace" class="d">Replace</a> mode <a href="term.txt.html#%27t_EI%27" class="o">'t_EI'</a> <a href="motion.txt.html#is" class="d">is</a> used.
+<span class="n">Note:</span> When <a href="term.txt.html#%27t_EI%27" class="o">'t_EI'</a> <a href="motion.txt.html#is" class="d">is</a> not set then <a href="term.txt.html#%27t_SI%27" class="o">'t_SI'</a> and <a href="term.txt.html#%27t_SR%27" class="o">'t_SR'</a> will not be sent.  And
+when <a href="term.txt.html#%27t_SI%27" class="o">'t_SI'</a> or <a href="term.txt.html#%27t_SR%27" class="o">'t_SR'</a> <a href="motion.txt.html#is" class="d">is</a> not set then <a href="term.txt.html#%27t_EI%27" class="o">'t_EI'</a> <a href="motion.txt.html#is" class="d">is</a> sent only once.
+
+This can be used to change the shape or color of the cursor in <a href="insert.txt.html#Insert" class="d">Insert</a> or
+<a href="insert.txt.html#Replace" class="d">Replace</a> mode.  These are not standard termcap/terminfo entries, you need to
+set them yourself.
+Example for an xterm, this changes the color of the cursor: 
+<span class="e">    if &amp;term =~ "xterm"</span>
+<span class="e">	let &amp;t_SI = "\&lt;Esc&gt;]12;purple\x7"</span>
+<span class="e">	let &amp;t_SR = "\&lt;Esc&gt;]12;red\x7"</span>
+<span class="e">	let &amp;t_EI = "\&lt;Esc&gt;]12;blue\x7"</span>
+<span class="e">    endif</span>
+<span class="n">NOTE:</span> When Vim exits the shape for <a href="intro.txt.html#Normal" class="d">Normal</a> mode will remain.  The shape from
+before Vim started will not be restored.
+
+For Windows Terminal you can use something like this: 
+<span class="e">    " Note: This should be set after `set termguicolors` or `set t_Co=256`.</span>
+<span class="e">    if &amp;term =~ 'xterm' || &amp;term == 'win32'</span>
+<span class="e">	" Use DECSCUSR escape sequences</span>
+<span class="e">	let &amp;t_SI = "\e[5 q"    " blink bar</span>
+<span class="e">	let &amp;t_SR = "\e[3 q"    " blink underline</span>
+<span class="e">	let &amp;t_EI = "\e[1 q"    " blink block</span>
+<span class="e">	let &amp;t_ti ..= "\e[1 q"  " blink block</span>
+<span class="e">	let &amp;t_te ..= "\e[0 q"  " default (depends on terminal, normally blink</span>
+<span class="e">				" block)</span>
+<span class="e">    endif</span>
+<span class="e"></span>
+<span class="s">{not available when compiled without the |+cursorshape| feature}</span>
+
+							<span id="termcap-title" class="t">termcap-title</span>
+The <a href="term.txt.html#%27t_ts%27" class="o">'t_ts'</a> and <a href="term.txt.html#%27t_fs%27" class="o">'t_fs'</a> <a href="options.txt.html#options" class="d">options</a> are used to set the <a href="windows.txt.html#window" class="d">window</a> title if the <a href="terminal.txt.html#terminal" class="d">terminal</a>
+allows title setting via sending strings.  They are sent before and after the
+title string, respectively.  Similar <a href="term.txt.html#%27t_IS%27" class="o">'t_IS'</a> and <a href="term.txt.html#%27t_IE%27" class="o">'t_IE'</a>  are used to set the
+icon text.  These are Vim-internal extensions of the <a href="os_unix.txt.html#Unix" class="d">Unix</a> termcap, so they
+cannot be obtained from an external termcap.  However, the builtin <a href="term.txt.html#termcap" class="d">termcap</a>
+contains suitable entries for xterm and iris-ansi, so you don't need to set
+them here.
+							<span id="hpterm" class="t">hpterm</span>
+If inversion or other highlighting does not work correctly, try setting the
+<a href="term.txt.html#%27t_xs%27" class="o">'t_xs'</a> option to <a href="insert.txt.html#a" class="d">a</a> non-empty string.  This makes the <a href="term.txt.html#%27t_ce%27" class="o">'t_ce'</a> code be used to
+remove highlighting from <a href="insert.txt.html#a" class="d">a</a> line.  This <a href="motion.txt.html#is" class="d">is</a> required for "<a href="term.txt.html#hpterm" class="d">hpterm</a>"<a href="repeat.txt.html#." class="d">.</a>  Setting the
+<a href="options.txt.html#%27weirdinvert%27" class="o">'weirdinvert'</a> option has the same effect <a href="motion.txt.html#as" class="d">as</a> making <a href="term.txt.html#%27t_xs%27" class="o">'t_xs'</a> non-empty, and vice
+versa.
+
+							<span id="scroll-region" class="t">scroll-region</span>
+Some termcaps <a href="diff.txt.html#do" class="d">do</a> not include an entry for "cs" (scroll region), although the
+<a href="terminal.txt.html#terminal" class="d">terminal</a> does support it.  For example: xterm on <a href="insert.txt.html#a" class="d">a</a> Sun.  You can use the
+builtin_xterm or define <a href="term.txt.html#t_cs" class="d">t_cs</a> yourself.  For example: 
+<span class="e">	:set t_cs=^V^[[%i%d;%dr</span>
+Where ^V <a href="motion.txt.html#is" class="d">is</a> <a href="visual.txt.html#CTRL-V" class="k">CTRL-V</a> and ^[ <a href="motion.txt.html#is" class="d">is</a> <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>.
+
+The vertical scroll region <a href="term.txt.html#t_CV" class="d">t_CV</a> <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> standard <a href="term.txt.html#termcap" class="d">termcap</a> code.  Vim uses <a href="motion.txt.html#it" class="d">it</a>
+internally in the GUI.  But <a href="motion.txt.html#it" class="d">it</a> can also be defined for <a href="insert.txt.html#a" class="d">a</a> terminal, if you can
+find one that supports it.  The two arguments are the left and right column of
+the region which to restrict the <a href="scroll.txt.html#scrolling" class="d">scrolling</a> to.  Just like <a href="term.txt.html#t_cs" class="d">t_cs</a> defines the top
+and bottom lines.  Defining <a href="term.txt.html#t_CV" class="d">t_CV</a> will make <a href="scroll.txt.html#scrolling" class="d">scrolling</a> in vertically split
+<a href="windows.txt.html#windows" class="d">windows</a> <a href="insert.txt.html#a" class="d">a</a> lot faster.  Don't set <a href="term.txt.html#t_CV" class="d">t_CV</a> when <a href="term.txt.html#t_da" class="d">t_da</a> or <a href="term.txt.html#t_db" class="d">t_db</a> <a href="motion.txt.html#is" class="d">is</a> set (text isn't
+cleared when scrolling).
+
+Unfortunately <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not possible to deduce from the <a href="term.txt.html#termcap" class="d">termcap</a> how cursor
+positioning should be done when using <a href="insert.txt.html#a" class="d">a</a> <a href="scroll.txt.html#scrolling" class="d">scrolling</a> region: Relative to the
+beginning of the screen or relative to the beginning of the <a href="scroll.txt.html#scrolling" class="d">scrolling</a> region.
+Most terminals use the first method.  The <a href="term.txt.html#%27t_CS%27" class="o">'t_CS'</a> option should be set to any
+<a href="eval.txt.html#string" class="d">string</a> when cursor positioning <a href="motion.txt.html#is" class="d">is</a> relative to the start of the <a href="scroll.txt.html#scrolling" class="d">scrolling</a>
+region.  It should be set to an empty <a href="eval.txt.html#string" class="d">string</a> otherwise.
+
+<span class="n">Note</span> for xterm users: The shifted cursor keys normally don't work.  You can
+	make them work with the xmodmap command and some mappings in Vim.
+
+	Give these commands in the xterm: 
+<span class="e">		xmodmap -e "keysym Up = Up F13"</span>
+<span class="e">		xmodmap -e "keysym Down = Down F16"</span>
+<span class="e">		xmodmap -e "keysym Left = Left F18"</span>
+<span class="e">		xmodmap -e "keysym Right = Right F19"</span>
+
+	And use these mappings in Vim: 
+<span class="e">		:map &lt;t_F3&gt; &lt;S-Up&gt;</span>
+<span class="e">		:map! &lt;t_F3&gt; &lt;S-Up&gt;</span>
+<span class="e">		:map &lt;t_F6&gt; &lt;S-Down&gt;</span>
+<span class="e">		:map! &lt;t_F6&gt; &lt;S-Down&gt;</span>
+<span class="e">		:map &lt;t_F8&gt; &lt;S-Left&gt;</span>
+<span class="e">		:map! &lt;t_F8&gt; &lt;S-Left&gt;</span>
+<span class="e">		:map &lt;t_F9&gt; &lt;S-Right&gt;</span>
+<span class="e">		:map! &lt;t_F9&gt; &lt;S-Right&gt;</span>
+<span class="e"></span>
+Instead of, say, <a href="scroll.txt.html#%3CS-Up%3E" class="s">&lt;S-Up&gt;</a> you can use any other command that you want to use the
+shift-cursor-up key for.  (Note: To <a href="helphelp.txt.html#help" class="d">help</a> people that have <a href="insert.txt.html#a" class="d">a</a> Sun keyboard with
+left side keys F14 <a href="motion.txt.html#is" class="d">is</a> not used because <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> confused with the <a href="undo.txt.html#undo" class="d">undo</a> key; F15
+<a href="motion.txt.html#is" class="d">is</a> not used, because <a href="motion.txt.html#it" class="d">it</a> does <a href="insert.txt.html#a" class="d">a</a> window-to-front; F17 <a href="motion.txt.html#is" class="d">is</a> not used, because <a href="motion.txt.html#it" class="d">it</a>
+closes the window.  On other systems you can probably use them.)
+
+<span class="h">==============================================================================</span>
+3. Window size						<span id="window-size" class="t">window-size</span>
+
+[This <a href="motion.txt.html#is" class="d">is</a> about the size of the whole <a href="windows.txt.html#window" class="d">window</a> Vim <a href="motion.txt.html#is" class="d">is</a> using, not <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> that <a href="motion.txt.html#is" class="d">is</a>
+created with the "<a href="windows.txt.html#%3Asplit" class="d">:split</a>" command.]
+
+If you are running Vim on an <a href="os_amiga.txt.html#Amiga" class="d">Amiga</a> and the <a href="terminal.txt.html#terminal" class="d">terminal</a> name <a href="motion.txt.html#is" class="d">is</a> "amiga" or
+"builtin_amiga"<a href="motion.txt.html#%2C" class="d">,</a> the amiga-specific <a href="windows.txt.html#window" class="d">window</a> resizing will be enabled.  On <a href="os_unix.txt.html#Unix" class="d">Unix</a>
+systems three methods are tried to get the <a href="windows.txt.html#window" class="d">window</a> size:
+
+<a href="motion.txt.html#-" class="d">-</a> an ioctl call (TIOCGSIZE or TIOCGWINSZ, depends on your system)
+<a href="motion.txt.html#-" class="d">-</a> the environment <a href="eval.txt.html#variables" class="d">variables</a> "LINES" and "COLUMNS"
+<a href="motion.txt.html#-" class="d">-</a> from the <a href="term.txt.html#termcap" class="d">termcap</a> entries "li" and "co"
+
+If everything fails <a href="insert.txt.html#a" class="d">a</a> default size of 24 lines and 80 columns <a href="motion.txt.html#is" class="d">is</a> assumed.  If
+<a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window-resize" class="d">window-resize</a> signal <a href="motion.txt.html#is" class="d">is</a> received the size will be set again.  If the <a href="windows.txt.html#window" class="d">window</a>
+size <a href="motion.txt.html#is" class="d">is</a> wrong you can use the <a href="options.txt.html#%27lines%27" class="o">'lines'</a> and <a href="options.txt.html#%27columns%27" class="o">'columns'</a> <a href="options.txt.html#options" class="d">options</a> to set the
+correct values.
+
+One command can be used to set the screen size:
+						<span id="%3Amod" class="t">:mod</span> <span id="%3Amode" class="t">:mode</span> <span id="E359" class="t">E359</span>
+:mod[e] <span class="s">[mode]</span>
+
+Without argument this only detects the screen size and redraws the screen.
+[mode] was used on MS-DOS, but <a href="motion.txt.html#it" class="d">it</a> doesn't work anymore.  In <a href="vim9.txt.html#Vim9" class="l">Vim9</a> this
+command <a href="motion.txt.html#is" class="d">is</a> not supported.
+
+<span class="h">==============================================================================</span>
+4. Slow and fast terminals			<span id="slow-fast-terminal" class="t">slow-fast-terminal</span>
+						<span id="slow-terminal" class="t">slow-terminal</span>
+
+If you have <a href="insert.txt.html#a" class="d">a</a> fast <a href="terminal.txt.html#terminal" class="d">terminal</a> you may like to set the <a href="options.txt.html#%27ruler%27" class="o">'ruler'</a> option.  The
+cursor position <a href="motion.txt.html#is" class="d">is</a> shown in the status line.  If you are using horizontal
+<a href="scroll.txt.html#scrolling" class="d">scrolling</a> ('wrap' option off) consider setting <a href="options.txt.html#%27sidescroll%27" class="o">'sidescroll'</a> to <a href="insert.txt.html#a" class="d">a</a> small
+number.
+
+If you have <a href="insert.txt.html#a" class="d">a</a> slow <a href="terminal.txt.html#terminal" class="d">terminal</a> you may want to reset the <a href="options.txt.html#%27showcmd%27" class="o">'showcmd'</a> option.
+The command characters will not be shown in the status line.  If the <a href="terminal.txt.html#terminal" class="d">terminal</a>
+scrolls very slowly, set the <a href="options.txt.html#%27scrolljump%27" class="o">'scrolljump'</a> to 5 or so.  If the cursor <a href="motion.txt.html#is" class="d">is</a> moved
+off the screen (e.g., with "<a href="motion.txt.html#j" class="d">j</a>"<a href="motion.txt.html#%29" class="d">)</a> Vim will scroll 5 lines <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> time.  Another
+possibility <a href="motion.txt.html#is" class="d">is</a> to reduce the number of lines that Vim uses with the command
+"z{height}&lt;CR&gt;"<a href="repeat.txt.html#." class="d">.</a>
+
+If the characters from the <a href="terminal.txt.html#terminal" class="d">terminal</a> are arriving with more than 1 second
+between them you might want to set the <a href="options.txt.html#%27timeout%27" class="o">'timeout'</a> and/or <a href="options.txt.html#%27ttimeout%27" class="o">'ttimeout'</a> option.
+See the "Options" chapter <a href="options.txt.html#options" class="l">options</a><a href="repeat.txt.html#." class="d">.</a>
+
+If your <a href="terminal.txt.html#terminal" class="d">terminal</a> does not support <a href="insert.txt.html#a" class="d">a</a> <a href="scroll.txt.html#scrolling" class="d">scrolling</a> region, but <a href="motion.txt.html#it" class="d">it</a> does support
+insert/delete line commands, <a href="scroll.txt.html#scrolling" class="d">scrolling</a> with multiple <a href="windows.txt.html#windows" class="d">windows</a> may make the
+lines jump up and down.  This would happen if the <a href="options.txt.html#%27ttyfast%27" class="o">'ttyfast'</a> option has been
+reset.  Check that with: 
+<span class="e">	verbose set ttyfast?</span>
+<span class="e"></span>
+If your <a href="terminal.txt.html#terminal" class="d">terminal</a> scrolls very slowly, but redrawing <a href="motion.txt.html#is" class="d">is</a> not slow, set the
+<a href="options.txt.html#%27ttyscroll%27" class="o">'ttyscroll'</a> option to <a href="insert.txt.html#a" class="d">a</a> small number, e.g., 3.  This will make Vim redraw the
+screen instead of scrolling, when there are more than 3 lines to be scrolled.
+
+If you are using <a href="insert.txt.html#a" class="d">a</a> color <a href="terminal.txt.html#terminal" class="d">terminal</a> that <a href="motion.txt.html#is" class="d">is</a> slow, use this command: 
+<span class="e">	hi NonText cterm=NONE ctermfg=NONE</span>
+This avoids that spaces are sent when they have different attributes.  On most
+terminals you can't see this anyway.
+
+If you are using Vim over <a href="insert.txt.html#a" class="d">a</a> slow serial line, you might want to try running
+Vim inside the "screen" program.  Screen will optimize the <a href="terminal.txt.html#terminal" class="d">terminal</a> I/O quite
+<a href="insert.txt.html#a" class="d">a</a> bit.
+
+If you are <a href="testing.txt.html#testing" class="d">testing</a> <a href="term.txt.html#termcap" class="d">termcap</a> options, but you cannot see what <a href="motion.txt.html#is" class="d">is</a> happening, you
+might want to set the <a href="options.txt.html#%27writedelay%27" class="o">'writedelay'</a> option.  When non-zero, one character <a href="motion.txt.html#is" class="d">is</a>
+sent to the <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> time.  This makes the screen updating <a href="insert.txt.html#a" class="d">a</a> lot slower,
+making <a href="motion.txt.html#it" class="d">it</a> possible to see what <a href="motion.txt.html#is" class="d">is</a> happening.
+
+<span class="h">==============================================================================</span>
+5. Using the mouse					<span id="mouse-using" class="t">mouse-using</span>
+
+This <a href="motion.txt.html#section" class="d">section</a> <a href="motion.txt.html#is" class="d">is</a> about using the mouse on <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> or <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> window.  How
+to use the mouse in <a href="insert.txt.html#a" class="d">a</a> <a href="gui.txt.html#GUI" class="d">GUI</a> <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> explained in <a href="gui.txt.html#gui-mouse" class="l">gui-mouse</a><a href="repeat.txt.html#." class="d">.</a>  For <a href="scroll.txt.html#scrolling" class="d">scrolling</a>
+with <a href="insert.txt.html#a" class="d">a</a> mouse wheel see <a href="scroll.txt.html#scroll-mouse-wheel" class="l">scroll-mouse-wheel</a><a href="repeat.txt.html#." class="d">.</a>
+
+Don't forget to enable the mouse with this command: 
+<span class="e">	:set mouse=a</span>
+Otherwise Vim won't recognize the mouse in all modes (See <a href="options.txt.html#%27mouse%27" class="o">'mouse'</a>).
+
+Currently the mouse <a href="motion.txt.html#is" class="d">is</a> supported for <a href="os_unix.txt.html#Unix" class="d">Unix</a> in an xterm window, in <a href="insert.txt.html#a" class="d">a</a> *BSD
+console with <a href="term.txt.html#sysmouse" class="l">sysmouse</a><a href="motion.txt.html#%2C" class="d">,</a> in <a href="insert.txt.html#a" class="d">a</a> Linux console (with GPM <a href="term.txt.html#gpm-mouse" class="l">gpm-mouse</a>), and
+in <a href="insert.txt.html#a" class="d">a</a> Windows console.
+Mouse clicks can be used to position the cursor, select an area and paste.
+
+These characters in the <a href="options.txt.html#%27mouse%27" class="o">'mouse'</a> option tell in which situations the mouse will
+be used by Vim:
+		<a href="pattern.txt.html#n" class="d">n</a>	<a href="intro.txt.html#Normal" class="d">Normal</a> mode
+		<a href="visual.txt.html#v" class="d">v</a>	<a href="visual.txt.html#Visual" class="d">Visual</a> mode
+		<a href="insert.txt.html#i" class="d">i</a>	<a href="insert.txt.html#Insert" class="d">Insert</a> mode
+		<a href="change.txt.html#c" class="d">c</a>	<a href="cmdline.txt.html#Command-line" class="d">Command-line</a> mode
+		<a href="motion.txt.html#h" class="d">h</a>	all previous modes when in <a href="insert.txt.html#a" class="d">a</a> <a href="helphelp.txt.html#help" class="d">help</a> file
+		<a href="insert.txt.html#a" class="d">a</a>	all previous modes
+		<a href="change.txt.html#r" class="d">r</a>	for <a href="message.txt.html#hit-enter" class="l">hit-enter</a> prompt
+
+The default for <a href="options.txt.html#%27mouse%27" class="o">'mouse'</a> <a href="motion.txt.html#is" class="d">is</a> empty, the mouse <a href="motion.txt.html#is" class="d">is</a> not used.  Normally you would
+do: 
+<span class="e">	:set mouse=a</span>
+to start using the mouse (this <a href="motion.txt.html#is" class="d">is</a> equivalent to setting <a href="options.txt.html#%27mouse%27" class="o">'mouse'</a> to "nvich").
+If you only want to use the mouse in <a href="insert.txt.html#a" class="d">a</a> few modes or also want to use <a href="motion.txt.html#it" class="d">it</a> for
+the two questions you will have to concatenate the letters for those modes.
+For example: 
+<span class="e">	:set mouse=nv</span>
+Will make the mouse work in <a href="intro.txt.html#Normal" class="d">Normal</a> mode and <a href="visual.txt.html#Visual" class="d">Visual</a> mode. 
+<span class="e">	:set mouse=h</span>
+Will make the mouse work in <a href="helphelp.txt.html#help" class="d">help</a> files only (so you can use "<a href="tagsrch.txt.html#g%3CLeftMouse%3E" class="d">g&lt;LeftMouse&gt;</a>" to
+jump to tags).
+
+Whether the selection that <a href="motion.txt.html#is" class="d">is</a> started with the mouse <a href="motion.txt.html#is" class="d">is</a> in <a href="visual.txt.html#Visual" class="d">Visual</a> mode or
+<a href="visual.txt.html#Select" class="d">Select</a> mode depends on whether "mouse" <a href="motion.txt.html#is" class="d">is</a> included in the <a href="options.txt.html#%27selectmode%27" class="o">'selectmode'</a>
+option.
+							<span id="terminal-mouse" class="t">terminal-mouse</span>
+In an xterm, with the currently active mode included in the <a href="options.txt.html#%27mouse%27" class="o">'mouse'</a> option,
+normal mouse clicks are used by Vim, mouse clicks with the <a href="intro.txt.html#shift" class="d">shift</a> or <a href="intro.txt.html#ctrl" class="d">ctrl</a> key
+pressed <a href="motion.txt.html#go" class="d">go</a> to the xterm.  With the currently active mode not included in
+<a href="options.txt.html#%27mouse%27" class="o">'mouse'</a> all mouse clicks <a href="motion.txt.html#go" class="d">go</a> to the xterm.
+
+For terminals where <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not possible to have the mouse events be used by the
+<a href="terminal.txt.html#terminal" class="d">terminal</a> itself by using <a href="insert.txt.html#a" class="d">a</a> modifier, <a href="insert.txt.html#a" class="d">a</a> workaround <a href="motion.txt.html#is" class="d">is</a> to not use mouse events
+for Vim in command-line mode: 
+<span class="e">	:set mouse=nvi</span>
+Then to select text with the terminal, use "<a href="cmdline.txt.html#%3A" class="d">:</a>" to <a href="motion.txt.html#go" class="d">go</a> to command-line mode,
+select and copy the text to the system, then press Esc.
+
+Another way <a href="motion.txt.html#is" class="d">is</a> to temporarily use "<a href="various.txt.html#%3Ash" class="d">:sh</a>" to run <a href="insert.txt.html#a" class="d">a</a> shell, copy the text, then
+exit the shell.  <a href="options.txt.html#%27mouse%27" class="o">'mouse'</a> can remain set to "<a href="insert.txt.html#a" class="d">a</a>" then.
+							<span id="xterm-clipboard" class="t">xterm-clipboard</span>
+In the <a href="gui_x11.txt.html#Motif" class="d">Motif</a> <a href="gui.txt.html#GUI" class="d">GUI</a> version, when running in <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> and there <a href="motion.txt.html#is" class="d">is</a>
+access to the X-server (DISPLAY <a href="motion.txt.html#is" class="d">is</a> set), the copy and paste will behave like
+in the GUI.  If not, the middle mouse button will <a href="insert.txt.html#insert" class="d">insert</a> the unnamed register.
+In that case, here <a href="motion.txt.html#is" class="d">is</a> how you copy and paste <a href="insert.txt.html#a" class="d">a</a> piece of text:
+
+Copy/paste with the mouse and <a href="visual.txt.html#Visual" class="d">Visual</a> mode ('mouse' option <a href="vim_faq.txt.html#must" class="d">must</a> be set, see
+above):
+1. Press left mouse button on first <a href="print.txt.html#letter" class="d">letter</a> of text, move mouse pointer to last
+   <a href="print.txt.html#letter" class="d">letter</a> of the text and release the button.  This will start <a href="visual.txt.html#Visual" class="d">Visual</a> mode and
+   highlight the selected area.
+2. Press "<a href="change.txt.html#y" class="d">y</a>" to <a href="change.txt.html#yank" class="d">yank</a> the <a href="visual.txt.html#Visual" class="d">Visual</a> text in the unnamed register.
+3. Click the left mouse button <a href="motion.txt.html#at" class="d">at</a> the <a href="insert.txt.html#insert" class="d">insert</a> position.
+4. Click the middle mouse button.
+
+Shortcut: If the <a href="insert.txt.html#insert" class="d">insert</a> position <a href="motion.txt.html#is" class="d">is</a> on the screen <a href="motion.txt.html#at" class="d">at</a> the same time <a href="motion.txt.html#as" class="d">as</a> the
+<a href="visual.txt.html#Visual" class="d">Visual</a> text, you can <a href="diff.txt.html#do" class="d">do</a> 2, 3 and 4 all in one: Click the middle mouse button
+<a href="motion.txt.html#at" class="d">at</a> the <a href="insert.txt.html#insert" class="d">insert</a> position.
+
+<span class="n">Note:</span> When the <a href="starting.txt.html#-X" class="l">-X</a> command line argument <a href="motion.txt.html#is" class="d">is</a> used, Vim will not connect to the
+<a href="change.txt.html#X" class="d">X</a> server and copy/paste to the <a href="change.txt.html#X" class="d">X</a> <a href="gui.txt.html#clipboard" class="d">clipboard</a> (selection) will not work.  Use the
+<a href="intro.txt.html#shift" class="d">shift</a> key with the mouse buttons to let the xterm <a href="diff.txt.html#do" class="d">do</a> the selection.
+
+							<span id="xterm-command-server" class="t">xterm-command-server</span>
+When the X-server <a href="gui.txt.html#clipboard" class="d">clipboard</a> <a href="motion.txt.html#is" class="d">is</a> available, the command server described in
+<a href="remote.txt.html#x11-clientserver" class="l">x11-clientserver</a> can be enabled with the <a href="remote.txt.html#--servername" class="d">--servername</a> command line argument.
+
+							<span id="xterm-copy-paste" class="t">xterm-copy-paste</span>
+<span class="n">NOTE:</span> In some (older) xterms, it's not possible to move the cursor past column
+95 or 223.  This <a href="motion.txt.html#is" class="d">is</a> an xterm problem, not Vim's.  Get <a href="insert.txt.html#a" class="d">a</a> newer xterm
+<a href="syntax.txt.html#color-xterm" class="l">color-xterm</a><a href="repeat.txt.html#." class="d">.</a>  Also see <a href="options.txt.html#%27ttymouse%27" class="o">'ttymouse'</a>.
+
+Copy/paste in xterm with (current mode NOT included in <a href="options.txt.html#%27mouse%27" class="o">'mouse'</a>):
+1. Press left mouse button on first <a href="print.txt.html#letter" class="d">letter</a> of text, move mouse pointer to last
+   <a href="print.txt.html#letter" class="d">letter</a> of the text and release the button.
+2. Use normal Vim commands to <a href="change.txt.html#put" class="d">put</a> the cursor <a href="motion.txt.html#at" class="d">at</a> the <a href="insert.txt.html#insert" class="d">insert</a> position.
+3. Press "<a href="insert.txt.html#a" class="d">a</a>" to start <a href="insert.txt.html#Insert" class="d">Insert</a> mode.
+4. Click the middle mouse button.
+5. Press ESC to <a href="intro.txt.html#end" class="d">end</a> <a href="insert.txt.html#Insert" class="d">Insert</a> mode.
+(The same can be done with anything in <a href="options.txt.html#%27mouse%27" class="o">'mouse'</a> if you keep the <a href="intro.txt.html#shift" class="d">shift</a> key
+pressed while using the mouse.)
+
+<span class="n">Note:</span> if you lose the 8th bit when pasting (special characters are translated
+into other characters), you may have to <a href="diff.txt.html#do" class="d">do</a> "stty cs8 -istrip -parenb" in your
+shell before <a href="starting.txt.html#starting" class="d">starting</a> Vim.
+
+Thus in an xterm the <a href="intro.txt.html#shift" class="d">shift</a> and <a href="intro.txt.html#ctrl" class="d">ctrl</a> keys cannot be used with the mouse.  Mouse
+commands requiring the CTRL modifier can be simulated by typing the "<a href="index.txt.html#g" class="d">g</a>" key
+before using the mouse:
+	"<a href="tagsrch.txt.html#g%3CLeftMouse%3E" class="d">g&lt;LeftMouse&gt;</a>"	<a href="motion.txt.html#is" class="d">is</a> "<a href="tagsrch.txt.html#%3CC-LeftMouse%3E" class="s">&lt;C-LeftMouse&gt;</a>	(jump to <a href="tagsrch.txt.html#tag" class="d">tag</a> under mouse click)
+	"<a href="tagsrch.txt.html#g%3CRightMouse%3E" class="d">g&lt;RightMouse&gt;</a>" <a href="motion.txt.html#is" class="d">is</a> "<a href="tagsrch.txt.html#%3CC-RightMouse%3E" class="s">&lt;C-RightMouse&gt;</a>	<a href="motion.txt.html#%28" class="d">(</a>"<a href="tagsrch.txt.html#CTRL-T" class="k">CTRL-T</a>"<a href="motion.txt.html#%29" class="d">)</a>
+
+					<span id="mouse-mode-table" class="t">mouse-mode-table</span> <span id="mouse-overview" class="t">mouse-overview</span>
+<a href="insert.txt.html#A" class="d">A</a> short overview of what the mouse buttons do, when <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a> <a href="motion.txt.html#is" class="d">is</a> "extend"<a href="cmdline.txt.html#%3A" class="d">:</a>
+
+<a href="intro.txt.html#Normal" class="d">Normal</a> Mode:
+<span class="h">event	      position	   selection	  change  action	</span>
+<span class="h">	       cursor			  window		</span>
+<a href="visual.txt.html#%3CLeftMouse%3E" class="s">&lt;LeftMouse&gt;</a>     yes	     <a href="intro.txt.html#end" class="d">end</a>	    yes
+<a href="tagsrch.txt.html#%3CC-LeftMouse%3E" class="s">&lt;C-LeftMouse&gt;</a>   yes	     <a href="intro.txt.html#end" class="d">end</a>	    yes	   "<a href="tagsrch.txt.html#CTRL-%5D" class="k">CTRL-]</a>" (2)
+<a href="term.txt.html#%3CS-LeftMouse%3E" class="s">&lt;S-LeftMouse&gt;</a>   yes	  no change	    yes	   "*" (2)    <span id="%3CS-LeftMouse%3E" class="t">&lt;S-LeftMouse&gt;</span>
+<a href="term.txt.html#%3CLeftDrag%3E" class="s">&lt;LeftDrag&gt;</a>      yes	start or extend (1) no		      <span id="%3CLeftDrag%3E" class="t">&lt;LeftDrag&gt;</span>
+<a href="visual.txt.html#%3CLeftRelease%3E" class="s">&lt;LeftRelease&gt;</a>   yes	start or extend (1) no
+<a href="change.txt.html#%3CMiddleMouse%3E" class="s">&lt;MiddleMouse&gt;</a>   yes	  if not active     no	   <a href="change.txt.html#put" class="d">put</a>
+<a href="change.txt.html#%3CMiddleMouse%3E" class="s">&lt;MiddleMouse&gt;</a>   yes	  if active	    no	   <a href="change.txt.html#yank" class="d">yank</a> and <a href="change.txt.html#put" class="d">put</a>
+<a href="visual.txt.html#%3CRightMouse%3E" class="s">&lt;RightMouse&gt;</a>    yes	start or extend     yes
+<a href="term.txt.html#%3CA-RightMouse%3E" class="s">&lt;A-RightMouse&gt;</a>  yes start or extend blockw. yes		      <span id="%3CA-RightMouse%3E" class="t">&lt;A-RightMouse&gt;</span>
+<a href="term.txt.html#%3CS-RightMouse%3E" class="s">&lt;S-RightMouse&gt;</a>  yes	   no change	    yes	   "<a href="pattern.txt.html#%23" class="d">#</a>" (2)    <span id="%3CS-RightMouse%3E" class="t">&lt;S-RightMouse&gt;</span>
+<a href="tagsrch.txt.html#%3CC-RightMouse%3E" class="s">&lt;C-RightMouse&gt;</a>  no	   no change	    no	   "<a href="tagsrch.txt.html#CTRL-T" class="k">CTRL-T</a>"
+<a href="term.txt.html#%3CRightDrag%3E" class="s">&lt;RightDrag&gt;</a>     yes	    extend	    no		      <span id="%3CRightDrag%3E" class="t">&lt;RightDrag&gt;</span>
+<a href="term.txt.html#%3CRightRelease%3E" class="s">&lt;RightRelease&gt;</a>  yes	    extend	    no		      <span id="%3CRightRelease%3E" class="t">&lt;RightRelease&gt;</span>
+
+<a href="insert.txt.html#Insert" class="d">Insert</a> or <a href="insert.txt.html#Replace" class="d">Replace</a> Mode:
+<span class="h">event	      position	   selection	  change  action	</span>
+<span class="h">	       cursor			  window		</span>
+<a href="visual.txt.html#%3CLeftMouse%3E" class="s">&lt;LeftMouse&gt;</a>     yes     (cannot be active)  yes
+<a href="tagsrch.txt.html#%3CC-LeftMouse%3E" class="s">&lt;C-LeftMouse&gt;</a>   yes     (cannot be active)  yes	   "<a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a>^]" (2)
+<a href="term.txt.html#%3CS-LeftMouse%3E" class="s">&lt;S-LeftMouse&gt;</a>   yes     (cannot be active)  yes	   "<a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a>*" (2)
+<a href="term.txt.html#%3CLeftDrag%3E" class="s">&lt;LeftDrag&gt;</a>      yes     start or extend (1) no	   like <a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a> (1)
+<a href="visual.txt.html#%3CLeftRelease%3E" class="s">&lt;LeftRelease&gt;</a>   yes     start or extend (1) no	   like <a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a> (1)
+<a href="change.txt.html#%3CMiddleMouse%3E" class="s">&lt;MiddleMouse&gt;</a>   no      (cannot be active)  no	   <a href="change.txt.html#put" class="d">put</a> register
+<a href="visual.txt.html#%3CRightMouse%3E" class="s">&lt;RightMouse&gt;</a>    yes     start or extend	    yes	   like <a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a>
+<a href="term.txt.html#%3CA-RightMouse%3E" class="s">&lt;A-RightMouse&gt;</a>  yes start or extend blockw. yes
+<a href="term.txt.html#%3CS-RightMouse%3E" class="s">&lt;S-RightMouse&gt;</a>  yes     (cannot be active)  yes	   "<a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a>#" (2)
+<a href="tagsrch.txt.html#%3CC-RightMouse%3E" class="s">&lt;C-RightMouse&gt;</a>  no	(cannot be active)  no	   "<a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a> <a href="tagsrch.txt.html#CTRL-T" class="k">CTRL-T</a>"
+
+In <a href="insert.txt.html#a" class="d">a</a> <a href="helphelp.txt.html#help" class="d">help</a> window:
+<span class="h">event	      position	   selection	  change  action	</span>
+<span class="h">	       cursor			  window		</span>
+<a href="term.txt.html#%3C2-LeftMouse%3E" class="s">&lt;2-LeftMouse&gt;</a>   yes     (cannot be active)  no	   "^]" (jump to <a href="helphelp.txt.html#help" class="d">help</a> tag)
+
+When <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a> <a href="motion.txt.html#is" class="d">is</a> "<a href="popup.txt.html#popup" class="d">popup</a>"<a href="motion.txt.html#%2C" class="d">,</a> these are different:
+
+<a href="intro.txt.html#Normal" class="d">Normal</a> Mode:
+<span class="h">event	      position	   selection	  change  action	</span>
+<span class="h">	       cursor			  window		</span>
+<a href="term.txt.html#%3CS-LeftMouse%3E" class="s">&lt;S-LeftMouse&gt;</a>	yes	start or extend (1) no
+<a href="term.txt.html#%3CA-LeftMouse%3E" class="s">&lt;A-LeftMouse&gt;</a>   yes start or extend blockw. no		      <span id="%3CA-LeftMouse%3E" class="t">&lt;A-LeftMouse&gt;</span>
+<a href="visual.txt.html#%3CRightMouse%3E" class="s">&lt;RightMouse&gt;</a>	no	<a href="popup.txt.html#popup" class="d">popup</a> menu	    no
+
+<a href="insert.txt.html#Insert" class="d">Insert</a> or <a href="insert.txt.html#Replace" class="d">Replace</a> Mode:
+<span class="h">event	      position	   selection	  change  action	</span>
+<span class="h">	       cursor			  window		</span>
+<a href="term.txt.html#%3CS-LeftMouse%3E" class="s">&lt;S-LeftMouse&gt;</a>   yes     start or extend (1) no	   like <a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a> (1)
+<a href="term.txt.html#%3CA-LeftMouse%3E" class="s">&lt;A-LeftMouse&gt;</a>   yes start or extend blockw. no
+<a href="visual.txt.html#%3CRightMouse%3E" class="s">&lt;RightMouse&gt;</a>    no	<a href="popup.txt.html#popup" class="d">popup</a> menu	    no
+
+(1) only if mouse pointer moved since press
+(2) only if click <a href="motion.txt.html#is" class="d">is</a> in same buffer
+
+Clicking the left mouse button causes the cursor to be positioned.  If the
+click <a href="motion.txt.html#is" class="d">is</a> in another <a href="windows.txt.html#window" class="d">window</a> that <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> made the active window.  When
+editing the command-line the cursor can only be positioned on the
+command-line.  When in <a href="insert.txt.html#Insert" class="d">Insert</a> mode Vim remains in <a href="insert.txt.html#Insert" class="d">Insert</a> mode.  If <a href="options.txt.html#%27scrolloff%27" class="o">'scrolloff'</a>
+<a href="motion.txt.html#is" class="d">is</a> set, and the cursor <a href="motion.txt.html#is" class="d">is</a> positioned within <a href="options.txt.html#%27scrolloff%27" class="o">'scrolloff'</a> lines from the <a href="windows.txt.html#window" class="d">window</a>
+border, the text <a href="motion.txt.html#is" class="d">is</a> scrolled.
+
+<a href="insert.txt.html#A" class="d">A</a> selection can be started by pressing the left mouse button on the first
+character, moving the mouse to the last character, then releasing the mouse
+button.  You will not always see the selection until you release the button,
+only in some versions (GUI, Win32) will the dragging be shown immediately.
+<span class="n">Note</span> that you can make the text scroll by moving the mouse <a href="motion.txt.html#at" class="d">at</a> least one
+character in the first/last line in the <a href="windows.txt.html#window" class="d">window</a> when <a href="options.txt.html#%27scrolloff%27" class="o">'scrolloff'</a> <a href="motion.txt.html#is" class="d">is</a> non-zero.
+
+In Normal, <a href="visual.txt.html#Visual" class="d">Visual</a> and <a href="visual.txt.html#Select" class="d">Select</a> mode clicking the right mouse button causes the
+<a href="visual.txt.html#Visual" class="d">Visual</a> area to be extended.  When <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a> <a href="motion.txt.html#is" class="d">is</a> "<a href="popup.txt.html#popup" class="d">popup</a>"<a href="motion.txt.html#%2C" class="d">,</a> the left button has
+to be used while keeping the <a href="intro.txt.html#shift" class="d">shift</a> key pressed.  When clicking in <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a>
+which <a href="motion.txt.html#is" class="d">is</a> editing another buffer, the <a href="visual.txt.html#Visual" class="d">Visual</a> or <a href="visual.txt.html#Select" class="d">Select</a> mode <a href="motion.txt.html#is" class="d">is</a> stopped.
+
+In Normal, <a href="visual.txt.html#Visual" class="d">Visual</a> and <a href="visual.txt.html#Select" class="d">Select</a> mode clicking the right mouse button with the <a href="intro.txt.html#alt" class="d">alt</a>
+key pressed causes the <a href="visual.txt.html#Visual" class="d">Visual</a> area to become blockwise.  When <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a> <a href="motion.txt.html#is" class="d">is</a>
+"<a href="popup.txt.html#popup" class="d">popup</a>" the left button has to be used with the <a href="intro.txt.html#alt" class="d">alt</a> key.  <span class="n">Note</span> that this won't
+work on systems where the <a href="windows.txt.html#window" class="d">window</a> manager consumes the mouse events when the
+<a href="intro.txt.html#alt" class="d">alt</a> key <a href="motion.txt.html#is" class="d">is</a> pressed (it may move the window).
+
+							<span id="double-click" class="t">double-click</span>
+Double, triple and quadruple clicks are supported when the <a href="gui.txt.html#GUI" class="d">GUI</a> <a href="motion.txt.html#is" class="d">is</a> active, for
+Win32, and for an xterm (if the gettimeofday() function <a href="motion.txt.html#is" class="d">is</a> available).  For
+selecting text, extra clicks extend the selection:
+<span class="h">	click		select </span>
+	double		<a href="motion.txt.html#word" class="d">word</a> or <a href="motion.txt.html#%25" class="d">%</a> match		<span id="%3C2-LeftMouse%3E" class="t">&lt;2-LeftMouse&gt;</span>
+	triple		line			<span id="%3C3-LeftMouse%3E" class="t">&lt;3-LeftMouse&gt;</span>
+	quadruple	rectangular block	<span id="%3C4-LeftMouse%3E" class="t">&lt;4-LeftMouse&gt;</span>
+Exception: In <a href="insert.txt.html#a" class="d">a</a> Help <a href="windows.txt.html#window" class="d">window</a> <a href="insert.txt.html#a" class="d">a</a> double click jumps to <a href="helphelp.txt.html#help" class="d">help</a> for the <a href="motion.txt.html#word" class="d">word</a> that <a href="motion.txt.html#is" class="d">is</a>
+clicked on.
+<a href="insert.txt.html#A" class="d">A</a> double click on <a href="insert.txt.html#a" class="d">a</a> <a href="motion.txt.html#word" class="d">word</a> selects that word.  <a href="options.txt.html#%27iskeyword%27" class="o">'iskeyword'</a> <a href="motion.txt.html#is" class="d">is</a> used to specify
+which characters are included in <a href="insert.txt.html#a" class="d">a</a> word.  <a href="insert.txt.html#A" class="d">A</a> double click on <a href="insert.txt.html#a" class="d">a</a> character
+that has <a href="insert.txt.html#a" class="d">a</a> match selects until that match (like using "v%").  If the match <a href="motion.txt.html#is" class="d">is</a>
+an #if/#else/#endif block, the selection becomes linewise.
+For <a href="os_win32.txt.html#MS-Windows" class="d">MS-Windows</a> and xterm the time for double clicking can be set with the
+<a href="options.txt.html#%27mousetime%27" class="o">'mousetime'</a> option.  For the other systems this time <a href="motion.txt.html#is" class="d">is</a> defined outside of
+Vim.
+An example, for using <a href="insert.txt.html#a" class="d">a</a> double click to jump to the <a href="tagsrch.txt.html#tag" class="d">tag</a> under the cursor: 
+<span class="e">	:map &lt;2-LeftMouse&gt; :exe "tag " .. expand("&lt;cword&gt;")&lt;CR&gt;</span>
+<span class="e"></span>
+Dragging the mouse with <a href="insert.txt.html#a" class="d">a</a> double click (button-down, button-up, button-down
+and then drag) will result in whole words to be selected.  This continues
+until the button <a href="motion.txt.html#is" class="d">is</a> released, <a href="motion.txt.html#at" class="d">at</a> which point the selection <a href="motion.txt.html#is" class="d">is</a> per character
+again.
+
+For <a href="scroll.txt.html#scrolling" class="d">scrolling</a> with the mouse see <a href="scroll.txt.html#scroll-mouse-wheel" class="l">scroll-mouse-wheel</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="gpm-mouse" class="t">gpm-mouse</span>
+The GPM mouse <a href="motion.txt.html#is" class="d">is</a> only supported when the <a href="various.txt.html#%2Bmouse_gpm" class="l">+mouse_gpm</a> feature was enabled <a href="motion.txt.html#at" class="d">at</a>
+compile time.  The GPM mouse driver (Linux console) does not support quadruple
+clicks.
+
+In <a href="insert.txt.html#Insert" class="d">Insert</a> mode, when <a href="insert.txt.html#a" class="d">a</a> selection <a href="motion.txt.html#is" class="d">is</a> started, Vim goes into <a href="intro.txt.html#Normal" class="d">Normal</a> mode
+temporarily.  When <a href="visual.txt.html#Visual" class="d">Visual</a> or <a href="visual.txt.html#Select" class="d">Select</a> mode ends, <a href="motion.txt.html#it" class="d">it</a> returns to <a href="insert.txt.html#Insert" class="d">Insert</a> mode.
+This <a href="motion.txt.html#is" class="d">is</a> like using <a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a> in <a href="insert.txt.html#Insert" class="d">Insert</a> mode.  <a href="visual.txt.html#Select" class="d">Select</a> mode <a href="motion.txt.html#is" class="d">is</a> used when the
+<a href="options.txt.html#%27selectmode%27" class="o">'selectmode'</a> option contains "mouse"<a href="repeat.txt.html#." class="d">.</a>
+							<span id="sysmouse" class="t">sysmouse</span>
+The <a href="term.txt.html#sysmouse" class="d">sysmouse</a> <a href="motion.txt.html#is" class="d">is</a> only supported when the <a href="various.txt.html#%2Bmouse_sysmouse" class="l">+mouse_sysmouse</a> feature was enabled
+<a href="motion.txt.html#at" class="d">at</a> compile time.  The <a href="term.txt.html#sysmouse" class="d">sysmouse</a> driver <a href="motion.txt.html#%28" class="d">(</a>*BSD console) does not support keyboard
+modifiers.
+
+							<span id="drag-status-line" class="t">drag-status-line</span>
+When working with several windows, the size of the <a href="windows.txt.html#windows" class="d">windows</a> can be changed by
+dragging the status line with the mouse.  Point the mouse <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> status line,
+press the left button, move the mouse to the new position of the status line,
+release the button.  Just clicking the mouse in <a href="insert.txt.html#a" class="d">a</a> status line makes that
+<a href="windows.txt.html#window" class="d">window</a> the current window, without moving the cursor.  If by selecting <a href="insert.txt.html#a" class="d">a</a>
+<a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#it" class="d">it</a> will change position or size, the dragging of the status line will
+look confusing, but <a href="motion.txt.html#it" class="d">it</a> will work (just try it).
+
+					<span id="%3CMiddleRelease%3E" class="t">&lt;MiddleRelease&gt;</span> <span id="%3CMiddleDrag%3E" class="t">&lt;MiddleDrag&gt;</span>
+Mouse clicks can be mapped.  The codes for mouse clicks are:
+<span class="h">     code	    mouse button	      normal action	</span>
+ <a href="visual.txt.html#%3CLeftMouse%3E" class="s">&lt;LeftMouse&gt;</a>	 left pressed		    set cursor position
+ <a href="term.txt.html#%3CLeftDrag%3E" class="s">&lt;LeftDrag&gt;</a>	 left moved while pressed   extend selection
+ <a href="visual.txt.html#%3CLeftRelease%3E" class="s">&lt;LeftRelease&gt;</a>	 left released		    set selection <a href="intro.txt.html#end" class="d">end</a>
+ <a href="change.txt.html#%3CMiddleMouse%3E" class="s">&lt;MiddleMouse&gt;</a>	 middle pressed		    paste text <a href="motion.txt.html#at" class="d">at</a> cursor position
+ <a href="term.txt.html#%3CMiddleDrag%3E" class="s">&lt;MiddleDrag&gt;</a>	 middle moved while pressed <a href="motion.txt.html#-" class="d">-</a>
+ <a href="term.txt.html#%3CMiddleRelease%3E" class="s">&lt;MiddleRelease&gt;</a> middle released	    <a href="motion.txt.html#-" class="d">-</a>
+ <a href="visual.txt.html#%3CRightMouse%3E" class="s">&lt;RightMouse&gt;</a>	 right pressed		    extend selection
+ <a href="term.txt.html#%3CRightDrag%3E" class="s">&lt;RightDrag&gt;</a>	 right moved while pressed  extend selection
+ <a href="term.txt.html#%3CRightRelease%3E" class="s">&lt;RightRelease&gt;</a>  right released		    set selection <a href="intro.txt.html#end" class="d">end</a>
+ <span class="s">&lt;X1Mouse&gt;</span>	 X1 button pressed	    <a href="motion.txt.html#-" class="d">-</a>			<span id="X1Mouse" class="t">X1Mouse</span>
+ <span class="s">&lt;X1Drag&gt;</span>	 X1 moved while pressed	    <a href="motion.txt.html#-" class="d">-</a>			<span id="X1Drag" class="t">X1Drag</span>
+ <span class="s">&lt;X1Release&gt;</span>	 X1 button release	    <a href="motion.txt.html#-" class="d">-</a>			<span id="X1Release" class="t">X1Release</span>
+ <span class="s">&lt;X2Mouse&gt;</span>	 X2 button pressed	    <a href="motion.txt.html#-" class="d">-</a>			<span id="X2Mouse" class="t">X2Mouse</span>
+ <span class="s">&lt;X2Drag&gt;</span>	 X2 moved while pressed     <a href="motion.txt.html#-" class="d">-</a>			<span id="X2Drag" class="t">X2Drag</span>
+ <span class="s">&lt;X2Release&gt;</span>	 X2 button release	    <a href="motion.txt.html#-" class="d">-</a>			<span id="X2Release" class="t">X2Release</span>
+
+The X1 and X2 buttons refer to the extra buttons found on some mice.  The
+'Microsoft Explorer' mouse has these buttons available to the right thumb.
+Currently, X1 and X2 work only on <a href="os_win32.txt.html#Win32" class="d">Win32</a> and <a href="options.txt.html#X11" class="d">X11</a> environments, and in terminals
+that support xterm-like mouse functionality.
+
+Examples: 
+<span class="e">	:noremap &lt;MiddleMouse&gt; &lt;LeftMouse&gt;&lt;MiddleMouse&gt;</span>
+Paste <a href="motion.txt.html#at" class="d">at</a> the position of the middle mouse button click (otherwise the paste
+would be done <a href="motion.txt.html#at" class="d">at</a> the cursor position). 
+<span class="e"></span>
+<span class="e">	:noremap &lt;LeftRelease&gt; &lt;LeftRelease&gt;y</span>
+Immediately <a href="change.txt.html#yank" class="d">yank</a> the selection, when using <a href="visual.txt.html#Visual" class="d">Visual</a> mode.
+
+<span class="n">Note</span> the use of "<a href="map.txt.html#%3Anoremap" class="d">:noremap</a>" instead of "map" to avoid <a href="insert.txt.html#a" class="d">a</a> recursive mapping.
+
+<span class="e">	:map &lt;X1Mouse&gt; &lt;C-O&gt;</span>
+<span class="e">	:map &lt;X2Mouse&gt; &lt;C-I&gt;</span>
+Map the X1 and X2 buttons to <a href="motion.txt.html#go" class="d">go</a> forwards and backwards in the jump list, see
+<a href="motion.txt.html#CTRL-O" class="l">CTRL-O</a> and <a href="motion.txt.html#CTRL-I" class="l">CTRL-I</a><a href="repeat.txt.html#." class="d">.</a>
+
+						<span id="mouse-swap-buttons" class="t">mouse-swap-buttons</span>
+To swap the meaning of the left and right mouse buttons: 
+<span class="e">	:noremap	&lt;LeftMouse&gt;	&lt;RightMouse&gt;</span>
+<span class="e">	:noremap	&lt;LeftDrag&gt;	&lt;RightDrag&gt;</span>
+<span class="e">	:noremap	&lt;LeftRelease&gt;	&lt;RightRelease&gt;</span>
+<span class="e">	:noremap	&lt;RightMouse&gt;	&lt;LeftMouse&gt;</span>
+<span class="e">	:noremap	&lt;RightDrag&gt;	&lt;LeftDrag&gt;</span>
+<span class="e">	:noremap	&lt;RightRelease&gt;	&lt;LeftRelease&gt;</span>
+<span class="e">	:noremap	g&lt;LeftMouse&gt;	&lt;C-RightMouse&gt;</span>
+<span class="e">	:noremap	g&lt;RightMouse&gt;	&lt;C-LeftMouse&gt;</span>
+<span class="e">	:noremap!	&lt;LeftMouse&gt;	&lt;RightMouse&gt;</span>
+<span class="e">	:noremap!	&lt;LeftDrag&gt;	&lt;RightDrag&gt;</span>
+<span class="e">	:noremap!	&lt;LeftRelease&gt;	&lt;RightRelease&gt;</span>
+<span class="e">	:noremap!	&lt;RightMouse&gt;	&lt;LeftMouse&gt;</span>
+<span class="e">	:noremap!	&lt;RightDrag&gt;	&lt;LeftDrag&gt;</span>
+<span class="e">	:noremap!	&lt;RightRelease&gt;	&lt;LeftRelease&gt;</span>
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

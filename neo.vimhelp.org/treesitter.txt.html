@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: treesitter.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="treesitter.txt.html#">↑Top↑</a></li>
+<li><a href="treesitter.txt.html#lua-treesitter-core">Lua module: vim.treesitter</a></li>
+<li><a href="treesitter.txt.html#treesitter-language">Lua module: vim.treesitter.language</a></li>
+<li><a href="treesitter.txt.html#lua-treesitter-query">Lua module: vim.treesitter.query</a></li>
+<li><a href="treesitter.txt.html#treesitter-languagetree">Lua module: vim.treesitter.languagetree</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="treesitter.txt" class="t">treesitter.txt</span>    Nvim
+
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Treesitter integration                                 <span id="treesitter" class="t">treesitter</span>
+
+Nvim integrates the <span class="e">tree-sitter</span> library <a href="luaref.txt.html#for" class="d">for</a> incremental parsing of buffers:
+<a class="u" href="https://tree-sitter.github.io/tree-sitter/">https://tree-sitter.github.io/tree-sitter/</a>
+
+WARNING: Treesitter <a href="support.txt.html#support" class="d">support</a> <a href="motion.txt.html#is" class="d">is</a> still experimental and subject to frequent
+changes. This documentation may also not fully reflect the latest changes.
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+<span class="c">PARSER FILES</span>                                              <span id="treesitter-parsers" class="t">treesitter-parsers</span>
+
+Parsers are the heart of treesitter. They are libraries that <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> will
+search <a href="luaref.txt.html#for" class="d">for</a> in the <span class="e">parser</span> runtime directory.
+
+Nvim includes these parsers:
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="change.txt.html#C" class="d">C</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="lua.txt.html#Lua" class="d">Lua</a>
+<a href="motion.txt.html#-" class="d">-</a> Markdown
+<a href="motion.txt.html#-" class="d">-</a> Vimscript
+<a href="motion.txt.html#-" class="d">-</a> Vimdoc
+<a href="motion.txt.html#-" class="d">-</a> Treesitter query files <a href="filetype.txt.html#ft-query-plugin" class="l">ft-query-plugin</a>
+
+You can <a href="intro.txt.html#install" class="d">install</a> more parsers manually, or with <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> like
+<a class="u" href="https://github.com/nvim-treesitter/nvim-treesitter">https://github.com/nvim-treesitter/nvim-treesitter</a> <a href="repeat.txt.html#." class="d">.</a>
+
+Parsers are searched <a href="luaref.txt.html#for" class="d">for</a> <a href="motion.txt.html#as" class="d">as</a> <span class="e">parser/{lang}.*</span> in any <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> directory.
+If multiple parsers <a href="luaref.txt.html#for" class="d">for</a> the same language are found, the first one <a href="motion.txt.html#is" class="d">is</a> used.
+(NOTE: This typically implies the priority "user <a href="starting.txt.html#config" class="d">config</a> <a href="change.txt.html#%3E" class="d">&gt;</a> plugins <a href="change.txt.html#%3E" class="d">&gt;</a> bundled".)
+
+To load <a href="insert.txt.html#a" class="d">a</a> parser from its filepath: 
+<span class="e"></span>
+<span class="e">    vim.treesitter.language.add('python', { path = "/path/to/python.so" })</span>
+
+Parser names are assumed to be lower <a href="change.txt.html#case" class="d">case</a> if the file system <a href="motion.txt.html#is" class="d">is</a>
+case-sensitive.
+
+To associate certain <a href="filetype.txt.html#filetypes" class="l">filetypes</a> with <a href="insert.txt.html#a" class="d">a</a> <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> language (name of parser),
+use <a href="treesitter.txt.html#vim.treesitter.language.register%28%29" class="l">vim.treesitter.language.register()</a><a href="repeat.txt.html#." class="d">.</a> For example, to use the <span class="e">xml</span>
+<a href="treesitter.txt.html#treesitter" class="d">treesitter</a> parser <a href="luaref.txt.html#for" class="d">for</a> <a href="windows.txt.html#buffers" class="d">buffers</a> with <a href="filetype.txt.html#filetype" class="d">filetype</a> <span class="e">svg</span> or <span class="e">xslt</span>, use: 
+<span class="e"></span>
+<span class="e">    vim.treesitter.language.register('xml', { 'svg', 'xslt' })</span>
+
+                                                    <span id="treesitter-parsers-wasm" class="t">treesitter-parsers-wasm</span>
+
+If Nvim <a href="motion.txt.html#is" class="d">is</a> built with <span class="e">ENABLE_WASMTIME</span>, then wasm parsers can also be
+loaded: 
+<span class="e"></span>
+<span class="e">    vim.treesitter.language.add('python', { path = "/path/to/python.wasm" })</span>
+
+
+<span class="h">==============================================================================</span>
+<span class="c">TREESITTER QUERIES</span>                                          <span id="treesitter-query" class="t">treesitter-query</span>
+
+Treesitter queries are <a href="insert.txt.html#a" class="d">a</a> way to extract information about <a href="insert.txt.html#a" class="d">a</a> parsed <a href="treesitter.txt.html#TSTree" class="l">TSTree</a><a href="motion.txt.html#%2C" class="d">,</a>
+e.g., <a href="luaref.txt.html#for" class="d">for</a> the purpose of highlighting. Briefly, <a href="insert.txt.html#a" class="d">a</a> <span class="e">query</span> consists of one or
+more patterns. <a href="insert.txt.html#A" class="d">A</a> <span class="e">pattern</span> <a href="motion.txt.html#is" class="d">is</a> defined over node types in the <a href="syntax.txt.html#syntax" class="d">syntax</a> tree. <a href="insert.txt.html#A" class="d">A</a>
+<span class="e">match</span> corresponds to specific elements of the <a href="syntax.txt.html#syntax" class="d">syntax</a> tree which match <a href="insert.txt.html#a" class="d">a</a>
+pattern. Patterns may optionally define captures and predicates. <a href="insert.txt.html#A" class="d">A</a> <span class="e">capture</span>
+allows you to associate names with <a href="insert.txt.html#a" class="d">a</a> specific node in <a href="insert.txt.html#a" class="d">a</a> pattern. <a href="insert.txt.html#A" class="d">A</a> <span class="e">predicate</span>
+adds arbitrary metadata and conditional data to <a href="insert.txt.html#a" class="d">a</a> match.
+
+Queries are written in <a href="insert.txt.html#a" class="d">a</a> lisp-like language documented in
+<a class="u" href="https://tree-sitter.github.io/tree-sitter/using-parsers#query-syntax">https://tree-sitter.github.io/tree-sitter/using-parsers#query-syntax</a>
+<span class="n">Note:</span> The predicates listed there differ from those Nvim supports. See
+<a href="treesitter.txt.html#treesitter-predicates" class="l">treesitter-predicates</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> complete <a href="vimeval.txt.html#list" class="d">list</a> of predicates supported by Nvim.
+
+Nvim looks <a href="luaref.txt.html#for" class="d">for</a> queries <a href="motion.txt.html#as" class="d">as</a> <span class="e">*.scm</span> files in <a href="insert.txt.html#a" class="d">a</a> <span class="e">queries</span> directory under
+<span class="e">runtimepath</span>, where each file contains queries <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> specific language and
+purpose, e.g., <span class="e">queries/lua/highlights.scm</span> <a href="luaref.txt.html#for" class="d">for</a> highlighting <a href="lua.txt.html#Lua" class="d">Lua</a> files.
+By default, the first query on <span class="e">runtimepath</span> <a href="motion.txt.html#is" class="d">is</a> used (which usually implies
+that user <a href="starting.txt.html#config" class="d">config</a> takes precedence over plugins, which take precedence over
+queries bundled with Nvim). If <a href="insert.txt.html#a" class="d">a</a> query should extend other queries instead
+of <a href="change.txt.html#replacing" class="d">replacing</a> them, use <a href="treesitter.txt.html#treesitter-query-modeline-extends" class="l">treesitter-query-modeline-extends</a><a href="repeat.txt.html#." class="d">.</a>
+
+The <a href="lua.txt.html#Lua" class="d">Lua</a> interface <a href="motion.txt.html#is" class="d">is</a> described <a href="motion.txt.html#at" class="d">at</a> <a href="treesitter.txt.html#lua-treesitter-query" class="l">lua-treesitter-query</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">TREESITTER QUERY PREDICATES</span>                            <span id="treesitter-predicates" class="t">treesitter-predicates</span>
+
+Predicates are special scheme nodes that are evaluated to conditionally capture
+nodes. For example, the <span class="e">eq?</span> predicate can be used <a href="motion.txt.html#as" class="d">as</a> follows: &gt;query
+
+    ((identifier) @variable.builtin
+      (#eq? @variable.builtin "<a href="vimeval.txt.html#self" class="d">self</a>"))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+to only match identifier corresponding to the <span class="e">"self"</span> text. Such queries can
+be used to highlight built-in <a href="vimeval.txt.html#functions" class="d">functions</a> or <a href="vimeval.txt.html#variables" class="d">variables</a> differently, <a href="luaref.txt.html#for" class="d">for</a> instance.
+
+The following predicates are built in:
+
+    <span class="e">eq?</span>                                            <span id="treesitter-predicate-eq%3F" class="t">treesitter-predicate-eq?</span>
+        Match <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> against the text corresponding to <a href="insert.txt.html#a" class="d">a</a> node: &gt;query
+            ((identifier) @variable.builtin (#eq? @variable.builtin "<a href="vimeval.txt.html#self" class="d">self</a>"))
+            ((node1) @left (node2) @right (#eq? @left @right))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+    <span class="e">any-eq?</span>                                    <span id="treesitter-predicate-any-eq%3F" class="t">treesitter-predicate-any-eq?</span>
+        Like <span class="e">eq?</span>, but <a href="luaref.txt.html#for" class="d">for</a> quantified patterns only one captured node must
+        match.
+
+    <span class="e">match?</span>                                      <span id="treesitter-predicate-match%3F" class="t">treesitter-predicate-match?</span>
+    <span class="e">vim-match?</span>                              <span id="treesitter-predicate-vim-match%3F" class="t">treesitter-predicate-vim-match?</span>
+         Match <a href="insert.txt.html#a" class="d">a</a> <a href="pattern.txt.html#regexp" class="l">regexp</a> against the text corresponding to <a href="insert.txt.html#a" class="d">a</a> node: &gt;query
+            ((identifier) @constant (#match? @constant "^[A-Z_]+$"))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+         <span class="n">Note:</span> The <span class="e">^</span> and <span class="e">$</span> anchors will match the start and <a href="intro.txt.html#end" class="d">end</a> of the
+               node's text.
+
+    <span class="e">any-match?</span>                              <span id="treesitter-predicate-any-match%3F" class="t">treesitter-predicate-any-match?</span>
+    <span class="e">any-vim-match?</span>                      <span id="treesitter-predicate-any-vim-match%3F" class="t">treesitter-predicate-any-vim-match?</span>
+        Like <span class="e">match?</span>, but <a href="luaref.txt.html#for" class="d">for</a> quantified patterns only one captured node must
+        match.
+
+    <span class="e">lua-match?</span>                              <span id="treesitter-predicate-lua-match%3F" class="t">treesitter-predicate-lua-match?</span>
+         Match <a href="luaref.txt.html#lua-pattern" class="l">lua-pattern</a><a href="change.txt.html#s" class="d">s</a> against the text corresponding to <a href="insert.txt.html#a" class="d">a</a> node,
+         similar to <span class="e">match?</span>
+
+    <span class="e">any-lua-match?</span>                      <span id="treesitter-predicate-any-lua-match%3F" class="t">treesitter-predicate-any-lua-match?</span>
+         Like <span class="e">lua-match?</span>, but <a href="luaref.txt.html#for" class="d">for</a> quantified patterns only one captured node
+         must match.
+
+    <span class="e">contains?</span>                                <span id="treesitter-predicate-contains%3F" class="t">treesitter-predicate-contains?</span>
+        Match <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> against parts of the text corresponding to <a href="insert.txt.html#a" class="d">a</a> node: &gt;query
+            ((identifier) @foo (#contains? @foo "foo"))
+            ((identifier) @foo-bar (#contains? @foo-bar "foo" "<a href="motion.txt.html#bar" class="d">bar</a>"))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+    <span class="e">any-contains?</span>                        <span id="treesitter-predicate-any-contains%3F" class="t">treesitter-predicate-any-contains?</span>
+        Like <span class="e">contains?</span>, but <a href="luaref.txt.html#for" class="d">for</a> quantified patterns only one captured node
+        must match.
+
+    <span class="e">any-of?</span>                                    <span id="treesitter-predicate-any-of%3F" class="t">treesitter-predicate-any-of?</span>
+        Match any of the given strings against the text corresponding to
+        <a href="insert.txt.html#a" class="d">a</a> node: &gt;query
+            ((identifier) @foo (#any-of? @foo "foo" "<a href="motion.txt.html#bar" class="d">bar</a>"))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+        This <a href="motion.txt.html#is" class="d">is</a> the recommended way to check if the node matches one of many
+        keywords, <a href="motion.txt.html#as" class="d">as</a> <a href="motion.txt.html#it" class="d">it</a> has been optimized <a href="luaref.txt.html#for" class="d">for</a> this.
+
+    <span class="e">has-ancestor?</span>                        <span id="treesitter-predicate-has-ancestor%3F" class="t">treesitter-predicate-has-ancestor?</span>
+        Match any of the given node types against all ancestors of <a href="insert.txt.html#a" class="d">a</a> node: &gt;query
+            ((identifier) @variable.builtin
+              (#any-of? @variable.builtin "begin" "<a href="intro.txt.html#end" class="d">end</a>"<a href="motion.txt.html#%29" class="d">)</a>
+              (#has-ancestor? @variable.builtin range_expression))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+    <span class="e">has-parent?</span>                            <span id="treesitter-predicate-has-parent%3F" class="t">treesitter-predicate-has-parent?</span>
+        Match any of the given node types against the direct ancestor of <a href="insert.txt.html#a" class="d">a</a>
+        node: &gt;query
+            (((field_expression
+                 (field_identifier) @method)) @_parent
+             (#has-parent? @_parent template_method function_declarator))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+                                                    <span id="treesitter-predicate-not" class="t">treesitter-predicate-not</span>
+Each predicate has <a href="insert.txt.html#a" class="d">a</a> <span class="e">not-</span> prefixed predicate that <a href="motion.txt.html#is" class="d">is</a> just the negation of
+the predicate.
+
+                                                    <span id="treesitter-predicate-all" class="t">treesitter-predicate-all</span>
+                                                    <span id="treesitter-predicate-any" class="t">treesitter-predicate-any</span>
+Queries can use quantifiers to capture multiple nodes. When <a href="insert.txt.html#a" class="d">a</a> capture contains
+multiple nodes, predicates match only if ALL nodes contained by the capture
+match the predicate. Some predicates (`eq?`, <span class="e">match?</span>, <span class="e">lua-match?</span>,
+<span class="e">contains?</span>) accept an <span class="e">any-</span> prefix to instead match if ANY of the nodes
+contained by the capture match the predicate.
+
+As an example, consider the following <a href="lua.txt.html#Lua" class="d">Lua</a> code: 
+<span class="e"></span>
+<span class="e">  -- TODO: This is a</span>
+<span class="e">  -- very long</span>
+<span class="e">  -- comment (just imagine it)</span>
+
+using the following predicated query:
+&gt;query
+    (((comment)+ @comment)
+     (#match? @comment "TODO"))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+This query will not match because not all of the nodes captured by @comment
+match the predicate. Instead, use:
+&gt;query
+    (((comment)+ @comment)
+     (#any-match? @comment "TODO"))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+Further predicates can be added via <a href="treesitter.txt.html#vim.treesitter.query.add_predicate%28%29" class="l">vim.treesitter.query.add_predicate()</a><a href="repeat.txt.html#." class="d">.</a>
+Use <a href="treesitter.txt.html#vim.treesitter.query.list_predicates%28%29" class="l">vim.treesitter.query.list_predicates()</a> to <a href="vimeval.txt.html#list" class="d">list</a> all available predicates.
+
+
+<span class="c">TREESITTER QUERY DIRECTIVES</span>                            <span id="treesitter-directives" class="t">treesitter-directives</span>
+
+Treesitter directives store metadata <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> node or match and perform side
+effects. For example, the <span class="e">set!</span> directive sets metadata on the match or node: &gt;query
+
+        ((identifier) @foo (#set! type "parameter"))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+The following directives are built in:
+
+    <span class="e">set!</span>                                          <span id="treesitter-directive-set%21" class="t">treesitter-directive-set!</span>
+        Sets key/value metadata <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> specific match or capture. Value <a href="motion.txt.html#is" class="d">is</a>
+        accessible <a href="motion.txt.html#as" class="d">as</a> either <span class="e">metadata[key]</span> (match specific) or
+        <span class="e">metadata[capture_id][key]</span> (capture specific).
+
+<span class="h">        Parameters: </span>
+            <span class="s">{capture_id}</span> (optional)
+            <span class="s">{key}</span>
+            <span class="s">{value}</span>
+
+        Examples: &gt;query
+            ((identifier) @foo (#set! @foo kind "parameter"))
+            ((node1) @left (node2) @right (#set! type "pair"))
+            ((codeblock) @markup.raw.block (#set! priority 90))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+    <span class="e">offset!</span>                                      <span id="treesitter-directive-offset%21" class="t">treesitter-directive-offset!</span>
+        Takes the range of the captured node and applies an offset. This will
+        set <a href="insert.txt.html#a" class="d">a</a> new range in the form of <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> like <span class="s">{ {start_row}</span>, <span class="s">{start_col}</span>,
+        <span class="s">{end_row}</span>, <span class="s">{end_col}</span> <a href="motion.txt.html#%7D" class="d">}</a> <a href="luaref.txt.html#for" class="d">for</a> the captured node with <span class="e">capture_id</span> <a href="motion.txt.html#as" class="d">as</a>
+        <span class="e">metadata[capture_id].range</span>. Useful <a href="luaref.txt.html#for" class="d">for</a> <a href="treesitter.txt.html#treesitter-language-injections" class="l">treesitter-language-injections</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">        Parameters: </span>
+            <span class="s">{capture_id}</span>
+            <span class="s">{start_row}</span>
+            <span class="s">{start_col}</span>
+            <span class="s">{end_row}</span>
+            <span class="s">{end_col}</span>
+
+        Example: &gt;query
+            ((identifier) @constant (#offset! @constant <a href="motion.txt.html#0" class="d">0</a> 1 <a href="motion.txt.html#0" class="d">0</a> -1))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+    <span class="e">gsub!</span>                                          <span id="treesitter-directive-gsub%21" class="t">treesitter-directive-gsub!</span>
+        Transforms the content of the node using <a href="insert.txt.html#a" class="d">a</a> <a href="luaref.txt.html#lua-pattern" class="l">lua-pattern</a><a href="repeat.txt.html#." class="d">.</a> This will set
+        <a href="insert.txt.html#a" class="d">a</a> new <span class="e">metadata[capture_id].text</span>.
+
+<span class="h">        Parameters: </span>
+            <span class="s">{capture_id}</span>
+            <span class="s">{pattern}</span>
+            <span class="s">{replacement}</span>
+
+        Example: &gt;query
+            (#gsub! @_node "<a href="repeat.txt.html#." class="d">.</a>*%.(.*<a href="motion.txt.html#%29" class="d">)</a>" "%1"<a href="motion.txt.html#%29" class="d">)</a>
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+    <span class="e">trim!</span>                                          <span id="treesitter-directive-trim%21" class="t">treesitter-directive-trim!</span>
+        Trims <a href="pattern.txt.html#whitespace" class="d">whitespace</a> from the node. Sets <a href="insert.txt.html#a" class="d">a</a> new
+        <span class="e">metadata[capture_id].range</span>. Takes <a href="insert.txt.html#a" class="d">a</a> capture ID and, optionally, four
+        integers to customize trimming behavior (`1` meaning trim, <span class="e">0</span> meaning
+        don't trim). When only given <a href="insert.txt.html#a" class="d">a</a> capture ID, trims blank lines (lines
+        that contain only whitespace, or are empty) from the <a href="intro.txt.html#end" class="d">end</a> of the node
+        (for backwards compatibility). Can trim all <a href="pattern.txt.html#whitespace" class="d">whitespace</a> from both sides
+        of the node if parameters are given.
+
+        Examples: &gt;query
+            <a href="motion.txt.html#%3B" class="d">;</a> only trim blank lines from the <a href="intro.txt.html#end" class="d">end</a> of the node
+            <a href="motion.txt.html#%3B" class="d">;</a> (equivalent to (#trim! @fold <a href="motion.txt.html#0" class="d">0</a> <a href="motion.txt.html#0" class="d">0</a> 1 0))
+            (#trim! @fold)
+
+            <a href="motion.txt.html#%3B" class="d">;</a> trim blank lines from both sides of the node
+            (#trim! @fold 1 <a href="motion.txt.html#0" class="d">0</a> 1 0)
+
+            <a href="motion.txt.html#%3B" class="d">;</a> trim all <a href="pattern.txt.html#whitespace" class="d">whitespace</a> around the node
+            (#trim! @fold 1 1 1 1)
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+<span class="h">        Parameters: </span>
+            <span class="s">{capture_id}</span>
+            <span class="s">{trim_start_linewise}</span>
+            <span class="s">{trim_start_charwise}</span>
+            <span class="s">{trim_end_linewise}</span> (default <span class="e">1</span> if only given <span class="s">{capture_id}</span>)
+            <span class="s">{trim_end_charwise}</span>
+
+Further directives can be added via <a href="treesitter.txt.html#vim.treesitter.query.add_directive%28%29" class="l">vim.treesitter.query.add_directive()</a><a href="repeat.txt.html#." class="d">.</a>
+Use <a href="treesitter.txt.html#vim.treesitter.query.list_directives%28%29" class="l">vim.treesitter.query.list_directives()</a> to <a href="vimeval.txt.html#list" class="d">list</a> all available directives.
+
+
+<span class="c">TREESITTER QUERY MODELINES</span>                          <span id="treesitter-query-modeline" class="t">treesitter-query-modeline</span>
+
+Nvim supports to customize the behavior of the queries using <a href="insert.txt.html#a" class="d">a</a> set of
+"modelines"<a href="motion.txt.html#%2C" class="d">,</a> that <a href="motion.txt.html#is" class="d">is</a> comments in the queries <a href="starting.txt.html#starting" class="d">starting</a> with <span class="e">;</span>. Here are the
+currently supported <a href="options.txt.html#modeline" class="d">modeline</a> alternatives:
+
+    `inherits: <span class="s">{lang}</span>...`                     <span id="treesitter-query-modeline-inherits" class="t">treesitter-query-modeline-inherits</span>
+        Specifies that this query should inherit the queries from <span class="s">{lang}</span>.
+        This will recursively descend in the queries of <span class="s">{lang}</span> unless wrapped
+        in parentheses: <span class="e">({lang})</span>.
+        <span class="n">Note:</span> This <a href="motion.txt.html#is" class="d">is</a> meant to be used to include queries from another
+        language. If you want your query to extend the queries of the same
+        language, use <span class="e">extends</span>.
+
+    <span class="e">extends</span>                                  <span id="treesitter-query-modeline-extends" class="t">treesitter-query-modeline-extends</span>
+        Specifies that this query should be used <a href="motion.txt.html#as" class="d">as</a> an extension <a href="luaref.txt.html#for" class="d">for</a> the
+        query, i.e. that <a href="motion.txt.html#it" class="d">it</a> should be merged with the others.
+        <span class="n">Note:</span> The order of the extensions, and the query that will be used <a href="motion.txt.html#as" class="d">as</a>
+        <a href="insert.txt.html#a" class="d">a</a> base depends on your <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> value.
+
+<span class="n">Note:</span> These <a href="options.txt.html#modeline" class="d">modeline</a> comments must be <a href="motion.txt.html#at" class="d">at</a> the top of the query, but can be
+repeated, <a href="luaref.txt.html#for" class="d">for</a> example, the following two <a href="options.txt.html#modeline" class="d">modeline</a> blocks are both valid:
+&gt;query
+    ;; inherits: typescript,jsx
+    ;; extends
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+&gt;query
+    ;; extends
+    ;;
+    ;; inherits: css
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+<span class="h">==============================================================================</span>
+<span class="c">TREESITTER SYNTAX HIGHLIGHTING</span>                          <span id="treesitter-highlight" class="t">treesitter-highlight</span>
+
+<a href="autocmd.txt.html#Syntax" class="d">Syntax</a> highlighting <a href="motion.txt.html#is" class="d">is</a> specified through queries named <span class="e">highlights.scm</span>,
+which match <a href="insert.txt.html#a" class="d">a</a> <a href="treesitter.txt.html#TSNode" class="l">TSNode</a> in the parsed <a href="treesitter.txt.html#TSTree" class="l">TSTree</a> to <a href="insert.txt.html#a" class="d">a</a> <span class="e">capture</span> that can be
+assigned <a href="insert.txt.html#a" class="d">a</a> highlight group. For example, the query &gt;query
+
+    (parameters (identifier) @variable.parameter)
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+matches any <span class="e">identifier</span> node inside <a href="insert.txt.html#a" class="d">a</a> function <span class="e">parameters</span> node to the
+capture named <span class="e">@variable.parameter</span>. For example, <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> code 
+<span class="e"></span>
+<span class="e">    function f(foo, bar) end</span>
+
+which will be parsed <a href="motion.txt.html#as" class="d">as</a> (see <a href="treesitter.txt.html#%3AInspectTree" class="l">:InspectTree</a>): &gt;query
+
+    (function_declaration <a href="motion.txt.html#%3B" class="d">;</a> [1:1 <a href="motion.txt.html#-" class="d">-</a> 24]
+      name: (identifier) <a href="motion.txt.html#%3B" class="d">;</a> [1:10 <a href="motion.txt.html#-" class="d">-</a> 10]
+      parameters: (parameters <a href="motion.txt.html#%3B" class="d">;</a> [1:11 <a href="motion.txt.html#-" class="d">-</a> 20]
+        name: (identifier) <a href="motion.txt.html#%3B" class="d">;</a> [1:12 <a href="motion.txt.html#-" class="d">-</a> 14]
+        name: (identifier))) <a href="motion.txt.html#%3B" class="d">;</a> [1:17 <a href="motion.txt.html#-" class="d">-</a> 19]
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+the above query will highlight <span class="e">foo</span> and <span class="e">bar</span> <a href="motion.txt.html#as" class="d">as</a> <span class="e">@variable.parameter</span>.
+
+It <a href="motion.txt.html#is" class="d">is</a> also possible to match literal expressions (provided the parser returns
+them):
+&gt;query
+    <a href="index.txt.html#%5B" class="d">[</a>
+      "if"
+      "else"
+    <a href="index.txt.html#%5D" class="d">]</a> @keyword.conditional
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+Assuming <a href="insert.txt.html#a" class="d">a</a> suitable parser and <span class="e">highlights.scm</span> query <a href="motion.txt.html#is" class="d">is</a> found in runtimepath,
+<a href="treesitter.txt.html#treesitter" class="d">treesitter</a> highlighting <a href="luaref.txt.html#for" class="d">for</a> the current buffer can be enabled simply via
+<a href="treesitter.txt.html#vim.treesitter.start%28%29" class="l">vim.treesitter.start()</a><a href="repeat.txt.html#." class="d">.</a>
+
+                                                 <span id="treesitter-highlight-groups" class="t">treesitter-highlight-groups</span>
+The capture names, prefixed with <span class="e">@</span>, are directly usable <a href="motion.txt.html#as" class="d">as</a> highlight groups.
+For many commonly used captures, the corresponding highlight groups are linked
+to Nvim's standard <a href="syntax.txt.html#highlight-groups" class="l">highlight-groups</a> by default (e.g., <span class="e">@comment</span> links to
+<span class="e">Comment</span>) but can be overridden in colorschemes.
+
+<a href="insert.txt.html#A" class="d">A</a> fallback system <a href="motion.txt.html#is" class="d">is</a> implemented, so that more specific groups fallback to
+more generic ones. For instance, in <a href="insert.txt.html#a" class="d">a</a> language that has separate doc comments
+(e.g., c, java, etc.), <span class="e">@comment.documentation</span> could be used. If this group
+<a href="motion.txt.html#is" class="d">is</a> not defined, the highlighting <a href="luaref.txt.html#for" class="d">for</a> an ordinary <span class="e">@comment</span> <a href="motion.txt.html#is" class="d">is</a> used. This way,
+existing color schemes already work out of the box, but <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> possible to add
+more specific variants <a href="luaref.txt.html#for" class="d">for</a> queries that make them available.
+
+As an additional rule, capture highlights can always be specialized by
+language, by appending the language name after an additional dot. For
+instance, to highlight comments differently per language: 
+<span class="e"></span>
+<span class="e">    hi @comment.c guifg=Blue</span>
+<span class="e">    hi @comment.lua guifg=DarkBlue</span>
+<span class="e">    hi link @comment.documentation.java String</span>
+
+The following <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of standard captures used in queries <a href="luaref.txt.html#for" class="d">for</a> Nvim,
+highlighted according to the current colorscheme (use <a href="lua.txt.html#%3AInspect" class="l">:Inspect</a> on one to see
+the exact definition):
+
+@variable                       <a href="various.txt.html#various" class="d">various</a> variable names
+@variable.builtin               built-in variable names (e.g. <span class="e">this</span>, <span class="e">self</span>)
+@variable.parameter             parameters of <a href="insert.txt.html#a" class="d">a</a> function
+@variable.parameter.builtin     special parameters (e.g. <span class="e">_</span>, <span class="e">it</span>)
+@variable.member                object and struct fields
+
+@constant               constant identifiers
+@constant.builtin       built-in constant values
+@constant.macro         constants defined by the preprocessor
+
+@module                 modules or namespaces
+@module.builtin         built-in modules or namespaces
+@label                  <span class="e">GOTO</span> and other labels (e.g. <span class="e">label:</span> in C), including heredoc labels
+
+@string                 <a href="vimeval.txt.html#string" class="d">string</a> literals
+@string.documentation   <a href="vimeval.txt.html#string" class="d">string</a> documenting code (e.g. <a href="if_pyth.txt.html#Python" class="d">Python</a> docstrings)
+@string.regexp          regular expressions
+@string.escape          <a href="intro.txt.html#escape" class="d">escape</a> sequences
+@string.special         other special strings (e.g. dates)
+@string.special.symbol  symbols or atoms
+@string.special.path    filenames
+@string.special.url     URIs (e.g. hyperlinks)
+
+@character              character literals
+@character.special      special characters (e.g. wildcards)
+
+@boolean                <a href="options.txt.html#boolean" class="d">boolean</a> literals
+@number                 numeric literals
+@number.float           floating-point number literals
+
+@type                   type or class <a href="intro.txt.html#definitions" class="d">definitions</a> and annotations
+@type.builtin           built-in types
+@type.definition        identifiers in type <a href="intro.txt.html#definitions" class="d">definitions</a> (e.g. `typedef <span class="s">&lt;type&gt;</span> <span class="s">&lt;identifier&gt;</span>` in C)
+
+@attribute              attribute annotations (e.g. <a href="if_pyth.txt.html#Python" class="d">Python</a> decorators, Rust lifetimes)
+@attribute.builtin      builtin annotations (e.g. <span class="e">@property</span> in Python)
+@property               the key in key/value pairs
+
+@function               function <a href="intro.txt.html#definitions" class="d">definitions</a>
+@function.builtin       built-in <a href="vimeval.txt.html#functions" class="d">functions</a>
+@function.call          function calls
+@function.macro         preprocessor macros
+
+@function.method        <a href="vimeval.txt.html#method" class="d">method</a> <a href="intro.txt.html#definitions" class="d">definitions</a>
+@function.method.call   <a href="vimeval.txt.html#method" class="d">method</a> calls
+
+@constructor            constructor calls and <a href="intro.txt.html#definitions" class="d">definitions</a>
+@operator               symbolic operators (e.g. <span class="e">+</span>, <span class="e">*</span>)
+
+@keyword                keywords not fitting into specific categories
+@keyword.coroutine      keywords related to coroutines (e.g. <span class="e">go</span> in Go, <span class="e">async/await</span> in Python)
+@keyword.function       keywords that define <a href="insert.txt.html#a" class="d">a</a> function (e.g. <span class="e">func</span> in Go, <span class="e">def</span> in Python)
+@keyword.operator       operators that are English words (e.g. <span class="e">and</span>, <span class="e">or</span>)
+@keyword.import         keywords <a href="luaref.txt.html#for" class="d">for</a> including or exporting modules (e.g. <span class="e">import</span>, <span class="e">from</span> in Python)
+@keyword.type           keywords describing namespaces and composite types (e.g. <span class="e">struct</span>, <span class="e">enum</span>)
+@keyword.modifier       keywords modifying other constructs (e.g. <span class="e">const</span>, <span class="e">static</span>, <span class="e">public</span>)
+@keyword.repeat         keywords related to loops (e.g. <span class="e">for</span>, <span class="e">while</span>)
+@keyword.return         keywords like <span class="e">return</span> and <span class="e">yield</span>
+@keyword.debug          keywords related to debugging
+@keyword.exception      keywords related to exceptions (e.g. <span class="e">throw</span>, <span class="e">catch</span>)
+
+@keyword.conditional         keywords related to conditionals (e.g. <span class="e">if</span>, <span class="e">else</span>)
+@keyword.conditional.ternary <a href="vimeval.txt.html#ternary" class="d">ternary</a> <a href="motion.txt.html#operator" class="d">operator</a> (e.g. <span class="e">?</span>, <span class="e">:</span>)
+
+@keyword.directive           <a href="various.txt.html#various" class="d">various</a> preprocessor directives and shebangs
+@keyword.directive.define    preprocessor definition directives
+
+@punctuation.delimiter  delimiters (e.g. <span class="e">;</span>, <span class="e">.</span>, <span class="e">,</span>)
+@punctuation.bracket    brackets (e.g. <span class="e">()</span>, <span class="e">{}</span>, <span class="e">[]</span>)
+@punctuation.special    special symbols (e.g. <span class="e">{}</span> in <a href="vimeval.txt.html#string" class="d">string</a> interpolation)
+
+@comment                line and block comments
+@comment.documentation  comments documenting code
+
+@comment.error          error-type comments (e.g. <span class="e">ERROR</span>, <span class="e">FIXME</span>, <span class="e">DEPRECATED</span>)
+@comment.warning        warning-type comments (e.g. <span class="e">WARNING</span>, <span class="e">FIX</span>, <span class="e">HACK</span>)
+@comment.todo           todo-type comments (e.g. <span class="e">TODO</span>, <span class="e">WIP</span>)
+@comment.note           note-type comments (e.g. <span class="e">NOTE</span>, <span class="e">INFO</span>, <span class="e">XXX</span>)
+
+@markup.strong          <a href="syntax.txt.html#bold" class="d">bold</a> text
+@markup.italic          <a href="syntax.txt.html#italic" class="d">italic</a> text
+@markup.strikethrough   struck-through text
+@markup.underline       underlined text (only <a href="luaref.txt.html#for" class="d">for</a> literal <a href="syntax.txt.html#underline" class="d">underline</a> markup!)
+
+@markup.heading         headings, titles (including markers)
+@markup.heading.1       top-level heading
+@markup.heading.2       <a href="motion.txt.html#section" class="d">section</a> heading
+@markup.heading.3       subsection heading
+@markup.heading.4       and so on
+@markup.heading.5       and so forth
+@markup.heading.6       six levels ought to be enough <a href="luaref.txt.html#for" class="d">for</a> anybody
+
+@markup.quote           block quotes
+@markup.math            math environments (e.g. `$ <a href="userfunc.txt.html#..." class="d">...</a> $` in LaTeX)
+
+@markup.link            text references, footnotes, citations, etc.
+@markup.link.label      link, <a href="intro.txt.html#reference" class="d">reference</a> descriptions
+@markup.link.url        URL-style links
+
+@markup.raw             literal or verbatim text (e.g. inline code)
+@markup.raw.block       literal or verbatim text <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> stand-alone block
+
+@markup.list            <a href="vimeval.txt.html#list" class="d">list</a> markers
+@markup.list.checked    checked todo-style <a href="vimeval.txt.html#list" class="d">list</a> markers
+@markup.list.unchecked  unchecked todo-style <a href="vimeval.txt.html#list" class="d">list</a> markers
+
+@diff.plus              added text (for <a href="diff.txt.html#diff" class="d">diff</a> files)
+@diff.minus             deleted text (for <a href="diff.txt.html#diff" class="d">diff</a> files)
+@diff.delta             changed text (for <a href="diff.txt.html#diff" class="d">diff</a> files)
+
+@tag                    XML-style <a href="tagsrch.txt.html#tag" class="d">tag</a> names (e.g. in XML, HTML, etc.)
+@tag.builtin            builtin <a href="tagsrch.txt.html#tag" class="d">tag</a> names (e.g. HTML5 tags)
+@tag.attribute          XML-style <a href="tagsrch.txt.html#tag" class="d">tag</a> attributes
+@tag.delimiter          XML-style <a href="tagsrch.txt.html#tag" class="d">tag</a> delimiters
+
+                                                  <span id="treesitter-highlight-spell" class="t">treesitter-highlight-spell</span>
+The special <span class="e">@spell</span> capture can be used to indicate that <a href="insert.txt.html#a" class="d">a</a> node should be
+<a href="spell.txt.html#spell" class="d">spell</a> checked by Nvim's builtin <a href="spell.txt.html#spell" class="l">spell</a> checker. For example, the following
+capture marks comments <a href="motion.txt.html#as" class="d">as</a> to be checked: &gt;query
+
+    (comment) @spell
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+There <a href="motion.txt.html#is" class="d">is</a> also <span class="e">@nospell</span> which disables spellchecking regions with <span class="e">@spell</span>.
+
+                                                <span id="treesitter-highlight-conceal" class="t">treesitter-highlight-conceal</span>
+Treesitter highlighting supports <a href="syntax.txt.html#conceal" class="l">conceal</a> via the <span class="e">conceal</span> and <span class="e">conceal_lines</span>
+metadata. By convention, nodes to be concealed are captured <a href="motion.txt.html#as" class="d">as</a> <span class="e">@conceal</span>, but
+any capture can be used. For example, the following query can be used to hide
+code block delimiters in Markdown: &gt;query
+
+    ((fenced_code_block_delimiter) @conceal (#set! <a href="syntax.txt.html#conceal" class="d">conceal</a> ""))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+It <a href="motion.txt.html#is" class="d">is</a> also possible to replace <a href="insert.txt.html#a" class="d">a</a> node with <a href="insert.txt.html#a" class="d">a</a> single character, which (unlike
+legacy syntax) can be given <a href="insert.txt.html#a" class="d">a</a> custom highlight. For example, the following
+(ill-advised) query replaces the <span class="e">!=</span> <a href="motion.txt.html#operator" class="d">operator</a> by <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> glyph, which <a href="motion.txt.html#is" class="d">is</a>
+still highlighted the same <a href="motion.txt.html#as" class="d">as</a> other operators: &gt;query
+
+    "!=" @operator (#set! <a href="syntax.txt.html#conceal" class="d">conceal</a> "≠"<a href="motion.txt.html#%29" class="d">)</a>
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+To <a href="syntax.txt.html#conceal" class="d">conceal</a> an entire line (do not draw <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#at" class="d">at</a> all), <a href="insert.txt.html#a" class="d">a</a> query with <span class="e">conceal_lines</span>
+metadata can be used: &gt;query
+
+    ((comment) @comment @spell
+      (#set! conceal_lines ""))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+Conceals specified in this way respect <a href="options.txt.html#%27conceallevel%27" class="o">'conceallevel'</a> and <a href="options.txt.html#%27concealcursor%27" class="o">'concealcursor'</a>.
+
+<span class="n">Note</span> that although you can use any <a href="vimeval.txt.html#string" class="d">string</a> <a href="luaref.txt.html#for" class="d">for</a> <span class="e">conceal</span>, only the first
+character will be used: &gt;query
+
+    <a href="motion.txt.html#%3B" class="d">;</a> identifiers will be concealed with 'f'.
+    ((identifier) @conceal (#set! <a href="syntax.txt.html#conceal" class="d">conceal</a> "foo"))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+                                               <span id="treesitter-highlight-priority" class="t">treesitter-highlight-priority</span>
+Treesitter uses <a href="api.txt.html#nvim_buf_set_extmark%28%29" class="l">nvim_buf_set_extmark()</a> to set highlights with <a href="insert.txt.html#a" class="d">a</a> default
+priority of 100. This enables plugins to set <a href="insert.txt.html#a" class="d">a</a> highlighting priority lower or
+higher than treesitter. It <a href="motion.txt.html#is" class="d">is</a> also possible to change the priority of an
+individual query <a href="pattern.txt.html#pattern" class="d">pattern</a> manually by setting its <span class="e">"priority"</span> metadata
+attribute: &gt;query
+
+    ((super_important_node) @superimportant (#set! priority 105))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+                                          <span id="treesitter-highlight-commentstring" class="t">treesitter-highlight-commentstring</span>
+Treesitter highlighting supports finer-grained <a href="options.txt.html#%27commentstring%27" class="o">'commentstring'</a>s, used by the
+built-in <a href="various.txt.html#commenting" class="l">commenting</a> plugin. When the cursor <a href="motion.txt.html#is" class="d">is</a> within <a href="insert.txt.html#a" class="d">a</a> node that sets the
+<span class="e">bo.commentstring</span> metadata property <a href="motion.txt.html#%28" class="d">(</a><a href="treesitter.txt.html#treesitter-directive-set%21" class="l">treesitter-directive-set!</a>), that
+property defines the comment delimiter (where "innermost wins"). This <a href="motion.txt.html#is" class="d">is</a>
+useful <a href="luaref.txt.html#for" class="d">for</a> languages like <span class="e">JSX</span> that have different comment <a href="syntax.txt.html#syntax" class="d">syntax</a> depending
+on the code region, <a href="luaref.txt.html#for" class="d">for</a> example: &gt;query
+
+    ((jsx_element) @_tag (#set! @_tag bo.commentstring "<span class="s">{/* %s */}</span>"))
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+When multiple captures set this metadata over <a href="insert.txt.html#a" class="d">a</a> region, only the innermost
+(most specific) one <a href="motion.txt.html#is" class="d">is</a> applied to <a href="insert.txt.html#a" class="d">a</a> given area.
+
+<span class="h">==============================================================================</span>
+<span class="c">TREESITTER LANGUAGE INJECTIONS</span>                <span id="treesitter-language-injections" class="t">treesitter-language-injections</span>
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+<span class="n">Note</span> the following information <a href="motion.txt.html#is" class="d">is</a> adapted from:
+  <a class="u" href="https://tree-sitter.github.io/tree-sitter/syntax-highlighting#language-injection">https://tree-sitter.github.io/tree-sitter/syntax-highlighting#language-injection</a>
+
+Some source files contain code written in multiple different languages.
+Examples include:
+
+    • HTML files, which can contain JavaScript inside of <span class="e">&lt;script&gt;</span> <a href="tagsrch.txt.html#tags" class="d">tags</a> and
+      CSS inside of <span class="e">&lt;style&gt;</span> <a href="tagsrch.txt.html#tags" class="d">tags</a>
+    • ERB files, which contain <a href="if_ruby.txt.html#Ruby" class="d">Ruby</a> inside of <span class="e">&lt;%</span> <span class="e">%&gt;</span> tags, and HTML outside of
+      those <a href="tagsrch.txt.html#tags" class="d">tags</a>
+    • PHP files, which can contain HTML between the <span class="e">&lt;php</span> <a href="tagsrch.txt.html#tags" class="d">tags</a>
+    • JavaScript files, which contain regular <a href="vimeval.txt.html#expression" class="d">expression</a> <a href="syntax.txt.html#syntax" class="d">syntax</a> within regex
+      literals
+    • Ruby, which can contain snippets of code inside of heredoc literals,
+      where the heredoc delimiter often indicates the language
+    • Lua, which can contain snippets of Vimscript inside <a href="lua.txt.html#vim.cmd%28%29" class="l">vim.cmd()</a> calls.
+    • Vimscript, which can contain snippets of <a href="lua.txt.html#Lua" class="d">Lua</a> inside <a href="lua.txt.html#%3Alua-heredoc" class="l">:lua-heredoc</a>
+      blocks.
+
+All of these examples can be modeled in terms of <a href="insert.txt.html#a" class="d">a</a> parent <a href="syntax.txt.html#syntax" class="d">syntax</a> tree and one
+or more injected <a href="syntax.txt.html#syntax" class="d">syntax</a> trees, which reside inside of certain nodes in the
+parent tree. The language injection query allows you to specify these
+“injections” using the following captures:
+
+    • <span class="e">@injection.content</span> <a href="motion.txt.html#-" class="d">-</a> indicates that the captured node should have its
+      contents re-parsed using another language. If there are multiple
+      <span class="e">@injection.content</span> captures in one pattern, all ranges will be
+      collected and parsed <a href="motion.txt.html#as" class="d">as</a> one tree. This allows query authors to create
+      "scoped" injections with injection query quantifiers.
+    • <span class="e">@injection.language</span> <a href="motion.txt.html#-" class="d">-</a> indicates that the captured node’<a href="change.txt.html#s" class="d">s</a> text may
+      contain the name of <a href="insert.txt.html#a" class="d">a</a> language that should be used to re-parse the
+      <span class="e">@injection.content</span>.
+    • <span class="e">@injection.filename</span> <a href="motion.txt.html#-" class="d">-</a> indicates that the captured node’<a href="change.txt.html#s" class="d">s</a> text may
+      contain <a href="insert.txt.html#a" class="d">a</a> filename; the corresponding <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="motion.txt.html#is" class="d">is</a> then looked-up up via
+      <a href="lua.txt.html#vim.filetype.match%28%29" class="l">vim.filetype.match()</a> and treated <a href="motion.txt.html#as" class="d">as</a> the name of <a href="insert.txt.html#a" class="d">a</a> language that should
+      be used to re-parse the <span class="e">@injection.content</span>.
+
+The language injection behavior can also be configured by some properties
+associated with patterns:
+
+    • <span class="e">injection.language</span> <a href="motion.txt.html#-" class="d">-</a> can be used to hard-code the name of <a href="insert.txt.html#a" class="d">a</a> specific
+    language.
+    • <span class="e">injection.combined</span> <a href="motion.txt.html#-" class="d">-</a> indicates that all of the matching nodes in the
+    tree should have their content parsed <a href="motion.txt.html#as" class="d">as</a> one nested document.
+    • <span class="e">injection.include-children</span> <a href="motion.txt.html#-" class="d">-</a> indicates that the <span class="e">@injection.content</span>
+    node's entire text should be re-parsed, including the text of its child
+    nodes. By default, child nodes' text will be excluded from the injected
+    document.
+    • <span class="e">injection.self</span> <a href="motion.txt.html#-" class="d">-</a> indicates that the node's text should be parsed with
+      the same language <a href="motion.txt.html#as" class="d">as</a> the node's LanguageTree.
+    • <span class="e">injection.parent</span> <a href="motion.txt.html#-" class="d">-</a> indicates that the captured node’<a href="change.txt.html#s" class="d">s</a> text should
+      be parsed with the same language <a href="motion.txt.html#as" class="d">as</a> the node's parent LanguageTree.
+
+Injection queries are currently run over the entire buffer, which can be slow
+<a href="luaref.txt.html#for" class="d">for</a> large buffers. To disable injections for, e.g.,  <span class="e">c</span>, just place an
+empty <span class="e">queries/c/injections.scm</span> file in your <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.
+
+<span class="h">==============================================================================</span>
+<span class="c">VIM.TREESITTER</span>                                                <span id="lua-treesitter" class="t">lua-treesitter</span>
+
+The remainder of this document <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#reference" class="d">reference</a> manual <a href="luaref.txt.html#for" class="d">for</a> the <span class="e">vim.treesitter</span>
+<a href="lua.txt.html#Lua" class="d">Lua</a> module, which <a href="motion.txt.html#is" class="d">is</a> the main interface <a href="luaref.txt.html#for" class="d">for</a> Nvim's <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> integration.
+Most of the following content <a href="motion.txt.html#is" class="d">is</a> automatically generated from the function
+documentation.
+
+
+                                             <span id="vim.treesitter.language_version" class="t">vim.treesitter.language_version</span>
+The latest parser ABI version that <a href="motion.txt.html#is" class="d">is</a> supported by the bundled <a href="treesitter.txt.html#treesitter" class="d">treesitter</a>
+library.
+
+                                     <span id="vim.treesitter.minimum_language_version" class="t">vim.treesitter.minimum_language_version</span>
+The earliest parser ABI version that <a href="motion.txt.html#is" class="d">is</a> supported by the bundled <a href="treesitter.txt.html#treesitter" class="d">treesitter</a>
+library.
+
+<span class="h">==============================================================================</span>
+<span class="c">TREESITTER TREES</span>                                    <span id="treesitter-tree" class="t">treesitter-tree</span> <span id="TSTree" class="t">TSTree</span>
+
+<a href="insert.txt.html#A" class="d">A</a> "<a href="treesitter.txt.html#treesitter" class="d">treesitter</a> tree" represents the parsed contents of <a href="insert.txt.html#a" class="d">a</a> buffer, which can be
+used to perform further analysis. It <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="luaref.txt.html#userdata" class="l">userdata</a> <a href="intro.txt.html#reference" class="d">reference</a> to an object
+held by the <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> library.
+
+An instance <span class="e">TSTree</span> of <a href="insert.txt.html#a" class="d">a</a> <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> tree supports the following methods.
+
+
+<a href="treesitter.txt.html#TSTree%3Acopy%28%29" class="d">TSTree:copy()</a>                                                  <span id="TSTree%3Acopy%28%29" class="t">TSTree:copy()</span>
+    Returns <a href="insert.txt.html#a" class="d">a</a> copy of the <span class="e">TSTree</span>.
+
+<span class="h">    Return: </span>
+        (`TSTree`)
+
+<a href="treesitter.txt.html#TSTree%3Aroot%28%29" class="d">TSTree:root()</a>                                                  <span id="TSTree%3Aroot%28%29" class="t">TSTree:root()</span>
+    Return the root node of this tree.
+
+<span class="h">    Return: </span>
+        (`TSNode`)
+
+
+<span class="h">==============================================================================</span>
+<span class="c">TREESITTER NODES</span>                                    <span id="treesitter-node" class="t">treesitter-node</span> <span id="TSNode" class="t">TSNode</span>
+
+<a href="insert.txt.html#A" class="d">A</a> "<a href="treesitter.txt.html#treesitter" class="d">treesitter</a> node" represents one specific element of the parsed contents of
+<a href="insert.txt.html#a" class="d">a</a> buffer, which can be captured by <a href="insert.txt.html#a" class="d">a</a> <span class="l">Query</span> for, e.g., highlighting. It <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+<a href="luaref.txt.html#userdata" class="l">userdata</a> <a href="intro.txt.html#reference" class="d">reference</a> to an object held by the <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> library.
+
+An instance <span class="e">TSNode</span> of <a href="insert.txt.html#a" class="d">a</a> <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> node supports the following methods.
+
+
+<a href="treesitter.txt.html#TSNode%3Abyte_length%28%29" class="d">TSNode:byte_length()</a>                                    <span id="TSNode%3Abyte_length%28%29" class="t">TSNode:byte_length()</span>
+    Return the number of bytes spanned by this node.
+
+<span class="h">    Return: </span>
+        (`integer`)
+
+TSNode:child({index})                                         <span id="TSNode%3Achild%28%29" class="t">TSNode:child()</span>
+    Get the node's child <a href="motion.txt.html#at" class="d">at</a> the given <span class="s">{index}</span>, where zero represents the first
+    child.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{index}</span>  (`integer`)
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+<a href="treesitter.txt.html#TSNode%3Achild_count%28%29" class="d">TSNode:child_count()</a>                                    <span id="TSNode%3Achild_count%28%29" class="t">TSNode:child_count()</span>
+    Get the node's number of children.
+
+<span class="h">    Return: </span>
+        (`integer`)
+
+                                              <span id="TSNode%3Achild_with_descendant%28%29" class="t">TSNode:child_with_descendant()</span>
+TSNode:child_with_descendant({descendant})
+    Get the node's child that contains <span class="s">{descendant}</span> (includes <span class="s">{descendant}</span>).
+
+    For example, with the following node hierarchy: 
+<span class="e">        a -&gt; b -&gt; c</span>
+<span class="e"></span>
+<span class="e">        a:child_with_descendant(c) == b</span>
+<span class="e">        a:child_with_descendant(b) == b</span>
+<span class="e">        a:child_with_descendant(a) == nil</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{descendant}</span>  (`TSNode`)
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+                                               <span id="TSNode%3Adescendant_for_range%28%29" class="t">TSNode:descendant_for_range()</span>
+TSNode:descendant_for_range({start_row}, <span class="s">{start_col}</span>, <span class="s">{end_row}</span>, <span class="s">{end_col}</span>)
+    Get the smallest node within this node that spans the given range of (row,
+    column) positions
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{start_row}</span>  (`integer`)
+      • <span class="s">{start_col}</span>  (`integer`)
+      • <span class="s">{end_row}</span>    (`integer`)
+      • <span class="s">{end_col}</span>    (`integer`)
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+<a href="treesitter.txt.html#TSNode%3Aend_%28%29" class="d">TSNode:end_()</a>                                                  <span id="TSNode%3Aend_%28%29" class="t">TSNode:end_()</span>
+    Get the node's <a href="intro.txt.html#end" class="d">end</a> position. Return three values: the row, column and
+    total byte <a href="intro.txt.html#count" class="d">count</a> (all zero-based).
+
+<span class="h">    Return (multiple): </span>
+        (`integer`)
+        (`integer`)
+        (`integer`)
+
+TSNode:equal({node})                                          <span id="TSNode%3Aequal%28%29" class="t">TSNode:equal()</span>
+    Check if <span class="s">{node}</span> refers to the same node within the same tree.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{node}</span>  (`TSNode`)
+
+<span class="h">    Return: </span>
+        (`boolean`)
+
+<a href="treesitter.txt.html#TSNode%3Aextra%28%29" class="d">TSNode:extra()</a>                                                <span id="TSNode%3Aextra%28%29" class="t">TSNode:extra()</span>
+    Check if the node <a href="motion.txt.html#is" class="d">is</a> extra. Extra nodes represent things like comments,
+    which are not required by the grammar but can appear anywhere.
+
+<span class="h">    Return: </span>
+        (`boolean`)
+
+TSNode:field({name})                                          <span id="TSNode%3Afield%28%29" class="t">TSNode:field()</span>
+    Returns <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of all the node's children that have the given field name.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{name}</span>  (`string`)
+
+<span class="h">    Return: </span>
+        (`TSNode[]`)
+
+<a href="treesitter.txt.html#TSNode%3Ahas_changes%28%29" class="d">TSNode:has_changes()</a>                                    <span id="TSNode%3Ahas_changes%28%29" class="t">TSNode:has_changes()</span>
+    Check if <a href="insert.txt.html#a" class="d">a</a> <a href="syntax.txt.html#syntax" class="d">syntax</a> node has been edited.
+
+<span class="h">    Return: </span>
+        (`boolean`)
+
+<a href="treesitter.txt.html#TSNode%3Ahas_error%28%29" class="d">TSNode:has_error()</a>                                        <span id="TSNode%3Ahas_error%28%29" class="t">TSNode:has_error()</span>
+    Check if the node <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="syntax.txt.html#syntax" class="d">syntax</a> error or contains any <a href="syntax.txt.html#syntax" class="d">syntax</a> errors.
+
+<span class="h">    Return: </span>
+        (`boolean`)
+
+<a href="treesitter.txt.html#TSNode%3Aid%28%29" class="d">TSNode:id()</a>                                                      <span id="TSNode%3Aid%28%29" class="t">TSNode:id()</span>
+    Get <a href="insert.txt.html#a" class="d">a</a> unique identifier <a href="luaref.txt.html#for" class="d">for</a> the node inside its own tree.
+
+    No guarantees are made about this identifier's internal representation,
+    except <a href="luaref.txt.html#for" class="d">for</a> being <a href="insert.txt.html#a" class="d">a</a> primitive <a href="lua.txt.html#Lua" class="d">Lua</a> type with value equality (so not <a href="insert.txt.html#a" class="d">a</a>
+    table). Presently <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> (non-printable) string.
+
+    <span class="n">Note:</span> The <span class="e">id</span> <a href="motion.txt.html#is" class="d">is</a> not guaranteed to be unique <a href="luaref.txt.html#for" class="d">for</a> nodes from different
+    trees.
+
+<span class="h">    Return: </span>
+        (`string`)
+
+<a href="treesitter.txt.html#TSNode%3Aiter_children%28%29" class="d">TSNode:iter_children()</a>                                <span id="TSNode%3Aiter_children%28%29" class="t">TSNode:iter_children()</span>
+    Iterates over all the direct children of <span class="s">{TSNode}</span>, regardless of whether
+    they are named or not. Returns the child node plus the eventual field name
+    corresponding to this child node.
+
+<span class="h">    Return: </span>
+        (`fun(): TSNode, string`)
+
+<a href="treesitter.txt.html#TSNode%3Amissing%28%29" class="d">TSNode:missing()</a>                                            <span id="TSNode%3Amissing%28%29" class="t">TSNode:missing()</span>
+    Check if the node <a href="motion.txt.html#is" class="d">is</a> missing. Missing nodes are inserted by the parser in
+    order to recover from certain kinds of <a href="syntax.txt.html#syntax" class="d">syntax</a> errors.
+
+<span class="h">    Return: </span>
+        (`boolean`)
+
+<a href="treesitter.txt.html#TSNode%3Anamed%28%29" class="d">TSNode:named()</a>                                                <span id="TSNode%3Anamed%28%29" class="t">TSNode:named()</span>
+    Check if the node <a href="motion.txt.html#is" class="d">is</a> named. Named nodes correspond to named rules in the
+    grammar, whereas anonymous nodes correspond to <a href="vimeval.txt.html#string" class="d">string</a> literals in the
+    grammar.
+
+<span class="h">    Return: </span>
+        (`boolean`)
+
+TSNode:named_child({index})                             <span id="TSNode%3Anamed_child%28%29" class="t">TSNode:named_child()</span>
+    Get the node's named child <a href="motion.txt.html#at" class="d">at</a> the given <span class="s">{index}</span>, where zero represents the
+    first named child.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{index}</span>  (`integer`)
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+<a href="treesitter.txt.html#TSNode%3Anamed_child_count%28%29" class="d">TSNode:named_child_count()</a>                        <span id="TSNode%3Anamed_child_count%28%29" class="t">TSNode:named_child_count()</span>
+    Get the node's number of named children.
+
+<span class="h">    Return: </span>
+        (`integer`)
+
+<a href="treesitter.txt.html#TSNode%3Anamed_children%28%29" class="d">TSNode:named_children()</a>                              <span id="TSNode%3Anamed_children%28%29" class="t">TSNode:named_children()</span>
+    Returns <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of the node's named children.
+
+<span class="h">    Return: </span>
+        (`TSNode[]`)
+
+                                         <span id="TSNode%3Anamed_descendant_for_range%28%29" class="t">TSNode:named_descendant_for_range()</span>
+TSNode:named_descendant_for_range({start_row}, <span class="s">{start_col}</span>, <span class="s">{end_row}</span>,
+                                  <span class="s">{end_col}</span>)
+    Get the smallest named node within this node that spans the given range of
+    (row, column) positions
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{start_row}</span>  (`integer`)
+      • <span class="s">{start_col}</span>  (`integer`)
+      • <span class="s">{end_row}</span>    (`integer`)
+      • <span class="s">{end_col}</span>    (`integer`)
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+<a href="treesitter.txt.html#TSNode%3Anext_named_sibling%28%29" class="d">TSNode:next_named_sibling()</a>                      <span id="TSNode%3Anext_named_sibling%28%29" class="t">TSNode:next_named_sibling()</span>
+    Get the node's next named sibling.
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+<a href="treesitter.txt.html#TSNode%3Anext_sibling%28%29" class="d">TSNode:next_sibling()</a>                                  <span id="TSNode%3Anext_sibling%28%29" class="t">TSNode:next_sibling()</span>
+    Get the node's next sibling.
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+<a href="treesitter.txt.html#TSNode%3Aparent%28%29" class="d">TSNode:parent()</a>                                              <span id="TSNode%3Aparent%28%29" class="t">TSNode:parent()</span>
+    Get the node's immediate parent. Prefer <a href="treesitter.txt.html#TSNode%3Achild_with_descendant%28%29" class="l">TSNode:child_with_descendant()</a>
+    <a href="luaref.txt.html#for" class="d">for</a> iterating over the node's ancestors.
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+<a href="treesitter.txt.html#TSNode%3Aprev_named_sibling%28%29" class="d">TSNode:prev_named_sibling()</a>                      <span id="TSNode%3Aprev_named_sibling%28%29" class="t">TSNode:prev_named_sibling()</span>
+    Get the node's previous named sibling.
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+<a href="treesitter.txt.html#TSNode%3Aprev_sibling%28%29" class="d">TSNode:prev_sibling()</a>                                  <span id="TSNode%3Aprev_sibling%28%29" class="t">TSNode:prev_sibling()</span>
+    Get the node's previous sibling.
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+TSNode:range({include_bytes})                                 <span id="TSNode%3Arange%28%29" class="t">TSNode:range()</span>
+    Get the range of the node.
+
+    Return four or six values:
+    • start row
+    • start column
+    • start byte (if <span class="s">{include_bytes}</span> <a href="motion.txt.html#is" class="d">is</a> <span class="e">true</span>)
+    • <a href="intro.txt.html#end" class="d">end</a> row
+    • <a href="intro.txt.html#end" class="d">end</a> column
+    • <a href="intro.txt.html#end" class="d">end</a> byte (if <span class="s">{include_bytes}</span> <a href="motion.txt.html#is" class="d">is</a> <span class="e">true</span>)
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{include_bytes}</span>  (`false?`)
+
+<span class="h">    Return (multiple): </span>
+        (`integer`)
+        (`integer`)
+        (`integer`)
+        (`integer`)
+
+<a href="treesitter.txt.html#TSNode%3Asexpr%28%29" class="d">TSNode:sexpr()</a>                                                <span id="TSNode%3Asexpr%28%29" class="t">TSNode:sexpr()</span>
+    Get an S-expression representing the node <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> string.
+
+<span class="h">    Return: </span>
+        (`string`)
+
+<a href="treesitter.txt.html#TSNode%3Astart%28%29" class="d">TSNode:start()</a>                                                <span id="TSNode%3Astart%28%29" class="t">TSNode:start()</span>
+    Get the node's start position. Return three values: the row, column and
+    total byte <a href="intro.txt.html#count" class="d">count</a> (all zero-based).
+
+<span class="h">    Return (multiple): </span>
+        (`integer`)
+        (`integer`)
+        (`integer`)
+
+<a href="treesitter.txt.html#TSNode%3Asymbol%28%29" class="d">TSNode:symbol()</a>                                              <span id="TSNode%3Asymbol%28%29" class="t">TSNode:symbol()</span>
+    Get the node's type <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> numerical id.
+
+<span class="h">    Return: </span>
+        (`integer`)
+
+<a href="treesitter.txt.html#TSNode%3Atree%28%29" class="d">TSNode:tree()</a>                                                  <span id="TSNode%3Atree%28%29" class="t">TSNode:tree()</span>
+    Get the <a href="treesitter.txt.html#TSTree" class="l">TSTree</a> of the node.
+
+<span class="h">    Return: </span>
+        (`TSTree`)
+
+<a href="treesitter.txt.html#TSNode%3Atype%28%29" class="d">TSNode:type()</a>                                                  <span id="TSNode%3Atype%28%29" class="t">TSNode:type()</span>
+    Get the node's type <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> string.
+
+<span class="h">    Return: </span>
+        (`string`)
+
+
+<span class="h">==============================================================================</span>
+<a href="lua.txt.html#Lua" class="d">Lua</a> module: vim.treesitter                               <span id="lua-treesitter-core" class="t">lua-treesitter-core</span>
+
+foldexpr({lnum})                                   <span id="vim.treesitter.foldexpr%28%29" class="t">vim.treesitter.foldexpr()</span>
+    Returns the fold level <a href="luaref.txt.html#for" class="d">for</a> <span class="s">{lnum}</span> in the current buffer. Can be set
+    directly to <a href="options.txt.html#%27foldexpr%27" class="o">'foldexpr'</a>: 
+<span class="e">        vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'</span>
+
+
+<span class="h">    Attributes: </span>
+        Since: 0.9.0
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{lnum}</span>  (`integer?`) Line number to calculate fold level <a href="luaref.txt.html#for" class="d">for</a>
+
+<span class="h">    Return: </span>
+        (`string`)
+
+                                     <span id="vim.treesitter.get_captures_at_cursor%28%29" class="t">vim.treesitter.get_captures_at_cursor()</span>
+get_captures_at_cursor({winnr})
+    Returns <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of highlight capture names under the cursor
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{winnr}</span>  (`integer?`) <a href="windows.txt.html#window-ID" class="l">window-ID</a> or <a href="motion.txt.html#0" class="d">0</a> <a href="luaref.txt.html#for" class="d">for</a> current <a href="windows.txt.html#window" class="d">window</a> (default)
+
+<span class="h">    Return: </span>
+        (`string[]`) <a href="vimeval.txt.html#List" class="d">List</a> of capture names
+
+                                        <span id="vim.treesitter.get_captures_at_pos%28%29" class="t">vim.treesitter.get_captures_at_pos()</span>
+get_captures_at_pos({bufnr}, <span class="s">{row}</span>, <span class="s">{col}</span>)
+    Returns <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of highlight captures <a href="motion.txt.html#at" class="d">at</a> the given position
+
+    Each capture <a href="motion.txt.html#is" class="d">is</a> represented by <a href="insert.txt.html#a" class="d">a</a> table containing the capture name <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a>
+    string, the capture's language, <a href="insert.txt.html#a" class="d">a</a> table of metadata (`priority`,
+    <span class="e">conceal</span>, ...; empty if none are defined), and the id of the capture.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{bufnr}</span>  (`integer`) Buffer number (0 <a href="luaref.txt.html#for" class="d">for</a> current buffer)
+      • <span class="s">{row}</span>    (`integer`) Position row
+      • <span class="s">{col}</span>    (`integer`) Position column
+
+<span class="h">    Return: </span>
+        (`{capture: string, lang: string, metadata: vim.treesitter.query.TSMetadata, id: integer}[]`)
+
+get_node({opts})                                   <span id="vim.treesitter.get_node%28%29" class="t">vim.treesitter.get_node()</span>
+    Returns the smallest named node <a href="motion.txt.html#at" class="d">at</a> the given position
+
+    <span class="n">NOTE:</span> Calling this on an unparsed tree can yield an invalid node. If the
+    tree <a href="motion.txt.html#is" class="d">is</a> not known to be parsed by, e.g., an active highlighter, parse the
+    tree first via 
+<span class="e">        vim.treesitter.get_parser(bufnr):parse(range)</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{opts}</span>  (`table?`) Optional keyword arguments:
+                • <span class="s">{bufnr}</span> (`integer?`) Buffer number (nil or <a href="motion.txt.html#0" class="d">0</a> <a href="luaref.txt.html#for" class="d">for</a> current
+                  buffer)
+                • <span class="s">{pos}</span> (`[integer, integer]?`) 0-indexed (row, col) tuple.
+                  Defaults to cursor position in the current window. Required
+                  if <span class="s">{bufnr}</span> <a href="motion.txt.html#is" class="d">is</a> not the current buffer
+                • <span class="s">{lang}</span> (`string?`) Parser language. (default: from buffer
+                  filetype)
+                • <span class="s">{ignore_injections}</span> (`boolean?`) Ignore injected languages
+                  (default true)
+                • <span class="s">{include_anonymous}</span> (`boolean?`) Include anonymous nodes
+                  (default false)
+
+<span class="h">    Return: </span>
+        (`TSNode?`) Node <a href="motion.txt.html#at" class="d">at</a> the given position
+
+get_node_range({node_or_range})              <span id="vim.treesitter.get_node_range%28%29" class="t">vim.treesitter.get_node_range()</span>
+    Returns the node's range or an unpacked range table
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{node_or_range}</span>  (`TSNode|Range4`) Node or table of positions
+
+<span class="h">    Return (multiple): </span>
+        (`integer`) start_row
+        (`integer`) start_col
+        (`integer`) end_row
+        (`integer`) end_col
+
+                                              <span id="vim.treesitter.get_node_text%28%29" class="t">vim.treesitter.get_node_text()</span>
+get_node_text({node}, <span class="s">{source}</span>, <span class="s">{opts}</span>)
+    Gets the text corresponding to <a href="insert.txt.html#a" class="d">a</a> given node
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{node}</span>    (`TSNode`)
+      • <span class="s">{source}</span>  (`integer|string`) Buffer or <a href="vimeval.txt.html#string" class="d">string</a> from which the <span class="s">{node}</span> <a href="motion.txt.html#is" class="d">is</a>
+                  extracted
+      • <span class="s">{opts}</span>    (`table?`) Optional parameters.
+                  • metadata (table) Metadata of <a href="insert.txt.html#a" class="d">a</a> specific capture. This
+                    would be set to <span class="e">metadata[capture_id]</span> when using
+                    <a href="treesitter.txt.html#vim.treesitter.query.add_directive%28%29" class="l">vim.treesitter.query.add_directive()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Return: </span>
+        (`string`)
+
+get_parser({bufnr}, <span class="s">{lang}</span>, <span class="s">{opts}</span>)              <span id="vim.treesitter.get_parser%28%29" class="t">vim.treesitter.get_parser()</span>
+    Returns the parser <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> specific buffer and attaches <a href="motion.txt.html#it" class="d">it</a> to the buffer
+
+    If needed, this will create the parser.
+
+    If no parser can be created, an error <a href="motion.txt.html#is" class="d">is</a> thrown. Set `opts.error <a href="change.txt.html#%3D" class="d">=</a> false`
+    to suppress this and return nil (and an error message) instead. WARNING:
+    This behavior will become default in Nvim 0.12 and the option will be
+    removed.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{bufnr}</span>  (`integer?`) Buffer the parser should be tied to (default:
+                 current buffer)
+      • <span class="s">{lang}</span>   (`string?`) Language of this parser (default: from buffer
+                 filetype)
+      • <span class="s">{opts}</span>   (`table?`) Options to pass to the created language tree
+
+<span class="h">    Return (multiple): </span>
+        (`vim.treesitter.LanguageTree?`) object to use <a href="luaref.txt.html#for" class="d">for</a> parsing
+        (`string?`) error message, if applicable
+
+get_range({node}, <span class="s">{source}</span>, <span class="s">{metadata}</span>)           <span id="vim.treesitter.get_range%28%29" class="t">vim.treesitter.get_range()</span>
+    Get the range of <a href="insert.txt.html#a" class="d">a</a> <a href="treesitter.txt.html#TSNode" class="l">TSNode</a><a href="repeat.txt.html#." class="d">.</a> Can also supply <span class="s">{source}</span> and <span class="s">{metadata}</span> to
+    get the range with directives applied.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{node}</span>      (`TSNode`)
+      • <span class="s">{source}</span>    (`integer|string?`) Buffer or <a href="vimeval.txt.html#string" class="d">string</a> from which the <span class="s">{node}</span>
+                    <a href="motion.txt.html#is" class="d">is</a> extracted
+      • <span class="s">{metadata}</span>  (`vim.treesitter.query.TSMetadata?`)
+
+<span class="h">    Return: </span>
+        (`table`) <a href="insert.txt.html#A" class="d">A</a> table with the following fields:
+        • <span class="s">{[1]}</span> (`integer`) start row
+        • <span class="s">{[2]}</span> (`integer`) start column
+        • <span class="s">{[3]}</span> (`integer`) start bytes
+        • <span class="s">{[4]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> row
+        • <span class="s">{[5]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> column
+        • <span class="s">{[6]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> bytes
+
+                                          <span id="vim.treesitter.get_string_parser%28%29" class="t">vim.treesitter.get_string_parser()</span>
+get_string_parser({str}, <span class="s">{lang}</span>, <span class="s">{opts}</span>)
+    Returns <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> parser
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{str}</span>   (`string`) Text to parse
+      • <span class="s">{lang}</span>  (`string`) Language of this <a href="vimeval.txt.html#string" class="d">string</a>
+      • <span class="s">{opts}</span>  (`table?`) Options to pass to the created language tree
+
+<span class="h">    Return: </span>
+        (`vim.treesitter.LanguageTree`) object to use <a href="luaref.txt.html#for" class="d">for</a> parsing
+
+inspect_tree({opts})                           <span id="vim.treesitter.inspect_tree%28%29" class="t">vim.treesitter.inspect_tree()</span>
+    Open <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> that displays <a href="insert.txt.html#a" class="d">a</a> textual representation of the nodes in the
+    language tree.
+
+    While in the window, press "<a href="insert.txt.html#a" class="d">a</a>" to <a href="options.txt.html#toggle" class="d">toggle</a> display of anonymous nodes, "<a href="insert.txt.html#I" class="d">I</a>"
+    to <a href="options.txt.html#toggle" class="d">toggle</a> the display of the source language of each node, "<a href="insert.txt.html#o" class="d">o</a>" to <a href="options.txt.html#toggle" class="d">toggle</a>
+    the query editor, and press <a href="intro.txt.html#%3CEnter%3E" class="s">&lt;Enter&gt;</a> to jump to the node under the cursor
+    in the source buffer. <a href="fold.txt.html#Folding" class="d">Folding</a> also works (try <a href="fold.txt.html#zo" class="l">zo</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="fold.txt.html#zc" class="l">zc</a><a href="motion.txt.html#%2C" class="d">,</a> etc.).
+
+    Can also be shown with <span class="e">:InspectTree</span>.                      <span id="%3AInspectTree" class="t">:InspectTree</span>
+
+<span class="h">    Attributes: </span>
+        Since: 0.9.0
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{opts}</span>  (`table?`) Optional <a href="options.txt.html#options" class="d">options</a> table with the following possible
+                keys:
+                • lang (string|nil): The language of the source buffer. If
+                  omitted, detect from the <a href="filetype.txt.html#filetype" class="d">filetype</a> of the source buffer.
+                • bufnr (integer|nil): Buffer to draw the tree into. If
+                  omitted, <a href="insert.txt.html#a" class="d">a</a> new buffer <a href="motion.txt.html#is" class="d">is</a> created.
+                • <a href="windows.txt.html#winid" class="d">winid</a> (integer|nil): Window id to display the tree buffer
+                  in. If omitted, <a href="insert.txt.html#a" class="d">a</a> new <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> created with <span class="s">{command}</span>.
+                • command (string|nil): Vimscript command to create the
+                  window. Default value <a href="motion.txt.html#is" class="d">is</a> "60vnew"<a href="repeat.txt.html#." class="d">.</a> Only used when <span class="s">{winid}</span> <a href="motion.txt.html#is" class="d">is</a>
+                  nil.
+                • title (string<span class="l">fun(bufnr:integer):string</span>nil): Title of the
+                  window. If <a href="insert.txt.html#a" class="d">a</a> function, <a href="motion.txt.html#it" class="d">it</a> accepts the buffer number of the
+                  source buffer <a href="motion.txt.html#as" class="d">as</a> its only argument and should return <a href="insert.txt.html#a" class="d">a</a>
+                  string.
+
+is_ancestor({dest}, <span class="s">{source}</span>)                   <span id="vim.treesitter.is_ancestor%28%29" class="t">vim.treesitter.is_ancestor()</span>
+    Determines whether <a href="insert.txt.html#a" class="d">a</a> node <a href="motion.txt.html#is" class="d">is</a> the ancestor of another
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{dest}</span>    (`TSNode`) Possible ancestor
+      • <span class="s">{source}</span>  (`TSNode`) Possible descendant
+
+<span class="h">    Return: </span>
+        (`boolean`) True if <span class="s">{dest}</span> <a href="motion.txt.html#is" class="d">is</a> an ancestor of <span class="s">{source}</span>
+
+                                           <span id="vim.treesitter.is_in_node_range%28%29" class="t">vim.treesitter.is_in_node_range()</span>
+is_in_node_range({node}, <span class="s">{line}</span>, <span class="s">{col}</span>)
+    Determines whether (line, col) position <a href="motion.txt.html#is" class="d">is</a> in node range
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{node}</span>  (`TSNode`) defining the range
+      • <span class="s">{line}</span>  (`integer`) Line (0-based)
+      • <span class="s">{col}</span>   (`integer`) Column (0-based)
+
+<span class="h">    Return: </span>
+        (`boolean`) True if the position <a href="motion.txt.html#is" class="d">is</a> in node range
+
+node_contains({node}, <span class="s">{range}</span>)                <span id="vim.treesitter.node_contains%28%29" class="t">vim.treesitter.node_contains()</span>
+    Determines if <a href="insert.txt.html#a" class="d">a</a> node contains <a href="insert.txt.html#a" class="d">a</a> range
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{node}</span>   (`TSNode`)
+      • <span class="s">{range}</span>  (`table`)
+
+<span class="h">    Return: </span>
+        (`boolean`) True if the <span class="s">{node}</span> contains the <span class="s">{range}</span>
+
+start({bufnr}, <span class="s">{lang}</span>)                                <span id="vim.treesitter.start%28%29" class="t">vim.treesitter.start()</span>
+    Starts <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> highlighting <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> buffer
+
+    Can be used in an <a href="usr_41.txt.html#ftplugin" class="d">ftplugin</a> or <a href="autocmd.txt.html#FileType" class="d">FileType</a> autocommand.
+
+    <span class="n">Note:</span> By default, disables regex <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting, which may be
+    required <a href="luaref.txt.html#for" class="d">for</a> some plugins. In this case, add `vim.bo.syntax <a href="change.txt.html#%3D" class="d">=</a> <span class="o">'on'</span>` after
+    the call to <span class="e">start</span>.
+
+    <span class="n">Note:</span> By default, the highlighter parses code asynchronously, using <a href="insert.txt.html#a" class="d">a</a>
+    segment time of 3ms.
+
+    Example: 
+<span class="e">        vim.api.nvim_create_autocmd( 'FileType', { pattern = 'tex',</span>
+<span class="e">            callback = function(args)</span>
+<span class="e">                vim.treesitter.start(args.buf, 'latex')</span>
+<span class="e">                vim.bo[args.buf].syntax = 'on'  -- only if additional legacy syntax is needed</span>
+<span class="e">            end</span>
+<span class="e">        })</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{bufnr}</span>  (`integer?`) Buffer to be highlighted (default: current
+                 buffer)
+      • <span class="s">{lang}</span>   (`string?`) Language of the parser (default: from buffer
+                 filetype)
+
+stop({bufnr})                                          <span id="vim.treesitter.stop%28%29" class="t">vim.treesitter.stop()</span>
+    Stops <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> highlighting <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> buffer
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{bufnr}</span>  (`integer?`) Buffer to stop highlighting (default: current
+                 buffer)
+
+
+<span class="h">==============================================================================</span>
+<a href="lua.txt.html#Lua" class="d">Lua</a> module: vim.treesitter.language                      <span id="treesitter-language" class="t">treesitter-language</span>
+
+add({lang}, <span class="s">{opts}</span>)                            <span id="vim.treesitter.language.add%28%29" class="t">vim.treesitter.language.add()</span>
+    Load parser with name <span class="s">{lang}</span>
+
+    Parsers are searched in the <span class="e">parser</span> runtime directory, or the provided
+    <span class="s">{path}</span>. Can be used to check <a href="luaref.txt.html#for" class="d">for</a> available parsers before enabling
+    <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> features, e.g., 
+<span class="e">          if vim.treesitter.language.add('markdown') then</span>
+<span class="e">            vim.treesitter.start(bufnr, 'markdown')</span>
+<span class="e">          end</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{lang}</span>  (`string`) Name of the parser (alphanumerical and <span class="e">_</span> only)
+      • <span class="s">{opts}</span>  (`table?`) Options:
+                • <span class="s">{path}</span>? (`string`) Optional path the parser <a href="motion.txt.html#is" class="d">is</a> located <a href="motion.txt.html#at" class="d">at</a>
+                • <span class="s">{symbol_name}</span>? (`string`) Internal symbol name <a href="luaref.txt.html#for" class="d">for</a> the
+                  language to load
+
+<span class="h">    Return (multiple): </span>
+        (`boolean?`) True if parser <a href="motion.txt.html#is" class="d">is</a> loaded
+        (`string?`) Error if parser cannot be loaded
+
+get_filetypes({lang})                <span id="vim.treesitter.language.get_filetypes%28%29" class="t">vim.treesitter.language.get_filetypes()</span>
+    Returns the <a href="filetype.txt.html#filetypes" class="d">filetypes</a> <a href="luaref.txt.html#for" class="d">for</a> which <a href="insert.txt.html#a" class="d">a</a> parser named <span class="s">{lang}</span> <a href="motion.txt.html#is" class="d">is</a> used.
+
+    The <a href="vimeval.txt.html#list" class="d">list</a> includes <span class="s">{lang}</span> itself plus all <a href="filetype.txt.html#filetypes" class="d">filetypes</a> registered via
+    <a href="treesitter.txt.html#vim.treesitter.language.register%28%29" class="l">vim.treesitter.language.register()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{lang}</span>  (`string`) Name of parser
+
+<span class="h">    Return: </span>
+        (`string[]`) <a href="filetype.txt.html#filetypes" class="d">filetypes</a>
+
+get_lang({filetype})                      <span id="vim.treesitter.language.get_lang%28%29" class="t">vim.treesitter.language.get_lang()</span>
+    Returns the language name to be used when loading <a href="insert.txt.html#a" class="d">a</a> parser <a href="luaref.txt.html#for" class="d">for</a> <span class="s">{filetype}</span>.
+
+    If no language has been explicitly registered via
+    <a href="treesitter.txt.html#vim.treesitter.language.register%28%29" class="l">vim.treesitter.language.register()</a><a href="motion.txt.html#%2C" class="d">,</a> default to <span class="s">{filetype}</span>. For composite
+    <a href="filetype.txt.html#filetypes" class="d">filetypes</a> like <span class="e">html.glimmer</span>, only the main <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="motion.txt.html#is" class="d">is</a> returned.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{filetype}</span>  (`string`)
+
+<span class="h">    Return: </span>
+        (`string?`)
+
+inspect({lang})                            <span id="vim.treesitter.language.inspect%28%29" class="t">vim.treesitter.language.inspect()</span>
+    Inspects the provided language.
+
+    Inspecting provides some useful information on the language like ABI
+    version, parser state <a href="intro.txt.html#count" class="d">count</a> (a measure of parser complexity), node and
+    field names, and whether the language came from <a href="insert.txt.html#a" class="d">a</a> WASM module.
+
+    Node names are returned in <a href="insert.txt.html#a" class="d">a</a> table <a href="map.txt.html#mapping" class="d">mapping</a> each node name to <a href="insert.txt.html#a" class="d">a</a> <span class="e">boolean</span>
+    indicating whether or not the node <a href="motion.txt.html#is" class="d">is</a> named (i.e., not anonymous).
+    Anonymous nodes are surrounded with double quotes (`"`).
+
+    For ABI 15 parsers, also show parser metadata (major, minor, patch
+    version) and <a href="insert.txt.html#a" class="d">a</a> table of supertypes with their respective subtypes.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{lang}</span>  (`string`) Language
+
+<span class="h">    Return: </span>
+        (`TSLangInfo`)
+
+register({lang}, <span class="s">{filetype}</span>)              <span id="vim.treesitter.language.register%28%29" class="t">vim.treesitter.language.register()</span>
+    Register <a href="insert.txt.html#a" class="d">a</a> parser named <span class="s">{lang}</span> to be used <a href="luaref.txt.html#for" class="d">for</a> <span class="s">{filetype}</span>(s).
+
+    <span class="n">Note:</span> this adds or overrides the <a href="map.txt.html#mapping" class="d">mapping</a> <a href="luaref.txt.html#for" class="d">for</a> <span class="s">{filetype}</span>, any existing
+    mappings from other <a href="filetype.txt.html#filetypes" class="d">filetypes</a> to <span class="s">{lang}</span> will be preserved.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{lang}</span>      (`string`) Name of parser
+      • <span class="s">{filetype}</span>  (`string|string[]`) Filetype(s) to associate with lang
+
+
+<span class="h">==============================================================================</span>
+<a href="lua.txt.html#Lua" class="d">Lua</a> module: vim.treesitter.query                        <span id="lua-treesitter-query" class="t">lua-treesitter-query</span>
+
+This <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="treesitter.txt.html#treesitter-query" class="l">treesitter-query</a> interface allows you to create queries and use
+them to parse text. See <a href="treesitter.txt.html#vim.treesitter.query.parse%28%29" class="l">vim.treesitter.query.parse()</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> working example.
+
+
+<span id="vim.treesitter.Query" class="t">vim.treesitter.Query</span>
+    Parsed query, see <a href="treesitter.txt.html#vim.treesitter.query.parse%28%29" class="l">vim.treesitter.query.parse()</a>
+
+<span class="h">    Fields: </span>
+      • <span class="s">{lang}</span>                     (`string`) parser language name
+      • <span class="s">{captures}</span>                 (`string[]`) <a href="vimeval.txt.html#list" class="d">list</a> of (unique) capture names
+                                   defined in query
+      • <span class="s">{info}</span>                     (`vim.treesitter.QueryInfo`) query <a href="repeat.txt.html#context" class="d">context</a>
+                                   (e.g. captures, predicates, directives)
+      • <span class="s">{has_conceal_line}</span>         (`boolean`) whether the query sets
+                                   conceal_lines metadata
+      • <span class="s">{has_combined_injections}</span>  (`boolean`) whether the query contains
+                                   combined injections
+      • <span class="s">{query}</span>                    (`TSQuery`) <a href="luaref.txt.html#userdata" class="d">userdata</a> query object
+      • <span class="s">{iter_captures}</span>            (`fun(self: vim.treesitter.Query, node: TSNode, source: integer|string, start: integer?, stop: integer?, opts: table?): fun(end_line: integer?): integer, TSNode, vim.treesitter.query.TSMetadata, TSQueryMatch, TSTree`)
+                                   See <a href="treesitter.txt.html#Query%3Aiter_captures%28%29" class="l">Query:iter_captures()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{iter_matches}</span>             (`fun(self: vim.treesitter.Query, node: TSNode, source: integer|string, start: integer?, stop: integer?, opts: table?): fun(): integer, table&lt;integer, TSNode[]&gt;, vim.treesitter.query.TSMetadata, TSTree`)
+                                   See <a href="treesitter.txt.html#Query%3Aiter_matches%28%29" class="l">Query:iter_matches()</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+                                        <span id="vim.treesitter.query.add_directive%28%29" class="t">vim.treesitter.query.add_directive()</span>
+add_directive({name}, <span class="s">{handler}</span>, <span class="s">{opts}</span>)
+    Adds <a href="insert.txt.html#a" class="d">a</a> new directive to be used in queries
+
+    Handlers can set match level data by setting directly on the metadata
+    object `metadata.key <a href="change.txt.html#%3D" class="d">=</a> value`. Additionally, handlers can set node level
+    data by using the capture id on the metadata table
+    `metadata[capture_id].key <a href="change.txt.html#%3D" class="d">=</a> value`
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{name}</span>     (`string`) Name of the directive, without leading <a href="pattern.txt.html#%23" class="d">#</a>
+      • <span class="s">{handler}</span>  (`fun(match: table&lt;integer,TSNode[]&gt;, pattern: integer, source: integer|string, predicate: any[], metadata: vim.treesitter.query.TSMetadata)`)
+                   • match: <a href="insert.txt.html#A" class="d">A</a> table <a href="map.txt.html#mapping" class="d">mapping</a> capture IDs to <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of captured
+                     nodes
+                   • pattern: the <a href="index.txt.html#index" class="d">index</a> of the matching <a href="pattern.txt.html#pattern" class="d">pattern</a> in the query
+                     file
+                   • predicate: <a href="vimeval.txt.html#list" class="d">list</a> of strings containing the full directive
+                     being called, e.g. `(node (#set! <a href="syntax.txt.html#conceal" class="d">conceal</a> "<a href="motion.txt.html#-" class="d">-</a>"))` would get
+                     the predicate <a href="motion.txt.html#%60%7B" class="d">`{</a> "#set!"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="syntax.txt.html#conceal" class="d">conceal</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="motion.txt.html#-" class="d">-</a>" }`
+      • <span class="s">{opts}</span>     (`table`) <a href="insert.txt.html#A" class="d">A</a> table with the following fields:
+                   • <span class="s">{force}</span>? (`boolean`) Override an existing predicate of
+                     the same name
+                   • <span class="s">{all}</span>? (`boolean`) Use the correct implementation of the
+                     match table where capture IDs map to <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of nodes
+                     instead of <a href="insert.txt.html#a" class="d">a</a> single node. Defaults to true. This option
+                     will be removed in <a href="insert.txt.html#a" class="d">a</a> future release.
+
+                                        <span id="vim.treesitter.query.add_predicate%28%29" class="t">vim.treesitter.query.add_predicate()</span>
+add_predicate({name}, <span class="s">{handler}</span>, <span class="s">{opts}</span>)
+    Adds <a href="insert.txt.html#a" class="d">a</a> new predicate to be used in queries
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{name}</span>     (`string`) Name of the predicate, without leading <a href="pattern.txt.html#%23" class="d">#</a>
+      • <span class="s">{handler}</span>  (`fun(match: table&lt;integer,TSNode[]&gt;, pattern: integer, source: integer|string, predicate: any[], metadata: vim.treesitter.query.TSMetadata): boolean?`)
+                   • see <a href="treesitter.txt.html#vim.treesitter.query.add_directive%28%29" class="l">vim.treesitter.query.add_directive()</a> <a href="luaref.txt.html#for" class="d">for</a> argument
+                     meanings
+      • <span class="s">{opts}</span>     (`table?`) <a href="insert.txt.html#A" class="d">A</a> table with the following fields:
+                   • <span class="s">{force}</span>? (`boolean`) Override an existing predicate of
+                     the same name
+                   • <span class="s">{all}</span>? (`boolean`) Use the correct implementation of the
+                     match table where capture IDs map to <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of nodes
+                     instead of <a href="insert.txt.html#a" class="d">a</a> single node. Defaults to true. This option
+                     will be removed in <a href="insert.txt.html#a" class="d">a</a> future release.
+
+edit({lang})                                     <span id="vim.treesitter.query.edit%28%29" class="t">vim.treesitter.query.edit()</span>
+    Opens <a href="insert.txt.html#a" class="d">a</a> live editor to query the buffer you started from.
+
+    Can also be shown with *:EditQuery*<a href="repeat.txt.html#." class="d">.</a>
+
+    If you move the cursor to <a href="insert.txt.html#a" class="d">a</a> capture name <a href="motion.txt.html#%28" class="d">(</a>"@foo"), text matching the
+    capture <a href="motion.txt.html#is" class="d">is</a> highlighted in the source buffer. The query editor <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> scratch
+    buffer, use <span class="e">:write</span> to save it. You can find example queries <a href="motion.txt.html#at" class="d">at</a>
+    <span class="e">$VIMRUNTIME/queries/</span>.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{lang}</span>  (`string?`) language to open the query editor for. If omitted,
+                inferred from the current buffer's filetype.
+
+get({lang}, <span class="s">{query_name}</span>)                         <span id="vim.treesitter.query.get%28%29" class="t">vim.treesitter.query.get()</span>
+    Returns the runtime query <span class="s">{query_name}</span> <a href="luaref.txt.html#for" class="d">for</a> <span class="s">{lang}</span>.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{lang}</span>        (`string`) Language to use <a href="luaref.txt.html#for" class="d">for</a> the query
+      • <span class="s">{query_name}</span>  (`string`) Name of the query (e.g. "highlights"<a href="motion.txt.html#%29" class="d">)</a>
+
+<span class="h">    Return: </span>
+        (`vim.treesitter.Query?`) Parsed query. <span class="e">nil</span> if no query files are
+        found. See <a href="treesitter.txt.html#vim.treesitter.Query" class="l">vim.treesitter.Query</a><a href="repeat.txt.html#." class="d">.</a>
+
+                                            <span id="vim.treesitter.query.get_files%28%29" class="t">vim.treesitter.query.get_files()</span>
+get_files({lang}, <span class="s">{query_name}</span>, <span class="s">{is_included}</span>)
+    Gets the <a href="vimeval.txt.html#list" class="d">list</a> of files used to make up <a href="insert.txt.html#a" class="d">a</a> query
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{lang}</span>         (`string`) Language to get query <a href="luaref.txt.html#for" class="d">for</a>
+      • <span class="s">{query_name}</span>   (`string`) Name of the query to load (e.g.,
+                       "highlights"<a href="motion.txt.html#%29" class="d">)</a>
+      • <span class="s">{is_included}</span>  (`boolean?`) Internal parameter, most of the time left
+                       <a href="motion.txt.html#as" class="d">as</a> <span class="e">nil</span>
+
+<span class="h">    Return: </span>
+        (`string[]`) query_files <a href="vimeval.txt.html#List" class="d">List</a> of files to load <a href="luaref.txt.html#for" class="d">for</a> given query and
+        language
+
+lint({buf}, <span class="s">{opts}</span>)                              <span id="vim.treesitter.query.lint%28%29" class="t">vim.treesitter.query.lint()</span>
+    Lint <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> queries using installed parser, or clear lint errors.
+
+    Use <a href="treesitter.txt.html#treesitter-parsers" class="l">treesitter-parsers</a> in runtimepath to check the query file in <span class="s">{buf}</span>
+    <a href="luaref.txt.html#for" class="d">for</a> errors:
+    • verify that used nodes are valid identifiers in the grammar.
+    • verify that predicates and directives are valid.
+    • verify that top-level s-expressions are valid.
+
+    The found diagnostics are reported using <a href="diagnostic.txt.html#diagnostic-api" class="l">diagnostic-api</a><a href="repeat.txt.html#." class="d">.</a> By default, the
+    parser used <a href="luaref.txt.html#for" class="d">for</a> verification <a href="motion.txt.html#is" class="d">is</a> determined by the containing folder of the
+    query file, e.g., if the path ends in <span class="e">/lua/highlights.scm</span>, the parser
+    <a href="luaref.txt.html#for" class="d">for</a> the <span class="e">lua</span> language will be used.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{buf}</span>   (`integer`) Buffer handle
+      • <span class="s">{opts}</span>  (`table?`) Optional keyword arguments:
+                • <span class="s">{langs}</span>? (`string|string[]`) Language(s) to use <a href="luaref.txt.html#for" class="d">for</a> checking
+                  the query. If multiple languages are specified, queries are
+                  validated <a href="luaref.txt.html#for" class="d">for</a> all of them
+                • <span class="s">{clear}</span> (`boolean`) Just clear current lint <a href="message.txt.html#errors" class="d">errors</a>
+
+list_directives()                     <span id="vim.treesitter.query.list_directives%28%29" class="t">vim.treesitter.query.list_directives()</span>
+    <a href="vimeval.txt.html#Lists" class="d">Lists</a> the currently available directives to use in queries.
+
+<span class="h">    Return: </span>
+        (`string[]`) Supported directives.
+
+list_predicates()                     <span id="vim.treesitter.query.list_predicates%28%29" class="t">vim.treesitter.query.list_predicates()</span>
+    <a href="vimeval.txt.html#Lists" class="d">Lists</a> the currently available predicates to use in queries.
+
+<span class="h">    Return: </span>
+        (`string[]`) Supported predicates.
+
+omnifunc({findstart}, <span class="s">{base}</span>)                <span id="vim.treesitter.query.omnifunc%28%29" class="t">vim.treesitter.query.omnifunc()</span>
+    Omnifunc <a href="luaref.txt.html#for" class="d">for</a> completing node names and predicates in <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> queries.
+
+    Use via 
+<span class="e">        vim.bo.omnifunc = 'v:lua.vim.treesitter.query.omnifunc'</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{findstart}</span>  (`0|1`)
+      • <span class="s">{base}</span>       (`string`)
+
+parse({lang}, <span class="s">{query}</span>)                          <span id="vim.treesitter.query.parse%28%29" class="t">vim.treesitter.query.parse()</span>
+    Parses <a href="insert.txt.html#a" class="d">a</a> <span class="s">{query}</span> <a href="vimeval.txt.html#string" class="d">string</a> and returns <a href="insert.txt.html#a" class="d">a</a> <span class="e">Query</span> object
+    <a href="motion.txt.html#%28" class="d">(</a><a href="treesitter.txt.html#lua-treesitter-query" class="l">lua-treesitter-query</a>), which can be used to search the tree <a href="luaref.txt.html#for" class="d">for</a> the
+    query patterns (via <a href="treesitter.txt.html#Query%3Aiter_captures%28%29" class="l">Query:iter_captures()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="treesitter.txt.html#Query%3Aiter_matches%28%29" class="l">Query:iter_matches()</a>), or
+    inspect/modify the query via these fields:
+    • <span class="e">captures</span>: <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of unique capture names defined in the query (alias:
+      <span class="e">info.captures</span>).
+    • <span class="e">info.patterns</span>: information about predicates.
+    • <span class="e">query</span>: the underlying <a href="treesitter.txt.html#TSQuery" class="l">TSQuery</a> which can be used to disable patterns
+      or captures.
+
+    Example: 
+<span class="e">        local query = vim.treesitter.query.parse('vimdoc', [[</span>
+<span class="e">          ; query</span>
+<span class="e">          ((h1) @str</span>
+<span class="e">            (#trim! @str 1 1 1 1))</span>
+<span class="e">        ]])</span>
+<span class="e">        local tree = vim.treesitter.get_parser():parse()[1]</span>
+<span class="e">        for id, node, metadata in query:iter_captures(tree:root(), 0) do</span>
+<span class="e">           -- Print the node name and source text.</span>
+<span class="e">           vim.print({node:type(), vim.treesitter.get_node_text(node, vim.api.nvim_get_current_buf())})</span>
+<span class="e">        end</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{lang}</span>   (`string`) Language to use <a href="luaref.txt.html#for" class="d">for</a> the query
+      • <span class="s">{query}</span>  (`string`) Query text, in s-expr <a href="syntax.txt.html#syntax" class="d">syntax</a>
+
+<span class="h">    Return: </span>
+        (`vim.treesitter.Query`) Parsed query <a href="repeat.txt.html#." class="d">.</a> See <a href="treesitter.txt.html#vim.treesitter.Query" class="l">vim.treesitter.Query</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    See also: </span>
+      • <a href="treesitter.txt.html#vim.treesitter.query.get%28%29" class="l">vim.treesitter.query.get()</a>
+
+                                                       <span id="Query%3Aiter_captures%28%29" class="t">Query:iter_captures()</span>
+Query:iter_captures({node}, <span class="s">{source}</span>, <span class="s">{start}</span>, <span class="s">{stop}</span>, <span class="s">{opts}</span>)
+    Iterates over all captures from all matches in <span class="s">{node}</span>.
+
+    <span class="s">{source}</span> <a href="motion.txt.html#is" class="d">is</a> required if the query contains predicates; then the caller
+    must ensure to use <a href="insert.txt.html#a" class="d">a</a> freshly parsed tree consistent with the current text
+    of the buffer (if relevant). <span class="s">{start}</span> and <span class="s">{stop}</span> can be used to limit
+    matches inside <a href="insert.txt.html#a" class="d">a</a> row range (this <a href="motion.txt.html#is" class="d">is</a> typically used with root node <a href="motion.txt.html#as" class="d">as</a> the
+    <span class="s">{node}</span>, i.e., to get <a href="syntax.txt.html#syntax" class="d">syntax</a> highlight matches in the current viewport).
+    When omitted, the <span class="s">{start}</span> and <span class="s">{stop}</span> row values are used from the given
+    node.
+
+    The <a href="lua.txt.html#iterator" class="d">iterator</a> returns four values:
+    1. the numeric id identifying the capture
+    2. the captured node
+    3. metadata from any directives processing the match
+    4. the match itself
+
+    Example: how to get captures by name: 
+<span class="e">        for id, node, metadata, match in query:iter_captures(tree:root(), bufnr, first, last) do</span>
+<span class="e">          local name = query.captures[id] -- name of the capture in the query</span>
+<span class="e">          -- typically useful info about the node:</span>
+<span class="e">          local type = node:type() -- type of the captured node</span>
+<span class="e">          local row1, col1, row2, col2 = node:range() -- range of the capture</span>
+<span class="e">          -- ... use the info here ...</span>
+<span class="e">        end</span>
+
+
+<span class="h">    Note: </span>
+      • Captures are only returned if the query <a href="pattern.txt.html#pattern" class="d">pattern</a> of <a href="insert.txt.html#a" class="d">a</a> specific capture
+        contained predicates.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{node}</span>    (`TSNode`) under which the search will occur
+      • <span class="s">{source}</span>  (`integer|string`) Source buffer or <a href="vimeval.txt.html#string" class="d">string</a> to extract text
+                  from
+      • <span class="s">{start}</span>   (`integer?`) Starting line <a href="luaref.txt.html#for" class="d">for</a> the search. Defaults to
+                  <span class="e">node:start()</span>.
+      • <span class="s">{stop}</span>    (`integer?`) Stopping line <a href="luaref.txt.html#for" class="d">for</a> the search (end-exclusive).
+                  Defaults to <span class="e">node:end_()</span>.
+      • <span class="s">{opts}</span>    (`table?`) Optional keyword arguments:
+                  • max_start_depth (integer) if non-zero, sets the maximum
+                    start depth <a href="luaref.txt.html#for" class="d">for</a> each match. This <a href="motion.txt.html#is" class="d">is</a> used to prevent
+                    traversing too deep into <a href="insert.txt.html#a" class="d">a</a> tree.
+                  • match_limit (integer) Set the maximum number of
+                    in-progress matches (Default: 256).
+
+<span class="h">    Return: </span>
+        (`fun(end_line: integer?): integer, TSNode, vim.treesitter.query.TSMetadata, TSQueryMatch, TSTree`)
+        capture id, capture node, metadata, match, tree
+
+                                                        <span id="Query%3Aiter_matches%28%29" class="t">Query:iter_matches()</span>
+Query:iter_matches({node}, <span class="s">{source}</span>, <span class="s">{start}</span>, <span class="s">{stop}</span>, <span class="s">{opts}</span>)
+    Iterates the matches of <a href="vimeval.txt.html#self" class="d">self</a> on <a href="insert.txt.html#a" class="d">a</a> given range.
+
+    Iterate over all matches within <a href="insert.txt.html#a" class="d">a</a> <span class="s">{node}</span>. The arguments are the same <a href="motion.txt.html#as" class="d">as</a>
+    <a href="luaref.txt.html#for" class="d">for</a> <a href="treesitter.txt.html#Query%3Aiter_captures%28%29" class="l">Query:iter_captures()</a> but the iterated values are different: an
+    (1-based) <a href="index.txt.html#index" class="d">index</a> of the <a href="pattern.txt.html#pattern" class="d">pattern</a> in the query, <a href="insert.txt.html#a" class="d">a</a> table <a href="map.txt.html#mapping" class="d">mapping</a> capture
+    indices to <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of nodes, and metadata from any directives processing
+    the match.
+
+    Example: 
+<span class="e">        for pattern, match, metadata in cquery:iter_matches(tree:root(), bufnr, 0, -1) do</span>
+<span class="e">          for id, nodes in pairs(match) do</span>
+<span class="e">            local name = query.captures[id]</span>
+<span class="e">            for _, node in ipairs(nodes) do</span>
+<span class="e">              -- `node` was captured by the `name` capture in the match</span>
+<span class="e"></span>
+<span class="e">              local node_data = metadata[id] -- Node level metadata</span>
+<span class="e">              -- ... use the info here ...</span>
+<span class="e">            end</span>
+<span class="e">          end</span>
+<span class="e">        end</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{node}</span>    (`TSNode`) under which the search will occur
+      • <span class="s">{source}</span>  (`integer|string`) Source buffer or <a href="vimeval.txt.html#string" class="d">string</a> to search
+      • <span class="s">{start}</span>   (`integer?`) Starting line <a href="luaref.txt.html#for" class="d">for</a> the search. Defaults to
+                  <span class="e">node:start()</span>.
+      • <span class="s">{stop}</span>    (`integer?`) Stopping line <a href="luaref.txt.html#for" class="d">for</a> the search (end-exclusive).
+                  Defaults to <span class="e">node:end_()</span>.
+      • <span class="s">{opts}</span>    (`table?`) Optional keyword arguments:
+                  • max_start_depth (integer) if non-zero, sets the maximum
+                    start depth <a href="luaref.txt.html#for" class="d">for</a> each match. This <a href="motion.txt.html#is" class="d">is</a> used to prevent
+                    traversing too deep into <a href="insert.txt.html#a" class="d">a</a> tree.
+                  • match_limit (integer) Set the maximum number of
+                    in-progress matches (Default: 256). all (boolean) When
+                    <span class="e">false</span> (default <span class="e">true</span>), the returned table maps capture
+                    IDs to <a href="insert.txt.html#a" class="d">a</a> single (last) node instead of the full <a href="vimeval.txt.html#list" class="d">list</a> of
+                    matching nodes. This option <a href="motion.txt.html#is" class="d">is</a> only <a href="luaref.txt.html#for" class="d">for</a> backward
+                    compatibility and will be removed in <a href="insert.txt.html#a" class="d">a</a> future release.
+
+<span class="h">    Return: </span>
+        (`fun(): integer, table&lt;integer, TSNode[]&gt;, vim.treesitter.query.TSMetadata, TSTree`)
+        <a href="pattern.txt.html#pattern" class="d">pattern</a> id, match, metadata, tree
+
+set({lang}, <span class="s">{query_name}</span>, <span class="s">{text}</span>)                 <span id="vim.treesitter.query.set%28%29" class="t">vim.treesitter.query.set()</span>
+    Sets the runtime query named <span class="s">{query_name}</span> <a href="luaref.txt.html#for" class="d">for</a> <span class="s">{lang}</span>
+
+    This allows users to override or extend any runtime files and/or
+    configuration set by plugins.
+
+    For example, you could enable spellchecking of <span class="e">C</span> identifiers with the
+    following code: 
+<span class="e">        vim.treesitter.query.set(</span>
+<span class="e">          'c',</span>
+<span class="e">          'highlights',</span>
+<span class="e">          [[;inherits c</span>
+<span class="e">          (identifier) @spell]])</span>
+<span class="e">        ]])</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{lang}</span>        (`string`) Language to use <a href="luaref.txt.html#for" class="d">for</a> the query
+      • <span class="s">{query_name}</span>  (`string`) Name of the query (e.g., "highlights"<a href="motion.txt.html#%29" class="d">)</a>
+      • <span class="s">{text}</span>        (`string`) Query text (unparsed).
+
+
+
+
+<span id="TSQuery" class="t">TSQuery</span>
+    Extends: <a href="luaref.txt.html#userdata" class="l">userdata</a>
+
+    Reference to an object held by the <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> library that <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a>
+    component of the <a href="treesitter.txt.html#vim.treesitter.Query" class="l">vim.treesitter.Query</a> <a href="luaref.txt.html#for" class="d">for</a> language feature support. See
+    <a href="treesitter.txt.html#treesitter-query" class="l">treesitter-query</a> <a href="luaref.txt.html#for" class="d">for</a> more about queries or
+    <a href="treesitter.txt.html#vim.treesitter.query.parse%28%29" class="l">vim.treesitter.query.parse()</a> <a href="luaref.txt.html#for" class="d">for</a> an example of how to obtain <a href="insert.txt.html#a" class="d">a</a> query
+    object.
+
+<span class="h">    Fields: </span>
+      • <span class="s">{disable_capture}</span>  (`fun(self: TSQuery, capture_name: string)`) See
+                           <a href="treesitter.txt.html#TSQuery%3Adisable_capture%28%29" class="l">TSQuery:disable_capture()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{disable_pattern}</span>  (`fun(self: TSQuery, pattern_index: integer)`) See
+                           <a href="treesitter.txt.html#TSQuery%3Adisable_pattern%28%29" class="l">TSQuery:disable_pattern()</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+TSQuery:disable_capture({capture_name})            <span id="TSQuery%3Adisable_capture%28%29" class="t">TSQuery:disable_capture()</span>
+    Disable <a href="insert.txt.html#a" class="d">a</a> specific capture in this query; once disabled the capture cannot
+    be re-enabled. <span class="s">{capture_name}</span> should not include <a href="insert.txt.html#a" class="d">a</a> leading "<a href="repeat.txt.html#%40" class="d">@</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+    Example: To disable the <span class="e">@variable.parameter</span> capture from the vimdoc
+    highlights query: 
+<span class="e">        local query = vim.treesitter.query.get('vimdoc', 'highlights')</span>
+<span class="e">        query.query:disable_capture("variable.parameter")</span>
+<span class="e">        vim.treesitter.get_parser():parse()</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{capture_name}</span>  (`string`)
+
+TSQuery:disable_pattern({pattern_index})           <span id="TSQuery%3Adisable_pattern%28%29" class="t">TSQuery:disable_pattern()</span>
+    Disable <a href="insert.txt.html#a" class="d">a</a> specific <a href="pattern.txt.html#pattern" class="d">pattern</a> in this query; once disabled the <a href="pattern.txt.html#pattern" class="d">pattern</a> cannot
+    be re-enabled. The <span class="s">{pattern_index}</span> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> particular match can be obtained
+    with <a href="lua.txt.html#%3AInspect%21" class="l">:Inspect!</a><a href="motion.txt.html#%2C" class="d">,</a> or by reading the source of the query (i.e. from
+    <a href="treesitter.txt.html#vim.treesitter.query.get_files%28%29" class="l">vim.treesitter.query.get_files()</a>).
+
+    Example: To disable <span class="e">|</span> links in vimdoc but keep other <span class="e">@markup.link</span>s
+    highlighted: 
+<span class="e">        local link_pattern = 9 -- from :Inspect!</span>
+<span class="e">        local query = vim.treesitter.query.get('vimdoc', 'highlights')</span>
+<span class="e">        query.query:disable_pattern(link_pattern)</span>
+<span class="e">        local tree = vim.treesitter.get_parser():parse()[1]</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{pattern_index}</span>  (`integer`)
+
+
+<span class="h">==============================================================================</span>
+<a href="lua.txt.html#Lua" class="d">Lua</a> module: vim.treesitter.languagetree              <span id="treesitter-languagetree" class="t">treesitter-languagetree</span>
+
+<span class="c">A</span> <span id="LanguageTree" class="t">LanguageTree</span> contains <a href="insert.txt.html#a" class="d">a</a> tree of parsers: the root <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> parser <a href="luaref.txt.html#for" class="d">for</a>
+<span class="s">{lang}</span> and any "injected" language parsers, which themselves may inject other
+languages, recursively. For example <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> buffer containing some Vimscript
+commands needs multiple parsers to fully understand its contents.
+
+To create <a href="insert.txt.html#a" class="d">a</a> <a href="treesitter.txt.html#LanguageTree" class="d">LanguageTree</a> (parser object) <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> given buffer and language, use: 
+<span class="e">    local parser = vim.treesitter.get_parser(bufnr, lang)</span>
+
+
+(where <span class="e">bufnr=0</span> means current buffer). <span class="e">lang</span> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a>. <span class="n">Note:</span>
+currently the parser <a href="motion.txt.html#is" class="d">is</a> retained <a href="luaref.txt.html#for" class="d">for</a> the lifetime of <a href="insert.txt.html#a" class="d">a</a> buffer but this may
+change; <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> should keep <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#reference" class="d">reference</a> to the parser object if <a href="motion.txt.html#it" class="d">it</a> wants
+incremental updates.
+
+Whenever you need to access the current <a href="syntax.txt.html#syntax" class="d">syntax</a> tree, parse the buffer: 
+<span class="e">    local tree = parser:parse({ start_row, end_row })</span>
+
+
+This returns <a href="insert.txt.html#a" class="d">a</a> table of immutable <a href="treesitter.txt.html#treesitter-tree" class="l">treesitter-tree</a> <a href="index.txt.html#objects" class="d">objects</a> representing the
+current state of the buffer. When the <a href="usr_05.txt.html#plugin" class="d">plugin</a> wants to access the state after <a href="insert.txt.html#a" class="d">a</a>
+(possible) edit <a href="motion.txt.html#it" class="d">it</a> must call <span class="e">parse()</span> again. If the buffer wasn't edited, the
+same tree will be returned again without extra work. If the buffer was parsed
+before, incremental parsing will be done of the changed parts.
+
+<span class="n">Note:</span> To use the parser directly inside <a href="insert.txt.html#a" class="d">a</a> <a href="api.txt.html#nvim_buf_attach%28%29" class="l">nvim_buf_attach()</a> <a href="lua.txt.html#Lua" class="d">Lua</a> callback,
+you must call <a href="treesitter.txt.html#vim.treesitter.get_parser%28%29" class="l">vim.treesitter.get_parser()</a> before you <a href="intro.txt.html#register" class="d">register</a> your callback.
+But preferably parsing shouldn't be done directly in the change callback
+anyway <a href="motion.txt.html#as" class="d">as</a> they will be very frequent. Rather <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> that does any kind of
+analysis on <a href="insert.txt.html#a" class="d">a</a> tree should use <a href="insert.txt.html#a" class="d">a</a> <a href="vimfn.txt.html#timer" class="d">timer</a> to throttle too frequent updates.
+
+
+<a href="treesitter.txt.html#LanguageTree%3Achildren%28%29" class="d">LanguageTree:children()</a>                              <span id="LanguageTree%3Achildren%28%29" class="t">LanguageTree:children()</span>
+    Returns <a href="insert.txt.html#a" class="d">a</a> map of language to child tree.
+
+<span class="h">    Return: </span>
+        (`table&lt;string,vim.treesitter.LanguageTree&gt;`)
+
+LanguageTree:contains({range})                       <span id="LanguageTree%3Acontains%28%29" class="t">LanguageTree:contains()</span>
+    Determines whether <span class="s">{range}</span> <a href="motion.txt.html#is" class="d">is</a> contained in the <a href="treesitter.txt.html#LanguageTree" class="l">LanguageTree</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{range}</span>  (`table`) <a href="insert.txt.html#A" class="d">A</a> table with the following fields:
+                 • <span class="s">{[1]}</span> (`integer`) start row
+                 • <span class="s">{[2]}</span> (`integer`) start column
+                 • <span class="s">{[3]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> row
+                 • <span class="s">{[4]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> column
+
+<span class="h">    Return: </span>
+        (`boolean`)
+
+<a href="treesitter.txt.html#LanguageTree%3Adestroy%28%29" class="d">LanguageTree:destroy()</a>                                <span id="LanguageTree%3Adestroy%28%29" class="t">LanguageTree:destroy()</span>
+    Destroys this <a href="treesitter.txt.html#LanguageTree" class="l">LanguageTree</a> and all its children.
+
+    Any cleanup logic should be performed here.
+
+    <span class="n">Note:</span> This DOES NOT remove this tree from <a href="insert.txt.html#a" class="d">a</a> parent. Instead,
+    <span class="e">remove_child</span> must be called on the parent to remove it.
+
+LanguageTree:for_each_tree({fn})                <span id="LanguageTree%3Afor_each_tree%28%29" class="t">LanguageTree:for_each_tree()</span>
+    Invokes the callback <a href="luaref.txt.html#for" class="d">for</a> each <a href="treesitter.txt.html#LanguageTree" class="l">LanguageTree</a> recursively.
+
+    <span class="n">Note:</span> This includes the invoking tree's child trees <a href="motion.txt.html#as" class="d">as</a> well.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{fn}</span>  (`fun(tree: TSTree, ltree: vim.treesitter.LanguageTree)`)
+
+<a href="treesitter.txt.html#LanguageTree%3Aincluded_regions%28%29" class="d">LanguageTree:included_regions()</a>              <span id="LanguageTree%3Aincluded_regions%28%29" class="t">LanguageTree:included_regions()</span>
+    Gets the set of included regions managed by this LanguageTree. This can be
+    different from the regions set by injection query, because <a href="insert.txt.html#a" class="d">a</a> <a href="vimfn.txt.html#partial" class="d">partial</a>
+    <a href="treesitter.txt.html#LanguageTree%3Aparse%28%29" class="l">LanguageTree:parse()</a> drops the regions outside the requested range. Each
+    <a href="vimeval.txt.html#list" class="d">list</a> represents <a href="insert.txt.html#a" class="d">a</a> range in the form of <span class="s">{ {start_row}</span>, <span class="s">{start_col}</span>,
+    <span class="s">{start_bytes}</span>, <span class="s">{end_row}</span>, <span class="s">{end_col}</span>, <span class="s">{end_bytes}</span> }.
+
+<span class="h">    Return: </span>
+        (`table&lt;integer, Range6[]&gt;`)
+
+LanguageTree:invalidate({reload})                  <span id="LanguageTree%3Ainvalidate%28%29" class="t">LanguageTree:invalidate()</span>
+    Invalidates this parser and its children.
+
+    Should only be called when the tracked state of the <a href="treesitter.txt.html#LanguageTree" class="d">LanguageTree</a> <a href="motion.txt.html#is" class="d">is</a> not
+    valid against the parse tree in treesitter. Doesn't clear filesystem
+    cache. Called often, so needs to be fast.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{reload}</span>  (`boolean?`)
+
+                                                     <span id="LanguageTree%3Ais_valid%28%29" class="t">LanguageTree:is_valid()</span>
+LanguageTree:is_valid({exclude_children}, <span class="s">{range}</span>)
+    Returns whether this <a href="treesitter.txt.html#LanguageTree" class="d">LanguageTree</a> <a href="motion.txt.html#is" class="d">is</a> valid, i.e., <a href="treesitter.txt.html#LanguageTree%3Atrees%28%29" class="l">LanguageTree:trees()</a>
+    reflects the latest state of the source. If invalid, user should call
+    <a href="treesitter.txt.html#LanguageTree%3Aparse%28%29" class="l">LanguageTree:parse()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{exclude_children}</span>  (`boolean?`) whether to ignore the validity of
+                            children (default <span class="e">false</span>)
+      • <span class="s">{range}</span>             (`Range?`) range to check <a href="luaref.txt.html#for" class="d">for</a> validity
+
+<span class="h">    Return: </span>
+        (`boolean`)
+
+<a href="treesitter.txt.html#LanguageTree%3Alang%28%29" class="d">LanguageTree:lang()</a>                                      <span id="LanguageTree%3Alang%28%29" class="t">LanguageTree:lang()</span>
+    Gets the language of this tree node.
+
+<span class="h">    Return: </span>
+        (`string`)
+
+                                           <span id="LanguageTree%3Alanguage_for_range%28%29" class="t">LanguageTree:language_for_range()</span>
+LanguageTree:language_for_range({range})
+    Gets the appropriate language that contains <span class="s">{range}</span>.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{range}</span>  (`table`) <a href="insert.txt.html#A" class="d">A</a> table with the following fields:
+                 • <span class="s">{[1]}</span> (`integer`) start row
+                 • <span class="s">{[2]}</span> (`integer`) start column
+                 • <span class="s">{[3]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> row
+                 • <span class="s">{[4]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> column
+
+<span class="h">    Return: </span>
+        (`vim.treesitter.LanguageTree`) tree Managing <span class="s">{range}</span>
+
+                                         <span id="LanguageTree%3Anamed_node_for_range%28%29" class="t">LanguageTree:named_node_for_range()</span>
+LanguageTree:named_node_for_range({range}, <span class="s">{opts}</span>)
+    Gets the smallest named node that contains <span class="s">{range}</span>.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{range}</span>  (`table`) <a href="insert.txt.html#A" class="d">A</a> table with the following fields:
+                 • <span class="s">{[1]}</span> (`integer`) start row
+                 • <span class="s">{[2]}</span> (`integer`) start column
+                 • <span class="s">{[3]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> row
+                 • <span class="s">{[4]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> column
+      • <span class="s">{opts}</span>   (`table?`) <a href="insert.txt.html#A" class="d">A</a> table with the following fields:
+                 • <span class="s">{ignore_injections}</span>? (`boolean`, default: <span class="e">true</span>) Ignore
+                   injected languages
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+                                               <span id="LanguageTree%3Anode_for_range%28%29" class="t">LanguageTree:node_for_range()</span>
+LanguageTree:node_for_range({range}, <span class="s">{opts}</span>)
+    Gets the smallest node that contains <span class="s">{range}</span>.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{range}</span>  (`table`) <a href="insert.txt.html#A" class="d">A</a> table with the following fields:
+                 • <span class="s">{[1]}</span> (`integer`) start row
+                 • <span class="s">{[2]}</span> (`integer`) start column
+                 • <span class="s">{[3]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> row
+                 • <span class="s">{[4]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> column
+      • <span class="s">{opts}</span>   (`table?`) <a href="insert.txt.html#A" class="d">A</a> table with the following fields:
+                 • <span class="s">{ignore_injections}</span>? (`boolean`, default: <span class="e">true</span>) Ignore
+                   injected languages
+
+<span class="h">    Return: </span>
+        (`TSNode?`)
+
+<a href="treesitter.txt.html#LanguageTree%3Aparent%28%29" class="d">LanguageTree:parent()</a>                                  <span id="LanguageTree%3Aparent%28%29" class="t">LanguageTree:parent()</span>
+    Returns the parent tree. <span class="e">nil</span> <a href="luaref.txt.html#for" class="d">for</a> the root tree.
+
+<span class="h">    Return: </span>
+        (`vim.treesitter.LanguageTree?`)
+
+LanguageTree:parse({range}, <span class="s">{on_parse}</span>)                 <span id="LanguageTree%3Aparse%28%29" class="t">LanguageTree:parse()</span>
+    Recursively parse all regions in the language tree using
+    <a href="treesitter.txt.html#treesitter-parsers" class="l">treesitter-parsers</a> <a href="luaref.txt.html#for" class="d">for</a> the corresponding languages and run injection
+    queries on the parsed trees to determine whether child trees should be
+    created and parsed.
+
+    Any region with empty range (`{}`, typically only the root tree) <a href="motion.txt.html#is" class="d">is</a> always
+    parsed; otherwise (typically injections) only if <a href="motion.txt.html#it" class="d">it</a> intersects <span class="s">{range}</span> (or
+    if <span class="s">{range}</span> <a href="motion.txt.html#is" class="d">is</a> <span class="e">true</span>).
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{range}</span>     (`boolean|Range?`) Parse this range in the parser's
+                    source. Set to <span class="e">true</span> to run <a href="insert.txt.html#a" class="d">a</a> complete parse of the
+                    source (Note: Can be slow!) Set to <span class="e">false|nil</span> to only
+                    parse regions with empty ranges (typically only the root
+                    tree without injections).
+      • <span class="s">{on_parse}</span>  (`fun(err?: string, trees?: table&lt;integer, TSTree&gt;)?`)
+                    Function invoked when parsing completes. When provided and
+                    <span class="e">vim.g._ts_force_sync_parsing</span> <a href="motion.txt.html#is" class="d">is</a> not set, parsing will
+                    run asynchronously. The first argument to the function <a href="motion.txt.html#is" class="d">is</a>
+                    <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> representing the error type, in <a href="change.txt.html#case" class="d">case</a> of <a href="insert.txt.html#a" class="d">a</a> failure
+                    (currently only possible <a href="luaref.txt.html#for" class="d">for</a> timeouts). The second
+                    argument <a href="motion.txt.html#is" class="d">is</a> the <a href="vimeval.txt.html#list" class="d">list</a> of trees returned by the parse (upon
+                    success), or <span class="e">nil</span> if the parse timed out (determined by
+                    <a href="options.txt.html#%27redrawtime%27" class="o">'redrawtime'</a>).
+
+                    If parsing was still able to finish synchronously (within
+                    3ms), <span class="e">parse()</span> returns the <a href="vimeval.txt.html#list" class="d">list</a> of trees. Otherwise, <a href="motion.txt.html#it" class="d">it</a>
+                    returns <span class="e">nil</span>.
+
+<span class="h">    Return: </span>
+        (`table&lt;integer, TSTree&gt;?`)
+
+                                                 <span id="LanguageTree%3Aregister_cbs%28%29" class="t">LanguageTree:register_cbs()</span>
+LanguageTree:register_cbs({cbs}, <span class="s">{recursive}</span>)
+    Registers callbacks <a href="luaref.txt.html#for" class="d">for</a> the <a href="treesitter.txt.html#LanguageTree" class="l">LanguageTree</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{cbs}</span>        (`table&lt;TSCallbackNameOn,function&gt;`) An
+                     <a href="api.txt.html#nvim_buf_attach%28%29" class="l">nvim_buf_attach()</a>-like table argument with the
+                     following handlers:
+                     • <span class="e">on_bytes</span> <a href="cmdline.txt.html#%3A" class="d">:</a> see <a href="api.txt.html#nvim_buf_attach%28%29" class="l">nvim_buf_attach()</a><a href="repeat.txt.html#." class="d">.</a>
+                     • <span class="e">on_changedtree</span> <a href="cmdline.txt.html#%3A" class="d">:</a> <a href="insert.txt.html#a" class="d">a</a> callback that will be called every
+                       time the tree has syntactical changes. It will be
+                       passed two arguments: <a href="insert.txt.html#a" class="d">a</a> table of the ranges (as node
+                       ranges) that changed and the changed tree.
+                     • <span class="e">on_child_added</span> <a href="cmdline.txt.html#%3A" class="d">:</a> emitted when <a href="insert.txt.html#a" class="d">a</a> child <a href="motion.txt.html#is" class="d">is</a> added to the
+                       tree.
+                     • <span class="e">on_child_removed</span> <a href="cmdline.txt.html#%3A" class="d">:</a> emitted when <a href="insert.txt.html#a" class="d">a</a> child <a href="motion.txt.html#is" class="d">is</a> removed
+                       from the tree.
+                     • <span class="e">on_detach</span> <a href="cmdline.txt.html#%3A" class="d">:</a> emitted when the buffer <a href="motion.txt.html#is" class="d">is</a> detached, see
+                       <a href="api.txt.html#nvim_buf_detach_event" class="l">nvim_buf_detach_event</a><a href="repeat.txt.html#." class="d">.</a> Takes one argument, the number
+                       of the buffer.
+      • <span class="s">{recursive}</span>  (`boolean?`) Apply callbacks recursively <a href="luaref.txt.html#for" class="d">for</a> all
+                     children. Any new children will also inherit the
+                     callbacks.
+
+<a href="treesitter.txt.html#LanguageTree%3Asource%28%29" class="d">LanguageTree:source()</a>                                  <span id="LanguageTree%3Asource%28%29" class="t">LanguageTree:source()</span>
+    Returns the source content of the language tree (bufnr or string).
+
+<span class="h">    Return: </span>
+        (`integer|string`)
+
+                                               <span id="LanguageTree%3Atree_for_range%28%29" class="t">LanguageTree:tree_for_range()</span>
+LanguageTree:tree_for_range({range}, <span class="s">{opts}</span>)
+    Gets the tree that contains <span class="s">{range}</span>.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{range}</span>  (`table`) <a href="insert.txt.html#A" class="d">A</a> table with the following fields:
+                 • <span class="s">{[1]}</span> (`integer`) start row
+                 • <span class="s">{[2]}</span> (`integer`) start column
+                 • <span class="s">{[3]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> row
+                 • <span class="s">{[4]}</span> (`integer`) <a href="intro.txt.html#end" class="d">end</a> column
+      • <span class="s">{opts}</span>   (`table?`) <a href="insert.txt.html#A" class="d">A</a> table with the following fields:
+                 • <span class="s">{ignore_injections}</span>? (`boolean`, default: <span class="e">true</span>) Ignore
+                   injected languages
+
+<span class="h">    Return: </span>
+        (`TSTree?`)
+
+<a href="treesitter.txt.html#LanguageTree%3Atrees%28%29" class="d">LanguageTree:trees()</a>                                    <span id="LanguageTree%3Atrees%28%29" class="t">LanguageTree:trees()</span>
+    Returns all trees of the regions parsed by this parser. Does not include
+    child languages. The result <a href="motion.txt.html#is" class="d">is</a> list-like if
+    • this <a href="treesitter.txt.html#LanguageTree" class="d">LanguageTree</a> <a href="motion.txt.html#is" class="d">is</a> the root, in which <a href="change.txt.html#case" class="d">case</a> the result <a href="motion.txt.html#is" class="d">is</a> empty or <a href="insert.txt.html#a" class="d">a</a>
+      singleton list; or
+    • the root <a href="treesitter.txt.html#LanguageTree" class="d">LanguageTree</a> <a href="motion.txt.html#is" class="d">is</a> fully parsed.
+
+<span class="h">    Return: </span>
+        (`table&lt;integer, TSTree&gt;`)
+
+
+ vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: deprecated.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="deprecated.txt.html#">↑Top↑</a></li>
+<li><a href="deprecated.txt.html#_deprecated-features">Deprecated features</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="deprecated.txt" class="t">deprecated.txt</span>       Nvim
+
+
+                             <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Nvim                                                             <span id="deprecated" class="t">deprecated</span>
+
+The items listed below are deprecated: they will be removed in the future.
+They should not be used in new scripts, and old scripts should be updated.
+
+<span class="h">==============================================================================</span>
+<span id="_deprecated-features">Deprecated features</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">DEPRECATED IN 0.11</span>					<span id="deprecated-0.11" class="t">deprecated-0.11</span>
+
+<span class="c">API</span>
+• nvim_notify()		Use <a href="api.txt.html#nvim_echo%28%29" class="l">nvim_echo()</a> or `nvim_exec_lua("vim.notify(...)"<a href="motion.txt.html#%2C" class="d">,</a> ...)` instead.
+• nvim_subscribe()	Plugins must maintain their own "multicast" channels list.
+• nvim_unsubscribe()	Plugins must maintain their own "multicast" channels list.
+• nvim_out_write()	Use <a href="api.txt.html#nvim_echo%28%29" class="l">nvim_echo()</a><a href="repeat.txt.html#." class="d">.</a>
+• nvim_err_write()	Use <a href="api.txt.html#nvim_echo%28%29" class="l">nvim_echo()</a> with <span class="e">{err=true}</span>.
+• nvim_err_writeln()	Use <a href="api.txt.html#nvim_echo%28%29" class="l">nvim_echo()</a> with <span class="e">{err=true}</span>.
+• nvim_buf_add_highlight()	Use <a href="lua.txt.html#vim.hl.range%28%29" class="l">vim.hl.range()</a> or <a href="api.txt.html#nvim_buf_set_extmark%28%29" class="l">nvim_buf_set_extmark()</a>
+
+<span class="c">DIAGNOSTICS</span>
+• <span id="vim.diagnostic.goto_next%28%29" class="t">vim.diagnostic.goto_next()</span>  	Use <a href="diagnostic.txt.html#vim.diagnostic.jump%28%29" class="l">vim.diagnostic.jump()</a> with `{count=1, float=true}` instead.
+• <span id="vim.diagnostic.goto_prev%28%29" class="t">vim.diagnostic.goto_prev()</span>  	Use <a href="diagnostic.txt.html#vim.diagnostic.jump%28%29" class="l">vim.diagnostic.jump()</a> with `{count=-1, float=true}` instead.
+• <span id="vim.diagnostic.get_next_pos%28%29" class="t">vim.diagnostic.get_next_pos()</span> Use the "lnum" and "col" fields from the
+				return value of <a href="diagnostic.txt.html#vim.diagnostic.get_next%28%29" class="l">vim.diagnostic.get_next()</a> instead.
+• <span id="vim.diagnostic.get_prev_pos%28%29" class="t">vim.diagnostic.get_prev_pos()</span> Use the "lnum" and "col" fields from the
+				return value of <a href="diagnostic.txt.html#vim.diagnostic.get_prev%28%29" class="l">vim.diagnostic.get_prev()</a> instead.
+• The "win_id" parameter used by <a href="various.txt.html#various" class="d">various</a> <a href="vimeval.txt.html#functions" class="d">functions</a> <a href="motion.txt.html#is" class="d">is</a> <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> in favor of
+  "<a href="windows.txt.html#winid" class="d">winid</a>" <a href="windows.txt.html#winid" class="l">winid</a>
+• <a href="diagnostic.txt.html#vim.diagnostic.JumpOpts" class="l">vim.diagnostic.JumpOpts</a> renamed its "cursor_position" field to "pos"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="c">HIGHLIGHTS</span>
+• <span id="TermCursorNC" class="t">TermCursorNC</span>  	Unfocused <a href="terminal.txt.html#terminal" class="l">terminal</a> <a href="windows.txt.html#windows" class="d">windows</a> <a href="diff.txt.html#do" class="d">do</a> not have <a href="insert.txt.html#a" class="d">a</a> cursor.
+
+<span class="c">LSP</span>
+• <span id="vim.lsp.util.jump_to_location" class="t">vim.lsp.util.jump_to_location</span>  	Use <a href="lsp.txt.html#vim.lsp.util.show_document%28%29" class="l">vim.lsp.util.show_document()</a> with
+					<span class="e">{focus=true}</span> instead.
+• <span id="vim.lsp.buf.execute_command" class="t">vim.lsp.buf.execute_command</span>  		Use <a href="lsp.txt.html#Client%3Aexec_cmd%28%29" class="l">Client:exec_cmd()</a> instead.
+• <span id="vim.lsp.buf.completion" class="t">vim.lsp.buf.completion</span>  		Use <a href="lsp.txt.html#vim.lsp.completion.get%28%29" class="l">vim.lsp.completion.get()</a> instead.
+• vim.lsp.buf_request_all		The <span class="e">error</span> key has been renamed to <span class="e">err</span> inside
+					the result parameter of the handler.
+• <span id="vim.lsp.with%28%29" class="t">vim.lsp.with()</span>  			Pass configuration to equivalent
+					<a href="vimeval.txt.html#functions" class="d">functions</a> in <span class="e">vim.lsp.buf.*</span>.
+• <a href="lsp.txt.html#vim.lsp.handlers" class="l">vim.lsp.handlers</a> Does not <a href="support.txt.html#support" class="d">support</a> client-to-server response handlers. Only
+  supports server-to-client requests/notification handlers.
+• <span id="vim.lsp.handlers.signature_help%28%29" class="t">vim.lsp.handlers.signature_help()</span>  	Use <a href="lsp.txt.html#vim.lsp.buf.signature_help%28%29" class="l">vim.lsp.buf.signature_help()</a> instead.
+• <span class="e">client.request()</span>  			Use <a href="lsp.txt.html#Client%3Arequest%28%29" class="l">Client:request()</a> instead.
+• <span class="e">client.request_sync()</span>  		Use <a href="lsp.txt.html#Client%3Arequest_sync%28%29" class="l">Client:request_sync()</a> instead.
+• <span class="e">client.notify()</span>  			Use <a href="lsp.txt.html#Client%3Anotify%28%29" class="l">Client:notify()</a> instead.
+• <span class="e">client.cancel_request()</span>  		Use <a href="lsp.txt.html#Client%3Acancel_request%28%29" class="l">Client:cancel_request()</a> instead.
+• <span class="e">client.stop()</span>  			Use <a href="lsp.txt.html#Client%3Astop%28%29" class="l">Client:stop()</a> instead.
+• <span class="e">client.is_stopped()</span>  			Use <a href="lsp.txt.html#Client%3Ais_stopped%28%29" class="l">Client:is_stopped()</a> instead.
+• <span class="e">client.supports_method()</span>  		Use <a href="lsp.txt.html#Client%3Asupports_method%28%29" class="l">Client:supports_method()</a> instead.
+• <span class="e">client.on_attach()</span>  			Use <a href="lsp.txt.html#Client%3Aon_attach%28%29" class="l">Client:on_attach()</a> instead.
+• <span class="e">vim.lsp.start_client()</span>  		Use <a href="lsp.txt.html#vim.lsp.start%28%29" class="l">vim.lsp.start()</a> instead.
+
+<span class="c">LUA</span>
+• vim.region()		Use <a href="vimfn.txt.html#getregionpos%28%29" class="l">getregionpos()</a> instead.
+• <span id="vim.highlight" class="t">vim.highlight</span>  	Renamed to <a href="lua.txt.html#vim.hl" class="l">vim.hl</a><a href="repeat.txt.html#." class="d">.</a>
+• vim.validate(opts: table) Use form 1. See <a href="lua.txt.html#vim.validate%28%29" class="l">vim.validate()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="c">VIMSCRIPT</span>
+• <span id="termopen%28%29" class="t">termopen()</span> Use |<a href="vimfn.txt.html#jobstart%28%29" class="d">jobstart()</a> with `{term: v:true}`.
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">DEPRECATED IN 0.10</span>					<span id="deprecated-0.10" class="t">deprecated-0.10</span>
+
+<span class="c">API</span>
+• <span id="nvim_buf_get_option%28%29" class="t">nvim_buf_get_option()</span>  	Use <a href="api.txt.html#nvim_get_option_value%28%29" class="l">nvim_get_option_value()</a> instead.
+• <span id="nvim_buf_set_option%28%29" class="t">nvim_buf_set_option()</span>  	Use <a href="api.txt.html#nvim_set_option_value%28%29" class="l">nvim_set_option_value()</a> instead.
+• <span id="nvim_call_atomic%28%29" class="t">nvim_call_atomic()</span>  		Use <a href="api.txt.html#nvim_exec_lua%28%29" class="l">nvim_exec_lua()</a> instead.
+• <span id="nvim_get_option%28%29" class="t">nvim_get_option()</span>  		Use <a href="api.txt.html#nvim_get_option_value%28%29" class="l">nvim_get_option_value()</a> instead.
+• <span id="nvim_set_option%28%29" class="t">nvim_set_option()</span>  		Use <a href="api.txt.html#nvim_set_option_value%28%29" class="l">nvim_set_option_value()</a> instead.
+• <span id="nvim_win_get_option%28%29" class="t">nvim_win_get_option()</span>  	Use <a href="api.txt.html#nvim_get_option_value%28%29" class="l">nvim_get_option_value()</a> instead.
+• <span id="nvim_win_set_option%28%29" class="t">nvim_win_set_option()</span>  	Use <a href="api.txt.html#nvim_set_option_value%28%29" class="l">nvim_set_option_value()</a> instead.
+
+<span class="c">CHECKHEALTH</span>
+• <span id="health%23report_error" class="t">health#report_error</span> <span id="vim.health.report_error%28%29" class="t">vim.health.report_error()</span>    	Use <a href="health.txt.html#vim.health.error%28%29" class="l">vim.health.error()</a> instead.
+• <span id="health%23report_info" class="t">health#report_info</span> <span id="vim.health.report_info%28%29" class="t">vim.health.report_info()</span>    	Use <a href="health.txt.html#vim.health.info%28%29" class="l">vim.health.info()</a> instead.
+• <span id="health%23report_ok" class="t">health#report_ok</span> <span id="vim.health.report_ok%28%29" class="t">vim.health.report_ok()</span>    		Use <a href="health.txt.html#vim.health.ok%28%29" class="l">vim.health.ok()</a> instead.
+• <span id="health%23report_start" class="t">health#report_start</span> <span id="vim.health.report_start%28%29" class="t">vim.health.report_start()</span>    	Use <a href="health.txt.html#vim.health.start%28%29" class="l">vim.health.start()</a> instead.
+• <span id="health%23report_warn" class="t">health#report_warn</span> <span id="vim.health.report_warn%28%29" class="t">vim.health.report_warn()</span>    	Use <a href="health.txt.html#vim.health.warn%28%29" class="l">vim.health.warn()</a> instead.
+
+<span class="c">DIAGNOSTICS</span>
+• Configuring <a href="diagnostic.txt.html#diagnostic-signs" class="l">diagnostic-signs</a> using <a href="sign.txt.html#%3Asign-define" class="l">:sign-define</a> or <a href="vimfn.txt.html#sign_define%28%29" class="l">sign_define()</a><a href="repeat.txt.html#." class="d">.</a> Use
+  the "<a href="sign.txt.html#signs" class="d">signs</a>" key of <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a> instead.
+• <a href="diagnostic.txt.html#vim.diagnostic" class="d">vim.diagnostic</a> functions:
+  • <span id="vim.diagnostic.disable%28%29" class="t">vim.diagnostic.disable()</span>  		Use <a href="diagnostic.txt.html#vim.diagnostic.enable%28%29" class="l">vim.diagnostic.enable()</a>
+  • <span id="vim.diagnostic.is_disabled%28%29" class="t">vim.diagnostic.is_disabled()</span>  	Use <a href="diagnostic.txt.html#vim.diagnostic.is_enabled%28%29" class="l">vim.diagnostic.is_enabled()</a>
+  • Legacy signature: `vim.diagnostic.enable(buf:number, namespace:number)`
+
+<span class="c">LSP</span>
+• <span id="vim.lsp.util.get_progress_messages%28%29" class="t">vim.lsp.util.get_progress_messages()</span>  	Use <a href="lsp.txt.html#vim.lsp.status%28%29" class="l">vim.lsp.status()</a> instead.
+• <span id="vim.lsp.get_active_clients%28%29" class="t">vim.lsp.get_active_clients()</span>  		Use <a href="lsp.txt.html#vim.lsp.get_clients%28%29" class="l">vim.lsp.get_clients()</a> instead.
+• <span id="vim.lsp.for_each_buffer_client%28%29" class="t">vim.lsp.for_each_buffer_client()</span>  		Use <a href="lsp.txt.html#vim.lsp.get_clients%28%29" class="l">vim.lsp.get_clients()</a> instead.
+• <span id="vim.lsp.util.trim_empty_lines%28%29" class="t">vim.lsp.util.trim_empty_lines()</span>  		Use <a href="lua.txt.html#vim.split%28%29" class="l">vim.split()</a> with <span class="e">trimempty</span> instead.
+• <span id="vim.lsp.util.try_trim_markdown_code_blocks%28%29" class="t">vim.lsp.util.try_trim_markdown_code_blocks()</span>
+• <span id="vim.lsp.util.set_lines%28%29" class="t">vim.lsp.util.set_lines()</span>
+• <span id="vim.lsp.util.extract_completion_items%28%29" class="t">vim.lsp.util.extract_completion_items()</span>
+• <span id="vim.lsp.util.parse_snippet%28%29" class="t">vim.lsp.util.parse_snippet()</span>
+• <span id="vim.lsp.util.text_document_completion_list_to_complete_items%28%29" class="t">vim.lsp.util.text_document_completion_list_to_complete_items()</span>
+• <span id="vim.lsp.util.lookup_section%28%29" class="t">vim.lsp.util.lookup_section()</span>  		Use <a href="lua.txt.html#vim.tbl_get%28%29" class="l">vim.tbl_get()</a> instead: 
+<span class="e">						local keys = vim.split(section, '.', { plain = true })</span>
+<span class="e">						local  vim.tbl_get(table, unpack(keys))</span>
+<span class="e"></span>
+<span class="c">LUA</span>
+• <span id="vim.loop" class="t">vim.loop</span>  				Use <a href="lua.txt.html#vim.uv" class="l">vim.uv</a> instead.
+• <span id="vim.tbl_add_reverse_lookup%28%29" class="t">vim.tbl_add_reverse_lookup()</span>
+• <span id="vim.tbl_flatten%28%29" class="t">vim.tbl_flatten()</span>  			Use <a href="lua.txt.html#Iter%3Aflatten%28%29" class="l">Iter:flatten()</a> instead.
+• <span id="vim.tbl_islist%28%29" class="t">vim.tbl_islist()</span>  			Use <a href="lua.txt.html#vim.islist%28%29" class="l">vim.islist()</a> instead.
+
+<span class="c">OPTIONS</span>
+• The "<a href="deprecated.txt.html#term_background" class="d">term_background</a>" <a href="ui.txt.html#UI" class="d">UI</a> option <a href="ui.txt.html#ui-ext-options" class="l">ui-ext-options</a> <a href="motion.txt.html#is" class="d">is</a> <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> and no longer
+  populated. Background color detection <a href="motion.txt.html#is" class="d">is</a> now performed in <a href="lua.txt.html#Lua" class="d">Lua</a> by the Nvim
+  core, not the TUI.
+
+<span class="c">TREESITTER</span>
+• <span id="LanguageTree%3Afor_each_child%28%29" class="t">LanguageTree:for_each_child()</span>  	Use <a href="treesitter.txt.html#LanguageTree%3Achildren%28%29" class="l">LanguageTree:children()</a> (non-recursive) instead.
+
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">DEPRECATED IN 0.9</span>					<span id="deprecated-0.9" class="t">deprecated-0.9</span>
+
+<span class="c">API</span>
+• <span id="nvim_get_hl_by_name%28%29" class="t">nvim_get_hl_by_name()</span>  		Use <a href="api.txt.html#nvim_get_hl%28%29" class="l">nvim_get_hl()</a> instead.
+• <span id="nvim_get_hl_by_id%28%29" class="t">nvim_get_hl_by_id()</span>  			Use <a href="api.txt.html#nvim_get_hl%28%29" class="l">nvim_get_hl()</a> instead.
+
+<span class="c">TREESITTER</span>
+• <span id="vim.treesitter.language.require_language%28%29" class="t">vim.treesitter.language.require_language()</span>  	Use <a href="treesitter.txt.html#vim.treesitter.language.add%28%29" class="l">vim.treesitter.language.add()</a> instead.
+• <span id="vim.treesitter.get_node_at_pos%28%29" class="t">vim.treesitter.get_node_at_pos()</span>  		Use <a href="treesitter.txt.html#vim.treesitter.get_node%28%29" class="l">vim.treesitter.get_node()</a> instead.
+• <span id="vim.treesitter.get_node_at_cursor%28%29" class="t">vim.treesitter.get_node_at_cursor()</span>  		Use <a href="treesitter.txt.html#vim.treesitter.get_node%28%29" class="l">vim.treesitter.get_node()</a>
+						and <a href="treesitter.txt.html#TSNode%3Atype%28%29" class="l">TSNode:type()</a> instead.
+• The following top level Treesitter <a href="vimeval.txt.html#functions" class="d">functions</a> have been moved:
+  • <span id="vim.treesitter.inspect_language%28%29" class="t">vim.treesitter.inspect_language()</span>    <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.language.inspect%28%29" class="l">vim.treesitter.language.inspect()</a>
+  • <span id="vim.treesitter.get_query_files%28%29" class="t">vim.treesitter.get_query_files()</span>     <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.query.get_files%28%29" class="l">vim.treesitter.query.get_files()</a>
+  • <span id="vim.treesitter.set_query%28%29" class="t">vim.treesitter.set_query()</span>           <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.query.set%28%29" class="l">vim.treesitter.query.set()</a>
+  • <span id="vim.treesitter.query.set_query%28%29" class="t">vim.treesitter.query.set_query()</span>     <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.query.set%28%29" class="l">vim.treesitter.query.set()</a>
+  • <span id="vim.treesitter.get_query%28%29" class="t">vim.treesitter.get_query()</span>           <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.query.get%28%29" class="l">vim.treesitter.query.get()</a>
+  • <span id="vim.treesitter.query.get_query%28%29" class="t">vim.treesitter.query.get_query()</span>     <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.query.get%28%29" class="l">vim.treesitter.query.get()</a>
+  • <span id="vim.treesitter.parse_query%28%29" class="t">vim.treesitter.parse_query()</span>         <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.query.parse%28%29" class="l">vim.treesitter.query.parse()</a>
+  • <span id="vim.treesitter.query.parse_query%28%29" class="t">vim.treesitter.query.parse_query()</span>   <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.query.parse%28%29" class="l">vim.treesitter.query.parse()</a>
+  • <span id="vim.treesitter.add_predicate%28%29" class="t">vim.treesitter.add_predicate()</span>       <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.query.add_predicate%28%29" class="l">vim.treesitter.query.add_predicate()</a>
+  • <span id="vim.treesitter.add_directive%28%29" class="t">vim.treesitter.add_directive()</span>       <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.query.add_directive%28%29" class="l">vim.treesitter.query.add_directive()</a>
+  • <span id="vim.treesitter.list_predicates%28%29" class="t">vim.treesitter.list_predicates()</span>     <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.query.list_predicates%28%29" class="l">vim.treesitter.query.list_predicates()</a>
+  • <span id="vim.treesitter.list_directives%28%29" class="t">vim.treesitter.list_directives()</span>     <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.query.list_directives%28%29" class="l">vim.treesitter.query.list_directives()</a>
+  • <span id="vim.treesitter.query.get_range%28%29" class="t">vim.treesitter.query.get_range()</span>     <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.get_range%28%29" class="l">vim.treesitter.get_range()</a>
+  • <span id="vim.treesitter.query.get_node_text%28%29" class="t">vim.treesitter.query.get_node_text()</span> <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <a href="treesitter.txt.html#vim.treesitter.get_node_text%28%29" class="l">vim.treesitter.get_node_text()</a>
+
+<span class="c">LUA</span>
+  • <span id="nvim_exec%28%29" class="t">nvim_exec()</span>  				Use <a href="api.txt.html#nvim_exec2%28%29" class="l">nvim_exec2()</a> instead.
+  • <span id="vim.pretty_print%28%29" class="t">vim.pretty_print()</span>  			Use <a href="lua.txt.html#vim.print%28%29" class="l">vim.print()</a> instead.
+
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">DEPRECATED IN 0.8 OR EARLIER</span>
+
+<span class="c">API</span>
+• <span id="nvim_buf_clear_highlight%28%29" class="t">nvim_buf_clear_highlight()</span>  	Use <a href="api.txt.html#nvim_buf_clear_namespace%28%29" class="l">nvim_buf_clear_namespace()</a> instead.
+• <span id="nvim_buf_set_virtual_text%28%29" class="t">nvim_buf_set_virtual_text()</span>  	Use <a href="api.txt.html#nvim_buf_set_extmark%28%29" class="l">nvim_buf_set_extmark()</a> instead.
+• <span id="nvim_command_output%28%29" class="t">nvim_command_output()</span>  	Use <a href="api.txt.html#nvim_exec2%28%29" class="l">nvim_exec2()</a> instead.
+• <span id="nvim_execute_lua%28%29" class="t">nvim_execute_lua()</span>  		Use <a href="api.txt.html#nvim_exec_lua%28%29" class="l">nvim_exec_lua()</a> instead.
+• <span id="nvim_get_option_info%28%29" class="t">nvim_get_option_info()</span>  	Use <a href="api.txt.html#nvim_get_option_info2%28%29" class="l">nvim_get_option_info2()</a> instead.
+
+<span class="c">COMMANDS</span>
+• <span id="%3Arv" class="t">:rv</span> <span id="%3Arviminfo" class="t">:rviminfo</span>    		Deprecated alias to <a href="starting.txt.html#%3Arshada" class="l">:rshada</a> command.
+• <span id="%3Awv" class="t">:wv</span> <span id="%3Awviminfo" class="t">:wviminfo</span>    		Deprecated alias to <a href="starting.txt.html#%3Awshada" class="l">:wshada</a> command.
+
+<span class="c">ENVIRONMENT VARIABLES</span>
+• <span id="%24NVIM_LISTEN_ADDRESS" class="t">$NVIM_LISTEN_ADDRESS</span>
+  • Deprecated way to:
+    • set the server name (use <a href="starting.txt.html#--listen" class="l">--listen</a> or <a href="vimfn.txt.html#serverstart%28%29" class="l">serverstart()</a> instead)
+    • get the server name (use <a href="vvars.txt.html#v%3Aservername" class="l">v:servername</a> instead)
+    • detect <a href="insert.txt.html#a" class="d">a</a> parent Nvim (use <a href="vvars.txt.html#%24NVIM" class="l">$NVIM</a> instead)
+  • Ignored if <a href="starting.txt.html#--listen" class="d">--listen</a> <a href="motion.txt.html#is" class="d">is</a> given.
+  • Unset <a href="motion.txt.html#at" class="d">at</a> <a href="starting.txt.html#startup" class="d">startup</a> (after <a href="vvars.txt.html#v%3Aservername" class="l">v:servername</a> <a href="motion.txt.html#is" class="d">is</a> initialized). Can be explicitly
+    provided to <a href="terminal.txt.html#terminal" class="l">terminal</a> and <a href="vimfn.txt.html#jobstart%28%29" class="l">jobstart()</a> by the "env" option. Example: 
+<span class="e">	call jobstart(['foo'], { 'env': { 'NVIM_LISTEN_ADDRESS': v:servername  } })</span>
+
+
+<span class="c">EVENTS</span>
+• <span id="BufCreate" class="t">BufCreate</span>  		Use <a href="autocmd.txt.html#BufAdd" class="l">BufAdd</a> instead.
+• <span id="EncodingChanged" class="t">EncodingChanged</span>  	Never fired; <a href="options.txt.html#%27encoding%27" class="o">'encoding'</a> <a href="motion.txt.html#is" class="d">is</a> always "<a href="mbyte.txt.html#utf-8" class="d">utf-8</a>"<a href="repeat.txt.html#." class="d">.</a>
+• <span id="FileEncoding" class="t">FileEncoding</span>  	Never fired; equivalent to <a href="deprecated.txt.html#EncodingChanged" class="l">EncodingChanged</a><a href="repeat.txt.html#." class="d">.</a>
+• <span id="GUIEnter" class="t">GUIEnter</span>  		Never fired; use <a href="autocmd.txt.html#UIEnter" class="l">UIEnter</a> instead.
+• <span id="GUIFailed" class="t">GUIFailed</span>  		Never fired.
+
+<span class="c">KEYCODES</span>
+• <span id="%3CMouseDown%3E" class="t">&lt;MouseDown&gt;</span>  		Use <a href="index.txt.html#%3CScrollWheelUp%3E" class="s">&lt;ScrollWheelUp&gt;</a> instead.
+• <span id="%3CMouseUp%3E" class="t">&lt;MouseUp&gt;</span>  		Use <a href="index.txt.html#%3CScrollWheelDown%3E" class="s">&lt;ScrollWheelDown&gt;</a> instead.
+
+<span class="c">HIGHLIGHTS</span>
+• <span id="hl-VertSplit" class="t">hl-VertSplit</span>  	Use <a href="syntax.txt.html#hl-WinSeparator" class="l">hl-WinSeparator</a> instead.
+
+<span class="c">LSP DIAGNOSTICS</span>
+For each of the <a href="vimeval.txt.html#functions" class="d">functions</a> below, use the corresponding function in
+<a href="diagnostic.txt.html#vim.diagnostic" class="l">vim.diagnostic</a> instead (unless otherwise noted). For example, use
+<a href="diagnostic.txt.html#vim.diagnostic.get%28%29" class="l">vim.diagnostic.get()</a> instead of <a href="deprecated.txt.html#vim.lsp.diagnostic.get%28%29" class="l">vim.lsp.diagnostic.get()</a><a href="repeat.txt.html#." class="d">.</a>
+
+• <span id="vim.lsp.diagnostic.clear%28%29" class="t">vim.lsp.diagnostic.clear()</span>  		Use <a href="diagnostic.txt.html#vim.diagnostic.hide%28%29" class="l">vim.diagnostic.hide()</a> instead.
+• <span id="vim.lsp.diagnostic.disable%28%29" class="t">vim.lsp.diagnostic.disable()</span>          Use <a href="diagnostic.txt.html#vim.diagnostic.enable%28%29" class="l">vim.diagnostic.enable()</a> instead.
+• <span id="vim.lsp.diagnostic.display%28%29" class="t">vim.lsp.diagnostic.display()</span>  	Use <a href="diagnostic.txt.html#vim.diagnostic.show%28%29" class="l">vim.diagnostic.show()</a> instead.
+• <span id="vim.lsp.diagnostic.enable%28%29" class="t">vim.lsp.diagnostic.enable()</span>
+• <span id="vim.lsp.diagnostic.get%28%29" class="t">vim.lsp.diagnostic.get()</span>
+• <span id="vim.lsp.diagnostic.get_all%28%29" class="t">vim.lsp.diagnostic.get_all()</span>  	Use <a href="diagnostic.txt.html#vim.diagnostic.get%28%29" class="l">vim.diagnostic.get()</a> instead.
+• <span id="vim.lsp.diagnostic.get_count%28%29" class="t">vim.lsp.diagnostic.get_count()</span>  	Use <a href="diagnostic.txt.html#vim.diagnostic.count%28%29" class="l">vim.diagnostic.count()</a> instead.
+• <span id="vim.lsp.diagnostic.get_line_diagnostics%28%29" class="t">vim.lsp.diagnostic.get_line_diagnostics()</span> Use <a href="diagnostic.txt.html#vim.diagnostic.get%28%29" class="l">vim.diagnostic.get()</a> instead.
+• <span id="vim.lsp.diagnostic.get_next%28%29" class="t">vim.lsp.diagnostic.get_next()</span>
+• <span id="vim.lsp.diagnostic.get_next_pos%28%29" class="t">vim.lsp.diagnostic.get_next_pos()</span>
+• <span id="vim.lsp.diagnostic.get_prev%28%29" class="t">vim.lsp.diagnostic.get_prev()</span>
+• <span id="vim.lsp.diagnostic.get_prev_pos%28%29" class="t">vim.lsp.diagnostic.get_prev_pos()</span>
+• <span id="vim.lsp.diagnostic.get_virtual_text_chunks_for_line%28%29" class="t">vim.lsp.diagnostic.get_virtual_text_chunks_for_line()</span> No replacement. Use
+  <a href="options.txt.html#options" class="d">options</a> provided by <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a> to customize virtual text.
+• <span id="vim.lsp.diagnostic.goto_next%28%29" class="t">vim.lsp.diagnostic.goto_next()</span>
+• <span id="vim.lsp.diagnostic.goto_prev%28%29" class="t">vim.lsp.diagnostic.goto_prev()</span>
+• <span id="vim.lsp.diagnostic.redraw%28%29" class="t">vim.lsp.diagnostic.redraw()</span>  		Use <a href="diagnostic.txt.html#vim.diagnostic.show%28%29" class="l">vim.diagnostic.show()</a> instead.
+• <span id="vim.lsp.diagnostic.reset%28%29" class="t">vim.lsp.diagnostic.reset()</span>
+• <span id="vim.lsp.diagnostic.save%28%29" class="t">vim.lsp.diagnostic.save()</span>  		Use <a href="diagnostic.txt.html#vim.diagnostic.set%28%29" class="l">vim.diagnostic.set()</a> instead.
+• <span id="vim.lsp.diagnostic.set_loclist%28%29" class="t">vim.lsp.diagnostic.set_loclist()</span>  	Use <a href="diagnostic.txt.html#vim.diagnostic.setloclist%28%29" class="l">vim.diagnostic.setloclist()</a> instead.
+• <span id="vim.lsp.diagnostic.set_qflist%28%29" class="t">vim.lsp.diagnostic.set_qflist()</span>  	Use <a href="diagnostic.txt.html#vim.diagnostic.setqflist%28%29" class="l">vim.diagnostic.setqflist()</a> instead.
+• <span id="vim.lsp.diagnostic.show_line_diagnostics%28%29" class="t">vim.lsp.diagnostic.show_line_diagnostics()</span> Use <a href="diagnostic.txt.html#vim.diagnostic.open_float%28%29" class="l">vim.diagnostic.open_float()</a> instead.
+• <span id="vim.lsp.diagnostic.show_position_diagnostics%28%29" class="t">vim.lsp.diagnostic.show_position_diagnostics()</span> Use <a href="diagnostic.txt.html#vim.diagnostic.open_float%28%29" class="l">vim.diagnostic.open_float()</a> instead.
+
+The following are <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> without replacement. These <a href="vimeval.txt.html#functions" class="d">functions</a> are moved
+internally and are no longer exposed <a href="motion.txt.html#as" class="d">as</a> part of the API. Instead, use
+<a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a> and <a href="diagnostic.txt.html#vim.diagnostic.show%28%29" class="l">vim.diagnostic.show()</a><a href="repeat.txt.html#." class="d">.</a>
+
+• <span id="vim.lsp.diagnostic.set_signs%28%29" class="t">vim.lsp.diagnostic.set_signs()</span>
+• <span id="vim.lsp.diagnostic.set_underline%28%29" class="t">vim.lsp.diagnostic.set_underline()</span>
+• <span id="vim.lsp.diagnostic.set_virtual_text%28%29" class="t">vim.lsp.diagnostic.set_virtual_text()</span>
+
+<span class="c">LSP FUNCTIONS</span>
+• <span id="vim.lsp.buf.server_ready%28%29" class="t">vim.lsp.buf.server_ready()</span>
+  Use <a href="lsp.txt.html#LspAttach" class="l">LspAttach</a> instead, depending on your use-case. "Server ready" <a href="motion.txt.html#is" class="d">is</a> not
+  part of the <a href="lsp.txt.html#LSP" class="d">LSP</a> spec, so the Nvim <a href="lsp.txt.html#LSP" class="d">LSP</a> client cannot meaningfully implement
+  it. "Ready" <a href="motion.txt.html#is" class="d">is</a> ambiguous because:
+  • Language servers may finish analyzing the workspace, but edits can always
+    re-trigger analysis/builds.
+  • Language servers can serve some requests even while processing changes.
+• <span id="vim.lsp.buf.range_code_action%28%29" class="t">vim.lsp.buf.range_code_action()</span>  		Use <a href="lsp.txt.html#vim.lsp.buf.code_action%28%29" class="l">vim.lsp.buf.code_action()</a> with
+						the <span class="e">range</span> parameter.
+• <span id="vim.lsp.util.diagnostics_to_items%28%29" class="t">vim.lsp.util.diagnostics_to_items()</span>  		Use <a href="diagnostic.txt.html#vim.diagnostic.toqflist%28%29" class="l">vim.diagnostic.toqflist()</a> instead.
+• <span id="vim.lsp.util.set_qflist%28%29" class="t">vim.lsp.util.set_qflist()</span>  			Use <a href="vimfn.txt.html#setqflist%28%29" class="l">setqflist()</a> instead.
+• <span id="vim.lsp.util.set_loclist%28%29" class="t">vim.lsp.util.set_loclist()</span>  			Use <a href="vimfn.txt.html#setloclist%28%29" class="l">setloclist()</a> instead.
+• <span id="vim.lsp.buf_get_clients%28%29" class="t">vim.lsp.buf_get_clients()</span>  			Use <a href="lsp.txt.html#vim.lsp.get_clients%28%29" class="l">vim.lsp.get_clients()</a> with
+						<span class="s">{buffer=bufnr}</span> instead.
+• <span id="vim.lsp.buf.formatting%28%29" class="t">vim.lsp.buf.formatting()</span>  			Use <a href="lsp.txt.html#vim.lsp.buf.format%28%29" class="l">vim.lsp.buf.format()</a> with
+						<span class="s">{async=true}</span> instead.
+• <span id="vim.lsp.buf.formatting_sync%28%29" class="t">vim.lsp.buf.formatting_sync()</span>  		Use <a href="lsp.txt.html#vim.lsp.buf.format%28%29" class="l">vim.lsp.buf.format()</a> with
+						<span class="s">{async=false}</span> instead.
+• <span id="vim.lsp.buf.range_formatting%28%29" class="t">vim.lsp.buf.range_formatting()</span>  		Use <a href="lsp.txt.html#vim.lsp.formatexpr%28%29" class="l">vim.lsp.formatexpr()</a>
+						or <a href="lsp.txt.html#vim.lsp.buf.format%28%29" class="l">vim.lsp.buf.format()</a> instead.
+
+<span class="c">LUA</span>
+• vim.register_keystroke_callback()	Use <a href="lua.txt.html#vim.on_key%28%29" class="l">vim.on_key()</a> instead.
+
+<span class="c">NORMAL COMMANDS</span>
+• <span id="%5Df" class="t">]f</span> <span id="%5Bf" class="t">[f</span>    		Same <a href="motion.txt.html#as" class="d">as</a> "<a href="editing.txt.html#gf" class="d">gf</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="c">OPTIONS</span>
+• <span id="cpo-%3C" class="t">cpo-&lt;</span> <span id="%3Amenu-%3Cspecial%3E" class="t">:menu-&lt;special&gt;</span> <span id="%3Amenu-special" class="t">:menu-special</span> <span id="%3Amap-%3Cspecial%3E" class="t">:map-&lt;special&gt;</span> <span id="%3Amap-special" class="t">:map-special</span>
+  <span class="e">&lt;&gt;</span> <a href="intro.txt.html#notation" class="d">notation</a> <a href="motion.txt.html#is" class="d">is</a> always enabled.
+• <span id="%27fe%27" class="t">'fe'</span>  		<a href="options.txt.html#%27fenc%27" class="o">'fenc'</a>+<a href="options.txt.html#%27enc%27" class="o">'enc'</a> before Vim 6.0; no longer used.
+• <span id="%27highlight%27" class="t">'highlight'</span> <span id="%27hl%27" class="t">'hl'</span>    	Names of builtin <a href="syntax.txt.html#highlight-groups" class="l">highlight-groups</a> cannot be changed.
+• <span id="%27langnoremap%27" class="t">'langnoremap'</span>  	Deprecated alias to <a href="options.txt.html#%27nolangremap%27" class="o">'nolangremap'</a>.
+• <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a>	Flags "unix"<a href="motion.txt.html#%2C" class="d">,</a> "slash" are ignored and always enabled.
+• <span id="%27vi%27" class="t">'vi'</span>
+• <a href="options.txt.html#%27viewoptions%27" class="o">'viewoptions'</a>		Flags "unix"<a href="motion.txt.html#%2C" class="d">,</a> "slash" are ignored and always enabled.
+• <span id="%27viminfo%27" class="t">'viminfo'</span>  		Deprecated alias to <a href="options.txt.html#%27shada%27" class="o">'shada'</a> option.
+• <span id="%27viminfofile%27" class="t">'viminfofile'</span>  	Deprecated alias to <a href="options.txt.html#%27shadafile%27" class="o">'shadafile'</a> option.
+• <span id="%27paste%27" class="t">'paste'</span> <span id="%27nopaste%27" class="t">'nopaste'</span>    	Just Paste It.™  The <a href="deprecated.txt.html#%27paste%27" class="o">'paste'</a> option <a href="motion.txt.html#is" class="d">is</a> obsolete:
+			<a href="provider.txt.html#paste" class="l">paste</a> <a href="motion.txt.html#is" class="d">is</a> handled automatically when you <a href="provider.txt.html#paste" class="d">paste</a> text
+			using your terminal's or GUI's <a href="provider.txt.html#paste" class="d">paste</a> feature
+			(CTRL-SHIFT-v, CMD-v (macOS), middle-click, …).
+			Enables "<a href="provider.txt.html#paste" class="d">paste</a> mode"<a href="cmdline.txt.html#%3A" class="d">:</a>
+			  • Disables mappings in Insert, <a href="cmdline.txt.html#Cmdline" class="d">Cmdline</a> mode.
+			  • Disables abbreviations.
+			  • Resets <a href="options.txt.html#%27autoindent%27" class="o">'autoindent'</a> <a href="options.txt.html#%27expandtab%27" class="o">'expandtab'</a> <a href="options.txt.html#%27revins%27" class="o">'revins'</a> <a href="options.txt.html#%27ruler%27" class="o">'ruler'</a>
+			    <a href="options.txt.html#%27showmatch%27" class="o">'showmatch'</a> <a href="options.txt.html#%27smartindent%27" class="o">'smartindent'</a> <a href="options.txt.html#%27smarttab%27" class="o">'smarttab'</a> <a href="options.txt.html#%27softtabstop%27" class="o">'softtabstop'</a>
+			    <a href="options.txt.html#%27textwidth%27" class="o">'textwidth'</a> <a href="options.txt.html#%27wrapmargin%27" class="o">'wrapmargin'</a>.
+			  • Treats <a href="options.txt.html#%27formatoptions%27" class="o">'formatoptions'</a> <a href="motion.txt.html#as" class="d">as</a> empty.
+			  • Disables the effect of these options:
+			    • <a href="options.txt.html#%27cindent%27" class="o">'cindent'</a>
+			    • <a href="options.txt.html#%27indentexpr%27" class="o">'indentexpr'</a>
+			    • <a href="options.txt.html#%27lisp%27" class="o">'lisp'</a>
+
+<span class="c">UI EXTENSIONS</span>
+• <span id="ui-wildmenu" class="t">ui-wildmenu</span>  		Use <a href="ui.txt.html#ui-cmdline" class="l">ui-cmdline</a> with <a href="ui.txt.html#ui-popupmenu" class="l">ui-popupmenu</a> instead. Enabled
+			by the <span class="e">ext_wildmenu</span> <a href="ui.txt.html#ui-option" class="l">ui-option</a><a href="repeat.txt.html#." class="d">.</a> Emits these events:
+			• <a href="motion.txt.html#%60%5B" class="d">`[</a>"wildmenu_show"<a href="motion.txt.html#%2C" class="d">,</a> items]`
+			• <a href="motion.txt.html#%60%5B" class="d">`[</a>"wildmenu_select"<a href="motion.txt.html#%2C" class="d">,</a> selected]`
+			• <span class="e">["wildmenu_hide"]</span>
+• <span id="term_background" class="t">term_background</span>  	Unused. The <a href="terminal.txt.html#terminal" class="d">terminal</a> background color <a href="motion.txt.html#is" class="d">is</a> now detected
+			by the Nvim core directly instead of the TUI.
+
+<span class="c">VARIABLES</span>
+• <span id="b%3Aterminal_job_pid" class="t">b:terminal_job_pid</span>  	Use <span class="e">jobpid(&amp;channel)</span> instead.
+• <span id="b%3Aterminal_job_id" class="t">b:terminal_job_id</span>  	Use <span class="e">&amp;channel</span> instead. To access in non-current buffer:
+			• Lua: <span class="e">vim.bo[bufnr].channel</span>
+			• Vimscript: `getbufvar(bufnr, '&amp;channel')`
+
+<span class="c">VIMSCRIPT</span>
+• <span id="buffer_exists%28%29" class="t">buffer_exists()</span>  	Obsolete name <a href="luaref.txt.html#for" class="d">for</a> <a href="vimfn.txt.html#bufexists%28%29" class="l">bufexists()</a><a href="repeat.txt.html#." class="d">.</a>
+• <span id="buffer_name%28%29" class="t">buffer_name()</span>  	Obsolete name <a href="luaref.txt.html#for" class="d">for</a> <a href="vimfn.txt.html#bufname%28%29" class="l">bufname()</a><a href="repeat.txt.html#." class="d">.</a>
+• <span id="buffer_number%28%29" class="t">buffer_number()</span>  	Obsolete name <a href="luaref.txt.html#for" class="d">for</a> <a href="vimfn.txt.html#bufnr%28%29" class="l">bufnr()</a><a href="repeat.txt.html#." class="d">.</a>
+• <span id="file_readable%28%29" class="t">file_readable()</span>  	Obsolete name <a href="luaref.txt.html#for" class="d">for</a> <a href="vimfn.txt.html#filereadable%28%29" class="l">filereadable()</a><a href="repeat.txt.html#." class="d">.</a>
+• <span id="highlight_exists%28%29" class="t">highlight_exists()</span>  	Obsolete name <a href="luaref.txt.html#for" class="d">for</a> <a href="vimfn.txt.html#hlexists%28%29" class="l">hlexists()</a><a href="repeat.txt.html#." class="d">.</a>
+• <span id="highlightID%28%29" class="t">highlightID()</span>  	Obsolete name <a href="luaref.txt.html#for" class="d">for</a> <a href="vimfn.txt.html#hlID%28%29" class="l">hlID()</a><a href="repeat.txt.html#." class="d">.</a>
+• <span id="inputdialog%28%29" class="t">inputdialog()</span>  	Use <a href="vimfn.txt.html#input%28%29" class="l">input()</a> instead.
+• <span id="jobclose%28%29" class="t">jobclose()</span>  		Obsolete name <a href="luaref.txt.html#for" class="d">for</a> <a href="vimfn.txt.html#chanclose%28%29" class="l">chanclose()</a>
+• <span id="jobsend%28%29" class="t">jobsend()</span>  		Obsolete name <a href="luaref.txt.html#for" class="d">for</a> <a href="vimfn.txt.html#chansend%28%29" class="l">chansend()</a>
+• <span id="last_buffer_nr%28%29" class="t">last_buffer_nr()</span>  	Obsolete name <a href="luaref.txt.html#for" class="d">for</a> bufnr("<a href="motion.txt.html#%24" class="d">$</a>").
+• <span id="rpcstart%28%29" class="t">rpcstart()</span>  		Use <a href="vimfn.txt.html#jobstart%28%29" class="l">jobstart()</a> with `{'rpc': v:true}` instead.
+• <span id="rpcstop%28%29" class="t">rpcstop()</span>  		Use <a href="vimfn.txt.html#jobstop%28%29" class="l">jobstop()</a> instead to stop any job, or
+			`chanclose(id, "<a href="api.txt.html#rpc" class="d">rpc</a>")` to close <a href="api.txt.html#RPC" class="d">RPC</a> communication
+			without stopping the job. Use chanclose(id) to close
+			any socket.
+
+
+ vim:noet:tw=78:ts=8:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

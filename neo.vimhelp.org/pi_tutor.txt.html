@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: pi_tutor.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="pi_tutor.txt.html#">↑Top↑</a></li>
+<li><a href="pi_tutor.txt.html#vim-tutor-usage">Usage</a></li>
+<li><a href="pi_tutor.txt.html#vim-tutor-create">Creating tutorials</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="pi_tutor.txt" class="t">pi_tutor.txt</span> Interactive tutorials.
+<span id="vim-tutor-mode" class="t">vim-tutor-mode</span>
+
+<a href="pi_tutor.txt.html#vim-tutor-mode" class="d">vim-tutor-mode</a> provides <a href="insert.txt.html#a" class="d">a</a> system to follow and create interactive tutorials
+<a href="luaref.txt.html#for" class="d">for</a> vim and third party plugins. It replaces the venerable <span class="e">vimtutor</span> system.
+
+Original Author: Felipe Morales &lt;https://github.com/fmoralesc&gt;
+
+<span class="h">==============================================================================</span>
+1. Usage                                                      <span id="vim-tutor-usage" class="t">vim-tutor-usage</span>
+
+<a href="pi_tutor.txt.html#vim-tutor-mode" class="d">vim-tutor-mode</a> tutorials are hypertext documents, they have rich text and
+contain links. To stand out from the rest of the text, links are underlined.
+You can follow them by placing the cursor over them and pressing <a href="intro.txt.html#%3CEnter%3E" class="s">&lt;Enter&gt;</a>, or
+by double-clicking them.
+
+1.1 Commands
+<span class="h">------------</span>
+								      <span id="%3ATutor" class="t">:Tutor</span>
+<a href="pi_tutor.txt.html#%3ATutor" class="d">:Tutor</a> <span class="s">{tutorial}</span>	Opens <a href="insert.txt.html#a" class="d">a</a> tutorial. <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> completion <a href="luaref.txt.html#for" class="d">for</a>
+			<span class="s">{tutorial}</span> <a href="motion.txt.html#is" class="d">is</a> provided, the candidates are <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of
+			'.tutor' files found in the 'tutor/'  folder in
+			the <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>. Tutorials prefixed with 'vim-' will
+			always be shown first.
+
+			If no <span class="s">{tutorial}</span> <a href="motion.txt.html#is" class="d">is</a> provided, the command starts the
+			'vim-01-beginner' tutorial, which <a href="motion.txt.html#is" class="d">is</a> equivalent to
+			Vim's <span class="e">vimtutor</span>.
+
+<span class="h">=============================================================================</span>
+2. Creating tutorials                                        <span id="vim-tutor-create" class="t">vim-tutor-create</span>
+
+Writing <a href="pi_tutor.txt.html#vim-tutor-mode" class="d">vim-tutor-mode</a> tutorials <a href="motion.txt.html#is" class="d">is</a> easy. For an overview of the format used,
+please consult the 'tutor.tutor' file: 
+<span class="e"></span>
+<span class="e">    :Tutor tutor</span>
+
+New tutorials must be placed in the 'tutor/' folder in the <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>
+to be detected by the <a href="pi_tutor.txt.html#%3ATutor" class="d">:Tutor</a> command.
+
+It <a href="motion.txt.html#is" class="d">is</a> recommended to use <a href="insert.txt.html#a" class="d">a</a> <a href="various.txt.html#less" class="d">less</a> formal style when <a href="editing.txt.html#writing" class="d">writing</a> tutorials than in
+regular documentation (unless the content requires it).
+
+<span class="h">=============================================================================</span>
+  vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

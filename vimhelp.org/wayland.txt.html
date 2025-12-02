@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: wayland.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="wayland.txt.html#">↑Top↑</a></li>
+<li><a href="wayland.txt.html#wayland-useful">Useful Wayland information</a></li>
+<li><a href="wayland.txt.html#wayland-selections">Wayland Selections</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="wayland.txt" class="t">wayland.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 25
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar</span>
+
+
+Wayland Protocol Support				<span id="wayland" class="t">wayland</span>
+
+1. Useful Wayland information	<a href="wayland.txt.html#wayland-useful" class="l">wayland-useful</a>
+2. Wayland selections		<a href="wayland.txt.html#wayland-selections" class="l">wayland-selections</a>
+
+<span class="h">==============================================================================</span>
+1. Useful Wayland information				<span id="wayland-useful" class="t">wayland-useful</span>
+
+							<span id="wayland-seat" class="t">wayland-seat</span>
+Functionality such <a href="motion.txt.html#as" class="d">as</a> the <a href="gui.txt.html#clipboard" class="d">clipboard</a> for Wayland requires <a href="insert.txt.html#a" class="d">a</a> seat to use.  <a href="insert.txt.html#A" class="d">A</a>
+Wayland seat can consist of <a href="insert.txt.html#a" class="d">a</a> keyboard, pointer, and touch device(s).  The
+seat to use can be set with the <a href="options.txt.html#%27wlseat%27" class="o">'wlseat'</a> option.  Only useful if you use
+multiple Wayland seats in the same Wayland session.  If you don't know what
+this <a href="motion.txt.html#is" class="d">is</a> means, then <a href="motion.txt.html#it" class="d">it</a> likely does not matter for you.
+
+							<span id="wayland-gui" class="t">wayland-gui</span>
+See <a href="gui_x11.txt.html#gui-wayland" class="l">gui-wayland</a><a href="repeat.txt.html#." class="d">.</a>  Please <span class="n">note</span> that when using the GUI, Vim uses the toolkit
+such <a href="motion.txt.html#as" class="d">as</a> <a href="gui_x11.txt.html#GTK" class="d">GTK</a> for accessing the clipboard, and does not access the <a href="gui.txt.html#clipboard" class="d">clipboard</a>
+though Wayland.  You can check this though the <a href="eval.txt.html#v%3Aclipmethod" class="l">v:clipmethod</a> variable, which
+should equal to "none" when running the GUI.
+
+Wayland commands:
+							<span id="%3Awlrestore" class="t">:wlrestore</span> <span id="%3Awl" class="t">:wl</span>
+:wl[restore] <span class="s">[display]</span>	Reinitializes the connection to the Wayland
+			compositor.
+			Useful when running Vim in <a href="insert.txt.html#a" class="d">a</a> screen/tmux session that
+			continues running after the Wayland compositor
+			restarts.
+
+			<span class="s">[display]</span> should be in the format of the
+			$WAYLAND_DISPLAY environment variable (e.g.
+			"wayland-0").  If <span class="s">[display]</span> <a href="motion.txt.html#is" class="d">is</a> omitted, then <a href="motion.txt.html#it" class="d">it</a>
+			reinitializes the connection using the same value <a href="motion.txt.html#as" class="d">as</a>
+			was used for the previous execution of this command.
+			If the value was never specified, then <a href="motion.txt.html#it" class="d">it</a> uses the
+			value of $WAYLAND_DISPLAY environment variable.  This
+			will also update <a href="eval.txt.html#v%3Aclipmethod" class="l">v:clipmethod</a><a href="repeat.txt.html#." class="d">.</a>
+			{only available when compiled with the <a href="various.txt.html#%2Bwayland" class="l">+wayland</a>
+			feature}
+
+Wayland errors:
+							<span id="E1548" class="t">E1548</span>
+Vim failed communicating with the Wayland compositor.  This <a href="motion.txt.html#is" class="d">is</a> likely due to
+the Wayland compositor process being killed.  Try the <span class="e">:wlrestore</span> command to
+try connecting again.
+
+<span class="h">==============================================================================</span>
+2. Wayland Selections					<span id="wayland-selections" class="t">wayland-selections</span>
+
+Vim supports the wlr-data-control-unstable-v1 and ext-data-control-v1
+protocols, for accessing the current Wayland selection.  These are the best
+<a href="change.txt.html#case" class="d">case</a> scenario protocols, see <a href="wayland.txt.html#wayland-focus-steal" class="l">wayland-focus-steal</a><a href="repeat.txt.html#." class="d">.</a>  Selection in this <a href="change.txt.html#case" class="d">case</a>
+essentially means the "clipboard."  You can check if your Wayland compositor
+supports either of these protocols by running the wayland-info command, which
+should be bundled with libwayland on your system: 
+<span class="e">	wayland-info | grep -E '(ext_data_control|zwlr_data_control)'</span>
+If <a href="quickfix.txt.html#grep" class="d">grep</a> finds <a href="insert.txt.html#a" class="d">a</a> match, then you have either or both protocols on your system.
+If you don't get any match, then please see <a href="wayland.txt.html#wayland-focus-steal" class="l">wayland-focus-steal</a> for more
+information.
+
+Some compositors that are known to support either or both protocols:
+    1. KWin (KDE)
+    2. wlroots based (Sway, Labwc)
+    3. Niri
+    4. Hyprland
+    5. Wayfire
+
+If you come from X11, then the regular Wayland selection <a href="motion.txt.html#is" class="d">is</a> equivalent to the
+CLIPBOARD selection in X11, and the primary Wayland selection equates to the
+<a href="options.txt.html#X11" class="d">X11</a> PRIMARY selection.  Accessing these selections <a href="motion.txt.html#is" class="d">is</a> the same <a href="motion.txt.html#as" class="d">as</a> <a href="options.txt.html#X11" class="d">X11</a> in Vim,
+in which the <a href="motion.txt.html#%2B" class="d">+</a> register <a href="motion.txt.html#is" class="d">is</a> the regular selection, and the * register <a href="motion.txt.html#is" class="d">is</a> the
+primary selection.  <span class="n">Note</span> that your compositor may not support primary
+selections, see <a href="wayland.txt.html#wayland-primary-selection" class="l">wayland-primary-selection</a> for more details.
+
+							<span id="wayland-persist" class="t">wayland-persist</span>
+If you use <a href="options.txt.html#X11" class="d">X11</a> cut buffers, no such things exist on Wayland.  Instead to
+emulate such functionality, <a href="insert.txt.html#a" class="d">a</a> separate <a href="gui.txt.html#clipboard" class="d">clipboard</a> manager <a href="vim_faq.txt.html#must" class="d">must</a> be used in order
+to persist selection data when <a href="insert.txt.html#a" class="d">a</a> Wayland client exits.
+
+							<span id="wayland-and-x11" class="t">wayland-and-x11</span>
+If your version of Vim comes compiled with both <a href="options.txt.html#X11" class="d">X11</a> and Wayland support, then
+Vim determines which one to use when accessing the <a href="gui.txt.html#clipboard" class="d">clipboard</a> using the
+<a href="options.txt.html#%27clipmethod%27" class="o">'clipmethod'</a> option.
+
+						<span id="wayland-primary-selection" class="t">wayland-primary-selection</span>
+If you find <a href="options.txt.html#X11" class="d">X11</a> style primary selections useful, Wayland also <a href="vim9class.txt.html#implements" class="d">implements</a> this
+behaviour in its own protocols:
+
+<a href="motion.txt.html#-" class="d">-</a> The primary selection protocol <a href="motion.txt.html#is" class="d">is</a> the most widely supported, but requires
+  focus in order to be used, see <a href="wayland.txt.html#wayland-focus-steal" class="l">wayland-focus-steal</a><a href="repeat.txt.html#." class="d">.</a>
+
+<a href="motion.txt.html#-" class="d">-</a> Data <a href="intro.txt.html#control" class="d">control</a> protocol available on your system, such <a href="motion.txt.html#as" class="d">as</a> the ext or wlr
+  protocols, then primary selection <a href="motion.txt.html#is" class="d">is</a> also supported.  This <a href="motion.txt.html#is" class="d">is</a> unless you are
+  using version 1 (not the same <a href="motion.txt.html#as" class="d">as</a> the 'v1' in the protocol name), of the
+  wlr-data-control protocol.  Then the primary selection protocol will be used
+  <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> fallback.
+
+					<span id="wayland-focus-steal" class="t">wayland-focus-steal</span> <span id="wayland-gnome" class="t">wayland-gnome</span>
+If you are using the <a href="gui_x11.txt.html#GNOME" class="d">GNOME</a> desktop environment on Wayland, <a href="motion.txt.html#as" class="d">as</a> of this writing,
+there <a href="motion.txt.html#is" class="d">is</a> no <a href="eval.txt.html#method" class="d">method</a> of accessing/modifying the <a href="gui.txt.html#clipboard" class="d">clipboard</a> for external clients
+such <a href="motion.txt.html#as" class="d">as</a> Vim without being focused.  Focused in this <a href="change.txt.html#case" class="d">case</a> means the client has
+received some sort of input event, such <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> being focused.  This <a href="motion.txt.html#is" class="d">is</a>
+what the wlr-data-control-unstable-v1 and ext-data-control-v1 protocols solve.
+If your Wayland compositor does not support the above protocols, then the
+above explanation applies.
+
+To solve this problem, Vim <a href="vim9class.txt.html#implements" class="d">implements</a> <a href="insert.txt.html#a" class="d">a</a> way of gaining focus in order to
+access the clipboard, by creating <a href="insert.txt.html#a" class="d">a</a> temporary transparent top-level surface.
+This <a href="motion.txt.html#is" class="d">is</a> by default disabled and can be enabled via the <a href="options.txt.html#%27wlsteal%27" class="o">'wlsteal'</a> option.
+Moreover, <a href="insert.txt.html#a" class="d">a</a> seat that has <a href="insert.txt.html#a" class="d">a</a> keyboard <a href="motion.txt.html#is" class="d">is</a> also required, see <a href="options.txt.html#%27wlseat%27" class="o">'wlseat'</a>, and the
+xdg-shell protocol <a href="vim_faq.txt.html#must" class="d">must</a> be available.  Additionally, Vim <a href="vim_faq.txt.html#must" class="d">must</a> be compiled with
+the <a href="various.txt.html#%2Bwayland_focus_steal" class="l">+wayland_focus_steal</a> feature.
+
+<span class="n">Note</span> that this <a href="eval.txt.html#method" class="d">method</a> can have several side effects from the result of focus
+stealing.  For example, if you have <a href="insert.txt.html#a" class="d">a</a> taskbar that shows currently opened apps
+in your desktop environment, then when Vim attempts to steal focus, <a href="motion.txt.html#it" class="d">it</a> may
+"flicker," <a href="motion.txt.html#as" class="d">as</a> if <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> was opened then immediately closed after.
+Additionally, if you are in fullscreen mode, this focus stealing won't work,
+because the created surface won't ever gain focus.  If this happens, Vim will
+seem to freeze temporarily, see <a href="options.txt.html#%27wltimeoutlen%27" class="o">'wltimeoutlen'</a> for more information.
+
+ vim:tw=78:ts=8:noet:ft=help:norl
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

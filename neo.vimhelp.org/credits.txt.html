@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: credits.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="credits.txt.html#">↑Top↑</a></li>
+<li><a href="credits.txt.html#credits">Credits</a></li>
+<li><a href="credits.txt.html#backers.txt">Neovim fundraiser backers</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="credits.txt" class="t">credits.txt</span>          Nvim
+
+
+                     <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+<span class="h">==============================================================================</span>
+Credits                                                 <span id="credits" class="t">credits</span>
+
+Most of Vim was written by <a href="intro.txt.html#Bram" class="d">Bram</a> <a href="intro.txt.html#Moolenaar" class="d">Moolenaar</a> &lt;Bram@vim.org&gt; <a href="intro.txt.html#Bram-Moolenaar" class="l">Bram-Moolenaar</a><a href="repeat.txt.html#." class="d">.</a>
+
+Parts of the documentation come from several <a href="credits.txt.html#Vi" class="d">Vi</a> manuals, written by:
+        W.N. Joy
+        Alan P.W. Hewett
+        <a href="motion.txt.html#Mark" class="d">Mark</a> Horton
+
+The Vim editor <a href="motion.txt.html#is" class="d">is</a> based on Stevie and includes (ideas from) other software,
+worked on by the people mentioned here.  Other people helped by sending me
+patches, suggestions and giving feedback about what <a href="motion.txt.html#is" class="d">is</a> good and bad in Vim.
+
+Vim would never have become what <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> now, without the <a href="helphelp.txt.html#help" class="d">help</a> of these people!
+
+        Ron Aaron               Win32 <a href="gui.txt.html#GUI" class="d">GUI</a> changes
+        Mohsin Ahmed            <a href="editing.txt.html#encryption" class="d">encryption</a>
+        Zoltan Arpadffy         work on VMS port
+        Tony Andrews            Stevie
+        Gert van Antwerpen      changes <a href="luaref.txt.html#for" class="d">for</a> DJGPP on MS-DOS
+        Berkeley DB(3)          ideas <a href="luaref.txt.html#for" class="d">for</a> swap file implementation
+        Keith Bostic            <a href="credits.txt.html#Nvi" class="d">Nvi</a>
+        Walter Briscoe          Makefile updates, <a href="various.txt.html#various" class="d">various</a> patches
+        Ralf Brown              SPAWNO library <a href="luaref.txt.html#for" class="d">for</a> MS-DOS
+        Robert Colon            many useful remarks
+        Marcin Dalecki          GTK+ <a href="gui.txt.html#GUI" class="d">GUI</a> port, toolbar icons, <a href="vimfn.txt.html#gettext%28%29" class="d">gettext()</a>
+        Kayhan Demirel          sent me <a href="news.txt.html#news" class="d">news</a> in <a href="uganda.txt.html#Uganda" class="d">Uganda</a>
+        Chris <a href="change.txt.html#%26" class="d">&amp;</a> John Downey     xvi (ideas <a href="luaref.txt.html#for" class="d">for</a> multi-windows version)
+        Henk Elbers             first VMS port
+        Daniel Elstner          GTK+ 2 port
+        Eric Fischer            Mac port, <a href="options.txt.html#%27cindent%27" class="o">'cindent'</a>, and other improvements
+        Benji Fisher            Answering lots of user questions
+        Bill Foster             Athena <a href="gui.txt.html#GUI" class="d">GUI</a> port (later removed)
+        Google                  Let <a href="intro.txt.html#Bram" class="d">Bram</a> work on Vim one day <a href="insert.txt.html#a" class="d">a</a> week
+        Loic Grenie             xvim (ideas <a href="luaref.txt.html#for" class="d">for</a> multi <a href="windows.txt.html#windows" class="d">windows</a> version)
+        Sven Guckes             Vim promoter and previous WWW page maintainer
+        Darren Hiebert          Exuberant <a href="tagsrch.txt.html#ctags" class="d">ctags</a>
+        Jason Hildebrand        GTK+ 2 port
+        Bruce Hunsaker          improvements <a href="luaref.txt.html#for" class="d">for</a> VMS port
+        Andy Kahn               Cscope support, GTK+ <a href="gui.txt.html#GUI" class="d">GUI</a> port
+        Oezguer Kesim           Maintainer of Vim Mailing <a href="vimeval.txt.html#Lists" class="d">Lists</a>
+        Axel Kielhorn           work on the Macintosh port
+        Steve Kirkendall        <a href="credits.txt.html#Elvis" class="d">Elvis</a>
+        Roger Knobbe            original port to Windows NT
+        Sergey Laskavy          Vim's <a href="helphelp.txt.html#help" class="d">help</a> from Moscow
+        Felix von Leitner       Previous maintainer of Vim Mailing <a href="vimeval.txt.html#Lists" class="d">Lists</a>
+        David Leonard           Port of <a href="if_pyth.txt.html#Python" class="d">Python</a> extensions to Unix
+        Avner Lottem            Edit in right-to-left <a href="windows.txt.html#windows" class="d">windows</a>
+        Flemming Madsen         X11 client-server, <a href="various.txt.html#various" class="d">various</a> features and patches
+        Tony Mechelynck         answers many user questions
+        Paul Moore              <a href="if_pyth.txt.html#Python" class="d">Python</a> interface extensions, many patches
+        Katsuhito Nagano        Work on <a href="mbyte.txt.html#multibyte" class="d">multibyte</a> versions
+        Sung-Hyun Nam           Work on <a href="mbyte.txt.html#multibyte" class="d">multibyte</a> versions
+        Vince Negri             Win32 <a href="gui.txt.html#GUI" class="d">GUI</a> and generic console enhancements
+        Steve Oualline          Author of the first Vim <a href="intro.txt.html#book" class="d">book</a> <a href="usr_01.txt.html#frombook" class="l">frombook</a>
+        Dominique Pelle         Valgrind reports and many fixes
+        A.Politz                Many bug reports and some fixes
+        George V. Reilly        Win32 port, Win32 <a href="gui.txt.html#GUI" class="d">GUI</a> start-off
+        Stephen Riehm           bug collector
+        Stefan Roemer           <a href="various.txt.html#various" class="d">various</a> patches and <a href="helphelp.txt.html#help" class="d">help</a> to users
+        Ralf Schandl            IBM OS/390 port
+        Olaf Seibert            DICE and BeBox version, <a href="pattern.txt.html#regexp" class="d">regexp</a> improvements
+        Mortaza Shiran          Farsi patches
+        Peter da Silva          termlib
+        Paul Slootman           OS/2 port
+        Henry Spencer           regular expressions
+        Dany St-Amant           Macintosh port
+        Tim Thompson            Stevie
+        G. R. (Fred) Walter     Stevie
+        Sven Verdoolaege        Perl interface
+        Robert Webb             <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> completion, <a href="gui.txt.html#GUI" class="d">GUI</a> versions, and
+                                lots of patches
+        Ingo Wilken             Tcl interface
+        Mike Williams           PostScript printing
+        Juergen Weigert         Lattice version, AUX improvements, Unix and
+                                MS-DOS ports, autoconf
+        Stefan 'Sec' Zehl       Maintainer of vim.org
+        Yasuhiro Matsumoto      many MS-Windows improvements
+        Ken Takata              fixes and features
+        Kazunobu Kuriyama       GTK 3
+        Christian Brabandt      many fixes, features, user support, etc.
+        Yegappan Lakshmanan     many <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> features
+
+<a href="insert.txt.html#I" class="d">I</a> wish to thank all the people that sent me bug reports and suggestions.  The
+<a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> too long to mention them all here.  Vim would not be the same without
+the ideas from all these people: They keep Vim alive!
+<span id="love" class="t">love</span> <span id="peace" class="t">peace</span> <span id="friendship" class="t">friendship</span> <span id="gross-national-happiness" class="t">gross-national-happiness</span>
+
+
+Documentation may refer to other versions of Vi:
+                                                        <span id="Vi" class="t">Vi</span> <span id="vi" class="t">vi</span>
+<a href="credits.txt.html#Vi" class="d">Vi</a>      "the original"<a href="repeat.txt.html#." class="d">.</a>  Without further remarks this <a href="motion.txt.html#is" class="d">is</a> the version
+        of <a href="credits.txt.html#Vi" class="d">Vi</a> that appeared in Sun OS 4.x.  "<a href="various.txt.html#%3Aversion" class="d">:version</a>" returns
+        "Version 3.7, 6/7/85"<a href="repeat.txt.html#." class="d">.</a>  Source code only available with <a href="insert.txt.html#a" class="d">a</a> license.
+                                                        <span id="Nvi" class="t">Nvi</span>
+<a href="credits.txt.html#Nvi" class="d">Nvi</a>     The "New" Vi.  The version of <a href="credits.txt.html#Vi" class="d">Vi</a> that comes with BSD 4.4 and FreeBSD.
+        Very good compatibility with the original Vi, with <a href="insert.txt.html#a" class="d">a</a> few extensions.
+        The version used <a href="motion.txt.html#is" class="d">is</a> 1.79.  "<a href="various.txt.html#%3Aversion" class="d">:version</a>" returns "Version 1.79
+        (10/23/96)"<a href="repeat.txt.html#." class="d">.</a>  Source code <a href="motion.txt.html#is" class="d">is</a> freely available.
+                                                        <span id="Elvis" class="t">Elvis</span>
+<a href="credits.txt.html#Elvis" class="d">Elvis</a>   Another <a href="credits.txt.html#Vi" class="d">Vi</a> clone, made by Steve Kirkendall.  Very compact but isn't
+        <a href="motion.txt.html#as" class="d">as</a> flexible <a href="motion.txt.html#as" class="d">as</a> Vim.  Source code <a href="motion.txt.html#is" class="d">is</a> freely available.
+
+Vim     Nvim <a href="motion.txt.html#is" class="d">is</a> based on Vim.  <a class="u" href="https://www.vim.org/">https://www.vim.org/</a>
+
+
+<span class="h">==============================================================================</span>
+Neovim fundraiser backers                                        <span id="backers.txt" class="t">backers.txt</span>
+
+Thank you to everyone who backed the original Neovim Fundraiser.
+
+<span class="c">LIST OF BACKERS</span>
+
+<a href="motion.txt.html#-" class="d">-</a> [Bob Breznak](http://brez.io)
+<a href="motion.txt.html#-" class="d">-</a> [Tim Uruski](http://timuruski.net)
+<a href="motion.txt.html#-" class="d">-</a> @mikker (http://brnbw.com)
+<a href="motion.txt.html#-" class="d">-</a> Aaron J. [@metaxis](http://twitter.com/metaxis) Peterson
+<a href="motion.txt.html#-" class="d">-</a> Adam George <a class="u" href="http://www.adamgeorge.com">http://www.adamgeorge.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Adam Lindberg (http://alind.io)
+<a href="motion.txt.html#-" class="d">-</a> Adam McLain <a class="u" href="http://twitter.com/adammclain">http://twitter.com/adammclain</a>
+<a href="motion.txt.html#-" class="d">-</a> Adam Piper <a class="u" href="http://ahri.net">http://ahri.net</a>
+<a href="motion.txt.html#-" class="d">-</a> Adrian Philipp <a class="u" href="http://adrian-philipp.com">http://adrian-philipp.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Alexander Quine
+<a href="motion.txt.html#-" class="d">-</a> Alexandru Dabija
+<a href="motion.txt.html#-" class="d">-</a> Alexis Hildebrandt <a class="u" href="http://surryhill.net">http://surryhill.net</a>
+<a href="motion.txt.html#-" class="d">-</a> Andrew M. Farrell <a class="u" href="http://amfarrell.com">http://amfarrell.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Anton Beloglazov <a class="u" href="http://beloglazov.info/">http://beloglazov.info/</a>
+<a href="motion.txt.html#-" class="d">-</a> Arthur Axel fREW Schmidt <a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://blog.afoolishmanifesto.com">https://blog.afoolishmanifesto.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Ben Thouret <a class="u" href="http://benjamin.thouret.com">http://benjamin.thouret.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Benedikt Böhm <a class="u" href="http://bb.xnull.de">http://bb.xnull.de</a>
+<a href="motion.txt.html#-" class="d">-</a> bfredl, <a class="u" href="http://bfredl.github.io">http://bfredl.github.io</a>
+<a href="motion.txt.html#-" class="d">-</a> Brandon Smith, <a class="u" href="http://reardencode.com">http://reardencode.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Brandon Wang, <a class="u" href="http://brandonwang.me">http://brandonwang.me</a>
+<a href="motion.txt.html#-" class="d">-</a> Brennen Bearnes <a class="u" href="http://p1k3.com">http://p1k3.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Brock Wilcox (awwaiid) <a class="u" href="http://thelackthereof.org/">http://thelackthereof.org/</a>
+<a href="motion.txt.html#-" class="d">-</a> Cameron Eagans <a class="u" href="http://cweagans.net">http://cweagans.net</a>
+<a href="motion.txt.html#-" class="d">-</a> Carl Myers <a class="u" href="http://cmyers.org/">http://cmyers.org/</a>
+<a href="motion.txt.html#-" class="d">-</a> Carlos Alves <a class="u" href="http://www.carlosalves.info">http://www.carlosalves.info</a>
+<a href="motion.txt.html#-" class="d">-</a> Chris Chernesky, <a class="u" href="http://www.tinderglow.com">http://www.tinderglow.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Chris Hartjes
+<a href="motion.txt.html#-" class="d">-</a> Christoffer Holmstedt (http://www.christofferholmstedt.se)
+<a href="motion.txt.html#-" class="d">-</a> Ciaran Downey &lt;http://ciarand.me&gt;
+<a href="motion.txt.html#-" class="d">-</a> Craig Bane <a class="u" href="http://standardizedways.co.uk">http://standardizedways.co.uk</a>
+<a href="motion.txt.html#-" class="d">-</a> Dane Summers <a class="u" href="http://pinedesk.biz">http://pinedesk.biz</a>
+<a href="motion.txt.html#-" class="d">-</a> Daniel Collin <a class="u" href="https://twitter.com/daniel_collin">https://twitter.com/daniel_collin</a>
+<a href="motion.txt.html#-" class="d">-</a> Daniel Rogers <a class="u" href="http://remotecodelist.com">http://remotecodelist.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Darshan Sawardekar <a class="u" href="http://pressing-matters.io">http://pressing-matters.io</a>
+<a href="motion.txt.html#-" class="d">-</a> David Gabriel <a class="u" href="http://wiki.dest-unreachable.net">http://wiki.dest-unreachable.net</a>
+<a href="motion.txt.html#-" class="d">-</a> Deepak Kumar www.kreatio.com
+<a href="motion.txt.html#-" class="d">-</a> Derek Rodger <a class="u" href="http://devslant.com">http://devslant.com</a>
+<a href="motion.txt.html#-" class="d">-</a> ebene fünf GmbH www.ebenefuenf.de
+<a href="motion.txt.html#-" class="d">-</a> Ehtesh Choudhury
+<a href="motion.txt.html#-" class="d">-</a> Emil Hernvall <a class="u" href="http://emilhernvall.github.io/">http://emilhernvall.github.io/</a>
+<a href="motion.txt.html#-" class="d">-</a> Eric Siegel <a class="u" href="https://github.com/esiegel">https://github.com/esiegel</a>
+<a href="motion.txt.html#-" class="d">-</a> Ethan Schoonover <a class="u" href="http://ethanschoonover.com">http://ethanschoonover.com</a>
+<a href="motion.txt.html#-" class="d">-</a> FFunction <a class="u" href="http://ffctn.com">http://ffctn.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Frank <a class="u" href="http://duckpun.ch">http://duckpun.ch</a>
+<a href="motion.txt.html#-" class="d">-</a> Gabriele Lana <a class="u" href="http://github.com/gabrielelana">http://github.com/gabrielelana</a>
+<a href="motion.txt.html#-" class="d">-</a> Gavin Rogers <a class="u" href="http://praxeology.co.uk">http://praxeology.co.uk</a>
+<a href="motion.txt.html#-" class="d">-</a> Geoff Greer <a class="u" href="https://floobits.com/">https://floobits.com/</a>
+<a href="motion.txt.html#-" class="d">-</a> Glenn Strauss <a class="u" href="https://github.com/gstrauss/">https://github.com/gstrauss/</a>
+<a href="motion.txt.html#-" class="d">-</a> Gustav Buchholtz <a class="u" href="http://grod.se">http://grod.se</a>
+<a href="motion.txt.html#-" class="d">-</a> Henri Bourcereau <a class="u" href="http://bourcereau.fr">http://bourcereau.fr</a>
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="http://jaredforsyth.com">http://jaredforsyth.com</a>
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="http://www.1bsyl.com">http://www.1bsyl.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Johann Dahm (http://johanndahm.com)
+<a href="motion.txt.html#-" class="d">-</a> Ian Farmer <a class="u" href="http://farmernet.net">http://farmernet.net</a>
+<a href="motion.txt.html#-" class="d">-</a> iauns <a href="motion.txt.html#-" class="d">-</a> <a class="u" href="http://www.noobtube.com">http://www.noobtube.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Jacob Jewell www.immersiveapplications.com
+<a href="motion.txt.html#-" class="d">-</a> James A. Overton <a class="u" href="http://james.overton.ca">http://james.overton.ca</a>
+<a href="motion.txt.html#-" class="d">-</a> James Tomasino <a href="motion.txt.html#-" class="d">-</a> <a class="u" href="http://jamestomasino.com">http://jamestomasino.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Jamiel Almeida <a class="u" href="http://slashfoo.com">http://slashfoo.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Jan Christoph Ebersbach <a class="u" href="http://www.e-jc.de/">http://www.e-jc.de/</a>
+<a href="motion.txt.html#-" class="d">-</a> Jason Peacock <a class="u" href="http://jasonpeacock.com">http://jasonpeacock.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Jason Weathered <a class="u" href="http://jasoncodes.com/">http://jasoncodes.com/</a>
+<a href="motion.txt.html#-" class="d">-</a> Javier Maestro
+<a href="motion.txt.html#-" class="d">-</a> Jeff Craig <a class="u" href="http://blog.foxxtrot.net/">http://blog.foxxtrot.net/</a>
+<a href="motion.txt.html#-" class="d">-</a> Jeremy Huffman <a class="u" href="http://jeremyhuffman.com">http://jeremyhuffman.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Jeremy Morrell <a class="u" href="http://rathercurio.us">http://rathercurio.us</a>
+<a href="motion.txt.html#-" class="d">-</a> Jesper Kjeldgaard (thejspr) <a href="motion.txt.html#-" class="d">-</a> <a class="u" href="http://thejspr.com">http://thejspr.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Jim Hester (http://jimhester.com)
+<a href="motion.txt.html#-" class="d">-</a> Joe Moon <a class="u" href="http://joe.xoxomoon.com">http://joe.xoxomoon.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Johan Simonsson, <a class="u" href="http://fun-tech.se">http://fun-tech.se</a>
+<a href="motion.txt.html#-" class="d">-</a> John P. Kiffmeyer (http://jpk.is)
+<a href="motion.txt.html#-" class="d">-</a> John Szakmeister <a class="u" href="http://www.szakmeister.net/">http://www.szakmeister.net/</a>
+<a href="motion.txt.html#-" class="d">-</a> John W. Long <a class="u" href="http://wiseheartdesign.com">http://wiseheartdesign.com</a> Twitter: @johnwlong GitHub: @jlong
+<a href="motion.txt.html#-" class="d">-</a> Jon Yurek <a class="u" href="http://thoughtbot.com">http://thoughtbot.com</a>
+<a href="motion.txt.html#-" class="d">-</a> jonaias <a class="u" href="http://jonaias.info">http://jonaias.info</a>
+<a href="motion.txt.html#-" class="d">-</a> Josh Davis, <a class="u" href="http://joshldavis.com">http://joshldavis.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Joshua Levesque (www.jandyco.com)
+<a href="motion.txt.html#-" class="d">-</a> Justin M. Keyes <a class="u" href="https://github.com/justinmk">https://github.com/justinmk</a>
+<a href="motion.txt.html#-" class="d">-</a> Justin Russell <a class="u" href="http://jrussell.me">http://jrussell.me</a>
+<a href="motion.txt.html#-" class="d">-</a> kbussell
+<a href="motion.txt.html#-" class="d">-</a> Kevin Sjöberg, <a class="u" href="http://kevinsjoberg.com">http://kevinsjoberg.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Kevin Sumner <a class="u" href="http://kevinsumner.com">http://kevinsumner.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Kevin Wu <a class="u" href="http://kevinformatics.com">http://kevinformatics.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Ley Missailidis, <a class="u" href="http://polymet.is">http://polymet.is</a>
+<a href="motion.txt.html#-" class="d">-</a> Loa <a class="u" href="https://github.com/loa">https://github.com/loa</a>
+<a href="motion.txt.html#-" class="d">-</a> Lowe Schmidt <a class="u" href="http://loweschmidt.se">http://loweschmidt.se</a>
+<a href="motion.txt.html#-" class="d">-</a> Marcello Barnaba <a class="u" href="http://sindro.me/">http://sindro.me/</a>
+<a href="motion.txt.html#-" class="d">-</a> Marcin Kulik <a href="motion.txt.html#-" class="d">-</a> <a class="u" href="http://ku1ik.com">http://ku1ik.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Marius Rieder <a class="u" href="http://www.durchmesser.ch/">http://www.durchmesser.ch/</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="motion.txt.html#Mark" class="d">Mark</a> Allen [@bytemeorg](http://twitter.com/bytemeorg)
+<a href="motion.txt.html#-" class="d">-</a> <a href="motion.txt.html#Mark" class="d">Mark</a> Percival <a class="u" href="http://markpercival.us">http://markpercival.us</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="motion.txt.html#Mark" class="d">Mark</a> Sprevak
+<a href="motion.txt.html#-" class="d">-</a> Martin Ansdell-Smith <a class="u" href="https://ansdell.net/">https://ansdell.net/</a>
+<a href="motion.txt.html#-" class="d">-</a> Martin Kopischke <a class="u" href="http://martin.kopischke.net">http://martin.kopischke.net</a>
+<a href="motion.txt.html#-" class="d">-</a> masukomi <a class="u" href="http://masukomi.org">http://masukomi.org</a>
+<a href="motion.txt.html#-" class="d">-</a> Matt Greer <a href="starting.txt.html#--" class="d">--</a> <a class="u" href="http://mattgreer.org">http://mattgreer.org</a>
+<a href="motion.txt.html#-" class="d">-</a> MetaCosm | #Vim on Freenode
+<a href="motion.txt.html#-" class="d">-</a> Michael Ulm www.mulm.at
+<a href="motion.txt.html#-" class="d">-</a> Mikael Jansson <a class="u" href="http://mikaelj.se">http://mikaelj.se</a>
+<a href="motion.txt.html#-" class="d">-</a> Mikkel Høgh <a class="u" href="http://mikkel.hoegh.org/">http://mikkel.hoegh.org/</a>
+<a href="motion.txt.html#-" class="d">-</a> Ming Liu <a class="u" href="http://ming.codes">http://ming.codes</a>
+<a href="motion.txt.html#-" class="d">-</a> Holger Peters <a class="u" href="http://www.holger-peters.de">http://www.holger-peters.de</a>
+<a href="motion.txt.html#-" class="d">-</a> Alexander Myshov <a class="u" href="http://myshov.com/">http://myshov.com/</a>
+<a href="motion.txt.html#-" class="d">-</a> Darren Cheng <a class="u" href="http://sanguinerane.com/">http://sanguinerane.com/</a>
+<a href="motion.txt.html#-" class="d">-</a> Felix Rath www.0fx.eu
+<a href="motion.txt.html#-" class="d">-</a> Hong Xu <a class="u" href="http://www.topbug.net">http://www.topbug.net</a>
+<a href="motion.txt.html#-" class="d">-</a> Slava Kim <a class="u" href="https://www.meteor.com">https://www.meteor.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Nate Soares (So8res) <a class="u" href="http://so8r.es">http://so8r.es</a>
+<a href="motion.txt.html#-" class="d">-</a> neektza <a class="u" href="http://pltconfusion.com">http://pltconfusion.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Niclas Nilsson, <a class="u" href="http://niclasnilsson.se">http://niclasnilsson.se</a>
+<a href="motion.txt.html#-" class="d">-</a> Nikolay Bachiyski <a class="u" href="http://extrapolate.me/">http://extrapolate.me/</a>
+<a href="motion.txt.html#-" class="d">-</a> Nikush Patel <a class="u" href="http://nikush.co.uk">http://nikush.co.uk</a>
+<a href="motion.txt.html#-" class="d">-</a> Norman Köhring <a class="u" href="https://koehr.in">https://koehr.in</a>
+<a href="motion.txt.html#-" class="d">-</a> Osamu Komagata
+<a href="motion.txt.html#-" class="d">-</a> Øystein E. Krog <a class="u" href="https://github.com/oysteinkrog">https://github.com/oysteinkrog</a>
+<a href="motion.txt.html#-" class="d">-</a> Pablo Brasero Moreno <a class="u" href="http://pablobm.com">http://pablobm.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Peter Souter <a class="u" href="http://www.petersouter.co.uk">http://www.petersouter.co.uk</a>
+<a href="motion.txt.html#-" class="d">-</a> Phil Levchenko (http://philslair.com)
+<a href="motion.txt.html#-" class="d">-</a> Pierre Douyon <a class="u" href="https://github.com/pgdouyon">https://github.com/pgdouyon</a>
+<a href="motion.txt.html#-" class="d">-</a> Prateek Rungta
+<a href="motion.txt.html#-" class="d">-</a> Przemysł<a href="motion.txt.html#aw" class="d">aw</a> Pietrzkiewicz, <a class="u" href="http://ppi.sh">http://ppi.sh</a>
+<a href="motion.txt.html#-" class="d">-</a> Rasmus Mattsson <a class="u" href="http://zzm.se">http://zzm.se</a>
+<a href="motion.txt.html#-" class="d">-</a> Reed Esau <a class="u" href="https://github.com/reedes">https://github.com/reedes</a>
+<a href="motion.txt.html#-" class="d">-</a> Richard Harding <a class="u" href="https://bmark.us">https://bmark.us</a>
+<a href="motion.txt.html#-" class="d">-</a> Rob Warner <a class="u" href="http://grailbox.com">http://grailbox.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Runar Balstad Jensen, <a class="u" href="http://stdout.no/">http://stdout.no/</a>
+<a href="motion.txt.html#-" class="d">-</a> Ryan Paul <a class="u" href="http://seg.phault.net">http://seg.phault.net</a>
+<a href="motion.txt.html#-" class="d">-</a> Saad Malik <a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/saamalik">https://github.com/saamalik</a>
+<a href="motion.txt.html#-" class="d">-</a> Saggi Malachi <a href="motion.txt.html#-" class="d">-</a> <a class="u" href="http://sagg.im">http://sagg.im</a>
+<a href="motion.txt.html#-" class="d">-</a> Scott Wessels (http://www.usgn.net)
+<a href="motion.txt.html#-" class="d">-</a> Sean DuBois (Sean-Der) <a class="u" href="http://siobud.com">http://siobud.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Sebastian Vetter (http://www.roadside-developer.com)
+<a href="motion.txt.html#-" class="d">-</a> Simen Endsjø, <a class="u" href="http://simendsjo.me">http://simendsjo.me</a>
+<a href="motion.txt.html#-" class="d">-</a> Stanley Chan (Happy-Dude)
+<a href="motion.txt.html#-" class="d">-</a> Stefan Penner
+<a href="motion.txt.html#-" class="d">-</a> Steve Vermeulen <a class="u" href="https://github.com/svermeulen">https://github.com/svermeulen</a>
+<a href="motion.txt.html#-" class="d">-</a> Steven Myint (https://github.com/myint)
+<a href="motion.txt.html#-" class="d">-</a> Tae Sandoval Murgan &lt;taecilla.github.io&gt;
+<a href="motion.txt.html#-" class="d">-</a> The Kompanee <a class="u" href="http://thekompanee.com">http://thekompanee.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Thomas Cannon &lt;http://thomascannon.net&gt;
+<a href="motion.txt.html#-" class="d">-</a> Tim Oxley <a class="u" href="http://campjs.com/">http://campjs.com/</a>
+<a href="motion.txt.html#-" class="d">-</a> Timo Schmiade
+<a href="motion.txt.html#-" class="d">-</a> Timothy Dahlin
+<a href="motion.txt.html#-" class="d">-</a> Tiziano Santoro
+<a href="motion.txt.html#-" class="d">-</a> Toban Wiebe <a class="u" href="http://tobanwiebe.com">http://tobanwiebe.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Tobias Sjösten <a class="u" href="http://vvv.tobiassjosten.net/">http://vvv.tobiassjosten.net/</a>
+<a href="motion.txt.html#-" class="d">-</a> Tom Cammann <a class="u" href="http://github.com/takac">http://github.com/takac</a>
+<a href="motion.txt.html#-" class="d">-</a> Val Markovic <a class="u" href="http://val.markovic.io/">http://val.markovic.io/</a>
+<a href="motion.txt.html#-" class="d">-</a> Víðir Valberg Guðmundsson <a class="u" href="http://rabotnik.coop">http://rabotnik.coop</a>
+<a href="motion.txt.html#-" class="d">-</a> Weiyi Lou <a class="u" href="http://parlseygardens.net">http://parlseygardens.net</a>
+<a href="motion.txt.html#-" class="d">-</a> Wesley Moore <a class="u" href="http://wezm.net/">http://wezm.net/</a>
+<a href="motion.txt.html#-" class="d">-</a> Woody Peterson, <a class="u" href="http://www.bitsofsignal.com">http://www.bitsofsignal.com</a>
+<a href="motion.txt.html#-" class="d">-</a> Zach Kelling, <a class="u" href="http://zeekay.io">http://zeekay.io</a>
+
+### Your name in BACKERS.md.
+
+<a href="motion.txt.html#-" class="d">-</a> @a13xb
+<a href="motion.txt.html#-" class="d">-</a> @d1eg0
+<a href="motion.txt.html#-" class="d">-</a> @derkha
+<a href="motion.txt.html#-" class="d">-</a> @georgebashi
+<a href="motion.txt.html#-" class="d">-</a> @tmcw
+<a href="motion.txt.html#-" class="d">-</a> @xpayn
+<a href="motion.txt.html#-" class="d">-</a> Adam Baxter (voltagex)
+<a href="motion.txt.html#-" class="d">-</a> Adam Miller (maxamillion)
+<a href="motion.txt.html#-" class="d">-</a> Adam Sunderland/iterion
+<a href="motion.txt.html#-" class="d">-</a> Adon Metcalfe (adonm)
+<a href="motion.txt.html#-" class="d">-</a> Adrian Duyzer
+<a href="motion.txt.html#-" class="d">-</a> Aidan Stein
+<a href="motion.txt.html#-" class="d">-</a> ak47
+<a href="motion.txt.html#-" class="d">-</a> Aketzu
+<a href="motion.txt.html#-" class="d">-</a> Alessandro Gangemi
+<a href="motion.txt.html#-" class="d">-</a> Alessandro Pagnin
+<a href="motion.txt.html#-" class="d">-</a> Alessandro Proscia
+<a href="motion.txt.html#-" class="d">-</a> Alex Genco (alexgenco)
+<a href="motion.txt.html#-" class="d">-</a> Alex Heeton
+<a href="motion.txt.html#-" class="d">-</a> Alex Roper
+<a href="motion.txt.html#-" class="d">-</a> Alex Soto (apsoto@gmail.com)
+<a href="motion.txt.html#-" class="d">-</a> Alexander Flatter
+<a href="motion.txt.html#-" class="d">-</a> Alexander Jeurissen
+<a href="motion.txt.html#-" class="d">-</a> Alexander Shabalin
+<a href="motion.txt.html#-" class="d">-</a> Alexander Woerndle
+<a href="motion.txt.html#-" class="d">-</a> Alexandru Keszeg
+<a href="motion.txt.html#-" class="d">-</a> Allan Hudgins
+<a href="motion.txt.html#-" class="d">-</a> Ami Chayun
+<a href="motion.txt.html#-" class="d">-</a> Amit Beka
+<a href="motion.txt.html#-" class="d">-</a> Anders Fuzz
+<a href="motion.txt.html#-" class="d">-</a> Andre Azzolini
+<a href="motion.txt.html#-" class="d">-</a> Andre da Palma
+<a href="motion.txt.html#-" class="d">-</a> André Santos/andrefs
+<a href="motion.txt.html#-" class="d">-</a> Andrea Michi
+<a href="motion.txt.html#-" class="d">-</a> Andreas Heider
+<a href="motion.txt.html#-" class="d">-</a> Andreas Lappe
+<a href="motion.txt.html#-" class="d">-</a> andrej ocenas <a href="pattern.txt.html#%2F" class="d">/</a> aocenas
+<a href="motion.txt.html#-" class="d">-</a> Andrew Arminio @5thWall
+<a href="motion.txt.html#-" class="d">-</a> Andrew DeMaria <a href="change.txt.html#~" class="d">~</a> muff1nman
+<a href="motion.txt.html#-" class="d">-</a> Andrew Fallows
+<a href="motion.txt.html#-" class="d">-</a> Andrew Fecheyr (@andruby)
+<a href="motion.txt.html#-" class="d">-</a> Andrew Hartford
+<a href="motion.txt.html#-" class="d">-</a> Andrey Tarantsov
+<a href="motion.txt.html#-" class="d">-</a> Andrey Yurovsky
+<a href="motion.txt.html#-" class="d">-</a> Andy Dirnberger
+<a href="motion.txt.html#-" class="d">-</a> Andy Gayton
+<a href="motion.txt.html#-" class="d">-</a> Andy Lindeman
+<a href="motion.txt.html#-" class="d">-</a> Andy Webster
+<a href="motion.txt.html#-" class="d">-</a> AngelLeliel
+<a href="motion.txt.html#-" class="d">-</a> Anton Egorov <a href="pattern.txt.html#%2F" class="d">/</a> satyrius
+<a href="motion.txt.html#-" class="d">-</a> Anton Shemerey
+<a href="motion.txt.html#-" class="d">-</a> Arnaud Bétrémieux
+<a href="motion.txt.html#-" class="d">-</a> Arne Ehrlich
+<a href="motion.txt.html#-" class="d">-</a> Arseny Zarechnev
+<a href="motion.txt.html#-" class="d">-</a> Arvind Deshpande
+<a href="motion.txt.html#-" class="d">-</a> Astro Jetson Jr
+<a href="motion.txt.html#-" class="d">-</a> Attila Maczak
+<a href="motion.txt.html#-" class="d">-</a> Avétis KAZARIAN (avetisk)
+<a href="motion.txt.html#-" class="d">-</a> BarryKay
+<a href="motion.txt.html#-" class="d">-</a> bbinet
+<a href="motion.txt.html#-" class="d">-</a> BenBergman
+<a href="motion.txt.html#-" class="d">-</a> Bengt Lüers
+<a href="motion.txt.html#-" class="d">-</a> Benjamin Bryant
+<a href="motion.txt.html#-" class="d">-</a> Bèr "berkes" Kessels
+<a href="motion.txt.html#-" class="d">-</a> Bernd Homuth
+<a href="motion.txt.html#-" class="d">-</a> Bheesham Persaud
+<a href="motion.txt.html#-" class="d">-</a> Bilal Quadri
+<a href="motion.txt.html#-" class="d">-</a> Bjorn Tipling
+<a href="motion.txt.html#-" class="d">-</a> Bojan Zivanovic
+<a href="motion.txt.html#-" class="d">-</a> Boris Searles
+<a href="motion.txt.html#-" class="d">-</a> Braden Bruington
+<a href="motion.txt.html#-" class="d">-</a> Brandon Liu/thenovices
+<a href="motion.txt.html#-" class="d">-</a> Brandon Mathis <a href="motion.txt.html#-" class="d">-</a> @imathis
+<a href="motion.txt.html#-" class="d">-</a> Brett Ritter
+<a href="motion.txt.html#-" class="d">-</a> Brian Shaver (shakerlxxv)
+<a href="motion.txt.html#-" class="d">-</a> Bryan Grohman
+<a href="motion.txt.html#-" class="d">-</a> Bryn Edwards
+<a href="motion.txt.html#-" class="d">-</a> Calin Iorgulescu
+<a href="motion.txt.html#-" class="d">-</a> calind
+<a href="motion.txt.html#-" class="d">-</a> Cameron Wood <a href="pattern.txt.html#%2F" class="d">/</a> cewood
+<a href="motion.txt.html#-" class="d">-</a> Chris Lopes
+<a href="motion.txt.html#-" class="d">-</a> Chris Lord
+<a href="motion.txt.html#-" class="d">-</a> Chris Porter
+<a href="motion.txt.html#-" class="d">-</a> Chris Sims (@jcsims)
+<a href="motion.txt.html#-" class="d">-</a> Christian Anton <a href="pattern.txt.html#%2F" class="d">/</a> fibbs
+<a href="motion.txt.html#-" class="d">-</a> Christian Delahousse cdelahousse
+<a href="motion.txt.html#-" class="d">-</a> Christian Lange
+<a href="motion.txt.html#-" class="d">-</a> Christian Wellenbrock
+<a href="motion.txt.html#-" class="d">-</a> Christophe Badoit
+<a href="motion.txt.html#-" class="d">-</a> Christopher Lübbemeier
+<a href="motion.txt.html#-" class="d">-</a> Christopher Mullins
+<a href="motion.txt.html#-" class="d">-</a> Chungha Kim
+<a href="motion.txt.html#-" class="d">-</a> ckromero
+<a href="motion.txt.html#-" class="d">-</a> Claas-Thido Pfaff
+<a href="motion.txt.html#-" class="d">-</a> Claes Mogren
+<a href="motion.txt.html#-" class="d">-</a> Clayton Drazner
+<a href="motion.txt.html#-" class="d">-</a> claytron
+<a href="motion.txt.html#-" class="d">-</a> Colin Cooper
+<a href="motion.txt.html#-" class="d">-</a> corytheboyd
+<a href="motion.txt.html#-" class="d">-</a> Cristián Alberto Arenas Ulloa <a href="pattern.txt.html#%2F" class="d">/</a> NiñoScript
+<a href="motion.txt.html#-" class="d">-</a> Cyril LEPAGNOT/cyrill62
+<a href="motion.txt.html#-" class="d">-</a> D3 Designs
+<a href="motion.txt.html#-" class="d">-</a> DAddYE (github: DAddYE)
+<a href="motion.txt.html#-" class="d">-</a> Dan Webb
+<a href="motion.txt.html#-" class="d">-</a> Daniel C. Henning <a href="pattern.txt.html#%2F" class="d">/</a> danielsdesk
+<a href="motion.txt.html#-" class="d">-</a> Daniel Egeberg
+<a href="motion.txt.html#-" class="d">-</a> Daniel Egger
+<a href="motion.txt.html#-" class="d">-</a> Daniel Hodan/czertbytes
+<a href="motion.txt.html#-" class="d">-</a> Daniel Latzer
+<a href="motion.txt.html#-" class="d">-</a> Daniel Riti
+<a href="motion.txt.html#-" class="d">-</a> Daniel Weisser
+<a href="motion.txt.html#-" class="d">-</a> Daniele Polencic
+<a href="motion.txt.html#-" class="d">-</a> Dave Dixon
+<a href="motion.txt.html#-" class="d">-</a> David Collie
+<a href="motion.txt.html#-" class="d">-</a> David Galeano
+<a href="motion.txt.html#-" class="d">-</a> David Newell
+<a href="motion.txt.html#-" class="d">-</a> David Rappo, Bountysource.com
+<a href="motion.txt.html#-" class="d">-</a> David Rasch
+<a href="motion.txt.html#-" class="d">-</a> David Stensland <a href="motion.txt.html#-" class="d">-</a> terite
+<a href="motion.txt.html#-" class="d">-</a> Davit Samvelyan
+<a href="motion.txt.html#-" class="d">-</a> Dean Morin
+<a href="motion.txt.html#-" class="d">-</a> deffi420
+<a href="motion.txt.html#-" class="d">-</a> defrex
+<a href="motion.txt.html#-" class="d">-</a> Deraen
+<a href="motion.txt.html#-" class="d">-</a> Dewdrops
+<a href="motion.txt.html#-" class="d">-</a> Dick Seabrook
+<a href="motion.txt.html#-" class="d">-</a> Dominik Ritter
+<a href="motion.txt.html#-" class="d">-</a> Don Browne
+<a href="motion.txt.html#-" class="d">-</a> Donald Walker
+<a href="motion.txt.html#-" class="d">-</a> Donna Martz
+<a href="motion.txt.html#-" class="d">-</a> dpc
+<a href="motion.txt.html#-" class="d">-</a> dperson
+<a href="motion.txt.html#-" class="d">-</a> dvidsilva
+<a href="motion.txt.html#-" class="d">-</a> Edan Maor
+<a href="motion.txt.html#-" class="d">-</a> Eddy Garcia
+<a href="motion.txt.html#-" class="d">-</a> Edward Ash/cazador481
+<a href="motion.txt.html#-" class="d">-</a> Elias Tandel Barrionovo
+<a href="motion.txt.html#-" class="d">-</a> Elijah Mirecki
+<a href="motion.txt.html#-" class="d">-</a> Elliot Winkler (github: mcmire)
+<a href="motion.txt.html#-" class="d">-</a> Enric Lluelles
+<a href="motion.txt.html#-" class="d">-</a> Eric Fode
+<a href="motion.txt.html#-" class="d">-</a> Erik Goldman
+<a href="motion.txt.html#-" class="d">-</a> Erik Johnson Github: terminalmage Twitter: @terminalmage
+<a href="motion.txt.html#-" class="d">-</a> Erik Nordlund
+<a href="motion.txt.html#-" class="d">-</a> Ethan Erchinger/erchn
+<a href="motion.txt.html#-" class="d">-</a> Evan Tatarka
+<a href="motion.txt.html#-" class="d">-</a> Ewoud van Raamsdonk
+<a href="motion.txt.html#-" class="d">-</a> fd0
+<a href="motion.txt.html#-" class="d">-</a> Federico Galassi
+<a href="motion.txt.html#-" class="d">-</a> Félix Archambault
+<a href="motion.txt.html#-" class="d">-</a> Ferdinand Salis-Samaden
+<a href="motion.txt.html#-" class="d">-</a> Florian Bartels
+<a href="motion.txt.html#-" class="d">-</a> Florian Sachs
+<a href="motion.txt.html#-" class="d">-</a> foca
+<a href="motion.txt.html#-" class="d">-</a> forbesmyester
+<a href="motion.txt.html#-" class="d">-</a> Frédéric de Villamil
+<a href="motion.txt.html#-" class="d">-</a> Fredrik Rambris
+<a href="motion.txt.html#-" class="d">-</a> Dapeng Li (luislee818)
+<a href="motion.txt.html#-" class="d">-</a> Janko Marohnić (janko-m)
+<a href="motion.txt.html#-" class="d">-</a> Jun Wu
+<a href="motion.txt.html#-" class="d">-</a> Maurice van der Pot (Griffon26)
+<a href="motion.txt.html#-" class="d">-</a> Ory Band (oryband)
+<a href="motion.txt.html#-" class="d">-</a> Garrett Dawson
+<a href="motion.txt.html#-" class="d">-</a> Gaveen Prabhasara
+<a href="motion.txt.html#-" class="d">-</a> George Nikolopoulos
+<a href="motion.txt.html#-" class="d">-</a> github username "alandyer"
+<a href="motion.txt.html#-" class="d">-</a> Giuseppe Rota
+<a href="motion.txt.html#-" class="d">-</a> gkalas
+<a href="motion.txt.html#-" class="d">-</a> Gökhan Kocak
+<a href="motion.txt.html#-" class="d">-</a> goodgravy
+<a href="motion.txt.html#-" class="d">-</a> Göran Gustafsson (GLEG)
+<a href="motion.txt.html#-" class="d">-</a> Graham Jans
+<a href="motion.txt.html#-" class="d">-</a> Greg Marcil
+<a href="motion.txt.html#-" class="d">-</a> Gregory Byrd/GByrd
+<a href="motion.txt.html#-" class="d">-</a> Gustavo Barron <a href="pattern.txt.html#%2F" class="d">/</a> Cicloid
+<a href="motion.txt.html#-" class="d">-</a> Gyuri Horák
+<a href="motion.txt.html#-" class="d">-</a> Harald Hvaal
+<a href="motion.txt.html#-" class="d">-</a> Harm Aarts
+<a href="motion.txt.html#-" class="d">-</a> Harry Glaser
+<a href="motion.txt.html#-" class="d">-</a> Håvard Grimelid
+<a href="motion.txt.html#-" class="d">-</a> hencjo
+<a href="motion.txt.html#-" class="d">-</a> Henning Hasemann
+<a href="motion.txt.html#-" class="d">-</a> Henry "Ingvij" Kupty
+<a href="motion.txt.html#-" class="d">-</a> henry4k
+<a href="motion.txt.html#-" class="d">-</a> Heryandi
+<a href="motion.txt.html#-" class="d">-</a> Hontvári József Levente
+<a href="motion.txt.html#-" class="d">-</a> IKEDA, Yoshifumi
+<a href="motion.txt.html#-" class="d">-</a> Ilia Choly
+<a href="motion.txt.html#-" class="d">-</a> iliis
+<a href="motion.txt.html#-" class="d">-</a> Ilya Katz
+<a href="motion.txt.html#-" class="d">-</a> Indrek Juhkam <a href="pattern.txt.html#%2F" class="d">/</a> indrekj
+<a href="motion.txt.html#-" class="d">-</a> irwand
+<a href="motion.txt.html#-" class="d">-</a> Islam Sharabash <a href="pattern.txt.html#%2F" class="d">/</a> ibash
+<a href="motion.txt.html#-" class="d">-</a> Ivar Vasara
+<a href="motion.txt.html#-" class="d">-</a> Jack Stouffer
+<a href="motion.txt.html#-" class="d">-</a> Jacqueline Leykam
+<a href="motion.txt.html#-" class="d">-</a> Jakob Landbo
+<a href="motion.txt.html#-" class="d">-</a> James Herdman
+<a href="motion.txt.html#-" class="d">-</a> James Magness
+<a href="motion.txt.html#-" class="d">-</a> James Murty <a href="pattern.txt.html#%2F" class="d">/</a> jmurty
+<a href="motion.txt.html#-" class="d">-</a> James Nguyen
+<a href="motion.txt.html#-" class="d">-</a> James Orr
+<a href="motion.txt.html#-" class="d">-</a> James Pickard
+<a href="motion.txt.html#-" class="d">-</a> James Seward
+<a href="motion.txt.html#-" class="d">-</a> Jamie Hillman
+<a href="motion.txt.html#-" class="d">-</a> Jan Larres
+<a href="motion.txt.html#-" class="d">-</a> Jan Weitz
+<a href="motion.txt.html#-" class="d">-</a> Janko Luin
+<a href="motion.txt.html#-" class="d">-</a> Jannik Nielsen <a href="pattern.txt.html#%2F" class="d">/</a> bitkid
+<a href="motion.txt.html#-" class="d">-</a> Jared Tyler Miller
+<a href="motion.txt.html#-" class="d">-</a> Jason Imison
+<a href="motion.txt.html#-" class="d">-</a> Jason Long <a href="pattern.txt.html#%2F" class="d">/</a> @jasonlong
+<a href="motion.txt.html#-" class="d">-</a> Jason Stillwell/dragonfax
+<a href="motion.txt.html#-" class="d">-</a> Jasu
+<a href="motion.txt.html#-" class="d">-</a> javaguirre
+<a href="motion.txt.html#-" class="d">-</a> Jedidiah Hurt
+<a href="motion.txt.html#-" class="d">-</a> Jeff Schornick
+<a href="motion.txt.html#-" class="d">-</a> Jen Patrick
+<a href="motion.txt.html#-" class="d">-</a> Jens Hausherr
+<a href="motion.txt.html#-" class="d">-</a> Jess Brown <a href="pattern.txt.html#%2F" class="d">/</a> Jess
+<a href="motion.txt.html#-" class="d">-</a> Jesse Cooke/@jc00ke
+<a href="motion.txt.html#-" class="d">-</a> Jessica Frazelle/ jfrazelle
+<a href="motion.txt.html#-" class="d">-</a> Jesus Alvarez
+<a href="motion.txt.html#-" class="d">-</a> Jez Allan
+<a href="motion.txt.html#-" class="d">-</a> Jimmie Elvenmark
+<a href="motion.txt.html#-" class="d">-</a> Jiří Koten
+<a href="motion.txt.html#-" class="d">-</a> JJ Murre
+<a href="motion.txt.html#-" class="d">-</a> joe di castro
+<a href="motion.txt.html#-" class="d">-</a> Joe Malin/633squadron
+<a href="motion.txt.html#-" class="d">-</a> Joel Meyer
+<a href="motion.txt.html#-" class="d">-</a> Joey Trapp
+<a href="motion.txt.html#-" class="d">-</a> Johan Klokkhammer Helsing
+<a href="motion.txt.html#-" class="d">-</a> John Cant
+<a href="motion.txt.html#-" class="d">-</a> John K. Paul
+<a href="motion.txt.html#-" class="d">-</a> John Krueger
+<a href="motion.txt.html#-" class="d">-</a> John Netherdrake
+<a href="motion.txt.html#-" class="d">-</a> John Schmidt <a href="pattern.txt.html#%2F" class="d">/</a> schmee
+<a href="motion.txt.html#-" class="d">-</a> John Whitley/@jwhitley
+<a href="motion.txt.html#-" class="d">-</a> Jon Anhold
+<a href="motion.txt.html#-" class="d">-</a> Jon Gosting
+<a href="motion.txt.html#-" class="d">-</a> Jonas Rollsby
+<a href="motion.txt.html#-" class="d">-</a> Jonathan Buschmann
+<a href="motion.txt.html#-" class="d">-</a> Jonathan Gibert
+<a href="motion.txt.html#-" class="d">-</a> Jonathan Jacobs
+<a href="motion.txt.html#-" class="d">-</a> Jonathan Kinred
+<a href="motion.txt.html#-" class="d">-</a> Jorge Gallegos (kad)
+<a href="motion.txt.html#-" class="d">-</a> Joris Morger
+<a href="motion.txt.html#-" class="d">-</a> Josemar Luedke
+<a href="motion.txt.html#-" class="d">-</a> Joshua Brookover
+<a href="motion.txt.html#-" class="d">-</a> Joshua Travis
+<a href="motion.txt.html#-" class="d">-</a> Jouko Karvonen
+<a href="motion.txt.html#-" class="d">-</a> jstemmer
+<a href="motion.txt.html#-" class="d">-</a> Juan Campa
+<a href="motion.txt.html#-" class="d">-</a> Juan Hernández Babón <a href="pattern.txt.html#%2F" class="d">/</a> jhbabon
+<a href="motion.txt.html#-" class="d">-</a> juanolon
+<a href="motion.txt.html#-" class="d">-</a> Justin Carter Moy
+<a href="motion.txt.html#-" class="d">-</a> Justin Force
+<a href="motion.txt.html#-" class="d">-</a> Kamil Slowikowski
+<a href="motion.txt.html#-" class="d">-</a> Karl Ove Hufthammer
+<a href="motion.txt.html#-" class="d">-</a> Kazuo Teramoto
+<a href="motion.txt.html#-" class="d">-</a> Kevin Goslar
+<a href="motion.txt.html#-" class="d">-</a> Kevin Hamer
+<a href="motion.txt.html#-" class="d">-</a> Kevin Watters
+<a href="motion.txt.html#-" class="d">-</a> Kevin Zimmerman <a href="pattern.txt.html#%2F" class="d">/</a> zim44
+<a href="motion.txt.html#-" class="d">-</a> kryft
+<a href="motion.txt.html#-" class="d">-</a> Krzysztof Adamski
+<a href="motion.txt.html#-" class="d">-</a> Lachlan Brad Easton
+<a href="motion.txt.html#-" class="d">-</a> Lance Ulmer
+<a href="motion.txt.html#-" class="d">-</a> Larry Riedel (Larry@Riedel.org)
+<a href="motion.txt.html#-" class="d">-</a> Lasse Immonen (lasse.immonen@gmail.com)
+<a href="motion.txt.html#-" class="d">-</a> Léo Unbekandt <a href="pattern.txt.html#%2F" class="d">/</a> Soulou
+<a href="motion.txt.html#-" class="d">-</a> Leszek Swirski
+<a href="motion.txt.html#-" class="d">-</a> Levi Brown
+<a href="motion.txt.html#-" class="d">-</a> lhl
+<a href="motion.txt.html#-" class="d">-</a> linduxed
+<a href="motion.txt.html#-" class="d">-</a> Lluis Satorre Gonzalez
+<a href="motion.txt.html#-" class="d">-</a> lobachevsky
+<a href="motion.txt.html#-" class="d">-</a> Louis Pilfold
+<a href="motion.txt.html#-" class="d">-</a> Lucas Stephanou/lucasts
+<a href="motion.txt.html#-" class="d">-</a> Lucas Werkmeister
+<a href="motion.txt.html#-" class="d">-</a> Luke Sampson
+<a href="motion.txt.html#-" class="d">-</a> Luke van der Hoeven <a href="pattern.txt.html#%2F" class="d">/</a> @plukevdh
+<a href="motion.txt.html#-" class="d">-</a> Maciej Litwiniuk (@mlitwiniuk)
+<a href="motion.txt.html#-" class="d">-</a> Mads Navntoft Noe
+<a href="motion.txt.html#-" class="d">-</a> Maik Derstappen <a href="pattern.txt.html#%2F" class="d">/</a> MrTango
+<a href="motion.txt.html#-" class="d">-</a> Manuel Salvadores
+<a href="motion.txt.html#-" class="d">-</a> Marcus Huntemann/mapclyps
+<a href="motion.txt.html#-" class="d">-</a> Marcus Martin/nymaen
+<a href="motion.txt.html#-" class="d">-</a> Markus Dobler
+<a href="motion.txt.html#-" class="d">-</a> Mat Moore
+<a href="motion.txt.html#-" class="d">-</a> Mate Nagy
+<a href="motion.txt.html#-" class="d">-</a> Mathias Fußenegger
+<a href="motion.txt.html#-" class="d">-</a> Matt Moretti
+<a href="motion.txt.html#-" class="d">-</a> Matthew Machuga
+<a href="motion.txt.html#-" class="d">-</a> Matthew Sunderland
+<a href="motion.txt.html#-" class="d">-</a> Matthias Bilger
+<a href="motion.txt.html#-" class="d">-</a> Matthias Lehmann
+<a href="motion.txt.html#-" class="d">-</a> Maximilian Gerlach
+<a href="motion.txt.html#-" class="d">-</a> Meryn Stol
+<a href="motion.txt.html#-" class="d">-</a> Michael "manveru" Fellinger
+<a href="motion.txt.html#-" class="d">-</a> Michael "beefsack" Alexander
+<a href="motion.txt.html#-" class="d">-</a> Michael Iles
+<a href="motion.txt.html#-" class="d">-</a> Michael Irwin/mdi
+<a href="motion.txt.html#-" class="d">-</a> Michael Kebe
+<a href="motion.txt.html#-" class="d">-</a> Michael Lerch
+<a href="motion.txt.html#-" class="d">-</a> Michael R. Jones
+<a href="motion.txt.html#-" class="d">-</a> Michael Sanders/msanders
+<a href="motion.txt.html#-" class="d">-</a> Michael Schall <a href="pattern.txt.html#%2F" class="d">/</a> schallm
+<a href="motion.txt.html#-" class="d">-</a> Michail Denchev
+<a href="motion.txt.html#-" class="d">-</a> Michał Bartoszkiewicz
+<a href="motion.txt.html#-" class="d">-</a> Mickaël FORTUNATO
+<a href="motion.txt.html#-" class="d">-</a> Miguel Santesmases
+<a href="motion.txt.html#-" class="d">-</a> Mihir Pendse
+<a href="motion.txt.html#-" class="d">-</a> Mike Bissett/paran01d
+<a href="motion.txt.html#-" class="d">-</a> Mike Sergio
+<a href="motion.txt.html#-" class="d">-</a> Mike Wadsten
+<a href="motion.txt.html#-" class="d">-</a> mikedillion
+<a href="motion.txt.html#-" class="d">-</a> Mikkel Oscar Lyderik Larsen
+<a href="motion.txt.html#-" class="d">-</a> Miles Edland <a href="pattern.txt.html#%2F" class="d">/</a> edlandm
+<a href="motion.txt.html#-" class="d">-</a> Miles Frain
+<a href="motion.txt.html#-" class="d">-</a> Mirko Grönroos
+<a href="motion.txt.html#-" class="d">-</a> Moritz Lotze
+<a href="motion.txt.html#-" class="d">-</a> Morten Nygaard Åsnes
+<a href="motion.txt.html#-" class="d">-</a> MrException
+<a href="motion.txt.html#-" class="d">-</a> Julian Churchill (julianchurchill)
+<a href="motion.txt.html#-" class="d">-</a> Nakul Dhotre
+<a href="motion.txt.html#-" class="d">-</a> Corey Farwell (frewsxcv)
+<a href="motion.txt.html#-" class="d">-</a> Tarrant Rollins (tarrant)
+<a href="motion.txt.html#-" class="d">-</a> Naseer Ahmed
+<a href="motion.txt.html#-" class="d">-</a> Nate Jones
+<a href="motion.txt.html#-" class="d">-</a> Nate Soares (So8res)
+<a href="motion.txt.html#-" class="d">-</a> Nate Straz
+<a href="motion.txt.html#-" class="d">-</a> Neil Kirsopp
+<a href="motion.txt.html#-" class="d">-</a> Nelson Chen/nelsonjchen
+<a href="motion.txt.html#-" class="d">-</a> Nicholas Firth-McCoy (nfm)
+<a href="motion.txt.html#-" class="d">-</a> Nick Sloan
+<a href="motion.txt.html#-" class="d">-</a> Nickolas Means
+<a href="motion.txt.html#-" class="d">-</a> Nicolai Ruckel
+<a href="motion.txt.html#-" class="d">-</a> Niko Kivelä
+<a href="motion.txt.html#-" class="d">-</a> nop
+<a href="motion.txt.html#-" class="d">-</a> Nuno Frade
+<a href="motion.txt.html#-" class="d">-</a> Olaf Heinemann
+<a href="motion.txt.html#-" class="d">-</a> Ole Reifschneider
+<a href="motion.txt.html#-" class="d">-</a> Oliver Caldwell
+<a href="motion.txt.html#-" class="d">-</a> Olivier Lechevalier
+<a href="motion.txt.html#-" class="d">-</a> orangain
+<a href="motion.txt.html#-" class="d">-</a> orestis
+<a href="motion.txt.html#-" class="d">-</a> pablasso
+<a href="motion.txt.html#-" class="d">-</a> Pascal Hartig
+<a href="motion.txt.html#-" class="d">-</a> Patrick Berkeley
+<a href="motion.txt.html#-" class="d">-</a> Patrick Bihan-Faou, TeamBox SARL
+<a href="motion.txt.html#-" class="d">-</a> Patrick Stapfer
+<a href="motion.txt.html#-" class="d">-</a> Paul <a href="change.txt.html#R" class="d">R</a> Alexander
+<a href="motion.txt.html#-" class="d">-</a> Pavel Afanasyev
+<a href="motion.txt.html#-" class="d">-</a> Pawel Grzech
+<a href="motion.txt.html#-" class="d">-</a> Paweł Nowak
+<a href="motion.txt.html#-" class="d">-</a> Pedro Rodriguez <a href="motion.txt.html#T" class="d">T</a>
+<a href="motion.txt.html#-" class="d">-</a> Per Modin
+<a href="motion.txt.html#-" class="d">-</a> Peter Edge
+<a href="motion.txt.html#-" class="d">-</a> Peter Fern
+<a href="motion.txt.html#-" class="d">-</a> Philipe Farias/philipefarias
+<a href="motion.txt.html#-" class="d">-</a> Philipp Millar
+<a href="motion.txt.html#-" class="d">-</a> Piotr Mitoraj
+<a href="motion.txt.html#-" class="d">-</a> Prithvi Prabhu (prithvi)
+<a href="motion.txt.html#-" class="d">-</a> Qingping Hou <a href="pattern.txt.html#%2F" class="d">/</a> houqp
+<a href="motion.txt.html#-" class="d">-</a> Quasar Jarosz
+<a href="motion.txt.html#-" class="d">-</a> queria
+<a href="motion.txt.html#-" class="d">-</a> Rachid Zarouali <a href="pattern.txt.html#%2F" class="d">/</a> Xinity
+<a href="motion.txt.html#-" class="d">-</a> Radek Szymczyszyn
+<a href="motion.txt.html#-" class="d">-</a> Randy Topliffe <a href="pattern.txt.html#%2F" class="d">/</a> Taar
+<a href="motion.txt.html#-" class="d">-</a> Ranko Radonić
+<a href="motion.txt.html#-" class="d">-</a> Raphael Henrique Ribas
+<a href="motion.txt.html#-" class="d">-</a> Ravi Joseph Pinto
+<a href="motion.txt.html#-" class="d">-</a> rekab
+<a href="motion.txt.html#-" class="d">-</a> Renato Zannon
+<a href="motion.txt.html#-" class="d">-</a> Richard "RichiH" Hartmann
+<a href="motion.txt.html#-" class="d">-</a> Richard Mihalovič
+<a href="motion.txt.html#-" class="d">-</a> Richard Sotarsh Clark
+<a href="motion.txt.html#-" class="d">-</a> Rio Kierkels
+<a href="motion.txt.html#-" class="d">-</a> rob allen
+<a href="motion.txt.html#-" class="d">-</a> Rob Bevan
+<a href="motion.txt.html#-" class="d">-</a> Rob Miller @robmil
+<a href="motion.txt.html#-" class="d">-</a> Rob O'Dwyer
+<a href="motion.txt.html#-" class="d">-</a> Rodolfo Borges (aka bart9h)
+<a href="motion.txt.html#-" class="d">-</a> Rodrigo Souto
+<a href="motion.txt.html#-" class="d">-</a> Roland Szabo
+<a href="motion.txt.html#-" class="d">-</a> Romans Malinovskis
+<a href="motion.txt.html#-" class="d">-</a> Roshan George
+<a href="motion.txt.html#-" class="d">-</a> Rostepher
+<a href="motion.txt.html#-" class="d">-</a> runar
+<a href="motion.txt.html#-" class="d">-</a> Russ Adams <a href="pattern.txt.html#%2F" class="d">/</a> rustushki
+<a href="motion.txt.html#-" class="d">-</a> Ryan Phillips
+<a href="motion.txt.html#-" class="d">-</a> Ryan Pierce/ fission1110
+<a href="motion.txt.html#-" class="d">-</a> Ryan Schmitt
+<a href="motion.txt.html#-" class="d">-</a> Ryan Tarpine
+<a href="motion.txt.html#-" class="d">-</a> Sadik Gokhan Caglar
+<a href="motion.txt.html#-" class="d">-</a> Sam Stokes
+<a href="motion.txt.html#-" class="d">-</a> Sanpi
+<a href="motion.txt.html#-" class="d">-</a> Santiago Suarez Ordoñez
+<a href="motion.txt.html#-" class="d">-</a> saxman7000
+<a href="motion.txt.html#-" class="d">-</a> Scott D'Aquila
+<a href="motion.txt.html#-" class="d">-</a> Scott Mathson
+<a href="motion.txt.html#-" class="d">-</a> Sean Copenhaver (@copenhas)
+<a href="motion.txt.html#-" class="d">-</a> Sean McCleary
+<a href="motion.txt.html#-" class="d">-</a> Sean M. Collins (sc68cal)
+<a href="motion.txt.html#-" class="d">-</a> Sean Tegtmeyer
+<a href="motion.txt.html#-" class="d">-</a> seanbell
+<a href="motion.txt.html#-" class="d">-</a> Sebastian Geiger
+<a href="motion.txt.html#-" class="d">-</a> Sergey Alexandrov
+<a href="motion.txt.html#-" class="d">-</a> Shane Delmore
+<a href="motion.txt.html#-" class="d">-</a> shawndumas
+<a href="motion.txt.html#-" class="d">-</a> shazow
+<a href="motion.txt.html#-" class="d">-</a> Silvan Jegen
+<a href="motion.txt.html#-" class="d">-</a> Simon Ratner (simonratner)
+<a href="motion.txt.html#-" class="d">-</a> Song Gao
+<a href="motion.txt.html#-" class="d">-</a> Stanimir Angelov Mladenov
+<a href="motion.txt.html#-" class="d">-</a> Stanislav B. <a href="motion.txt.html#-" class="d">-</a> zbstof
+<a href="motion.txt.html#-" class="d">-</a> Stefan Gojan (hoschi)
+<a href="motion.txt.html#-" class="d">-</a> Stefan Hoffmann <a href="pattern.txt.html#%2F" class="d">/</a> stefan991
+<a href="motion.txt.html#-" class="d">-</a> Stefan Wienert
+<a href="motion.txt.html#-" class="d">-</a> Steffen Rademacker
+<a href="motion.txt.html#-" class="d">-</a> Stephen Oney/soney
+<a href="motion.txt.html#-" class="d">-</a> Steve "ryz" Haßenpflug
+<a href="motion.txt.html#-" class="d">-</a> Steven Daniel Webb
+<a href="motion.txt.html#-" class="d">-</a> Steven Sloss
+<a href="motion.txt.html#-" class="d">-</a> Sven Opitz
+<a href="motion.txt.html#-" class="d">-</a> Sverre Rabbelier
+<a href="motion.txt.html#-" class="d">-</a> Szymon Ząbkiewicz
+<a href="motion.txt.html#-" class="d">-</a> Taichi Nakamura
+<a href="motion.txt.html#-" class="d">-</a> Takayuki Soga
+<a href="motion.txt.html#-" class="d">-</a> Teasp00n
+<a href="motion.txt.html#-" class="d">-</a> Terin Stock <a href="motion.txt.html#-" class="d">-</a> @terinjokes
+<a href="motion.txt.html#-" class="d">-</a> Thai Pangsakulyanont (dtinth)
+<a href="motion.txt.html#-" class="d">-</a> Thameera Senanayaka
+<a href="motion.txt.html#-" class="d">-</a> Theo Belaire
+<a href="motion.txt.html#-" class="d">-</a> Thomas Ferris Nicolaisen
+<a href="motion.txt.html#-" class="d">-</a> Thomas Hirsch
+<a href="motion.txt.html#-" class="d">-</a> Thomas Maffia/Szerated
+<a href="motion.txt.html#-" class="d">-</a> Thomas Pani
+<a href="motion.txt.html#-" class="d">-</a> Thomas Thune Hansen
+<a href="motion.txt.html#-" class="d">-</a> Thorbjørn Lindeijer
+<a href="motion.txt.html#-" class="d">-</a> Thunder Hu
+<a href="motion.txt.html#-" class="d">-</a> Thys Meintjes
+<a href="motion.txt.html#-" class="d">-</a> Tim Anema
+<a href="motion.txt.html#-" class="d">-</a> Tim Matthews
+<a href="motion.txt.html#-" class="d">-</a> Timo Kröger
+<a href="motion.txt.html#-" class="d">-</a> Tolstyak
+<a href="motion.txt.html#-" class="d">-</a> Tom Panning
+<a href="motion.txt.html#-" class="d">-</a> Tom Wadley
+<a href="motion.txt.html#-" class="d">-</a> Tony Kemp
+<a href="motion.txt.html#-" class="d">-</a> tonyo112
+<a href="motion.txt.html#-" class="d">-</a> Tori "TicViking" Hamblin
+<a href="motion.txt.html#-" class="d">-</a> treppo
+<a href="motion.txt.html#-" class="d">-</a> Truman Ellis
+<a href="motion.txt.html#-" class="d">-</a> Tuomas Vähänen
+<a href="motion.txt.html#-" class="d">-</a> Tyler Briles/MrBri
+<a href="motion.txt.html#-" class="d">-</a> Tyler Brock
+<a href="motion.txt.html#-" class="d">-</a> Tyler Mandry
+<a href="motion.txt.html#-" class="d">-</a> Ulf Fischer/ulf
+<a href="motion.txt.html#-" class="d">-</a> Vangelis Tsoumenis
+<a href="motion.txt.html#-" class="d">-</a> Vítězslav Homolka
+<a href="motion.txt.html#-" class="d">-</a> Vladimir Chernis
+<a href="motion.txt.html#-" class="d">-</a> Vojtech Jasny
+<a href="motion.txt.html#-" class="d">-</a> vvakame
+<a href="motion.txt.html#-" class="d">-</a> Vytis Valentinavičius
+<a href="motion.txt.html#-" class="d">-</a> Wade Berrier
+<a href="motion.txt.html#-" class="d">-</a> warrenv
+<a href="motion.txt.html#-" class="d">-</a> whateverhuis
+<a href="motion.txt.html#-" class="d">-</a> Will Binns-Smith
+<a href="motion.txt.html#-" class="d">-</a> Xavier Antoviaque (xavier@antoviaque.org)
+<a href="motion.txt.html#-" class="d">-</a> xsb
+<a href="motion.txt.html#-" class="d">-</a> Yann Villessuzanne
+<a href="motion.txt.html#-" class="d">-</a> yko
+<a href="motion.txt.html#-" class="d">-</a> Youta Harada(cohalz)
+<a href="motion.txt.html#-" class="d">-</a> Yrjö Peussa
+<a href="motion.txt.html#-" class="d">-</a> Yusuke Kanda(@uskanda)
+<a href="motion.txt.html#-" class="d">-</a> Yuval Langer
+<a href="motion.txt.html#-" class="d">-</a> zerowidth
+<a href="motion.txt.html#-" class="d">-</a> Ziling Zhao
+<a href="motion.txt.html#-" class="d">-</a> Zsolt Botykai
+
+<span class="c">ANONYMOUS SUPPORTERS</span>
+
+There were also 307 other people who didn't claim any level of reward but
+contributed to the fundraiser. Thank you all <a href="luaref.txt.html#for" class="d">for</a> the support!
+
+vim:tw=78:ts=8:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

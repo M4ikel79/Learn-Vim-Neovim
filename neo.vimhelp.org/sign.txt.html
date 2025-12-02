@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: sign.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="sign.txt.html#">↑Top↑</a></li>
+<li><a href="sign.txt.html#sign-intro">Introduction</a></li>
+<li><a href="sign.txt.html#sign-commands">Commands</a></li>
+<li><a href="sign.txt.html#sign-functions-details">Functions</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="sign.txt" class="t">sign.txt</span>      Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL    by Gordon Prieur</span>
+					  and <a href="intro.txt.html#Bram" class="d">Bram</a> <a href="intro.txt.html#Moolenaar" class="d">Moolenaar</a>
+
+
+Sign Support Features				<span id="sign-support" class="t">sign-support</span>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+1. Introduction					<span id="sign-intro" class="t">sign-intro</span> <span id="signs" class="t">signs</span> <span id="gutter" class="t">gutter</span>
+
+When <a href="insert.txt.html#a" class="d">a</a> debugger or other IDE tool <a href="motion.txt.html#is" class="d">is</a> driving an editor <a href="motion.txt.html#it" class="d">it</a> needs to be able
+to give specific highlights which quickly tell the user useful information
+about the file.  One example of this would be <a href="insert.txt.html#a" class="d">a</a> debugger which had an icon
+in the left-hand column denoting <a href="insert.txt.html#a" class="d">a</a> breakpoint.  Another example might be an
+arrow representing the Program Counter (PC).  The sign features allow both
+placement of <a href="insert.txt.html#a" class="d">a</a> sign, or icon, in the left-hand side of the <a href="windows.txt.html#window" class="d">window</a> and
+definition of <a href="insert.txt.html#a" class="d">a</a> highlight which will be applied to that line.  Displaying the
+sign <a href="motion.txt.html#as" class="d">as</a> an image <a href="motion.txt.html#is" class="d">is</a> most likely only feasible in gvim (although Sun
+Microsystem's dtterm does <a href="support.txt.html#support" class="d">support</a> this it's the only <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator <a href="insert.txt.html#I" class="d">I</a> know
+of which does).  <a href="insert.txt.html#A" class="d">A</a> text sign and the highlight should be feasible in any color
+<a href="terminal.txt.html#terminal" class="d">terminal</a> emulator.
+
+Signs and highlights are not useful just <a href="luaref.txt.html#for" class="d">for</a> debuggers.  There are plugins
+that use <a href="sign.txt.html#signs" class="d">signs</a> to <a href="motion.txt.html#mark" class="d">mark</a> build <a href="message.txt.html#errors" class="d">errors</a> or display version <a href="intro.txt.html#control" class="d">control</a> status.
+
+There are two steps in using signs:
+
+1. Define the sign.  This specifies the image, text and highlighting.  For
+   example, you can define <a href="insert.txt.html#a" class="d">a</a> "break" sign with an image of <a href="insert.txt.html#a" class="d">a</a> stop roadsign and
+   text "<a href="change.txt.html#%21%21" class="d">!!</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+2. Place the sign.  This specifies the file and line number where the sign <a href="motion.txt.html#is" class="d">is</a>
+   displayed.  <a href="insert.txt.html#A" class="d">A</a> defined sign can be placed several times in different lines
+   and files.
+
+							<span id="sign-column" class="t">sign-column</span>
+When <a href="sign.txt.html#signs" class="d">signs</a> are defined <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> file, Vim will automatically add <a href="insert.txt.html#a" class="d">a</a> column of two
+characters to display them in.  When the last sign <a href="motion.txt.html#is" class="d">is</a> unplaced the column
+disappears again.  This behavior can be changed with the <a href="options.txt.html#%27signcolumn%27" class="o">'signcolumn'</a> option.
+
+The color of the column <a href="motion.txt.html#is" class="d">is</a> set with the SignColumn highlight group
+<a href="syntax.txt.html#hl-SignColumn" class="l">hl-SignColumn</a><a href="repeat.txt.html#." class="d">.</a>  Example to set the color: 
+<span class="e"></span>
+<span class="e">	:highlight SignColumn guibg=darkgrey</span>
+
+If <a href="options.txt.html#%27cursorline%27" class="o">'cursorline'</a> <a href="motion.txt.html#is" class="d">is</a> enabled, then the CursorLineSign highlight group <a href="motion.txt.html#is" class="d">is</a> used
+<a href="syntax.txt.html#hl-CursorLineSign" class="l">hl-CursorLineSign</a><a href="repeat.txt.html#." class="d">.</a>
+							<span id="sign-identifier" class="t">sign-identifier</span>
+Each placed sign <a href="motion.txt.html#is" class="d">is</a> identified by <a href="insert.txt.html#a" class="d">a</a> number called the sign identifier. This
+identifier <a href="motion.txt.html#is" class="d">is</a> used to jump to the sign or to remove the sign. The identifier
+<a href="motion.txt.html#is" class="d">is</a> assigned when placing the sign using the <a href="sign.txt.html#%3Asign-place" class="l">:sign-place</a> command or the
+<a href="vimfn.txt.html#sign_place%28%29" class="l">sign_place()</a> function. Each sign identifier should be <a href="insert.txt.html#a" class="d">a</a> unique number (per
+buffer). Placing the same identifier twice will move the previously placed
+sign. The <a href="vimfn.txt.html#sign_place%28%29" class="l">sign_place()</a> function can be called with <a href="insert.txt.html#a" class="d">a</a> zero sign identifier to
+allocate the next available identifier.
+
+							<span id="sign-group" class="t">sign-group</span>
+Each placed sign can be assigned to either the global group or <a href="insert.txt.html#a" class="d">a</a> named group.
+When placing <a href="insert.txt.html#a" class="d">a</a> sign, if <a href="insert.txt.html#a" class="d">a</a> group name <a href="motion.txt.html#is" class="d">is</a> not supplied, or an empty <a href="vimeval.txt.html#string" class="d">string</a> <a href="motion.txt.html#is" class="d">is</a>
+used, then the sign <a href="motion.txt.html#is" class="d">is</a> placed in the global group. Otherwise the sign <a href="motion.txt.html#is" class="d">is</a>
+placed in the named group. The sign identifier <a href="motion.txt.html#is" class="d">is</a> unique within <a href="insert.txt.html#a" class="d">a</a> group. The
+sign group allows Vim plugins to use unique <a href="sign.txt.html#signs" class="d">signs</a> without interfering with
+other plugins using signs.
+
+							<span id="sign-priority" class="t">sign-priority</span>
+Each placed sign <a href="motion.txt.html#is" class="d">is</a> assigned <a href="insert.txt.html#a" class="d">a</a> priority value independently of the sign group.
+The default priority <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> sign <a href="motion.txt.html#is" class="d">is</a> 10, this value can be changed <a href="luaref.txt.html#for" class="d">for</a> different
+<a href="sign.txt.html#signs" class="d">signs</a> by specifying <a href="insert.txt.html#a" class="d">a</a> different value <a href="motion.txt.html#at" class="d">at</a> definition time. When multiple <a href="sign.txt.html#signs" class="d">signs</a>
+that each have an icon or text are placed on the same line, <a href="sign.txt.html#signs" class="d">signs</a> are ordered
+with decreasing priority from left to right, up until the maximum width set in
+<a href="options.txt.html#%27signcolumn%27" class="o">'signcolumn'</a>. Low priority <a href="sign.txt.html#signs" class="d">signs</a> that <a href="diff.txt.html#do" class="d">do</a> not fit are hidden. Highest priority
+<a href="sign.txt.html#signs" class="d">signs</a> with highlight attributes are always shown.
+
+When the line on which the sign <a href="motion.txt.html#is" class="d">is</a> placed <a href="motion.txt.html#is" class="d">is</a> deleted, the sign <a href="motion.txt.html#is" class="d">is</a> removed along
+with it.
+
+<span class="h">==============================================================================</span>
+2. Commands					<span id="sign-commands" class="t">sign-commands</span> <span id="%3Asig" class="t">:sig</span> <span id="%3Asign" class="t">:sign</span>
+
+Here <a href="motion.txt.html#is" class="d">is</a> an example that places <a href="insert.txt.html#a" class="d">a</a> sign "piet"<a href="motion.txt.html#%2C" class="d">,</a> displayed with the text "<a href="change.txt.html#%3E%3E" class="d">&gt;&gt;</a>"<a href="motion.txt.html#%2C" class="d">,</a> in
+line 23 of the current file: 
+<span class="e">	:sign define piet text=&gt;&gt; texthl=Search</span>
+<span class="e">	:exe ":sign place 2 line=23 name=piet file=" .. expand("%:p")</span>
+<span class="e"></span>
+And here <a href="motion.txt.html#is" class="d">is</a> the command to delete <a href="motion.txt.html#it" class="d">it</a> again: 
+<span class="e">	:sign unplace 2</span>
+<span class="e"></span>
+<span class="n">Note</span> that the "<a href="sign.txt.html#%3Asign" class="d">:sign</a>" command cannot be followed by another command or <a href="insert.txt.html#a" class="d">a</a>
+comment.  If you <a href="diff.txt.html#do" class="d">do</a> need that, use the <a href="vimeval.txt.html#%3Aexecute" class="l">:execute</a> command.
+
+
+<span class="c">DEFINING A SIGN.</span>			<span id="%3Asign-define" class="t">:sign-define</span> <span id="E255" class="t">E255</span> <span id="E160" class="t">E160</span> <span id="E612" class="t">E612</span>
+
+See <a href="vimfn.txt.html#sign_define%28%29" class="l">sign_define()</a> <a href="luaref.txt.html#for" class="d">for</a> the equivalent Vim <a href="usr_41.txt.html#script" class="d">script</a> function.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> define <span class="s">{name}</span> <span class="s">{argument}</span>...
+		Define <a href="insert.txt.html#a" class="d">a</a> new sign or set attributes <a href="luaref.txt.html#for" class="d">for</a> an existing sign.
+		The <span class="s">{name}</span> can either be <a href="insert.txt.html#a" class="d">a</a> number (all digits) or <a href="insert.txt.html#a" class="d">a</a> name
+		<a href="starting.txt.html#starting" class="d">starting</a> with <a href="insert.txt.html#a" class="d">a</a> non-digit.  Leading zeros are ignored, thus
+		"0012"<a href="motion.txt.html#%2C" class="d">,</a> "012" and "12" are considered the same name.
+		About 120 different <a href="sign.txt.html#signs" class="d">signs</a> can be defined.
+
+		Accepted arguments:
+
+	icon={bitmap}
+		Define the file name where the bitmap can be found.  Should be
+		<a href="insert.txt.html#a" class="d">a</a> full path.  The bitmap should fit in the place of two
+		characters.  This <a href="motion.txt.html#is" class="d">is</a> not checked.  If the bitmap <a href="motion.txt.html#is" class="d">is</a> too big <a href="motion.txt.html#it" class="d">it</a>
+		will cause redraw problems.
+<span class="h">			toolkit		supports </span>
+			Win32		.bmp, .ico, .cur
+
+	priority={prio}
+		Default priority <a href="luaref.txt.html#for" class="d">for</a> the sign, see <a href="sign.txt.html#sign-priority" class="l">sign-priority</a><a href="repeat.txt.html#." class="d">.</a>
+
+	linehl={group}
+		Highlighting group used <a href="luaref.txt.html#for" class="d">for</a> the whole line the sign <a href="motion.txt.html#is" class="d">is</a> placed
+		in.  Most useful <a href="motion.txt.html#is" class="d">is</a> defining <a href="insert.txt.html#a" class="d">a</a> background color.
+
+	numhl={group}
+		Highlighting group used <a href="luaref.txt.html#for" class="d">for</a> the line number on the line where
+		the sign <a href="motion.txt.html#is" class="d">is</a> placed.  Combines with <a href="syntax.txt.html#hl-LineNr" class="l">hl-LineNr</a><a href="motion.txt.html#%2C" class="d">,</a>
+		<a href="syntax.txt.html#hl-LineNrAbove" class="l">hl-LineNrAbove</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="syntax.txt.html#hl-LineNrBelow" class="l">hl-LineNrBelow</a><a href="motion.txt.html#%2C" class="d">,</a> and <a href="syntax.txt.html#hl-CursorLineNr" class="l">hl-CursorLineNr</a><a href="repeat.txt.html#." class="d">.</a>
+
+	text={text}						<span id="E239" class="t">E239</span>
+		Define the text that <a href="motion.txt.html#is" class="d">is</a> displayed when there <a href="motion.txt.html#is" class="d">is</a> no icon or the
+		<a href="gui.txt.html#GUI" class="d">GUI</a> <a href="motion.txt.html#is" class="d">is</a> not being used.  Only printable characters are allowed
+		and they must occupy one or two display cells.
+
+	texthl={group}
+		Highlighting group used <a href="luaref.txt.html#for" class="d">for</a> the text item.
+
+	culhl={group}
+		Highlighting group used <a href="luaref.txt.html#for" class="d">for</a> the text item when the cursor <a href="motion.txt.html#is" class="d">is</a>
+		on the same line <a href="motion.txt.html#as" class="d">as</a> the sign and <a href="options.txt.html#%27cursorline%27" class="o">'cursorline'</a> <a href="motion.txt.html#is" class="d">is</a> enabled.
+
+	Example: 
+<span class="e">		:sign define MySign text=&gt;&gt; texthl=Search linehl=DiffText</span>
+
+
+<span class="c">DELETING A SIGN</span>						<span id="%3Asign-undefine" class="t">:sign-undefine</span> <span id="E155" class="t">E155</span>
+
+See <a href="vimfn.txt.html#sign_undefine%28%29" class="l">sign_undefine()</a> <a href="luaref.txt.html#for" class="d">for</a> the equivalent Vim <a href="usr_41.txt.html#script" class="d">script</a> function.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> undefine <span class="s">{name}</span>
+		Deletes <a href="insert.txt.html#a" class="d">a</a> previously defined sign.  If <a href="sign.txt.html#signs" class="d">signs</a> with this <span class="s">{name}</span>
+		are still placed this will cause trouble.
+
+		Example: 
+<span class="e">			:sign undefine MySign</span>
+
+
+<span class="c">LISTING SIGNS</span>						<span id="%3Asign-list" class="t">:sign-list</span> <span id="E156" class="t">E156</span>
+
+See <a href="vimfn.txt.html#sign_getdefined%28%29" class="l">sign_getdefined()</a> <a href="luaref.txt.html#for" class="d">for</a> the equivalent Vim <a href="usr_41.txt.html#script" class="d">script</a> function.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> <a href="vimeval.txt.html#list" class="d">list</a>	<a href="vimeval.txt.html#Lists" class="d">Lists</a> all defined <a href="sign.txt.html#signs" class="d">signs</a> and their attributes.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> <a href="vimeval.txt.html#list" class="d">list</a> <span class="s">{name}</span>
+		<a href="vimeval.txt.html#Lists" class="d">Lists</a> one defined sign and its attributes.
+
+
+<span class="c">PLACING SIGNS</span>						<span id="%3Asign-place" class="t">:sign-place</span> <span id="E158" class="t">E158</span>
+
+See <a href="vimfn.txt.html#sign_place%28%29" class="l">sign_place()</a> <a href="luaref.txt.html#for" class="d">for</a> the equivalent Vim <a href="usr_41.txt.html#script" class="d">script</a> function.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place <span class="s">{id}</span> line={lnum} name={name} file={fname}
+		Place sign defined <a href="motion.txt.html#as" class="d">as</a> <span class="s">{name}</span> <a href="motion.txt.html#at" class="d">at</a> line <span class="s">{lnum}</span> in file <span class="s">{fname}</span>.
+							<span id="%3Asign-fname" class="t">:sign-fname</span>
+		The file <span class="s">{fname}</span> must already be loaded in <a href="insert.txt.html#a" class="d">a</a> buffer.  The
+		exact file name must be used, wildcards, $ENV and <a href="change.txt.html#~" class="d">~</a> are not
+		expanded, white <a href="intro.txt.html#space" class="d">space</a> must not be escaped.  Trailing white
+		<a href="intro.txt.html#space" class="d">space</a> <a href="motion.txt.html#is" class="d">is</a> ignored.
+
+		The sign <a href="motion.txt.html#is" class="d">is</a> remembered under <span class="s">{id}</span>, this can be used <a href="luaref.txt.html#for" class="d">for</a>
+		further manipulation.  <span class="s">{id}</span> must be <a href="insert.txt.html#a" class="d">a</a> number.  Placing the
+		same <span class="s">{id}</span> multiple times will move the sign.
+
+		The following optional sign attributes can be specified before
+		"file="<a href="cmdline.txt.html#%3A" class="d">:</a>
+			group={group}	Place sign in sign group <span class="s">{group}</span>
+			priority={prio}	Assign priority <span class="s">{prio}</span> to sign
+
+		By default, the sign <a href="motion.txt.html#is" class="d">is</a> placed in the global sign group.
+
+		By default, the sign <a href="motion.txt.html#is" class="d">is</a> assigned <a href="insert.txt.html#a" class="d">a</a> default priority of 10,
+		unless specified otherwise by the sign definition.  To assign <a href="insert.txt.html#a" class="d">a</a>
+		different priority value, use "priority={prio}" to specify <a href="insert.txt.html#a" class="d">a</a>
+		value.  The priority <a href="motion.txt.html#is" class="d">is</a> used to determine the sign that <a href="motion.txt.html#is" class="d">is</a>
+		displayed when multiple <a href="sign.txt.html#signs" class="d">signs</a> are placed on the same line.
+
+		Examples: 
+<span class="e">			:sign place 5 line=3 name=sign1 file=a.py</span>
+<span class="e">			:sign place 6 group=g2 line=2 name=sign2 file=x.py</span>
+<span class="e">			:sign place 9 group=g2 priority=50 line=5</span>
+<span class="e">							\ name=sign1 file=a.py</span>
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place <span class="s">{id}</span> line={lnum} name={name} [buffer={nr}]
+		Same, but use buffer <span class="s">{nr}</span>.  If the buffer argument <a href="motion.txt.html#is" class="d">is</a> not
+		given, place the sign in the current buffer.
+
+		Example: 
+<span class="e">			:sign place 10 line=99 name=sign3</span>
+<span class="e">			:sign place 10 line=99 name=sign3 buffer=3</span>
+
+							<span id="E885" class="t">E885</span>
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place <span class="s">{id}</span> name={name} file={fname}
+		Change the placed sign <span class="s">{id}</span> in file <span class="s">{fname}</span> to use the defined
+		sign <span class="s">{name}</span>.  See remark above about <span class="s">{fname}</span> <a href="sign.txt.html#%3Asign-fname" class="l">:sign-fname</a><a href="repeat.txt.html#." class="d">.</a>
+		This can be used to change the displayed sign without moving
+		<a href="motion.txt.html#it" class="d">it</a> (e.g., when the debugger has stopped <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> breakpoint).
+
+		The optional "group={group}" attribute can be used before
+		"file=" to select <a href="insert.txt.html#a" class="d">a</a> sign in <a href="insert.txt.html#a" class="d">a</a> particular group.  The optional
+		"priority={prio}" attribute can be used to change the priority
+		of an existing sign.
+
+		Example: 
+<span class="e">			:sign place 23 name=sign1 file=/path/to/edit.py</span>
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place <span class="s">{id}</span> name={name} [buffer={nr}]
+		Same, but use buffer <span class="s">{nr}</span>.  If the buffer argument <a href="motion.txt.html#is" class="d">is</a> not
+		given, use the current buffer.
+
+		Example: 
+<span class="e">			:sign place 23 name=sign1</span>
+<span class="e">			:sign place 23 name=sign1 buffer=7</span>
+
+
+<span class="c">REMOVING SIGNS</span>						<span id="%3Asign-unplace" class="t">:sign-unplace</span> <span id="E159" class="t">E159</span>
+
+See <a href="vimfn.txt.html#sign_unplace%28%29" class="l">sign_unplace()</a> <a href="luaref.txt.html#for" class="d">for</a> the equivalent Vim <a href="usr_41.txt.html#script" class="d">script</a> function.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace <span class="s">{id}</span> file={fname}
+		Remove the previously placed sign <span class="s">{id}</span> from file <span class="s">{fname}</span>.
+		See remark above about <span class="s">{fname}</span> <a href="sign.txt.html#%3Asign-fname" class="l">:sign-fname</a><a href="repeat.txt.html#." class="d">.</a>
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace <span class="s">{id}</span> group={group} file={fname}
+		Same but remove the sign <span class="s">{id}</span> in sign group <span class="s">{group}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace <span class="s">{id}</span> group=* file={fname}
+		Same but remove the sign <span class="s">{id}</span> from all the sign groups.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace * file={fname}
+		Remove all placed <a href="sign.txt.html#signs" class="d">signs</a> in file <span class="s">{fname}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace * group={group} file={fname}
+		Remove all placed <a href="sign.txt.html#signs" class="d">signs</a> in group <span class="s">{group}</span> from file <span class="s">{fname}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace * group=* file={fname}
+		Remove all placed <a href="sign.txt.html#signs" class="d">signs</a> in all the groups from file <span class="s">{fname}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace <span class="s">{id}</span> buffer={nr}
+		Remove the previously placed sign <span class="s">{id}</span> from buffer <span class="s">{nr}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace <span class="s">{id}</span> group={group} buffer={nr}
+		Remove the previously placed sign <span class="s">{id}</span> in group <span class="s">{group}</span> from
+		buffer <span class="s">{nr}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace <span class="s">{id}</span> group=* buffer={nr}
+		Remove the previously placed sign <span class="s">{id}</span> in all the groups from
+		buffer <span class="s">{nr}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace * buffer={nr}
+		Remove all placed <a href="sign.txt.html#signs" class="d">signs</a> in buffer <span class="s">{nr}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace * group={group} buffer={nr}
+		Remove all placed <a href="sign.txt.html#signs" class="d">signs</a> in group <span class="s">{group}</span> from buffer <span class="s">{nr}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace * group=* buffer={nr}
+		Remove all placed <a href="sign.txt.html#signs" class="d">signs</a> in all the groups from buffer <span class="s">{nr}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace <span class="s">{id}</span>
+		Remove the previously placed sign <span class="s">{id}</span> from all files <a href="motion.txt.html#it" class="d">it</a>
+		appears in.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace <span class="s">{id}</span> group={group}
+		Remove the previously placed sign <span class="s">{id}</span> in group <span class="s">{group}</span> from
+		all files <a href="motion.txt.html#it" class="d">it</a> appears in.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace <span class="s">{id}</span> group=*
+		Remove the previously placed sign <span class="s">{id}</span> in all the groups from
+		all the files <a href="motion.txt.html#it" class="d">it</a> appears in.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace *
+		Remove all placed <a href="sign.txt.html#signs" class="d">signs</a> in the global group from all the files.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace * group={group}
+		Remove all placed <a href="sign.txt.html#signs" class="d">signs</a> in group <span class="s">{group}</span> from all the files.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace * group=*
+		Remove all placed <a href="sign.txt.html#signs" class="d">signs</a> in all the groups from all the files.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace
+		Remove <a href="insert.txt.html#a" class="d">a</a> placed sign <a href="motion.txt.html#at" class="d">at</a> the cursor position. If multiple <a href="sign.txt.html#signs" class="d">signs</a>
+		are placed in the line, then only one <a href="motion.txt.html#is" class="d">is</a> removed.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace group={group}
+		Remove <a href="insert.txt.html#a" class="d">a</a> placed sign in group <span class="s">{group}</span> <a href="motion.txt.html#at" class="d">at</a> the cursor
+		position.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> unplace group=*
+		Remove <a href="insert.txt.html#a" class="d">a</a> placed sign in any group <a href="motion.txt.html#at" class="d">at</a> the cursor position.
+
+
+<span class="c">LISTING PLACED SIGNS</span>					<span id="%3Asign-place-list" class="t">:sign-place-list</span>
+
+See <a href="vimfn.txt.html#sign_getplaced%28%29" class="l">sign_getplaced()</a> <a href="luaref.txt.html#for" class="d">for</a> the equivalent Vim <a href="usr_41.txt.html#script" class="d">script</a> function.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place file={fname}
+		<a href="vimeval.txt.html#List" class="d">List</a> <a href="sign.txt.html#signs" class="d">signs</a> placed in file <span class="s">{fname}</span>.
+		See remark above about <span class="s">{fname}</span> <a href="sign.txt.html#%3Asign-fname" class="l">:sign-fname</a><a href="repeat.txt.html#." class="d">.</a>
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place group={group} file={fname}
+		<a href="vimeval.txt.html#List" class="d">List</a> <a href="sign.txt.html#signs" class="d">signs</a> in group <span class="s">{group}</span> placed in file <span class="s">{fname}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place group=* file={fname}
+		<a href="vimeval.txt.html#List" class="d">List</a> <a href="sign.txt.html#signs" class="d">signs</a> in all the groups placed in file <span class="s">{fname}</span>.
+
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place buffer={nr}
+		<a href="vimeval.txt.html#List" class="d">List</a> <a href="sign.txt.html#signs" class="d">signs</a> placed in buffer <span class="s">{nr}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place group={group} buffer={nr}
+		<a href="vimeval.txt.html#List" class="d">List</a> <a href="sign.txt.html#signs" class="d">signs</a> in group <span class="s">{group}</span> placed in buffer <span class="s">{nr}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place group=* buffer={nr}
+		<a href="vimeval.txt.html#List" class="d">List</a> <a href="sign.txt.html#signs" class="d">signs</a> in all the groups placed in buffer <span class="s">{nr}</span>.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place	<a href="vimeval.txt.html#List" class="d">List</a> placed <a href="sign.txt.html#signs" class="d">signs</a> in the global group in all files.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place group={group}
+		<a href="vimeval.txt.html#List" class="d">List</a> placed <a href="sign.txt.html#signs" class="d">signs</a> with sign group <span class="s">{group}</span> in all files.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> place group=*
+		<a href="vimeval.txt.html#List" class="d">List</a> placed <a href="sign.txt.html#signs" class="d">signs</a> in all sign groups in all files.
+
+
+<span class="c">JUMPING TO A SIGN</span>					<span id="%3Asign-jump" class="t">:sign-jump</span> <span id="E157" class="t">E157</span>
+
+See <a href="vimfn.txt.html#sign_jump%28%29" class="l">sign_jump()</a> <a href="luaref.txt.html#for" class="d">for</a> the equivalent Vim <a href="usr_41.txt.html#script" class="d">script</a> function.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> jump <span class="s">{id}</span> file={fname}
+		Open the file <span class="s">{fname}</span> or jump to the <a href="windows.txt.html#window" class="d">window</a> that contains
+		<span class="s">{fname}</span> and position the cursor <a href="motion.txt.html#at" class="d">at</a> sign <span class="s">{id}</span>.
+		See remark above about <span class="s">{fname}</span> <a href="sign.txt.html#%3Asign-fname" class="l">:sign-fname</a><a href="repeat.txt.html#." class="d">.</a>
+		If the file isn't displayed in <a href="windows.txt.html#window" class="d">window</a> and the current file can
+		not be <a href="editing.txt.html#abandon" class="l">abandon</a>ed this fails.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> jump <span class="s">{id}</span> group={group} file={fname}
+		Same but jump to the sign in group <span class="s">{group}</span>
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> jump <span class="s">{id}</span> [buffer={nr}]					<span id="E934" class="t">E934</span>
+		Same, but use buffer <span class="s">{nr}</span>.  This fails if buffer <span class="s">{nr}</span> does not
+		have <a href="insert.txt.html#a" class="d">a</a> name. If the buffer argument <a href="motion.txt.html#is" class="d">is</a> not given, use the
+		current buffer.
+
+<a href="sign.txt.html#%3Asign" class="d">:sign</a> jump <span class="s">{id}</span> group={group} [buffer={nr}]
+		Same but jump to the sign in group <span class="s">{group}</span>
+
+
+<span class="h">==============================================================================</span>
+3. Functions					<span id="sign-functions-details" class="t">sign-functions-details</span>
+
+See:
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#sign_define%28%29" class="l">sign_define()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#sign_getdefined%28%29" class="l">sign_getdefined()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#sign_getplaced%28%29" class="l">sign_getplaced()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#sign_jump%28%29" class="l">sign_jump()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#sign_place%28%29" class="l">sign_place()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#sign_placelist%28%29" class="l">sign_placelist()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#sign_undefine%28%29" class="l">sign_undefine()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#sign_unplace%28%29" class="l">sign_unplace()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#sign_unplacelist%28%29" class="l">sign_unplacelist()</a>
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

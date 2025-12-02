@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: usr_52.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="usr_52.txt.html#">↑Top↑</a></li>
+<li><a href="usr_52.txt.html#52.1">Export and import</a></li>
+<li><a href="usr_52.txt.html#52.2">Autoloading</a></li>
+<li><a href="usr_52.txt.html#52.3">Autoloading without import/export</a></li>
+<li><a href="usr_52.txt.html#52.4">Other mechanisms to use</a></li>
+<li><a href="usr_52.txt.html#52.5">Using a Vim9 script from legacy script</a></li>
+<li><a href="usr_52.txt.html#52.6">Vim9 examples: comment and highlight-yank plugin</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="usr_52.txt" class="t">usr_52.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 09
+
+
+		     VIM USER MANUAL	by <a href="version9.txt.html#Bram" class="d">Bram</a> <a href="version9.txt.html#Moolenaar" class="d">Moolenaar</a>
+
+
+		       Write larger plugins
+
+When plugins <a href="diff.txt.html#do" class="d">do</a> more than simple things, they tend to grow big.  This file
+explains how to make sure they still load fast and how to split them up in
+smaller parts.
+
+<a href="usr_52.txt.html#52.1" class="l">52.1</a>  	Export and import
+<a href="usr_52.txt.html#52.2" class="l">52.2</a>  	Autoloading
+<a href="usr_52.txt.html#52.3" class="l">52.3</a>  	Autoloading without import/export
+<a href="usr_52.txt.html#52.4" class="l">52.4</a>  	Other mechanisms to use
+<a href="usr_52.txt.html#52.5" class="l">52.5</a>  	Using <a href="insert.txt.html#a" class="d">a</a> <a href="vim9.txt.html#Vim9" class="d">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> from legacy <a href="usr_41.txt.html#script" class="d">script</a>
+<a href="usr_52.txt.html#52.6" class="l">52.6</a>  	<a href="vim9.txt.html#Vim9" class="d">Vim9</a> examples: comment and highlight-yank <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+
+     Next chapter: <a href="usr_90.txt.html#usr_90.txt" class="l">usr_90.txt</a>  Installing Vim
+ Previous chapter: <a href="usr_51.txt.html#usr_51.txt" class="l">usr_51.txt</a>  Create <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+Table of contents: <a href="usr_toc.txt.html#usr_toc.txt" class="l">usr_toc.txt</a>
+
+<span class="h">==============================================================================</span>
+<span id="52.1" class="t">52.1</span>  	Export and import
+
+<a href="vim9.txt.html#Vim9" class="d">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> was designed to make <a href="motion.txt.html#it" class="d">it</a> easier to write large Vim scripts.  It
+looks more like other <a href="usr_41.txt.html#script" class="d">script</a> languages, especially Typescript.  Also,
+<a href="eval.txt.html#functions" class="d">functions</a> are compiled into instructions that can be executed quickly.  This
+makes <a href="vim9.txt.html#Vim9" class="d">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> <a href="insert.txt.html#a" class="d">a</a> lot faster, up to <a href="insert.txt.html#a" class="d">a</a> 100 times.
+
+The basic idea <a href="motion.txt.html#is" class="d">is</a> that <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> file has items that are private, only used
+inside the <a href="usr_41.txt.html#script" class="d">script</a> file, and items that are exported, which can be used by
+scripts that import them.  That makes very clear what <a href="motion.txt.html#is" class="d">is</a> defined where.
+
+Let's start with an example, <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> that exports one function and has one
+private function: 
+<span class="e"></span>
+<span class="e">	vim9script</span>
+<span class="e"></span>
+<span class="e">	export def GetMessage(count: string): string</span>
+<span class="e">	   var nr = str2nr(count)</span>
+<span class="e">	   var result = $'To {nr} we say '</span>
+<span class="e">	   result ..= GetReply(nr)</span>
+<span class="e">	   return result</span>
+<span class="e">	enddef</span>
+<span class="e"></span>
+<span class="e">	def GetReply(nr: number): string</span>
+<span class="e">	  if nr == 42</span>
+<span class="e">	     return 'yes'</span>
+<span class="e">	  elseif nr == 22</span>
+<span class="e">	     return 'maybe'</span>
+<span class="e">	  else</span>
+<span class="e">	     return 'no'</span>
+<span class="e">	  endif</span>
+<span class="e">	enddef</span>
+<span class="e"></span>
+The <span class="e">vim9script</span> command <a href="motion.txt.html#is" class="d">is</a> required, <span class="e">export</span> only works in <a href="insert.txt.html#a" class="d">a</a> <a href="vim9.txt.html#Vim9" class="l">Vim9</a> script.
+
+The `export def GetMessage(...` line starts with <span class="e">export</span>, meaning that this
+function can be called by other scripts.  The line `def GetReply(...` does not
+start with <span class="e">export</span>, this <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#script-local" class="d">script-local</a> function, <a href="motion.txt.html#it" class="d">it</a> can only be used
+inside this <a href="usr_41.txt.html#script" class="d">script</a> file.
+
+Now about the <a href="usr_41.txt.html#script" class="d">script</a> where this <a href="motion.txt.html#is" class="d">is</a> imported.  In this example we use this
+layout, which works well for <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> below the "pack" directory:
+	.../plugin/theplugin.vim
+	.../lib/getmessage.vim
+
+Assuming the "<a href="userfunc.txt.html#..." class="d">...</a>" directory has been added to <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>, Vim will look
+for plugins in the "<a href="usr_05.txt.html#plugin" class="d">plugin</a>" directory and source "theplugin.vim"<a href="repeat.txt.html#." class="d">.</a>  Vim does
+not recognize the "lib" directory, you can <a href="change.txt.html#put" class="d">put</a> any scripts there.
+
+The above <a href="usr_41.txt.html#script" class="d">script</a> that exports GetMessage() goes in lib/getmessage.vim.  The
+GetMessage() function <a href="motion.txt.html#is" class="d">is</a> used in plugin/theplugin.vim: 
+<span class="e"></span>
+<span class="e">	vim9script</span>
+<span class="e"></span>
+<span class="e">	import "../lib/getmessage.vim"</span>
+<span class="e">	command -nargs=1 ShowMessage echomsg getmessage.GetMessage(&lt;f-args&gt;)</span>
+<span class="e"></span>
+The <span class="e">import</span> command uses <a href="insert.txt.html#a" class="d">a</a> relative path, <a href="motion.txt.html#it" class="d">it</a> starts with "../"<a href="motion.txt.html#%2C" class="d">,</a> which means
+to <a href="motion.txt.html#go" class="d">go</a> one directory up.  For other kinds of paths see the <span class="e">:import</span> command.
+
+How we can try out the command that the <a href="usr_05.txt.html#plugin" class="d">plugin</a> provides: 
+<span class="e">	ShowMessage 1</span>
+<span class="h">	To 1 we say no </span>
+
+<span class="e">	ShowMessage 22</span>
+<span class="h">	To 22 we say maybe </span>
+
+Notice that the function GetMessage() <a href="motion.txt.html#is" class="d">is</a> prefixed with the imported <a href="usr_41.txt.html#script" class="d">script</a>
+name "getmessage"<a href="repeat.txt.html#." class="d">.</a>  That way, for every imported function used, you know what
+<a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#it" class="d">it</a> was imported from.  If you import several scripts each of them could
+define <a href="insert.txt.html#a" class="d">a</a> GetMessage() function: 
+<span class="e"></span>
+<span class="e">	vim9script</span>
+<span class="e"></span>
+<span class="e">	import "../lib/getmessage.vim"</span>
+<span class="e">	import "../lib/getother.vim"</span>
+<span class="e">	command -nargs=1 ShowMessage echomsg getmessage.GetMessage(&lt;f-args&gt;)</span>
+<span class="e">	command -nargs=1 ShowOther echomsg getother.GetMessage(&lt;f-args&gt;)</span>
+<span class="e"></span>
+If the imported <a href="usr_41.txt.html#script" class="d">script</a> name <a href="motion.txt.html#is" class="d">is</a> long or you use <a href="motion.txt.html#it" class="d">it</a> in many places, you can
+shorten <a href="motion.txt.html#it" class="d">it</a> by adding an "<a href="motion.txt.html#as" class="d">as</a>" argument: 
+<span class="e">	import "../lib/getmessage.vim" as msg</span>
+<span class="e">	command -nargs=1 ShowMessage echomsg msg.GetMessage(&lt;f-args&gt;)</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">RELOADING</span>
+
+One thing to keep in mind: the imported "lib/getmessage.vim" <a href="usr_41.txt.html#script" class="d">script</a> will be
+sourced only once.  When <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> imported <a href="insert.txt.html#a" class="d">a</a> second time sourcing <a href="motion.txt.html#it" class="d">it</a> will be
+skipped, since the items in <a href="motion.txt.html#it" class="d">it</a> have already been created.  It does not matter
+if this import command <a href="motion.txt.html#is" class="d">is</a> in another script, or in the same <a href="usr_41.txt.html#script" class="d">script</a> that <a href="motion.txt.html#is" class="d">is</a>
+sourced again.
+
+This <a href="motion.txt.html#is" class="d">is</a> efficient when using <a href="insert.txt.html#a" class="d">a</a> plugin, but when still developing <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#it" class="d">it</a>
+means that <a href="change.txt.html#changing" class="d">changing</a> "lib/getmessage.vim" after <a href="motion.txt.html#it" class="d">it</a> has been imported will have
+no effect.  You need to quit Vim and start <a href="motion.txt.html#it" class="d">it</a> again. (Rationale: the items
+defined in the <a href="usr_41.txt.html#script" class="d">script</a> could be used in <a href="insert.txt.html#a" class="d">a</a> compiled function, sourcing the
+<a href="usr_41.txt.html#script" class="d">script</a> again may break those functions).
+
+
+<span class="c">USING GLOBALS</span>
+
+Sometimes you will want to use global <a href="eval.txt.html#variables" class="d">variables</a> or functions, so that they can
+be used anywhere.  <a href="insert.txt.html#A" class="d">A</a> good example <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> global variable that passes <a href="insert.txt.html#a" class="d">a</a>
+preference to <a href="insert.txt.html#a" class="d">a</a> plugin.  To avoid other scripts using the same name, use <a href="insert.txt.html#a" class="d">a</a>
+prefix that <a href="motion.txt.html#is" class="d">is</a> very unlikely to be used elsewhere.  For example, if you have <a href="insert.txt.html#a" class="d">a</a>
+"mytags" plugin, you could use: 
+<span class="e"></span>
+<span class="e">	g:mytags_location = '$HOME/project'</span>
+<span class="e">	g:mytags_style = 'fast'</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+<span id="52.2" class="t">52.2</span>  	Autoloading
+
+After splitting your large <a href="usr_41.txt.html#script" class="d">script</a> into pieces, all the lines will still be
+loaded and executed the moment the <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> used.  Every <span class="e">import</span> loads the
+imported <a href="usr_41.txt.html#script" class="d">script</a> to find the items defined there.  Although that <a href="motion.txt.html#is" class="d">is</a> good for
+finding <a href="message.txt.html#errors" class="d">errors</a> early, <a href="motion.txt.html#it" class="d">it</a> also takes time.  Which <a href="motion.txt.html#is" class="d">is</a> wasted if the
+functionality <a href="motion.txt.html#is" class="d">is</a> not often used.
+
+Instead of having <span class="e">import</span> load the <a href="usr_41.txt.html#script" class="d">script</a> immediately, <a href="motion.txt.html#it" class="d">it</a> can be postponed
+until needed.  Using the example above, only one change needs to be made in
+the plugin/theplugin.vim script: 
+<span class="e">	import autoload "../lib/getmessage.vim"</span>
+<span class="e"></span>
+Nothing in the rest of the <a href="usr_41.txt.html#script" class="d">script</a> needs to change.  However, the types will
+not be checked.  Not even the existence of the GetMessage() function <a href="motion.txt.html#is" class="d">is</a>
+checked until <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> used.  You will have to decide what <a href="motion.txt.html#is" class="d">is</a> more important for
+your script: fast <a href="starting.txt.html#startup" class="d">startup</a> or getting <a href="message.txt.html#errors" class="d">errors</a> early.  You can also add the
+"<a href="userfunc.txt.html#autoload" class="d">autoload</a>" argument later, after you have checked everything works.
+
+
+<span class="c">AUTOLOAD DIRECTORY</span>
+
+Another form <a href="motion.txt.html#is" class="d">is</a> to use <a href="userfunc.txt.html#autoload" class="d">autoload</a> with <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> name that <a href="motion.txt.html#is" class="d">is</a> not an absolute or
+relative path: 
+<span class="e">	import autoload "monthlib.vim"</span>
+<span class="e"></span>
+This will search for the <a href="usr_41.txt.html#script" class="d">script</a> "monthlib.vim" in the <a href="userfunc.txt.html#autoload" class="d">autoload</a> directories of
+<a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  With <a href="os_unix.txt.html#Unix" class="d">Unix</a> one of the directories often <a href="motion.txt.html#is" class="d">is</a> "~/.vim/autoload"<a href="repeat.txt.html#." class="d">.</a>
+It will also search under <a href="options.txt.html#%27packpath%27" class="o">'packpath'</a>, under "start"<a href="repeat.txt.html#." class="d">.</a>
+
+The main advantage of this <a href="motion.txt.html#is" class="d">is</a> that this <a href="usr_41.txt.html#script" class="d">script</a> can be easily shared with other
+scripts.  You <a href="diff.txt.html#do" class="d">do</a> need to make sure that the <a href="usr_41.txt.html#script" class="d">script</a> name <a href="motion.txt.html#is" class="d">is</a> unique, since Vim
+will search all the "<a href="userfunc.txt.html#autoload" class="d">autoload</a>" directories in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>, and if you are
+using several plugins with <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> manager, <a href="motion.txt.html#it" class="d">it</a> may add <a href="insert.txt.html#a" class="d">a</a> directory to
+<a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>, each of which might have an "<a href="userfunc.txt.html#autoload" class="d">autoload</a>" directory.
+
+Without autoload: 
+<span class="e">	import "monthlib.vim"</span>
+<span class="e"></span>
+Vim will search for the <a href="usr_41.txt.html#script" class="d">script</a> "monthlib.vim" in the import directories of
+<a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  <span class="n">Note</span> that in this <a href="change.txt.html#case" class="d">case</a> adding or removing "<a href="userfunc.txt.html#autoload" class="d">autoload</a>" changes
+where the <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> found.  With <a href="insert.txt.html#a" class="d">a</a> relative or absolute path the location does
+not change.
+
+<span class="h">==============================================================================</span>
+<span id="52.3" class="t">52.3</span>  	Autoloading without import/export
+
+						<span id="write-library-script" class="t">write-library-script</span>
+<a href="insert.txt.html#A" class="d">A</a> mechanism from before import/export <a href="motion.txt.html#is" class="d">is</a> still useful and some users may find
+<a href="motion.txt.html#it" class="d">it</a> <a href="insert.txt.html#a" class="d">a</a> bit simpler.  The idea <a href="motion.txt.html#is" class="d">is</a> that you call <a href="insert.txt.html#a" class="d">a</a> function with <a href="insert.txt.html#a" class="d">a</a> special name.
+That function <a href="motion.txt.html#is" class="d">is</a> then in an <a href="userfunc.txt.html#autoload" class="d">autoload</a> script.  We will call that one <a href="usr_41.txt.html#script" class="d">script</a> <a href="insert.txt.html#a" class="d">a</a>
+library script.
+
+The <a href="userfunc.txt.html#autoload" class="d">autoload</a> mechanism <a href="motion.txt.html#is" class="d">is</a> based on <a href="insert.txt.html#a" class="d">a</a> function name that has "<a href="pattern.txt.html#%23" class="d">#</a>" characters: 
+<span class="e"></span>
+<span class="e">	mylib#myfunction(arg)</span>
+<span class="e"></span>
+Vim will recognize the function name by the embedded "<a href="pattern.txt.html#%23" class="d">#</a>" character and when
+<a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not defined yet search for the <a href="usr_41.txt.html#script" class="d">script</a> "autoload/mylib.vim" in
+<a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  That <a href="usr_41.txt.html#script" class="d">script</a> <a href="vim_faq.txt.html#must" class="d">must</a> define the "mylib#myfunction()" function.
+Obviously the name "mylib" <a href="motion.txt.html#is" class="d">is</a> the part before the "<a href="pattern.txt.html#%23" class="d">#</a>" and <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> the name
+of the script, adding ".vim"<a href="repeat.txt.html#." class="d">.</a>
+
+You can <a href="change.txt.html#put" class="d">put</a> many other <a href="eval.txt.html#functions" class="d">functions</a> in the mylib.vim script, you are free to
+organize your <a href="eval.txt.html#functions" class="d">functions</a> in library scripts.  But you <a href="vim_faq.txt.html#must" class="d">must</a> use function names
+where the part before the '#' matches the <a href="usr_41.txt.html#script" class="d">script</a> name.  Otherwise Vim would
+not know what <a href="usr_41.txt.html#script" class="d">script</a> to load.  This <a href="motion.txt.html#is" class="d">is</a> where <a href="motion.txt.html#it" class="d">it</a> differs from the import/export
+mechanism.
+
+If you get really enthusiastic and write lots of library scripts, you may
+want to use subdirectories.  Example: 
+<span class="e"></span>
+<span class="e">	netlib#ftp#read('somefile')</span>
+<span class="e"></span>
+Here the <a href="usr_41.txt.html#script" class="d">script</a> name <a href="motion.txt.html#is" class="d">is</a> taken from the function name up to the last "<a href="pattern.txt.html#%23" class="d">#</a>"<a href="repeat.txt.html#." class="d">.</a> The
+"<a href="pattern.txt.html#%23" class="d">#</a>" in the middle are replaced by <a href="insert.txt.html#a" class="d">a</a> slash, the last one by ".vim"<a href="repeat.txt.html#." class="d">.</a>  Thus you
+get "netlib/ftp.vim"<a href="repeat.txt.html#." class="d">.</a>  For <a href="os_unix.txt.html#Unix" class="d">Unix</a> the library <a href="usr_41.txt.html#script" class="d">script</a> used for this could be:
+
+	~/.vim/autoload/netlib/ftp.vim
+
+Where the function <a href="motion.txt.html#is" class="d">is</a> defined like this: 
+<span class="e"></span>
+<span class="e">	def netlib#ftp#read(fname: string)</span>
+<span class="e">		#  Read the file fname through ftp</span>
+<span class="e">	enddef</span>
+<span class="e"></span>
+Notice that the name the function <a href="motion.txt.html#is" class="d">is</a> defined with <a href="motion.txt.html#is" class="d">is</a> exactly the same <a href="motion.txt.html#as" class="d">as</a> the
+name used for calling the function.  And the part before the last '#'
+exactly matches the subdirectory and <a href="usr_41.txt.html#script" class="d">script</a> name.
+
+You can use the same mechanism for variables: 
+<span class="e"></span>
+<span class="e">	var weekdays = dutch#weekdays</span>
+<span class="e"></span>
+This will load the <a href="usr_41.txt.html#script" class="d">script</a> "autoload/dutch.vim"<a href="motion.txt.html#%2C" class="d">,</a> which should contain something
+like: 
+<span class="e"></span>
+<span class="e">	var dutch#weekdays = ['zondag', 'maandag', 'dinsdag', 'woensdag',</span>
+<span class="e">		\ 'donderdag', 'vrijdag', 'zaterdag']</span>
+<span class="e"></span>
+Further reading: <a href="userfunc.txt.html#autoload" class="l">autoload</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+<span id="52.4" class="t">52.4</span>  	Other mechanisms to use
+
+Some may find the use of several files <a href="insert.txt.html#a" class="d">a</a> hassle and prefer to keep everything
+together in one script.  To avoid this resulting in slow <a href="starting.txt.html#startup" class="d">startup</a> there <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+mechanism that only defines <a href="insert.txt.html#a" class="d">a</a> small part and postpones the rest to when <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+actually used.  <span id="write-plugin-quickload" class="t">write-plugin-quickload</span>
+
+The basic idea <a href="motion.txt.html#is" class="d">is</a> that the <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> loaded twice.  The first time user
+commands and mappings are defined that offer the functionality.  The second
+time the <a href="eval.txt.html#functions" class="d">functions</a> that implement the functionality are defined.
+
+It may sound surprising that quickload means loading <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> twice.  What we
+mean <a href="motion.txt.html#is" class="d">is</a> that <a href="motion.txt.html#it" class="d">it</a> loads quickly the first time, postponing the bulk of the
+<a href="usr_41.txt.html#script" class="d">script</a> to the second time, which only happens when you actually use it.  When
+you always use the functionality <a href="motion.txt.html#it" class="d">it</a> actually gets slower!
+
+This uses <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#FuncUndefined" class="d">FuncUndefined</a> autocommand.  This works differently from the
+<a href="userfunc.txt.html#autoload" class="l">autoload</a> functionality explained above.
+
+The following example shows how it's done: 
+<span class="e"></span>
+<span class="e">	" Vim global plugin for demonstrating quick loading</span>
+<span class="e">	" Last Change:	2005 Feb 25</span>
+<span class="e">	" Maintainer:	Bram Moolenaar &lt;Bram@vim.org&gt;</span>
+<span class="e">	" License:	This file is placed in the public domain.</span>
+<span class="e"></span>
+<span class="e">	if !exists("s:did_load")</span>
+<span class="e">		command -nargs=* BNRead  call BufNetRead(&lt;f-args&gt;)</span>
+<span class="e">		map &lt;F19&gt; :call BufNetWrite('something')&lt;CR&gt;</span>
+<span class="e"></span>
+<span class="e">		let s:did_load = 1</span>
+<span class="e">		exe 'au FuncUndefined BufNet* source ' .. expand('&lt;sfile&gt;')</span>
+<span class="e">		finish</span>
+<span class="e">	endif</span>
+<span class="e"></span>
+<span class="e">	function BufNetRead(...)</span>
+<span class="e">		echo 'BufNetRead(' .. string(a:000) .. ')'</span>
+<span class="e">		" read functionality here</span>
+<span class="e">	endfunction</span>
+<span class="e"></span>
+<span class="e">	function BufNetWrite(...)</span>
+<span class="e">		echo 'BufNetWrite(' .. string(a:000) .. ')'</span>
+<span class="e">		" write functionality here</span>
+<span class="e">	endfunction</span>
+<span class="e"></span>
+When the <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> first loaded "s:did_load" <a href="motion.txt.html#is" class="d">is</a> not set.  The commands between
+the "if" and "endif" will be executed.  This ends in <a href="insert.txt.html#a" class="d">a</a> <a href="repeat.txt.html#%3Afinish" class="l">:finish</a> command, thus
+the rest of the <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> not executed.
+
+The second time the <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> loaded "s:did_load" exists and the commands
+after the "endif" are executed.  This defines the (possible long)
+BufNetRead() and BufNetWrite() functions.
+
+If you drop this <a href="usr_41.txt.html#script" class="d">script</a> in your <a href="usr_05.txt.html#plugin" class="d">plugin</a> directory Vim will execute <a href="motion.txt.html#it" class="d">it</a> on
+startup.  This <a href="motion.txt.html#is" class="d">is</a> the sequence of events that happens:
+
+1. The "BNRead" command <a href="motion.txt.html#is" class="d">is</a> defined and the <a href="term.txt.html#%3CF19%3E" class="s">&lt;F19&gt;</a> key <a href="motion.txt.html#is" class="d">is</a> mapped when the <a href="usr_41.txt.html#script" class="d">script</a>
+   <a href="motion.txt.html#is" class="d">is</a> sourced <a href="motion.txt.html#at" class="d">at</a> startup.  <a href="insert.txt.html#A" class="d">A</a> <a href="autocmd.txt.html#FuncUndefined" class="l">FuncUndefined</a> <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> <a href="motion.txt.html#is" class="d">is</a> defined.  The
+   "<a href="repeat.txt.html#%3Afinish" class="d">:finish</a>" command causes the <a href="usr_41.txt.html#script" class="d">script</a> to terminate early.
+
+2. The user types the BNRead command or presses the <a href="term.txt.html#%3CF19%3E" class="s">&lt;F19&gt;</a> key.  The
+   BufNetRead() or BufNetWrite() function will be called.
+
+3. Vim can't find the function and triggers the <a href="autocmd.txt.html#FuncUndefined" class="l">FuncUndefined</a> <a href="autocmd.txt.html#autocommand" class="d">autocommand</a>
+   event.  Since the <a href="pattern.txt.html#pattern" class="d">pattern</a> "BufNet*" matches the invoked function, the
+   command "source fname" will be executed.  "fname" will be equal to the name
+   of the script, no matter where <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> located, because <a href="motion.txt.html#it" class="d">it</a> comes from
+   expanding "<a href="cmdline.txt.html#%3Csfile%3E" class="s">&lt;sfile&gt;</a>" (see <a href="builtin.txt.html#expand%28%29" class="l">expand()</a>).
+
+4. The <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> sourced again, the "s:did_load" variable exists and the
+   <a href="eval.txt.html#functions" class="d">functions</a> are defined.
+
+Notice that the <a href="eval.txt.html#functions" class="d">functions</a> that are loaded afterwards match the <a href="pattern.txt.html#pattern" class="d">pattern</a> in the
+<a href="autocmd.txt.html#FuncUndefined" class="l">FuncUndefined</a> autocommand.  You <a href="vim_faq.txt.html#must" class="d">must</a> make sure that no other <a href="usr_05.txt.html#plugin" class="d">plugin</a> defines
+<a href="eval.txt.html#functions" class="d">functions</a> that match this pattern.
+
+<span class="h">==============================================================================</span>
+<span id="52.5" class="t">52.5</span>  	Using <a href="insert.txt.html#a" class="d">a</a> <a href="vim9.txt.html#Vim9" class="d">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> from legacy <a href="usr_41.txt.html#script" class="d">script</a>		<span id="source-vim9-script" class="t">source-vim9-script</span>
+
+In some cases you have <a href="insert.txt.html#a" class="d">a</a> legacy Vim <a href="usr_41.txt.html#script" class="d">script</a> where you want to use items from <a href="insert.txt.html#a" class="d">a</a>
+<a href="vim9.txt.html#Vim9" class="d">Vim9</a> script.  For example in your <a href="starting.txt.html#.vimrc" class="d">.vimrc</a> you want to initialize <a href="insert.txt.html#a" class="d">a</a> plugin.  The
+best way to <a href="diff.txt.html#do" class="d">do</a> this <a href="motion.txt.html#is" class="d">is</a> to use <span class="e">:import</span>.  For example: 
+<span class="e"></span>
+<span class="e">	import 'myNicePlugin.vim'</span>
+<span class="e">	call myNicePlugin.NiceInit('today')</span>
+<span class="e"></span>
+This finds the exported function "NiceInit" in the <a href="vim9.txt.html#Vim9" class="d">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> file and makes
+<a href="motion.txt.html#it" class="d">it</a> available <a href="motion.txt.html#as" class="d">as</a> <a href="map.txt.html#script-local" class="d">script-local</a> item "myNicePlugin.NiceInit"<a href="repeat.txt.html#." class="d">.</a> <span class="e">:import</span> always
+uses the <a href="usr_41.txt.html#script" class="d">script</a> namespace, even when "s:" <a href="motion.txt.html#is" class="d">is</a> not given.  If "myNicePlugin.vim"
+was already sourced <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not sourced again.
+
+Besides avoiding putting any items in the global namespace (where name clashes
+can cause unexpected errors), this also means the <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> sourced only once,
+no matter how many times items from <a href="motion.txt.html#it" class="d">it</a> are imported.
+
+In some cases, e.g. for testing, you may just want to source the <a href="vim9.txt.html#Vim9" class="d">Vim9</a> script.
+That <a href="motion.txt.html#is" class="d">is</a> OK, but then only global items will be available.  The <a href="vim9.txt.html#Vim9" class="d">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a>
+will have to make sure to use <a href="insert.txt.html#a" class="d">a</a> <a href="change.txt.html#unique" class="d">unique</a> name for these global items. Example: 
+<span class="e">	source ~/.vim/extra/myNicePlugin.vim</span>
+<span class="e">	call g:NicePluginTest()</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+<span id="52.6" class="t">52.6</span>  	<a href="vim9.txt.html#Vim9" class="d">Vim9</a> examples: comment and highlight-yank <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+
+<span class="c">COMMENT PACKAGE</span>
+
+Vim comes with <a href="insert.txt.html#a" class="d">a</a> comment plugin, written in <a href="vim9.txt.html#Vim9" class="d">Vim9</a> script.  <a href="usr_05.txt.html#comment-install" class="l">comment-install</a>
+Have <a href="insert.txt.html#a" class="d">a</a> look <a href="motion.txt.html#at" class="d">at</a> the package located <a href="motion.txt.html#at" class="d">at</a> $VIMRUNTIME/pack/dist/opt/comment/
+
+<span class="c">HIGHLIGHT YANK PLUGIN</span>
+
+Vim comes with the highlight-yank plugin, written in <a href="vim9.txt.html#Vim9" class="d">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a>
+<a href="usr_05.txt.html#hlyank-install" class="l">hlyank-install</a><a href="motion.txt.html#%2C" class="d">,</a> here <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> simplified implementation: &gt;vim9
+
+	<a href="vim9.txt.html#vim9script" class="d">vim9script</a>
+
+	def HighlightedYank(hlgroup <a href="change.txt.html#%3D" class="d">=</a> 'IncSearch', duration <a href="change.txt.html#%3D" class="d">=</a> 300, in_visual <a href="change.txt.html#%3D" class="d">=</a> true)
+	  if v:event.operator ==? 'y'
+	    if !in_visual &amp;&amp; <a href="builtin.txt.html#visualmode%28%29" class="d">visualmode()</a> != <a href="vim9.txt.html#null_string" class="d">null_string</a>
+	      visualmode(1)
+	      return
+	    endif
+	    var [beg, end] <a href="change.txt.html#%3D" class="d">=</a> [getpos("<a href="motion.txt.html#%27%5B" class="d">'[</a>"), getpos("<a href="motion.txt.html#%27%5D" class="d">']</a>")]
+	    var type <a href="change.txt.html#%3D" class="d">=</a> v:event.regtype <a href="eval.txt.html#%3F%3F" class="d">??</a> 'v'
+	    var pos <a href="change.txt.html#%3D" class="d">=</a> getregionpos(beg, end, <span class="s">{type: type, exclusive: false}</span>)
+	    var <a href="motion.txt.html#m" class="d">m</a> <a href="change.txt.html#%3D" class="d">=</a> matchaddpos(hlgroup, pos-&gt;mapnew((_, v) =&gt; <a href="motion.txt.html#%7B" class="d">{</a>
+	      var col_beg <a href="change.txt.html#%3D" class="d">=</a> v[0][2] <a href="motion.txt.html#%2B" class="d">+</a> v[0][3]
+	      var col_end <a href="change.txt.html#%3D" class="d">=</a> v[1][2] <a href="motion.txt.html#%2B" class="d">+</a> v[1][3] <a href="motion.txt.html#%2B" class="d">+</a> 1
+	      return [v[0][1], col_beg, col_end <a href="motion.txt.html#-" class="d">-</a> col_beg]
+	    }))
+	    var <a href="windows.txt.html#winid" class="d">winid</a> <a href="change.txt.html#%3D" class="d">=</a> <a href="builtin.txt.html#win_getid%28%29" class="d">win_getid()</a>
+	    timer_start(duration, (_) =&gt; m-&gt;matchdelete(winid))
+	  endif
+	enddef
+
+	autocmd <a href="autocmd.txt.html#TextYankPost" class="d">TextYankPost</a> * HighlightedYank()
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+For the complete example, have <a href="insert.txt.html#a" class="d">a</a> look into the package located <a href="motion.txt.html#at" class="d">at</a>
+<span class="e">$VIMRUNTIME/pack/dist/opt/hlyank/</span>
+
+<span class="h">==============================================================================</span>
+
+Next chapter: <a href="usr_90.txt.html#usr_90.txt" class="l">usr_90.txt</a>  Installing Vim
+
+
+Copyright: see <a href="usr_01.txt.html#manual-copyright" class="l">manual-copyright</a>  vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

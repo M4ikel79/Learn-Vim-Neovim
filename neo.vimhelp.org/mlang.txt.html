@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: mlang.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="mlang.txt.html#">↑Top↑</a></li>
+<li><a href="mlang.txt.html#multilang-messages">Messages</a></li>
+<li><a href="mlang.txt.html#multilang-menus">Menus</a></li>
+<li><a href="mlang.txt.html#multilang-scripts">Scripts</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="mlang.txt" class="t">mlang.txt</span>     Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL    by Bram Moolenaar</span>
+
+
+Multi-language features				<span id="multilang" class="t">multilang</span> <span id="multi-lang" class="t">multi-lang</span>
+
+This <a href="motion.txt.html#is" class="d">is</a> about using <a href="message.txt.html#messages" class="d">messages</a> and <a href="gui.txt.html#menus" class="d">menus</a> in <a href="various.txt.html#various" class="d">various</a> languages.  For editing
+<a href="mbyte.txt.html#multibyte" class="d">multibyte</a> text see <a href="mbyte.txt.html#multibyte" class="l">multibyte</a><a href="repeat.txt.html#." class="d">.</a>
+
+The basics are explained in the user manual: <a href="usr_45.txt.html#usr_45.txt" class="l">usr_45.txt</a><a href="repeat.txt.html#." class="d">.</a>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+1. Messages						<span id="multilang-messages" class="t">multilang-messages</span>
+
+Vim picks up the <a href="mbyte.txt.html#locale" class="d">locale</a> from the environment.  In most cases this means Vim
+will use the language that you prefer, unless it's not available.
+
+To see <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of supported <a href="mbyte.txt.html#locale" class="d">locale</a> names on your system, look in one of these
+directories (for Unix):
+<span class="h">	/usr/lib/locale </span>
+<span class="h">	/usr/share/locale </span>
+Unfortunately, upper/lowercase differences matter.  Also watch out <a href="luaref.txt.html#for" class="d">for</a> the
+use of "<a href="motion.txt.html#-" class="d">-</a>" and "<a href="motion.txt.html#_" class="d">_</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+					    <span id="%3Alan" class="t">:lan</span> <span id="%3Alang" class="t">:lang</span> <span id="%3Alanguage" class="t">:language</span> <span id="E197" class="t">E197</span>
+:lan[guage]
+:lan[guage] mes[sages]
+:lan[guage] cty[pe]
+:lan[guage] tim[e]
+:lan[guage] col[late]
+			Print the current language (aka locale).
+			With the "<a href="message.txt.html#messages" class="d">messages</a>" argument the language used <a href="luaref.txt.html#for" class="d">for</a>
+			<a href="message.txt.html#messages" class="d">messages</a> <a href="motion.txt.html#is" class="d">is</a> printed.  Technical: LC_MESSAGES.
+			With the "ctype" argument the language used <a href="luaref.txt.html#for" class="d">for</a>
+			character encoding <a href="motion.txt.html#is" class="d">is</a> printed.  Technical: LC_CTYPE.
+			With the "time" argument the language used <a href="luaref.txt.html#for" class="d">for</a>
+			<a href="vimfn.txt.html#strftime%28%29" class="d">strftime()</a> <a href="motion.txt.html#is" class="d">is</a> printed.  Technical: LC_TIME.
+			With the "collate" argument the language used <a href="luaref.txt.html#for" class="d">for</a>
+			collation order <a href="motion.txt.html#is" class="d">is</a> printed.  Technical: LC_COLLATE.
+			Without argument all parts of the <a href="mbyte.txt.html#locale" class="d">locale</a> are printed
+			(this <a href="motion.txt.html#is" class="d">is</a> system dependent).
+			The current language can also be obtained with the
+			<a href="vvars.txt.html#v%3Alang" class="l">v:lang</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vvars.txt.html#v%3Actype" class="l">v:ctype</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vvars.txt.html#v%3Acollate" class="l">v:collate</a> and <a href="vvars.txt.html#v%3Alc_time" class="l">v:lc_time</a>
+			variables.
+
+:lan[guage] <span class="s">{name}</span>
+:lan[guage] mes[sages] <span class="s">{name}</span>
+:lan[guage] cty[pe] <span class="s">{name}</span>
+:lan[guage] tim[e] <span class="s">{name}</span>
+:lan[guage] col[late] <span class="s">{name}</span>
+			Set the current language (aka locale) to <span class="s">{name}</span>.
+			The <a href="mbyte.txt.html#locale" class="d">locale</a> <span class="s">{name}</span> must be <a href="insert.txt.html#a" class="d">a</a> valid <a href="mbyte.txt.html#locale" class="d">locale</a> on your
+			system.  Some systems accept aliases like "en" or
+			"en_US"<a href="motion.txt.html#%2C" class="d">,</a> but some only accept the full specification
+			like "en_US.ISO_8859-1"<a href="repeat.txt.html#." class="d">.</a>  On Unix systems you can use
+			this command to see what locales are supported: 
+<span class="e">				:!locale -a</span>
+			With the "<a href="message.txt.html#messages" class="d">messages</a>" argument the language used <a href="luaref.txt.html#for" class="d">for</a>
+			<a href="message.txt.html#messages" class="d">messages</a> <a href="motion.txt.html#is" class="d">is</a> set.  This can be different when you want,
+			<a href="luaref.txt.html#for" class="d">for</a> example, English <a href="message.txt.html#messages" class="d">messages</a> while editing <a href="mbyte.txt.html#Japanese" class="d">Japanese</a>
+			text.  This sets $LC_MESSAGES.
+			With the "ctype" argument the language used <a href="luaref.txt.html#for" class="d">for</a>
+			character encoding <a href="motion.txt.html#is" class="d">is</a> set.  This affects the libraries
+			that Vim was linked with.  It's unusual to set this to
+			<a href="insert.txt.html#a" class="d">a</a> different value from <a href="options.txt.html#%27encoding%27" class="o">'encoding'</a> or "<a href="change.txt.html#C" class="d">C</a>"<a href="repeat.txt.html#." class="d">.</a>  This sets
+			$LC_CTYPE.
+			With the "time" argument the language used <a href="luaref.txt.html#for" class="d">for</a> time
+			and date <a href="message.txt.html#messages" class="d">messages</a> <a href="motion.txt.html#is" class="d">is</a> set.  This affects strftime().
+			This sets $LC_TIME.
+			With the "collate" argument the language used <a href="luaref.txt.html#for" class="d">for</a> the
+			collation order <a href="motion.txt.html#is" class="d">is</a> set.  This affects <a href="change.txt.html#sorting" class="d">sorting</a> of
+			characters. This sets $LC_COLLATE.
+			Without an argument all are set, and additionally
+			$LANG <a href="motion.txt.html#is" class="d">is</a> set.
+			The LC_NUMERIC value will always be set to "<a href="change.txt.html#C" class="d">C</a>" so
+			that floating point numbers use '.' <a href="motion.txt.html#as" class="d">as</a> the decimal
+			point.  This will make <a href="insert.txt.html#a" class="d">a</a> difference <a href="luaref.txt.html#for" class="d">for</a> items that
+			depend on the language (some messages, time and date
+			format).
+			Not fully supported on all systems.
+			If this fails there will be an error message.  If <a href="motion.txt.html#it" class="d">it</a>
+			succeeds there <a href="motion.txt.html#is" class="d">is</a> no message.  Example: 
+<span class="e">				:language</span>
+<span class="e">				Current language: C</span>
+<span class="e">				:language de_DE.ISO_8859-1</span>
+<span class="e">				:language mes</span>
+<span class="e">				Current messages language: de_DE.ISO_8859-1</span>
+<span class="e">				:lang mes en</span>
+
+
+Message files (vim.mo) have to be placed in "$VIMRUNTIME/lang/xx/LC_MESSAGES"<a href="motion.txt.html#%2C" class="d">,</a>
+where "xx" <a href="motion.txt.html#is" class="d">is</a> the <a href="map.txt.html#abbreviation" class="d">abbreviation</a> of the language (mostly two letters). If you
+write your own translations you need to generate the .po file and convert <a href="motion.txt.html#it" class="d">it</a>
+to <a href="insert.txt.html#a" class="d">a</a> .mo file.
+
+To overrule the automatic choice of the language, set the $LANG variable to
+the language of your choice.  use "en" to disable translations. 
+<span class="e"></span>
+<span class="e">  :let $LANG = 'ja'</span>
+<span class="e"></span>
+(text <a href="luaref.txt.html#for" class="d">for</a> Windows by Muraoka Taro)
+
+<span class="h">==============================================================================</span>
+2. Menus						<span id="multilang-menus" class="t">multilang-menus</span>
+
+See <a href="usr_45.txt.html#45.2" class="l">45.2</a> <a href="luaref.txt.html#for" class="d">for</a> the basics, esp. using <a href="options.txt.html#%27langmenu%27" class="o">'langmenu'</a>.
+
+<span class="n">Note</span> that if changes have been made to the <a href="gui.txt.html#menus" class="d">menus</a> after the translation was
+done, some of the <a href="gui.txt.html#menus" class="d">menus</a> may be shown in English.  Please try contacting the
+maintainer of the translation and ask him to update it.  You can find the
+name and e-mail address of the translator in
+"$VIMRUNTIME/lang/menu_&lt;lang&gt;.vim"<a href="repeat.txt.html#." class="d">.</a>
+
+To set the font to use <a href="luaref.txt.html#for" class="d">for</a> the menus, use the <a href="syntax.txt.html#%3Ahighlight" class="l">:highlight</a> command.  Example: 
+<span class="e"></span>
+<span class="e">	:highlight Menu font=k12,r12</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">ALIAS LOCALE NAMES</span>
+
+Unfortunately, the <a href="mbyte.txt.html#locale" class="d">locale</a> names are different on <a href="various.txt.html#various" class="d">various</a> systems, even though
+they are <a href="luaref.txt.html#for" class="d">for</a> the same language and encoding.  If you <a href="diff.txt.html#do" class="d">do</a> not get the menu
+translations you expected, check the output of this command: 
+<span class="e"></span>
+<span class="e">	echo v:lang</span>
+<span class="e"></span>
+Now check the "$VIMRUNTIME/lang" directory <a href="luaref.txt.html#for" class="d">for</a> menu translation files that use
+<a href="insert.txt.html#a" class="d">a</a> similar language.  <a href="insert.txt.html#A" class="d">A</a> difference in <a href="insert.txt.html#a" class="d">a</a> "<a href="motion.txt.html#-" class="d">-</a>" being <a href="insert.txt.html#a" class="d">a</a> "<a href="motion.txt.html#_" class="d">_</a>" already causes <a href="insert.txt.html#a" class="d">a</a> file
+not to be found!  Another common difference to watch out <a href="luaref.txt.html#for" class="d">for</a> <a href="motion.txt.html#is" class="d">is</a> "iso8859-1"
+versus "iso_8859-1"<a href="repeat.txt.html#." class="d">.</a>  Fortunately Vim makes all names lowercase, thus you
+don't have to worry about <a href="change.txt.html#case" class="d">case</a> differences.  Spaces are changed to
+underscores, to avoid having to <a href="intro.txt.html#escape" class="d">escape</a> them.
+
+If you find <a href="insert.txt.html#a" class="d">a</a> menu translation file <a href="luaref.txt.html#for" class="d">for</a> your language with <a href="insert.txt.html#a" class="d">a</a> different name,
+create <a href="insert.txt.html#a" class="d">a</a> file in your own runtime directory to load that one.  The name of
+that file could be: 
+<span class="e"></span>
+<span class="e">	~/.config/nvim/lang/menu_&lt;v:lang&gt;.vim</span>
+<span class="e"></span>
+Check the <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> option <a href="luaref.txt.html#for" class="d">for</a> directories which are searched.  In that
+file <a href="change.txt.html#put" class="d">put</a> <a href="insert.txt.html#a" class="d">a</a> command to load the menu file with the other name: 
+<span class="e"></span>
+<span class="e">	runtime lang/menu_&lt;other_lang&gt;.vim</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">TRANSLATING MENUS</span>
+
+If you want to <a href="diff.txt.html#do" class="d">do</a> your own translations, you can use the <a href="mlang.txt.html#%3Amenutrans" class="l">:menutrans</a> command,
+explained below.  It <a href="motion.txt.html#is" class="d">is</a> recommended to <a href="change.txt.html#put" class="d">put</a> the translations <a href="luaref.txt.html#for" class="d">for</a> one language
+in <a href="insert.txt.html#a" class="d">a</a> Vim script.  For <a href="insert.txt.html#a" class="d">a</a> language that has no translation yet, please consider
+becoming the maintainer and make your translations available to all Vim users.
+Send an e-mail to the Vim maintainer &lt;maintainer@vim.org&gt;.
+
+					<span id="%3Amenut" class="t">:menut</span> <span id="%3Amenutrans" class="t">:menutrans</span> <span id="%3Amenutranslate" class="t">:menutranslate</span>
+:menut[ranslate] clear
+			Clear all menu translations.
+
+:menut[ranslate] <span class="s">{english}</span> <span class="s">{mylang}</span>
+			Translate menu name <span class="s">{english}</span> to <span class="s">{mylang}</span>.  All
+			special characters like "<a href="change.txt.html#%26" class="d">&amp;</a>" and "<a href="motion.txt.html#%3CTab%3E" class="s">&lt;Tab&gt;</a>" need to be
+			included.  Spaces and dots need to be escaped with <a href="insert.txt.html#a" class="d">a</a>
+			backslash, just like in other <a href="gui.txt.html#%3Amenu" class="l">:menu</a> commands.
+			Case in <span class="s">{english}</span> <a href="motion.txt.html#is" class="d">is</a> ignored.
+
+See the $VIMRUNTIME/lang directory <a href="luaref.txt.html#for" class="d">for</a> examples.
+
+To try out your translations you first have to remove all menus.  This <a href="motion.txt.html#is" class="d">is</a> how
+you can <a href="diff.txt.html#do" class="d">do</a> <a href="motion.txt.html#it" class="d">it</a> without restarting Vim: 
+<span class="e">	:source $VIMRUNTIME/delmenu.vim</span>
+<span class="e">	:source &lt;your-new-menu-file&gt;</span>
+<span class="e">	:source $VIMRUNTIME/menu.vim</span>
+<span class="e"></span>
+Each part of <a href="insert.txt.html#a" class="d">a</a> menu path <a href="motion.txt.html#is" class="d">is</a> translated separately.  The result <a href="motion.txt.html#is" class="d">is</a> that when
+"Help" <a href="motion.txt.html#is" class="d">is</a> translated to "Hilfe" and "Overview" to "Überblick" then
+"Help.Overview" will be translated to "Hilfe.Überblick"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+3. Scripts						<span id="multilang-scripts" class="t">multilang-scripts</span>
+
+In Vim scripts you can use the <a href="vvars.txt.html#v%3Alang" class="l">v:lang</a> variable to get the current language
+(locale).  The default value <a href="motion.txt.html#is" class="d">is</a> "<a href="change.txt.html#C" class="d">C</a>" or comes from the $LANG environment
+variable.
+
+The following example shows how this variable <a href="motion.txt.html#is" class="d">is</a> used in <a href="insert.txt.html#a" class="d">a</a> simple way, to make
+<a href="insert.txt.html#a" class="d">a</a> message adapt to language preferences of the user, 
+<span class="e"></span>
+<span class="e">	:if v:lang =~ "de_DE"</span>
+<span class="e">	:  echo "Guten Morgen"</span>
+<span class="e">	:else</span>
+<span class="e">	:  echo "Good morning"</span>
+<span class="e">	:endif</span>
+
+
+ vim:tw=78:sw=4:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

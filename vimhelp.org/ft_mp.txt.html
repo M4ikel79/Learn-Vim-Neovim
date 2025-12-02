@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: ft_mp.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/6GFVgWe7mZKS0irS/tom-select.min.css">
+<script defer src="s/RYIr7-eUV9L7hwPw/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="ft_mp.txt.html#">↑Top↑</a></li>
+<li><a href="ft_mp.txt.html#ft-metapost-intro">ft-metapost-intro</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="ft_mp.txt" class="t">ft_mp.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2022 Aug 12
+
+This <a href="motion.txt.html#is" class="d">is</a> the documentation for the METAFONT and MetaPost <a href="filetype.txt.html#filetype" class="d">filetype</a> plugins.
+Unless otherwise specified, the commands, settings and mappings defined below
+apply equally to both filetypes.
+
+<span class="n">NOTE:</span> the <a href="usr_05.txt.html#plugin" class="d">plugin</a> requires +vim9script.
+
+<span class="h">==============================================================================</span>
+<span class="c">CONTENTS</span>						<span id="mp.vim" class="t">mp.vim</span> <span id="ft-metapost" class="t">ft-metapost</span>
+							<span id="mf.vim" class="t">mf.vim</span> <span id="ft-metafont" class="t">ft-metafont</span>
+
+1. Introduction				<a href="ft_mp.txt.html#ft-metapost-intro" class="l">ft-metapost-intro</a>
+2. Commands				<a href="ft_mp.txt.html#ft-metapost-commands" class="l">ft-metapost-commands</a>
+3. Settings				<a href="ft_mp.txt.html#ft-metapost-settings" class="l">ft-metapost-settings</a>
+4. Mappings				<a href="ft_mp.txt.html#ft-metapost-mappings" class="l">ft-metapost-mappings</a>
+
+<span class="h">==============================================================================</span>
+							<span id="ft-metapost-intro" class="t">ft-metapost-intro</span>
+							<span id="ft-metafont-intro" class="t">ft-metafont-intro</span>
+<span class="h">Introduction </span>
+This <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> provides extensive support for editing METAFONT and
+MetaPost documents, including <a href="syntax.txt.html#syntax" class="d">syntax</a> coloring, indentation, and completion.
+
+Defining indentation rules for METAFONT and MetaPost code <a href="motion.txt.html#is" class="d">is</a> tricky and
+somewhat subjective, because the <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="motion.txt.html#is" class="d">is</a> quite liberal. The <a href="usr_05.txt.html#plugin" class="d">plugin</a> uses some
+heuristics that work well most of the time, but in particular cases you may
+want to to override the automatic rules, so that the manually defined
+indentation <a href="motion.txt.html#is" class="d">is</a> preserved by commands like <span class="e">gg=G</span>.
+
+This can be achieved by appending <span class="e">%&gt;</span>, <span class="e">%&lt;</span>, <span class="e">%=</span> or <span class="e">%!</span> to <a href="insert.txt.html#a" class="d">a</a> line to
+explicitly <a href="intro.txt.html#control" class="d">control</a> the indentation of the next line. The <span class="e">&lt;</span> and <span class="e">&gt;</span> symbols
+may be repeated many times: for instance, <span class="e">%&gt;&gt;</span> will cause the next line to be
+indented twice. Of course, <span class="e">%&lt;</span> means that the next line should be
+de-indented; <span class="e">%=</span> sets the indentation of the next line to be equal to the
+indentation of the current line; and <span class="e">%!</span> means that the indentation of the
+next line should not change from whatever <a href="motion.txt.html#it" class="d">it</a> has been manually set.
+
+For example, this <a href="motion.txt.html#is" class="d">is</a> the default indentation of <a href="insert.txt.html#a" class="d">a</a> simple macro:
+
+<span class="e">   def foo =</span>
+<span class="e">       makepen(</span>
+<span class="e">           subpath(T-n,t) of r</span>
+<span class="e">           shifted .5down</span>
+<span class="e">           --subpath(t,T) of r shifted .5up -- cycle</span>
+<span class="e">       )</span>
+<span class="e">       withcolor black</span>
+<span class="e">   enddef</span>
+
+By adding the special comments, the indentation can be adjusted arbitrarily:
+
+<span class="e">   def foo =</span>
+<span class="e">       makepen(</span>
+<span class="e">           subpath(T-n,t) of r  %&gt;</span>
+<span class="e">               shifted .5down   %&gt;</span>
+<span class="e">                   --subpath(t,T) of r shifted .5up -- cycle   %&lt;&lt;&lt;</span>
+<span class="e">       )</span>
+<span class="e">       withcolor black</span>
+<span class="e">   enddef</span>
+
+							<span id="ft-metapost-commands" class="t">ft-metapost-commands</span>
+<span class="h">Commands </span>
+					<span id="%3AFixBeginfigs" class="t">:FixBeginfigs</span>
+Renumber beginfig() blocks in the current buffer so that the n-th figure has
+number n. MetaPost only.
+
+							<span id="ft-metapost-settings" class="t">ft-metapost-settings</span>
+							<span id="ft-metafont-settings" class="t">ft-metafont-settings</span>
+<span class="h">Settings </span>
+					<span id="%27g%3Amf_other_macros%27" class="t">'g:mf_other_macros'</span>
+Highlight some other basic <a href="map.txt.html#macro" class="d">macro</a> names, e.g., from cmbase, logo, etc. This <a href="motion.txt.html#is" class="d">is</a>
+set to 1 by default in METAFONT buffers, and <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> set to <a href="motion.txt.html#0" class="d">0</a> by default in
+MetaPost buffers.
+
+					<span id="%27g%3Amf_plain_macros%27" class="t">'g:mf_plain_macros'</span>
+Highlight keywords defined by plain.mf. This <a href="motion.txt.html#is" class="d">is</a> set to 1 by default in
+METAFONT buffers, and <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> set to <a href="motion.txt.html#0" class="d">0</a> by default in MetaPost buffers.
+
+					<span id="%27g%3Amf_plain_modes%27" class="t">'g:mf_plain_modes'</span>
+Highlight keywords defined by modes.mf. This <a href="motion.txt.html#is" class="d">is</a> set to 1 by default in
+METAFONT buffers, and <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> set to <a href="motion.txt.html#0" class="d">0</a> by default in MetaPost buffers.
+
+					<span id="%27g%3Amp_close_tag%27" class="t">'g:mp_close_tag'</span>
+Define additional keywords that <a href="intro.txt.html#end" class="d">end</a> indented blocks. For instance, if you
+define:
+
+<span class="e">	g:mp_close_tag = ['\&lt;endfoo\&gt;']</span>
+
+any line <a href="starting.txt.html#starting" class="d">starting</a> with <span class="e">endfoo</span> will be de-indented compared to its previous
+line.
+
+<span class="e">	g:mp_close_tag = []</span>
+
+					<span id="%27b%3Amp_metafun%27" class="t">'b:mp_metafun'</span>
+					<span id="%27g%3Amp_metafun%27" class="t">'g:mp_metafun'</span>
+If set to 1, highlight ConTeXt's MetaFun keywords. MetaPost only.
+
+<span class="e">	g:mp_metafun = 0</span>
+
+					<span id="%27g%3Amp_mfplain_macros%27" class="t">'g:mp_mfplain_macros'</span>
+Highlight keywords defined by mfplain.mp. MetaPost only.
+
+<span class="e">	g:mp_mfplain_macros = 1</span>
+
+					<span id="%27g%3Amp_open_tag%27" class="t">'g:mp_open_tag'</span>
+Define additional keywords that start indented blocks. For instance, if you
+define:
+
+<span class="e">	g:mp_open_tag = ['\&lt;beginfoo\&gt;']</span>
+
+the line following <span class="e">beginfoo</span> will be indented.
+
+<span class="e">	g:mp_open_tag = []</span>
+
+					<span id="%27g%3Amp_other_macros%27" class="t">'g:mp_other_macros'</span>
+Highlight keywords defined by all base <a href="map.txt.html#macro" class="d">macro</a> <a href="repeat.txt.html#packages" class="d">packages</a> (boxes, rboxes, format,
+graph, marith, sarith, string, TEX). This option affects only MetaPost
+buffers.
+
+<span class="e">	g:mp_other_macros = 1</span>
+
+					<span id="%27g%3Amp_plain_macros%27" class="t">'g:mp_plain_macros'</span>
+Highlight keywords defined by plain.mp. MetaPost only.
+
+<span class="e">	g:mp_plain_macros = 1</span>
+
+					<span id="%27g%3Ano_mp_maps%27" class="t">'g:no_mp_maps'</span>
+					<span id="%27g%3Ano_mf_maps%27" class="t">'g:no_mf_maps'</span>
+When set, <a href="diff.txt.html#do" class="d">do</a> not define any <a href="map.txt.html#mapping" class="d">mapping</a> in <a href="windows.txt.html#buffers" class="d">buffers</a> with the corresponding
+filetype.
+
+<span class="e">	g:no_mp_maps = 0</span>
+<span class="e">	g:no_mf_maps = 0</span>
+
+							<span id="ft-metapost-mappings" class="t">ft-metapost-mappings</span>
+							<span id="ft-metafont-mappings" class="t">ft-metafont-mappings</span>
+<span class="h">Mappings </span>
+
+<a href="motion.txt.html#%5D%5D" class="d">]]</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> vardefs, macros or figures forward.
+
+<a href="motion.txt.html#%5B%5B" class="d">[[</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> vardefs, macros or figures backward.
+
+<a href="motion.txt.html#%5D%5B" class="d">][</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="intro.txt.html#end" class="d">end</a> of vardefs, macros or figures forward.
+
+<a href="motion.txt.html#%5B%5D" class="d">[]</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="intro.txt.html#end" class="d">end</a> of vardefs, macros or figures backward.
+
+<a href="motion.txt.html#%5D%7D" class="d">]}</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="intro.txt.html#end" class="d">end</a> of blocks (fi, endfor, endgroup) forward.
+
+<a href="motion.txt.html#%5B%7B" class="d">[{</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> begin of blocks (if, for, begingroup) backward.
+
+ vim:tw=78:sw=4:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

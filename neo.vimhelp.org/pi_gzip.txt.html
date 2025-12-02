@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: pi_gzip.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="pi_gzip.txt.html#">↑Top↑</a></li>
+<li><a href="pi_gzip.txt.html#gzip-autocmd">Autocommands</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="pi_gzip.txt" class="t">pi_gzip.txt</span>   Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL    by Bram Moolenaar</span>
+
+
+Editing compressed files with Vim		<span id="gzip" class="t">gzip</span> <span id="bzip2" class="t">bzip2</span> <span id="compress" class="t">compress</span>
+
+1. Autocommands			<a href="pi_gzip.txt.html#gzip-autocmd" class="l">gzip-autocmd</a>
+
+The functionality mentioned here <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#standard-plugin" class="l">standard-plugin</a><a href="repeat.txt.html#." class="d">.</a>
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> only available if <a href="vim_diff.txt.html#%27compatible%27" class="o">'compatible'</a> <a href="motion.txt.html#is" class="d">is</a> not set.
+You can avoid loading this <a href="usr_05.txt.html#plugin" class="d">plugin</a> by setting the "loaded_gzip" variable: 
+<span class="e">	:let loaded_gzip = 1</span>
+
+							<span id="g%3Agzip_exec" class="t">g:gzip_exec</span>
+
+For security reasons, one may prevent that Vim runs executables automatically
+when opening <a href="insert.txt.html#a" class="d">a</a> buffer.  This option (default: "1"<a href="motion.txt.html#%29" class="d">)</a> can be used to prevent
+executing the executables command when set to "<a href="motion.txt.html#0" class="d">0</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">	:let g:gzip_exec = 0</span>
+
+
+<span class="h">==============================================================================</span>
+1. Autocommands						<span id="gzip-autocmd" class="t">gzip-autocmd</span>
+
+The <a href="usr_05.txt.html#plugin" class="d">plugin</a> installs autocommands to intercept reading and <a href="editing.txt.html#writing" class="d">writing</a> of files
+with these extensions:
+
+	extension	compression 
+<span class="e">	*.bz2		bzip2</span>
+<span class="e">	*.bz3		bzip3</span>
+<span class="e">	*.gz		gzip</span>
+<span class="e">	*.lz		lzip</span>
+<span class="e">	*.lz4		lz4</span>
+<span class="e">	*.lzma		lzma</span>
+<span class="e">	*.xz		xz</span>
+<span class="e">	*.Z		compress (Lempel-Ziv)</span>
+<span class="e">	*.zst		zstd</span>
+<span class="e"></span>
+That's actually the only thing you need to know.  There are no options.
+
+After decompressing <a href="insert.txt.html#a" class="d">a</a> file, the <a href="filetype.txt.html#filetype" class="d">filetype</a> will be detected again.  This will
+make <a href="insert.txt.html#a" class="d">a</a> file like "foo.c.gz" get the "<a href="change.txt.html#c" class="d">c</a>" filetype.
+
+If you have <a href="options.txt.html#%27patchmode%27" class="o">'patchmode'</a> set, <a href="motion.txt.html#it" class="d">it</a> will be appended after the extension <a href="luaref.txt.html#for" class="d">for</a>
+compression.  Thus editing the patchmode file will not give you the automatic
+decompression.  You have to rename the file if you want this.
+
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

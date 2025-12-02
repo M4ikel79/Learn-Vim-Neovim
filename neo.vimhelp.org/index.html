@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: help.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+<div id="title-cont">
+<h1>Neovim help files</h1>
+<div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+<p>This is an HTML version of the <a href="https://neovim.io/" target="_blank" rel="noopener noreferrer">Neovim</a> help pages, current as of Neovim 0.11.5.
+They are kept up-to-date <a href="https://github.com/c4rlo/vimhelp" target="_blank" rel="noopener noreferrer" class="d">automatically</a>
+from the <a href="https://github.com/neovim/neovim/tree/master/runtime/doc" target="_blank" rel="noopener noreferrer" class="d">Neovim source repository</a>.
+</p>
+
+<p><a href="https://vimhelp.org/">Help pages for the original Vim</a>
+are also available.</p>
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="index.html#">↑Top↑</a></li>
+<li><a href="index.html#_nvim-documentation">NVIM DOCUMENTATION</a></li>
+<li><a href="index.html#reference_toc">ABOUT NVIM</a></li>
+<li><a href="index.html#_general">GENERAL</a></li>
+<li><a href="index.html#_basic-editing">BASIC EDITING</a></li>
+<li><a href="index.html#_advanced-editing">ADVANCED EDITING</a></li>
+<li><a href="index.html#_programming-language-supp">PROGRAMMING LANGUAGE SUPPORT</a></li>
+<li><a href="index.html#_ui">UI</a></li>
+<li><a href="index.html#_language-support">LANGUAGE SUPPORT</a></li>
+<li><a href="index.html#_interop">INTEROP</a></li>
+<li><a href="index.html#_versions">VERSIONS</a></li>
+<li><a href="index.html#_developing-nvim">DEVELOPING NVIM</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="help.txt" class="t">help.txt</span>  	Nvim
+
+				 NVIM <a href="motion.txt.html#-" class="d">-</a> <a href="helphelp.txt.html#help" class="d">help</a>
+									 <a href="motion.txt.html#k" class="d">k</a>
+      Move around:  Use the cursor keys, or "<a href="motion.txt.html#h" class="d">h</a>" to <a href="motion.txt.html#go" class="d">go</a> left,	       <a href="motion.txt.html#h" class="d">h</a>   <a href="motion.txt.html#l" class="d">l</a>
+		    "<a href="motion.txt.html#j" class="d">j</a>" to <a href="motion.txt.html#go" class="d">go</a> down, "<a href="motion.txt.html#k" class="d">k</a>" to <a href="motion.txt.html#go" class="d">go</a> up, "<a href="motion.txt.html#l" class="d">l</a>" to <a href="motion.txt.html#go" class="d">go</a> right.	 <a href="motion.txt.html#j" class="d">j</a>
+Close this window:  Use ":q&lt;Enter&gt;"<a href="repeat.txt.html#." class="d">.</a>
+   Get out of Vim:  Use ":qa!&lt;Enter&gt;" (careful, all changes are lost!).
+
+Jump to <a href="insert.txt.html#a" class="d">a</a> subject:  Position the cursor on <a href="insert.txt.html#a" class="d">a</a> <a href="tagsrch.txt.html#tag" class="d">tag</a> (e.g. <a href="index.html#bars" class="l">bars</a><a href="motion.txt.html#%29" class="d">)</a> and hit <a href="tagsrch.txt.html#CTRL-%5D" class="k">CTRL-]</a>.
+   With the mouse:  Double-click the left mouse button on <a href="insert.txt.html#a" class="d">a</a> tag, e.g. <a href="index.html#bars" class="l">bars</a><a href="repeat.txt.html#." class="d">.</a>
+	Jump back:  Type <a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a>.  Repeat to <a href="motion.txt.html#go" class="d">go</a> further back.
+
+Get specific help:  It <a href="motion.txt.html#is" class="d">is</a> possible to <a href="motion.txt.html#go" class="d">go</a> directly to whatever you want <a href="helphelp.txt.html#help" class="d">help</a>
+		    on, by giving an argument to the <a href="helphelp.txt.html#%3Ahelp" class="l">:help</a> command.
+		    Prepend something to specify the context:  <span id="help-context" class="t">help-context</span>
+
+<span class="h">			  WHAT			PREPEND    EXAMPLE	</span>
+		      <a href="intro.txt.html#Normal" class="d">Normal</a> mode command		   <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> <a href="change.txt.html#x" class="d">x</a>
+		      <a href="visual.txt.html#Visual" class="d">Visual</a> mode command	  v_	   <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> <a href="change.txt.html#v_u" class="d">v_u</a>
+		      <a href="insert.txt.html#Insert" class="d">Insert</a> mode command	  i_	   <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> <a href="insert.txt.html#i_%3CEsc%3E" class="d">i_&lt;Esc&gt;</a>
+		      <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> command	  <a href="cmdline.txt.html#%3A" class="d">:</a>	   <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> <a href="editing.txt.html#%3Aquit" class="d">:quit</a>
+		      <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> editing	  c_	   <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> <a href="cmdline.txt.html#c_%3CDel%3E" class="d">c_&lt;Del&gt;</a>
+		      Vim command argument	  <a href="motion.txt.html#-" class="d">-</a>	   <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> <a href="starting.txt.html#-r" class="d">-r</a>
+		      Option			  <a href="motion.txt.html#%27" class="d">'</a>	   <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> <a href="options.txt.html#%27textwidth%27" class="o">'textwidth'</a>
+		      Regular <a href="vimeval.txt.html#expression" class="d">expression</a>	  <a href="pattern.txt.html#%2F" class="d">/</a>	   <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> /[
+		    See <a href="usr_02.txt.html#help-summary" class="l">help-summary</a> <a href="luaref.txt.html#for" class="d">for</a> more contexts and an explanation.
+		    See <a href="intro.txt.html#notation" class="l">notation</a> <a href="luaref.txt.html#for" class="d">for</a> an explanation of the <a href="helphelp.txt.html#help" class="d">help</a> syntax.
+
+  Search <a href="luaref.txt.html#for" class="d">for</a> help:  Type "<a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> <a href="motion.txt.html#word" class="d">word</a>"<a href="motion.txt.html#%2C" class="d">,</a> then hit <a href="scroll.txt.html#CTRL-D" class="k">CTRL-D</a> to see matching
+		    <a href="helphelp.txt.html#help" class="d">help</a> entries <a href="luaref.txt.html#for" class="d">for</a> "<a href="motion.txt.html#word" class="d">word</a>"<a href="repeat.txt.html#." class="d">.</a>
+		    Or use "<a href="helphelp.txt.html#%3Ahelpgrep" class="d">:helpgrep</a> <a href="motion.txt.html#word" class="d">word</a>"<a href="repeat.txt.html#." class="d">.</a> <a href="helphelp.txt.html#%3Ahelpgrep" class="l">:helpgrep</a>
+
+  Getting started:  Do the Vim tutor, <a href="insert.txt.html#a" class="d">a</a> 30-minute interactive course <a href="luaref.txt.html#for" class="d">for</a> the
+		    basic commands, see <a href="usr_01.txt.html#vimtutor" class="l">vimtutor</a><a href="repeat.txt.html#." class="d">.</a>
+		    Read the user manual from start to end: <a href="usr_01.txt.html#usr_01.txt" class="l">usr_01.txt</a>
+
+Vim stands <a href="luaref.txt.html#for" class="d">for</a> <a href="credits.txt.html#Vi" class="d">Vi</a> IMproved.  Most of Vim was made by <a href="intro.txt.html#Bram" class="d">Bram</a> Moolenaar, but only
+through the <a href="helphelp.txt.html#help" class="d">help</a> of many others.  See <a href="credits.txt.html#credits" class="l">credits</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+<span class="c">NVIM DOCUMENTATION</span><span id="_nvim-documentation"></span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">ABOUT NVIM</span>				<span id="reference_toc" class="t">reference_toc</span> <span id="doc-file-list" class="t">doc-file-list</span> <span id="Q_ct" class="t">Q_ct</span>
+
+<a href="news.txt.html#news" class="l">news</a>  			News since the previous release
+<a href="nvim.txt.html#nvim" class="l">nvim</a>  			Transitioning from Vim
+<a href="vim_diff.txt.html#vim-differences" class="l">vim-differences</a>  	Nvim compared to Vim
+<a href="faq.txt.html#faq" class="l">faq</a>  			Frequently Asked Questions
+<a href="usr_toc.txt.html#user-manual" class="l">user-manual</a>  		<a href="autocmd.txt.html#User" class="d">User</a> manual: How to accomplish editing tasks.
+<a href="quickref.txt.html#quickref" class="l">quickref</a>  		Overview of common commands
+<a href="usr_01.txt.html#tutor" class="l">tutor</a>  			30-minute interactive course <a href="luaref.txt.html#for" class="d">for</a> beginners
+<a href="uganda.txt.html#copying" class="l">copying</a>  		About copyrights
+<a href="uganda.txt.html#Kuwasha" class="l">Kuwasha</a>  		Helping poor children in <a href="uganda.txt.html#Uganda" class="d">Uganda</a>
+<a href="intro.txt.html#sponsor" class="l">sponsor</a>  		Sponsor Vim development, become <a href="insert.txt.html#a" class="d">a</a> registered Vim user
+<a href="intro.txt.html#www" class="l">www</a>  			Vim on the World Wide Web
+<a href="intro.txt.html#bugs" class="l">bugs</a>  			Where to send bug reports
+<a href="support.txt.html#support" class="l">support</a>  		Supported platforms
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">GENERAL</span><span id="_general"></span>
+
+<a href="intro.txt.html#intro" class="l">intro</a>  			Introduction to Vim; <a href="intro.txt.html#notation" class="d">notation</a> used in <a href="helphelp.txt.html#help" class="d">help</a> files
+<a href="helphelp.txt.html#helphelp" class="l">helphelp</a>  		Using the <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> files
+<a href="index.txt.html#index" class="l">index</a>  			Index of all commands
+<a href="tips.txt.html#tips" class="l">tips</a>  			Various <a href="tips.txt.html#tips" class="d">tips</a> on using Vim
+<a href="message.txt.html#message.txt" class="l">message.txt</a>  		(Error) <a href="message.txt.html#messages" class="d">messages</a> and explanations
+<a href="uganda.txt.html#uganda.txt" class="l">uganda.txt</a>  		Vim <a href="intro.txt.html#distribution" class="d">distribution</a> and what to <a href="diff.txt.html#do" class="d">do</a> with your money
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">BASIC EDITING</span><span id="_basic-editing"></span>
+
+<a href="starting.txt.html#starting" class="l">starting</a>  		Starting Vim, Vim command arguments, initialisation
+<a href="editing.txt.html#edit-files" class="l">edit-files</a>  		Editing and <a href="editing.txt.html#writing" class="d">writing</a> files
+<a href="motion.txt.html#motion.txt" class="l">motion.txt</a>  		Commands <a href="luaref.txt.html#for" class="d">for</a> moving around
+<a href="scroll.txt.html#scrolling" class="l">scrolling</a>  		Scrolling the text in the <a href="windows.txt.html#window" class="d">window</a>
+<a href="insert.txt.html#insert.txt" class="l">insert.txt</a>  		<a href="insert.txt.html#Insert" class="d">Insert</a> and <a href="insert.txt.html#Replace" class="d">Replace</a> mode
+<a href="change.txt.html#change.txt" class="l">change.txt</a>  		Deleting and <a href="change.txt.html#replacing" class="d">replacing</a> text
+<a href="undo.txt.html#undo-redo" class="l">undo-redo</a>  		Undo and Redo
+<a href="repeat.txt.html#repeat.txt" class="l">repeat.txt</a>  		Repeating commands, Vim scripts and debugging
+<a href="visual.txt.html#visual-mode" class="l">visual-mode</a>  		Using <a href="visual.txt.html#Visual" class="d">Visual</a> mode (selecting text)
+<a href="various.txt.html#various" class="l">various</a>  		Various other commands
+<a href="recover.txt.html#crash-recovery" class="l">crash-recovery</a>  	Recovering from <a href="insert.txt.html#a" class="d">a</a> crash
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">ADVANCED EDITING</span><span id="_advanced-editing"></span>
+
+<a href="cmdline.txt.html#cmdline" class="l">cmdline</a>  		<a href="cmdline.txt.html#Command-line" class="d">Command-line</a> editing
+<a href="options.txt.html#options" class="l">options</a>  		Description of all <a href="options.txt.html#options" class="d">options</a>
+<a href="pattern.txt.html#pattern-searches" class="l">pattern-searches</a>  	Vim <a href="pattern.txt.html#regexp" class="d">regexp</a> patterns and search commands
+<a href="map.txt.html#key-mapping" class="l">key-mapping</a>  		Key <a href="map.txt.html#mapping" class="d">mapping</a> (shortcuts), <a href="map.txt.html#abbreviations" class="d">abbreviations</a>
+<a href="tagsrch.txt.html#tags" class="l">tags</a>  			Tags and special searches
+<a href="windows.txt.html#windows" class="l">windows</a>  		Commands <a href="luaref.txt.html#for" class="d">for</a> using <a href="windows.txt.html#windows" class="d">windows</a> and <a href="windows.txt.html#buffers" class="d">buffers</a>
+<a href="tabpage.txt.html#tabpage" class="l">tabpage</a>  		Commands <a href="luaref.txt.html#for" class="d">for</a> using tabpages
+<a href="spell.txt.html#spell" class="l">spell</a>  			Spell checking
+<a href="diff.txt.html#diff" class="l">diff</a>  			Comparing files
+<a href="fold.txt.html#folding" class="l">folding</a>  		Hide (fold) ranges of lines
+<a href="terminal.txt.html#terminal" class="l">terminal</a>  		Embedded <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator
+
+<span class="h">------------------------------------------------------------------------------</span>
+<a href="api.txt.html#API" class="d">API</a> (EXTENSIBILITY/SCRIPTING/PLUGINS)
+
+<a href="api.txt.html#api" class="l">api</a>  			Nvim <a href="api.txt.html#API" class="d">API</a> via RPC, <a href="lua.txt.html#Lua" class="d">Lua</a> and Vimscript
+<a href="ui.txt.html#ui" class="l">ui</a>  			Nvim <a href="ui.txt.html#UI" class="d">UI</a> protocol
+<a href="lua-guide.txt.html#lua-guide" class="l">lua-guide</a>  		Nvim <a href="lua.txt.html#Lua" class="d">Lua</a> guide
+<a href="lua.txt.html#lua" class="l">lua</a>  			<a href="lua.txt.html#Lua" class="d">Lua</a> <a href="api.txt.html#API" class="d">API</a>
+<a href="luaref.txt.html#luaref" class="l">luaref</a>  		<a href="lua.txt.html#Lua" class="d">Lua</a> <a href="intro.txt.html#reference" class="d">reference</a> manual
+<a href="luvref.txt.html#luvref" class="l">luvref</a>  		Luv <a href="motion.txt.html#%28" class="d">(</a><a href="lua.txt.html#vim.uv" class="l">vim.uv</a><a href="motion.txt.html#%29" class="d">)</a> <a href="intro.txt.html#reference" class="d">reference</a> manual
+<a href="autocmd.txt.html#autocmd" class="l">autocmd</a>  		Event handlers
+<a href="job_control.txt.html#job-control" class="l">job-control</a>  		Spawn and <a href="intro.txt.html#control" class="d">control</a> multiple processes
+<a href="channel.txt.html#channel" class="l">channel</a>  		Nvim asynchronous IO
+<a href="vimeval.txt.html#vimscript" class="l">vimscript</a>  		Vimscript <a href="intro.txt.html#reference" class="d">reference</a>
+<a href="vimfn.txt.html#vimscript-functions" class="l">vimscript-functions</a>  	Vimscript <a href="vimeval.txt.html#functions" class="d">functions</a>
+<a href="testing.txt.html#testing.txt" class="l">testing.txt</a>  		Vimscript <a href="testing.txt.html#testing" class="d">testing</a> <a href="vimeval.txt.html#functions" class="d">functions</a>
+<a href="remote_plugin.txt.html#remote-plugin" class="l">remote-plugin</a>  		Nvim remote plugins
+<a href="health.txt.html#health" class="l">health</a>  		Health checking
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">PROGRAMMING LANGUAGE SUPPORT</span><span id="_programming-language-supp"></span>
+
+<a href="lsp.txt.html#lsp" class="l">lsp</a>  			Language Server Protocol (LSP)
+<a href="diagnostic.txt.html#diagnostic-api" class="l">diagnostic-api</a>  	Diagnostic framework
+<a href="treesitter.txt.html#treesitter" class="l">treesitter</a>  		Incremental <a href="syntax.txt.html#syntax" class="d">syntax</a> parsing
+<a href="indent.txt.html#indent.txt" class="l">indent.txt</a>  		automatic indenting <a href="luaref.txt.html#for" class="d">for</a> <a href="change.txt.html#C" class="d">C</a> and other languages
+<a href="syntax.txt.html#syntax" class="l">syntax</a>  		<a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting
+<a href="filetype.txt.html#filetype" class="l">filetype</a>  		Settings <a href="luaref.txt.html#for" class="d">for</a> specific types of files
+<a href="quickfix.txt.html#quickfix" class="l">quickfix</a>  		Commands <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> quick edit-compile-fix cycle
+<a href="ft_ada.txt.html#ft_ada.txt" class="l">ft_ada.txt</a>  		Ada <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+<a href="ft_hare.txt.html#ft_hare.txt" class="l">ft_hare.txt</a>  		Filetype <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="luaref.txt.html#for" class="d">for</a> Hare
+<a href="ft_ps1.txt.html#ft_ps1.txt" class="l">ft_ps1.txt</a>  		PowerShell <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+<a href="ft_raku.txt.html#ft_raku.txt" class="l">ft_raku.txt</a>  		Raku <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+<a href="ft_rust.txt.html#ft_rust.txt" class="l">ft_rust.txt</a>  		Rust <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+<a href="ft_sql.txt.html#ft_sql.txt" class="l">ft_sql.txt</a>  		SQL <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">UI</span><span id="_ui"></span>
+
+<a href="tui.txt.html#tui" class="l">tui</a>  			Builtin <a href="ui.txt.html#UI" class="d">UI</a>
+<a href="gui.txt.html#gui" class="l">gui</a>  			External (graphical) UIs
+<a href="sign.txt.html#signs" class="l">signs</a>  			Signs displayed <a href="motion.txt.html#as" class="d">as</a> <a href="windows.txt.html#window" class="d">window</a> decorations (the "<a href="sign.txt.html#gutter" class="d">gutter</a>"<a href="motion.txt.html#%29" class="d">)</a>
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">LANGUAGE SUPPORT</span><span id="_language-support"></span>
+
+<a href="digraph.txt.html#digraph" class="l">digraph</a>  		<a href="vimeval.txt.html#List" class="d">List</a> of available <a href="digraph.txt.html#digraphs" class="d">digraphs</a>
+<a href="mbyte.txt.html#mbyte.txt" class="l">mbyte.txt</a>  		Multibyte text <a href="support.txt.html#support" class="d">support</a>
+<a href="mlang.txt.html#mlang.txt" class="l">mlang.txt</a>  		Non-English language <a href="support.txt.html#support" class="d">support</a>
+<a href="rileft.txt.html#rileft.txt" class="l">rileft.txt</a>  		Right-to-left editing mode
+<a href="arabic.txt.html#arabic.txt" class="l">arabic.txt</a>  		<a href="arabic.txt.html#Arabic" class="d">Arabic</a> language <a href="support.txt.html#support" class="d">support</a> and editing
+<a href="hebrew.txt.html#hebrew.txt" class="l">hebrew.txt</a>  		Hebrew language <a href="support.txt.html#support" class="d">support</a> and editing
+<a href="russian.txt.html#russian.txt" class="l">russian.txt</a>  		<a href="russian.txt.html#Russian" class="d">Russian</a> language <a href="support.txt.html#support" class="d">support</a> and editing
+<a href="vietnamese.txt.html#vietnamese.txt" class="l">vietnamese.txt</a>  	Vietnamese language <a href="support.txt.html#support" class="d">support</a> and editing
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">INTEROP</span><span id="_interop"></span>
+
+<a href="provider.txt.html#provider" class="l">provider</a>  		Builtin remote <a href="usr_05.txt.html#plugin" class="d">plugin</a> hosts
+<a href="if_perl.txt.html#if_perl" class="l">if_perl</a>  		Perl interface
+<a href="if_pyth.txt.html#if_pyth" class="l">if_pyth</a>  		<a href="if_pyth.txt.html#Python" class="d">Python</a> interface
+<a href="if_ruby.txt.html#if_ruby" class="l">if_ruby</a>  		<a href="if_ruby.txt.html#Ruby" class="d">Ruby</a> interface
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">VERSIONS</span><span id="_versions"></span>
+
+<a href="deprecated.txt.html#deprecated" class="l">deprecated</a>  		Deprecated features that will be removed
+<a href="vi_diff.txt.html#vi-differences" class="l">vi-differences</a>  	Differences between Vim and <a href="credits.txt.html#Vi" class="d">Vi</a>
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">DEVELOPING NVIM</span><span id="_developing-nvim"></span>
+
+<a href="develop.txt.html#dev" class="l">dev</a>  			Development of Nvim
+<a href="dev_arch.txt.html#dev-arch" class="l">dev-arch</a>  		Internal architecture, modules, data structures
+<a href="dev_style.txt.html#dev-style" class="l">dev-style</a>  		Development style guidelines
+<a href="dev_theme.txt.html#dev-theme" class="l">dev-theme</a>  		Design guidelines (colorschemes etc.)
+<a href="dev_tools.txt.html#dev-tools" class="l">dev-tools</a>  		Tools and techniques <a href="luaref.txt.html#for" class="d">for</a> developing Nvim
+<a href="dev_vimpatch.txt.html#dev-vimpatch" class="l">dev-vimpatch</a>  		Merging patches from Vim
+
+<span class="h">Standard plugins </span>
+						<span id="standard-plugin-list" class="t">standard-plugin-list</span>
+<a href="pi_gzip.txt.html#pi_gzip.txt" class="l">pi_gzip.txt</a>  		Reading and <a href="editing.txt.html#writing" class="d">writing</a> compressed files
+<a href="pi_msgpack.txt.html#pi_msgpack.txt" class="l">pi_msgpack.txt</a>  	msgpack utilities
+<a href="pi_paren.txt.html#pi_paren.txt" class="l">pi_paren.txt</a>  		Highlight matching parens
+<a href="pi_spec.txt.html#pi_spec.txt" class="l">pi_spec.txt</a>  		Filetype <a href="usr_05.txt.html#plugin" class="d">plugin</a> to work with rpm spec files
+<a href="pi_tar.txt.html#pi_tar.txt" class="l">pi_tar.txt</a>  		Tar file explorer
+<a href="pi_zip.txt.html#pi_zip.txt" class="l">pi_zip.txt</a>  		Zip archive explorer
+<span class="l">netrw</span>  			Reading and <a href="editing.txt.html#writing" class="d">writing</a> files over <a href="insert.txt.html#a" class="d">a</a> network
+
+<span class="h">Local additions </span>
+							<span id="local-additions" class="t">local-additions</span>
+<a href="matchit.txt.html#matchit.txt" class="l">matchit.txt</a>       Extended "%" matching
+
+<span class="h">------------------------------------------------------------------------------</span>
+Bars example								<span id="bars" class="t">bars</span>
+
+Now that you've jumped here with <a href="tagsrch.txt.html#CTRL-%5D" class="k">CTRL-]</a> or <a href="insert.txt.html#a" class="d">a</a> double mouse click, you can use
+<a href="tagsrch.txt.html#CTRL-T" class="k">CTRL-T</a>, <a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a>, g&lt;RightMouse&gt;, or <a href="tagsrch.txt.html#%3CC-RightMouse%3E" class="s">&lt;C-RightMouse&gt;</a> to <a href="motion.txt.html#go" class="d">go</a> back to where you were.
+
+<span class="n">Note</span> that <a href="tagsrch.txt.html#tags" class="d">tags</a> are within | characters, but when highlighting <a href="motion.txt.html#is" class="d">is</a> enabled these
+characters are hidden.  That makes <a href="motion.txt.html#it" class="d">it</a> easier to read <a href="insert.txt.html#a" class="d">a</a> command.
+
+You can use <a href="tagsrch.txt.html#CTRL-%5D" class="k">CTRL-]</a> on any <a href="motion.txt.html#word" class="d">word</a> (even if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not within "|"<a href="motion.txt.html#%29" class="d">)</a> and Nvim will
+try to find <a href="helphelp.txt.html#help" class="d">help</a> <a href="luaref.txt.html#for" class="d">for</a> it.  Especially <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#options" class="d">options</a> in single quotes, e.g.
+<a href="options.txt.html#%27hlsearch%27" class="o">'hlsearch'</a>.
+
+
+ vim:tw=78:isk=!-~,^*,^\|,^\":ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

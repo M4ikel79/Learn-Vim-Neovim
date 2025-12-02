@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: matchit.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="matchit.txt.html#">↑Top↑</a></li>
+<li><a href="matchit.txt.html#matchit-intro">Extended matching with "%"</a></li>
+<li><a href="matchit.txt.html#matchit-activate">Activation</a></li>
+<li><a href="matchit.txt.html#matchit-configure">Configuration</a></li>
+<li><a href="matchit.txt.html#matchit-newlang">Supporting a New Language</a></li>
+<li><a href="matchit.txt.html#matchit-bugs">Known Bugs and Limitations</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="matchit.txt" class="t">matchit.txt</span>   Extended "<a href="motion.txt.html#%25" class="d">%</a>" matching
+
+For instructions on installing this file, type
+	`:help matchit-install`
+inside Vim.
+
+For <span class="i">Vim version 9.1.</span>  Last change:  2024 May 20
+
+
+		  <span class="i">VIM REFERENCE MANUAL    by Benji Fisher et al</span>
+
+<span id="matchit" class="t">matchit</span> <span id="matchit.vim" class="t">matchit.vim</span>
+
+1. Extended matching with "<a href="motion.txt.html#%25" class="d">%</a>"				<a href="matchit.txt.html#matchit-intro" class="l">matchit-intro</a>
+2. Activation						<a href="matchit.txt.html#matchit-activate" class="l">matchit-activate</a>
+3. Configuration					<a href="matchit.txt.html#matchit-configure" class="l">matchit-configure</a>
+4. Supporting <a href="insert.txt.html#a" class="d">a</a> New Language				<a href="matchit.txt.html#matchit-newlang" class="l">matchit-newlang</a>
+5. Known Bugs and Limitations				<a href="matchit.txt.html#matchit-bugs" class="l">matchit-bugs</a>
+
+The functionality mentioned here <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> plugin, see <a href="usr_05.txt.html#add-plugin" class="l">add-plugin</a><a href="repeat.txt.html#." class="d">.</a>
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> only available if <a href="options.txt.html#%27compatible%27" class="o">'compatible'</a> <a href="motion.txt.html#is" class="d">is</a> not set.
+
+<span class="h">==============================================================================</span>
+1. Extended matching with "<a href="motion.txt.html#%25" class="d">%</a>"				<span id="matchit-intro" class="t">matchit-intro</span>
+
+							<span id="matchit-%25" class="t">matchit-%</span>
+<a href="motion.txt.html#%25" class="d">%</a>	Cycle forward through matching groups, such <a href="motion.txt.html#as" class="d">as</a> "if"<a href="motion.txt.html#%2C" class="d">,</a> "else"<a href="motion.txt.html#%2C" class="d">,</a> "endif"<a href="motion.txt.html#%2C" class="d">,</a>
+	<a href="motion.txt.html#as" class="d">as</a> specified by <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="g%25" class="t">g%</span> <span id="v_g%25" class="t">v_g%</span> <span id="o_g%25" class="t">o_g%</span>
+<a href="matchit.txt.html#g%25" class="d">g%</a>	Cycle backwards through matching groups, <a href="motion.txt.html#as" class="d">as</a> specified by
+	<a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a><a href="repeat.txt.html#." class="d">.</a>  For example, <a href="motion.txt.html#go" class="d">go</a> from "if" to "endif" to "else"<a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%5B%25" class="t">[%</span> <span id="v_%5B%25" class="t">v_[%</span> <span id="o_%5B%25" class="t">o_[%</span>
+<a href="matchit.txt.html#%5B%25" class="d">[%</a>	Go to <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> previous unmatched group, <a href="motion.txt.html#as" class="d">as</a> specified by
+	<a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a><a href="repeat.txt.html#." class="d">.</a>  Similar to <a href="motion.txt.html#%5B%7B" class="l">[{</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%5D%25" class="t">]%</span> <span id="v_%5D%25" class="t">v_]%</span> <span id="o_%5D%25" class="t">o_]%</span>
+<a href="matchit.txt.html#%5D%25" class="d">]%</a>	Go to <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> next unmatched group, <a href="motion.txt.html#as" class="d">as</a> specified by
+	<a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a><a href="repeat.txt.html#." class="d">.</a>  Similar to <a href="motion.txt.html#%5D%7D" class="l">]}</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="v_a%25" class="t">v_a%</span>
+a%	In <a href="visual.txt.html#Visual" class="d">Visual</a> mode, select the matching group, <a href="motion.txt.html#as" class="d">as</a> specified by
+	<a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a><a href="motion.txt.html#%2C" class="d">,</a> containing the cursor.  Similar to <a href="motion.txt.html#v_a%5B" class="l">v_a[</a><a href="repeat.txt.html#." class="d">.</a>
+	<a href="insert.txt.html#A" class="d">A</a> <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="motion.txt.html#is" class="d">is</a> ignored, and only the first character of the closing
+	<a href="pattern.txt.html#pattern" class="d">pattern</a> <a href="motion.txt.html#is" class="d">is</a> selected.
+
+In Vim, <a href="motion.txt.html#as" class="d">as</a> in plain vi, the percent key, <a href="motion.txt.html#%25" class="l">%</a><a href="motion.txt.html#%2C" class="d">,</a> jumps the cursor from <a href="insert.txt.html#a" class="d">a</a> brace,
+bracket, or paren to its match.  This can be configured with the <a href="options.txt.html#%27matchpairs%27" class="o">'matchpairs'</a>
+option.  The <a href="matchit.txt.html#matchit" class="d">matchit</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="vim9class.txt.html#extends" class="d">extends</a> this in several ways:
+
+	    You can match whole words, such <a href="motion.txt.html#as" class="d">as</a> "if" and "endif"<a href="motion.txt.html#%2C" class="d">,</a> not just
+	single characters.  You can also specify <a href="insert.txt.html#a" class="d">a</a> <a href="pattern.txt.html#regular-expression" class="l">regular-expression</a><a href="repeat.txt.html#." class="d">.</a>
+	    You can define groups with more than two words, such <a href="motion.txt.html#as" class="d">as</a> "if"<a href="motion.txt.html#%2C" class="d">,</a>
+	"else"<a href="motion.txt.html#%2C" class="d">,</a> "endif"<a href="repeat.txt.html#." class="d">.</a>  Banging on the "<a href="motion.txt.html#%25" class="d">%</a>" key will cycle from the "if" to
+	the first "else"<a href="motion.txt.html#%2C" class="d">,</a> the next "else"<a href="motion.txt.html#%2C" class="d">,</a> ..., the closing "endif"<a href="motion.txt.html#%2C" class="d">,</a> and back
+	to the opening "if"<a href="repeat.txt.html#." class="d">.</a>  Nested structures are skipped.  Using <a href="matchit.txt.html#g%25" class="l">g%</a> goes
+	in the reverse direction.
+	    By default, words inside comments and strings are ignored, unless
+	the cursor <a href="motion.txt.html#is" class="d">is</a> inside <a href="insert.txt.html#a" class="d">a</a> comment or <a href="eval.txt.html#string" class="d">string</a> when you type "<a href="motion.txt.html#%25" class="d">%</a>"<a href="repeat.txt.html#." class="d">.</a>  If the
+	only thing you want to <a href="diff.txt.html#do" class="d">do</a> <a href="motion.txt.html#is" class="d">is</a> modify the behavior of "<a href="motion.txt.html#%25" class="d">%</a>" so that <a href="motion.txt.html#it" class="d">it</a>
+	behaves this way, you <a href="diff.txt.html#do" class="d">do</a> not have to define <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a><a href="motion.txt.html#%2C" class="d">,</a> since the
+	<a href="usr_41.txt.html#script" class="d">script</a> uses the <a href="options.txt.html#%27matchpairs%27" class="o">'matchpairs'</a> option <a href="motion.txt.html#as" class="d">as</a> well <a href="motion.txt.html#as" class="d">as</a> this variable.
+
+See <a href="matchit.txt.html#matchit-details" class="l">matchit-details</a> for details on what the <a href="usr_41.txt.html#script" class="d">script</a> does, and <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a>
+for how to specify matching patterns.
+
+MODES:			<span id="matchit-modes" class="t">matchit-modes</span> <span id="matchit-v_%25" class="t">matchit-v_%</span> <span id="matchit-o_%25" class="t">matchit-o_%</span>
+
+Mostly, <a href="motion.txt.html#%25" class="d">%</a> and related motions <a href="motion.txt.html#%28" class="d">(</a><a href="matchit.txt.html#g%25" class="l">g%</a> and <a href="matchit.txt.html#%5B%25" class="l">[%</a> and <a href="matchit.txt.html#%5D%25" class="l">]%</a><a href="motion.txt.html#%29" class="d">)</a> should just work like built-in
+<span class="l">motion</span> commands in <a href="intro.txt.html#Operator-pending" class="l">Operator-pending</a> and <a href="visual.txt.html#Visual" class="l">Visual</a> modes (as of 8.1.648)
+
+LANGUAGES:					<span id="matchit-languages" class="t">matchit-languages</span>
+
+Currently, the following languages are supported:  Ada, ASP with VBS, Csh,
+DTD, Entity, Essbase, Fortran, HTML, JSP (same <a href="motion.txt.html#as" class="d">as</a> HTML), LaTeX, Lua, Pascal,
+SGML, Shell, Tcsh, Vim, XML.  Other languages may already have support via
+the default <a href="usr_43.txt.html#filetype-plugin" class="l">filetype-plugin</a><a href="change.txt.html#s" class="d">s</a> in the standard vim distribution.
+
+To support <a href="insert.txt.html#a" class="d">a</a> new language, see <a href="matchit.txt.html#matchit-newlang" class="l">matchit-newlang</a> below.
+
+DETAILS:				<span id="matchit-details" class="t">matchit-details</span> <span id="matchit-parse" class="t">matchit-parse</span>
+
+Here <a href="motion.txt.html#is" class="d">is</a> an outline of what <a href="matchit.txt.html#matchit.vim" class="d">matchit.vim</a> does each time you hit the "<a href="motion.txt.html#%25" class="d">%</a>" key.  If
+there are <span class="l">backref</span><a href="change.txt.html#s" class="d">s</a> in <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> then the first step <a href="motion.txt.html#is" class="d">is</a> to produce <a href="insert.txt.html#a" class="d">a</a>
+version in which these back references have been eliminated; if there are no
+<span class="l">backref</span><a href="change.txt.html#s" class="d">s</a> then this step <a href="motion.txt.html#is" class="d">is</a> skipped.  This step <a href="motion.txt.html#is" class="d">is</a> called parsing.  For
+example, "\(foo\|bar\):end\1" <a href="motion.txt.html#is" class="d">is</a> parsed to yield
+"\(foo\|bar\):end\(foo\|bar\)"<a href="repeat.txt.html#." class="d">.</a>  This can get tricky, especially if there are
+nested groups.  If debugging <a href="motion.txt.html#is" class="d">is</a> turned on, the parsed version <a href="motion.txt.html#is" class="d">is</a> saved <a href="motion.txt.html#as" class="d">as</a>
+<a href="matchit.txt.html#b%3Amatch_pat" class="l">b:match_pat</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="matchit-choose" class="t">matchit-choose</span>
+Next, the <a href="usr_41.txt.html#script" class="d">script</a> looks for <a href="insert.txt.html#a" class="d">a</a> <a href="motion.txt.html#word" class="d">word</a> on the current line that matches the <a href="pattern.txt.html#pattern" class="d">pattern</a>
+just constructed.  It includes the patterns from the <a href="options.txt.html#%27matchpairs%27" class="o">'matchpairs'</a> option.
+The goal <a href="motion.txt.html#is" class="d">is</a> to <a href="diff.txt.html#do" class="d">do</a> what you expect, which turns out to be <a href="insert.txt.html#a" class="d">a</a> little complicated.
+The <a href="usr_41.txt.html#script" class="d">script</a> follows these rules:
+
+	Insist on <a href="insert.txt.html#a" class="d">a</a> match that ends on or after the cursor.
+	Prefer <a href="insert.txt.html#a" class="d">a</a> match that includes the cursor position (that is, one that
+		starts on or before the cursor).
+	Prefer <a href="insert.txt.html#a" class="d">a</a> match that starts <a href="motion.txt.html#as" class="d">as</a> close to the cursor <a href="motion.txt.html#as" class="d">as</a> possible.
+	If more than one <a href="pattern.txt.html#pattern" class="d">pattern</a> in <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> matches, choose the one
+		that <a href="motion.txt.html#is" class="d">is</a> listed first.
+
+Examples:
+
+	Suppose you 
+<span class="e">		:let b:match_words = '&lt;:&gt;,&lt;tag&gt;:&lt;/tag&gt;'</span>
+	and hit "<a href="motion.txt.html#%25" class="d">%</a>" with the cursor on or before the "<a href="change.txt.html#%3C" class="d">&lt;</a>" in "<a href="insert.txt.html#a" class="d">a</a> <span class="s">&lt;tag&gt;</span> <a href="motion.txt.html#is" class="d">is</a> born"<a href="repeat.txt.html#." class="d">.</a>
+	The <a href="pattern.txt.html#pattern" class="d">pattern</a> '&lt;' comes first, so <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> preferred over '&lt;tag&gt;', which
+	also matches.  If the cursor <a href="motion.txt.html#is" class="d">is</a> on the "<a href="motion.txt.html#t" class="d">t</a>"<a href="motion.txt.html#%2C" class="d">,</a> however, then '&lt;tag&gt;' <a href="motion.txt.html#is" class="d">is</a>
+	preferred, because this matches <a href="insert.txt.html#a" class="d">a</a> bit of text containing the cursor.
+	If the two groups of patterns were reversed then '&lt;' would never be
+	preferred.
+
+	Suppose you 
+<span class="e">		:let b:match_words = 'if:end if'</span>
+	(Note the space!) and hit "<a href="motion.txt.html#%25" class="d">%</a>" with the cursor <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> of "<a href="intro.txt.html#end" class="d">end</a> if"<a href="repeat.txt.html#." class="d">.</a>
+	Then "if" matches, which <a href="motion.txt.html#is" class="d">is</a> probably not what you want, but if the
+	cursor starts on the "<a href="intro.txt.html#end" class="d">end</a> " then "<a href="intro.txt.html#end" class="d">end</a> if" <a href="motion.txt.html#is" class="d">is</a> chosen.  (You can avoid
+	this problem by using <a href="insert.txt.html#a" class="d">a</a> more complicated pattern.)
+
+If there <a href="motion.txt.html#is" class="d">is</a> no match, the cursor does not move.  (Before version 1.13 of the
+script, <a href="motion.txt.html#it" class="d">it</a> would fall back on the usual behavior of <a href="motion.txt.html#%25" class="l">%</a>).  If debugging <a href="motion.txt.html#is" class="d">is</a>
+turned on, the matched bit of text <a href="motion.txt.html#is" class="d">is</a> saved <a href="motion.txt.html#as" class="d">as</a> <a href="matchit.txt.html#b%3Amatch_match" class="l">b:match_match</a> and the cursor
+column of the start of the match <a href="motion.txt.html#is" class="d">is</a> saved <a href="motion.txt.html#as" class="d">as</a> <a href="matchit.txt.html#b%3Amatch_col" class="l">b:match_col</a><a href="repeat.txt.html#." class="d">.</a>
+
+Next, the <a href="usr_41.txt.html#script" class="d">script</a> looks through <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> (original and parsed versions)
+for the group and <a href="pattern.txt.html#pattern" class="d">pattern</a> that match.  If debugging <a href="motion.txt.html#is" class="d">is</a> turned on, the group <a href="motion.txt.html#is" class="d">is</a>
+saved <a href="motion.txt.html#as" class="d">as</a> <a href="matchit.txt.html#b%3Amatch_ini" class="l">b:match_ini</a> (the first pattern) and <a href="matchit.txt.html#b%3Amatch_tail" class="l">b:match_tail</a> (the rest).  If
+there are <span class="l">backref</span><a href="change.txt.html#s" class="d">s</a> then, in addition, the matching <a href="pattern.txt.html#pattern" class="d">pattern</a> <a href="motion.txt.html#is" class="d">is</a> saved <a href="motion.txt.html#as" class="d">as</a>
+<a href="matchit.txt.html#b%3Amatch_word" class="l">b:match_word</a> and <a href="insert.txt.html#a" class="d">a</a> table of translations <a href="motion.txt.html#is" class="d">is</a> saved <a href="motion.txt.html#as" class="d">as</a> <a href="matchit.txt.html#b%3Amatch_table" class="l">b:match_table</a><a href="repeat.txt.html#." class="d">.</a>  If
+there are <span class="l">backref</span>s, these are determined from the matching <a href="pattern.txt.html#pattern" class="d">pattern</a> and
+<a href="matchit.txt.html#b%3Amatch_match" class="l">b:match_match</a> and substituted into each <a href="pattern.txt.html#pattern" class="d">pattern</a> in the matching group.
+
+The <a href="usr_41.txt.html#script" class="d">script</a> decides whether to search forwards or backwards and chooses
+arguments for the <a href="builtin.txt.html#searchpair%28%29" class="l">searchpair()</a> function.  Then, the cursor <a href="motion.txt.html#is" class="d">is</a> moved to the
+start of the match, and <a href="builtin.txt.html#searchpair%28%29" class="l">searchpair()</a> <a href="motion.txt.html#is" class="d">is</a> called.  By default, matching
+structures inside strings and comments are ignored.  This can be changed by
+setting <a href="matchit.txt.html#b%3Amatch_skip" class="l">b:match_skip</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+2. Activation						<span id="matchit-activate" class="t">matchit-activate</span>
+
+To use the <a href="matchit.txt.html#matchit" class="d">matchit</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> add this line to your <a href="starting.txt.html#vimrc" class="l">vimrc</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">	packadd! matchit</span>
+<span class="e"></span>
+The <a href="usr_41.txt.html#script" class="d">script</a> should start working the next time you start Vim.
+
+To use the <a href="matchit.txt.html#matchit" class="d">matchit</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> after Vim has started, execute this command: 
+<span class="e">       packadd matchit</span>
+<span class="e"></span>
+(Earlier versions of the <a href="usr_41.txt.html#script" class="d">script</a> did nothing unless <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#buffer-variable" class="l">buffer-variable</a> named
+<a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> was defined.  Even earlier versions contained <a href="autocmd.txt.html#autocommands" class="d">autocommands</a>
+that set this variable for <a href="various.txt.html#various" class="d">various</a> file types.  Now, <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> <a href="motion.txt.html#is" class="d">is</a>
+defined in many of the default <a href="usr_43.txt.html#filetype-plugin" class="l">filetype-plugin</a><a href="change.txt.html#s" class="d">s</a> instead.)
+
+For <a href="insert.txt.html#a" class="d">a</a> new language, you can add <a href="autocmd.txt.html#autocommands" class="d">autocommands</a> to the <a href="usr_41.txt.html#script" class="d">script</a> or to your <a href="starting.txt.html#vimrc" class="d">vimrc</a>
+file, but the recommended <a href="eval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> to add <a href="insert.txt.html#a" class="d">a</a> line such <a href="motion.txt.html#as" class="d">as</a> 
+<span class="e">	let b:match_words = '\&lt;foo\&gt;:\&lt;bar\&gt;'</span>
+to the <a href="usr_43.txt.html#filetype-plugin" class="l">filetype-plugin</a> for your language.  See <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> below for how
+this variable <a href="motion.txt.html#is" class="d">is</a> interpreted.
+
+<span class="c">TROUBLESHOOTING</span>					<span id="matchit-troubleshoot" class="t">matchit-troubleshoot</span>
+
+The <a href="usr_41.txt.html#script" class="d">script</a> should work in most installations of Vim.  It may not work if Vim
+was compiled with <a href="insert.txt.html#a" class="d">a</a> minimal feature set, for example if the <a href="various.txt.html#%2Bsyntax" class="l">+syntax</a> option
+was not enabled.  If your Vim has support for <a href="syntax.txt.html#syntax" class="d">syntax</a> compiled in, but you <a href="diff.txt.html#do" class="d">do</a>
+not have <a href="syntax.txt.html#syntax" class="l">syntax</a> highlighting turned on, <a href="matchit.txt.html#matchit.vim" class="d">matchit.vim</a> should work, but <a href="motion.txt.html#it" class="d">it</a> may
+fail to skip matching groups in comments and strings.  If the <a href="filetype.txt.html#filetype" class="l">filetype</a>
+mechanism <a href="motion.txt.html#is" class="d">is</a> turned off, the <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> variable will probably not be
+defined automatically.
+
+2.1 Temporarily disable the <a href="matchit.txt.html#matchit" class="d">matchit</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a>	<span id="matchit-disable" class="t">matchit-disable</span> <span id="%3AMatchDisable" class="t">:MatchDisable</span>
+
+To temporarily disable the <a href="matchit.txt.html#matchit" class="d">matchit</a> plugin, after <a href="motion.txt.html#it" class="d">it</a> hat been loaded,
+execute this command: 
+<span class="e">	:MatchDisable</span>
+<span class="e"></span>
+This will delete all the defined key mappings to the Vim default.
+Now the "<a href="motion.txt.html#%25" class="d">%</a>" command will work like before loading the <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#%25" class="l">%</a>
+
+2.2 Re-enable the <a href="matchit.txt.html#matchit" class="d">matchit</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a>		<span id="%3AMatchEnable" class="t">:MatchEnable</span>
+
+To re-enable the plugin, after <a href="motion.txt.html#it" class="d">it</a> was disabled, use the following command: 
+<span class="e">	:MatchEnable</span>
+<span class="e"></span>
+This will resetup the key mappings.
+
+<span class="h">==============================================================================</span>
+3. Configuration					<span id="matchit-configure" class="t">matchit-configure</span>
+
+There are several <a href="eval.txt.html#variables" class="d">variables</a> that govern the behavior of matchit.vim.  <span class="n">Note</span>
+that these are <a href="eval.txt.html#variables" class="d">variables</a> local to the buffer, not options, so use <a href="eval.txt.html#%3Alet" class="l">:let</a> to
+define them, not <a href="options.txt.html#%3Aset" class="l">:set</a><a href="repeat.txt.html#." class="d">.</a>  Some of these <a href="eval.txt.html#variables" class="d">variables</a> have values that matter; for
+others, <a href="motion.txt.html#it" class="d">it</a> only matters whether the variable has been defined.  All of these
+can be defined in the <a href="usr_43.txt.html#filetype-plugin" class="l">filetype-plugin</a> or <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> that defines
+<a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> or "on the fly."
+
+The main variable <a href="motion.txt.html#is" class="d">is</a> <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a><a href="repeat.txt.html#." class="d">.</a>  It <a href="motion.txt.html#is" class="d">is</a> described in the <a href="motion.txt.html#section" class="d">section</a> below on
+supporting <a href="insert.txt.html#a" class="d">a</a> new language.
+
+				<span id="MatchError" class="t">MatchError</span> <span id="matchit-hl" class="t">matchit-hl</span> <span id="matchit-highlight" class="t">matchit-highlight</span>
+<a href="matchit.txt.html#MatchError" class="d">MatchError</a> <a href="motion.txt.html#is" class="d">is</a> the highlight group for error <a href="message.txt.html#messages" class="d">messages</a> from the script.  By
+default, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> linked to WarningMsg.  If you <a href="diff.txt.html#do" class="d">do</a> not want to be bothered by
+error messages, you can define this to be something invisible.  For example,
+if you use the <a href="gui.txt.html#GUI" class="d">GUI</a> version of Vim and your command line <a href="motion.txt.html#is" class="d">is</a> normally white, you
+can <a href="diff.txt.html#do" class="d">do</a> 
+<span class="e">	:hi MatchError guifg=white guibg=white</span>
+
+						<span id="b%3Amatch_ignorecase" class="t">b:match_ignorecase</span>
+If you 
+<span class="e">	:let b:match_ignorecase = 1</span>
+then <a href="matchit.txt.html#matchit.vim" class="d">matchit.vim</a> acts <a href="motion.txt.html#as" class="d">as</a> if <a href="options.txt.html#%27ignorecase%27" class="o">'ignorecase'</a> <a href="motion.txt.html#is" class="d">is</a> set: for example, "<a href="intro.txt.html#end" class="d">end</a>" and "END"
+are equivalent.  If you 
+<span class="e">	:let b:match_ignorecase = 0</span>
+then <a href="matchit.txt.html#matchit.vim" class="d">matchit.vim</a> treats "<a href="intro.txt.html#end" class="d">end</a>" and "END" differently.  (There will be no
+b:match_infercase option unless someone requests it.)
+
+						<span id="b%3Amatch_debug" class="t">b:match_debug</span>
+Define <a href="matchit.txt.html#b%3Amatch_debug" class="d">b:match_debug</a> if you want debugging information to be saved.  See
+<a href="matchit.txt.html#matchit-debug" class="l">matchit-debug</a><a href="motion.txt.html#%2C" class="d">,</a> below.
+
+						<span id="b%3Amatch_skip" class="t">b:match_skip</span>
+If <a href="matchit.txt.html#b%3Amatch_skip" class="d">b:match_skip</a> <a href="motion.txt.html#is" class="d">is</a> defined, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> passed <a href="motion.txt.html#as" class="d">as</a> the skip argument to
+<a href="builtin.txt.html#searchpair%28%29" class="l">searchpair()</a><a href="repeat.txt.html#." class="d">.</a>  This controls when matching structures are skipped, or
+ignored.  By default, they are ignored inside comments and strings, <a href="motion.txt.html#as" class="d">as</a>
+determined by the <a href="syntax.txt.html#syntax" class="l">syntax</a> mechanism.  (If <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting <a href="motion.txt.html#is" class="d">is</a> turned off,
+nothing <a href="motion.txt.html#is" class="d">is</a> skipped.)  You can set <a href="matchit.txt.html#b%3Amatch_skip" class="d">b:match_skip</a> to <a href="insert.txt.html#a" class="d">a</a> string, which evaluates to
+<a href="insert.txt.html#a" class="d">a</a> non-zero, numerical value if the match <a href="motion.txt.html#is" class="d">is</a> to be skipped or zero if the match
+should not be skipped.  In addition, the following special values are
+supported by matchit.vim:
+	s:foo becomes (current <a href="syntax.txt.html#syntax" class="d">syntax</a> item) =~ foo
+	S:foo becomes (current <a href="syntax.txt.html#syntax" class="d">syntax</a> item) !~ foo
+	r:foo becomes (line before cursor) =~ foo
+	R:foo becomes (line before cursor) !~ foo
+(The "<a href="change.txt.html#s" class="d">s</a>" <a href="motion.txt.html#is" class="d">is</a> meant to suggest "<a href="syntax.txt.html#syntax" class="d">syntax</a>"<a href="motion.txt.html#%2C" class="d">,</a> and the "<a href="change.txt.html#r" class="d">r</a>" <a href="motion.txt.html#is" class="d">is</a> meant to suggest
+"regular <a href="eval.txt.html#expression" class="d">expression</a>".)
+
+Examples:
+
+	You can get the default behavior with 
+<span class="e">		:let b:match_skip = 's:comment\|string'</span>
+
+	If you want to skip matching structures unless they are <a href="motion.txt.html#at" class="d">at</a> the start
+	of the line (ignoring whitespace) then you can 
+<span class="e">		:let b:match_skip = 'R:^\s*'</span>
+	Do not <a href="diff.txt.html#do" class="d">do</a> this if strings or comments can span several lines, since
+	the normal <a href="syntax.txt.html#syntax" class="d">syntax</a> checking will not be done if you set b:match_skip.
+
+	In LaTeX, since "<a href="motion.txt.html#%25" class="d">%</a>" <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> the comment character, you can 
+<span class="e">		:let b:match_skip = 'r:%'</span>
+	Unfortunately, this will skip anything after "\%"<a href="motion.txt.html#%2C" class="d">,</a> an escaped "<a href="motion.txt.html#%25" class="d">%</a>"<a href="repeat.txt.html#." class="d">.</a>  To
+	allow for this, and also "\\%" (an escaped <a href="intro.txt.html#backslash" class="d">backslash</a> followed by the
+	comment character) you can 
+<span class="e">		:let b:match_skip = 'r:\(^\|[^\\]\)\(\\\\\)*%'</span>
+
+	See the $VIMRUNTIME/ftplugin/vim.vim for an example that uses both
+	<a href="syntax.txt.html#syntax" class="d">syntax</a> and <a href="insert.txt.html#a" class="d">a</a> regular expression.
+
+<span class="h">==============================================================================</span>
+4. Supporting <a href="insert.txt.html#a" class="d">a</a> New Language				<span id="matchit-newlang" class="t">matchit-newlang</span>
+							<span id="b%3Amatch_words" class="t">b:match_words</span>
+In order for <a href="matchit.txt.html#matchit.vim" class="d">matchit.vim</a> to support <a href="insert.txt.html#a" class="d">a</a> new language, you <a href="vim_faq.txt.html#must" class="d">must</a> define <a href="insert.txt.html#a" class="d">a</a> suitable
+<a href="pattern.txt.html#pattern" class="d">pattern</a> for <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a><a href="repeat.txt.html#." class="d">.</a>  You may also want to set some of the
+<a href="matchit.txt.html#matchit-configure" class="l">matchit-configure</a> variables, <a href="motion.txt.html#as" class="d">as</a> described above.  If your language has <a href="insert.txt.html#a" class="d">a</a>
+complicated syntax, or many keywords, you will need to know something about
+Vim's <a href="pattern.txt.html#regular-expression" class="l">regular-expression</a>s.
+
+The format for <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> <a href="motion.txt.html#is" class="d">is</a> similar to that of the <a href="options.txt.html#%27matchpairs%27" class="o">'matchpairs'</a> option:
+<a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> comma (,)-separated <a href="eval.txt.html#list" class="d">list</a> of groups; each group <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> colon(:)-separated
+<a href="eval.txt.html#list" class="d">list</a> of patterns (regular expressions).  Commas and backslashes that are part
+of <a href="insert.txt.html#a" class="d">a</a> <a href="pattern.txt.html#pattern" class="d">pattern</a> should be escaped with backslashes ('\:' and '\,').  It <a href="motion.txt.html#is" class="d">is</a> OK to
+have only one group; the effect <a href="motion.txt.html#is" class="d">is</a> undefined if <a href="insert.txt.html#a" class="d">a</a> group has only one pattern.
+<a href="insert.txt.html#A" class="d">A</a> simple example <a href="motion.txt.html#is" class="d">is</a> 
+<span class="e">	:let b:match_words = '\&lt;if\&gt;:\&lt;endif\&gt;,'</span>
+<span class="e">		\ . '\&lt;while\&gt;:\&lt;continue\&gt;:\&lt;break\&gt;:\&lt;endwhile\&gt;'</span>
+(In Vim regular expressions, <span class="l">\&lt;</span> and <span class="l">\&gt;</span> denote <a href="motion.txt.html#word" class="d">word</a> boundaries.  Thus "if"
+matches the <a href="intro.txt.html#end" class="d">end</a> of "endif" but "\&lt;if\&gt;" does not.)  Then banging on the "<a href="motion.txt.html#%25" class="d">%</a>"
+key will bounce the cursor between "if" and the matching "endif"<a href="motion.txt.html#%3B" class="d">;</a> and from
+"while" to any matching "continue" or "break"<a href="motion.txt.html#%2C" class="d">,</a> then to the matching "endwhile"
+and back to the "while"<a href="repeat.txt.html#." class="d">.</a>  It <a href="motion.txt.html#is" class="d">is</a> almost always easier to use <a href="eval.txt.html#literal-string" class="l">literal-string</a><a href="change.txt.html#s" class="d">s</a>
+(single quotes) <a href="motion.txt.html#as" class="d">as</a> above:  '\&lt;if\&gt;' rather than "\\&lt;if\\&gt;" and so on.
+
+Exception:  If the "<a href="cmdline.txt.html#%3A" class="d">:</a>" character does not appear in b:match_words, then <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+treated <a href="motion.txt.html#as" class="d">as</a> an <a href="eval.txt.html#expression" class="d">expression</a> to be evaluated.  For example, 
+<span class="e">	:let b:match_words = 'GetMatchWords()'</span>
+allows you to define <a href="insert.txt.html#a" class="d">a</a> function.  This can return <a href="insert.txt.html#a" class="d">a</a> different <a href="eval.txt.html#string" class="d">string</a> depending
+on the current syntax, for example.
+
+Once you have defined the appropriate value of <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a><a href="motion.txt.html#%2C" class="d">,</a> you will
+probably want to have this set automatically each time you edit the
+appropriate file type.  The recommended way to <a href="diff.txt.html#do" class="d">do</a> this <a href="motion.txt.html#is" class="d">is</a> by adding the
+definition to <a href="insert.txt.html#a" class="d">a</a> <a href="usr_43.txt.html#filetype-plugin" class="l">filetype-plugin</a> file.
+
+Tips: Be careful that your initial <a href="pattern.txt.html#pattern" class="d">pattern</a> does not match your final pattern.
+See the example above for the use of word-boundary expressions.  It <a href="motion.txt.html#is" class="d">is</a> usually
+better to use ".\{-}" (as many <a href="motion.txt.html#as" class="d">as</a> necessary) instead of "<a href="repeat.txt.html#." class="d">.</a>*" (as many <a href="motion.txt.html#as" class="d">as</a>
+possible).  See <span class="l">\{-</span><a href="repeat.txt.html#." class="d">.</a>  For example, in the <a href="eval.txt.html#string" class="d">string</a> "<span class="s">&lt;tag&gt;</span>label&lt;/tag&gt;"<a href="motion.txt.html#%2C" class="d">,</a> "&lt;.*<a href="change.txt.html#%3E" class="d">&gt;</a>"
+matches the whole <a href="eval.txt.html#string" class="d">string</a> whereas "&lt;.\{-}&gt;" and "&lt;[^&gt;]*<a href="change.txt.html#%3E" class="d">&gt;</a>" match "<span class="s">&lt;tag&gt;</span>" and
+"&lt;/tag&gt;"<a href="repeat.txt.html#." class="d">.</a>
+
+				<span id="matchit-spaces" class="t">matchit-spaces</span> <span id="matchit-s%3Anotend" class="t">matchit-s:notend</span>
+If "if" <a href="motion.txt.html#is" class="d">is</a> to be paired with "<a href="intro.txt.html#end" class="d">end</a> if" (Note the space!) then <a href="motion.txt.html#word" class="d">word</a> boundaries
+are not enough.  Instead, define <a href="insert.txt.html#a" class="d">a</a> regular <a href="eval.txt.html#expression" class="d">expression</a> s:notend that will match
+anything but "<a href="intro.txt.html#end" class="d">end</a>" and use <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a> follows: 
+<span class="e">	:let s:notend = '\%(\&lt;end\s\+\)\@&lt;!'</span>
+<span class="e">	:let b:match_words = s:notend . '\&lt;if\&gt;:\&lt;end\s\+if\&gt;'</span>
+							<span id="matchit-s%3Asol" class="t">matchit-s:sol</span>
+This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> simplified version of what <a href="motion.txt.html#is" class="d">is</a> done for Ada.  The s:notend <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+<a href="eval.txt.html#script-variable" class="l">script-variable</a><a href="repeat.txt.html#." class="d">.</a>  Similarly, you may want to define <a href="insert.txt.html#a" class="d">a</a> start-of-line regular
+<a href="eval.txt.html#expression" class="d">expression</a> 
+<span class="e">	:let s:sol = '\%(^\|;\)\s*'</span>
+if keywords are only recognized after the start of <a href="insert.txt.html#a" class="d">a</a> line or after <a href="insert.txt.html#a" class="d">a</a>
+semicolon (;), with optional white space.
+
+					<span id="matchit-backref" class="t">matchit-backref</span> <span id="matchit-%5C1" class="t">matchit-\1</span>
+In any group, the expressions <span class="l">\1</span><a href="motion.txt.html#%2C" class="d">,</a> <span class="l">\2</span><a href="motion.txt.html#%2C" class="d">,</a> ..., <span class="l">\9</span> refer to parts of the
+INITIAL <a href="pattern.txt.html#pattern" class="d">pattern</a> enclosed in <span class="l">\(</span>escaped parentheses<span class="l">\)</span><a href="repeat.txt.html#." class="d">.</a>  These are referred
+to <a href="motion.txt.html#as" class="d">as</a> back references, or backrefs.  For example, 
+<span class="e">	:let b:match_words = '\&lt;b\(o\+\)\&gt;:\(h\)\1\&gt;'</span>
+means that "bo" pairs with "ho" and "boo" pairs with "hoo" and so on.  <span class="n">Note</span>
+that "\1" does not refer to the "\(h\)" in this example.  If you have
+"\(nested \(parentheses\)\) then "\d" refers to the d-th "\(" and everything
+up to and including the matching "\)"<a href="cmdline.txt.html#%3A" class="d">:</a>  in "\(nested\(parentheses\)\)"<a href="motion.txt.html#%2C" class="d">,</a> "\1"
+refers to everything and "\2" refers to "\(parentheses\)"<a href="repeat.txt.html#." class="d">.</a>  If you use <a href="insert.txt.html#a" class="d">a</a>
+variable such <a href="motion.txt.html#as" class="d">as</a> <span class="l">s:notend</span> or <span class="l">s:sol</span> in the previous <a href="motion.txt.html#paragraph" class="d">paragraph</a> then remember
+to <a href="intro.txt.html#count" class="d">count</a> any "\(" patterns in this variable.  You <a href="diff.txt.html#do" class="d">do</a> not have to <a href="intro.txt.html#count" class="d">count</a> groups
+defined by <span class="l">\%(\)</span><a href="repeat.txt.html#." class="d">.</a>
+
+It should be possible to resolve back references from any <a href="pattern.txt.html#pattern" class="d">pattern</a> in the
+group.  For example, 
+<span class="e">	:let b:match_words = '\(foo\)\(bar\):more\1:and\2:end\1\2'</span>
+would not work because "\2" cannot be determined from "morefoo" and "\1"
+cannot be determined from "andbar"<a href="repeat.txt.html#." class="d">.</a>  On the other hand, 
+<span class="e">	:let b:match_words = '\(\(foo\)\(bar\)\):\3\2:end\1'</span>
+should work (and have the same effect <a href="motion.txt.html#as" class="d">as</a> "foobar:barfoo:endfoobar"), although
+this has not been thoroughly tested.
+
+You can use <span class="l">zero-width</span> patterns such <a href="motion.txt.html#as" class="d">as</a> <span class="l">\@&lt;=</span> and <span class="l">\zs</span><a href="repeat.txt.html#." class="d">.</a>  (The latter has
+not been thoroughly tested in matchit.vim.)  For example, if the keyword "if"
+<a href="vim_faq.txt.html#must" class="d">must</a> occur <a href="motion.txt.html#at" class="d">at</a> the start of the line, with optional white space, you might use
+the <a href="pattern.txt.html#pattern" class="d">pattern</a> "\(^\s*\)\@&lt;=if" so that the cursor will <a href="intro.txt.html#end" class="d">end</a> on the "<a href="insert.txt.html#i" class="d">i</a>" instead of
+<a href="motion.txt.html#at" class="d">at</a> the start of the line.  For another example, if HTML had only one <a href="tagsrch.txt.html#tag" class="d">tag</a> then
+one could 
+<span class="e">	:let b:match_words = '&lt;:&gt;,&lt;\@&lt;=tag&gt;:&lt;\@&lt;=/tag&gt;'</span>
+so that "<a href="motion.txt.html#%25" class="d">%</a>" can bounce between matching "<a href="change.txt.html#%3C" class="d">&lt;</a>" and "<a href="change.txt.html#%3E" class="d">&gt;</a>" pairs or (starting on
+"<a href="tagsrch.txt.html#tag" class="d">tag</a>" or "/tag"<a href="motion.txt.html#%29" class="d">)</a> between matching tags.  Without the <span class="l">\@&lt;=</span><a href="motion.txt.html#%2C" class="d">,</a> the <a href="usr_41.txt.html#script" class="d">script</a> would
+bounce from "<a href="tagsrch.txt.html#tag" class="d">tag</a>" to the "<a href="change.txt.html#%3C" class="d">&lt;</a>" in "&lt;/tag&gt;"<a href="motion.txt.html#%2C" class="d">,</a> and another "<a href="motion.txt.html#%25" class="d">%</a>" would not take you
+back to where you started.
+
+<span class="c">DEBUGGING</span>				<span id="matchit-debug" class="t">matchit-debug</span> <span id="%3AMatchDebug" class="t">:MatchDebug</span>
+
+If you are having trouble figuring out the appropriate definition of
+<a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> then you can take advantage of the same information <a href="insert.txt.html#I" class="d">I</a> use when
+debugging the script.  This <a href="motion.txt.html#is" class="d">is</a> especially <a href="vim9.txt.html#true" class="d">true</a> if you are not sure whether
+your patterns or my <a href="usr_41.txt.html#script" class="d">script</a> are <a href="motion.txt.html#at" class="d">at</a> fault!  To make this more convenient, <a href="insert.txt.html#I" class="d">I</a> have
+made the command :MatchDebug, which defines the variable <a href="matchit.txt.html#b%3Amatch_debug" class="l">b:match_debug</a> and
+creates <a href="insert.txt.html#a" class="d">a</a> Matchit menu.  This menu makes <a href="motion.txt.html#it" class="d">it</a> convenient to check the values of
+the <a href="eval.txt.html#variables" class="d">variables</a> described below.  You will probably also want to read
+<a href="matchit.txt.html#matchit-details" class="l">matchit-details</a> above.
+
+Defining the variable <a href="matchit.txt.html#b%3Amatch_debug" class="l">b:match_debug</a> causes the <a href="usr_41.txt.html#script" class="d">script</a> to set the following
+variables, each time you hit the "<a href="motion.txt.html#%25" class="d">%</a>" key.  Several of these are only defined
+if <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> includes <span class="l">backref</span>s.
+
+							<span id="b%3Amatch_pat" class="t">b:match_pat</span>
+The <a href="matchit.txt.html#b%3Amatch_pat" class="d">b:match_pat</a> variable <a href="motion.txt.html#is" class="d">is</a> set to <a href="matchit.txt.html#b%3Amatch_words" class="l">b:match_words</a> with <span class="l">backref</span><a href="change.txt.html#s" class="d">s</a> parsed.
+							<span id="b%3Amatch_match" class="t">b:match_match</span>
+The <a href="matchit.txt.html#b%3Amatch_match" class="d">b:match_match</a> variable <a href="motion.txt.html#is" class="d">is</a> set to the bit of text that <a href="motion.txt.html#is" class="d">is</a> recognized <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a>
+match.
+							<span id="b%3Amatch_col" class="t">b:match_col</span>
+The <a href="matchit.txt.html#b%3Amatch_col" class="d">b:match_col</a> variable <a href="motion.txt.html#is" class="d">is</a> set to the cursor column of the start of the
+matching text.
+							<span id="b%3Amatch_wholeBR" class="t">b:match_wholeBR</span>
+The <a href="matchit.txt.html#b%3Amatch_wholeBR" class="d">b:match_wholeBR</a> variable <a href="motion.txt.html#is" class="d">is</a> set to the comma-separated group of patterns
+that matches, with <span class="l">backref</span><a href="change.txt.html#s" class="d">s</a> unparsed.
+							<span id="b%3Amatch_iniBR" class="t">b:match_iniBR</span>
+The <a href="matchit.txt.html#b%3Amatch_iniBR" class="d">b:match_iniBR</a> variable <a href="motion.txt.html#is" class="d">is</a> set to the first <a href="pattern.txt.html#pattern" class="d">pattern</a> in <a href="matchit.txt.html#b%3Amatch_wholeBR" class="l">b:match_wholeBR</a><a href="repeat.txt.html#." class="d">.</a>
+							<span id="b%3Amatch_ini" class="t">b:match_ini</span>
+The <a href="matchit.txt.html#b%3Amatch_ini" class="d">b:match_ini</a> variable <a href="motion.txt.html#is" class="d">is</a> set to the first <a href="pattern.txt.html#pattern" class="d">pattern</a> in <a href="matchit.txt.html#b%3Amatch_wholeBR" class="l">b:match_wholeBR</a><a href="motion.txt.html#%2C" class="d">,</a>
+with <span class="l">backref</span><a href="change.txt.html#s" class="d">s</a> resolved from <a href="matchit.txt.html#b%3Amatch_match" class="l">b:match_match</a><a href="repeat.txt.html#." class="d">.</a>
+							<span id="b%3Amatch_tail" class="t">b:match_tail</span>
+The <a href="matchit.txt.html#b%3Amatch_tail" class="d">b:match_tail</a> variable <a href="motion.txt.html#is" class="d">is</a> set to the remaining patterns in
+<a href="matchit.txt.html#b%3Amatch_wholeBR" class="l">b:match_wholeBR</a><a href="motion.txt.html#%2C" class="d">,</a> with <span class="l">backref</span><a href="change.txt.html#s" class="d">s</a> resolved from <a href="matchit.txt.html#b%3Amatch_match" class="l">b:match_match</a><a href="repeat.txt.html#." class="d">.</a>
+							<span id="b%3Amatch_word" class="t">b:match_word</span>
+The <a href="matchit.txt.html#b%3Amatch_word" class="d">b:match_word</a> variable <a href="motion.txt.html#is" class="d">is</a> set to the <a href="pattern.txt.html#pattern" class="d">pattern</a> from <a href="matchit.txt.html#b%3Amatch_wholeBR" class="l">b:match_wholeBR</a> that
+matches <a href="matchit.txt.html#b%3Amatch_match" class="l">b:match_match</a><a href="repeat.txt.html#." class="d">.</a>
+							<span id="b%3Amatch_table" class="t">b:match_table</span>
+The back <a href="intro.txt.html#reference" class="d">reference</a> '\'.d refers to the same thing <a href="motion.txt.html#as" class="d">as</a> '\'.b:match_table[d] in
+<a href="matchit.txt.html#b%3Amatch_word" class="l">b:match_word</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+5. Known Bugs and Limitations				<span id="matchit-bugs" class="t">matchit-bugs</span>
+
+Repository: <a class="u" href="https://github.com/chrisbra/matchit/">https://github.com/chrisbra/matchit/</a>
+Bugs can be reported <a href="motion.txt.html#at" class="d">at</a> the repository and the latest <a href="develop.txt.html#development" class="d">development</a> snapshot can
+also be downloaded there.
+
+Just because <a href="insert.txt.html#I" class="d">I</a> know about <a href="insert.txt.html#a" class="d">a</a> bug does not mean that <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> on my <a href="todo.txt.html#todo" class="d">todo</a> list.  <a href="insert.txt.html#I" class="d">I</a>
+try to respond to reports of <a href="intro.txt.html#bugs" class="d">bugs</a> that cause real problems.  If <a href="motion.txt.html#it" class="d">it</a> does not
+cause serious problems, or if there <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> work-around, <a href="insert.txt.html#a" class="d">a</a> bug may sit there for
+<a href="insert.txt.html#a" class="d">a</a> while.  Moral:  if <a href="insert.txt.html#a" class="d">a</a> bug (known or not) bothers you, let me know.
+
+It would be nice if "<a href="change.txt.html#%5C0" class="d">\0</a>" were recognized <a href="motion.txt.html#as" class="d">as</a> the entire pattern.  That is, <a href="motion.txt.html#it" class="d">it</a>
+would be nice if "foo:\end\0" had the same effect <a href="motion.txt.html#as" class="d">as</a> "\(foo\):\end\1"<a href="repeat.txt.html#." class="d">.</a>  <a href="insert.txt.html#I" class="d">I</a> may
+try to implement this in <a href="insert.txt.html#a" class="d">a</a> future version.  (This <a href="motion.txt.html#is" class="d">is</a> not so <a href="starting.txt.html#easy" class="d">easy</a> to arrange <a href="motion.txt.html#as" class="d">as</a>
+you might think!)
+
+<span class="h">==============================================================================</span>
+vim:tw=78:ts=8:fo=tcq2:ft=help:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

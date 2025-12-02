@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: dev_theme.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="dev_theme.txt.html#">↑Top↑</a></li>
+<li><a href="dev_theme.txt.html#_design">Design</a></li>
+<li><a href="dev_theme.txt.html#_palettes">Palettes</a></li>
+<li><a href="dev_theme.txt.html#_highlight-groups">Highlight groups</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="dev_theme.txt" class="t">dev_theme.txt</span>          Nvim
+
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Nvim colorscheme guidelines                                   <span id="dev-theme" class="t">dev-theme</span>
+
+Style guidelines <a href="luaref.txt.html#for" class="d">for</a> developing Nvim's default colorscheme.
+
+License: CC-By 3.0 <a class="u" href="https://creativecommons.org/licenses/by/3.0/">https://creativecommons.org/licenses/by/3.0/</a>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+<span id="_design">Design</span>
+
+<a href="motion.txt.html#-" class="d">-</a> Be "Neovim branded"<a href="motion.txt.html#%2C" class="d">,</a> i.e. have mostly "green-blue" feel plus one or two
+  colors reserved <a href="luaref.txt.html#for" class="d">for</a> very occasional user attention.
+<a href="motion.txt.html#-" class="d">-</a> Be oriented <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#%27termguicolors%27" class="o">'termguicolors'</a> (true colors) while being extra minimal <a href="luaref.txt.html#for" class="d">for</a>
+  <a href="options.txt.html#%27notermguicolors%27" class="o">'notermguicolors'</a> (16 colors) <a href="motion.txt.html#as" class="d">as</a> fallback.
+<a href="motion.txt.html#-" class="d">-</a> Be accessible, i.e. have high enough contrast ratio (as defined in
+  <a class="u" href="https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef">https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef</a>).
+  This means to have value <a href="motion.txt.html#at" class="d">at</a> least 7 <a href="luaref.txt.html#for" class="d">for</a> <a href="syntax.txt.html#hl-Normal" class="l">hl-Normal</a> and 4.5 <a href="luaref.txt.html#for" class="d">for</a> some common
+  cases <a href="motion.txt.html#%28" class="d">(</a><a href="syntax.txt.html#hl-Visual" class="l">hl-Visual</a><a href="motion.txt.html#%2C" class="d">,</a> <span class="e">Comment</span> with set <a href="options.txt.html#%27cursorline%27" class="o">'cursorline'</a>, colored syntax, <span class="e">Diff*</span>,
+  <a href="syntax.txt.html#hl-Search" class="l">hl-Search</a>).
+<a href="motion.txt.html#-" class="d">-</a> Be suitable <a href="luaref.txt.html#for" class="d">for</a> dark and light backgrounds via exchange of dark and light
+  palettes.
+<a href="motion.txt.html#-" class="d">-</a> Be usable, i.e. provide enough visual feedback <a href="luaref.txt.html#for" class="d">for</a> common objects.
+
+
+<span class="h">==============================================================================</span>
+<span id="_palettes">Palettes</span>
+
+<a href="motion.txt.html#-" class="d">-</a> There are two separate palettes: dark and light. They all contain the same
+  set of colors exported <a href="motion.txt.html#as" class="d">as</a> <span class="e">NvimDark*</span> and <span class="e">NvimLight*</span> colors respectively.
+<a href="motion.txt.html#-" class="d">-</a> The dark palette <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> background in the dark color scheme and <a href="luaref.txt.html#for" class="d">for</a>
+  foreground in the light color scheme; and vice versa. This introduces
+  recognizable visual system without too standing out.
+<a href="motion.txt.html#-" class="d">-</a> Actual computation of palettes should be done in <a href="insert.txt.html#a" class="d">a</a> perceptually uniform
+  color space. Oklch <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> good choice.
+<a href="motion.txt.html#-" class="d">-</a> Each palette has the following colors (descriptions are <a href="luaref.txt.html#for" class="d">for</a> dark background;
+  reverse <a href="luaref.txt.html#for" class="d">for</a> light one):
+    <a href="motion.txt.html#-" class="d">-</a> Four shades of colored "cold" greys <a href="luaref.txt.html#for" class="d">for</a> general UI.
+        <a href="motion.txt.html#-" class="d">-</a> Dark ones (from darkest to lightest) are reserved <a href="motion.txt.html#as" class="d">as</a> background <a href="luaref.txt.html#for" class="d">for</a>
+          <a href="syntax.txt.html#hl-NormalFloat" class="l">hl-NormalFloat</a> (considered <a href="motion.txt.html#as" class="d">as</a> "black"), <a href="syntax.txt.html#hl-Normal" class="l">hl-Normal</a> (background),
+          <a href="syntax.txt.html#hl-CursorLine" class="l">hl-CursorLine</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="syntax.txt.html#hl-Visual" class="l">hl-Visual</a><a href="repeat.txt.html#." class="d">.</a>
+        <a href="motion.txt.html#-" class="d">-</a> Light ones (also from darkest to lightest) are reserved <a href="luaref.txt.html#for" class="d">for</a>
+          <span class="e">Comment</span>, <a href="syntax.txt.html#hl-StatusLine" class="l">hl-StatusLine</a><a href="pattern.txt.html#%2F" class="d">/</a><a href="syntax.txt.html#hl-TabLine" class="l">hl-TabLine</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="syntax.txt.html#hl-Normal" class="l">hl-Normal</a> (foreground),
+          and color considered <a href="motion.txt.html#as" class="d">as</a> "white"<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> Six colors to provide enough <a href="terminal.txt.html#terminal" class="d">terminal</a> colors: red, yellow, green, cyan,
+  blue, magenta.
+  They should have (reasonably) similar lightness and chroma to make them
+  visually coherent. Lightness should be <a href="motion.txt.html#as" class="d">as</a> equal to the palette's basic grey
+  (which <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> <a href="syntax.txt.html#hl-Normal" class="l">hl-Normal</a><a href="motion.txt.html#%29" class="d">)</a> <a href="motion.txt.html#as" class="d">as</a> possible. They should have (reasonably)
+  different hues to make them visually separable.
+<a href="motion.txt.html#-" class="d">-</a> For 16 colors:
+    <a href="motion.txt.html#-" class="d">-</a> Greys are not used and are replaced with the foreground and background
+      colors of the <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator.
+    <a href="motion.txt.html#-" class="d">-</a> Non-grey colors fall back to <a href="terminal.txt.html#terminal" class="d">terminal</a> colors <a href="motion.txt.html#as" class="d">as</a> ordered in ANSI codes
+      (https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit),
+      that <a href="motion.txt.html#is" class="d">is</a> red (1, 9), green (2, 10), yellow (3, 11), blue (4, 12),
+      magenta (5, 13), cyan (6, 14).
+      To increase contrast, colors 1-6 are used <a href="luaref.txt.html#for" class="d">for</a> light background and 9-14
+      <a href="luaref.txt.html#for" class="d">for</a> dark background.
+
+<span class="h">==============================================================================</span>
+<span id="_highlight-groups">Highlight groups</span>
+
+Use:
+
+<a href="motion.txt.html#-" class="d">-</a> Grey shades <a href="luaref.txt.html#for" class="d">for</a> general <a href="ui.txt.html#UI" class="d">UI</a> according to their design.
+<a href="motion.txt.html#-" class="d">-</a> Bold text <a href="luaref.txt.html#for" class="d">for</a> keywords (`Statement` highlight group). This <a href="motion.txt.html#is" class="d">is</a> an important
+  choice to increase accessibility <a href="luaref.txt.html#for" class="d">for</a> people with color deficiencies, <a href="motion.txt.html#as" class="d">as</a> <a href="motion.txt.html#it" class="d">it</a>
+  doesn't rely on actual color.
+<a href="motion.txt.html#-" class="d">-</a> Green <a href="luaref.txt.html#for" class="d">for</a> strings, <a href="syntax.txt.html#hl-DiffAdd" class="l">hl-DiffAdd</a> (as background), <a href="diagnostic.txt.html#hl-DiagnosticOk" class="l">hl-DiagnosticOk</a><a href="motion.txt.html#%2C" class="d">,</a> and some
+  minor text <a href="ui.txt.html#UI" class="d">UI</a> elements.
+<a href="motion.txt.html#-" class="d">-</a> Cyan <a href="motion.txt.html#as" class="d">as</a> main <a href="syntax.txt.html#syntax" class="d">syntax</a> color, i.e. <a href="luaref.txt.html#for" class="d">for</a> function usage (`Function` highlight
+  group), <a href="syntax.txt.html#hl-DiffText" class="l">hl-DiffText</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="diagnostic.txt.html#hl-DiagnosticInfo" class="l">hl-DiagnosticInfo</a><a href="motion.txt.html#%2C" class="d">,</a> and some minor text <a href="ui.txt.html#UI" class="d">UI</a> elements.
+<a href="motion.txt.html#-" class="d">-</a> Red to generally mean high user attention, i.e. errors; in particular <a href="luaref.txt.html#for" class="d">for</a>
+  <a href="syntax.txt.html#hl-ErrorMsg" class="l">hl-ErrorMsg</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="syntax.txt.html#hl-DiffDelete" class="l">hl-DiffDelete</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="diagnostic.txt.html#hl-DiagnosticError" class="l">hl-DiagnosticError</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> Yellow very sparingly to mean mild user attention, i.e. warnings. That is,
+  <a href="diagnostic.txt.html#hl-DiagnosticWarn" class="l">hl-DiagnosticWarn</a> and <a href="syntax.txt.html#hl-WarningMsg" class="l">hl-WarningMsg</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> Blue very sparingly <a href="motion.txt.html#as" class="d">as</a> <a href="diagnostic.txt.html#hl-DiagnosticHint" class="l">hl-DiagnosticHint</a> and some additional important
+  <a href="syntax.txt.html#syntax" class="d">syntax</a> group (like <span class="e">Identifier</span>).
+<a href="motion.txt.html#-" class="d">-</a> Magenta very carefully (if <a href="motion.txt.html#at" class="d">at</a> all).
+
+In <a href="change.txt.html#case" class="d">case</a> of 16 colors:
+
+<a href="motion.txt.html#-" class="d">-</a> Rely on the assumption "Background color can be used <a href="motion.txt.html#as" class="d">as</a> background; other
+  colors can be used <a href="motion.txt.html#as" class="d">as</a> foreground"<a href="repeat.txt.html#." class="d">.</a> This means that in any
+  foreground/background combination there should be background and one
+  non-background color.
+<a href="motion.txt.html#-" class="d">-</a> Use <a href="motion.txt.html#0" class="d">0</a> (black) or 15 (bright white) <a href="motion.txt.html#as" class="d">as</a> foreground <a href="luaref.txt.html#for" class="d">for</a> non-grey background,
+  depending on whether normal background <a href="motion.txt.html#is" class="d">is</a> light or dark.
+
+ vim:tw=78:ts=8:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: vvars.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+</div>
+<div id="vh-content">
+<pre>
+<span id="vvars.txt" class="t">vvars.txt</span>  	Nvim
+
+
+                <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Predefined <a href="vimeval.txt.html#variables" class="d">variables</a>                                             <span id="vvars" class="t">vvars</span>
+
+Most <a href="vimeval.txt.html#variables" class="d">variables</a> are read-only, when <a href="insert.txt.html#a" class="d">a</a> variable can be set by the user, <a href="motion.txt.html#it" class="d">it</a> will
+be mentioned <a href="motion.txt.html#at" class="d">at</a> the variable description below. The type cannot be changed.
+
+                                       Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+						<span id="v%3Aargv" class="t">v:argv</span> <span id="argv-variable" class="t">argv-variable</span>
+<a href="vvars.txt.html#v%3Aargv" class="d">v:argv</a>
+		The command line arguments Vim was invoked with.  This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+		<a href="vimeval.txt.html#list" class="d">list</a> of strings.  The first item <a href="motion.txt.html#is" class="d">is</a> the Vim command.
+		See <a href="vvars.txt.html#v%3Aprogpath" class="l">v:progpath</a> <a href="luaref.txt.html#for" class="d">for</a> the command with full path.
+
+						<span id="v%3Achar" class="t">v:char</span> <span id="char-variable" class="t">char-variable</span>
+<a href="vvars.txt.html#v%3Achar" class="d">v:char</a>
+		Argument <a href="luaref.txt.html#for" class="d">for</a> evaluating <a href="options.txt.html#%27formatexpr%27" class="o">'formatexpr'</a> and used <a href="luaref.txt.html#for" class="d">for</a> the typed
+		character when using <span class="s">&lt;expr&gt;</span> in an <a href="map.txt.html#abbreviation" class="d">abbreviation</a> <a href="map.txt.html#%3Amap-%3Cexpr%3E" class="l">:map-&lt;expr&gt;</a><a href="repeat.txt.html#." class="d">.</a>
+		It <a href="motion.txt.html#is" class="d">is</a> also used by the <a href="autocmd.txt.html#InsertCharPre" class="l">InsertCharPre</a> and <a href="autocmd.txt.html#InsertEnter" class="l">InsertEnter</a> events.
+
+			<span id="v%3Acharconvert_from" class="t">v:charconvert_from</span> <span id="charconvert_from-variable" class="t">charconvert_from-variable</span>
+<a href="vvars.txt.html#v%3Acharconvert_from" class="d">v:charconvert_from</a>
+		The name of the character encoding of <a href="insert.txt.html#a" class="d">a</a> file to be converted.
+		Only valid while evaluating the <a href="options.txt.html#%27charconvert%27" class="o">'charconvert'</a> option.
+
+			<span id="v%3Acharconvert_to" class="t">v:charconvert_to</span> <span id="charconvert_to-variable" class="t">charconvert_to-variable</span>
+<a href="vvars.txt.html#v%3Acharconvert_to" class="d">v:charconvert_to</a>
+		The name of the character encoding of <a href="insert.txt.html#a" class="d">a</a> file after conversion.
+		Only valid while evaluating the <a href="options.txt.html#%27charconvert%27" class="o">'charconvert'</a> option.
+
+					<span id="v%3Acmdarg" class="t">v:cmdarg</span> <span id="cmdarg-variable" class="t">cmdarg-variable</span>
+<a href="vvars.txt.html#v%3Acmdarg" class="d">v:cmdarg</a>
+		The extra arguments <a href="motion.txt.html#%28" class="d">(</a>"<a href="editing.txt.html#%2B%2Bp" class="d">++p</a>"<a href="motion.txt.html#%2C" class="d">,</a> "++enc="<a href="motion.txt.html#%2C" class="d">,</a> "++ff="<a href="motion.txt.html#%29" class="d">)</a> given to <a href="insert.txt.html#a" class="d">a</a> file
+		read/write command.  This <a href="motion.txt.html#is" class="d">is</a> set before an <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> event
+		<a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> file read/write command <a href="motion.txt.html#is" class="d">is</a> triggered.  There <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+		leading <a href="intro.txt.html#space" class="d">space</a> to make <a href="motion.txt.html#it" class="d">it</a> possible to append this variable
+		directly after the read/write command. <span class="n">Note:</span> "<a href="editing.txt.html#%2Bcmd" class="d">+cmd</a>" isn't
+		included here, because <a href="motion.txt.html#it" class="d">it</a> will be executed anyway.
+
+					<span id="v%3Acmdbang" class="t">v:cmdbang</span> <span id="cmdbang-variable" class="t">cmdbang-variable</span>
+<a href="vvars.txt.html#v%3Acmdbang" class="d">v:cmdbang</a>
+		Set like <a href="vvars.txt.html#v%3Acmdarg" class="d">v:cmdarg</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> file read/write command.  When <a href="insert.txt.html#a" class="d">a</a> "<a href="change.txt.html#%21" class="d">!</a>"
+		was used the value <a href="motion.txt.html#is" class="d">is</a> 1, otherwise <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> 0.  <span class="n">Note</span> that this
+		can only be used in autocommands.  For user commands <a href="map.txt.html#%3Cbang%3E" class="l">&lt;bang&gt;</a>
+		can be used.
+
+					<span id="v%3Acollate" class="t">v:collate</span> <span id="collate-variable" class="t">collate-variable</span>
+<a href="vvars.txt.html#v%3Acollate" class="d">v:collate</a>
+		The current <a href="mbyte.txt.html#locale" class="d">locale</a> setting <a href="luaref.txt.html#for" class="d">for</a> collation order of the runtime
+		environment.  This allows Vim scripts to be aware of the
+		current <a href="mbyte.txt.html#locale" class="d">locale</a> encoding.  Technical: it's the value of
+		LC_COLLATE.  When not using <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#locale" class="d">locale</a> the value <a href="motion.txt.html#is" class="d">is</a> "<a href="change.txt.html#C" class="d">C</a>"<a href="repeat.txt.html#." class="d">.</a>
+		This variable can not be set directly, use the <a href="mlang.txt.html#%3Alanguage" class="l">:language</a>
+		command.
+		See <a href="mlang.txt.html#multi-lang" class="l">multi-lang</a><a href="repeat.txt.html#." class="d">.</a>
+
+			<span id="v%3Acompleted_item" class="t">v:completed_item</span> <span id="completed_item-variable" class="t">completed_item-variable</span>
+<a href="vvars.txt.html#v%3Acompleted_item" class="d">v:completed_item</a>
+		<a href="vimeval.txt.html#Dictionary" class="d">Dictionary</a> containing the <a href="insert.txt.html#complete-items" class="l">complete-items</a> <a href="luaref.txt.html#for" class="d">for</a> the most
+		recently completed <a href="motion.txt.html#word" class="d">word</a> after <a href="autocmd.txt.html#CompleteDone" class="l">CompleteDone</a><a href="repeat.txt.html#." class="d">.</a>  Empty if the
+		completion failed, or after leaving and re-entering <a href="insert.txt.html#insert" class="d">insert</a>
+		mode.
+		<span class="n">Note:</span> Plugins can modify the value to emulate the builtin
+		<a href="autocmd.txt.html#CompleteDone" class="l">CompleteDone</a> event behavior.
+
+					<span id="v%3Acount" class="t">v:count</span> <span id="count-variable" class="t">count-variable</span>
+<a href="vvars.txt.html#v%3Acount" class="d">v:count</a>
+		The <a href="intro.txt.html#count" class="d">count</a> given <a href="luaref.txt.html#for" class="d">for</a> the last <a href="intro.txt.html#Normal" class="d">Normal</a> mode command.  Can be used
+		to get the <a href="intro.txt.html#count" class="d">count</a> before <a href="insert.txt.html#a" class="d">a</a> mapping.  Read-only.  Example: 
+<span class="e">		  :map _x :&lt;C-U&gt;echo "the count is " .. v:count&lt;CR&gt;</span>
+
+		<span class="n">Note:</span> The <span class="s">&lt;C-U&gt;</span> <a href="motion.txt.html#is" class="d">is</a> required to remove the line range that you
+		get when typing ':' after <a href="insert.txt.html#a" class="d">a</a> count.
+		When there are two counts, <a href="motion.txt.html#as" class="d">as</a> in "3d2w"<a href="motion.txt.html#%2C" class="d">,</a> they are multiplied,
+		just like what happens in the command, "d6w" <a href="luaref.txt.html#for" class="d">for</a> the example.
+		Also used <a href="luaref.txt.html#for" class="d">for</a> evaluating the <a href="options.txt.html#%27formatexpr%27" class="o">'formatexpr'</a> option.
+
+					<span id="v%3Acount1" class="t">v:count1</span> <span id="count1-variable" class="t">count1-variable</span>
+<a href="vvars.txt.html#v%3Acount1" class="d">v:count1</a>
+		Just like "<a href="vvars.txt.html#v%3Acount" class="d">v:count</a>"<a href="motion.txt.html#%2C" class="d">,</a> but <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to one when no <a href="intro.txt.html#count" class="d">count</a> <a href="motion.txt.html#is" class="d">is</a>
+		used.
+
+					<span id="v%3Actype" class="t">v:ctype</span> <span id="ctype-variable" class="t">ctype-variable</span>
+<a href="vvars.txt.html#v%3Actype" class="d">v:ctype</a>
+		The current <a href="mbyte.txt.html#locale" class="d">locale</a> setting <a href="luaref.txt.html#for" class="d">for</a> characters of the runtime
+		environment.  This allows Vim scripts to be aware of the
+		current <a href="mbyte.txt.html#locale" class="d">locale</a> encoding.  Technical: it's the value of
+		LC_CTYPE.  When not using <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#locale" class="d">locale</a> the value <a href="motion.txt.html#is" class="d">is</a> "<a href="change.txt.html#C" class="d">C</a>"<a href="repeat.txt.html#." class="d">.</a>
+		This variable can not be set directly, use the <a href="mlang.txt.html#%3Alanguage" class="l">:language</a>
+		command.
+		See <a href="mlang.txt.html#multi-lang" class="l">multi-lang</a><a href="repeat.txt.html#." class="d">.</a>
+
+					<span id="v%3Adying" class="t">v:dying</span> <span id="dying-variable" class="t">dying-variable</span>
+<a href="vvars.txt.html#v%3Adying" class="d">v:dying</a>
+		Normally zero.  When <a href="insert.txt.html#a" class="d">a</a> deadly signal <a href="motion.txt.html#is" class="d">is</a> caught it's set to
+		one.  When multiple signals are caught the number increases.
+		Can be used in an <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> to check if Vim didn't
+		terminate normally.
+		Example: 
+<span class="e">		  :au VimLeave * if v:dying | echo "\nAAAAaaaarrrggghhhh!!!\n" | endif</span>
+
+		<span class="n">Note:</span> if another deadly signal <a href="motion.txt.html#is" class="d">is</a> caught when <a href="vvars.txt.html#v%3Adying" class="d">v:dying</a> <a href="motion.txt.html#is" class="d">is</a> one,
+		<a href="autocmd.txt.html#VimLeave" class="d">VimLeave</a> autocommands will not be executed.
+
+				<span id="v%3Aechospace" class="t">v:echospace</span> <span id="echospace-variable" class="t">echospace-variable</span>
+<a href="vvars.txt.html#v%3Aechospace" class="d">v:echospace</a>
+		<a href="vimeval.txt.html#Number" class="d">Number</a> of screen cells that can be used <a href="luaref.txt.html#for" class="d">for</a> an <span class="e">:echo</span> message
+		in the last screen line before causing the <a href="message.txt.html#hit-enter-prompt" class="l">hit-enter-prompt</a><a href="repeat.txt.html#." class="d">.</a>
+		Depends on <a href="options.txt.html#%27showcmd%27" class="o">'showcmd'</a>, <a href="options.txt.html#%27ruler%27" class="o">'ruler'</a> and <a href="options.txt.html#%27columns%27" class="o">'columns'</a>.  You need to
+		check <a href="options.txt.html#%27cmdheight%27" class="o">'cmdheight'</a> <a href="luaref.txt.html#for" class="d">for</a> whether there are full-width lines
+		available above the last line.
+
+					<span id="v%3Aerrmsg" class="t">v:errmsg</span> <span id="errmsg-variable" class="t">errmsg-variable</span>
+<a href="vvars.txt.html#v%3Aerrmsg" class="d">v:errmsg</a>
+		Last given error message.
+		Modifiable (can be set).
+		Example: 
+<span class="e">		  let v:errmsg = ""</span>
+<span class="e">		  silent! next</span>
+<span class="e">		  if v:errmsg != ""</span>
+<span class="e">		    " ... handle error</span>
+
+
+			<span id="v%3Aerrors" class="t">v:errors</span> <span id="errors-variable" class="t">errors-variable</span> <span id="assert-return" class="t">assert-return</span>
+<a href="vvars.txt.html#v%3Aerrors" class="d">v:errors</a>
+		Errors found by assert functions, such <a href="motion.txt.html#as" class="d">as</a> <a href="vimfn.txt.html#assert_true%28%29" class="l">assert_true()</a><a href="repeat.txt.html#." class="d">.</a>
+		This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of strings.
+		The assert <a href="vimeval.txt.html#functions" class="d">functions</a> append an item when an assert fails.
+		The return value indicates this: <a href="insert.txt.html#a" class="d">a</a> one <a href="motion.txt.html#is" class="d">is</a> returned if an item
+		was added to v:errors, otherwise zero <a href="motion.txt.html#is" class="d">is</a> returned.
+		To remove old results make <a href="motion.txt.html#it" class="d">it</a> empty: 
+<span class="e">		  let v:errors = []</span>
+
+		If <a href="vvars.txt.html#v%3Aerrors" class="d">v:errors</a> <a href="motion.txt.html#is" class="d">is</a> set to anything but <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> made an empty
+		<a href="vimeval.txt.html#list" class="d">list</a> by the assert function.
+
+					<span id="v%3Aevent" class="t">v:event</span> <span id="event-variable" class="t">event-variable</span>
+<a href="vvars.txt.html#v%3Aevent" class="d">v:event</a>
+		<a href="vimeval.txt.html#Dictionary" class="d">Dictionary</a> of event data <a href="luaref.txt.html#for" class="d">for</a> the current <a href="autocmd.txt.html#autocommand" class="l">autocommand</a><a href="repeat.txt.html#." class="d">.</a>  Valid
+		only during the event lifetime; storing or passing <a href="vvars.txt.html#v%3Aevent" class="d">v:event</a> <a href="motion.txt.html#is" class="d">is</a>
+		invalid!  Copy <a href="motion.txt.html#it" class="d">it</a> instead: 
+<span class="e">		  au TextYankPost * let g:foo = deepcopy(v:event)</span>
+
+		Keys vary by event; see the documentation <a href="luaref.txt.html#for" class="d">for</a> the specific
+		event, e.g. <a href="autocmd.txt.html#DirChanged" class="l">DirChanged</a> or <a href="autocmd.txt.html#TextYankPost" class="l">TextYankPost</a><a href="repeat.txt.html#." class="d">.</a>
+<span class="h">		  KEY              DESCRIPTION </span>
+		  abort            Whether the event triggered during
+		                   an aborting condition (e.g. <a href="cmdline.txt.html#c_Esc" class="l">c_Esc</a> or
+		                   <a href="cmdline.txt.html#c_CTRL-C" class="l">c_CTRL-C</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="autocmd.txt.html#CmdlineLeave" class="l">CmdlineLeave</a>).
+		  chan             <a href="channel.txt.html#channel-id" class="l">channel-id</a>
+		  changed_window   Is <a href="vvars.txt.html#v%3Atrue" class="l">v:true</a> if the event fired while
+		                   <a href="change.txt.html#changing" class="d">changing</a> <a href="windows.txt.html#window" class="d">window</a>  (or tab) on <a href="autocmd.txt.html#DirChanged" class="l">DirChanged</a><a href="repeat.txt.html#." class="d">.</a>
+		  cmdlevel         Level of cmdline.
+		  cmdtype          Type of cmdline, <a href="cmdline.txt.html#cmdline-char" class="l">cmdline-char</a><a href="repeat.txt.html#." class="d">.</a>
+		  col              Column <a href="intro.txt.html#count" class="d">count</a> of popup menu on <a href="autocmd.txt.html#CompleteChanged" class="l">CompleteChanged</a><a href="motion.txt.html#%2C" class="d">,</a>
+		                   relative to screen.
+		  complete_type    See <a href="vimfn.txt.html#complete_info_mode" class="l">complete_info_mode</a>
+		  complete_word    The selected word, or empty if completion
+		                   was abandoned/discarded.
+		  completed_item   Current selected item on <a href="autocmd.txt.html#CompleteChanged" class="l">CompleteChanged</a><a href="motion.txt.html#%2C" class="d">,</a>
+		                   or <span class="e">{}</span> if no item selected.
+		  cwd              Current working directory.
+		  height           Height of popup menu on <a href="autocmd.txt.html#CompleteChanged" class="l">CompleteChanged</a>
+		  <a href="motion.txt.html#inclusive" class="d">inclusive</a>        Motion <a href="motion.txt.html#is" class="d">is</a> <a href="motion.txt.html#inclusive" class="l">inclusive</a><a href="motion.txt.html#%2C" class="d">,</a> else exclusive.
+		  info             <a href="vimeval.txt.html#Dict" class="d">Dict</a> of arbitrary event data.
+		  <a href="motion.txt.html#operator" class="d">operator</a>         Current <a href="motion.txt.html#operator" class="l">operator</a><a href="repeat.txt.html#." class="d">.</a>  Also set <a href="luaref.txt.html#for" class="d">for</a> <a href="intro.txt.html#Ex" class="d">Ex</a>
+		                   commands (unlike <a href="vvars.txt.html#v%3Aoperator" class="l">v:operator</a>). For
+		                   example if <a href="autocmd.txt.html#TextYankPost" class="l">TextYankPost</a> <a href="motion.txt.html#is" class="d">is</a> triggered
+		                   by the <a href="change.txt.html#%3Ayank" class="l">:yank</a> <a href="intro.txt.html#Ex" class="d">Ex</a> command then
+		                   <span class="e">v:event.operator</span> <a href="motion.txt.html#is" class="d">is</a> "<a href="change.txt.html#y" class="d">y</a>"<a href="repeat.txt.html#." class="d">.</a>
+		  reason           <a href="autocmd.txt.html#CompleteDone" class="l">CompleteDone</a> reason.
+		  regcontents      Text stored in the <a href="intro.txt.html#register" class="d">register</a> <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a>
+		                   <a href="vimfn.txt.html#readfile%28%29" class="l">readfile()</a>-style <a href="vimeval.txt.html#list" class="d">list</a> of lines.
+		  regname          Requested <a href="intro.txt.html#register" class="d">register</a> (e.g "<a href="change.txt.html#x" class="d">x</a>" <a href="luaref.txt.html#for" class="d">for</a> "xyy), or
+		                   empty <a href="vimeval.txt.html#string" class="d">string</a> <a href="luaref.txt.html#for" class="d">for</a> an unnamed operation.
+		  regtype          Type of <a href="intro.txt.html#register" class="d">register</a> <a href="motion.txt.html#as" class="d">as</a> returned by
+		                   <a href="vimfn.txt.html#getregtype%28%29" class="l">getregtype()</a><a href="repeat.txt.html#." class="d">.</a>
+		  row              Row <a href="intro.txt.html#count" class="d">count</a> of popup menu on <a href="autocmd.txt.html#CompleteChanged" class="l">CompleteChanged</a><a href="motion.txt.html#%2C" class="d">,</a>
+		                   relative to screen.
+		  scope            Event-specific scope name.
+		  scrollbar        <a href="vvars.txt.html#v%3Atrue" class="l">v:true</a> if popup menu has <a href="insert.txt.html#a" class="d">a</a> scrollbar, or
+		                   <a href="vvars.txt.html#v%3Afalse" class="l">v:false</a> if not.
+		  size             Total number of completion items on
+		                   <a href="autocmd.txt.html#CompleteChanged" class="l">CompleteChanged</a><a href="repeat.txt.html#." class="d">.</a>
+		  status           Job status or exit code, -1 means "unknown"<a href="repeat.txt.html#." class="d">.</a> <a href="autocmd.txt.html#TermClose" class="l">TermClose</a>
+		  visual           Selection <a href="motion.txt.html#is" class="d">is</a> visual (as opposed to e.g. <a href="insert.txt.html#a" class="d">a</a> motion range).
+		  width            Width of popup menu on <a href="autocmd.txt.html#CompleteChanged" class="l">CompleteChanged</a>
+		  <a href="windows.txt.html#windows" class="d">windows</a>          <a href="vimeval.txt.html#List" class="d">List</a> of <a href="windows.txt.html#window" class="d">window</a> IDs that changed on <a href="autocmd.txt.html#WinResized" class="l">WinResized</a>
+
+				<span id="v%3Aexception" class="t">v:exception</span> <span id="exception-variable" class="t">exception-variable</span>
+<a href="vvars.txt.html#v%3Aexception" class="d">v:exception</a>
+		The value of the exception most recently caught and not
+		finished.  See also <a href="vvars.txt.html#v%3Astacktrace" class="l">v:stacktrace</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vvars.txt.html#v%3Athrowpoint" class="l">v:throwpoint</a><a href="motion.txt.html#%2C" class="d">,</a> and
+		<a href="vimeval.txt.html#throw-variables" class="l">throw-variables</a><a href="repeat.txt.html#." class="d">.</a>
+		Example: 
+<span class="e">		  try</span>
+<span class="e">		    throw "oops"</span>
+<span class="e">		  catch /.*/</span>
+<span class="e">		    echo "caught " .. v:exception</span>
+<span class="e">		  endtry</span>
+
+		Output: "caught oops"<a href="repeat.txt.html#." class="d">.</a>
+
+					<span id="v%3Aexiting" class="t">v:exiting</span> <span id="exiting-variable" class="t">exiting-variable</span>
+<a href="vvars.txt.html#v%3Aexiting" class="d">v:exiting</a>
+		Exit code, or <a href="vvars.txt.html#v%3Anull" class="l">v:null</a> before invoking the <a href="autocmd.txt.html#VimLeavePre" class="l">VimLeavePre</a>
+		and <a href="autocmd.txt.html#VimLeave" class="l">VimLeave</a> autocmds.  See <a href="editing.txt.html#%3Aq" class="l">:q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Ax" class="l">:x</a> and <a href="quickfix.txt.html#%3Acquit" class="l">:cquit</a><a href="repeat.txt.html#." class="d">.</a>
+		Example: 
+<span class="e">		  :au VimLeave * echo "Exit value is " .. v:exiting</span>
+
+
+					<span id="v%3Afalse" class="t">v:false</span> <span id="false-variable" class="t">false-variable</span>
+<a href="vvars.txt.html#v%3Afalse" class="d">v:false</a>
+		Special value used to <a href="change.txt.html#put" class="d">put</a> "false" in JSON and msgpack.  See
+		<a href="vimfn.txt.html#json_encode%28%29" class="l">json_encode()</a><a href="repeat.txt.html#." class="d">.</a>  This value <a href="motion.txt.html#is" class="d">is</a> converted to "<a href="vvars.txt.html#v%3Afalse" class="d">v:false</a>" when used
+		<a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#String" class="d">String</a> (e.g. in <a href="vimeval.txt.html#expr5" class="l">expr5</a> with <a href="vimeval.txt.html#string" class="d">string</a> concatenation
+		operator) and to zero when used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#Number" class="d">Number</a> (e.g. in <a href="vimeval.txt.html#expr5" class="l">expr5</a>
+		or <a href="vimeval.txt.html#expr7" class="l">expr7</a> when used with numeric operators). Read-only.
+
+				<span id="v%3Afcs_choice" class="t">v:fcs_choice</span> <span id="fcs_choice-variable" class="t">fcs_choice-variable</span>
+<a href="vvars.txt.html#v%3Afcs_choice" class="d">v:fcs_choice</a>
+		What should happen after <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#FileChangedShell" class="l">FileChangedShell</a> event was
+		triggered.  Can be used in an <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> to tell Vim what to
+		<a href="diff.txt.html#do" class="d">do</a> with the affected buffer:
+		  <a href="editing.txt.html#reload" class="d">reload</a>  Reload the buffer (does not work if
+		          the file was deleted).
+		  edit    Reload the buffer and detect the
+		          values <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#options" class="d">options</a> such <a href="motion.txt.html#as" class="d">as</a>
+		          <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a>, <a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a>, <a href="options.txt.html#%27binary%27" class="o">'binary'</a>
+		          (does not work if the file was
+		          deleted).
+		  ask     Ask the user what to do, <a href="motion.txt.html#as" class="d">as</a> if there
+		          was no autocommand.  Except that when
+		          only the <a href="editing.txt.html#timestamp" class="d">timestamp</a> changed nothing
+		          will happen.
+		  <span class="s">&lt;empty&gt;</span> Nothing, the <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> should <a href="diff.txt.html#do" class="d">do</a>
+		          everything that needs to be done.
+		The default <a href="motion.txt.html#is" class="d">is</a> empty.  If another (invalid) value <a href="motion.txt.html#is" class="d">is</a> used then
+		Vim behaves like <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> empty, there <a href="motion.txt.html#is" class="d">is</a> no warning message.
+
+				<span id="v%3Afcs_reason" class="t">v:fcs_reason</span> <span id="fcs_reason-variable" class="t">fcs_reason-variable</span>
+<a href="vvars.txt.html#v%3Afcs_reason" class="d">v:fcs_reason</a>
+		The reason why the <a href="autocmd.txt.html#FileChangedShell" class="l">FileChangedShell</a> event was triggered.
+		Can be used in an <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> to decide what to <a href="diff.txt.html#do" class="d">do</a> and/or what
+		to set <a href="vvars.txt.html#v%3Afcs_choice" class="d">v:fcs_choice</a> to.  Possible values:
+		  deleted   file no longer exists
+		  conflict  file contents, mode or <a href="editing.txt.html#timestamp" class="d">timestamp</a> was
+		            changed and buffer <a href="motion.txt.html#is" class="d">is</a> modified
+		  changed   file contents has changed
+		  mode      mode of file changed
+		  time      only file <a href="editing.txt.html#timestamp" class="d">timestamp</a> changed
+
+					<span id="v%3Afname" class="t">v:fname</span> <span id="fname-variable" class="t">fname-variable</span>
+<a href="vvars.txt.html#v%3Afname" class="d">v:fname</a>
+		When evaluating <a href="options.txt.html#%27includeexpr%27" class="o">'includeexpr'</a>: the file name that was
+		detected.  Empty otherwise.
+
+				<span id="v%3Afname_diff" class="t">v:fname_diff</span> <span id="fname_diff-variable" class="t">fname_diff-variable</span>
+<a href="vvars.txt.html#v%3Afname_diff" class="d">v:fname_diff</a>
+		The name of the <a href="diff.txt.html#diff" class="d">diff</a> (patch) file.  Only valid while
+		evaluating <a href="options.txt.html#%27patchexpr%27" class="o">'patchexpr'</a>.
+
+					<span id="v%3Afname_in" class="t">v:fname_in</span> <span id="fname_in-variable" class="t">fname_in-variable</span>
+<a href="vvars.txt.html#v%3Afname_in" class="d">v:fname_in</a>
+		The name of the input file.  Valid while evaluating:
+<span class="h">		  option         used for </span>
+		  <a href="options.txt.html#%27charconvert%27" class="o">'charconvert'</a>  file to be converted
+		  <a href="options.txt.html#%27diffexpr%27" class="o">'diffexpr'</a>     original file
+		  <a href="options.txt.html#%27patchexpr%27" class="o">'patchexpr'</a>    original file
+		And set to the swap file name <a href="luaref.txt.html#for" class="d">for</a> <a href="autocmd.txt.html#SwapExists" class="l">SwapExists</a><a href="repeat.txt.html#." class="d">.</a>
+
+				<span id="v%3Afname_new" class="t">v:fname_new</span> <span id="fname_new-variable" class="t">fname_new-variable</span>
+<a href="vvars.txt.html#v%3Afname_new" class="d">v:fname_new</a>
+		The name of the new version of the file.  Only valid while
+		evaluating <a href="options.txt.html#%27diffexpr%27" class="o">'diffexpr'</a>.
+
+				<span id="v%3Afname_out" class="t">v:fname_out</span> <span id="fname_out-variable" class="t">fname_out-variable</span>
+<a href="vvars.txt.html#v%3Afname_out" class="d">v:fname_out</a>
+		The name of the output file.  Only valid while
+		evaluating:
+<span class="h">		  option           used for </span>
+		  <a href="options.txt.html#%27charconvert%27" class="o">'charconvert'</a>    resulting converted file [1]
+		  <a href="options.txt.html#%27diffexpr%27" class="o">'diffexpr'</a>       output of <a href="diff.txt.html#diff" class="d">diff</a>
+		  <a href="options.txt.html#%27patchexpr%27" class="o">'patchexpr'</a>      resulting patched file
+		[1] When doing conversion <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> write command (e.g., "<a href="editing.txt.html#%3Aw" class="d">:w</a>
+		file"<a href="motion.txt.html#%29" class="d">)</a> <a href="motion.txt.html#it" class="d">it</a> will be equal to v:fname_in.  When doing conversion
+		<a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> read command (e.g., "<a href="editing.txt.html#%3Ae" class="d">:e</a> file"<a href="motion.txt.html#%29" class="d">)</a> <a href="motion.txt.html#it" class="d">it</a> will be <a href="insert.txt.html#a" class="d">a</a> temporary
+		file and different from v:fname_in.
+
+				<span id="v%3Afolddashes" class="t">v:folddashes</span> <span id="folddashes-variable" class="t">folddashes-variable</span>
+<a href="vvars.txt.html#v%3Afolddashes" class="d">v:folddashes</a>
+		Used <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#%27foldtext%27" class="o">'foldtext'</a>: dashes representing foldlevel of <a href="insert.txt.html#a" class="d">a</a> closed
+		fold.
+		Read-only in the <a href="vimeval.txt.html#sandbox" class="l">sandbox</a><a href="repeat.txt.html#." class="d">.</a> <a href="fold.txt.html#fold-foldtext" class="l">fold-foldtext</a>
+
+					<span id="v%3Afoldend" class="t">v:foldend</span> <span id="foldend-variable" class="t">foldend-variable</span>
+<a href="vvars.txt.html#v%3Afoldend" class="d">v:foldend</a>
+		Used <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#%27foldtext%27" class="o">'foldtext'</a>: last line of closed fold.
+		Read-only in the <a href="vimeval.txt.html#sandbox" class="l">sandbox</a><a href="repeat.txt.html#." class="d">.</a> <a href="fold.txt.html#fold-foldtext" class="l">fold-foldtext</a>
+
+				<span id="v%3Afoldlevel" class="t">v:foldlevel</span> <span id="foldlevel-variable" class="t">foldlevel-variable</span>
+<a href="vvars.txt.html#v%3Afoldlevel" class="d">v:foldlevel</a>
+		Used <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#%27foldtext%27" class="o">'foldtext'</a>: foldlevel of closed fold.
+		Read-only in the <a href="vimeval.txt.html#sandbox" class="l">sandbox</a><a href="repeat.txt.html#." class="d">.</a> <a href="fold.txt.html#fold-foldtext" class="l">fold-foldtext</a>
+
+				<span id="v%3Afoldstart" class="t">v:foldstart</span> <span id="foldstart-variable" class="t">foldstart-variable</span>
+<a href="vvars.txt.html#v%3Afoldstart" class="d">v:foldstart</a>
+		Used <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#%27foldtext%27" class="o">'foldtext'</a>: first line of closed fold.
+		Read-only in the <a href="vimeval.txt.html#sandbox" class="l">sandbox</a><a href="repeat.txt.html#." class="d">.</a> <a href="fold.txt.html#fold-foldtext" class="l">fold-foldtext</a>
+
+					<span id="v%3Ahlsearch" class="t">v:hlsearch</span> <span id="hlsearch-variable" class="t">hlsearch-variable</span>
+<a href="vvars.txt.html#v%3Ahlsearch" class="d">v:hlsearch</a>
+		Variable that indicates whether search highlighting <a href="motion.txt.html#is" class="d">is</a> on.
+		Setting <a href="motion.txt.html#it" class="d">it</a> makes sense only if <a href="options.txt.html#%27hlsearch%27" class="o">'hlsearch'</a> <a href="motion.txt.html#is" class="d">is</a> enabled. Setting
+		this variable to zero acts like the <a href="pattern.txt.html#%3Anohlsearch" class="l">:nohlsearch</a> command,
+		setting <a href="motion.txt.html#it" class="d">it</a> to one acts like 
+<span class="e">		  let &amp;hlsearch = &amp;hlsearch</span>
+
+		<span class="n">Note</span> that the value <a href="motion.txt.html#is" class="d">is</a> restored when returning from <a href="insert.txt.html#a" class="d">a</a>
+		function. <a href="userfunc.txt.html#function-search-undo" class="l">function-search-undo</a><a href="repeat.txt.html#." class="d">.</a>
+
+				<span id="v%3Ainsertmode" class="t">v:insertmode</span> <span id="insertmode-variable" class="t">insertmode-variable</span>
+<a href="vvars.txt.html#v%3Ainsertmode" class="d">v:insertmode</a>
+		Used <a href="luaref.txt.html#for" class="d">for</a> the <a href="autocmd.txt.html#InsertEnter" class="l">InsertEnter</a> and <a href="autocmd.txt.html#InsertChange" class="l">InsertChange</a> <a href="autocmd.txt.html#autocommand" class="d">autocommand</a>
+		events.  Values:
+		  <a href="insert.txt.html#i" class="d">i</a>    <a href="insert.txt.html#Insert" class="d">Insert</a> mode
+		  <a href="change.txt.html#r" class="d">r</a>    <a href="insert.txt.html#Replace" class="d">Replace</a> mode
+		  <a href="visual.txt.html#v" class="d">v</a>    Virtual <a href="insert.txt.html#Replace" class="d">Replace</a> mode
+
+						<span id="v%3Akey" class="t">v:key</span> <span id="key-variable" class="t">key-variable</span>
+<a href="vvars.txt.html#v%3Akey" class="d">v:key</a>
+		Key of the current item of <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#Dictionary" class="l">Dictionary</a><a href="repeat.txt.html#." class="d">.</a>  Only valid while
+		evaluating the <a href="vimeval.txt.html#expression" class="d">expression</a> used with <a href="vimfn.txt.html#map%28%29" class="l">map()</a> and <a href="vimfn.txt.html#filter%28%29" class="l">filter()</a><a href="repeat.txt.html#." class="d">.</a>
+		Read-only.
+
+						<span id="v%3Alang" class="t">v:lang</span> <span id="lang-variable" class="t">lang-variable</span>
+<a href="vvars.txt.html#v%3Alang" class="d">v:lang</a>
+		The current <a href="mbyte.txt.html#locale" class="d">locale</a> setting <a href="luaref.txt.html#for" class="d">for</a> <a href="message.txt.html#messages" class="d">messages</a> of the runtime
+		environment.  This allows Vim scripts to be aware of the
+		current language.  Technical: it's the value of LC_MESSAGES.
+		The value <a href="motion.txt.html#is" class="d">is</a> system dependent.
+		This variable can not be set directly, use the <a href="mlang.txt.html#%3Alanguage" class="l">:language</a>
+		command.
+		It can be different from <a href="vvars.txt.html#v%3Actype" class="l">v:ctype</a> when <a href="message.txt.html#messages" class="d">messages</a> are desired
+		in <a href="insert.txt.html#a" class="d">a</a> different language than what <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> character
+		encoding.  See <a href="mlang.txt.html#multi-lang" class="l">multi-lang</a><a href="repeat.txt.html#." class="d">.</a>
+
+					<span id="v%3Alc_time" class="t">v:lc_time</span> <span id="lc_time-variable" class="t">lc_time-variable</span>
+<a href="vvars.txt.html#v%3Alc_time" class="d">v:lc_time</a>
+		The current <a href="mbyte.txt.html#locale" class="d">locale</a> setting <a href="luaref.txt.html#for" class="d">for</a> time <a href="message.txt.html#messages" class="d">messages</a> of the runtime
+		environment.  This allows Vim scripts to be aware of the
+		current language.  Technical: it's the value of LC_TIME.
+		This variable can not be set directly, use the <a href="mlang.txt.html#%3Alanguage" class="l">:language</a>
+		command.  See <a href="mlang.txt.html#multi-lang" class="l">multi-lang</a><a href="repeat.txt.html#." class="d">.</a>
+
+						<span id="v%3Alnum" class="t">v:lnum</span> <span id="lnum-variable" class="t">lnum-variable</span>
+<a href="vvars.txt.html#v%3Alnum" class="d">v:lnum</a>
+		Line number <a href="luaref.txt.html#for" class="d">for</a> the <a href="options.txt.html#%27foldexpr%27" class="o">'foldexpr'</a> <a href="fold.txt.html#fold-expr" class="l">fold-expr</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="options.txt.html#%27formatexpr%27" class="o">'formatexpr'</a>,
+		<a href="options.txt.html#%27indentexpr%27" class="o">'indentexpr'</a> and <a href="options.txt.html#%27statuscolumn%27" class="o">'statuscolumn'</a> expressions, <a href="intro.txt.html#tab" class="d">tab</a> page number
+		<a href="luaref.txt.html#for" class="d">for</a> <a href="vim_diff.txt.html#%27guitablabel%27" class="o">'guitablabel'</a> and <a href="vim_diff.txt.html#%27guitabtooltip%27" class="o">'guitabtooltip'</a>.  Only valid while one of
+		these expressions <a href="motion.txt.html#is" class="d">is</a> being evaluated.  Read-only when in the
+		<a href="vimeval.txt.html#sandbox" class="l">sandbox</a><a href="repeat.txt.html#." class="d">.</a>
+
+						<span id="v%3Alua" class="t">v:lua</span> <span id="lua-variable" class="t">lua-variable</span>
+<a href="vvars.txt.html#v%3Alua" class="d">v:lua</a>
+		Prefix <a href="luaref.txt.html#for" class="d">for</a> calling <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="vimeval.txt.html#functions" class="d">functions</a> from expressions.
+		See <a href="lua.txt.html#v%3Alua-call" class="l">v:lua-call</a> <a href="luaref.txt.html#for" class="d">for</a> more information.
+
+					<span id="v%3Amaxcol" class="t">v:maxcol</span> <span id="maxcol-variable" class="t">maxcol-variable</span>
+<a href="vvars.txt.html#v%3Amaxcol" class="d">v:maxcol</a>
+		Maximum line length.  Depending on where <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#it" class="d">it</a> can be
+		screen columns, characters or bytes.  The value currently <a href="motion.txt.html#is" class="d">is</a>
+		2147483647 on all systems.
+
+				<span id="v%3Amouse_col" class="t">v:mouse_col</span> <span id="mouse_col-variable" class="t">mouse_col-variable</span>
+<a href="vvars.txt.html#v%3Amouse_col" class="d">v:mouse_col</a>
+		Column number <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> mouse click obtained with <a href="vimfn.txt.html#getchar%28%29" class="l">getchar()</a><a href="repeat.txt.html#." class="d">.</a>
+		This <a href="motion.txt.html#is" class="d">is</a> the screen column number, like with <a href="vimfn.txt.html#virtcol%28%29" class="l">virtcol()</a><a href="repeat.txt.html#." class="d">.</a>  The
+		value <a href="motion.txt.html#is" class="d">is</a> zero when there was no mouse button click.
+
+				<span id="v%3Amouse_lnum" class="t">v:mouse_lnum</span> <span id="mouse_lnum-variable" class="t">mouse_lnum-variable</span>
+<a href="vvars.txt.html#v%3Amouse_lnum" class="d">v:mouse_lnum</a>
+		Line number <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> mouse click obtained with <a href="vimfn.txt.html#getchar%28%29" class="l">getchar()</a><a href="repeat.txt.html#." class="d">.</a>
+		This <a href="motion.txt.html#is" class="d">is</a> the text line number, not the screen line number.  The
+		value <a href="motion.txt.html#is" class="d">is</a> zero when there was no mouse button click.
+
+				<span id="v%3Amouse_win" class="t">v:mouse_win</span> <span id="mouse_win-variable" class="t">mouse_win-variable</span>
+<a href="vvars.txt.html#v%3Amouse_win" class="d">v:mouse_win</a>
+		Window number <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> mouse click obtained with <a href="vimfn.txt.html#getchar%28%29" class="l">getchar()</a><a href="repeat.txt.html#." class="d">.</a>
+		First <a href="windows.txt.html#window" class="d">window</a> has number 1, like with <a href="vimfn.txt.html#winnr%28%29" class="l">winnr()</a><a href="repeat.txt.html#." class="d">.</a>  The value <a href="motion.txt.html#is" class="d">is</a>
+		zero when there was no mouse button click.
+
+				<span id="v%3Amouse_winid" class="t">v:mouse_winid</span> <span id="mouse_winid-variable" class="t">mouse_winid-variable</span>
+<a href="vvars.txt.html#v%3Amouse_winid" class="d">v:mouse_winid</a>
+		<a href="windows.txt.html#window-ID" class="l">window-ID</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> mouse click obtained with <a href="vimfn.txt.html#getchar%28%29" class="l">getchar()</a><a href="repeat.txt.html#." class="d">.</a>
+		The value <a href="motion.txt.html#is" class="d">is</a> zero when there was no mouse button click.
+
+			<span id="v%3Amsgpack_types" class="t">v:msgpack_types</span> <span id="msgpack_types-variable" class="t">msgpack_types-variable</span>
+<a href="vvars.txt.html#v%3Amsgpack_types" class="d">v:msgpack_types</a>
+		<a href="vimeval.txt.html#Dictionary" class="d">Dictionary</a> containing msgpack types used by <a href="vimfn.txt.html#msgpackparse%28%29" class="l">msgpackparse()</a>
+		and <a href="vimfn.txt.html#msgpackdump%28%29" class="l">msgpackdump()</a><a href="repeat.txt.html#." class="d">.</a> All types inside dictionary are fixed
+		(not editable) empty lists. To check whether some <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> one
+		of msgpack types, use <a href="motion.txt.html#is" class="l">is</a> operator.
+
+						<span id="v%3Anull" class="t">v:null</span> <span id="null-variable" class="t">null-variable</span>
+<a href="vvars.txt.html#v%3Anull" class="d">v:null</a>
+		Special value used to <a href="change.txt.html#put" class="d">put</a> "null" in JSON and NIL in msgpack.
+		See <a href="vimfn.txt.html#json_encode%28%29" class="l">json_encode()</a><a href="repeat.txt.html#." class="d">.</a>  This value <a href="motion.txt.html#is" class="d">is</a> converted to "<a href="vvars.txt.html#v%3Anull" class="d">v:null</a>" when
+		used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#String" class="d">String</a> (e.g. in <a href="vimeval.txt.html#expr5" class="l">expr5</a> with <a href="vimeval.txt.html#string" class="d">string</a> concatenation
+		operator) and to zero when used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#Number" class="d">Number</a> (e.g. in <a href="vimeval.txt.html#expr5" class="l">expr5</a>
+		or <a href="vimeval.txt.html#expr7" class="l">expr7</a> when used with numeric operators). Read-only.
+		In some places <span class="e">v:null</span> can be used <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> List, Dict, etc.
+		that <a href="motion.txt.html#is" class="d">is</a> not set.  That <a href="motion.txt.html#is" class="d">is</a> slightly different than an empty
+		List, Dict, etc.
+
+				<span id="v%3Anumbermax" class="t">v:numbermax</span> <span id="numbermax-variable" class="t">numbermax-variable</span>
+<a href="vvars.txt.html#v%3Anumbermax" class="d">v:numbermax</a>	Maximum value of <a href="insert.txt.html#a" class="d">a</a> number.
+
+				<span id="v%3Anumbermin" class="t">v:numbermin</span> <span id="numbermin-variable" class="t">numbermin-variable</span>
+<a href="vvars.txt.html#v%3Anumbermin" class="d">v:numbermin</a>	Minimum value of <a href="insert.txt.html#a" class="d">a</a> number (negative).
+
+				<span id="v%3Anumbersize" class="t">v:numbersize</span> <span id="numbersize-variable" class="t">numbersize-variable</span>
+<a href="vvars.txt.html#v%3Anumbersize" class="d">v:numbersize</a>
+		<a href="vimeval.txt.html#Number" class="d">Number</a> of bits in <a href="insert.txt.html#a" class="d">a</a> Number.  This <a href="motion.txt.html#is" class="d">is</a> normally 64, but on some
+		systems <a href="motion.txt.html#it" class="d">it</a> may be 32.
+
+					<span id="v%3Aoldfiles" class="t">v:oldfiles</span> <span id="oldfiles-variable" class="t">oldfiles-variable</span>
+<a href="vvars.txt.html#v%3Aoldfiles" class="d">v:oldfiles</a>
+		<a href="vimeval.txt.html#List" class="d">List</a> of file names that <a href="motion.txt.html#is" class="d">is</a> loaded from the <a href="starting.txt.html#shada" class="l">shada</a> file on
+		startup.  These are the files that Vim remembers marks for.
+		The length of the <a href="vimeval.txt.html#List" class="d">List</a> <a href="motion.txt.html#is" class="d">is</a> limited by the <a href="motion.txt.html#%27" class="d">'</a> argument of the
+		<a href="options.txt.html#%27shada%27" class="o">'shada'</a> option (default <a href="motion.txt.html#is" class="d">is</a> 100).
+		When the <a href="starting.txt.html#shada" class="l">shada</a> file <a href="motion.txt.html#is" class="d">is</a> not used the <a href="vimeval.txt.html#List" class="d">List</a> <a href="motion.txt.html#is" class="d">is</a> empty.
+		Also see <a href="starting.txt.html#%3Aoldfiles" class="l">:oldfiles</a> and <a href="cmdline.txt.html#c_%23%3C" class="l">c_#&lt;</a><a href="repeat.txt.html#." class="d">.</a>
+		The <a href="vimeval.txt.html#List" class="d">List</a> can be modified, but this has no effect on what <a href="motion.txt.html#is" class="d">is</a>
+		stored in the <a href="starting.txt.html#shada" class="l">shada</a> file later.  If you use values other
+		than <a href="vimeval.txt.html#String" class="d">String</a> this will cause trouble.
+
+					<span id="v%3Aoperator" class="t">v:operator</span> <span id="operator-variable" class="t">operator-variable</span>
+<a href="vvars.txt.html#v%3Aoperator" class="d">v:operator</a>
+		The last <a href="motion.txt.html#operator" class="d">operator</a> given in <a href="intro.txt.html#Normal" class="d">Normal</a> mode.  This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> single
+		character except <a href="luaref.txt.html#for" class="d">for</a> commands <a href="starting.txt.html#starting" class="d">starting</a> with <span class="s">&lt;g&gt;</span> or <span class="s">&lt;z&gt;</span>,
+		in which <a href="change.txt.html#case" class="d">case</a> <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> two characters.  Best used alongside
+		<a href="vvars.txt.html#v%3Aprevcount" class="l">v:prevcount</a> and <a href="vvars.txt.html#v%3Aregister" class="l">v:register</a><a href="repeat.txt.html#." class="d">.</a>  Useful if you want to cancel
+		<a href="intro.txt.html#Operator-pending" class="d">Operator-pending</a> mode and then use the operator, e.g.: 
+<span class="e">		  :omap O &lt;Esc&gt;:call MyMotion(v:operator)&lt;CR&gt;</span>
+
+		The value remains set until another <a href="motion.txt.html#operator" class="d">operator</a> <a href="motion.txt.html#is" class="d">is</a> entered, thus
+		don't expect <a href="motion.txt.html#it" class="d">it</a> to be empty.
+		<a href="vvars.txt.html#v%3Aoperator" class="d">v:operator</a> <a href="motion.txt.html#is" class="d">is</a> not set <a href="luaref.txt.html#for" class="d">for</a> <a href="change.txt.html#%3Adelete" class="l">:delete</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="change.txt.html#%3Ayank" class="l">:yank</a> or other <a href="intro.txt.html#Ex" class="d">Ex</a>
+		commands.
+		Read-only.
+
+			<span id="v%3Aoption_command" class="t">v:option_command</span> <span id="option_command-variable" class="t">option_command-variable</span>
+<a href="vvars.txt.html#v%3Aoption_command" class="d">v:option_command</a>
+		Command used to set the option. Valid while executing an
+		<a href="autocmd.txt.html#OptionSet" class="l">OptionSet</a> autocommand.
+<span class="h">		  value        option was set via </span>
+		  "setlocal"   <a href="options.txt.html#%3Asetlocal" class="l">:setlocal</a> or `:let l:xxx`
+		  "setglobal"  <a href="options.txt.html#%3Asetglobal" class="l">:setglobal</a> or `:let g:xxx`
+		  "set"        <a href="options.txt.html#%3Aset" class="l">:set</a> or <a href="vimeval.txt.html#%3Alet" class="l">:let</a>
+		  "<a href="options.txt.html#modeline" class="d">modeline</a>"   <a href="options.txt.html#modeline" class="l">modeline</a>
+
+				<span id="v%3Aoption_new" class="t">v:option_new</span> <span id="option_new-variable" class="t">option_new-variable</span>
+<a href="vvars.txt.html#v%3Aoption_new" class="d">v:option_new</a>
+		New value of the option. Valid while executing an <a href="autocmd.txt.html#OptionSet" class="l">OptionSet</a>
+		autocommand.
+
+				<span id="v%3Aoption_old" class="t">v:option_old</span> <span id="option_old-variable" class="t">option_old-variable</span>
+<a href="vvars.txt.html#v%3Aoption_old" class="d">v:option_old</a>
+		Old value of the option. Valid while executing an <a href="autocmd.txt.html#OptionSet" class="l">OptionSet</a>
+		autocommand. Depending on the command used <a href="luaref.txt.html#for" class="d">for</a> setting and the
+		kind of option this <a href="motion.txt.html#is" class="d">is</a> either the local old value or the
+		global old value.
+
+			<span id="v%3Aoption_oldglobal" class="t">v:option_oldglobal</span> <span id="option_oldglobal-variable" class="t">option_oldglobal-variable</span>
+<a href="vvars.txt.html#v%3Aoption_oldglobal" class="d">v:option_oldglobal</a>
+		Old global value of the option. Valid while executing an
+		<a href="autocmd.txt.html#OptionSet" class="l">OptionSet</a> autocommand.
+
+			<span id="v%3Aoption_oldlocal" class="t">v:option_oldlocal</span> <span id="option_oldlocal-variable" class="t">option_oldlocal-variable</span>
+<a href="vvars.txt.html#v%3Aoption_oldlocal" class="d">v:option_oldlocal</a>
+		Old local value of the option. Valid while executing an
+		<a href="autocmd.txt.html#OptionSet" class="l">OptionSet</a> autocommand.
+
+				<span id="v%3Aoption_type" class="t">v:option_type</span> <span id="option_type-variable" class="t">option_type-variable</span>
+<a href="vvars.txt.html#v%3Aoption_type" class="d">v:option_type</a>
+		Scope of the set command. Valid while executing an
+		<a href="autocmd.txt.html#OptionSet" class="l">OptionSet</a> autocommand. Can be either "global" or "local"
+
+				<span id="v%3Aprevcount" class="t">v:prevcount</span> <span id="prevcount-variable" class="t">prevcount-variable</span>
+<a href="vvars.txt.html#v%3Aprevcount" class="d">v:prevcount</a>
+		The <a href="intro.txt.html#count" class="d">count</a> given <a href="luaref.txt.html#for" class="d">for</a> the last but one <a href="intro.txt.html#Normal" class="d">Normal</a> mode command.
+		This <a href="motion.txt.html#is" class="d">is</a> the <a href="vvars.txt.html#v%3Acount" class="d">v:count</a> value of the previous command.  Useful if
+		you want to cancel <a href="visual.txt.html#Visual" class="d">Visual</a> or <a href="intro.txt.html#Operator-pending" class="d">Operator-pending</a> mode and then
+		use the count, e.g.: 
+<span class="e">		  :vmap % &lt;Esc&gt;:call MyFilter(v:prevcount)&lt;CR&gt;</span>
+
+		Read-only.
+
+				<span id="v%3Aprofiling" class="t">v:profiling</span> <span id="profiling-variable" class="t">profiling-variable</span>
+<a href="vvars.txt.html#v%3Aprofiling" class="d">v:profiling</a>
+		Normally zero.  Set to one after using "<a href="repeat.txt.html#%3Aprofile" class="d">:profile</a> start"<a href="repeat.txt.html#." class="d">.</a>
+		See <a href="repeat.txt.html#profiling" class="l">profiling</a><a href="repeat.txt.html#." class="d">.</a>
+
+					<span id="v%3Aprogname" class="t">v:progname</span> <span id="progname-variable" class="t">progname-variable</span>
+<a href="vvars.txt.html#v%3Aprogname" class="d">v:progname</a>
+		The name by which Nvim was invoked (with path removed).
+		Read-only.
+
+					<span id="v%3Aprogpath" class="t">v:progpath</span> <span id="progpath-variable" class="t">progpath-variable</span>
+<a href="vvars.txt.html#v%3Aprogpath" class="d">v:progpath</a>
+		Absolute path to the current running Nvim.
+		Read-only.
+
+					<span id="v%3Aregister" class="t">v:register</span> <span id="register-variable" class="t">register-variable</span>
+<a href="vvars.txt.html#v%3Aregister" class="d">v:register</a>
+		The name of the <a href="intro.txt.html#register" class="d">register</a> in effect <a href="luaref.txt.html#for" class="d">for</a> the current normal mode
+		command (regardless of whether that command actually used <a href="insert.txt.html#a" class="d">a</a>
+		register).  Or <a href="luaref.txt.html#for" class="d">for</a> the currently executing normal mode <a href="map.txt.html#mapping" class="d">mapping</a>
+		(use this in custom commands that take <a href="insert.txt.html#a" class="d">a</a> register).
+		If none <a href="motion.txt.html#is" class="d">is</a> supplied <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> the default <a href="intro.txt.html#register" class="d">register</a> <a href="motion.txt.html#%27" class="d">'</a>"', unless
+		<a href="options.txt.html#%27clipboard%27" class="o">'clipboard'</a> contains "unnamed" or "unnamedplus"<a href="motion.txt.html#%2C" class="d">,</a> then <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+		"*" or '+'.
+		Also see <a href="vimfn.txt.html#getreg%28%29" class="l">getreg()</a> and <a href="vimfn.txt.html#setreg%28%29" class="l">setreg()</a>
+
+					<span id="v%3Arelnum" class="t">v:relnum</span> <span id="relnum-variable" class="t">relnum-variable</span>
+<a href="vvars.txt.html#v%3Arelnum" class="d">v:relnum</a>
+		Relative line number <a href="luaref.txt.html#for" class="d">for</a> the <a href="options.txt.html#%27statuscolumn%27" class="o">'statuscolumn'</a> expression.
+		Read-only.
+
+				<span id="v%3Ascrollstart" class="t">v:scrollstart</span> <span id="scrollstart-variable" class="t">scrollstart-variable</span>
+<a href="vvars.txt.html#v%3Ascrollstart" class="d">v:scrollstart</a>
+		<a href="vimeval.txt.html#String" class="d">String</a> describing the <a href="usr_41.txt.html#script" class="d">script</a> or function that caused the
+		screen to scroll up.  It's only set when <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> empty, thus the
+		first reason <a href="motion.txt.html#is" class="d">is</a> remembered.  It <a href="motion.txt.html#is" class="d">is</a> set to "Unknown" <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a>
+		typed command.
+		This can be used to find out why your <a href="usr_41.txt.html#script" class="d">script</a> causes the
+		<a href="message.txt.html#hit-enter" class="d">hit-enter</a> prompt.
+
+			<span id="v%3Asearchforward" class="t">v:searchforward</span> <span id="searchforward-variable" class="t">searchforward-variable</span>
+<a href="vvars.txt.html#v%3Asearchforward" class="d">v:searchforward</a>
+		Search direction:  1 after <a href="insert.txt.html#a" class="d">a</a> forward search, <a href="motion.txt.html#0" class="d">0</a> after <a href="insert.txt.html#a" class="d">a</a>
+		backward search.  It <a href="motion.txt.html#is" class="d">is</a> reset to forward when directly setting
+		the last search pattern, see <a href="change.txt.html#quote%2F" class="l">quote/</a><a href="repeat.txt.html#." class="d">.</a>
+		<span class="n">Note</span> that the value <a href="motion.txt.html#is" class="d">is</a> restored when returning from <a href="insert.txt.html#a" class="d">a</a>
+		function. <a href="userfunc.txt.html#function-search-undo" class="l">function-search-undo</a><a href="repeat.txt.html#." class="d">.</a>
+		Read-write.
+
+				<span id="v%3Aservername" class="t">v:servername</span> <span id="servername-variable" class="t">servername-variable</span>
+<a href="vvars.txt.html#v%3Aservername" class="d">v:servername</a>
+		Primary listen-address of Nvim, the first item returned by
+		<a href="vimfn.txt.html#serverlist%28%29" class="l">serverlist()</a><a href="repeat.txt.html#." class="d">.</a> Usually this <a href="motion.txt.html#is" class="d">is</a> the named pipe created by Nvim
+		<a href="motion.txt.html#at" class="d">at</a> <a href="starting.txt.html#startup" class="l">startup</a> or given by <a href="starting.txt.html#--listen" class="l">--listen</a> (or the <a href="deprecated.txt.html#deprecated" class="d">deprecated</a>
+		<a href="deprecated.txt.html#%24NVIM_LISTEN_ADDRESS" class="l">$NVIM_LISTEN_ADDRESS</a> env var).
+
+		See also <a href="vimfn.txt.html#serverstart%28%29" class="l">serverstart()</a> <a href="vimfn.txt.html#serverstop%28%29" class="l">serverstop()</a><a href="repeat.txt.html#." class="d">.</a>
+		Read-only.
+
+		                                                     <span id="%24NVIM" class="t">$NVIM</span>
+		<a href="vvars.txt.html#%24NVIM" class="d">$NVIM</a> <a href="motion.txt.html#is" class="d">is</a> set to <a href="vvars.txt.html#v%3Aservername" class="d">v:servername</a> by <a href="terminal.txt.html#terminal" class="l">terminal</a> and <a href="vimfn.txt.html#jobstart%28%29" class="l">jobstart()</a><a href="motion.txt.html#%2C" class="d">,</a>
+		and <a href="motion.txt.html#is" class="d">is</a> thus <a href="insert.txt.html#a" class="d">a</a> hint that the current environment <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> child
+		(direct subprocess) of Nvim.
+
+		Example: <a href="insert.txt.html#a" class="d">a</a> child Nvim process can detect and make requests to
+		its parent Nvim: 
+<span class="e"></span>
+<span class="e">		  if vim.env.NVIM then</span>
+<span class="e">		    local ok, chan = pcall(vim.fn.sockconnect, 'pipe', vim.env.NVIM, {rpc=true})</span>
+<span class="e">		    if ok and chan then</span>
+<span class="e">		      local client = vim.api.nvim_get_chan_info(chan).client</span>
+<span class="e">		      local rv = vim.rpcrequest(chan, 'nvim_exec_lua', [[return ... + 1]], { 41 })</span>
+<span class="e">		      vim.print(('got "%s" from parent Nvim'):format(rv))</span>
+<span class="e">		    end</span>
+<span class="e">		  end</span>
+
+
+				<span id="v%3Ashell_error" class="t">v:shell_error</span> <span id="shell_error-variable" class="t">shell_error-variable</span>
+<a href="vvars.txt.html#v%3Ashell_error" class="d">v:shell_error</a>
+		Result of the last shell command.  When non-zero, the last
+		shell command had an error.  When zero, there was no problem.
+		This only works when the shell returns the error code to Vim.
+		The value -1 <a href="motion.txt.html#is" class="d">is</a> often used when the command could not be
+		executed.  Read-only.
+		Example: 
+<span class="e">		  !mv foo bar</span>
+<span class="e">		  if v:shell_error</span>
+<span class="e">		    echo 'could not rename "foo" to "bar"!'</span>
+<span class="e">		  endif</span>
+
+
+				<span id="v%3Astacktrace" class="t">v:stacktrace</span> <span id="stacktrace-variable" class="t">stacktrace-variable</span>
+<a href="vvars.txt.html#v%3Astacktrace" class="d">v:stacktrace</a>
+		The stack trace of the exception most recently caught and
+		not finished.  Refer to <a href="vimfn.txt.html#getstacktrace%28%29" class="l">getstacktrace()</a> <a href="luaref.txt.html#for" class="d">for</a> the structure of
+		stack trace.  See also <a href="vvars.txt.html#v%3Aexception" class="l">v:exception</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vvars.txt.html#v%3Athrowpoint" class="l">v:throwpoint</a><a href="motion.txt.html#%2C" class="d">,</a> and
+		<a href="vimeval.txt.html#throw-variables" class="l">throw-variables</a><a href="repeat.txt.html#." class="d">.</a>
+
+				<span id="v%3Astatusmsg" class="t">v:statusmsg</span> <span id="statusmsg-variable" class="t">statusmsg-variable</span>
+<a href="vvars.txt.html#v%3Astatusmsg" class="d">v:statusmsg</a>
+		Last given status message.
+		Modifiable (can be set).
+
+					<span id="v%3Astderr" class="t">v:stderr</span> <span id="stderr-variable" class="t">stderr-variable</span>
+<a href="vvars.txt.html#v%3Astderr" class="d">v:stderr</a>
+		<a href="channel.txt.html#channel-id" class="l">channel-id</a> corresponding to stderr. The value <a href="motion.txt.html#is" class="d">is</a> always 2;
+		use this variable to make your code more descriptive.
+		Unlike stdin and stdout (see <a href="vimfn.txt.html#stdioopen%28%29" class="l">stdioopen()</a>), stderr <a href="motion.txt.html#is" class="d">is</a> always
+		open <a href="luaref.txt.html#for" class="d">for</a> writing. Example: 
+<span class="e">		:call chansend(v:stderr, "error: toaster empty\n")</span>
+
+
+				<span id="v%3Aswapchoice" class="t">v:swapchoice</span> <span id="swapchoice-variable" class="t">swapchoice-variable</span>
+<a href="vvars.txt.html#v%3Aswapchoice" class="d">v:swapchoice</a>
+		<a href="autocmd.txt.html#SwapExists" class="l">SwapExists</a> autocommands can set this to the selected choice
+		<a href="luaref.txt.html#for" class="d">for</a> handling an existing swapfile:
+		  'o'    Open read-only
+		  'e'    Edit anyway
+		  'r'    Recover
+		  'd'    Delete swapfile
+		  'q'    Quit
+		  'a'    Abort
+		The value should be <a href="insert.txt.html#a" class="d">a</a> single-character string.  An empty value
+		results in the user being asked, <a href="motion.txt.html#as" class="d">as</a> would happen when there <a href="motion.txt.html#is" class="d">is</a>
+		no <a href="autocmd.txt.html#SwapExists" class="d">SwapExists</a> autocommand.  The default <a href="motion.txt.html#is" class="d">is</a> empty.
+
+				<span id="v%3Aswapcommand" class="t">v:swapcommand</span> <span id="swapcommand-variable" class="t">swapcommand-variable</span>
+<a href="vvars.txt.html#v%3Aswapcommand" class="d">v:swapcommand</a>
+		<a href="intro.txt.html#Normal" class="d">Normal</a> mode command to be executed after <a href="insert.txt.html#a" class="d">a</a> file has been
+		opened.  Can be used <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#SwapExists" class="l">SwapExists</a> <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> to have
+		another Vim open the file and jump to the right place.  For
+		example, when jumping to <a href="insert.txt.html#a" class="d">a</a> <a href="tagsrch.txt.html#tag" class="d">tag</a> the value <a href="motion.txt.html#is" class="d">is</a> "<a href="tagsrch.txt.html#%3Atag" class="d">:tag</a> tagname\r"<a href="repeat.txt.html#." class="d">.</a>
+		For "<a href="editing.txt.html#%3Aedit" class="d">:edit</a> <a href="editing.txt.html#%2Bcmd" class="d">+cmd</a> file" the value <a href="motion.txt.html#is" class="d">is</a> ":cmd\r"<a href="repeat.txt.html#." class="d">.</a>
+
+					<span id="v%3Aswapname" class="t">v:swapname</span> <span id="swapname-variable" class="t">swapname-variable</span>
+<a href="vvars.txt.html#v%3Aswapname" class="d">v:swapname</a>
+		Name of the swapfile found.
+		Only valid during <a href="autocmd.txt.html#SwapExists" class="l">SwapExists</a> event.
+		Read-only.
+
+				<span id="v%3At_blob" class="t">v:t_blob</span> <span id="t_blob-variable" class="t">t_blob-variable</span> <span id="v%3At_TYPE" class="t">v:t_TYPE</span>
+<a href="vvars.txt.html#v%3At_blob" class="d">v:t_blob</a>	Value of <a href="vimeval.txt.html#Blob" class="l">Blob</a> type.  Read-only.  See: <a href="vimfn.txt.html#type%28%29" class="l">type()</a>
+
+					<span id="v%3At_bool" class="t">v:t_bool</span> <span id="t_bool-variable" class="t">t_bool-variable</span>
+<a href="vvars.txt.html#v%3At_bool" class="d">v:t_bool</a>	Value of <a href="vimeval.txt.html#Boolean" class="l">Boolean</a> type.  Read-only.  See: <a href="vimfn.txt.html#type%28%29" class="l">type()</a>
+
+					<span id="v%3At_dict" class="t">v:t_dict</span> <span id="t_dict-variable" class="t">t_dict-variable</span>
+<a href="vvars.txt.html#v%3At_dict" class="d">v:t_dict</a>	Value of <a href="vimeval.txt.html#Dictionary" class="l">Dictionary</a> type.  Read-only.  See: <a href="vimfn.txt.html#type%28%29" class="l">type()</a>
+
+					<span id="v%3At_float" class="t">v:t_float</span> <span id="t_float-variable" class="t">t_float-variable</span>
+<a href="vvars.txt.html#v%3At_float" class="d">v:t_float</a>	Value of <a href="vimeval.txt.html#Float" class="l">Float</a> type.  Read-only.  See: <a href="vimfn.txt.html#type%28%29" class="l">type()</a>
+
+					<span id="v%3At_func" class="t">v:t_func</span> <span id="t_func-variable" class="t">t_func-variable</span>
+<a href="vvars.txt.html#v%3At_func" class="d">v:t_func</a>	Value of <a href="vimeval.txt.html#Funcref" class="l">Funcref</a> type.  Read-only.  See: <a href="vimfn.txt.html#type%28%29" class="l">type()</a>
+
+					<span id="v%3At_list" class="t">v:t_list</span> <span id="t_list-variable" class="t">t_list-variable</span>
+<a href="vvars.txt.html#v%3At_list" class="d">v:t_list</a>	Value of <a href="vimeval.txt.html#List" class="l">List</a> type.  Read-only.  See: <a href="vimfn.txt.html#type%28%29" class="l">type()</a>
+
+					<span id="v%3At_number" class="t">v:t_number</span> <span id="t_number-variable" class="t">t_number-variable</span>
+<a href="vvars.txt.html#v%3At_number" class="d">v:t_number</a>	Value of <a href="vimeval.txt.html#Number" class="l">Number</a> type.  Read-only.  See: <a href="vimfn.txt.html#type%28%29" class="l">type()</a>
+
+					<span id="v%3At_string" class="t">v:t_string</span> <span id="t_string-variable" class="t">t_string-variable</span>
+<a href="vvars.txt.html#v%3At_string" class="d">v:t_string</a>	Value of <a href="vimeval.txt.html#String" class="l">String</a> type.  Read-only.  See: <a href="vimfn.txt.html#type%28%29" class="l">type()</a>
+
+				<span id="v%3Atermrequest" class="t">v:termrequest</span> <span id="termrequest-variable" class="t">termrequest-variable</span>
+<a href="vvars.txt.html#v%3Atermrequest" class="d">v:termrequest</a>
+		The value of the most recent OSC, DCS or APC <a href="intro.txt.html#control" class="d">control</a> sequence
+		sent from <a href="insert.txt.html#a" class="d">a</a> process running in the embedded <a href="terminal.txt.html#terminal" class="l">terminal</a><a href="repeat.txt.html#." class="d">.</a>
+		This can be read in <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#TermRequest" class="l">TermRequest</a> event handler to respond
+		to queries from embedded applications.
+
+				<span id="v%3Atermresponse" class="t">v:termresponse</span> <span id="termresponse-variable" class="t">termresponse-variable</span>
+<a href="vvars.txt.html#v%3Atermresponse" class="d">v:termresponse</a>
+		The value of the most recent OSC or DCS <a href="intro.txt.html#control" class="d">control</a> sequence
+		received by Nvim from the terminal. This can be read in <a href="insert.txt.html#a" class="d">a</a>
+		<a href="autocmd.txt.html#TermResponse" class="l">TermResponse</a> event handler after querying the <a href="terminal.txt.html#terminal" class="d">terminal</a> using
+		another <a href="intro.txt.html#escape" class="d">escape</a> sequence.
+
+					<span id="v%3Atesting" class="t">v:testing</span> <span id="testing-variable" class="t">testing-variable</span>
+<a href="vvars.txt.html#v%3Atesting" class="d">v:testing</a>	Must be set before using <span class="e">test_garbagecollect_now()</span>.
+
+				<span id="v%3Athis_session" class="t">v:this_session</span> <span id="this_session-variable" class="t">this_session-variable</span>
+<a href="vvars.txt.html#v%3Athis_session" class="d">v:this_session</a>
+		Full filename of the last loaded or saved session file.
+		Empty when no session file has been saved.  See <a href="starting.txt.html#%3Amksession" class="l">:mksession</a><a href="repeat.txt.html#." class="d">.</a>
+		Modifiable (can be set).
+
+				<span id="v%3Athrowpoint" class="t">v:throwpoint</span> <span id="throwpoint-variable" class="t">throwpoint-variable</span>
+<a href="vvars.txt.html#v%3Athrowpoint" class="d">v:throwpoint</a>
+		The point where the exception most recently caught and not
+		finished was thrown.  Not set when commands are typed.  See
+		also <a href="vvars.txt.html#v%3Aexception" class="l">v:exception</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vvars.txt.html#v%3Astacktrace" class="l">v:stacktrace</a><a href="motion.txt.html#%2C" class="d">,</a> and <a href="vimeval.txt.html#throw-variables" class="l">throw-variables</a><a href="repeat.txt.html#." class="d">.</a>
+		Example: 
+<span class="e">		  try</span>
+<span class="e">		    throw "oops"</span>
+<span class="e">		  catch /.*/</span>
+<span class="e">		    echo "Exception from" v:throwpoint</span>
+<span class="e">		  endtry</span>
+
+		Output: "Exception from test.vim, line 2"
+
+						<span id="v%3Atrue" class="t">v:true</span> <span id="true-variable" class="t">true-variable</span>
+<a href="vvars.txt.html#v%3Atrue" class="d">v:true</a>
+		Special value used to <a href="change.txt.html#put" class="d">put</a> "true" in JSON and msgpack.  See
+		<a href="vimfn.txt.html#json_encode%28%29" class="l">json_encode()</a><a href="repeat.txt.html#." class="d">.</a>  This value <a href="motion.txt.html#is" class="d">is</a> converted to "<a href="vvars.txt.html#v%3Atrue" class="d">v:true</a>" when used
+		<a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#String" class="d">String</a> (e.g. in <a href="vimeval.txt.html#expr5" class="l">expr5</a> with <a href="vimeval.txt.html#string" class="d">string</a> concatenation
+		operator) and to one when used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#Number" class="d">Number</a> (e.g. in <a href="vimeval.txt.html#expr5" class="l">expr5</a> or
+		<a href="vimeval.txt.html#expr7" class="l">expr7</a> when used with numeric operators). Read-only.
+
+						<span id="v%3Aval" class="t">v:val</span> <span id="val-variable" class="t">val-variable</span>
+<a href="vvars.txt.html#v%3Aval" class="d">v:val</a>
+		Value of the current item of <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#List" class="l">List</a> or <a href="vimeval.txt.html#Dictionary" class="l">Dictionary</a><a href="repeat.txt.html#." class="d">.</a>  Only
+		valid while evaluating the <a href="vimeval.txt.html#expression" class="d">expression</a> used with <a href="vimfn.txt.html#map%28%29" class="l">map()</a> and
+		<a href="vimfn.txt.html#filter%28%29" class="l">filter()</a><a href="repeat.txt.html#." class="d">.</a>  Read-only.
+
+					<span id="v%3Aversion" class="t">v:version</span> <span id="version-variable" class="t">version-variable</span>
+<a href="vvars.txt.html#v%3Aversion" class="d">v:version</a>
+		<span class="i">Vim version number</span>: major version times 100 plus minor
+		version.  Vim 5.0 <a href="motion.txt.html#is" class="d">is</a> 500, Vim 5.1 <a href="motion.txt.html#is" class="d">is</a> 501.
+		Read-only.
+		Use <a href="vimfn.txt.html#has%28%29" class="l">has()</a> to check the Nvim (not Vim) version: 
+<span class="e">		  :if has("nvim-0.2.1")</span>
+
+
+			<span id="v%3Avim_did_enter" class="t">v:vim_did_enter</span> <span id="vim_did_enter-variable" class="t">vim_did_enter-variable</span>
+<a href="vvars.txt.html#v%3Avim_did_enter" class="d">v:vim_did_enter</a>
+		<a href="motion.txt.html#0" class="d">0</a> during startup, 1 just before <a href="autocmd.txt.html#VimEnter" class="l">VimEnter</a><a href="repeat.txt.html#." class="d">.</a>
+		Read-only.
+
+					<span id="v%3Avirtnum" class="t">v:virtnum</span> <span id="virtnum-variable" class="t">virtnum-variable</span>
+<a href="vvars.txt.html#v%3Avirtnum" class="d">v:virtnum</a>
+		Virtual line number <a href="luaref.txt.html#for" class="d">for</a> the <a href="options.txt.html#%27statuscolumn%27" class="o">'statuscolumn'</a> expression.
+		Negative when drawing the status column <a href="luaref.txt.html#for" class="d">for</a> virtual lines, zero
+		when drawing an actual buffer line, and positive when drawing
+		the wrapped part of <a href="insert.txt.html#a" class="d">a</a> buffer line.
+		Read-only.
+
+				<span id="v%3Awarningmsg" class="t">v:warningmsg</span> <span id="warningmsg-variable" class="t">warningmsg-variable</span>
+<a href="vvars.txt.html#v%3Awarningmsg" class="d">v:warningmsg</a>
+		Last given warning message.
+		Modifiable (can be set).
+
+					<span id="v%3Awindowid" class="t">v:windowid</span> <span id="windowid-variable" class="t">windowid-variable</span>
+<a href="vvars.txt.html#v%3Awindowid" class="d">v:windowid</a>
+		Application-specific <a href="windows.txt.html#window" class="d">window</a> "handle" which may be set by any
+		attached UI. Defaults to zero.
+		<span class="n">Note:</span> For Nvim <a href="windows.txt.html#windows" class="l">windows</a> use <a href="vimfn.txt.html#winnr%28%29" class="l">winnr()</a> or <a href="vimfn.txt.html#win_getid%28%29" class="l">win_getid()</a><a href="motion.txt.html#%2C" class="d">,</a> see
+		<a href="windows.txt.html#window-ID" class="l">window-ID</a><a href="repeat.txt.html#." class="d">.</a>
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

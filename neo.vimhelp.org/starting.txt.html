@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: starting.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="starting.txt.html#">↑Top↑</a></li>
+<li><a href="starting.txt.html#cli-arguments">Nvim arguments</a></li>
+<li><a href="starting.txt.html#initialization">Initialization</a></li>
+<li><a href="starting.txt.html#_vim-and-vimruntime">$VIM and $VIMRUNTIME</a></li>
+<li><a href="starting.txt.html#suspend">Suspending</a></li>
+<li><a href="starting.txt.html#exiting">Exiting</a></li>
+<li><a href="starting.txt.html#save-settings">Saving settings</a></li>
+<li><a href="starting.txt.html#views-sessions">Views and Sessions</a></li>
+<li><a href="starting.txt.html#shada">Shada ("shared data") file</a></li>
+<li><a href="starting.txt.html#standard-path">Standard Paths</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="starting.txt" class="t">starting.txt</span>  Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL    by Bram Moolenaar</span>
+
+
+Starting Vim						<span id="starting" class="t">starting</span>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+Nvim arguments						<span id="cli-arguments" class="t">cli-arguments</span>
+
+Most often, Nvim <a href="motion.txt.html#is" class="d">is</a> started to edit <a href="insert.txt.html#a" class="d">a</a> single file with the command: 
+<span class="e"></span>
+<span class="e">	nvim filename</span>
+<span class="e"></span>
+More generally, Nvim <a href="motion.txt.html#is" class="d">is</a> started with: 
+<span class="e"></span>
+<span class="e">	nvim [option | filename] ..</span>
+<span class="e"></span>
+Option arguments and file name arguments can be mixed, and any number of them
+can be given.  However, watch out <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#options" class="d">options</a> that take an argument.
+
+The following items decide how to start editing:
+
+							<span id="-file" class="t">-file</span> <span id="---" class="t">---</span>
+filename	One or more file names.  The first one will be the current
+		file and read into the buffer.  The cursor will be positioned
+		on the first line of the buffer.
+		To avoid <a href="insert.txt.html#a" class="d">a</a> file name <a href="starting.txt.html#starting" class="d">starting</a> with <a href="insert.txt.html#a" class="d">a</a> '-' being interpreted <a href="motion.txt.html#as" class="d">as</a>
+		an option, precede the <a href="editing.txt.html#arglist" class="d">arglist</a> with "<a href="starting.txt.html#--" class="d">--</a>"<a href="motion.txt.html#%2C" class="d">,</a> e.g.: 
+<span class="e">			nvim -- -filename</span>
+		All arguments after "<a href="starting.txt.html#--" class="d">--</a>" are interpreted <a href="motion.txt.html#as" class="d">as</a> file names, no
+		other <a href="options.txt.html#options" class="d">options</a> or "+command" arguments can follow.
+
+							<span id="--" class="t">--</span>
+<span class="e">-</span>  		Alias <a href="luaref.txt.html#for" class="d">for</a> stdin (standard input).
+		Example: 
+<span class="e">			echo text | nvim - file</span>
+		"text" <a href="motion.txt.html#is" class="d">is</a> read into buffer 1, "file" <a href="motion.txt.html#is" class="d">is</a> opened <a href="motion.txt.html#as" class="d">as</a> buffer 2.
+		In most cases (except -s, -es, <a href="starting.txt.html#--embed" class="l">--embed</a><a href="motion.txt.html#%2C" class="d">,</a> --headless) if stdin
+		<a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> TTY then <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> read <a href="motion.txt.html#as" class="d">as</a> text, so "<a href="motion.txt.html#-" class="d">-</a>" <a href="motion.txt.html#is" class="d">is</a> implied: 
+<span class="e">			echo text | nvim file</span>
+		The buffer will be marked <a href="motion.txt.html#as" class="d">as</a> modified, because <a href="motion.txt.html#it" class="d">it</a> contains
+		text that needs to be saved (except <a href="luaref.txt.html#for" class="d">for</a> readonly <a href="starting.txt.html#-R" class="l">-R</a> mode).
+		If you don't like that, <a href="change.txt.html#put" class="d">put</a> these lines in your init.vim: 
+<span class="e">			" Don't set 'modified' when reading from stdin</span>
+<span class="e">			au StdinReadPost * set nomodified</span>
+
+		To read stdin <a href="motion.txt.html#as" class="d">as</a> <a href="intro.txt.html#Normal" class="d">Normal</a> commands use <a href="starting.txt.html#-s" class="l">-s</a> with "<a href="motion.txt.html#-" class="d">-</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			echo "ifoo" | nvim -s -</span>
+		To read stdin <a href="motion.txt.html#as" class="d">as</a> <a href="intro.txt.html#Ex" class="d">Ex</a> commands use <a href="starting.txt.html#-es" class="l">-es</a> or <a href="starting.txt.html#-e" class="l">-e</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			echo "echo getpid()" | nvim -e - -V1</span>
+		To open <a href="insert.txt.html#a" class="d">a</a> file literally named "<a href="motion.txt.html#-" class="d">-</a>"<a href="motion.txt.html#%2C" class="d">,</a> <a href="change.txt.html#put" class="d">put</a> <a href="motion.txt.html#it" class="d">it</a> after "<a href="starting.txt.html#--" class="d">--</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			echo foo | nvim -- -</span>
+		To read stdin <a href="motion.txt.html#as" class="d">as</a> text with <a href="starting.txt.html#--headless" class="l">--headless</a> use "<a href="motion.txt.html#-" class="d">-</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="-t" class="t">-t</span> <span id="-tag" class="t">-tag</span>
+<a href="starting.txt.html#-t" class="d">-t</a> <span class="s">{tag}</span>	<a href="insert.txt.html#A" class="d">A</a> tag.  "<a href="tagsrch.txt.html#tag" class="d">tag</a>" <a href="motion.txt.html#is" class="d">is</a> looked up in the <a href="tagsrch.txt.html#tags" class="d">tags</a> file, the associated
+		file becomes the current file, and the associated command <a href="motion.txt.html#is" class="d">is</a>
+		executed.  Mostly this <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> <a href="change.txt.html#C" class="d">C</a> programs, in which <a href="change.txt.html#case" class="d">case</a>
+		"<a href="tagsrch.txt.html#tag" class="d">tag</a>" often <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> function name.  The effect <a href="motion.txt.html#is" class="d">is</a> that the file
+		containing that function becomes the current file and the
+		cursor <a href="motion.txt.html#is" class="d">is</a> positioned on the start of the function (see
+		<a href="tagsrch.txt.html#tags" class="l">tags</a>).
+
+							<span id="-q" class="t">-q</span> <span id="-qf" class="t">-qf</span>
+<a href="starting.txt.html#-q" class="d">-q</a> <span class="s">[errorfile]</span>	QuickFix mode.  The file with the name <span class="s">[errorfile]</span> <a href="motion.txt.html#is" class="d">is</a> read
+		and the first error <a href="motion.txt.html#is" class="d">is</a> displayed.  See <a href="quickfix.txt.html#quickfix" class="l">quickfix</a><a href="repeat.txt.html#." class="d">.</a>
+		If <span class="s">[errorfile]</span> <a href="motion.txt.html#is" class="d">is</a> not given, the <a href="options.txt.html#%27errorfile%27" class="o">'errorfile'</a> option <a href="motion.txt.html#is" class="d">is</a> used
+		<a href="luaref.txt.html#for" class="d">for</a> the file name.  See <a href="options.txt.html#%27errorfile%27" class="o">'errorfile'</a> <a href="luaref.txt.html#for" class="d">for</a> the default value.
+
+(nothing)	Without one of the four items above, Vim will start editing <a href="insert.txt.html#a" class="d">a</a>
+		new buffer.  It's empty and doesn't have <a href="insert.txt.html#a" class="d">a</a> file name.
+
+							<span id="startup-options" class="t">startup-options</span>
+The option arguments may be given in any order.  Single-letter <a href="options.txt.html#options" class="d">options</a> can be
+combined after one dash.  There can be no option arguments after the "<a href="starting.txt.html#--" class="d">--</a>"
+argument.
+
+<a href="starting.txt.html#--help" class="d">--help</a>							<span id="-h" class="t">-h</span> <span id="--help" class="t">--help</span> <span id="-%3F" class="t">-?</span>
+<a href="starting.txt.html#-%3F" class="d">-?</a>
+<a href="starting.txt.html#-h" class="d">-h</a>		Give usage (help) message and exit.
+
+<a href="starting.txt.html#--version" class="d">--version</a>						<span id="-v" class="t">-v</span> <span id="--version" class="t">--version</span>
+<a href="starting.txt.html#-v" class="d">-v</a>		Print version information and exit.  Same output <a href="motion.txt.html#as" class="d">as</a> <a href="luaref.txt.html#for" class="d">for</a>
+		<a href="various.txt.html#%3Aversion" class="l">:version</a> command.
+
+							<span id="--clean" class="t">--clean</span>
+<a href="starting.txt.html#--clean" class="d">--clean</a>		Mimics <a href="insert.txt.html#a" class="d">a</a> fresh <a href="intro.txt.html#install" class="d">install</a> of Nvim:
+		<a href="motion.txt.html#-" class="d">-</a> Skips initializations from files and environment variables.
+		<a href="motion.txt.html#-" class="d">-</a> No <a href="options.txt.html#%27shada%27" class="o">'shada'</a> file <a href="motion.txt.html#is" class="d">is</a> read or written.
+		<a href="motion.txt.html#-" class="d">-</a> Excludes user directories from <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>
+		<a href="motion.txt.html#-" class="d">-</a> Loads builtin plugins, unlike "<a href="starting.txt.html#-u" class="d">-u</a> NONE <a href="starting.txt.html#-i" class="d">-i</a> NONE"<a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="--noplugin" class="t">--noplugin</span>
+<a href="starting.txt.html#--noplugin" class="d">--noplugin</a>	Skip loading plugins.  Resets the <a href="options.txt.html#%27loadplugins%27" class="o">'loadplugins'</a> option.
+		<span class="n">Note</span> that the <a href="starting.txt.html#-u" class="l">-u</a> argument may also disable loading plugins:
+<span class="h">			argument	load vimrc files	load plugins </span>
+			(nothing)		yes		    yes
+			<a href="starting.txt.html#-u" class="d">-u</a> NONE			no		    no
+			<a href="starting.txt.html#-u" class="d">-u</a> NORC			no		    yes
+			<a href="starting.txt.html#--noplugin" class="d">--noplugin</a>		yes		    no
+
+<a href="starting.txt.html#--startuptime" class="d">--startuptime</a> <span class="s">{fname}</span>					<span id="--startuptime" class="t">--startuptime</span>
+		During <a href="starting.txt.html#startup" class="d">startup</a> write timing <a href="message.txt.html#messages" class="d">messages</a> to the file <span class="s">{fname}</span>.
+		This can be used to find out where time <a href="motion.txt.html#is" class="d">is</a> spent while loading
+		your <a href="starting.txt.html#config" class="l">config</a><a href="motion.txt.html#%2C" class="d">,</a> plugins and opening the first file.
+		When <span class="s">{fname}</span> already exists new <a href="message.txt.html#messages" class="d">messages</a> are appended.
+
+							<span id="-%2B" class="t">-+</span>
++[num]		The cursor will be positioned on line "num" <a href="luaref.txt.html#for" class="d">for</a> the first
+		file being edited.  If "num" <a href="motion.txt.html#is" class="d">is</a> missing, the cursor will be
+		positioned on the last line.
+
+							<span id="-%2B%2F" class="t">-+/</span>
++/{pat}		The cursor will be positioned on the first line containing
+		"pat" in the first file being edited (see <a href="pattern.txt.html#pattern" class="l">pattern</a> <a href="luaref.txt.html#for" class="d">for</a> the
+		available search patterns).  The search starts <a href="motion.txt.html#at" class="d">at</a> the cursor
+		position, which can be the first line or the cursor position
+		last used from <a href="starting.txt.html#shada" class="l">shada</a><a href="repeat.txt.html#." class="d">.</a> To force <a href="insert.txt.html#a" class="d">a</a> search from the first
+		line use "+1 +/pat"<a href="repeat.txt.html#." class="d">.</a>
+
++{command}						<span id="-%2Bc" class="t">-+c</span> <span id="-c" class="t">-c</span>
+<a href="starting.txt.html#-c" class="d">-c</a> <span class="s">{command}</span>	<span class="s">{command}</span> will be executed after the first file has been
+		read (and after autocommands and modelines <a href="luaref.txt.html#for" class="d">for</a> that file have
+		been processed).  "command" <a href="motion.txt.html#is" class="d">is</a> interpreted <a href="motion.txt.html#as" class="d">as</a> an <a href="intro.txt.html#Ex" class="d">Ex</a> command.
+		If the "command" contains spaces, <a href="motion.txt.html#it" class="d">it</a> must be enclosed in
+		double quotes (this depends on the shell that <a href="motion.txt.html#is" class="d">is</a> used).
+		Example: 
+<span class="e">			vim  "+set si"  main.c</span>
+<span class="e">			vim  "+find stdio.h"</span>
+<span class="e">			vim  -c "set ff=dos"  -c wq  mine.mak</span>
+
+		<span class="n">Note:</span> You can use up to 10 "<a href="motion.txt.html#%2B" class="d">+</a>" or "<a href="starting.txt.html#-c" class="d">-c</a>" arguments in <a href="insert.txt.html#a" class="d">a</a> Vim
+		command.  They are executed in the order given.  <a href="insert.txt.html#A" class="d">A</a> "<a href="starting.txt.html#-S" class="d">-S</a>"
+		argument counts <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> "<a href="starting.txt.html#-c" class="d">-c</a>" argument <a href="motion.txt.html#as" class="d">as</a> well.
+
+<a href="starting.txt.html#--cmd" class="d">--cmd</a> <span class="s">{command}</span>						<span id="--cmd" class="t">--cmd</span>
+		<span class="s">{command}</span> will be executed before processing any <a href="starting.txt.html#vimrc" class="d">vimrc</a> file.
+		Otherwise, <a href="motion.txt.html#it" class="d">it</a> acts like <a href="starting.txt.html#-c" class="d">-c</a> <span class="s">{command}</span>.  You can use up to 10 of
+		these commands, independently from "<a href="starting.txt.html#-c" class="d">-c</a>" commands.
+
+							<span id="-S" class="t">-S</span>
+<a href="starting.txt.html#-S" class="d">-S</a> <span class="s">[file]</span>	Executes Vimscript or <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="motion.txt.html#%28" class="d">(</a>".lua"<a href="motion.txt.html#%29" class="d">)</a> <span class="s">[file]</span> after the first file
+		has been read. See also <a href="repeat.txt.html#%3Asource" class="l">:source</a><a href="repeat.txt.html#." class="d">.</a> If <span class="s">[file]</span> <a href="motion.txt.html#is" class="d">is</a> not given,
+		<a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "Session.vim"<a href="repeat.txt.html#." class="d">.</a> Equivalent to: 
+<span class="e">			-c "source {file}"</span>
+		Can be repeated like "<a href="starting.txt.html#-c" class="d">-c</a>"<a href="motion.txt.html#%2C" class="d">,</a> subject to the same limit of 10
+		"<a href="starting.txt.html#-c" class="d">-c</a>" arguments. <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> cannot start with <a href="insert.txt.html#a" class="d">a</a> "<a href="motion.txt.html#-" class="d">-</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+<a href="starting.txt.html#-L" class="d">-L</a>							<span id="-L" class="t">-L</span> <span id="-r" class="t">-r</span>
+<a href="starting.txt.html#-r" class="d">-r</a>		Recovery mode.  Without <a href="insert.txt.html#a" class="d">a</a> file name argument, <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of
+		existing swap files <a href="motion.txt.html#is" class="d">is</a> given.  With <a href="insert.txt.html#a" class="d">a</a> file name, <a href="insert.txt.html#a" class="d">a</a> swap file
+		<a href="motion.txt.html#is" class="d">is</a> read to recover <a href="insert.txt.html#a" class="d">a</a> crashed editing session.  See
+		<a href="recover.txt.html#crash-recovery" class="l">crash-recovery</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="-R" class="t">-R</span>
+<a href="starting.txt.html#-R" class="d">-R</a>		Readonly mode.  The <a href="options.txt.html#%27readonly%27" class="o">'readonly'</a> option will be set <a href="luaref.txt.html#for" class="d">for</a> all the
+		files being edited.  You can still edit the buffer, but will
+		be prevented from accidentally overwriting <a href="insert.txt.html#a" class="d">a</a> file.  If you
+		forgot that you are in <a href="starting.txt.html#View" class="d">View</a> mode and did make some changes,
+		you can overwrite <a href="insert.txt.html#a" class="d">a</a> file by adding an exclamation <a href="motion.txt.html#mark" class="d">mark</a> to
+		the <a href="intro.txt.html#Ex" class="d">Ex</a> command, <a href="motion.txt.html#as" class="d">as</a> in "<a href="editing.txt.html#%3Aw%21" class="d">:w!</a>"<a href="repeat.txt.html#." class="d">.</a>  The <a href="options.txt.html#%27readonly%27" class="o">'readonly'</a> option can be
+		reset with "<a href="options.txt.html#%3Aset" class="d">:set</a> noro" (see the <a href="options.txt.html#options" class="d">options</a> chapter, <a href="options.txt.html#options" class="l">options</a>).
+		Subsequent edits will not be done in readonly mode.
+		The <a href="options.txt.html#%27updatecount%27" class="o">'updatecount'</a> option will be set to 10000, meaning that
+		the swap file will not be updated automatically very often.
+		See <a href="starting.txt.html#-M" class="l">-M</a> <a href="luaref.txt.html#for" class="d">for</a> disallowing modifications.
+
+							<span id="-m" class="t">-m</span>
+<a href="starting.txt.html#-m" class="d">-m</a>		Modifications not allowed to be written.  The <a href="options.txt.html#%27write%27" class="o">'write'</a> option
+		will be reset, so that <a href="editing.txt.html#writing" class="d">writing</a> files <a href="motion.txt.html#is" class="d">is</a> disabled.  However,
+		the <a href="options.txt.html#%27write%27" class="o">'write'</a> option can be set to enable <a href="editing.txt.html#writing" class="d">writing</a> again.
+
+							<span id="-M" class="t">-M</span>
+<a href="starting.txt.html#-M" class="d">-M</a>		Modifications not allowed.  The <a href="options.txt.html#%27modifiable%27" class="o">'modifiable'</a> option will be
+		reset, so that changes are not allowed.  The <a href="options.txt.html#%27write%27" class="o">'write'</a> option
+		will be reset, so that <a href="editing.txt.html#writing" class="d">writing</a> files <a href="motion.txt.html#is" class="d">is</a> disabled.  However,
+		the <a href="options.txt.html#%27modifiable%27" class="o">'modifiable'</a> and <a href="options.txt.html#%27write%27" class="o">'write'</a> <a href="options.txt.html#options" class="d">options</a> can be set to enable
+		changes and writing.
+
+<a href="starting.txt.html#-e" class="d">-e</a>							<span id="-e" class="t">-e</span> <span id="-E" class="t">-E</span>
+<a href="starting.txt.html#-E" class="d">-E</a>		Start Nvim in <a href="intro.txt.html#Ex" class="d">Ex</a> mode <a href="intro.txt.html#gQ" class="l">gQ</a><a href="motion.txt.html#%2C" class="d">,</a> see <a href="intro.txt.html#Ex-mode" class="l">Ex-mode</a><a href="repeat.txt.html#." class="d">.</a>
+
+		If stdin <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> TTY:
+		  <a href="starting.txt.html#-e" class="d">-e</a> reads/executes stdin <a href="motion.txt.html#as" class="d">as</a> <a href="intro.txt.html#Ex" class="d">Ex</a> commands.
+		  <a href="starting.txt.html#-E" class="d">-E</a> reads stdin <a href="motion.txt.html#as" class="d">as</a> text (into buffer 1).
+
+<a href="starting.txt.html#-es" class="d">-es</a>						<span id="-es" class="t">-es</span> <span id="-Es" class="t">-Es</span> <span id="-s-ex" class="t">-s-ex</span> <span id="silent-mode" class="t">silent-mode</span>
+<a href="starting.txt.html#-Es" class="d">-Es</a>		Script mode, aka "silent mode"<a href="motion.txt.html#%2C" class="d">,</a> aka "batch mode"<a href="repeat.txt.html#." class="d">.</a> No UI,
+		disables most prompts and messages. Unrelated to <a href="starting.txt.html#-s" class="l">-s</a><a href="repeat.txt.html#." class="d">.</a>
+		See also <a href="starting.txt.html#-S" class="l">-S</a> to run <a href="usr_41.txt.html#script" class="d">script</a> files.
+
+		<a href="starting.txt.html#-es" class="d">-es</a> reads/executes stdin <a href="motion.txt.html#as" class="d">as</a> <a href="intro.txt.html#Ex" class="d">Ex</a> commands. 
+<span class="e">			printf "put ='foo'\n%%print\n" | nvim -es</span>
+<span class="e"></span>
+		<a href="starting.txt.html#-Es" class="d">-Es</a> reads stdin <a href="motion.txt.html#as" class="d">as</a> text (into buffer 1).  Use <a href="starting.txt.html#-c" class="l">-c</a> or "<a href="motion.txt.html#%2B" class="d">+</a>" to
+		send commands. 
+<span class="e">			printf "foo\n" | nvim -Es +"%print"</span>
+<span class="e"></span>
+		These commands display on stdout:
+			<a href="various.txt.html#%3Alist" class="d">:list</a>
+			<a href="various.txt.html#%3Anumber" class="d">:number</a>
+			<a href="various.txt.html#%3Aprint" class="d">:print</a>
+			<a href="options.txt.html#%3Aset" class="d">:set</a>
+		With <a href="various.txt.html#%3Averbose" class="l">:verbose</a> or <a href="options.txt.html#%27verbose%27" class="o">'verbose'</a>, other commands display on stderr: 
+<span class="e">			nvim -es +"verbose echo 'foo'"</span>
+<span class="e">			nvim -V1 -es +"echo 'foo'"</span>
+
+		Skips user <a href="starting.txt.html#config" class="l">config</a> unless <a href="starting.txt.html#-u" class="l">-u</a> was given.
+		Disables <a href="starting.txt.html#shada" class="l">shada</a> unless <a href="starting.txt.html#-i" class="l">-i</a> was given.
+		Disables swapfile (like <a href="starting.txt.html#-n" class="l">-n</a>).
+
+							<span id="-l" class="t">-l</span>
+<a href="starting.txt.html#-l" class="d">-l</a> <span class="s">{script}</span> <span class="s">[args]</span>
+		Executes <a href="lua.txt.html#Lua" class="d">Lua</a> <span class="s">{script}</span> non-interactively (no UI) with optional
+		<span class="s">[args]</span> after processing any preceding Nvim <a href="starting.txt.html#cli-arguments" class="l">cli-arguments</a><a href="motion.txt.html#%2C" class="d">,</a>
+		then exits. Exits 1 on <a href="lua.txt.html#Lua" class="d">Lua</a> error. See <a href="starting.txt.html#-S" class="l">-S</a> to run multiple <a href="lua.txt.html#Lua" class="d">Lua</a>
+		scripts without args, with <a href="insert.txt.html#a" class="d">a</a> UI.
+								    <span id="lua-args" class="t">lua-args</span>
+		All <span class="s">[args]</span> are treated <a href="motion.txt.html#as" class="d">as</a> <span class="s">{script}</span> arguments and stored in the
+		<a href="lua.txt.html#Lua" class="d">Lua</a> <span class="e">_G.arg</span> global table, thus "<a href="starting.txt.html#-l" class="d">-l</a>" ends processing of Nvim
+		arguments. The <span class="s">{script}</span> name <a href="motion.txt.html#is" class="d">is</a> stored <a href="motion.txt.html#at" class="d">at</a> <span class="e">_G.arg[0]</span>.
+
+		Sets <a href="options.txt.html#%27verbose%27" class="o">'verbose'</a> to 1 (like "-V1"), so <a href="lua.txt.html#Lua" class="d">Lua</a> <span class="e">print()</span> writes to
+		output, <a href="motion.txt.html#as" class="d">as</a> well <a href="motion.txt.html#as" class="d">as</a> other message-emitting <a href="vimeval.txt.html#functions" class="d">functions</a> like
+		<a href="vimeval.txt.html#%3Aecho" class="l">:echo</a><a href="repeat.txt.html#." class="d">.</a>
+		If <span class="s">{script}</span> prints <a href="message.txt.html#messages" class="d">messages</a> and doesn't cause Nvim to exit,
+		Nvim ensures output ends with <a href="insert.txt.html#a" class="d">a</a> newline.
+
+		Arguments before "<a href="starting.txt.html#-l" class="d">-l</a>" are processed before executing <span class="s">{script}</span>.
+		This example quits before executing "foo.lua"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			nvim +q -l foo.lua</span>
+		This loads <a href="lua.txt.html#Lua" class="d">Lua</a> module "<a href="motion.txt.html#bar" class="d">bar</a>" before executing "foo.lua"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			nvim +"lua require('bar')" -l foo.lua</span>
+								    <span id="lua-shebang" class="t">lua-shebang</span>
+		You can set the "shebang" of the <a href="usr_41.txt.html#script" class="d">script</a> so that Nvim executes
+		the <a href="usr_41.txt.html#script" class="d">script</a> when called with "./" from <a href="insert.txt.html#a" class="d">a</a> shell (remember to
+		"<a href="vimfn.txt.html#chmod" class="d">chmod</a> u+x"): 
+<span class="e">			#!/usr/bin/env -S nvim -l</span>
+
+		Skips user <a href="starting.txt.html#config" class="l">config</a> unless <a href="starting.txt.html#-u" class="l">-u</a> was given.
+		Disables plugins unless <a href="options.txt.html#%27loadplugins%27" class="o">'loadplugins'</a> was set.
+		Disables <a href="starting.txt.html#shada" class="l">shada</a> unless <a href="starting.txt.html#-i" class="l">-i</a> was given.
+		Disables swapfile (like <a href="starting.txt.html#-n" class="l">-n</a>).
+
+							<span id="-ll" class="t">-ll</span>
+<a href="starting.txt.html#-ll" class="d">-ll</a> <span class="s">{script}</span> <span class="s">[args]</span>
+		Executes <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> script, similarly to <a href="starting.txt.html#-l" class="l">-l</a><a href="motion.txt.html#%2C" class="d">,</a> but the editor <a href="motion.txt.html#is" class="d">is</a> not
+		initialized. This gives <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> environment similar to <a href="insert.txt.html#a" class="d">a</a> worker
+		thread. See <a href="lua.txt.html#lua-loop-threading" class="l">lua-loop-threading</a><a href="repeat.txt.html#." class="d">.</a>
+
+		Unlike <span class="e">-l</span> no prior arguments are allowed.
+
+							<span id="-b" class="t">-b</span>
+<a href="starting.txt.html#-b" class="d">-b</a>		Binary mode.  File I/O will only recognize <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> to separate
+		lines.  The <a href="options.txt.html#%27expandtab%27" class="o">'expandtab'</a> option will be reset.  The <a href="options.txt.html#%27textwidth%27" class="o">'textwidth'</a>
+		option <a href="motion.txt.html#is" class="d">is</a> set to 0.  <a href="options.txt.html#%27modeline%27" class="o">'modeline'</a> <a href="motion.txt.html#is" class="d">is</a> reset.  The <a href="options.txt.html#%27binary%27" class="o">'binary'</a> option
+		<a href="motion.txt.html#is" class="d">is</a> set.  This <a href="motion.txt.html#is" class="d">is</a> done after reading the <a href="starting.txt.html#vimrc" class="l">vimrc</a> but before
+		reading any file in the arglist.  See also <a href="editing.txt.html#edit-binary" class="l">edit-binary</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="-A" class="t">-A</span>
+<a href="starting.txt.html#-A" class="d">-A</a>		<a href="arabic.txt.html#Arabic" class="d">Arabic</a> mode.  Sets the <a href="options.txt.html#%27arabic%27" class="o">'arabic'</a> option on.
+
+							<span id="-H" class="t">-H</span>
+<a href="starting.txt.html#-H" class="d">-H</a>		Hebrew mode.  Sets the <a href="options.txt.html#%27rightleft%27" class="o">'rightleft'</a> option on and the <a href="options.txt.html#%27keymap%27" class="o">'keymap'</a>
+		option to "<a href="hebrew.txt.html#hebrew" class="d">hebrew</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="-V" class="t">-V</span> <span id="verbose" class="t">verbose</span>
+-V[N]		Verbose.  Sets the <a href="options.txt.html#%27verbose%27" class="o">'verbose'</a> option to [N] (default: 10).
+		Messages will be given <a href="luaref.txt.html#for" class="d">for</a> each file that <a href="motion.txt.html#is" class="d">is</a> "<a href="repeat.txt.html#%3Asource" class="d">:source</a>"<a href="change.txt.html#d" class="d">d</a> and
+		<a href="luaref.txt.html#for" class="d">for</a> reading or <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> ShaDa file.  Can be used to find
+		out what <a href="motion.txt.html#is" class="d">is</a> happening upon <a href="starting.txt.html#startup" class="d">startup</a> and exit.
+		Example: 
+<span class="e">			nvim -V8</span>
+<span class="e"></span>
+-V[N]{file}
+		Like <a href="starting.txt.html#-V" class="d">-V</a> and sets <a href="options.txt.html#%27verbosefile%27" class="o">'verbosefile'</a> to <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> (must not start with
+		<a href="insert.txt.html#a" class="d">a</a> digit).  Messages are not displayed, instead they are
+		written to <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>.
+		Example: 
+<span class="e">			nvim -V20vimlog</span>
+
+							<span id="-D" class="t">-D</span>
+<a href="starting.txt.html#-D" class="d">-D</a>		Debugging.  Go to debugging mode when executing the first
+		command from <a href="insert.txt.html#a" class="d">a</a> script. <a href="repeat.txt.html#debug-mode" class="l">debug-mode</a>
+
+							<span id="-n" class="t">-n</span>
+<a href="starting.txt.html#-n" class="d">-n</a>		Disables <a href="recover.txt.html#swap-file" class="l">swap-file</a> by setting <a href="options.txt.html#%27updatecount%27" class="o">'updatecount'</a> to <a href="motion.txt.html#0" class="d">0</a> (after
+		executing any <a href="starting.txt.html#vimrc" class="l">vimrc</a>).  Recovery after <a href="insert.txt.html#a" class="d">a</a> crash will be
+		impossible.  Improves performance when working with <a href="insert.txt.html#a" class="d">a</a> file on
+		<a href="insert.txt.html#a" class="d">a</a> very slow medium (usb drive, network share).
+
+		Enable <a href="motion.txt.html#it" class="d">it</a> again by setting <a href="options.txt.html#%27updatecount%27" class="o">'updatecount'</a> to some value, e.g.
+		"<a href="options.txt.html#%3Aset" class="d">:set</a> updatecount=100"<a href="repeat.txt.html#." class="d">.</a>
+
+		To reduce accesses to the disk, don't use "<a href="starting.txt.html#-n" class="d">-n</a>"<a href="motion.txt.html#%2C" class="d">,</a> but set
+		<a href="options.txt.html#%27updatetime%27" class="o">'updatetime'</a> and <a href="options.txt.html#%27updatecount%27" class="o">'updatecount'</a> to very big numbers, and type
+		"<a href="recover.txt.html#%3Apreserve" class="d">:preserve</a>" when you want to save your work.  This way you
+		keep the possibility <a href="luaref.txt.html#for" class="d">for</a> crash recovery.
+
+							<span id="-o" class="t">-o</span>
+-o[N]		Open <a href="pattern.txt.html#N" class="d">N</a> windows, split horizontally.  If [N] <a href="motion.txt.html#is" class="d">is</a> not given,
+		one <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> opened <a href="luaref.txt.html#for" class="d">for</a> every file given <a href="motion.txt.html#as" class="d">as</a> argument.  If
+		there <a href="motion.txt.html#is" class="d">is</a> not enough room, only the first few files get <a href="insert.txt.html#a" class="d">a</a>
+		window.  If there are more <a href="windows.txt.html#windows" class="d">windows</a> than arguments, the last
+		few <a href="windows.txt.html#windows" class="d">windows</a> will be editing an empty file.
+
+							<span id="-O" class="t">-O</span>
+-O[N]		Open <a href="pattern.txt.html#N" class="d">N</a> windows, split vertically.  Otherwise, it's like -o.
+		If both the <a href="starting.txt.html#-o" class="d">-o</a> and the <a href="starting.txt.html#-O" class="d">-O</a> option are given, the last one on
+		the command line determines how the <a href="windows.txt.html#windows" class="d">windows</a> will be split.
+
+							<span id="-p" class="t">-p</span>
+-p[N]		Open <a href="pattern.txt.html#N" class="d">N</a> <a href="intro.txt.html#tab" class="d">tab</a> pages.  If [N] <a href="motion.txt.html#is" class="d">is</a> not given, one <a href="intro.txt.html#tab" class="d">tab</a> page <a href="motion.txt.html#is" class="d">is</a> opened
+		<a href="luaref.txt.html#for" class="d">for</a> every file given <a href="motion.txt.html#as" class="d">as</a> argument.  The maximum <a href="motion.txt.html#is" class="d">is</a> set with
+		<a href="options.txt.html#%27tabpagemax%27" class="o">'tabpagemax'</a> pages (default 50).  If there are more <a href="intro.txt.html#tab" class="d">tab</a> pages
+		than arguments, the last few <a href="intro.txt.html#tab" class="d">tab</a> pages will be editing an
+		empty file.  Also see <a href="tabpage.txt.html#tabpage" class="l">tabpage</a><a href="repeat.txt.html#." class="d">.</a>
+							<span id="-d" class="t">-d</span>
+<a href="starting.txt.html#-d" class="d">-d</a>		Start in <a href="diff.txt.html#diff-mode" class="l">diff-mode</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="-u" class="t">-u</span> <span id="E282" class="t">E282</span>
+<a href="starting.txt.html#-u" class="d">-u</a> <span class="s">{vimrc}</span>	The file <span class="s">{vimrc}</span> <a href="motion.txt.html#is" class="d">is</a> read <a href="luaref.txt.html#for" class="d">for</a> initializations.  Most other
+		initializations are skipped; see <a href="starting.txt.html#initialization" class="l">initialization</a><a href="repeat.txt.html#." class="d">.</a>
+
+		This can be used to start Vim in <a href="insert.txt.html#a" class="d">a</a> special mode, with special
+		mappings and settings.  <a href="insert.txt.html#A" class="d">A</a> shell alias can be used to make
+		this easy to use.  For example, in <a href="insert.txt.html#a" class="d">a</a> <a href="change.txt.html#C" class="d">C</a> shell descendant: 
+<span class="e">			alias vimc 'nvim -u ~/.config/nvim/c_init.vim \!*'</span>
+		And in <a href="insert.txt.html#a" class="d">a</a> Bash shell: 
+<span class="e">			alias vimc='nvim -u ~/.config/nvim/c_init.vim'</span>
+		Also consider using autocommands; see <a href="autocmd.txt.html#autocommand" class="l">autocommand</a><a href="repeat.txt.html#." class="d">.</a>
+
+		When <span class="s">{vimrc}</span> <a href="motion.txt.html#is" class="d">is</a> "NONE" (all uppercase), all initializations
+		from files and environment <a href="vimeval.txt.html#variables" class="d">variables</a> are skipped.  Plugins and
+		<a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting are also skipped.
+
+		When <span class="s">{vimrc}</span> <a href="motion.txt.html#is" class="d">is</a> "NORC" (all uppercase), this has the same
+		effect <a href="motion.txt.html#as" class="d">as</a> "NONE"<a href="motion.txt.html#%2C" class="d">,</a> but plugins and <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting are not
+		skipped.
+
+							<span id="-i" class="t">-i</span>
+<a href="starting.txt.html#-i" class="d">-i</a> <span class="s">{shada}</span>	The file <span class="s">{shada}</span> <a href="motion.txt.html#is" class="d">is</a> used instead of the default ShaDa
+		file.  If the name "NONE" <a href="motion.txt.html#is" class="d">is</a> used (all uppercase), no ShaDa
+		file <a href="motion.txt.html#is" class="d">is</a> read or written, even if <a href="options.txt.html#%27shada%27" class="o">'shada'</a> <a href="motion.txt.html#is" class="d">is</a> set or when
+		"<a href="starting.txt.html#%3Arsh" class="d">:rsh</a>" or "<a href="starting.txt.html#%3Awsh" class="d">:wsh</a>" are used.  See also <a href="starting.txt.html#shada-file" class="l">shada-file</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="-s" class="t">-s</span>
+<a href="starting.txt.html#-s" class="d">-s</a> <span class="s">{scriptin}</span>	Read <a href="usr_41.txt.html#script" class="d">script</a> file <span class="s">{scriptin}</span>, interpreting characters <a href="motion.txt.html#as" class="d">as</a>
+		<a href="intro.txt.html#Normal-mode" class="d">Normal-mode</a> input.  The same can be done with "<a href="repeat.txt.html#%3Asource%21" class="d">:source!</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			:source! {scriptin}</span>
+		Reads from stdin if <span class="s">{scriptin}</span> <a href="motion.txt.html#is" class="d">is</a> "<a href="motion.txt.html#-" class="d">-</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			echo "ifoo" | nvim -s -</span>
+		If the <a href="intro.txt.html#end" class="d">end</a> of the file <a href="motion.txt.html#is" class="d">is</a> reached before Nvim exits, further
+		characters are read from the keyboard.
+
+		Does not work with <a href="starting.txt.html#-es" class="l">-es</a><a href="repeat.txt.html#." class="d">.</a>  See also <a href="repeat.txt.html#complex-repeat" class="l">complex-repeat</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="-w_nr" class="t">-w_nr</span>
+<a href="starting.txt.html#-w" class="d">-w</a> <span class="s">{number}</span>
+-w{number}	Set the <a href="options.txt.html#%27window%27" class="o">'window'</a> option to <span class="s">{number}</span>.
+
+							<span id="-w" class="t">-w</span>
+<a href="starting.txt.html#-w" class="d">-w</a> <span class="s">{scriptout}</span>	All keys that you type are recorded in the file "scriptout"<a href="motion.txt.html#%2C" class="d">,</a>
+		until you exit Vim.  Useful to create <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> file to be used
+		with "vim <a href="starting.txt.html#-s" class="d">-s</a>" or "<a href="repeat.txt.html#%3Asource%21" class="d">:source!</a>"<a href="repeat.txt.html#." class="d">.</a>  Appends to the "scriptout" file
+		if <a href="motion.txt.html#it" class="d">it</a> already exists. <span class="s">{scriptout}</span> cannot start with <a href="insert.txt.html#a" class="d">a</a> digit.
+		See also <a href="lua.txt.html#vim.on_key%28%29" class="l">vim.on_key()</a><a href="repeat.txt.html#." class="d">.</a>
+		See also <a href="repeat.txt.html#complex-repeat" class="l">complex-repeat</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="-W" class="t">-W</span>
+<a href="starting.txt.html#-W" class="d">-W</a> <span class="s">{scriptout}</span>	Like -w, but <a href="diff.txt.html#do" class="d">do</a> not append, overwrite an existing file.
+
+							<span id="--api-info" class="t">--api-info</span>
+<a href="starting.txt.html#--api-info" class="d">--api-info</a>	Print msgpack-encoded <a href="api.txt.html#api-metadata" class="l">api-metadata</a> and exit.
+
+							<span id="--embed" class="t">--embed</span>
+<a href="starting.txt.html#--embed" class="d">--embed</a>		Use stdin/stdout <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> msgpack-RPC channel, so applications can
+		embed and <a href="intro.txt.html#control" class="d">control</a> Nvim via the <a href="api.txt.html#RPC" class="d">RPC</a> <a href="api.txt.html#API" class="l">API</a><a href="repeat.txt.html#." class="d">.</a> If the <a href="channel.txt.html#channel" class="d">channel</a> <a href="motion.txt.html#is" class="d">is</a>
+		closed (except by <a href="gui.txt.html#%3Adetach" class="l">:detach</a>), Nvim exits.
+
+		Waits <a href="luaref.txt.html#for" class="d">for</a> the client <a href="motion.txt.html#%28" class="d">(</a>"embedder"<a href="motion.txt.html#%29" class="d">)</a> to call <a href="api.txt.html#nvim_ui_attach%28%29" class="l">nvim_ui_attach()</a>
+		before sourcing <a href="starting.txt.html#startup" class="d">startup</a> files and reading buffers, so that UIs
+		can deterministically handle (display) early messages,
+		dialogs, etc.  The client can <a href="diff.txt.html#do" class="d">do</a> other requests before
+		<span class="e">nvim_ui_attach</span> (e.g. <span class="e">nvim_get_api_info</span> <a href="luaref.txt.html#for" class="d">for</a> feature-detection).
+		During this pre-startup phase the user <a href="starting.txt.html#config" class="d">config</a> <a href="motion.txt.html#is" class="d">is</a> of course not
+		available (similar to <span class="e">--cmd</span>).
+
+		Non-UI embedders must pass <a href="starting.txt.html#--headless" class="l">--headless</a><a href="motion.txt.html#%2C" class="d">,</a> then <a href="starting.txt.html#startup" class="d">startup</a> will
+		continue without waiting <a href="luaref.txt.html#for" class="d">for</a> <span class="e">nvim_ui_attach</span>: 
+<span class="e">		    nvim --embed --headless</span>
+		which <a href="motion.txt.html#is" class="d">is</a> equivalent to: 
+<span class="e">		    nvim --headless --cmd "call stdioopen({'rpc': v:true})"</span>
+
+		<a href="ui.txt.html#UI" class="d">UI</a> embedders that want the <a href="ui.txt.html#UI" class="d">UI</a> protocol on <a href="insert.txt.html#a" class="d">a</a> socket (instead of
+		stdio) must pass <a href="starting.txt.html#--listen" class="l">--listen</a> <a href="motion.txt.html#as" class="d">as</a> well <a href="motion.txt.html#as" class="d">as</a> <a href="starting.txt.html#--embed" class="l">--embed</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">		    nvim --embed --listen addr</span>
+<span class="e"></span>
+		See also: <a href="ui.txt.html#ui-startup" class="l">ui-startup</a> <a href="channel.txt.html#channel-stdio" class="l">channel-stdio</a>
+
+							<span id="--headless" class="t">--headless</span>
+<a href="starting.txt.html#--headless" class="d">--headless</a>	Start without UI, and <a href="diff.txt.html#do" class="d">do</a> not wait <a href="luaref.txt.html#for" class="d">for</a> <span class="e">nvim_ui_attach</span>. The
+		builtin <a href="tui.txt.html#TUI" class="d">TUI</a> <a href="motion.txt.html#is" class="d">is</a> not used, so stdio works <a href="motion.txt.html#as" class="d">as</a> an arbitrary
+		communication channel. <a href="channel.txt.html#channel-stdio" class="l">channel-stdio</a>
+
+		Also useful <a href="luaref.txt.html#for" class="d">for</a> scripting (tests) to see <a href="message.txt.html#messages" class="d">messages</a> that would
+		not be printed by <a href="starting.txt.html#-es" class="l">-es</a><a href="repeat.txt.html#." class="d">.</a>
+
+		To detect if <a href="insert.txt.html#a" class="d">a</a> <a href="ui.txt.html#UI" class="d">UI</a> <a href="motion.txt.html#is" class="d">is</a> available, check if <a href="api.txt.html#nvim_list_uis%28%29" class="l">nvim_list_uis()</a> <a href="motion.txt.html#is" class="d">is</a>
+		empty during or after <a href="autocmd.txt.html#VimEnter" class="l">VimEnter</a><a href="repeat.txt.html#." class="d">.</a>
+
+		To read stdin <a href="motion.txt.html#as" class="d">as</a> text, "<a href="motion.txt.html#-" class="d">-</a>" must be given explicitly:
+		<a href="starting.txt.html#--headless" class="d">--headless</a> cannot assume that stdin <a href="motion.txt.html#is" class="d">is</a> just text. 
+<span class="e">			echo foo | nvim --headless +"%print" +"q!" -</span>
+
+		See also <a href="starting.txt.html#--embed" class="l">--embed</a><a href="repeat.txt.html#." class="d">.</a>
+		See also <a href="starting.txt.html#-es" class="l">-es</a><a href="motion.txt.html#%2C" class="d">,</a> which also disables most messages.
+
+<a href="starting.txt.html#--listen" class="d">--listen</a> <span class="s">{addr}</span>						<span id="--listen" class="t">--listen</span>
+		Start <a href="api.txt.html#RPC" class="l">RPC</a> server on pipe or TCP address <span class="s">{addr}</span>. Sets the
+		primary listen address <a href="vvars.txt.html#v%3Aservername" class="l">v:servername</a> to <span class="s">{addr}</span>. <a href="vimfn.txt.html#serverstart%28%29" class="l">serverstart()</a>
+
+		To start the server on-demand with systemd, use <a href="insert.txt.html#a" class="d">a</a> systemd
+		socket unit and associated service unit running: 
+<span class="e">		systemd-socket-proxyd --exit-idle-time</span>
+
+<span class="h">==============================================================================</span>
+Initialization					<span id="initialization" class="t">initialization</span> <span id="startup" class="t">startup</span>
+
+At startup, Nvim checks environment <a href="vimeval.txt.html#variables" class="d">variables</a> and files and sets values
+accordingly, proceeding <a href="motion.txt.html#as" class="d">as</a> follows:
+
+1. Set the <a href="options.txt.html#%27shell%27" class="o">'shell'</a> option			<span id="SHELL" class="t">SHELL</span> <span id="COMSPEC" class="t">COMSPEC</span>
+	The environment variable SHELL, if <a href="motion.txt.html#it" class="d">it</a> exists, <a href="motion.txt.html#is" class="d">is</a> used to set the
+	<a href="options.txt.html#%27shell%27" class="o">'shell'</a> option.  On Win32, the <a href="starting.txt.html#COMSPEC" class="d">COMSPEC</a> variable <a href="motion.txt.html#is" class="d">is</a> used
+	if <a href="starting.txt.html#SHELL" class="d">SHELL</a> <a href="motion.txt.html#is" class="d">is</a> not set.
+
+2. Process the arguments
+	The <a href="options.txt.html#options" class="d">options</a> and file names from the command that start Vim are
+	inspected.
+	The <a href="starting.txt.html#-V" class="l">-V</a> argument can be used to display or <a href="starting.txt.html#log" class="d">log</a> what happens next,
+	useful <a href="luaref.txt.html#for" class="d">for</a> debugging the initializations.
+	The <a href="starting.txt.html#--cmd" class="l">--cmd</a> arguments are executed.
+	Buffers are created <a href="luaref.txt.html#for" class="d">for</a> all files (but not loaded yet).
+
+3. Start <a href="insert.txt.html#a" class="d">a</a> server (unless <a href="starting.txt.html#--listen" class="l">--listen</a> was given) and set <a href="vvars.txt.html#v%3Aservername" class="l">v:servername</a><a href="repeat.txt.html#." class="d">.</a>
+
+4. Wait <a href="luaref.txt.html#for" class="d">for</a> <a href="ui.txt.html#UI" class="d">UI</a> to connect.
+	Nvim started with <a href="starting.txt.html#--embed" class="l">--embed</a> waits <a href="luaref.txt.html#for" class="d">for</a> the <a href="ui.txt.html#UI" class="d">UI</a> to connect before
+	proceeding to load user configuration.
+
+5. Setup <a href="vim_diff.txt.html#default-mappings" class="l">default-mappings</a> and <a href="vim_diff.txt.html#default-autocmds" class="l">default-autocmds</a><a href="repeat.txt.html#." class="d">.</a>  Create <a href="gui.txt.html#popup-menu" class="l">popup-menu</a><a href="repeat.txt.html#." class="d">.</a>
+
+6. Enable <a href="filetype.txt.html#filetype" class="d">filetype</a> and indent plugins.
+	This does the same <a href="motion.txt.html#as" class="d">as</a> the command: 
+<span class="e">		:runtime! ftplugin.vim indent.vim</span>
+	Skipped if the "<a href="starting.txt.html#-u" class="d">-u</a> NONE" command line argument was given.
+
+7. Load user <a href="starting.txt.html#config" class="d">config</a> (execute <a href="intro.txt.html#Ex" class="d">Ex</a> commands from files, environment, …).
+	$VIMINIT environment variable <a href="motion.txt.html#is" class="d">is</a> read <a href="motion.txt.html#as" class="d">as</a> one <a href="intro.txt.html#Ex" class="d">Ex</a> command line (separate
+	multiple commands with <a href="motion.txt.html#%27" class="d">'</a>|<a href="motion.txt.html#%27" class="d">'</a> or <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a>).
+					<span id="config" class="t">config</span> <span id="init.vim" class="t">init.vim</span> <span id="init.lua" class="t">init.lua</span> <span id="vimrc" class="t">vimrc</span> <span id="exrc" class="t">exrc</span>
+	<a href="insert.txt.html#A" class="d">A</a> file containing <a href="starting.txt.html#initialization" class="d">initialization</a> commands <a href="motion.txt.html#is" class="d">is</a> generically called
+	<a href="insert.txt.html#a" class="d">a</a> "<a href="starting.txt.html#vimrc" class="d">vimrc</a>" or <a href="starting.txt.html#config" class="d">config</a> file.  It can be either Vimscript <a href="motion.txt.html#%28" class="d">(</a>"<a href="starting.txt.html#init.vim" class="d">init.vim</a>"<a href="motion.txt.html#%29" class="d">)</a> or
+	<a href="lua.txt.html#Lua" class="d">Lua</a> <a href="motion.txt.html#%28" class="d">(</a>"<a href="starting.txt.html#init.lua" class="d">init.lua</a>"), but not both. <span id="E5422" class="t">E5422</span>
+	See also <a href="usr_05.txt.html#vimrc-intro" class="l">vimrc-intro</a> and <a href="starting.txt.html#base-directories" class="l">base-directories</a><a href="repeat.txt.html#." class="d">.</a>
+
+	The <a href="starting.txt.html#config" class="d">config</a> file <a href="motion.txt.html#is" class="d">is</a> located at:
+	Unix			~/.config/nvim/init.vim		(or init.lua)
+	Windows			~/AppData/Local/nvim/init.vim	(or init.lua)
+	<a href="starting.txt.html#%24XDG_CONFIG_HOME" class="l">$XDG_CONFIG_HOME</a>  	$XDG_CONFIG_HOME/nvim/init.vim	(or init.lua)
+
+	If Nvim was started with "<a href="starting.txt.html#-u" class="d">-u</a> <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>" then <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> the <a href="starting.txt.html#config" class="d">config</a>
+	and all initializations until 8. are skipped. <a href="starting.txt.html#%24MYVIMRC" class="d">$MYVIMRC</a> <a href="motion.txt.html#is" class="d">is</a> not set.
+	"<a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#-u" class="d">-u</a> NORC" can be used to skip these initializations without
+	reading <a href="insert.txt.html#a" class="d">a</a> file.  "<a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#-u" class="d">-u</a> NONE" also skips plugins and <a href="syntax.txt.html#syntax" class="d">syntax</a>
+	highlighting.  <a href="starting.txt.html#-u" class="l">-u</a>
+
+	If Nvim was started with <a href="starting.txt.html#-es" class="l">-es</a> or <a href="starting.txt.html#-Es" class="l">-Es</a> or <a href="starting.txt.html#-l" class="l">-l</a> all initializations until 8.
+	are skipped.
+						<span id="system-vimrc" class="t">system-vimrc</span> <span id="sysinit.vim" class="t">sysinit.vim</span>
+     a. The system <a href="starting.txt.html#vimrc" class="d">vimrc</a> file <a href="motion.txt.html#is" class="d">is</a> read <a href="luaref.txt.html#for" class="d">for</a> initializations.  If
+	nvim/sysinit.vim file exists in one of $XDG_CONFIG_DIRS, <a href="motion.txt.html#it" class="d">it</a> will be
+	used.  Otherwise the system <a href="starting.txt.html#vimrc" class="d">vimrc</a> file <a href="motion.txt.html#is" class="d">is</a> used. The path of this file
+	<a href="motion.txt.html#is" class="d">is</a> given by the <a href="various.txt.html#%3Aversion" class="l">:version</a> command.  Usually it's "$VIM/sysinit.vim"<a href="repeat.txt.html#." class="d">.</a>
+
+						<span id="VIMINIT" class="t">VIMINIT</span> <span id="EXINIT" class="t">EXINIT</span> <span id="%24MYVIMRC" class="t">$MYVIMRC</span>
+     b. Locations searched <a href="luaref.txt.html#for" class="d">for</a> initializations, in order of preference:
+	<a href="motion.txt.html#-" class="d">-</a>  $VIMINIT environment variable (Ex command line).
+	<a href="motion.txt.html#-" class="d">-</a>  <a href="autocmd.txt.html#User" class="d">User</a> <a href="starting.txt.html#config" class="l">config</a><a href="cmdline.txt.html#%3A" class="d">:</a> $XDG_CONFIG_HOME/nvim/init.vim (or init.lua).
+	<a href="motion.txt.html#-" class="d">-</a>  Other config: <span class="s">{dir}</span>/nvim/init.vim (or init.lua) where <span class="s">{dir}</span> <a href="motion.txt.html#is" class="d">is</a> any
+	   directory in $XDG_CONFIG_DIRS.
+	<a href="motion.txt.html#-" class="d">-</a>  $EXINIT environment variable (Ex command line).
+	<a href="starting.txt.html#%24MYVIMRC" class="l">$MYVIMRC</a> <a href="motion.txt.html#is" class="d">is</a> set to the first valid location unless <a href="motion.txt.html#it" class="d">it</a> was already
+	set or when using $VIMINIT.
+
+     c. If the <a href="options.txt.html#%27exrc%27" class="o">'exrc'</a> option <a href="motion.txt.html#is" class="d">is</a> on (which <a href="motion.txt.html#is" class="d">is</a> NOT the default), the current
+	directory <a href="motion.txt.html#is" class="d">is</a> searched <a href="luaref.txt.html#for" class="d">for</a> the following files, in order of precedence:
+	<a href="motion.txt.html#-" class="d">-</a> ".nvim.lua"
+	<a href="motion.txt.html#-" class="d">-</a> ".nvimrc"
+	<a href="motion.txt.html#-" class="d">-</a> ".exrc"
+	The first that exists <a href="motion.txt.html#is" class="d">is</a> used, the others are ignored.
+
+8. Enable <a href="filetype.txt.html#filetype" class="d">filetype</a> detection.
+	This does the same <a href="motion.txt.html#as" class="d">as</a> the command: 
+<span class="e">		:runtime! filetype.lua</span>
+	Skipped if "<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> off" was called or if the "<a href="starting.txt.html#-u" class="d">-u</a> NONE" command line
+	argument was given.
+
+9. Enable <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting.
+	This does the same <a href="motion.txt.html#as" class="d">as</a> the command: 
+<span class="e">		:runtime! syntax/syntax.vim</span>
+	Skipped if "<a href="syntax.txt.html#%3Asyntax" class="d">:syntax</a> off" was called or if the "<a href="starting.txt.html#-u" class="d">-u</a> NONE" command
+	line argument was given.
+
+10. Load the <a href="usr_05.txt.html#plugin" class="d">plugin</a> scripts.					<span id="load-plugins" class="t">load-plugins</span>
+	This does the same <a href="motion.txt.html#as" class="d">as</a> the command: 
+<span class="e">		:runtime! plugin/**/*.{vim,lua}</span>
+	The result <a href="motion.txt.html#is" class="d">is</a> that all directories in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> will be searched
+	<a href="luaref.txt.html#for" class="d">for</a> the "<a href="usr_05.txt.html#plugin" class="d">plugin</a>" sub-directory and all files ending in ".vim" or
+	".lua" will be sourced (in alphabetical order per directory),
+	also in subdirectories. First "*.vim" are sourced, then "*.lua" files,
+	per directory.
+
+	However, directories in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> ending in "after" are skipped
+	here and only loaded after packages, see below.
+	Loading plugins won't be done when:
+	<a href="motion.txt.html#-" class="d">-</a> The <a href="options.txt.html#%27loadplugins%27" class="l">'loadplugins'</a> option was reset in <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#vimrc" class="d">vimrc</a> file.
+	<a href="motion.txt.html#-" class="d">-</a> The <a href="starting.txt.html#--noplugin" class="l">--noplugin</a> command line argument <a href="motion.txt.html#is" class="d">is</a> used.
+	<a href="motion.txt.html#-" class="d">-</a> The <a href="starting.txt.html#--clean" class="l">--clean</a> command line argument <a href="motion.txt.html#is" class="d">is</a> used.
+	<a href="motion.txt.html#-" class="d">-</a> The "<a href="starting.txt.html#-u" class="d">-u</a> NONE" command line argument <a href="motion.txt.html#is" class="d">is</a> used <a href="starting.txt.html#-u" class="l">-u</a><a href="repeat.txt.html#." class="d">.</a>
+	<span class="n">Note</span> that using `-c 'set noloadplugins'` doesn't work, because the
+	commands from the command line have not been executed yet.  You can
+	use `--cmd 'set noloadplugins'` or `--cmd 'set loadplugins'` <a href="starting.txt.html#--cmd" class="l">--cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+	Packages are loaded.  These are plugins, <a href="motion.txt.html#as" class="d">as</a> above, but found in the
+	"start" directory of each entry in <a href="options.txt.html#%27packpath%27" class="o">'packpath'</a>.  Every <a href="usr_05.txt.html#plugin" class="d">plugin</a> directory
+	found <a href="motion.txt.html#is" class="d">is</a> added in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> and then the plugins are sourced.  See
+	<a href="repeat.txt.html#packages" class="l">packages</a><a href="repeat.txt.html#." class="d">.</a>
+
+	The plugins scripts are loaded, <a href="motion.txt.html#as" class="d">as</a> above, but now only the directories
+	ending in "after" are used.  <span class="n">Note</span> that <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> will have changed
+	if <a href="repeat.txt.html#packages" class="d">packages</a> have been found, but that should not add <a href="insert.txt.html#a" class="d">a</a> directory
+	ending in "after"<a href="repeat.txt.html#." class="d">.</a>
+
+11. Set <a href="options.txt.html#%27shellpipe%27" class="o">'shellpipe'</a> and <a href="options.txt.html#%27shellredir%27" class="o">'shellredir'</a>
+	The <a href="options.txt.html#%27shellpipe%27" class="o">'shellpipe'</a> and <a href="options.txt.html#%27shellredir%27" class="o">'shellredir'</a> <a href="options.txt.html#options" class="d">options</a> are set according to the
+	value of the <a href="options.txt.html#%27shell%27" class="o">'shell'</a> option, unless they have been set before.
+	This means that Nvim will figure out the values of <a href="options.txt.html#%27shellpipe%27" class="o">'shellpipe'</a> and
+	<a href="options.txt.html#%27shellredir%27" class="o">'shellredir'</a> <a href="luaref.txt.html#for" class="d">for</a> you, unless you have set them yourself.
+
+12. Set <a href="options.txt.html#%27updatecount%27" class="o">'updatecount'</a> to zero, if "<a href="starting.txt.html#-n" class="d">-n</a>" command argument used.
+
+13. Set binary <a href="options.txt.html#options" class="d">options</a> if the <a href="starting.txt.html#-b" class="l">-b</a> flag was given.
+
+14. Read the <a href="starting.txt.html#shada-file" class="l">shada-file</a><a href="repeat.txt.html#." class="d">.</a>
+
+15. Read the <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> file if the <a href="starting.txt.html#-q" class="l">-q</a> flag was given, or exit on failure.
+
+16. Open all <a href="windows.txt.html#windows" class="d">windows</a>
+	When the <a href="starting.txt.html#-o" class="l">-o</a> flag was given, <a href="windows.txt.html#windows" class="d">windows</a> will be opened (but not
+	displayed yet).
+	When the <a href="starting.txt.html#-p" class="l">-p</a> flag was given, <a href="intro.txt.html#tab" class="d">tab</a> pages will be created (but not
+	displayed yet).
+	When switching screens, <a href="motion.txt.html#it" class="d">it</a> happens now.  Redrawing starts.
+	If the <a href="starting.txt.html#-q" class="l">-q</a> flag was given, the first error <a href="motion.txt.html#is" class="d">is</a> jumped to.
+	Buffers <a href="luaref.txt.html#for" class="d">for</a> all <a href="windows.txt.html#windows" class="d">windows</a> will be loaded, without triggering <a href="autocmd.txt.html#BufAdd" class="l">BufAdd</a>
+	autocommands.
+
+17. Execute <a href="starting.txt.html#startup" class="d">startup</a> commands
+	If <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#-t" class="l">-t</a> flag was given, the <a href="tagsrch.txt.html#tag" class="d">tag</a> <a href="motion.txt.html#is" class="d">is</a> jumped to.
+	Commands given with <a href="starting.txt.html#-c" class="l">-c</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a> are executed.
+	The <a href="starting.txt.html#starting" class="d">starting</a> flag <a href="motion.txt.html#is" class="d">is</a> reset, has("<a href="vimfn.txt.html#vim_starting" class="d">vim_starting</a>"<a href="motion.txt.html#%29" class="d">)</a> will now return zero.
+	The <a href="vvars.txt.html#v%3Avim_did_enter" class="l">v:vim_did_enter</a> variable <a href="motion.txt.html#is" class="d">is</a> set to 1.
+	The <a href="autocmd.txt.html#VimEnter" class="l">VimEnter</a> autocommands are executed.
+
+
+<span class="h">Saving the current state of Vim to a file </span>
+
+Whenever you have changed values of <a href="options.txt.html#options" class="d">options</a> or when you have created <a href="insert.txt.html#a" class="d">a</a>
+mapping, then you may want to save them in <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#vimrc" class="d">vimrc</a> file <a href="luaref.txt.html#for" class="d">for</a> later use.  See
+<a href="starting.txt.html#save-settings" class="l">save-settings</a> about saving the current state of settings to <a href="insert.txt.html#a" class="d">a</a> file.
+
+
+<span class="h">Avoiding trojan horses </span>
+							<span id="trojan-horse" class="t">trojan-horse</span>
+While reading the "<a href="starting.txt.html#vimrc" class="d">vimrc</a>" or the "<a href="starting.txt.html#exrc" class="d">exrc</a>" file in the current directory, some
+commands can be disabled <a href="luaref.txt.html#for" class="d">for</a> security reasons by setting the <a href="vim_diff.txt.html#%27secure%27" class="o">'secure'</a> option.
+This <a href="motion.txt.html#is" class="d">is</a> always done when executing the command from <a href="insert.txt.html#a" class="d">a</a> <a href="tagsrch.txt.html#tags" class="d">tags</a> file.  Otherwise,
+<a href="motion.txt.html#it" class="d">it</a> would be possible that you accidentally use <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#vimrc" class="d">vimrc</a> or <a href="tagsrch.txt.html#tags" class="d">tags</a> file that
+somebody else created and contains nasty commands.  The disabled commands are
+the ones that start <a href="insert.txt.html#a" class="d">a</a> shell, the ones that write to <a href="insert.txt.html#a" class="d">a</a> file, and "<a href="autocmd.txt.html#%3Aautocmd" class="d">:autocmd</a>"<a href="repeat.txt.html#." class="d">.</a>
+The "<a href="map.txt.html#%3Amap" class="d">:map</a>" commands are echoed, so you can see which keys are being mapped.
+	If you want Vim to execute all commands in <a href="insert.txt.html#a" class="d">a</a> local <a href="starting.txt.html#vimrc" class="d">vimrc</a> file, you
+can reset the <a href="vim_diff.txt.html#%27secure%27" class="o">'secure'</a> option in the <a href="starting.txt.html#EXINIT" class="d">EXINIT</a> or <a href="starting.txt.html#VIMINIT" class="d">VIMINIT</a> environment variable or
+in the global <a href="starting.txt.html#exrc" class="d">exrc</a> or <a href="starting.txt.html#vimrc" class="d">vimrc</a> file.  This <a href="motion.txt.html#is" class="d">is</a> not possible in <a href="starting.txt.html#vimrc" class="d">vimrc</a> or
+<a href="starting.txt.html#exrc" class="d">exrc</a> in the current directory, <a href="luaref.txt.html#for" class="d">for</a> obvious reasons.
+	On Unix systems, this only happens if you are not the owner of the
+<a href="starting.txt.html#vimrc" class="d">vimrc</a> file.  Warning: If you unpack an archive that contains <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#vimrc" class="d">vimrc</a> or <a href="starting.txt.html#exrc" class="d">exrc</a>
+file, <a href="motion.txt.html#it" class="d">it</a> will be owned by you.  You won't have the security protection.  Check
+the <a href="starting.txt.html#vimrc" class="d">vimrc</a> file before you start Vim in that directory, or reset the <a href="options.txt.html#%27exrc%27" class="o">'exrc'</a>
+option.  Some Unix systems allow <a href="insert.txt.html#a" class="d">a</a> user to <a href="diff.txt.html#do" class="d">do</a> "chown" on <a href="insert.txt.html#a" class="d">a</a> file.  This makes
+<a href="motion.txt.html#it" class="d">it</a> possible <a href="luaref.txt.html#for" class="d">for</a> another user to create <a href="insert.txt.html#a" class="d">a</a> nasty <a href="starting.txt.html#vimrc" class="d">vimrc</a> and make you the owner.
+Be careful!
+	When using <a href="tagsrch.txt.html#tag" class="d">tag</a> search commands, executing the search command (the last
+part of the line in the <a href="tagsrch.txt.html#tags" class="d">tags</a> file) <a href="motion.txt.html#is" class="d">is</a> always done in secure mode.  This works
+just like executing <a href="insert.txt.html#a" class="d">a</a> command from <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#vimrc" class="d">vimrc</a> in the current directory.
+
+
+<span class="h">If Vim startup is slow </span>
+							<span id="slow-start" class="t">slow-start</span>
+If Vim takes <a href="insert.txt.html#a" class="d">a</a> long time to start up, use the <a href="starting.txt.html#--startuptime" class="l">--startuptime</a> argument to find
+out what happens.
+
+If you have <a href="options.txt.html#%27shada%27" class="o">'shada'</a> enabled, the loading of the ShaDa file may take <a href="insert.txt.html#a" class="d">a</a>
+while.  You can find out if this <a href="motion.txt.html#is" class="d">is</a> the problem by disabling ShaDa <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a>
+moment (use the Vim argument "<a href="starting.txt.html#-i" class="d">-i</a> NONE"<a href="motion.txt.html#%2C" class="d">,</a> <a href="starting.txt.html#-i" class="l">-i</a>).  Try reducing the number of
+lines stored in <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#register" class="d">register</a> with "<a href="options.txt.html#%3Aset" class="d">:set</a> shada='20,&lt;50,s10"<a href="repeat.txt.html#." class="d">.</a>  <a href="starting.txt.html#shada-file" class="l">shada-file</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="h">Troubleshooting broken configurations </span>
+							<span id="bisect" class="t">bisect</span>
+The extreme flexibility of editors like Vim and Emacs means that any <a href="usr_05.txt.html#plugin" class="d">plugin</a> or
+setting can affect the entire editor in ways that are not initially obvious.
+
+To find the cause of <a href="insert.txt.html#a" class="d">a</a> problem in your config, you must "<a href="starting.txt.html#bisect" class="d">bisect</a>" it:
+1. Remove or disable half of your <a href="starting.txt.html#config" class="l">config</a><a href="repeat.txt.html#." class="d">.</a>
+2. Restart Nvim.
+3. If the problem still occurs, goto 1.
+4. If the problem <a href="motion.txt.html#is" class="d">is</a> gone, restore half of the removed lines.
+5. Continue narrowing your <a href="starting.txt.html#config" class="d">config</a> in this way, until you find the setting or
+   <a href="usr_05.txt.html#plugin" class="d">plugin</a> causing the issue.
+
+
+<span class="h">Intro message </span>
+							<span id="%3Aintro" class="t">:intro</span>
+When Vim starts without <a href="insert.txt.html#a" class="d">a</a> file name, an introductory message <a href="motion.txt.html#is" class="d">is</a> displayed.  It
+<a href="motion.txt.html#is" class="d">is</a> removed <a href="motion.txt.html#as" class="d">as</a> soon <a href="motion.txt.html#as" class="d">as</a> the display <a href="motion.txt.html#is" class="d">is</a> redrawn.  To see the message again, use
+the "<a href="starting.txt.html#%3Aintro" class="d">:intro</a>" command.  To avoid the <a href="intro.txt.html#intro" class="d">intro</a> message on startup, add the "<a href="insert.txt.html#I" class="d">I</a>" flag
+to <a href="options.txt.html#%27shortmess%27" class="o">'shortmess'</a>.
+
+<span class="h">==============================================================================</span>
+<span id="_vim-and-vimruntime"><a href="starting.txt.html#%24VIM" class="d">$VIM</a> and <a href="starting.txt.html#%24VIMRUNTIME" class="d">$VIMRUNTIME</a></span>
+								<span id="%24VIM" class="t">$VIM</span>
+The environment variable "<a href="starting.txt.html#%24VIM" class="d">$VIM</a>" <a href="motion.txt.html#is" class="d">is</a> used to locate <a href="various.txt.html#various" class="d">various</a> user files <a href="luaref.txt.html#for" class="d">for</a> Nvim,
+such <a href="motion.txt.html#as" class="d">as</a> the user <a href="starting.txt.html#config" class="l">config</a><a href="repeat.txt.html#." class="d">.</a>  This depends on the system, see
+<a href="starting.txt.html#startup" class="l">startup</a><a href="repeat.txt.html#." class="d">.</a>
+
+Nvim will try to get the value <a href="luaref.txt.html#for" class="d">for</a> <a href="starting.txt.html#%24VIM" class="d">$VIM</a> in this order:
+
+1. Environment variable $VIM, if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> set.
+2. Path derived from the <a href="options.txt.html#%27helpfile%27" class="o">'helpfile'</a> option, unless <a href="motion.txt.html#it" class="d">it</a> contains some
+   environment variable too (default <a href="motion.txt.html#is" class="d">is</a> "$VIMRUNTIME/doc/help.txt").  File
+   name <a href="motion.txt.html#%28" class="d">(</a>"<a href="index.html#help.txt" class="d">help.txt</a>"<a href="motion.txt.html#%2C" class="d">,</a> etc.) <a href="motion.txt.html#is" class="d">is</a> removed.  Trailing directory names are removed,
+   in this order: "doc"<a href="motion.txt.html#%2C" class="d">,</a> "runtime"<a href="repeat.txt.html#." class="d">.</a>
+3. Path derived from the location of the <span class="e">nvim</span> executable.
+4. Compile-time defined installation directory (see output of "<a href="various.txt.html#%3Aversion" class="d">:version</a>").
+
+After doing this once, Nvim sets the <a href="starting.txt.html#%24VIM" class="d">$VIM</a> environment variable.
+
+								<span id="%24VIMRUNTIME" class="t">$VIMRUNTIME</span>
+The environment variable "<a href="starting.txt.html#%24VIMRUNTIME" class="d">$VIMRUNTIME</a>" <a href="motion.txt.html#is" class="d">is</a> used to locate <a href="various.txt.html#various" class="d">various</a> <a href="support.txt.html#support" class="d">support</a>
+files, such <a href="motion.txt.html#as" class="d">as</a> the documentation and <a href="syntax.txt.html#syntax-highlighting" class="d">syntax-highlighting</a> files.  For example,
+the main <a href="helphelp.txt.html#help" class="d">help</a> file <a href="motion.txt.html#is" class="d">is</a> normally "$VIMRUNTIME/doc/help.txt"<a href="repeat.txt.html#." class="d">.</a>
+
+Nvim will try to get the value <a href="luaref.txt.html#for" class="d">for</a> <a href="starting.txt.html#%24VIMRUNTIME" class="d">$VIMRUNTIME</a> in this order:
+
+1. Environment variable $VIMRUNTIME, if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> set.
+2. Directory path "$VIM/vim{version}"<a href="motion.txt.html#%2C" class="d">,</a> if <a href="motion.txt.html#it" class="d">it</a> exists, where <span class="s">{version}</span> <a href="motion.txt.html#is" class="d">is</a> the
+   <span class="i">Vim version number</span> without '-' or '.'.  For example: "$VIM/vim82"<a href="repeat.txt.html#." class="d">.</a>
+3. Directory path "$VIM/runtime"<a href="motion.txt.html#%2C" class="d">,</a> if <a href="motion.txt.html#it" class="d">it</a> exists.
+4. Value of <a href="starting.txt.html#%24VIM" class="d">$VIM</a> environment variable.  This <a href="motion.txt.html#is" class="d">is</a> <a href="luaref.txt.html#for" class="d">for</a> backwards compatibility
+   with older Vim versions.
+5. If "../share/nvim/runtime" exists relative to <a href="vvars.txt.html#v%3Aprogpath" class="l">v:progpath</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> used.
+6. Path derived from the <a href="options.txt.html#%27helpfile%27" class="o">'helpfile'</a> option (if <a href="motion.txt.html#it" class="d">it</a> doesn't contain '$') with
+   "doc/help.txt" removed from the end.
+
+After doing this once, Nvim sets the <a href="starting.txt.html#%24VIMRUNTIME" class="d">$VIMRUNTIME</a> environment variable.
+
+In <a href="change.txt.html#case" class="d">case</a> you need the value of <a href="starting.txt.html#%24VIMRUNTIME" class="d">$VIMRUNTIME</a> in <a href="insert.txt.html#a" class="d">a</a> shell (e.g., <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> that
+greps in the <a href="helphelp.txt.html#help" class="d">help</a> files) you might be able to use this: 
+<span class="e"></span>
+<span class="e">	VIMRUNTIME="$(nvim --clean --headless --cmd 'echo $VIMRUNTIME|q')"</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+Suspending						<span id="suspend" class="t">suspend</span>
+
+					<span id="CTRL-Z" class="t">CTRL-Z</span> <span id="v_CTRL-Z" class="t">v_CTRL-Z</span>
+<a href="starting.txt.html#CTRL-Z" class="k">CTRL-Z</a>			Suspend Nvim, like "<a href="starting.txt.html#%3Astop" class="d">:stop</a>"<a href="repeat.txt.html#." class="d">.</a>
+			Works in <a href="intro.txt.html#Normal" class="d">Normal</a> and in <a href="visual.txt.html#Visual" class="d">Visual</a> mode.  In <a href="insert.txt.html#Insert" class="d">Insert</a> and
+			<a href="cmdline.txt.html#Command-line" class="d">Command-line</a> mode, the <a href="starting.txt.html#CTRL-Z" class="k">CTRL-Z</a> <a href="motion.txt.html#is" class="d">is</a> inserted <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> normal
+			character.  In <a href="visual.txt.html#Visual" class="d">Visual</a> mode Nvim goes back to <a href="intro.txt.html#Normal" class="d">Normal</a>
+			mode.
+
+:sus[pend][!]	or			<span id="%3Asus" class="t">:sus</span> <span id="%3Asuspend" class="t">:suspend</span> <span id="%3Ast" class="t">:st</span> <span id="%3Astop" class="t">:stop</span>
+:st[op][!]		Suspend Nvim using OS "<a href="job_control.txt.html#job" class="d">job</a> <a href="intro.txt.html#control" class="d">control</a>"<a href="motion.txt.html#%3B" class="d">;</a> <a href="motion.txt.html#it" class="d">it</a> will continue
+			if you make <a href="motion.txt.html#it" class="d">it</a> the foreground <a href="job_control.txt.html#job" class="d">job</a> again.  Triggers
+			<a href="autocmd.txt.html#VimSuspend" class="l">VimSuspend</a> before suspending and <a href="autocmd.txt.html#VimResume" class="l">VimResume</a> when
+			resumed.
+			If "<a href="change.txt.html#%21" class="d">!</a>" <a href="motion.txt.html#is" class="d">is</a> not given and <a href="options.txt.html#%27autowrite%27" class="o">'autowrite'</a> <a href="motion.txt.html#is" class="d">is</a> set, every
+			buffer with changes and <a href="insert.txt.html#a" class="d">a</a> file name <a href="motion.txt.html#is" class="d">is</a> written out.
+			If "<a href="change.txt.html#%21" class="d">!</a>" <a href="motion.txt.html#is" class="d">is</a> given or <a href="options.txt.html#%27autowrite%27" class="o">'autowrite'</a> <a href="motion.txt.html#is" class="d">is</a> not set, changed
+			<a href="windows.txt.html#buffers" class="d">buffers</a> are not written, don't forget to bring Nvim
+			back to the foreground later!
+
+In the GUI, suspending <a href="motion.txt.html#is" class="d">is</a> implementation-defined.
+
+<span class="h">==============================================================================</span>
+Exiting							<span id="exiting" class="t">exiting</span>
+
+There are several ways to exit Vim:
+<a href="motion.txt.html#-" class="d">-</a> Close the last <a href="windows.txt.html#window" class="d">window</a> with <span class="e">:quit</span>.  Only when there are no changes.
+<a href="motion.txt.html#-" class="d">-</a> Close the last <a href="windows.txt.html#window" class="d">window</a> with <span class="e">:quit!</span>.  Also when there are changes.
+<a href="motion.txt.html#-" class="d">-</a> Close all <a href="windows.txt.html#windows" class="d">windows</a> with <span class="e">:qall</span>.  Only when there are no changes.
+<a href="motion.txt.html#-" class="d">-</a> Close all <a href="windows.txt.html#windows" class="d">windows</a> with <span class="e">:qall!</span>.  Also when there are changes.
+<a href="motion.txt.html#-" class="d">-</a> Use <span class="e">:cquit</span>.  Also when there are changes.
+
+When using <span class="e">:cquit</span> or when there was an error message Vim exits with exit
+code 1.  Errors can be avoided by using <span class="e">:silent!</span> or with <span class="e">:catch</span>.
+
+<span class="h">==============================================================================</span>
+Saving settings						<span id="save-settings" class="t">save-settings</span>
+
+Mostly you will edit your <a href="starting.txt.html#vimrc" class="d">vimrc</a> files manually.  This gives you the greatest
+flexibility.  There are <a href="insert.txt.html#a" class="d">a</a> few commands to generate <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#vimrc" class="d">vimrc</a> file automatically.
+You can use these files <a href="motion.txt.html#as" class="d">as</a> they are, or copy/paste lines to include in another
+<a href="starting.txt.html#vimrc" class="d">vimrc</a> file.
+
+							<span id="%3Amk" class="t">:mk</span> <span id="%3Amkexrc" class="t">:mkexrc</span>
+:mk[exrc] <span class="s">[file]</span>	Write current key mappings and changed <a href="options.txt.html#options" class="d">options</a> to
+			<span class="s">[file]</span> (default ".exrc" in the current directory),
+			unless <a href="motion.txt.html#it" class="d">it</a> already exists.
+
+:mk[exrc]! <span class="s">[file]</span>	Always write current key mappings and changed
+			<a href="options.txt.html#options" class="d">options</a> to <span class="s">[file]</span> (default ".exrc" in the current
+			directory).
+
+						<span id="%3Amkv" class="t">:mkv</span> <span id="%3Amkvi" class="t">:mkvi</span> <span id="%3Amkvimrc" class="t">:mkvimrc</span>
+:mkv[imrc][!] <span class="s">[file]</span>	Like "<a href="starting.txt.html#%3Amkexrc" class="d">:mkexrc</a>"<a href="motion.txt.html#%2C" class="d">,</a> but the default <a href="motion.txt.html#is" class="d">is</a> ".nvimrc" in the
+			current directory.  The "<a href="various.txt.html#%3Aversion" class="d">:version</a>" command <a href="motion.txt.html#is" class="d">is</a> also
+			written to the file.
+
+These commands will write "<a href="map.txt.html#%3Amap" class="d">:map</a>" and "<a href="options.txt.html#%3Aset" class="d">:set</a>" commands to <a href="insert.txt.html#a" class="d">a</a> file, in such <a href="insert.txt.html#a" class="d">a</a> way
+that when these commands are executed, the current key mappings and <a href="options.txt.html#options" class="d">options</a>
+will be set to the same values.  The <a href="options.txt.html#options" class="d">options</a> <a href="options.txt.html#%27columns%27" class="o">'columns'</a>, <a href="options.txt.html#%27endofline%27" class="o">'endofline'</a>,
+<a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a>, <a href="options.txt.html#%27lines%27" class="o">'lines'</a>, <a href="options.txt.html#%27modified%27" class="o">'modified'</a>, and <a href="options.txt.html#%27scroll%27" class="o">'scroll'</a> are not included, because
+these are <a href="terminal.txt.html#terminal" class="d">terminal</a> or file dependent.
+<span class="n">Note</span> that the <a href="options.txt.html#options" class="d">options</a> <a href="options.txt.html#%27binary%27" class="o">'binary'</a>, <a href="deprecated.txt.html#%27paste%27" class="o">'paste'</a> and <a href="options.txt.html#%27readonly%27" class="o">'readonly'</a> are included, this
+might not always be what you want.
+
+When special keys are used in mappings, the <a href="options.txt.html#%27cpoptions%27" class="o">'cpoptions'</a> option will be
+temporarily set to its Vim default, to avoid the mappings to be
+misinterpreted.  This makes the file incompatible with Vi, but makes sure <a href="motion.txt.html#it" class="d">it</a>
+can be used with different terminals.
+
+Only global mappings are stored, not mappings local to <a href="insert.txt.html#a" class="d">a</a> buffer.
+
+<a href="insert.txt.html#A" class="d">A</a> common <a href="vimeval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> to use <a href="insert.txt.html#a" class="d">a</a> default <a href="starting.txt.html#config" class="l">config</a> file, make some modifications
+with "<a href="map.txt.html#%3Amap" class="d">:map</a>" and "<a href="options.txt.html#%3Aset" class="d">:set</a>" commands and write the modified file.  First read the
+default <a href="starting.txt.html#vimrc" class="d">vimrc</a> in with <a href="insert.txt.html#a" class="d">a</a> command like "<a href="repeat.txt.html#%3Asource" class="d">:source</a> ~piet/.vimrc.Cprogs"<a href="motion.txt.html#%2C" class="d">,</a> change
+the settings and then save them in the current directory with ":mkvimrc!"<a href="repeat.txt.html#." class="d">.</a>  If
+you want to make this file your default <a href="starting.txt.html#config" class="l">config</a><a href="motion.txt.html#%2C" class="d">,</a> move <a href="motion.txt.html#it" class="d">it</a> to
+$XDG_CONFIG_HOME/nvim.  You could also use autocommands <a href="autocmd.txt.html#autocommand" class="l">autocommand</a> and/or
+modelines <a href="options.txt.html#modeline" class="l">modeline</a><a href="repeat.txt.html#." class="d">.</a>
+
+						<span id="vimrc-option-example" class="t">vimrc-option-example</span>
+If you only want to add <a href="insert.txt.html#a" class="d">a</a> single option setting to your vimrc, you can use
+these steps:
+1. Edit your <a href="starting.txt.html#vimrc" class="d">vimrc</a> file with Vim.
+2. Play with the option until it's right.  E.g., try out different values <a href="luaref.txt.html#for" class="d">for</a>
+   <a href="options.txt.html#%27guifont%27" class="o">'guifont'</a>.
+3. Append <a href="insert.txt.html#a" class="d">a</a> line to set the value of the option, using the <a href="vimeval.txt.html#expression" class="d">expression</a> <a href="intro.txt.html#register" class="d">register</a>
+   '=' to enter the value.  E.g., <a href="luaref.txt.html#for" class="d">for</a> the <a href="options.txt.html#%27guifont%27" class="o">'guifont'</a> option: 
+<span class="e">   o:set guifont=&lt;C-R&gt;=&amp;guifont&lt;CR&gt;&lt;Esc&gt;</span>
+  [&lt;C-R&gt; <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="undo.txt.html#CTRL-R" class="k">CTRL-R</a>, <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> return, <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> <a href="motion.txt.html#is" class="d">is</a> the <a href="intro.txt.html#escape" class="d">escape</a> key]
+   You need to <a href="intro.txt.html#escape" class="d">escape</a> special characters, esp. spaces.
+
+<span class="h">==============================================================================</span>
+Views and Sessions					<span id="views-sessions" class="t">views-sessions</span>
+
+This <a href="motion.txt.html#is" class="d">is</a> introduced in sections <a href="usr_21.txt.html#21.4" class="l">21.4</a> and <a href="usr_21.txt.html#21.5" class="l">21.5</a> of the user manual.
+
+						<span id="View" class="t">View</span> <span id="view-file" class="t">view-file</span>
+<a href="insert.txt.html#A" class="d">A</a> <a href="starting.txt.html#View" class="d">View</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> collection of settings that apply to one window.  You can save <a href="insert.txt.html#a" class="d">a</a>
+<a href="starting.txt.html#View" class="d">View</a> and when you restore <a href="motion.txt.html#it" class="d">it</a> later, the text <a href="motion.txt.html#is" class="d">is</a> displayed in the same way.
+The <a href="options.txt.html#options" class="d">options</a> and mappings in this <a href="windows.txt.html#window" class="d">window</a> will also be restored, so that you can
+continue editing like when the <a href="starting.txt.html#View" class="d">View</a> was saved.
+
+						<span id="Session" class="t">Session</span> <span id="session-file" class="t">session-file</span>
+<a href="insert.txt.html#A" class="d">A</a> <a href="starting.txt.html#Session" class="d">Session</a> keeps the Views <a href="luaref.txt.html#for" class="d">for</a> all windows, plus the global settings.  You can
+save <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#Session" class="d">Session</a> and when you restore <a href="motion.txt.html#it" class="d">it</a> later the <a href="windows.txt.html#window" class="d">window</a> layout looks the same.
+You can use <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#Session" class="d">Session</a> to quickly switch between different projects,
+automatically loading the files you were last working on in that project.
+
+Views and Sessions are <a href="insert.txt.html#a" class="d">a</a> nice addition to ShaDa files, which are used to
+remember information <a href="luaref.txt.html#for" class="d">for</a> all Views and Sessions together <a href="starting.txt.html#shada-file" class="l">shada-file</a><a href="repeat.txt.html#." class="d">.</a>
+
+You can quickly start editing with <a href="insert.txt.html#a" class="d">a</a> previously saved <a href="starting.txt.html#View" class="d">View</a> or <a href="starting.txt.html#Session" class="d">Session</a> with the
+<a href="starting.txt.html#-S" class="l">-S</a> argument: 
+<span class="e">	vim -S Session.vim</span>
+
+							<span id="%3Amks" class="t">:mks</span> <span id="%3Amksession" class="t">:mksession</span>
+:mks[ession][!] <span class="s">[file]</span>	Write <a href="insert.txt.html#a" class="d">a</a> Vim <a href="usr_41.txt.html#script" class="d">script</a> that restores the current editing
+			session.
+			When [!] <a href="motion.txt.html#is" class="d">is</a> included, an existing file <a href="motion.txt.html#is" class="d">is</a> overwritten.
+			When <span class="s">[file]</span> <a href="motion.txt.html#is" class="d">is</a> omitted, "Session.vim" <a href="motion.txt.html#is" class="d">is</a> used.
+
+The output of "<a href="starting.txt.html#%3Amksession" class="d">:mksession</a>" <a href="motion.txt.html#is" class="d">is</a> like "<a href="starting.txt.html#%3Amkvimrc" class="d">:mkvimrc</a>"<a href="motion.txt.html#%2C" class="d">,</a> but additional commands are
+added to the file.  Which ones depends on the <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> option.  The
+resulting file, when executed with <a href="insert.txt.html#a" class="d">a</a> "<a href="repeat.txt.html#%3Asource" class="d">:source</a>" command:
+1. Restores global mappings and options, if <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> contains
+   "<a href="options.txt.html#options" class="d">options</a>"<a href="repeat.txt.html#." class="d">.</a>  Script-local mappings will not be written.
+2. Restores global <a href="vimeval.txt.html#variables" class="d">variables</a> that start with an <a href="change.txt.html#uppercase" class="d">uppercase</a> letter and contain
+   <a href="motion.txt.html#at" class="d">at</a> least one <a href="change.txt.html#lowercase" class="d">lowercase</a> letter, if <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> contains "globals"<a href="repeat.txt.html#." class="d">.</a>
+3. Closes all <a href="windows.txt.html#windows" class="d">windows</a> in the current <a href="intro.txt.html#tab" class="d">tab</a> page, except the current one; closes
+   all <a href="intro.txt.html#tab" class="d">tab</a> pages except the current one (this results in currently loaded
+   <a href="windows.txt.html#buffers" class="d">buffers</a> to be unloaded, some may become hidden if <a href="options.txt.html#%27hidden%27" class="o">'hidden'</a> <a href="motion.txt.html#is" class="d">is</a> set or
+   otherwise specified); wipes out the current buffer, if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> empty and
+   unnamed.
+4. Restores the current directory, if <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> contains "curdir"<a href="motion.txt.html#%2C" class="d">,</a> or
+   sets the current directory to where the <a href="starting.txt.html#Session" class="d">Session</a> file is, if
+   <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> contains "sesdir"<a href="repeat.txt.html#." class="d">.</a>
+5. Restores <a href="gui.txt.html#GUI" class="d">GUI</a> Vim <a href="windows.txt.html#window" class="d">window</a> position, if <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> contains "winpos"<a href="repeat.txt.html#." class="d">.</a>
+6. Restores screen size, if <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> contains "resize"<a href="repeat.txt.html#." class="d">.</a>
+7. Reloads the buffer list, with the last cursor positions.  If
+   <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> contains "<a href="windows.txt.html#buffers" class="d">buffers</a>" then all <a href="windows.txt.html#buffers" class="d">buffers</a> are restored,
+   including hidden and unloaded buffers.  Otherwise, only <a href="windows.txt.html#buffers" class="d">buffers</a> in <a href="windows.txt.html#windows" class="d">windows</a>
+   are restored.
+8. Restores all <a href="windows.txt.html#windows" class="d">windows</a> with the same layout.  If <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> contains
+   "<a href="helphelp.txt.html#help" class="d">help</a>"<a href="motion.txt.html#%2C" class="d">,</a> <a href="helphelp.txt.html#help" class="d">help</a> <a href="windows.txt.html#windows" class="d">windows</a> are restored.  If <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> contains "blank"<a href="motion.txt.html#%2C" class="d">,</a>
+   <a href="windows.txt.html#windows" class="d">windows</a> editing <a href="insert.txt.html#a" class="d">a</a> buffer without <a href="insert.txt.html#a" class="d">a</a> name will be restored.
+   If <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> contains "winsize" and no (help/blank) <a href="windows.txt.html#windows" class="d">windows</a> were
+   left out, the <a href="windows.txt.html#window" class="d">window</a> sizes are restored (relative to the screen size).
+   Otherwise, the <a href="windows.txt.html#windows" class="d">windows</a> are just given sensible sizes.
+9. Restores the Views <a href="luaref.txt.html#for" class="d">for</a> all the windows, <a href="motion.txt.html#as" class="d">as</a> with <a href="starting.txt.html#%3Amkview" class="l">:mkview</a><a href="repeat.txt.html#." class="d">.</a>  But
+   <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> <a href="motion.txt.html#is" class="d">is</a> used instead of <a href="options.txt.html#%27viewoptions%27" class="o">'viewoptions'</a>.
+10. If <a href="insert.txt.html#a" class="d">a</a> file exists with the same name <a href="motion.txt.html#as" class="d">as</a> the <a href="starting.txt.html#Session" class="d">Session</a> file, but ending in
+   "x.vim" (for eXtra), executes that <a href="motion.txt.html#as" class="d">as</a> well.  You can use <span class="e">*x.vim</span> files to
+   specify additional settings and actions associated with <a href="insert.txt.html#a" class="d">a</a> given Session,
+   such <a href="motion.txt.html#as" class="d">as</a> creating menu items in the <a href="gui.txt.html#GUI" class="d">GUI</a> version.
+
+After restoring the Session, the full filename of your current <a href="starting.txt.html#Session" class="d">Session</a> <a href="motion.txt.html#is" class="d">is</a>
+available in the internal variable <a href="vvars.txt.html#v%3Athis_session" class="l">v:this_session</a><a href="repeat.txt.html#." class="d">.</a>
+An example mapping: 
+<span class="e">  :nmap &lt;F2&gt; :wa&lt;Bar&gt;exe "mksession! " .. v:this_session&lt;CR&gt;:so ~/sessions/</span>
+This saves the current Session, and starts off the command to load another.
+
+<a href="insert.txt.html#A" class="d">A</a> session includes all <a href="intro.txt.html#tab" class="d">tab</a> pages, unless "tabpages" was removed from
+<a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a>. <a href="tabpage.txt.html#tab-page" class="l">tab-page</a>
+
+The <a href="autocmd.txt.html#SessionLoadPost" class="l">SessionLoadPost</a> <a href="autocmd.txt.html#autocmd" class="d">autocmd</a> event <a href="motion.txt.html#is" class="d">is</a> triggered after <a href="insert.txt.html#a" class="d">a</a> session file <a href="motion.txt.html#is" class="d">is</a>
+loaded/sourced.
+						<span id="SessionLoad-variable" class="t">SessionLoad-variable</span>
+While the session file <a href="motion.txt.html#is" class="d">is</a> loading, the SessionLoad global variable <a href="motion.txt.html#is" class="d">is</a> set to
+1.  Plugins can use this to postpone some work until the <a href="autocmd.txt.html#SessionLoadPost" class="d">SessionLoadPost</a> event
+<a href="motion.txt.html#is" class="d">is</a> triggered.
+
+							<span id="%3Amkvie" class="t">:mkvie</span> <span id="%3Amkview" class="t">:mkview</span>
+:mkvie[w][!] <span class="s">[file]</span>	Write <a href="insert.txt.html#a" class="d">a</a> Vim <a href="usr_41.txt.html#script" class="d">script</a> that restores the contents of the
+			current window.
+			When [!] <a href="motion.txt.html#is" class="d">is</a> included, an existing file <a href="motion.txt.html#is" class="d">is</a> overwritten.
+			When <span class="s">[file]</span> <a href="motion.txt.html#is" class="d">is</a> omitted or <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> number from 1 to 9, <a href="insert.txt.html#a" class="d">a</a>
+			name <a href="motion.txt.html#is" class="d">is</a> generated and <a href="options.txt.html#%27viewdir%27" class="o">'viewdir'</a> prepended.  When the
+			last path part of <a href="options.txt.html#%27viewdir%27" class="o">'viewdir'</a> does not exist, this
+			directory <a href="motion.txt.html#is" class="d">is</a> created.  E.g., when <a href="options.txt.html#%27viewdir%27" class="o">'viewdir'</a> <a href="motion.txt.html#is" class="d">is</a>
+			"$VIM/vimfiles/view" then "view" <a href="motion.txt.html#is" class="d">is</a> created in
+			"$VIM/vimfiles"<a href="repeat.txt.html#." class="d">.</a>
+			An existing file <a href="motion.txt.html#is" class="d">is</a> always overwritten then.  Use
+			<a href="starting.txt.html#%3Aloadview" class="l">:loadview</a> to load this view again.
+			When <span class="s">[file]</span> <a href="motion.txt.html#is" class="d">is</a> the name of <a href="insert.txt.html#a" class="d">a</a> file ('viewdir' <a href="motion.txt.html#is" class="d">is</a> not
+			used), <a href="insert.txt.html#a" class="d">a</a> command to edit the file <a href="motion.txt.html#is" class="d">is</a> added to the
+			generated file.
+
+The output of "<a href="starting.txt.html#%3Amkview" class="d">:mkview</a>" contains these items:
+1. The argument <a href="vimeval.txt.html#list" class="d">list</a> used in the window.  When the global argument <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a>
+   used, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> reset to the global list.
+   The <a href="index.txt.html#index" class="d">index</a> in the argument <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> also restored.
+2. The file being edited in the window.  If there <a href="motion.txt.html#is" class="d">is</a> no file, the <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a>
+   made empty.
+3. Restore mappings, <a href="map.txt.html#abbreviations" class="d">abbreviations</a> and <a href="options.txt.html#options" class="d">options</a> local to the window, if
+   <a href="options.txt.html#%27viewoptions%27" class="o">'viewoptions'</a> contains "<a href="options.txt.html#options" class="d">options</a>" or "localoptions"<a href="repeat.txt.html#." class="d">.</a>  Only option values
+   that are local to the current buffer and the current <a href="windows.txt.html#window" class="d">window</a> are restored.
+   When storing the view <a href="motion.txt.html#as" class="d">as</a> part of <a href="insert.txt.html#a" class="d">a</a> session and "<a href="options.txt.html#options" class="d">options</a>" <a href="motion.txt.html#is" class="d">is</a> in
+   <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a>, global values <a href="luaref.txt.html#for" class="d">for</a> local <a href="options.txt.html#options" class="d">options</a> will be stored too.
+4. Restore <a href="fold.txt.html#folds" class="d">folds</a> when using manual <a href="fold.txt.html#folding" class="d">folding</a> and <a href="options.txt.html#%27viewoptions%27" class="o">'viewoptions'</a> contains
+   "<a href="fold.txt.html#folds" class="d">folds</a>"<a href="repeat.txt.html#." class="d">.</a>  Restore manually opened and closed folds.
+5. The scroll position and the cursor position in the file.  Doesn't work very
+   well when there are closed folds.
+6. The local current directory, if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> different from the global current
+   directory and <a href="options.txt.html#%27viewoptions%27" class="o">'viewoptions'</a> contains "curdir"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="n">Note</span> that Views and Sessions are not perfect:
+<a href="motion.txt.html#-" class="d">-</a> They don't restore everything.  For example, defined functions, autocommands
+  and "<a href="syntax.txt.html#%3Asyntax" class="d">:syntax</a> on" are not included.  Things like <a href="intro.txt.html#register" class="d">register</a> contents and
+  command line <a href="cmdline.txt.html#history" class="d">history</a> are in ShaDa, not in Sessions or Views.
+<a href="motion.txt.html#-" class="d">-</a> Global option values are only set when they differ from the default value.
+  When the current value <a href="motion.txt.html#is" class="d">is</a> not the default value, loading <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#Session" class="d">Session</a> will not
+  set <a href="motion.txt.html#it" class="d">it</a> back to the default value.  Local <a href="options.txt.html#options" class="d">options</a> will be set back to the
+  default value though.
+<a href="motion.txt.html#-" class="d">-</a> Existing mappings will be overwritten without warning.  An existing <a href="map.txt.html#mapping" class="d">mapping</a>
+  may cause an error <a href="luaref.txt.html#for" class="d">for</a> ambiguity.
+<a href="motion.txt.html#-" class="d">-</a> When storing manual <a href="fold.txt.html#folds" class="d">folds</a> and when storing manually opened/closed folds,
+  changes in the file between saving and loading the view will mess <a href="motion.txt.html#it" class="d">it</a> up.
+<a href="motion.txt.html#-" class="d">-</a> The Vim <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> not very efficient.  But still faster than typing the
+  commands yourself!
+
+							<span id="%3Alo" class="t">:lo</span> <span id="%3Aloadview" class="t">:loadview</span>
+:lo[adview] <span class="s">[nr]</span>	Load the view <a href="luaref.txt.html#for" class="d">for</a> the current file.  When <span class="s">[nr]</span> <a href="motion.txt.html#is" class="d">is</a>
+			omitted, the view stored with "<a href="starting.txt.html#%3Amkview" class="d">:mkview</a>" <a href="motion.txt.html#is" class="d">is</a> loaded.
+			When <span class="s">[nr]</span> <a href="motion.txt.html#is" class="d">is</a> specified, the view stored with "<a href="starting.txt.html#%3Amkview" class="d">:mkview</a>
+			<span class="s">[nr]</span>" <a href="motion.txt.html#is" class="d">is</a> loaded.
+
+The combination of "<a href="starting.txt.html#%3Amkview" class="d">:mkview</a>" and "<a href="starting.txt.html#%3Aloadview" class="d">:loadview</a>" can be used to store up to ten
+different views of <a href="insert.txt.html#a" class="d">a</a> file.  These are remembered in the directory specified
+with the <a href="options.txt.html#%27viewdir%27" class="o">'viewdir'</a> option.  The views are stored using the file name.  If <a href="insert.txt.html#a" class="d">a</a>
+file <a href="motion.txt.html#is" class="d">is</a> renamed or accessed through <a href="insert.txt.html#a" class="d">a</a> (symbolic) link, the view will not be
+found.
+
+You might want to clean up your <a href="options.txt.html#%27viewdir%27" class="o">'viewdir'</a> directory now and then.
+
+To automatically save and restore views <a href="luaref.txt.html#for" class="d">for</a> <span class="e">*.c</span> files: 
+<span class="e">	au BufWinLeave *.c mkview</span>
+<span class="e">	au BufWinEnter *.c silent! loadview</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+Shada <a href="motion.txt.html#%28" class="d">(</a>"shared data"<a href="motion.txt.html#%29" class="d">)</a> file			<span id="shada" class="t">shada</span> <span id="shada-file" class="t">shada-file</span>
+
+If you exit Vim and later start <a href="motion.txt.html#it" class="d">it</a> again, you would normally lose <a href="insert.txt.html#a" class="d">a</a> lot of
+information.  The ShaDa file can be used to remember that information, which
+enables you to continue where you left off.  Its name <a href="motion.txt.html#is" class="d">is</a> the <a href="map.txt.html#abbreviation" class="d">abbreviation</a> of
+SHAred DAta because <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> sharing data between Nvim sessions.
+
+This <a href="motion.txt.html#is" class="d">is</a> introduced in <a href="motion.txt.html#section" class="d">section</a> <a href="usr_21.txt.html#21.3" class="l">21.3</a> of the user manual.
+
+The ShaDa file <a href="motion.txt.html#is" class="d">is</a> used to store:
+<a href="motion.txt.html#-" class="d">-</a> The command line history.
+<a href="motion.txt.html#-" class="d">-</a> The search <a href="vimeval.txt.html#string" class="d">string</a> history.
+<a href="motion.txt.html#-" class="d">-</a> The input-line history.
+<a href="motion.txt.html#-" class="d">-</a> <a href="quickref.txt.html#Contents" class="d">Contents</a> of non-empty registers.
+<a href="motion.txt.html#-" class="d">-</a> Marks <a href="luaref.txt.html#for" class="d">for</a> several files.
+<a href="motion.txt.html#-" class="d">-</a> File marks, pointing to locations in files.
+<a href="motion.txt.html#-" class="d">-</a> Last search/substitute <a href="pattern.txt.html#pattern" class="d">pattern</a> (for 'n' and '&amp;').
+<a href="motion.txt.html#-" class="d">-</a> The buffer list.
+<a href="motion.txt.html#-" class="d">-</a> Global variables.
+
+You could also use <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#Session" class="d">Session</a> file.  The difference <a href="motion.txt.html#is" class="d">is</a> that the ShaDa file
+does not depend on what you are working on.  There normally <a href="motion.txt.html#is" class="d">is</a> only one
+ShaDa file.  <a href="starting.txt.html#Session" class="d">Session</a> files are used to save the state of <a href="insert.txt.html#a" class="d">a</a> specific editing
+Session.  You could have several <a href="starting.txt.html#Session" class="d">Session</a> files, one <a href="luaref.txt.html#for" class="d">for</a> each project you are
+working on.  ShaDa and <a href="starting.txt.html#Session" class="d">Session</a> files together can be used to effectively
+enter Vim and directly start working in your desired setup. <a href="starting.txt.html#session-file" class="l">session-file</a>
+
+							<span id="shada-read" class="t">shada-read</span>
+When Vim <a href="motion.txt.html#is" class="d">is</a> started and the <a href="options.txt.html#%27shada%27" class="o">'shada'</a> option <a href="motion.txt.html#is" class="d">is</a> non-empty, the contents of
+the ShaDa file are read and the info can be used in the appropriate places.
+The <a href="vvars.txt.html#v%3Aoldfiles" class="l">v:oldfiles</a> variable <a href="motion.txt.html#is" class="d">is</a> filled.  The marks are not read in <a href="motion.txt.html#at" class="d">at</a> <a href="starting.txt.html#startup" class="d">startup</a>
+(but file marks are).  See <a href="starting.txt.html#initialization" class="l">initialization</a> <a href="luaref.txt.html#for" class="d">for</a> how to set the <a href="options.txt.html#%27shada%27" class="o">'shada'</a>
+option upon startup.
+
+							<span id="shada-write" class="t">shada-write</span>
+When Vim exits and <a href="options.txt.html#%27shada%27" class="o">'shada'</a> <a href="motion.txt.html#is" class="d">is</a> non-empty, the info <a href="motion.txt.html#is" class="d">is</a> stored in the ShaDa file
+(it's actually merged with the existing one, if one exists <a href="starting.txt.html#shada-merging" class="l">shada-merging</a>).
+The <a href="options.txt.html#%27shada%27" class="o">'shada'</a> option <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> containing information about what info should
+be stored, and contains <a href="vi_diff.txt.html#limits" class="d">limits</a> on how much should be stored (see <a href="options.txt.html#%27shada%27" class="o">'shada'</a>).
+
+<span class="n">Notes</span> <a href="luaref.txt.html#for" class="d">for</a> Unix:
+<a href="motion.txt.html#-" class="d">-</a> The file protection <a href="luaref.txt.html#for" class="d">for</a> the ShaDa file will be set to prevent other users
+  from being able to read it, because <a href="motion.txt.html#it" class="d">it</a> may contain any text or commands that
+  you have worked with.
+<a href="motion.txt.html#-" class="d">-</a> If you want to share the ShaDa file with other users (e.g. when you "su"
+  to another user), you can make the file writable <a href="luaref.txt.html#for" class="d">for</a> the group or everybody.
+  Vim will preserve this when <a href="editing.txt.html#writing" class="d">writing</a> new ShaDa files.  Be careful, don't
+  allow just anybody to read and write your ShaDa file!
+<a href="motion.txt.html#-" class="d">-</a> Vim will not overwrite <a href="insert.txt.html#a" class="d">a</a> ShaDa file that <a href="motion.txt.html#is" class="d">is</a> not writable by the current
+  "real" user.  This helps <a href="luaref.txt.html#for" class="d">for</a> when you did "su" to become root, but your
+  <a href="options.txt.html#%24HOME" class="d">$HOME</a> <a href="motion.txt.html#is" class="d">is</a> still set to <a href="insert.txt.html#a" class="d">a</a> normal user's <a href="intro.txt.html#home" class="d">home</a> directory.  Otherwise, Vim would
+  create <a href="insert.txt.html#a" class="d">a</a> ShaDa file owned by root that nobody else can read.
+<a href="motion.txt.html#-" class="d">-</a> The ShaDa file cannot be <a href="insert.txt.html#a" class="d">a</a> symbolic link.  This <a href="motion.txt.html#is" class="d">is</a> to avoid security
+  issues.
+
+Marks are stored <a href="luaref.txt.html#for" class="d">for</a> each file separately.  When <a href="insert.txt.html#a" class="d">a</a> file <a href="motion.txt.html#is" class="d">is</a> read and <a href="options.txt.html#%27shada%27" class="o">'shada'</a>
+<a href="motion.txt.html#is" class="d">is</a> non-empty, the marks <a href="luaref.txt.html#for" class="d">for</a> that file are read from the ShaDa file.  <span class="n">NOTE:</span>
+The marks are only written when <a href="starting.txt.html#exiting" class="d">exiting</a> Vim, which <a href="motion.txt.html#is" class="d">is</a> fine because marks are
+remembered <a href="luaref.txt.html#for" class="d">for</a> all the files you have opened in the current editing session,
+unless "<a href="windows.txt.html#%3Abdel" class="d">:bdel</a>" <a href="motion.txt.html#is" class="d">is</a> used.  If you want to save the marks <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> file that you are
+about to <a href="editing.txt.html#abandon" class="d">abandon</a> with "<a href="windows.txt.html#%3Abdel" class="d">:bdel</a>"<a href="motion.txt.html#%2C" class="d">,</a> use "<a href="starting.txt.html#%3Awsh" class="d">:wsh</a>"<a href="repeat.txt.html#." class="d">.</a>  The '[' and ']' marks are not
+stored, but the <a href="motion.txt.html#%27" class="d">'</a>"<a href="motion.txt.html#%27" class="d">'</a> <a href="motion.txt.html#mark" class="d">mark</a> is.  The <a href="motion.txt.html#%27" class="d">'</a>"<a href="motion.txt.html#%27" class="d">'</a> <a href="motion.txt.html#mark" class="d">mark</a> <a href="motion.txt.html#is" class="d">is</a> very useful <a href="luaref.txt.html#for" class="d">for</a> jumping to the
+cursor position when the file was last exited.  No marks are saved <a href="luaref.txt.html#for" class="d">for</a> files
+that start with any <a href="vimeval.txt.html#string" class="d">string</a> given with the "<a href="change.txt.html#r" class="d">r</a>" flag in <a href="options.txt.html#%27shada%27" class="o">'shada'</a>.  This can be
+used to avoid saving marks <a href="luaref.txt.html#for" class="d">for</a> files on removable media (for MS-Windows you
+would use "ra:,rb:").
+The <a href="vvars.txt.html#v%3Aoldfiles" class="l">v:oldfiles</a> variable <a href="motion.txt.html#is" class="d">is</a> filled with the file names that the ShaDa file
+has marks for.
+
+							<span id="shada-file-marks" class="t">shada-file-marks</span>
+Uppercase marks ('A to 'Z) are stored when <a href="editing.txt.html#writing" class="d">writing</a> the ShaDa file.  The
+numbered marks ('0 to '9) are <a href="insert.txt.html#a" class="d">a</a> bit special.  When the ShaDa file <a href="motion.txt.html#is" class="d">is</a> written
+(when <a href="starting.txt.html#exiting" class="d">exiting</a> or with the <a href="starting.txt.html#%3Awshada" class="l">:wshada</a> command), <a href="motion.txt.html#%270" class="d">'0</a> <a href="motion.txt.html#is" class="d">is</a> set to the current cursor
+position and file.  The old <a href="motion.txt.html#%270" class="d">'0</a> <a href="motion.txt.html#is" class="d">is</a> moved to '1, '1 to '2, etc.  This
+resembles what happens with the "1 to "9 delete registers.  If the current
+cursor position <a href="motion.txt.html#is" class="d">is</a> already present in <a href="motion.txt.html#%270" class="d">'0</a> to '9, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> moved to '0, to avoid
+having the same position twice.  The result <a href="motion.txt.html#is" class="d">is</a> that with "<a href="motion.txt.html#%270" class="d">'0</a>"<a href="motion.txt.html#%2C" class="d">,</a> you can jump
+back to the file and line where you exited Vim.  To <a href="diff.txt.html#do" class="d">do</a> that right away, try
+using this command: 
+<span class="e"></span>
+<span class="e">	vim -c "normal '0"</span>
+<span class="e"></span>
+In <a href="insert.txt.html#a" class="d">a</a> <a href="change.txt.html#C" class="d">C</a> shell descendant, you could make an alias <a href="luaref.txt.html#for" class="d">for</a> it: 
+<span class="e"></span>
+<span class="e">	alias lvim vim -c '"'normal "'"0'"'</span>
+<span class="e"></span>
+For <a href="insert.txt.html#a" class="d">a</a> Bash-like shell: 
+<span class="e"></span>
+<span class="e">	alias lvim='vim -c "normal '\''0"'</span>
+<span class="e"></span>
+Use the "<a href="change.txt.html#r" class="d">r</a>" flag in <a href="options.txt.html#%27shada%27" class="o">'shada'</a> to specify <a href="luaref.txt.html#for" class="d">for</a> which files no marks should be
+remembered.
+
+<span class="c">MERGING</span>							<span id="shada-merging" class="t">shada-merging</span>
+
+When <a href="editing.txt.html#writing" class="d">writing</a> ShaDa files with <a href="starting.txt.html#%3Awshada" class="l">:wshada</a> without bang or <a href="motion.txt.html#at" class="d">at</a> regular exit
+information in the existing ShaDa file <a href="motion.txt.html#is" class="d">is</a> merged with information from current
+Nvim instance.  For this purpose ShaDa files store <a href="editing.txt.html#timestamps" class="d">timestamps</a> associated
+with ShaDa entries.  Specifically the following <a href="motion.txt.html#is" class="d">is</a> being done:
+
+1. History lines are merged, ordered by timestamp.  Maximum amount of items in
+   ShaDa file <a href="motion.txt.html#is" class="d">is</a> defined by <a href="options.txt.html#%27shada%27" class="o">'shada'</a> option <a href="motion.txt.html#%28" class="d">(</a><a href="options.txt.html#shada-%2F" class="l">shada-/</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="options.txt.html#shada-%3A" class="l">shada-:</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="options.txt.html#shada-%40" class="l">shada-@</a><a href="motion.txt.html#%2C" class="d">,</a>
+   etc: one suboption <a href="luaref.txt.html#for" class="d">for</a> each character that represents <a href="cmdline.txt.html#history" class="d">history</a> name
+   <a href="motion.txt.html#%28" class="d">(</a><a href="cmdline.txt.html#%3Ahistory" class="l">:history</a>)).
+2. Local marks and changes <a href="luaref.txt.html#for" class="d">for</a> files that were not opened by Nvim are copied
+   to new ShaDa file. Marks <a href="luaref.txt.html#for" class="d">for</a> files that were opened by Nvim are merged,
+   changes to files opened by Nvim are ignored. <a href="options.txt.html#shada-%27" class="l">shada-'</a>
+3. Jump <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> merged: jumps are ordered by timestamp, identical jumps
+   (identical position AND timestamp) are squashed.
+4. Search patterns and substitute strings are not merged: search <a href="pattern.txt.html#pattern" class="d">pattern</a> or
+   substitute <a href="vimeval.txt.html#string" class="d">string</a> which has greatest <a href="editing.txt.html#timestamp" class="d">timestamp</a> will be the only one copied
+   to ShaDa file.
+5. For each <a href="intro.txt.html#register" class="d">register</a> entity with greatest <a href="editing.txt.html#timestamp" class="d">timestamp</a> <a href="motion.txt.html#is" class="d">is</a> the only saved.
+   <a href="options.txt.html#shada-%3C" class="l">shada-&lt;</a>
+6. All saved <a href="vimeval.txt.html#variables" class="d">variables</a> are saved from current Nvim instance. Additionally
+   existing variable values are copied, meaning that the only way to remove
+   variable from <a href="insert.txt.html#a" class="d">a</a> ShaDa file <a href="motion.txt.html#is" class="d">is</a> either removing <a href="motion.txt.html#it" class="d">it</a> by hand or disabling
+   <a href="editing.txt.html#writing" class="d">writing</a> <a href="vimeval.txt.html#variables" class="d">variables</a> completely. <a href="options.txt.html#shada-%21" class="l">shada-!</a>
+7. For each global <a href="motion.txt.html#mark" class="d">mark</a> entity with greatest <a href="editing.txt.html#timestamp" class="d">timestamp</a> <a href="motion.txt.html#is" class="d">is</a> the only saved.
+8. Buffer <a href="vimeval.txt.html#list" class="d">list</a> and header are the only entries which are not merged in any
+   fashion: the only header and buffer <a href="vimeval.txt.html#list" class="d">list</a> present are the ones from the
+   Nvim instance which was last <a href="editing.txt.html#writing" class="d">writing</a> the file. <a href="options.txt.html#shada-%25" class="l">shada-%</a>
+
+<span class="c">COMPATIBILITY</span>						<span id="shada-compatibility" class="t">shada-compatibility</span>
+
+ShaDa files are forward and backward compatible.  This means that
+
+1. Entries which have unknown type (i.e. that hold unidentified data) are
+   ignored when reading and blindly copied when writing.
+2. Register entries with unknown <a href="intro.txt.html#register" class="d">register</a> name are ignored when reading and
+   blindly copied when writing. Limitation: only <a href="change.txt.html#registers" class="d">registers</a> that use name with
+   code in interval [1, 255] are supported. <a href="change.txt.html#registers" class="l">registers</a>
+3. Register entries with unknown <a href="intro.txt.html#register" class="d">register</a> type are ignored when reading and
+   merged <a href="motion.txt.html#as" class="d">as</a> usual when writing. <a href="vimfn.txt.html#getregtype%28%29" class="l">getregtype()</a>
+4. Local and global <a href="motion.txt.html#mark" class="d">mark</a> entries with unknown <a href="motion.txt.html#mark" class="d">mark</a> names are ignored when
+   reading. When <a href="editing.txt.html#writing" class="d">writing</a> global <a href="motion.txt.html#mark" class="d">mark</a> entries are blindly copied and local <a href="motion.txt.html#mark" class="d">mark</a>
+   entries are also blindly copied, but only if file they are attached to fits
+   in the <a href="options.txt.html#shada-%27" class="l">shada-'</a> limit. Unknown local <a href="motion.txt.html#mark" class="d">mark</a> entry's <a href="editing.txt.html#timestamp" class="d">timestamp</a> <a href="motion.txt.html#is" class="d">is</a> also taken
+   into account when calculating which files exactly should fit into this
+   limit. Limitation: only marks that use name with code in interval [1, 255]
+   are supported. <a href="motion.txt.html#mark-motions" class="l">mark-motions</a>
+5. History entries with unknown <a href="cmdline.txt.html#history" class="d">history</a> type are ignored when reading and
+   blindly copied when writing. Limitation: there can be only up to 256
+   <a href="cmdline.txt.html#history" class="d">history</a> types. <a href="cmdline.txt.html#history" class="l">history</a>
+6. Unknown keys found in register, local mark, global mark, change, jump and
+   search <a href="pattern.txt.html#pattern" class="d">pattern</a> entries are saved internally and dumped when writing.
+   Entries created during Nvim session never have such additions.
+7. Additional elements found in replacement <a href="vimeval.txt.html#string" class="d">string</a> and <a href="cmdline.txt.html#history" class="d">history</a> entries are
+   saved internally and dumped. Entries created during Nvim session never
+   have such additions.
+8. Additional elements found in variable entries are simply ignored when
+   reading. When <a href="editing.txt.html#writing" class="d">writing</a> new <a href="vimeval.txt.html#variables" class="d">variables</a> they will be preserved during merging,
+   but that's all. Variable values dumped from current Nvim session never
+   have additional elements, even if <a href="vimeval.txt.html#variables" class="d">variables</a> themselves were obtained by
+   reading ShaDa files.
+
+"Blindly" here means that there will be no attempts to somehow <a href="diff.txt.html#merge" class="d">merge</a> them,
+even if other entries (with known name/type/etc) are merged. <a href="starting.txt.html#shada-merging" class="l">shada-merging</a>
+
+<span class="c">SHADA FILE NAME</span>						<span id="shada-file-name" class="t">shada-file-name</span>
+
+<a href="motion.txt.html#-" class="d">-</a> Default name of the <a href="starting.txt.html#shada" class="l">shada</a> file is:
+      Unix:     "$XDG_STATE_HOME/nvim/shada/main.shada"
+      Windows:  "$XDG_STATE_HOME/nvim-data/shada/main.shada"
+  See also <a href="starting.txt.html#base-directories" class="l">base-directories</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> To choose <a href="insert.txt.html#a" class="d">a</a> different file name you can use:
+    <a href="motion.txt.html#-" class="d">-</a> The "<a href="pattern.txt.html#n" class="d">n</a>" flag in the <a href="options.txt.html#%27shada%27" class="o">'shada'</a> option.
+    <a href="motion.txt.html#-" class="d">-</a> The <a href="starting.txt.html#-i" class="l">-i</a> <a href="starting.txt.html#startup" class="d">startup</a> argument.  "NONE" means no <a href="starting.txt.html#shada" class="d">shada</a> file <a href="motion.txt.html#is" class="d">is</a> ever read or
+      written.  Also not <a href="luaref.txt.html#for" class="d">for</a> the commands below!
+    <a href="motion.txt.html#-" class="d">-</a> The <a href="options.txt.html#%27shadafile%27" class="o">'shadafile'</a> option.  The value from the "<a href="starting.txt.html#-i" class="d">-i</a>" argument (if any) <a href="motion.txt.html#is" class="d">is</a>
+      stored in the <a href="options.txt.html#%27shadafile%27" class="o">'shadafile'</a> option.
+<a href="motion.txt.html#-" class="d">-</a> For the commands below, another file name can be given, overriding the
+  default and the name given with <a href="options.txt.html#%27shada%27" class="o">'shada'</a> or "<a href="starting.txt.html#-i" class="d">-i</a>" (unless it's NONE).
+
+
+<span class="c">MANUALLY READING AND WRITING</span>				<span id="shada-read-write" class="t">shada-read-write</span>
+
+Two commands can be used to read and write the ShaDa file manually.  This
+can be used to exchange <a href="change.txt.html#registers" class="d">registers</a> between two running Vim programs: First
+type "<a href="starting.txt.html#%3Awsh" class="d">:wsh</a>" in one and then "<a href="starting.txt.html#%3Arsh" class="d">:rsh</a>" in the other.  <span class="n">Note</span> that if the <a href="intro.txt.html#register" class="d">register</a>
+already contained something, then ":rsh!" would be required.  Also note,
+however, that this means everything will be overwritten with information from
+the first Vim, including the command line history, etc.
+
+The ShaDa file itself can be edited by hand too, although we suggest you
+start with an existing one to get the format right.  You need to understand
+MessagePack (or, more likely, find software that <a href="motion.txt.html#is" class="d">is</a> able to use it) format to
+<a href="diff.txt.html#do" class="d">do</a> this.  This can be useful in order to create <a href="insert.txt.html#a" class="d">a</a> second file, say
+"~/.my.shada"<a href="motion.txt.html#%2C" class="d">,</a> which could contain certain settings that you always want when
+you first start Nvim.  For example, you can preload <a href="change.txt.html#registers" class="d">registers</a> with
+particular data, or <a href="change.txt.html#put" class="d">put</a> certain commands in the command line history.  <a href="insert.txt.html#A" class="d">A</a> line
+in your <a href="starting.txt.html#config" class="l">config</a> file like 
+<span class="e">	:rshada! ~/.my.shada</span>
+can be used to load this information.  You could even have different ShaDa
+files <a href="luaref.txt.html#for" class="d">for</a> different types of files (e.g., <a href="change.txt.html#C" class="d">C</a> code) and load them based on the
+file name, using the "<a href="autocmd.txt.html#%3Aautocmd" class="d">:autocmd</a>" command (see <a href="autocmd.txt.html#%3Aautocmd" class="l">:autocmd</a>).  More information on
+ShaDa file format <a href="motion.txt.html#is" class="d">is</a> contained in <a href="starting.txt.html#shada-format" class="l">shada-format</a> section.
+
+					  <span id="E136" class="t">E136</span> <span id="E929" class="t">E929</span> <span id="shada-error-handling" class="t">shada-error-handling</span>
+Some <a href="message.txt.html#errors" class="d">errors</a> make Nvim leave temporary file named <span class="e">{basename}.tmp.X</span> (X <a href="motion.txt.html#is" class="d">is</a>
+any free letter from <span class="e">a</span> to <span class="e">z</span>) while normally <a href="motion.txt.html#it" class="d">it</a> will create this file,
+write to <a href="motion.txt.html#it" class="d">it</a> and then rename <span class="e">{basename}.tmp.X</span> to <span class="e">{basename}</span>. Such <a href="message.txt.html#errors" class="d">errors</a>
+include:
+
+<a href="motion.txt.html#-" class="d">-</a> Errors which make Nvim think that the file being read <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> ShaDa
+  file <a href="motion.txt.html#at" class="d">at</a> all:
+  non-ShaDa files are not overwritten <a href="luaref.txt.html#for" class="d">for</a> safety reasons to avoid accidentally
+  destroying an unrelated file.  This could happen e.g. when typing "<a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#-i" class="d">-i</a>
+  file" in place of "<a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#-R" class="d">-R</a> file" (yes, somebody did that <a href="motion.txt.html#at" class="d">at</a> least with Vim).
+  Such <a href="message.txt.html#errors" class="d">errors</a> are listed <a href="motion.txt.html#at" class="d">at</a> <a href="starting.txt.html#shada-critical-contents-errors" class="l">shada-critical-contents-errors</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> If <a href="editing.txt.html#writing" class="d">writing</a> to the temporary file failed: e.g. because of the insufficient
+  <a href="intro.txt.html#space" class="d">space</a> left.
+<a href="motion.txt.html#-" class="d">-</a> If renaming file failed: e.g. because of insufficient permissions.
+<a href="motion.txt.html#-" class="d">-</a> If target ShaDa file has different from the Nvim instance's owners (user
+  and group) and <a href="change.txt.html#changing" class="d">changing</a> them failed.  Unix-specific, applies only when
+  Nvim was launched from root.
+
+Do not forget to remove the temporary file or replace the target file with
+temporary one after getting one of the above <a href="message.txt.html#errors" class="d">errors</a> or all attempts to create
+<a href="insert.txt.html#a" class="d">a</a> ShaDa file may fail with <a href="starting.txt.html#E929" class="l">E929</a><a href="repeat.txt.html#." class="d">.</a>  If you got one of them when using
+<a href="starting.txt.html#%3Awshada" class="l">:wshada</a> (and not when <a href="starting.txt.html#exiting" class="d">exiting</a> Nvim: i.e. when you have Nvim session
+running) you have additional options:
+
+<a href="motion.txt.html#-" class="d">-</a> First thing which you should consider if you got any error, except failure
+  to write to the temporary file: remove existing file and replace <a href="motion.txt.html#it" class="d">it</a> with the
+  temporary file.  Do <a href="motion.txt.html#it" class="d">it</a> even if you have running Nvim instance.
+<a href="motion.txt.html#-" class="d">-</a> Fix the permissions and/or file ownership, free some <a href="intro.txt.html#space" class="d">space</a> and attempt to
+  write again.  Do not remove the existing file.
+<a href="motion.txt.html#-" class="d">-</a> Use <a href="starting.txt.html#%3Awshada" class="l">:wshada</a> with bang.  Does not <a href="helphelp.txt.html#help" class="d">help</a> in <a href="change.txt.html#case" class="d">case</a> of permission error.  If
+  target file was actually the ShaDa file some information may be lost in this
+  case.  To make the matters slightly better use <a href="starting.txt.html#%3Arshada" class="l">:rshada</a> prior to writing,
+  but this still will loose buffer-local marks and change <a href="vimeval.txt.html#list" class="d">list</a> entries <a href="luaref.txt.html#for" class="d">for</a> any
+  file which <a href="motion.txt.html#is" class="d">is</a> not opened in the current Nvim instance.
+<a href="motion.txt.html#-" class="d">-</a> Remove the target file from shell and use <a href="starting.txt.html#%3Awshada" class="l">:wshada</a><a href="repeat.txt.html#." class="d">.</a>  Consequences are not
+  different from using <a href="starting.txt.html#%3Awshada" class="l">:wshada</a> with bang, but "rm -f" works in some cases
+  when you don't have write permissions.
+
+						    <span id="%3Arsh" class="t">:rsh</span> <span id="%3Arshada" class="t">:rshada</span> <span id="E886" class="t">E886</span>
+:rsh[ada][!] <span class="s">[file]</span>	Read from ShaDa file <span class="s">[file]</span> (default: see above).
+			If [!] <a href="motion.txt.html#is" class="d">is</a> given, then any information that <a href="motion.txt.html#is" class="d">is</a>
+			already set (registers, marks, <a href="vvars.txt.html#v%3Aoldfiles" class="l">v:oldfiles</a><a href="motion.txt.html#%2C" class="d">,</a> etc.)
+			will be overwritten.
+
+						    <span id="%3Awsh" class="t">:wsh</span> <span id="%3Awshada" class="t">:wshada</span> <span id="E137" class="t">E137</span>
+:wsh[ada][!] <span class="s">[file]</span>	Write to ShaDa file <span class="s">[file]</span> (default: see above).
+			The information in the file <a href="motion.txt.html#is" class="d">is</a> first read in to make
+			<a href="insert.txt.html#a" class="d">a</a> <a href="diff.txt.html#merge" class="d">merge</a> between old and new info.  When [!] <a href="motion.txt.html#is" class="d">is</a> used,
+			the old information <a href="motion.txt.html#is" class="d">is</a> not read first, only the
+			internal info <a href="motion.txt.html#is" class="d">is</a> written (also disables safety checks
+			described in <a href="starting.txt.html#shada-error-handling" class="l">shada-error-handling</a>).  If <a href="options.txt.html#%27shada%27" class="o">'shada'</a> <a href="motion.txt.html#is" class="d">is</a>
+			empty, marks <a href="luaref.txt.html#for" class="d">for</a> up to 100 files will be written.
+			When you get error "E929: All .tmp.X files exist,
+			cannot write ShaDa file!"<a href="motion.txt.html#%2C" class="d">,</a> check that no old temp
+			files were left behind (e.g.
+			~/.local/state/nvim/shada/main.shada.tmp*).
+
+			<span class="n">Note:</span> Executing <a href="starting.txt.html#%3Awshada" class="d">:wshada</a> will reset all <a href="motion.txt.html#%27quote" class="l">'quote</a> marks.
+
+						<span id="%3Ao" class="t">:o</span> <span id="%3Aol" class="t">:ol</span> <span id="%3Aoldfiles" class="t">:oldfiles</span>
+:o[ldfiles]		<a href="vimeval.txt.html#List" class="d">List</a> the files that have marks stored in the ShaDa
+			file.  This <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> read on <a href="starting.txt.html#startup" class="d">startup</a> and only changes
+			afterwards with <span class="e">:rshada!</span>.  Also see <a href="vvars.txt.html#v%3Aoldfiles" class="l">v:oldfiles</a><a href="repeat.txt.html#." class="d">.</a>
+			The number can be used with <a href="cmdline.txt.html#c_%23%3C" class="l">c_#&lt;</a><a href="repeat.txt.html#." class="d">.</a>
+			The output can be filtered with <a href="various.txt.html#%3Afilter" class="l">:filter</a><a href="motion.txt.html#%2C" class="d">,</a> e.g.: 
+<span class="e">				filter /\.vim/ oldfiles</span>
+			The filtering happens on the file name.
+
+:bro[wse] o[ldfiles][!]
+			<a href="vimeval.txt.html#List" class="d">List</a> file names <a href="motion.txt.html#as" class="d">as</a> with <a href="starting.txt.html#%3Aoldfiles" class="l">:oldfiles</a><a href="motion.txt.html#%2C" class="d">,</a> and then prompt
+			<a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> number.  When the number <a href="motion.txt.html#is" class="d">is</a> valid that file from
+			the <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> edited.
+			If you get the <a href="message.txt.html#press-enter" class="l">press-enter</a> prompt you can press "<a href="repeat.txt.html#q" class="d">q</a>"
+			and still get the prompt to enter <a href="insert.txt.html#a" class="d">a</a> file number.
+			Use [!] to <a href="editing.txt.html#abandon" class="d">abandon</a> <a href="insert.txt.html#a" class="d">a</a> modified buffer. <a href="editing.txt.html#abandon" class="l">abandon</a>
+
+<span class="c">SHADA FILE FORMAT</span>						<span id="shada-format" class="t">shada-format</span>
+
+ShaDa files are concats of MessagePack entries.  Each entry <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> concat of
+exactly four MessagePack objects:
+
+1. First goes type of the entry.  Object type must be an unsigned integer.
+   Object type must not be equal to zero.
+2. Second goes entry timestamp.  It must also be an unsigned integer.
+3. Third goes the length of the fourth entry.  Unsigned integer <a href="motion.txt.html#as" class="d">as</a> well, used
+   <a href="luaref.txt.html#for" class="d">for</a> fast skipping without parsing.
+4. Fourth <a href="motion.txt.html#is" class="d">is</a> actual entry data.  All currently used ShaDa entries use
+   containers to hold data: either map or array.  All <a href="vimeval.txt.html#string" class="d">string</a> values in those
+   containers are either binary (applies to filenames) or UTF-8, yet parser
+   needs to expect that invalid bytes may be present in <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> string.
+
+   Exact format depends on the entry type:
+
+<span class="h">   Entry type (name)   Entry data </span>
+   1 (Header)          Map containing data that describes the generator
+                       instance that wrote this ShaDa file.  It <a href="motion.txt.html#is" class="d">is</a> ignored
+                       when reading ShaDa files.  Contains the following data:
+<span class="h">                       Key        Data </span>
+                       generator  Binary, software used to generate ShaDa
+                                  file. Is equal to "<a href="nvim.txt.html#nvim" class="d">nvim</a>" when ShaDa file was
+                                  written by Nvim.
+                       version    Binary, generator version.
+                       encoding   Binary, effective <a href="options.txt.html#%27encoding%27" class="o">'encoding'</a> value.
+                       max_kbyte  Integer, effective <a href="options.txt.html#shada-s" class="l">shada-s</a> limit value.
+                       pid        Integer, instance process ID.
+                       <span class="e">*</span>          It <a href="motion.txt.html#is" class="d">is</a> allowed to have any number of
+                                  additional keys with any data.
+   2 (SearchPattern)   Map containing data describing last used search or
+                       substitute pattern.  Normally ShaDa file contains two
+                       such entries: one with "ss" key set to true (describes
+                       substitute pattern, see <a href="change.txt.html#%3Asubstitute" class="l">:substitute</a>), and one set to
+                       false (describes search pattern, see
+                       <a href="pattern.txt.html#search-commands" class="l">search-commands</a>). "su" key should be true on one of
+                       the entries.  If key value <a href="motion.txt.html#is" class="d">is</a> equal to default then <a href="motion.txt.html#it" class="d">it</a>
+                       <a href="motion.txt.html#is" class="d">is</a> normally not present.  Keys:
+<span class="h">                       Key  Type     Default  Description </span>
+                       sm   <a href="vimeval.txt.html#Boolean" class="d">Boolean</a>  true     Effective <a href="options.txt.html#%27magic%27" class="o">'magic'</a> value.
+                       sc   <a href="vimeval.txt.html#Boolean" class="d">Boolean</a>  false    Effective <a href="options.txt.html#%27smartcase%27" class="o">'smartcase'</a> value.
+                       sl   <a href="vimeval.txt.html#Boolean" class="d">Boolean</a>  true     True if search <a href="pattern.txt.html#pattern" class="d">pattern</a> comes
+                                              with <a href="insert.txt.html#a" class="d">a</a> line offset.  See
+                                              <a href="pattern.txt.html#search-offset" class="l">search-offset</a><a href="repeat.txt.html#." class="d">.</a>
+                       se   <a href="vimeval.txt.html#Boolean" class="d">Boolean</a>  false    True if <a href="pattern.txt.html#search-offset" class="l">search-offset</a>
+                                              requested to place cursor <a href="motion.txt.html#at" class="d">at</a>
+                                              (relative to) the <a href="intro.txt.html#end" class="d">end</a> of the
+                                              pattern.
+                       so   <a href="vimeval.txt.html#Integer" class="d">Integer</a>  <a href="motion.txt.html#0" class="d">0</a>        Offset value. <a href="pattern.txt.html#search-offset" class="l">search-offset</a>
+                       su   <a href="vimeval.txt.html#Boolean" class="d">Boolean</a>  false    True if current entry was the
+                                              last used search pattern.
+                       ss   <a href="vimeval.txt.html#Boolean" class="d">Boolean</a>  false    True if current entry describes
+                                              <a href="change.txt.html#%3Asubstitute" class="l">:substitute</a> pattern.
+                       sh   <a href="vimeval.txt.html#Boolean" class="d">Boolean</a>  false    True if <a href="vvars.txt.html#v%3Ahlsearch" class="l">v:hlsearch</a> <a href="motion.txt.html#is" class="d">is</a> on.
+                                              With <a href="options.txt.html#shada-h" class="l">shada-h</a> or <a href="options.txt.html#%27nohlsearch%27" class="o">'nohlsearch'</a>
+                                              this key <a href="motion.txt.html#is" class="d">is</a> always false.
+                       sp   Binary   N/A      Actual pattern.  Required.
+                       sb   <a href="vimeval.txt.html#Boolean" class="d">Boolean</a>  false    True if search direction <a href="motion.txt.html#is" class="d">is</a>
+                                              backward.
+                       <span class="e">*</span>    any      none     Other keys are allowed <a href="luaref.txt.html#for" class="d">for</a>
+                                              compatibility reasons, see
+                                              <a href="starting.txt.html#shada-compatibility" class="l">shada-compatibility</a><a href="repeat.txt.html#." class="d">.</a>
+   3 (SubString)       Array containing last <a href="change.txt.html#%3Asubstitute" class="l">:substitute</a> replacement string.
+                       Contains single entry: binary, replacement <a href="vimeval.txt.html#string" class="d">string</a> used.
+                       More entries are allowed <a href="luaref.txt.html#for" class="d">for</a> compatibility reasons, see
+                       <a href="starting.txt.html#shada-compatibility" class="l">shada-compatibility</a><a href="repeat.txt.html#." class="d">.</a>
+   4 (HistoryEntry)    Array containing one entry from history.  Should have
+                       two or three entries.  First one <a href="motion.txt.html#is" class="d">is</a> <a href="cmdline.txt.html#history" class="d">history</a> type
+                       (unsigned integer), second <a href="motion.txt.html#is" class="d">is</a> <a href="cmdline.txt.html#history" class="d">history</a> line (binary),
+                       third <a href="motion.txt.html#is" class="d">is</a> the separator character (unsigned integer,
+                       must be in interval [0, 255]).  Third item <a href="motion.txt.html#is" class="d">is</a> only
+                       valid <a href="luaref.txt.html#for" class="d">for</a> search history.  Possible <a href="cmdline.txt.html#history" class="d">history</a> types are
+                       listed in <a href="vimfn.txt.html#hist-names" class="l">hist-names</a><a href="motion.txt.html#%2C" class="d">,</a> here are the corresponding
+                       numbers: <a href="motion.txt.html#0" class="d">0</a> <a href="motion.txt.html#-" class="d">-</a> cmd, 1 <a href="motion.txt.html#-" class="d">-</a> search, 2 <a href="motion.txt.html#-" class="d">-</a> expr, 3 <a href="motion.txt.html#-" class="d">-</a> input,
+                       4 <a href="motion.txt.html#-" class="d">-</a> debug.
+   5 (Register)        Map describing one <a href="intro.txt.html#register" class="d">register</a> <a href="motion.txt.html#%28" class="d">(</a><a href="change.txt.html#registers" class="l">registers</a>).  If key
+                       value <a href="motion.txt.html#is" class="d">is</a> equal to default then <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> normally not
+                       present.  Keys:
+<span class="h">                       Key  Type             Def   Description </span>
+                       rt   UInteger         <a href="motion.txt.html#0" class="d">0</a>     Register type:
+<span class="h">                                                   No  Description </span>
+                                                   <a href="motion.txt.html#0" class="d">0</a>   <a href="change.txt.html#charwise-register" class="l">charwise-register</a>
+                                                   1   <a href="change.txt.html#linewise-register" class="l">linewise-register</a>
+                                                   2   <a href="change.txt.html#blockwise-register" class="l">blockwise-register</a>
+                       rw   UInteger         <a href="motion.txt.html#0" class="d">0</a>     Register width. Only valid
+                                                   <a href="luaref.txt.html#for" class="d">for</a> <a href="change.txt.html#blockwise-register" class="l">blockwise-register</a>s.
+                       rc   Array of binary  N/A   Register contents.  Each
+                                                   entry in the array
+                                                   represents its own line.
+                                                   NUL characters inside the
+                                                   line should be represented
+                                                   <a href="motion.txt.html#as" class="d">as</a> NL according to
+                                                   <a href="pattern.txt.html#NL-used-for-Nul" class="l">NL-used-for-Nul</a><a href="repeat.txt.html#." class="d">.</a>
+                       ru   <a href="vimeval.txt.html#Boolean" class="d">Boolean</a>          false Unnamed register. Whether
+                                                   the unnamed <a href="intro.txt.html#register" class="d">register</a> had
+                                                   pointed to this register.
+                       <a href="pattern.txt.html#n" class="d">n</a>    UInteger         N/A   Register name: character
+                                                   code in range [1, 255].
+                                                   Example: <a href="change.txt.html#quote0" class="l">quote0</a> <a href="intro.txt.html#register" class="d">register</a>
+                                                   has name 48 (ASCII code <a href="luaref.txt.html#for" class="d">for</a>
+                                                   zero character).
+                       *    any              none  Other keys are allowed
+                                                   <a href="luaref.txt.html#for" class="d">for</a> compatibility reasons,
+                                                   see <a href="starting.txt.html#shada-compatibility" class="l">shada-compatibility</a><a href="repeat.txt.html#." class="d">.</a>
+   6 (Variable)        Array containing two items: variable name (binary) and
+                       variable value (any object).  Values are converted
+                       using the same code <a href="vimfn.txt.html#msgpackparse%28%29" class="l">msgpackparse()</a> uses when reading,
+                       <a href="vimfn.txt.html#msgpackdump%28%29" class="l">msgpackdump()</a> when writing, so there may appear
+                       <a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a>s.  If there are more then two
+                       entries then the rest are ignored
+                       <a href="motion.txt.html#%28" class="d">(</a><a href="starting.txt.html#shada-compatibility" class="l">shada-compatibility</a>).
+   7 (GlobalMark)
+   8 (Jump)
+   10 (LocalMark)
+   11 (Change)         Map containing some position description:
+<span class="h">                       Entry      Position </span>
+                       GlobalMark Global <a href="motion.txt.html#mark" class="d">mark</a> position. <a href="motion.txt.html#%27A" class="l">'A</a>
+                       LocalMark  Local <a href="motion.txt.html#mark" class="d">mark</a> position. <a href="motion.txt.html#%27a" class="l">'a</a>
+                       Jump       One position from the <a href="motion.txt.html#jumplist" class="l">jumplist</a><a href="repeat.txt.html#." class="d">.</a>
+                       Change     One position from the <a href="motion.txt.html#changelist" class="l">changelist</a><a href="repeat.txt.html#." class="d">.</a>
+
+                       Data contained in the map:
+<span class="h">                       Key  Type      Default  Description </span>
+                       <a href="motion.txt.html#l" class="d">l</a>    UInteger  1        Position line number.  Must be
+                                               greater then zero.
+                       <a href="change.txt.html#c" class="d">c</a>    UInteger  <a href="motion.txt.html#0" class="d">0</a>        Position column number.
+                       <a href="pattern.txt.html#n" class="d">n</a>    UInteger  34 ('"<a href="motion.txt.html#%27%29" class="d">')</a> <a href="motion.txt.html#Mark" class="d">Mark</a> name.  Only valid <a href="luaref.txt.html#for" class="d">for</a>
+                                               GlobalMark and LocalMark
+                                               entries.
+                       <a href="motion.txt.html#f" class="d">f</a>    Binary    N/A      File name.  Required.
+                       <span class="e">*</span>    any       none     Other keys are allowed <a href="luaref.txt.html#for" class="d">for</a>
+                                               compatibility reasons, see
+                                               <a href="starting.txt.html#shada-compatibility" class="l">shada-compatibility</a><a href="repeat.txt.html#." class="d">.</a>
+   9 (BufferList)      Array containing maps.  Each map in the array
+                       represents one buffer.  Possible keys:
+<span class="h">                       Key  Type      Default  Description </span>
+                       <a href="motion.txt.html#l" class="d">l</a>    UInteger  1        Position line number.  Must be
+                                               greater then zero.
+                       <a href="change.txt.html#c" class="d">c</a>    UInteger  <a href="motion.txt.html#0" class="d">0</a>        Position column number.
+                       <a href="motion.txt.html#f" class="d">f</a>    Binary    N/A      File name.  Required.
+                       <span class="e">*</span>    any       none     Other keys are allowed <a href="luaref.txt.html#for" class="d">for</a>
+                                               compatibility reasons, see
+                                               <a href="starting.txt.html#shada-compatibility" class="l">shada-compatibility</a><a href="repeat.txt.html#." class="d">.</a>
+   <span class="e">*</span> (Unknown)         Any other entry type <a href="motion.txt.html#is" class="d">is</a> allowed <a href="luaref.txt.html#for" class="d">for</a> compatibility
+                       reasons, see <a href="starting.txt.html#shada-compatibility" class="l">shada-compatibility</a><a href="repeat.txt.html#." class="d">.</a>
+
+								<span id="E575" class="t">E575</span> <span id="E576" class="t">E576</span>
+Errors in ShaDa file may have two types:
+1. <a href="starting.txt.html#E575" class="d">E575</a> <a href="luaref.txt.html#for" class="d">for</a> “logical” errors.
+2. <a href="starting.txt.html#E576" class="d">E576</a> <a href="luaref.txt.html#for" class="d">for</a> “critical” errors.
+When writing, critical <a href="message.txt.html#errors" class="d">errors</a> trigger behaviour described in
+<a href="starting.txt.html#shada-error-handling" class="l">shada-error-handling</a><a href="repeat.txt.html#." class="d">.</a>
+When reading, critical <a href="message.txt.html#errors" class="d">errors</a> cause the rest of the file to be skipped.
+Critical <a href="message.txt.html#errors" class="d">errors</a> include:
+					    <span id="shada-critical-contents-errors" class="t">shada-critical-contents-errors</span>
+<a href="motion.txt.html#-" class="d">-</a> Any of first three MessagePack <a href="index.txt.html#objects" class="d">objects</a> being not an unsigned integer.
+<a href="motion.txt.html#-" class="d">-</a> Third object requesting amount of bytes greater then bytes left in the ShaDa
+  file.
+<a href="motion.txt.html#-" class="d">-</a> Entry with zero type.  I.e. first object being equal to zero.
+<a href="motion.txt.html#-" class="d">-</a> MessagePack parser failing to parse the entry data.
+<a href="motion.txt.html#-" class="d">-</a> MessagePack parser consuming <a href="various.txt.html#less" class="d">less</a> or requesting greater bytes then described
+  in the third object <a href="luaref.txt.html#for" class="d">for</a> parsing fourth object.  I.e. when fourth object
+  either contains more then one MessagePack object or <a href="motion.txt.html#it" class="d">it</a> does not contain
+  complete MessagePack object.
+
+<span class="h">==============================================================================</span>
+Standard Paths					<span id="standard-path" class="t">standard-path</span>
+
+Nvim stores configuration, data, and logs in standard locations. Plugins are
+strongly encouraged to follow this <a href="pattern.txt.html#pattern" class="d">pattern</a> also. Use <a href="vimfn.txt.html#stdpath%28%29" class="l">stdpath()</a> to get the
+paths.
+
+						<span id="base-directories" class="t">base-directories</span> <span id="xdg" class="t">xdg</span>
+The "base" (root) directories conform to the XDG Base Directory Specification.
+<a class="u" href="https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html">https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html</a>
+The $XDG_CONFIG_HOME, $XDG_DATA_HOME, $XDG_RUNTIME_DIR, $XDG_STATE_HOME,
+$XDG_CACHE_HOME, <a href="starting.txt.html#%24XDG_CONFIG_DIRS" class="d">$XDG_CONFIG_DIRS</a> and <a href="starting.txt.html#%24XDG_DATA_DIRS" class="d">$XDG_DATA_DIRS</a> environment <a href="vimeval.txt.html#variables" class="d">variables</a>
+are used if defined, else default values (listed below) are used.
+
+<span class="n">Note:</span> In the <a href="helphelp.txt.html#help" class="d">help</a> these <a href="vim_diff.txt.html#defaults" class="d">defaults</a> are used <a href="motion.txt.html#as" class="d">as</a> placeholders, e.g. "~/.config" <a href="motion.txt.html#is" class="d">is</a>
+understood <a href="motion.txt.html#as" class="d">as</a> "<a href="starting.txt.html#%24XDG_CONFIG_HOME" class="d">$XDG_CONFIG_HOME</a> or ~/.config"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">CONFIG DIRECTORY (DEFAULT) </span>
+                  <span id="%24XDG_CONFIG_HOME" class="t">$XDG_CONFIG_HOME</span>            Nvim: stdpath("<a href="starting.txt.html#config" class="d">config</a>"<a href="motion.txt.html#%29" class="d">)</a>
+    Unix:         ~/.config                   ~/.config/nvim
+    Windows:      ~/AppData/Local             ~/AppData/Local/nvim
+
+<span class="h">DATA DIRECTORY (DEFAULT) </span>
+                  <span id="%24XDG_DATA_HOME" class="t">$XDG_DATA_HOME</span>              Nvim: stdpath("data"<a href="motion.txt.html#%29" class="d">)</a>
+    Unix:         ~/.local/share              ~/.local/share/nvim
+    Windows:      ~/AppData/Local             ~/AppData/Local/nvim-data
+
+<span class="h">RUN DIRECTORY (DEFAULT) </span>
+                  <span id="%24XDG_RUNTIME_DIR" class="t">$XDG_RUNTIME_DIR</span>            Nvim: stdpath("run"<a href="motion.txt.html#%29" class="d">)</a>
+    Unix:         /tmp/nvim.user/xxx          /tmp/nvim.user/xxx
+    Windows:      $TMP/nvim.user/xxx          $TMP/nvim.user/xxx
+
+<span class="h">STATE DIRECTORY (DEFAULT) </span>
+                  <span id="%24XDG_STATE_HOME" class="t">$XDG_STATE_HOME</span>             Nvim: stdpath("state"<a href="motion.txt.html#%29" class="d">)</a>
+    Unix:         ~/.local/state              ~/.local/state/nvim
+    Windows:      ~/AppData/Local             ~/AppData/Local/nvim-data
+
+<span class="h">CACHE DIRECTORY (DEFAULT) </span>
+                  <span id="%24XDG_CACHE_HOME" class="t">$XDG_CACHE_HOME</span>             Nvim: stdpath("cache"<a href="motion.txt.html#%29" class="d">)</a>
+    Unix:         ~/.cache                    ~/.cache/nvim
+    Windows:      ~/AppData/Local/Temp        ~/AppData/Local/Temp/nvim-data
+
+<span class="h">LOG FILE (DEFAULT) </span>
+                  <span class="e">$NVIM_LOG_FILE</span>              Nvim: stdpath("<a href="starting.txt.html#log" class="d">log</a>")/log
+    Unix:         ~/.local/state/nvim         ~/.local/state/nvim/log
+    Windows:      ~/AppData/Local/nvim-data   ~/AppData/Local/nvim-data/log
+
+<span class="n">Note</span> that stdpath("<a href="starting.txt.html#log" class="d">log</a>"<a href="motion.txt.html#%29" class="d">)</a> <a href="motion.txt.html#is" class="d">is</a> currently an alias <a href="luaref.txt.html#for" class="d">for</a> stdpath("state").
+
+<span class="h">ADDITIONAL CONFIGS DIRECTORY (DEFAULT) </span>
+                  <span id="%24XDG_CONFIG_DIRS" class="t">$XDG_CONFIG_DIRS</span>            Nvim: stdpath("config_dirs"<a href="motion.txt.html#%29" class="d">)</a>
+    Unix:         /etc/xdg/                   /etc/xdg/nvim
+    Windows:      Not applicable              Not applicable
+
+<span class="h">ADDITIONAL DATA DIRECTORY (DEFAULT) </span>
+                  <span id="%24XDG_DATA_DIRS" class="t">$XDG_DATA_DIRS</span>              Nvim: stdpath("data_dirs"<a href="motion.txt.html#%29" class="d">)</a>
+    Unix:         /usr/local/share            /usr/local/share/nvim
+                  /usr/share                  /usr/share/nvim
+    Windows:      Not applicable              Not applicable
+
+<span class="c">NVIM_APPNAME</span>					<span id="%24NVIM_APPNAME" class="t">$NVIM_APPNAME</span>
+The standard directories can be further configured by the <span class="e">$NVIM_APPNAME</span>
+environment variable. This variable controls the sub-directory that Nvim will
+read from (and auto-create) in each of the base directories. For example,
+setting <span class="e">$NVIM_APPNAME</span> to "foo" before <a href="starting.txt.html#starting" class="d">starting</a> will cause Nvim to look <a href="luaref.txt.html#for" class="d">for</a>
+configuration files in <span class="e">$XDG_CONFIG_HOME/foo</span> instead of
+<span class="e">$XDG_CONFIG_HOME/nvim</span>. <span class="e">$NVIM_APPNAME</span> must be <a href="insert.txt.html#a" class="d">a</a> name, such <a href="motion.txt.html#as" class="d">as</a> "foo"<a href="motion.txt.html#%2C" class="d">,</a> or <a href="insert.txt.html#a" class="d">a</a>
+relative path, such <a href="motion.txt.html#as" class="d">as</a> "foo/bar"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="n">Note:</span> In the <a href="helphelp.txt.html#help" class="d">help</a> wherever <span class="e">$XDG_CONFIG_…/nvim</span> <a href="motion.txt.html#is" class="d">is</a> mentioned <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> understood
+<a href="motion.txt.html#as" class="d">as</a> <span class="e">$XDG_CONFIG_…/$NVIM_APPNAME</span>.
+
+						<span id="state-isolation" class="t">state-isolation</span>
+One use-case <a href="luaref.txt.html#for" class="d">for</a> <a href="starting.txt.html#%24NVIM_APPNAME" class="d">$NVIM_APPNAME</a> <a href="motion.txt.html#is" class="d">is</a> to "isolate" Nvim applications.
+Alternatively, <a href="luaref.txt.html#for" class="d">for</a> true isolation, on Linux you can use cgroups namespaces: 
+<span class="e">    systemd-run --user -qt -p PrivateUsers=yes -p BindPaths=/home/user/profile_xy:/home/user/.config/nvim nvim</span>
+
+						<span id="stateless" class="t">stateless</span>
+To run Nvim without creating any directories or data files: 
+<span class="e">    NVIM_LOG_FILE=/dev/null nvim -n -i NONE</span>
+<span class="e"></span>
+<span class="c">LOG FILE</span>					<span id="log" class="t">log</span> <span id="%24NVIM_LOG_FILE" class="t">$NVIM_LOG_FILE</span> <span id="E5430" class="t">E5430</span>
+Besides <a href="options.txt.html#%27debug%27" class="o">'debug'</a> and <a href="options.txt.html#%27verbose%27" class="o">'verbose'</a>, Nvim keeps <a href="insert.txt.html#a" class="d">a</a> general <a href="starting.txt.html#log" class="d">log</a> file <a href="luaref.txt.html#for" class="d">for</a> internal
+debugging, plugins and <a href="api.txt.html#RPC" class="d">RPC</a> clients. 
+<span class="e">	:echo $NVIM_LOG_FILE</span>
+By default, the file <a href="motion.txt.html#is" class="d">is</a> located <a href="motion.txt.html#at" class="d">at</a> stdpath("<a href="starting.txt.html#log" class="d">log</a>")/log ($XDG_STATE_HOME/nvim/log)
+unless that path <a href="motion.txt.html#is" class="d">is</a> inaccessible or if <a href="starting.txt.html#%24NVIM_LOG_FILE" class="d">$NVIM_LOG_FILE</a> was set before <a href="starting.txt.html#startup" class="l">startup</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+ vim:noet:tw=78:ts=8:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

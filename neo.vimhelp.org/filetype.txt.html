@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: filetype.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="filetype.txt.html#">↑Top↑</a></li>
+<li><a href="filetype.txt.html#filetypes">Filetypes</a></li>
+<li><a href="filetype.txt.html#filetype-plugins">Filetype plugin</a></li>
+<li><a href="filetype.txt.html#ftplugin-docs">Docs for the default filetype plugins.</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="filetype.txt" class="t">filetype.txt</span>  Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL    by Bram Moolenaar</span>
+
+
+Filetypes						<span id="filetype" class="t">filetype</span> <span id="file-type" class="t">file-type</span>
+
+Also see <a href="autocmd.txt.html#autocmd.txt" class="l">autocmd.txt</a><a href="repeat.txt.html#." class="d">.</a>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+1. Filetypes					<span id="filetypes" class="t">filetypes</span> <span id="file-types" class="t">file-types</span>
+
+Vim can detect the type of file that <a href="motion.txt.html#is" class="d">is</a> edited.  This <a href="motion.txt.html#is" class="d">is</a> done by checking the
+file name and sometimes by inspecting the contents of the file <a href="luaref.txt.html#for" class="d">for</a> specific
+text.
+
+							<span id="%3Afiletype" class="t">:filetype</span> <span id="%3Afilet" class="t">:filet</span>
+To enable file type detection, use this command in your vimrc: 
+<span class="e">	:filetype on</span>
+Each time <a href="insert.txt.html#a" class="d">a</a> new or existing file <a href="motion.txt.html#is" class="d">is</a> edited, Vim will try to recognize the type
+of the file and set the <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> option.  This will trigger the <a href="autocmd.txt.html#FileType" class="d">FileType</a>
+event, which can be used to set the <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting, set options, etc.
+
+Detail: The "<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> on" command will load these files:
+		$VIMRUNTIME/filetype.lua
+		$VIMRUNTIME/filetype.vim
+	filetype.lua creates an <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> that fires <a href="luaref.txt.html#for" class="d">for</a> all <a href="autocmd.txt.html#BufNewFile" class="d">BufNewFile</a> and
+	<a href="autocmd.txt.html#BufRead" class="d">BufRead</a> events. It tries to detect the <a href="filetype.txt.html#filetype" class="d">filetype</a> based off of the
+	file's extension or name.
+
+	filetype.vim <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> Vim <a href="usr_41.txt.html#script" class="d">script</a> that defines autocommands <a href="luaref.txt.html#for" class="d">for</a> the
+	<a href="autocmd.txt.html#BufNewFile" class="d">BufNewFile</a> and <a href="autocmd.txt.html#BufRead" class="d">BufRead</a> events. In contrast to filetype.lua, this
+	file creates separate <a href="autocmd.txt.html#BufNewFile" class="d">BufNewFile</a> and <a href="autocmd.txt.html#BufRead" class="d">BufRead</a> <a href="autocmd.txt.html#events" class="d">events</a> <a href="luaref.txt.html#for" class="d">for</a> each <a href="filetype.txt.html#filetype" class="d">filetype</a>
+	pattern.
+
+	If the file type <a href="motion.txt.html#is" class="d">is</a> not found by the name, the file
+	$VIMRUNTIME/scripts.vim <a href="motion.txt.html#is" class="d">is</a> used to detect <a href="motion.txt.html#it" class="d">it</a> from the contents of the
+	file.
+	When the <a href="gui.txt.html#GUI" class="d">GUI</a> <a href="motion.txt.html#is" class="d">is</a> running or will start soon, the <a href="gui.txt.html#menu.vim" class="l">menu.vim</a> <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a>
+	also sourced.
+
+To add your own file types, see <a href="filetype.txt.html#new-filetype" class="l">new-filetype</a> below.  To search <a href="luaref.txt.html#for" class="d">for</a> <a href="helphelp.txt.html#help" class="d">help</a> on <a href="insert.txt.html#a" class="d">a</a>
+<a href="filetype.txt.html#filetype" class="d">filetype</a> prepend "ft-" and optionally append "-syntax"<a href="motion.txt.html#%2C" class="d">,</a> "-indent" or
+"-plugin"<a href="repeat.txt.html#." class="d">.</a>  For example: 
+<span class="e">	:help ft-vim-indent</span>
+<span class="e">	:help ft-vim-syntax</span>
+<span class="e">	:help ft-man-plugin</span>
+<span class="e"></span>
+If the file type <a href="motion.txt.html#is" class="d">is</a> not detected automatically, or <a href="motion.txt.html#it" class="d">it</a> finds the wrong type,
+you can either set the <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> option manually, or add <a href="insert.txt.html#a" class="d">a</a> <a href="options.txt.html#modeline" class="d">modeline</a> to your
+file.  Example, <a href="luaref.txt.html#for" class="d">for</a> an IDL file use the command: 
+<span class="e">	:set filetype=idl</span>
+<span class="e"></span>
+or add this <a href="options.txt.html#modeline" class="l">modeline</a> to the file: 
+<span class="e">	/* vim: set filetype=idl : */</span>
+
+						<span id="%3Afiletype-plugin-on" class="t">:filetype-plugin-on</span>
+You can enable loading the <a href="usr_05.txt.html#plugin" class="d">plugin</a> files <a href="luaref.txt.html#for" class="d">for</a> specific file types with: 
+<span class="e">	:filetype plugin on</span>
+If <a href="filetype.txt.html#filetype" class="d">filetype</a> detection was not switched on yet, <a href="motion.txt.html#it" class="d">it</a> will be <a href="motion.txt.html#as" class="d">as</a> well.
+This actually loads the file "ftplugin.vim" in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.
+The result <a href="motion.txt.html#is" class="d">is</a> that when <a href="insert.txt.html#a" class="d">a</a> file <a href="motion.txt.html#is" class="d">is</a> edited its <a href="usr_05.txt.html#plugin" class="d">plugin</a> file <a href="motion.txt.html#is" class="d">is</a> loaded (if there
+<a href="motion.txt.html#is" class="d">is</a> one <a href="luaref.txt.html#for" class="d">for</a> the detected filetype). <a href="usr_43.txt.html#filetype-plugin" class="l">filetype-plugin</a>
+
+						<span id="%3Afiletype-plugin-off" class="t">:filetype-plugin-off</span>
+You can disable <a href="motion.txt.html#it" class="d">it</a> again with: 
+<span class="e">	:filetype plugin off</span>
+The <a href="filetype.txt.html#filetype" class="d">filetype</a> detection <a href="motion.txt.html#is" class="d">is</a> not switched off then.  But if you <a href="diff.txt.html#do" class="d">do</a> switch off
+<a href="filetype.txt.html#filetype" class="d">filetype</a> detection, the plugins will not be loaded either.
+This actually loads the file "ftplugof.vim" in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.
+
+						<span id="%3Afiletype-indent-on" class="t">:filetype-indent-on</span>
+You can enable loading the indent file <a href="luaref.txt.html#for" class="d">for</a> specific file types with: 
+<span class="e">	:filetype indent on</span>
+If <a href="filetype.txt.html#filetype" class="d">filetype</a> detection was not switched on yet, <a href="motion.txt.html#it" class="d">it</a> will be <a href="motion.txt.html#as" class="d">as</a> well.
+This actually loads the file "indent.vim" in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.
+The result <a href="motion.txt.html#is" class="d">is</a> that when <a href="insert.txt.html#a" class="d">a</a> file <a href="motion.txt.html#is" class="d">is</a> edited its indent file <a href="motion.txt.html#is" class="d">is</a> loaded (if there
+<a href="motion.txt.html#is" class="d">is</a> one <a href="luaref.txt.html#for" class="d">for</a> the detected filetype). <a href="indent.txt.html#indent-expression" class="l">indent-expression</a>
+
+						<span id="%3Afiletype-indent-off" class="t">:filetype-indent-off</span>
+You can disable <a href="motion.txt.html#it" class="d">it</a> again with: 
+<span class="e">	:filetype indent off</span>
+The <a href="filetype.txt.html#filetype" class="d">filetype</a> detection <a href="motion.txt.html#is" class="d">is</a> not switched off then.  But if you <a href="diff.txt.html#do" class="d">do</a> switch off
+<a href="filetype.txt.html#filetype" class="d">filetype</a> detection, the indent files will not be loaded either.
+This actually loads the file "indoff.vim" in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.
+This disables auto-indenting <a href="luaref.txt.html#for" class="d">for</a> files you will open.  It will keep working in
+already opened files.  Reset <a href="options.txt.html#%27autoindent%27" class="o">'autoindent'</a>, <a href="options.txt.html#%27cindent%27" class="o">'cindent'</a>, <a href="options.txt.html#%27smartindent%27" class="o">'smartindent'</a> and/or
+<a href="options.txt.html#%27indentexpr%27" class="o">'indentexpr'</a> to disable indenting in an opened file.
+
+						<span id="%3Afiletype-off" class="t">:filetype-off</span>
+To disable file type detection, use this command: 
+<span class="e">	:filetype off</span>
+This will keep the flags <a href="luaref.txt.html#for" class="d">for</a> "<a href="usr_05.txt.html#plugin" class="d">plugin</a>" and "indent"<a href="motion.txt.html#%2C" class="d">,</a> but since no file types
+are being detected, they won't work until the next "<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> on"<a href="repeat.txt.html#." class="d">.</a>
+
+
+Overview:					<span id="%3Afiletype-overview" class="t">:filetype-overview</span>
+
+<span class="h">command				detection	plugin		indent </span>
+<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> on			on		unchanged	unchanged
+<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> off			off		unchanged	unchanged
+<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> on		on		on		unchanged
+<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> off		unchanged	off		unchanged
+<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> indent on		on		unchanged	on
+<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> indent off		unchanged	unchanged	off
+<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> indent on	on		on		on
+<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> indent off	unchanged	off		off
+
+To see the current status, type: 
+<span class="e">	:filetype</span>
+The output looks something like this: 
+<span class="e">	filetype detection:ON  plugin:ON  indent:OFF</span>
+<span class="e"></span>
+The file types are also used <a href="luaref.txt.html#for" class="d">for</a> <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting.  If the "<a href="syntax.txt.html#%3Asyntax" class="d">:syntax</a> on"
+command <a href="motion.txt.html#is" class="d">is</a> used, the file type detection <a href="motion.txt.html#is" class="d">is</a> installed too.  There <a href="motion.txt.html#is" class="d">is</a> no need
+to <a href="diff.txt.html#do" class="d">do</a> "<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> on" after "<a href="syntax.txt.html#%3Asyntax" class="d">:syntax</a> on"<a href="repeat.txt.html#." class="d">.</a>
+
+To disable one of the file types, add <a href="insert.txt.html#a" class="d">a</a> line in your <a href="filetype.txt.html#filetype" class="d">filetype</a> file, see
+<a href="filetype.txt.html#remove-filetype" class="l">remove-filetype</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="filetype-detect" class="t">filetype-detect</span>
+To detect the file type again: 
+<span class="e">	:filetype detect</span>
+Use this if you started with an empty file and typed text that makes <a href="motion.txt.html#it" class="d">it</a>
+possible to detect the file type.  For example, when you entered this in <a href="insert.txt.html#a" class="d">a</a>
+shell script: "#!/bin/csh"<a href="repeat.txt.html#." class="d">.</a>
+   When <a href="filetype.txt.html#filetype" class="d">filetype</a> detection was off, <a href="motion.txt.html#it" class="d">it</a> will be enabled first, like the "on"
+argument was used.
+
+							<span id="filetype-overrule" class="t">filetype-overrule</span>
+When the same extension <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> multiple filetypes, Vim tries to guess
+what kind of file <a href="motion.txt.html#it" class="d">it</a> is.  This doesn't always work.  <a href="insert.txt.html#A" class="d">A</a> number of global
+<a href="vimeval.txt.html#variables" class="d">variables</a> can be used to overrule the <a href="filetype.txt.html#filetype" class="d">filetype</a> used <a href="luaref.txt.html#for" class="d">for</a> certain extensions:
+
+<span class="h">	file name	variable </span>
+	<span class="e">*.asa</span>  		g:filetype_asa		<a href="syntax.txt.html#ft-aspperl-syntax" class="l">ft-aspperl-syntax</a>
+						<a href="syntax.txt.html#ft-aspvbs-syntax" class="l">ft-aspvbs-syntax</a>
+	<span class="e">*.asm</span>  		g:asmsyntax		<a href="syntax.txt.html#ft-asm-syntax" class="l">ft-asm-syntax</a>
+	<span class="e">*.asp</span>  		g:filetype_asp		<a href="syntax.txt.html#ft-aspperl-syntax" class="l">ft-aspperl-syntax</a>
+						<a href="syntax.txt.html#ft-aspvbs-syntax" class="l">ft-aspvbs-syntax</a>
+	<span class="e">*.bas</span>  		g:filetype_bas		<a href="syntax.txt.html#ft-basic-syntax" class="l">ft-basic-syntax</a>
+	<span class="e">*.cfg</span>  		g:filetype_cfg
+	<span class="e">*.cls</span>  		g:filetype_cls
+	<span class="e">*.csh</span>  		<a href="syntax.txt.html#g%3Afiletype_csh" class="d">g:filetype_csh</a>		<a href="syntax.txt.html#ft-csh-syntax" class="l">ft-csh-syntax</a>
+	<span class="e">*.dat</span>  		g:filetype_dat
+	<span class="e">*.def</span>  		g:filetype_def
+	<span class="e">*.dsp</span>  		g:filetype_dsp
+	<span class="e">*.f</span>  		g:filetype_f		<a href="syntax.txt.html#ft-forth-syntax" class="l">ft-forth-syntax</a>
+	<span class="e">*.frm</span>  		g:filetype_frm		<a href="syntax.txt.html#ft-form-syntax" class="l">ft-form-syntax</a>
+	<span class="e">*.fs</span>  		g:filetype_fs		<a href="syntax.txt.html#ft-forth-syntax" class="l">ft-forth-syntax</a>
+	<span class="e">*.h</span>  		g:c_syntax_for_h	<a href="syntax.txt.html#ft-c-syntax" class="l">ft-c-syntax</a>
+	<span class="e">*.i</span>  		g:filetype_i		<a href="syntax.txt.html#ft-progress-syntax" class="l">ft-progress-syntax</a>
+	<span class="e">*.inc</span>  		g:filetype_inc
+	<span class="e">*.lsl</span>  		g:filetype_lsl
+	<span class="e">*.m</span>  		g:filetype_m		<a href="syntax.txt.html#ft-mathematica-syntax" class="l">ft-mathematica-syntax</a>
+	<span class="e">*.markdown,*.mdown,*.mkd,*.mkdn,*.mdwn,*.md</span>
+			<a href="syntax.txt.html#g%3Afiletype_md" class="d">g:filetype_md</a>		<a href="syntax.txt.html#ft-pandoc-syntax" class="l">ft-pandoc-syntax</a>
+	<span class="e">*.mod</span>  		g:filetype_mod
+	<span class="e">*.p</span>  		g:filetype_p		<a href="syntax.txt.html#ft-pascal-syntax" class="l">ft-pascal-syntax</a>
+	<span class="e">*.pl</span>  		g:filetype_pl
+	<span class="e">*.pp</span>  		g:filetype_pp		<a href="syntax.txt.html#ft-pascal-syntax" class="l">ft-pascal-syntax</a>
+	<span class="e">*.prg</span>  		g:filetype_prg
+	<span class="e">*.r</span>  		<a href="syntax.txt.html#g%3Afiletype_r" class="d">g:filetype_r</a>
+	<span class="e">*.sig</span>  		g:filetype_sig
+	<span class="e">*.sql</span>  		g:filetype_sql		<a href="syntax.txt.html#ft-sql-syntax" class="l">ft-sql-syntax</a>
+	<span class="e">*.src</span>  		g:filetype_src
+	<span class="e">*.sys</span>  		g:filetype_sys
+	<span class="e">*.sh</span>  		g:bash_is_sh		<a href="syntax.txt.html#ft-sh-syntax" class="l">ft-sh-syntax</a>
+	<span class="e">*.tex</span>  		<a href="filetype.txt.html#g%3Atex_flavor" class="d">g:tex_flavor</a>		<a href="filetype.txt.html#ft-tex-plugin" class="l">ft-tex-plugin</a>
+	<span class="e">*.typ</span>  		g:filetype_typ
+	<span class="e">*.v</span>  		g:filetype_v
+	<span class="e">*.w</span>  		g:filetype_w		<a href="syntax.txt.html#ft-cweb-syntax" class="l">ft-cweb-syntax</a>
+
+For <a href="insert.txt.html#a" class="d">a</a> few <a href="filetype.txt.html#filetypes" class="d">filetypes</a> the global variable <a href="motion.txt.html#is" class="d">is</a> used only when the <a href="filetype.txt.html#filetype" class="d">filetype</a> could
+not be detected:
+	<span class="e">*.r</span>  		<a href="syntax.txt.html#g%3Afiletype_r" class="d">g:filetype_r</a>	<a href="syntax.txt.html#ft-rexx-syntax" class="l">ft-rexx-syntax</a>
+
+							<span id="filetype-ignore" class="t">filetype-ignore</span>
+To avoid that certain files are being inspected, the g:ft_ignore_pat variable
+<a href="motion.txt.html#is" class="d">is</a> used.  The default value <a href="motion.txt.html#is" class="d">is</a> set like this: 
+<span class="e">	:let g:ft_ignore_pat = '\.\(Z\|gz\|bz2\|zip\|tgz\)$'</span>
+This means that the contents of compressed files are not inspected.
+
+							<span id="new-filetype" class="t">new-filetype</span>
+If <a href="insert.txt.html#a" class="d">a</a> file type that you want to use <a href="motion.txt.html#is" class="d">is</a> not detected yet, there are <a href="insert.txt.html#a" class="d">a</a> few ways
+to add it.  The recommended way <a href="motion.txt.html#is" class="d">is</a> to use <a href="lua.txt.html#vim.filetype.add%28%29" class="l">vim.filetype.add()</a> to add <a href="motion.txt.html#it" class="d">it</a> to
+Nvim's builtin <a href="filetype.txt.html#filetype" class="d">filetype</a> detection mechanism.  If you want to handle the
+detection manually, proceed <a href="motion.txt.html#as" class="d">as</a> follows:
+
+A. If you want to overrule all default file type checks.
+   This works by <a href="editing.txt.html#writing" class="d">writing</a> one file <a href="luaref.txt.html#for" class="d">for</a> each filetype.  The disadvantage <a href="motion.txt.html#is" class="d">is</a> that
+   there can be many files.  The advantage <a href="motion.txt.html#is" class="d">is</a> that you can simply drop this
+   file in the right directory to make <a href="motion.txt.html#it" class="d">it</a> work.
+							<span id="ftdetect" class="t">ftdetect</span>
+   1. Create your user runtime directory.  You would normally use the first
+      item of the <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> option.  Then create the directory "<a href="filetype.txt.html#ftdetect" class="d">ftdetect</a>"
+      inside it.  Example <a href="luaref.txt.html#for" class="d">for</a> Unix: 
+<span class="e">	:!mkdir -p ~/.config/nvim/ftdetect</span>
+
+   2. Create <a href="insert.txt.html#a" class="d">a</a> file that contains an <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> to detect the file type.
+      Example: 
+<span class="e">	au BufRead,BufNewFile *.mine		set filetype=mine</span>
+     <span class="n">Note</span> that there <a href="motion.txt.html#is" class="d">is</a> no "augroup" command, this has already been done
+      when sourcing your file.  You could also use the <a href="pattern.txt.html#pattern" class="d">pattern</a> "*" and then
+      check the contents of the file to recognize it.
+      Write this file <a href="motion.txt.html#as" class="d">as</a> "mine.vim" in the "<a href="filetype.txt.html#ftdetect" class="d">ftdetect</a>" directory in your user
+      runtime directory.  For example, <a href="luaref.txt.html#for" class="d">for</a> Unix: 
+<span class="e">	:w ~/.config/nvim/ftdetect/mine.vim</span>
+<span class="e"></span>
+  3. To use the new <a href="filetype.txt.html#filetype" class="d">filetype</a> detection you must restart Vim.
+
+   The files in the "<a href="filetype.txt.html#ftdetect" class="d">ftdetect</a>" directory are used after all the default
+   checks, thus they can overrule <a href="insert.txt.html#a" class="d">a</a> previously detected file type.  But you
+   can also use <a href="options.txt.html#%3Asetfiletype" class="l">:setfiletype</a> to keep <a href="insert.txt.html#a" class="d">a</a> previously detected filetype.
+
+B. If you want to detect your file after the default file type checks.
+
+   This works like <a href="insert.txt.html#A" class="d">A</a> above, but instead of setting <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> unconditionally
+   use "<a href="options.txt.html#%3Asetfiletype" class="d">:setfiletype</a>"<a href="repeat.txt.html#." class="d">.</a>  This will only set <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> if no file type was
+   detected yet.  Example: 
+<span class="e">	au BufRead,BufNewFile *.txt		setfiletype text</span>
+
+   You can also use the already detected file type in your command.  For
+   example, to use the file type "mypascal" when "pascal" has been detected: 
+<span class="e">	au BufRead,BufNewFile *		if &amp;ft == 'pascal' | set ft=mypascal</span>
+<span class="e">								       | endif</span>
+<span class="e"></span>
+C. If your file type can be detected by the file name or extension.
+   1. Create your user runtime directory.  You would normally use the first
+      item of the <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> option.  Example <a href="luaref.txt.html#for" class="d">for</a> Unix: 
+<span class="e">	:!mkdir -p ~/.config/nvim</span>
+
+   2. Create <a href="insert.txt.html#a" class="d">a</a> file that contains autocommands to detect the file type.
+      Example: 
+<span class="e">	" my filetype file</span>
+<span class="e">	if exists("did_load_filetypes")</span>
+<span class="e">	  finish</span>
+<span class="e">	endif</span>
+<span class="e">	augroup filetypedetect</span>
+<span class="e">	  au! BufRead,BufNewFile *.mine		setfiletype mine</span>
+<span class="e">	  au! BufRead,BufNewFile *.xyz		setfiletype drawing</span>
+<span class="e">	augroup END</span>
+
+      Write this file <a href="motion.txt.html#as" class="d">as</a> "filetype.vim" in your user runtime directory.  For
+      example, <a href="luaref.txt.html#for" class="d">for</a> Unix: 
+<span class="e">	:w ~/.config/nvim/filetype.vim</span>
+<span class="e"></span>
+   3. To use the new <a href="filetype.txt.html#filetype" class="d">filetype</a> detection you must restart Vim.
+
+   Your filetype.vim will be sourced before the default <a href="autocmd.txt.html#FileType" class="d">FileType</a> autocommands
+   have been installed.  Your autocommands will match first, and the
+   "<a href="options.txt.html#%3Asetfiletype" class="d">:setfiletype</a>" command will make sure that no other autocommands will set
+   <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> after this.
+							<span id="new-filetype-scripts" class="t">new-filetype-scripts</span>
+D. If your <a href="filetype.txt.html#filetype" class="d">filetype</a> can only be detected by inspecting the contents of the
+   file.
+
+   1. Create your user runtime directory.  You would normally use the first
+      item of the <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> option.  Example <a href="luaref.txt.html#for" class="d">for</a> Unix: 
+<span class="e">	:!mkdir -p ~/.config/nvim</span>
+
+   2. Create <a href="insert.txt.html#a" class="d">a</a> vim <a href="usr_41.txt.html#script" class="d">script</a> file <a href="luaref.txt.html#for" class="d">for</a> doing this.  Example: 
+<span class="e">	if did_filetype()	" filetype already set..</span>
+<span class="e">	  finish		" ..don't do these checks</span>
+<span class="e">	endif</span>
+<span class="e">	if getline(1) =~ '^#!.*\&lt;mine\&gt;'</span>
+<span class="e">	  setfiletype mine</span>
+<span class="e">	elseif getline(1) =~? '\&lt;drawing\&gt;'</span>
+<span class="e">	  setfiletype drawing</span>
+<span class="e">	endif</span>
+     See $VIMRUNTIME/scripts.vim <a href="luaref.txt.html#for" class="d">for</a> more examples.
+      Write this file <a href="motion.txt.html#as" class="d">as</a> "scripts.vim" in your user runtime directory.  For
+      example, <a href="luaref.txt.html#for" class="d">for</a> Unix: 
+<span class="e">	:w ~/.config/nvim/scripts.vim</span>
+
+   3. The detection will work right away, no need to restart Vim.
+
+   Your scripts.vim <a href="motion.txt.html#is" class="d">is</a> loaded before the default checks <a href="luaref.txt.html#for" class="d">for</a> file types, which
+   means that your rules override the default rules in
+   $VIMRUNTIME/scripts.vim.
+
+							<span id="remove-filetype" class="t">remove-filetype</span>
+If <a href="insert.txt.html#a" class="d">a</a> file type <a href="motion.txt.html#is" class="d">is</a> detected that <a href="motion.txt.html#is" class="d">is</a> wrong <a href="luaref.txt.html#for" class="d">for</a> you, you can set <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> to
+<a href="insert.txt.html#a" class="d">a</a> non-existing name such <a href="motion.txt.html#as" class="d">as</a> <span class="e">ignored</span> to avoid that <a href="motion.txt.html#it" class="d">it</a> will be set later anyway.
+
+						     <span id="g%3Adid_load_filetypes" class="t">g:did_load_filetypes</span>
+The builtin <a href="filetype.txt.html#filetype" class="d">filetype</a> detection provided by Nvim can be disabled by setting
+the <span class="e">did_load_filetypes</span> global variable. If this variable exists, the default
+<span class="e">$VIMRUNTIME/filetype.lua</span> will not run.
+
+							<span id="plugin-details" class="t">plugin-details</span>
+The "<a href="usr_05.txt.html#plugin" class="d">plugin</a>" directory can be in any of the directories in the <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>
+option.  All of these directories will be searched <a href="luaref.txt.html#for" class="d">for</a> plugins and they are
+all loaded.  For example, if this command: 
+<span class="e"></span>
+<span class="e">	set runtimepath</span>
+<span class="e"></span>
+produces this output:
+
+<span class="h">	runtimepath=/etc/vim,~/.config/nvim,/usr/local/share/vim/vim82 </span>
+
+then Vim will load all plugins in these directories and below:
+
+<span class="h">	/etc/vim/plugin/  </span>
+<span class="h">	~/.config/nvim/plugin/  </span>
+<span class="h">	/usr/local/share/vim/vim82/plugin/  </span>
+
+<span class="n">Note</span> that the last one <a href="motion.txt.html#is" class="d">is</a> the value of <a href="starting.txt.html#%24VIMRUNTIME" class="d">$VIMRUNTIME</a> which has been expanded.
+
+<span class="n">Note</span> that when using <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> manager or <a href="repeat.txt.html#packages" class="l">packages</a> many directories will be
+added to <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  These plugins each require their own directory, don't
+<a href="change.txt.html#put" class="d">put</a> them directly in ~/.config/nvim/plugin.
+
+What if <a href="motion.txt.html#it" class="d">it</a> looks like your <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> not being loaded?  You can find out what
+happens when Vim starts up by using the <a href="starting.txt.html#-V" class="l">-V</a> argument: 
+<span class="e"></span>
+<span class="e">	vim -V2</span>
+<span class="e"></span>
+You will see <a href="insert.txt.html#a" class="d">a</a> lot of messages, in between them <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> remark about loading the
+plugins.  It starts with:
+
+<span class="h">	Searching for "plugin/**/*.vim" in </span>
+
+There you can see where Vim looks <a href="luaref.txt.html#for" class="d">for</a> your <a href="usr_05.txt.html#plugin" class="d">plugin</a> scripts.
+
+<span class="h">==============================================================================</span>
+2. Filetype <a href="usr_05.txt.html#plugin" class="d">plugin</a>					<span id="filetype-plugins" class="t">filetype-plugins</span>
+
+When loading <a href="filetype.txt.html#filetype" class="d">filetype</a> plugins has been enabled <a href="filetype.txt.html#%3Afiletype-plugin-on" class="l">:filetype-plugin-on</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="options.txt.html#options" class="d">options</a>
+will be set and mappings defined.  These are all local to the buffer, they
+will not be used <a href="luaref.txt.html#for" class="d">for</a> other files.
+
+Defining mappings <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> may get in the way of the mappings you
+define yourself.  There are <a href="insert.txt.html#a" class="d">a</a> few ways to avoid this:
+1. Set the "<a href="map.txt.html#maplocalleader" class="d">maplocalleader</a>" variable to the key sequence you want the mappings
+   to start with.  Example: 
+<span class="e">	:let maplocalleader = ","</span>
+  All mappings will then start with <a href="insert.txt.html#a" class="d">a</a> comma instead of the default, which
+   <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> backslash.  Also see <a href="map.txt.html#%3CLocalLeader%3E" class="l">&lt;LocalLeader&gt;</a><a href="repeat.txt.html#." class="d">.</a>
+
+2. Define your own mapping.  Example: 
+<span class="e">	:map ,p &lt;Plug&gt;MailQuote</span>
+  You need to check the description of the <a href="usr_05.txt.html#plugin" class="d">plugin</a> file below <a href="luaref.txt.html#for" class="d">for</a> the
+   functionality <a href="motion.txt.html#it" class="d">it</a> offers and the <a href="vimeval.txt.html#string" class="d">string</a> to map to.
+   You need to define your own <a href="map.txt.html#mapping" class="d">mapping</a> before the <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> loaded (before
+   editing <a href="insert.txt.html#a" class="d">a</a> file of that type).  The <a href="usr_05.txt.html#plugin" class="d">plugin</a> will then skip installing the
+   default mapping.
+					<span id="no_mail_maps" class="t">no_mail_maps</span> <span id="g%3Ano_mail_maps" class="t">g:no_mail_maps</span>
+3. Disable defining mappings <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> specific <a href="filetype.txt.html#filetype" class="d">filetype</a> by setting <a href="insert.txt.html#a" class="d">a</a> variable,
+   which contains the name of the filetype.  For the "mail" <a href="filetype.txt.html#filetype" class="d">filetype</a> this
+   would be: 
+<span class="e">	:let no_mail_maps = 1</span>
+					<span id="no_plugin_maps" class="t">no_plugin_maps</span> <span id="g%3Ano_plugin_maps" class="t">g:no_plugin_maps</span>
+4. Disable defining mappings <a href="luaref.txt.html#for" class="d">for</a> all <a href="filetype.txt.html#filetypes" class="d">filetypes</a> by setting <a href="insert.txt.html#a" class="d">a</a> variable: 
+<span class="e">	:let no_plugin_maps = 1</span>
+
+
+							<span id="ftplugin-overrule" class="t">ftplugin-overrule</span>
+If <a href="insert.txt.html#a" class="d">a</a> global <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> does not <a href="diff.txt.html#do" class="d">do</a> exactly what you want, there are three
+ways to change this:
+
+1. Add <a href="insert.txt.html#a" class="d">a</a> few settings.
+   You must create <a href="insert.txt.html#a" class="d">a</a> new <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> in <a href="insert.txt.html#a" class="d">a</a> directory early in
+   <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  For Unix, <a href="luaref.txt.html#for" class="d">for</a> example you could use this file: 
+<span class="e">	vim ~/.config/nvim/ftplugin/fortran.vim</span>
+   You can set those settings and mappings that you would like to add.  <span class="n">Note</span>
+   that the global <a href="usr_05.txt.html#plugin" class="d">plugin</a> will be loaded after this, <a href="motion.txt.html#it" class="d">it</a> may overrule the
+   settings that you <a href="diff.txt.html#do" class="d">do</a> here.  If this <a href="motion.txt.html#is" class="d">is</a> the case, you need to use one of the
+   following two methods.
+
+2. Make <a href="insert.txt.html#a" class="d">a</a> copy of the <a href="usr_05.txt.html#plugin" class="d">plugin</a> and change it.
+   You must <a href="change.txt.html#put" class="d">put</a> the copy in <a href="insert.txt.html#a" class="d">a</a> directory early in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  For Unix, <a href="luaref.txt.html#for" class="d">for</a>
+   example, you could <a href="diff.txt.html#do" class="d">do</a> this: 
+<span class="e">	cp $VIMRUNTIME/ftplugin/fortran.vim ~/.config/nvim/ftplugin/fortran.vim</span>
+   Then you can edit the copied file to your liking.  Since the b:did_ftplugin
+   variable will be set, the global <a href="usr_05.txt.html#plugin" class="d">plugin</a> will not be loaded.
+   <a href="insert.txt.html#A" class="d">A</a> disadvantage of this <a href="vimeval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> that when the distributed <a href="usr_05.txt.html#plugin" class="d">plugin</a> gets
+   improved, you will have to copy and modify <a href="motion.txt.html#it" class="d">it</a> again.
+
+3. Overrule the settings after loading the global plugin.
+   You must create <a href="insert.txt.html#a" class="d">a</a> new <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> in <a href="insert.txt.html#a" class="d">a</a> directory from the <a href="intro.txt.html#end" class="d">end</a> of
+   <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  For Unix, <a href="luaref.txt.html#for" class="d">for</a> example, you could use this file: 
+<span class="e">	vim ~/.config/nvim/after/ftplugin/fortran.vim</span>
+   In this file you can change just those settings that you want to change.
+
+<span class="h">==============================================================================</span>
+3.  Docs <a href="luaref.txt.html#for" class="d">for</a> the default <a href="filetype.txt.html#filetype" class="d">filetype</a> plugins.		<span id="ftplugin-docs" class="t">ftplugin-docs</span>
+
+
+					<span id="plugin_exec" class="t">plugin_exec</span> <span id="g%3Aplugin_exec" class="t">g:plugin_exec</span>
+Enable executing of external commands.  This was done historically <a href="luaref.txt.html#for" class="d">for</a> e.g.
+the <a href="if_perl.txt.html#perl" class="d">perl</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> (and <a href="insert.txt.html#a" class="d">a</a> few others) to set the search path.
+Disabled by default <a href="luaref.txt.html#for" class="d">for</a> security reasons: 
+<span class="e">	:let g:plugin_exec = 1</span>
+It <a href="motion.txt.html#is" class="d">is</a> also possible to enable this only <a href="luaref.txt.html#for" class="d">for</a> certain filetypes: 
+<span class="e">	:let g:&lt;filetype&gt;_exec = 1</span>
+So to enable this only <a href="luaref.txt.html#for" class="d">for</a> ruby, set the following variable: 
+<span class="e">	:let g:ruby_exec = 1</span>
+<span class="e"></span>
+If both, the global <span class="e">plugin_exec</span> and the <span class="e">&lt;filetype&gt;_exec</span> specific variable
+are set, the <a href="filetype.txt.html#filetype" class="d">filetype</a> specific variable should have precedent.
+
+
+<span class="c">ASCIIDOC</span>						<span id="ft-asciidoc-plugin" class="t">ft-asciidoc-plugin</span>
+
+To enable <a href="fold.txt.html#folding" class="l">folding</a> use this: 
+<span class="e">	let g:asciidoc_folding = 1</span>
+<span class="e"></span>
+To disable nesting of folded headers use this: 
+<span class="e">	let g:asciidoc_foldnested = 0</span>
+<span class="e"></span>
+To disable <a href="fold.txt.html#folding" class="d">folding</a> everything under the title use this: 
+<span class="e">	let asciidoc_fold_under_title = 0</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">ARDUINO</span>							<span id="ft-arduino-plugin" class="t">ft-arduino-plugin</span>
+
+By default the following <a href="options.txt.html#options" class="d">options</a> are set, in accordance with the default
+settings of Arduino IDE: 
+<span class="e"></span>
+<span class="e">	setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2</span>
+<span class="e"></span>
+To disable this behavior, set the following variable in your vimrc: 
+<span class="e"></span>
+<span class="e">	let g:arduino_recommended_style = 0</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">AWK</span>							<span id="ft-awk-plugin" class="t">ft-awk-plugin</span>
+
+Support <a href="luaref.txt.html#for" class="d">for</a> features specific to GNU Awk, like @include, can be enabled by
+setting: 
+<span class="e">	:let g:awk_is_gawk = 1</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">CHANGELOG</span>						<span id="ft-changelog-plugin" class="t">ft-changelog-plugin</span>
+
+Allows <a href="luaref.txt.html#for" class="d">for</a> easy entrance of Changelog entries in Changelog files.  There are
+some commands, mappings, and <a href="vimeval.txt.html#variables" class="d">variables</a> worth exploring:
+
+Options:
+<a href="options.txt.html#%27comments%27" class="o">'comments'</a>		<a href="motion.txt.html#is" class="d">is</a> made empty to not mess up formatting.
+<a href="options.txt.html#%27textwidth%27" class="o">'textwidth'</a>		<a href="motion.txt.html#is" class="d">is</a> set to 78, which <a href="motion.txt.html#is" class="d">is</a> standard.
+<a href="options.txt.html#%27formatoptions%27" class="o">'formatoptions'</a>		the 't' flag <a href="motion.txt.html#is" class="d">is</a> added to wrap when <a href="insert.txt.html#inserting" class="d">inserting</a> text.
+
+Commands:
+NewChangelogEntry	Adds <a href="insert.txt.html#a" class="d">a</a> new Changelog entry in an intelligent fashion
+			(see below).
+
+Local mappings:
+<a href="map.txt.html#%3CLeader%3E" class="s">&lt;Leader&gt;</a>o		Starts <a href="insert.txt.html#a" class="d">a</a> new Changelog entry in an equally intelligent
+			fashion (see below).
+
+Global mappings:
+			<span class="n">NOTE:</span> The global mappings are accessed by sourcing the
+			ftplugin/changelog.vim file first, e.g. with 
+<span class="e">				runtime ftplugin/changelog.vim</span>
+			in your <a href="starting.txt.html#init.vim" class="l">init.vim</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="map.txt.html#%3CLeader%3E" class="s">&lt;Leader&gt;</a>o		Switches to the ChangeLog buffer opened <a href="luaref.txt.html#for" class="d">for</a> the
+			current directory, or opens <a href="motion.txt.html#it" class="d">it</a> in <a href="insert.txt.html#a" class="d">a</a> new buffer if <a href="motion.txt.html#it" class="d">it</a>
+			exists in the current directory.  Then <a href="motion.txt.html#it" class="d">it</a> does the
+			same <a href="motion.txt.html#as" class="d">as</a> the local <a href="map.txt.html#%3CLeader%3E" class="s">&lt;Leader&gt;</a>o described above.
+
+Variables:
+g:changelog_timeformat  Deprecated; use g:changelog_dateformat instead.
+g:changelog_dateformat	The date (and time) format used in ChangeLog entries.
+			The format accepted <a href="motion.txt.html#is" class="d">is</a> the same <a href="motion.txt.html#as" class="d">as</a> <a href="luaref.txt.html#for" class="d">for</a> the
+			<a href="vimfn.txt.html#strftime%28%29" class="l">strftime()</a> function.
+			The default <a href="motion.txt.html#is" class="d">is</a> "%Y-%m-%d" which <a href="motion.txt.html#is" class="d">is</a> the standard format
+			<a href="luaref.txt.html#for" class="d">for</a> many ChangeLog layouts.
+g:changelog_username	The name and email address of the user.
+			The default <a href="motion.txt.html#is" class="d">is</a> deduced from environment <a href="vimeval.txt.html#variables" class="d">variables</a> and
+			system files.  It searches /etc/passwd <a href="luaref.txt.html#for" class="d">for</a> the comment
+			part of the current user, which informally contains
+			the real name of the user up to the first separating
+			comma.  then <a href="motion.txt.html#it" class="d">it</a> checks the $NAME environment variable
+			and finally runs <span class="e">whoami</span> and <span class="e">hostname</span> to build an
+			email address.  The final form <a href="motion.txt.html#is" class="d">is</a> 
+<span class="e">				Full Name  &lt;user@host&gt;</span>
+
+g:changelog_new_date_format
+			The format to use when creating <a href="insert.txt.html#a" class="d">a</a> new date-entry.
+			The following table describes special tokens in the
+			string:
+				%%	<a href="insert.txt.html#insert" class="d">insert</a> <a href="insert.txt.html#a" class="d">a</a> single '%' character
+				%d	<a href="insert.txt.html#insert" class="d">insert</a> the date from above
+				%u	<a href="insert.txt.html#insert" class="d">insert</a> the user from above
+				%p	<a href="insert.txt.html#insert" class="d">insert</a> result of b:changelog_entry_prefix
+				%c	where to position cursor when done
+			The default <a href="motion.txt.html#is" class="d">is</a> "%d  %u\n\n\t* %p%c\n\n"<a href="motion.txt.html#%2C" class="d">,</a> which produces
+			something like <a href="motion.txt.html#%28" class="d">(</a>| <a href="motion.txt.html#is" class="d">is</a> where cursor will be, unless <a href="motion.txt.html#at" class="d">at</a>
+			the start of the line where <a href="motion.txt.html#it" class="d">it</a> denotes the beginning
+			of the line) 
+<span class="e">				|2003-01-14  Full Name  &lt;user@host&gt;</span>
+<span class="e">				|</span>
+<span class="e">				|        * prefix|</span>
+
+g:changelog_new_entry_format
+			The format used when creating <a href="insert.txt.html#a" class="d">a</a> new entry.
+			The following table describes special tokens in the
+			string:
+				%p	<a href="insert.txt.html#insert" class="d">insert</a> result of b:changelog_entry_prefix
+				%c	where to position cursor when done
+			The default <a href="motion.txt.html#is" class="d">is</a> "\t*%c"<a href="motion.txt.html#%2C" class="d">,</a> which produces something
+			similar to 
+<span class="e">				|        * prefix|</span>
+
+g:changelog_date_entry_search
+			The search <a href="pattern.txt.html#pattern" class="d">pattern</a> to use when searching <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a>
+			date-entry.
+			The same tokens that can be used <a href="luaref.txt.html#for" class="d">for</a>
+			g:changelog_new_date_format can be used here <a href="motion.txt.html#as" class="d">as</a> well.
+			The default <a href="motion.txt.html#is" class="d">is</a> '^\s*%d\_s*%u' which finds lines
+			matching the form 
+<span class="e">				|2003-01-14  Full Name  &lt;user@host&gt;</span>
+			and some similar formats.
+
+g:changelog_date_end_entry_search
+			The search <a href="pattern.txt.html#pattern" class="d">pattern</a> to use when searching <a href="luaref.txt.html#for" class="d">for</a> the <a href="intro.txt.html#end" class="d">end</a>
+			of <a href="insert.txt.html#a" class="d">a</a> date-entry.
+			The same tokens that can be used <a href="luaref.txt.html#for" class="d">for</a>
+			g:changelog_new_date_format can be used here <a href="motion.txt.html#as" class="d">as</a> well.
+			The default <a href="motion.txt.html#is" class="d">is</a> '^\s*$' which finds lines that contain
+			only <a href="pattern.txt.html#whitespace" class="d">whitespace</a> or are completely empty.
+
+<a href="filetype.txt.html#b%3Achangelog_name" class="d">b:changelog_name</a>					<span id="b%3Achangelog_name" class="t">b:changelog_name</span>
+			Name of the ChangeLog file to look for.
+			The default <a href="motion.txt.html#is" class="d">is</a> 'ChangeLog'.
+
+b:changelog_path
+			Path of the ChangeLog to use <a href="luaref.txt.html#for" class="d">for</a> the current buffer.
+			The default <a href="motion.txt.html#is" class="d">is</a> empty, thus looking <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> file named
+			<a href="filetype.txt.html#b%3Achangelog_name" class="l">b:changelog_name</a> in the same directory <a href="motion.txt.html#as" class="d">as</a> the
+			current buffer.  If not found, the parent directory of
+			the current buffer <a href="motion.txt.html#is" class="d">is</a> searched.  This continues
+			recursively until <a href="insert.txt.html#a" class="d">a</a> file <a href="motion.txt.html#is" class="d">is</a> found or there are no more
+			parent directories to search.
+
+b:changelog_entry_prefix
+			Name of <a href="insert.txt.html#a" class="d">a</a> function to call to generate <a href="insert.txt.html#a" class="d">a</a> prefix to <a href="insert.txt.html#a" class="d">a</a>
+			new entry.  This function takes no arguments and
+			should return <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> containing the prefix.
+			Returning an empty prefix <a href="motion.txt.html#is" class="d">is</a> fine.
+			The default generates the shortest path between the
+			ChangeLog's pathname and the current <a href="windows.txt.html#buffers" class="d">buffers</a> pathname.
+			In the future, <a href="motion.txt.html#it" class="d">it</a> will also be possible to use other
+			variable contexts <a href="luaref.txt.html#for" class="d">for</a> this variable, <a href="luaref.txt.html#for" class="d">for</a> example, g:.
+
+The Changelog entries are inserted where they add the least amount of text.
+After figuring out the current date and user, the file <a href="motion.txt.html#is" class="d">is</a> searched <a href="luaref.txt.html#for" class="d">for</a> an
+entry beginning with the current date and user and if found adds another item
+under it.  If not found, <a href="insert.txt.html#a" class="d">a</a> new entry and item <a href="motion.txt.html#is" class="d">is</a> prepended to the beginning of
+the Changelog.
+
+
+<span class="c">FORTRAN</span>							<span id="ft-fortran-plugin" class="t">ft-fortran-plugin</span>
+
+Options:
+<a href="options.txt.html#%27expandtab%27" class="o">'expandtab'</a>	<a href="motion.txt.html#is" class="d">is</a> switched on to avoid tabs <a href="motion.txt.html#as" class="d">as</a> required by the Fortran
+		standards unless the user has set fortran_have_tabs in vimrc.
+<a href="options.txt.html#%27textwidth%27" class="o">'textwidth'</a>	<a href="motion.txt.html#is" class="d">is</a> set to 80 <a href="luaref.txt.html#for" class="d">for</a> fixed source format whereas <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> set to 132
+		<a href="luaref.txt.html#for" class="d">for</a> free source format. Setting the fortran_extended_line_length
+		variable increases the width to 132 <a href="luaref.txt.html#for" class="d">for</a> fixed source format.
+<a href="options.txt.html#%27formatoptions%27" class="o">'formatoptions'</a> <a href="motion.txt.html#is" class="d">is</a> set to break code and comment lines and to preserve long
+		lines.  You can format comments with <a href="change.txt.html#gq" class="l">gq</a><a href="repeat.txt.html#." class="d">.</a>
+For further discussion of fortran_have_tabs and the <a href="vimeval.txt.html#method" class="d">method</a> used <a href="luaref.txt.html#for" class="d">for</a> the
+detection of source format see <a href="syntax.txt.html#ft-fortran-syntax" class="l">ft-fortran-syntax</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">FREEBASIC</span>						<span id="ft-freebasic-plugin" class="t">ft-freebasic-plugin</span>
+
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> aims to treat the four FreeBASIC dialects, "fb"<a href="motion.txt.html#%2C" class="d">,</a> "qb"<a href="motion.txt.html#%2C" class="d">,</a> "fblite"
+and "<a href="deprecated.txt.html#deprecated" class="d">deprecated</a>"<a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#as" class="d">as</a> distinct languages.
+
+The dialect will be set to the first name found in g:freebasic_forcelang, any
+#lang directive or $lang metacommand in the file being edited, or finally
+g:freebasic_lang.  These global <a href="vimeval.txt.html#variables" class="d">variables</a> conceptually map to the fbc <a href="options.txt.html#options" class="d">options</a>
+-forcelang and -lang.  If no dialect <a href="motion.txt.html#is" class="d">is</a> explicitly specified "fb" will be
+used.
+
+For example, to set the dialect to <a href="insert.txt.html#a" class="d">a</a> default of "fblite" but still allow <a href="luaref.txt.html#for" class="d">for</a>
+any #lang directive overrides, use the following command: 
+<span class="e"></span>
+<span class="e">	let g:freebasic_lang = "fblite"</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">GDSCRIPT</span>						<span id="ft-gdscript-plugin" class="t">ft-gdscript-plugin</span>
+
+By default the following <a href="options.txt.html#options" class="d">options</a> are set, based on Godot official docs: 
+<span class="e"></span>
+<span class="e">	setlocal noexpandtab softtabstop=0 shiftwidth=0</span>
+<span class="e"></span>
+To disable this behavior, set the following variable in your vimrc: 
+<span class="e"></span>
+<span class="e">	let g:gdscript_recommended_style = 0</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">GIT COMMIT</span>						<span id="ft-gitcommit-plugin" class="t">ft-gitcommit-plugin</span>
+
+One command, :DiffGitCached, <a href="motion.txt.html#is" class="d">is</a> provided to show <a href="insert.txt.html#a" class="d">a</a> <a href="diff.txt.html#diff" class="d">diff</a> of the current commit
+in the preview window.  It <a href="motion.txt.html#is" class="d">is</a> equivalent to calling "git <a href="diff.txt.html#diff" class="d">diff</a> --cached" plus
+any arguments given to the command.
+
+<span class="c">GIT REBASE</span>						<span id="ft-gitrebase-plugin" class="t">ft-gitrebase-plugin</span>
+
+The gitrebase <a href="filetype.txt.html#filetype" class="d">filetype</a> defines the following buffer-local commands, to <a href="helphelp.txt.html#help" class="d">help</a>
+with interactive `git rebase`: 
+<span class="e"></span>
+<span class="e">	:Drop   " to discard this commit</span>
+<span class="e">	:Edit   " to stop for editing this commit</span>
+<span class="e">	:Fixup  " to squash (but discard the message) into the previous one</span>
+<span class="e">	:Pick   " to pick this commit (the cursor is on)</span>
+<span class="e">	:Reword " to pick this commit, but change the commit message</span>
+<span class="e">	:Squash " to squash this commit into the previous one</span>
+<span class="e"></span>
+In addition, the following command can be used to cycle between the different
+possibilities: 
+<span class="e"></span>
+<span class="e">	:Cycle  " to cycle between the previous commands</span>
+
+The <span class="e">:Cycle</span> command <a href="motion.txt.html#is" class="d">is</a> also mapped to the <a href="change.txt.html#CTRL-A" class="k">CTRL-A</a> and <a href="change.txt.html#CTRL-X" class="k">CTRL-X</a> keys.
+For details, see `git-rebase --help`.
+
+<span class="c">GO</span>							<span id="ft-go-plugin" class="t">ft-go-plugin</span>
+
+By default the following <a href="options.txt.html#options" class="d">options</a> are set, based on Golang official docs: 
+<span class="e"></span>
+<span class="e">	setlocal noexpandtab softtabstop=0 shiftwidth=0</span>
+<span class="e"></span>
+To disable this behavior, set the following variable in your vimrc: 
+<span class="e"></span>
+<span class="e">	let g:go_recommended_style = 0</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">GPROF</span>							<span id="ft-gprof-plugin" class="t">ft-gprof-plugin</span>
+
+The gprof <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> defines <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> <span class="s">&lt;C-]&gt;</span> to jump from <a href="insert.txt.html#a" class="d">a</a> function
+entry in the gprof flat <a href="repeat.txt.html#profile" class="d">profile</a> or from <a href="insert.txt.html#a" class="d">a</a> function entry in the call graph
+to the details of that function in the call graph.
+
+The <a href="map.txt.html#mapping" class="d">mapping</a> can be disabled with: 
+<span class="e">	let g:no_gprof_maps = 1</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">HARE</span>							<span id="ft-hare" class="t">ft-hare</span>
+
+Since the text <a href="luaref.txt.html#for" class="d">for</a> this <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> rather long <a href="motion.txt.html#it" class="d">it</a> has been <a href="change.txt.html#put" class="d">put</a> in <a href="insert.txt.html#a" class="d">a</a> separate
+file: <a href="ft_hare.txt.html#ft_hare.txt" class="l">ft_hare.txt</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="c">IDRIS2</span>							<span id="ft-idris2-plugin" class="t">ft-idris2-plugin</span>
+
+By default the following <a href="options.txt.html#options" class="d">options</a> are set: 
+<span class="e"></span>
+<span class="e">	setlocal shiftwidth=2 tabstop=2 expandtab</span>
+<span class="e">	setlocal comments=s1:{-,mb:-,ex:-},:\|\|\|,:--</span>
+<span class="e">	setlocal commentstring=--\ %s</span>
+<span class="e">	setlocal wildignore+=*.ibc</span>
+<span class="e"></span>
+To use tabs instead of spaces <a href="luaref.txt.html#for" class="d">for</a> indentation, set the following variable
+in your vimrc: 
+<span class="e"></span>
+<span class="e">	let g:idris2#allow_tabchar = 1</span>
+<span class="e"></span>
+<span class="c">JAVA</span>							<span id="ft-java-plugin" class="t">ft-java-plugin</span>
+
+Whenever the variable "g:ftplugin_java_source_path" <a href="motion.txt.html#is" class="d">is</a> defined and its value
+<a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> filename whose extension <a href="motion.txt.html#is" class="d">is</a> either ".jar" or ".zip"<a href="motion.txt.html#%2C" class="d">,</a> e.g.: 
+<span class="e">	let g:ftplugin_java_source_path = '/path/to/src.jar'</span>
+<span class="e">	let g:ftplugin_java_source_path = '/path/to/src.zip'</span>
+
+and the <a href="pi_zip.txt.html#zip" class="l">zip</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> has already been sourced, the <a href="editing.txt.html#gf" class="l">gf</a> command can be used to
+open the archive and the <a href="pattern.txt.html#n" class="l">n</a> command can be used to look <a href="luaref.txt.html#for" class="d">for</a> the selected type
+and the <a href="intro.txt.html#%3CReturn%3E" class="s">&lt;Return&gt;</a> key can be used to load <a href="insert.txt.html#a" class="d">a</a> listed file.
+
+<span class="n">Note</span> that the effect of using the "<a href="editing.txt.html#gf" class="d">gf</a>" command WITHIN <a href="insert.txt.html#a" class="d">a</a> buffer loaded with the
+Zip <a href="usr_05.txt.html#plugin" class="d">plugin</a> depends on the version of the Zip plugin.  For the Zip <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+versions that <a href="diff.txt.html#do" class="d">do</a> not <a href="support.txt.html#support" class="d">support</a> Jar type archives, consider creating symbolic
+links with the ".zip" extension <a href="luaref.txt.html#for" class="d">for</a> each Jar archive of interest and assigning
+any such file to the variable from now on.
+
+Otherwise, <a href="luaref.txt.html#for" class="d">for</a> the defined variable "g:ftplugin_java_source_path"<a href="motion.txt.html#%2C" class="d">,</a> the local
+value of the <a href="options.txt.html#%27path%27" class="o">'path'</a> option will be further modified by prefixing the value of
+the variable, e.g.: 
+<span class="e">	let g:ftplugin_java_source_path = $JDK_SRC_PATH</span>
+<span class="e">	let &amp;l:path = g:ftplugin_java_source_path . ',' . &amp;l:path</span>
+
+and the "<a href="editing.txt.html#gf" class="d">gf</a>" command can be used on <a href="insert.txt.html#a" class="d">a</a> fully-qualified type to look <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> file
+in the "path" and to try to load it.
+
+Remember to manually trigger the <a href="autocmd.txt.html#FileType" class="l">FileType</a> event from <a href="insert.txt.html#a" class="d">a</a> buffer with <a href="insert.txt.html#a" class="d">a</a> Java
+file loaded in <a href="motion.txt.html#it" class="d">it</a> each time after assigning <a href="insert.txt.html#a" class="d">a</a> new value to the variable: 
+<span class="e">	doautocmd FileType</span>
+
+Markdown documentation comments may contain common runs of vertical leading
+<a href="pattern.txt.html#whitespace" class="d">whitespace</a> following the comment marks (`///`) <a href="luaref.txt.html#for" class="d">for</a> aesthetic reasons; however,
+some horizontal runs of leading <a href="pattern.txt.html#whitespace" class="d">whitespace</a> are significant in Markdown because
+they denote code blocks etc.  For convenience, <a href="insert.txt.html#a" class="d">a</a> <a href="options.txt.html#%27formatexpr%27" class="o">'formatexpr'</a> function <a href="motion.txt.html#is" class="d">is</a>
+provided <a href="luaref.txt.html#for" class="d">for</a> the <a href="change.txt.html#gq" class="l">gq</a> operator.  As long <a href="motion.txt.html#as" class="d">as</a> neither "g:java_ignore_javadoc"
+nor "g:java_ignore_markdown" <a href="motion.txt.html#is" class="d">is</a> defined, the reformatting of Markdown comments
+can be enabled on demand with: 
+<span class="e">	setlocal formatexpr=g:javaformat#RemoveCommonMarkdownWhitespace()</span>
+
+Or <a href="luaref.txt.html#for" class="d">for</a> Vim versions <a href="various.txt.html#less" class="d">less</a> than <span class="e">7.4.265</span>, with: 
+<span class="e">	setlocal formatexpr=javaformat#RemoveCommonMarkdownWhitespace()</span>
+
+This function accepts <a href="insert.txt.html#a" class="d">a</a> range of lines, removes <a href="insert.txt.html#a" class="d">a</a> common run of vertical
+leading whitespace, and rewrites the lines of the range.  Depending on the
+author's layout style and the comment contents, which lines to select <a href="luaref.txt.html#for" class="d">for</a>
+reformatting can vary from the whole comment to only some portion of it.
+To enable the recognition of Markdown comments each time after removing
+"g:java_ignore_markdown" or "g:java_ignore_javadoc"<a href="motion.txt.html#%2C" class="d">,</a> remember to manually
+re-source "javaformat.vim" <a href="luaref.txt.html#for" class="d">for</a> Vim versions greater than <span class="e">8.2.1397</span>: 
+<span class="e">	runtime autoload/javaformat.vim</span>
+
+<span class="c">LUA</span>							<span id="ft-lua-plugin" class="t">ft-lua-plugin</span>
+
+					<span id="g%3Alua_version" class="t">g:lua_version</span> <span id="g%3Alua_subversion" class="t">g:lua_subversion</span>
+<a href="lua.txt.html#Lua" class="d">Lua</a> filetype's <a href="options.txt.html#%27includeexpr%27" class="o">'includeexpr'</a> and <a href="syntax.txt.html#ft-lua-syntax" class="l">ft-lua-syntax</a> highlighting use the global
+<a href="vimeval.txt.html#variables" class="d">variables</a> "<a href="filetype.txt.html#g%3Alua_version" class="d">g:lua_version</a>" and "<a href="filetype.txt.html#g%3Alua_subversion" class="d">g:lua_subversion</a>" to determine the version of
+<a href="lua.txt.html#Lua" class="d">Lua</a> to use (5.3 <a href="motion.txt.html#is" class="d">is</a> the default)
+
+For example, to use <a href="lua.txt.html#Lua" class="d">Lua</a> 5.1, set the <a href="vimeval.txt.html#variables" class="d">variables</a> like this: 
+<span class="e"></span>
+<span class="e">	let g:lua_version = 5</span>
+<span class="e">	let g:lua_subversion = 1</span>
+
+<span class="c">MAIL</span>							<span id="ft-mail-plugin" class="t">ft-mail-plugin</span>
+
+Options:
+<a href="options.txt.html#%27modeline%27" class="o">'modeline'</a>	<a href="motion.txt.html#is" class="d">is</a> switched off to avoid the danger of trojan horses, and to
+		avoid that <a href="insert.txt.html#a" class="d">a</a> Subject line with "Vim:" in <a href="motion.txt.html#it" class="d">it</a> will cause an
+		error message.
+<a href="options.txt.html#%27textwidth%27" class="o">'textwidth'</a>	<a href="motion.txt.html#is" class="d">is</a> set to 72.  This <a href="motion.txt.html#is" class="d">is</a> often recommended <a href="luaref.txt.html#for" class="d">for</a> e-mail.
+<a href="options.txt.html#%27formatoptions%27" class="o">'formatoptions'</a>	<a href="motion.txt.html#is" class="d">is</a> set to break text lines and to repeat the comment leader
+		in new lines, so that <a href="insert.txt.html#a" class="d">a</a> leading "<a href="change.txt.html#%3E" class="d">&gt;</a>" <a href="luaref.txt.html#for" class="d">for</a> quotes <a href="motion.txt.html#is" class="d">is</a> repeated.
+		You can also format quoted text with <a href="change.txt.html#gq" class="l">gq</a><a href="repeat.txt.html#." class="d">.</a>
+
+Local mappings:
+<a href="map.txt.html#%3CLocalLeader%3E" class="s">&lt;LocalLeader&gt;</a>q   or   \MailQuote
+	Quotes the text selected in <a href="visual.txt.html#Visual" class="d">Visual</a> mode, or from the cursor position
+	to the <a href="intro.txt.html#end" class="d">end</a> of the file in <a href="intro.txt.html#Normal" class="d">Normal</a> mode.  This means "<a href="change.txt.html#%3E" class="d">&gt;</a> " <a href="motion.txt.html#is" class="d">is</a> inserted in
+	each line.
+
+<span class="c">MAN</span>					<span id="ft-man-plugin" class="t">ft-man-plugin</span> <span id="%3AMan" class="t">:Man</span> <span id="man.lua" class="t">man.lua</span>
+
+<a href="starting.txt.html#View" class="d">View</a> manpages in Nvim. Supports highlighting, completion, locales, and
+navigation. Also see <a href="usr_12.txt.html#find-manpage" class="l">find-manpage</a><a href="repeat.txt.html#." class="d">.</a>
+
+<a href="filetype.txt.html#man.lua" class="d">man.lua</a> will always attempt to reuse the closest man <a href="windows.txt.html#window" class="d">window</a> (above/left) but
+otherwise create <a href="insert.txt.html#a" class="d">a</a> split.
+
+The <a href="change.txt.html#case" class="d">case</a> sensitivity of completion <a href="motion.txt.html#is" class="d">is</a> controlled by <a href="options.txt.html#%27fileignorecase%27" class="o">'fileignorecase'</a>.
+
+Commands:
+Man <span class="s">{name}</span>                Display the manpage <a href="luaref.txt.html#for" class="d">for</a> <span class="s">{name}</span>.
+Man <span class="s">{sect}</span> <span class="s">{name}</span>         Display the manpage <a href="luaref.txt.html#for" class="d">for</a> <span class="s">{name}</span> and <a href="motion.txt.html#section" class="d">section</a> <span class="s">{sect}</span>.
+Man <span class="s">{name}</span>(<span class="s">{sect}</span>)        Same <a href="motion.txt.html#as" class="d">as</a> above.
+Man <span class="s">{sect}</span> <span class="s">{name}</span>(<span class="s">{sect}</span>) Used during completion to show the real <a href="motion.txt.html#section" class="d">section</a> of
+                          when the provided <a href="motion.txt.html#section" class="d">section</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> prefix, e.g. 1m vs 1.
+Man <span class="s">{path}</span>                Open the manpage <a href="motion.txt.html#at" class="d">at</a> <span class="s">{path}</span>. Prepend "./" if <span class="s">{path}</span>
+                          <a href="motion.txt.html#is" class="d">is</a> relative to the current directory.
+Man                       Open the manpage <a href="luaref.txt.html#for" class="d">for</a> the <a href="cmdline.txt.html#%3CcWORD%3E" class="s">&lt;cWORD&gt;</a> (man buffers)
+                          or <a href="cmdline.txt.html#%3Ccword%3E" class="s">&lt;cword&gt;</a> (non-man buffers) under the cursor.
+Man!                      Display the current buffer contents <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> manpage.
+
+<a href="filetype.txt.html#%3AMan" class="l">:Man</a> accepts command modifiers. For example, to use <a href="insert.txt.html#a" class="d">a</a> vertical split: 
+<span class="e">    :vertical Man printf</span>
+To reuse the current window: 
+<span class="e">    :hide Man printf</span>
+<span class="e"></span>
+Local mappings:
+<a href="various.txt.html#K" class="d">K</a> or <a href="tagsrch.txt.html#CTRL-%5D" class="k">CTRL-]</a>               Jump to the manpage <a href="luaref.txt.html#for" class="d">for</a> the <a href="cmdline.txt.html#%3CcWORD%3E" class="s">&lt;cWORD&gt;</a> under the
+                          cursor. Takes <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#count" class="d">count</a> <a href="luaref.txt.html#for" class="d">for</a> the section.
+<a href="tagsrch.txt.html#CTRL-T" class="k">CTRL-T</a>                    Jump back to the location that the manpage was
+                          opened from.
+<a href="various.txt.html#gO" class="d">gO</a>                        Show the manpage outline. <a href="various.txt.html#gO" class="l">gO</a>
+<a href="repeat.txt.html#q" class="d">q</a>                         <a href="editing.txt.html#%3Aquit" class="d">:quit</a> if invoked <a href="motion.txt.html#as" class="d">as</a> $MANPAGER, otherwise :close.
+
+Variables:
+<span id="g%3Ano_man_maps" class="t">g:no_man_maps</span>             Do not create mappings in manpage buffers.
+<span id="g%3Aft_man_folding_enable" class="t">g:ft_man_folding_enable</span>   Fold manpages with foldmethod=indent foldnestmax=1.
+<span id="b%3Aman_default_sects" class="t">b:man_default_sects</span>       Comma-separated, ordered <a href="vimeval.txt.html#list" class="d">list</a> of preferred sections.
+                          For example in <a href="change.txt.html#C" class="d">C</a> one usually wants <a href="motion.txt.html#section" class="d">section</a> 3 or 2: 
+<span class="e">                               :let b:man_default_sections = '3,2'</span>
+<span id="g%3Aman_hardwrap" class="t">g:man_hardwrap</span>            Hard-wrap to $MANWIDTH or <a href="windows.txt.html#window" class="d">window</a> width if $MANWIDTH <a href="motion.txt.html#is" class="d">is</a>
+                          empty. Enabled by default. Set <a href="vimeval.txt.html#FALSE" class="l">FALSE</a> to enable soft
+                          wrapping.
+
+To use Nvim <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> manpager: &gt;bash
+    export MANPAGER='nvim +Man!'
+
+<span class="n">Note:</span> when running <span class="e">man</span> from the shell with Nvim <a href="motion.txt.html#as" class="d">as</a> <span class="e">$MANPAGER</span>, <span class="e">man</span> will
+pre-format the manpage using <span class="e">groff</span>, and Nvim will display the manual page <a href="motion.txt.html#as" class="d">as</a>
+<a href="motion.txt.html#it" class="d">it</a> was received from stdin (it can't "<a href="undo.txt.html#undo" class="d">undo</a>" the hard-wrap caused by
+man/groff). To prevent man/groff from hard-wrapping the manpage, you can set
+<span class="e">$MANWIDTH=999</span> in your environment.
+
+To disable <a href="syntax.txt.html#bold" class="d">bold</a> highlighting: 
+<span class="e">    :highlight link manBold Normal</span>
+<span class="e"></span>
+Troubleshooting:
+
+If you see an error like: 
+<span class="e">    fuse: mount failed: Permission denied</span>
+this may be caused by AppArmor sandboxing. To fix this, add <a href="insert.txt.html#a" class="d">a</a> local override
+in e.g. <span class="e">/etc/apparmor.d/local/usr.bin.man</span>: &gt;bash
+    mount fstype=fuse.nvim options=(ro, nosuid, nodev) <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> /tmp/**<a href="motion.txt.html#%2C" class="d">,</a>
+    /usr/bin/fusermount Ux,
+See also <a class="u" href="https://github.com/neovim/neovim/issues/30268">https://github.com/neovim/neovim/issues/30268</a> <a href="repeat.txt.html#." class="d">.</a>
+
+<span class="c">MARKDOWN</span>						<span id="ft-markdown-plugin" class="t">ft-markdown-plugin</span>
+
+To enable <a href="fold.txt.html#folding" class="d">folding</a> use this: 
+<span class="e">	let g:markdown_folding = 1</span>
+<span class="e"></span>
+<a href="options.txt.html#%27expandtab%27" class="o">'expandtab'</a> will be set by default.  If you <a href="diff.txt.html#do" class="d">do</a> not want that use this: 
+<span class="e">	let g:markdown_recommended_style = 0</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">ORG</span>							<span id="ft-org-plugin" class="t">ft-org-plugin</span>
+
+To enable <a href="fold.txt.html#folding" class="d">folding</a> use this: 
+<span class="e">	let g:org_folding = 1</span>
+
+
+<span class="c">PDF</span>							<span id="ft-pdf-plugin" class="t">ft-pdf-plugin</span>
+
+Two maps, <span class="s">&lt;C-]&gt;</span> and <span class="s">&lt;C-T&gt;</span>, are provided to simulate <a href="insert.txt.html#a" class="d">a</a> <a href="tagsrch.txt.html#tag" class="d">tag</a> stack <a href="luaref.txt.html#for" class="d">for</a> navigating
+the PDF.  The following are treated <a href="motion.txt.html#as" class="d">as</a> tags:
+
+<a href="motion.txt.html#-" class="d">-</a> The byte offset after "startxref" to the xref table
+<a href="motion.txt.html#-" class="d">-</a> The byte offset after the /Prev key in the trailer to an earlier xref table
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> line of the form "0123456789 00000 <a href="pattern.txt.html#n" class="d">n</a>" in the xref table
+<a href="motion.txt.html#-" class="d">-</a> An object <a href="intro.txt.html#reference" class="d">reference</a> like "1 <a href="motion.txt.html#0" class="d">0</a> <a href="change.txt.html#R" class="d">R</a>" anywhere in the PDF
+
+These maps can be disabled with 
+<span class="e">	:let g:no_pdf_maps = 1</span>
+<span class="e"></span>
+<span class="c">PLSQL</span>							<span id="ft-plsql-plugin" class="t">ft-plsql-plugin</span>
+
+To enable <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="fold.txt.html#folding" class="d">folding</a> in PL/SQL filetypes, set the following variable: 
+<span class="e"></span>
+<span class="e">	:let g:plsql_fold = 1</span>
+
+
+<span class="c">PYTHON</span>						<span id="ft-python-plugin" class="t">ft-python-plugin</span> <span id="PEP8" class="t">PEP8</span>
+
+By default the following <a href="options.txt.html#options" class="d">options</a> are set, in accordance with PEP8: 
+<span class="e"></span>
+<span class="e">	setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8</span>
+<span class="e"></span>
+To disable this behavior, set the following variable in your vimrc: 
+<span class="e"></span>
+<span class="e">	let g:python_recommended_style = 0</span>
+<span class="e"></span>
+<span class="c">QUERY</span>					                <span id="ft-query-plugin" class="t">ft-query-plugin</span>
+
+
+Linting of <a href="treesitter.txt.html#treesitter" class="d">treesitter</a> queries <a href="luaref.txt.html#for" class="d">for</a> installed parsers using
+<a href="treesitter.txt.html#vim.treesitter.query.lint%28%29" class="l">vim.treesitter.query.lint()</a> <a href="motion.txt.html#is" class="d">is</a> enabled by default on <span class="e">BufEnter</span> and
+<span class="e">BufWrite</span>. To change the <a href="autocmd.txt.html#events" class="d">events</a> that trigger linting, use 
+<span class="e"></span>
+<span class="e">	vim.g.query_lint_on = { 'InsertLeave', 'TextChanged' }</span>
+
+To disable linting completely, set 
+<span class="e"></span>
+<span class="e">	vim.g.query_lint_on = {}</span>
+
+
+<span class="c">QF QUICKFIX</span>					    <span id="qf.vim" class="t">qf.vim</span> <span id="ft-qf-plugin" class="t">ft-qf-plugin</span>
+
+The "qf" <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> the <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> window, see <a href="quickfix.txt.html#quickfix-window" class="l">quickfix-window</a><a href="repeat.txt.html#." class="d">.</a>
+
+The <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> includes configuration <a href="luaref.txt.html#for" class="d">for</a> displaying the command
+that produced the <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> <a href="vimeval.txt.html#list" class="d">list</a> in the <a href="windows.txt.html#status-line" class="l">status-line</a><a href="repeat.txt.html#." class="d">.</a> To disable this setting,
+configure <a href="motion.txt.html#as" class="d">as</a> follows: 
+<span class="e">	:let g:qf_disable_statusline = 1</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">R MARKDOWN</span>						<span id="ft-rmd-plugin" class="t">ft-rmd-plugin</span>
+
+By default ftplugin/html.vim <a href="motion.txt.html#is" class="d">is</a> not sourced. If you want <a href="motion.txt.html#it" class="d">it</a> sourced, add to
+your <a href="starting.txt.html#vimrc" class="l">vimrc</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">	let rmd_include_html = 1</span>
+<span class="e"></span>
+The <a href="options.txt.html#%27formatexpr%27" class="o">'formatexpr'</a> option <a href="motion.txt.html#is" class="d">is</a> set dynamically with different values <a href="luaref.txt.html#for" class="d">for</a> <a href="change.txt.html#R" class="d">R</a> code
+and <a href="luaref.txt.html#for" class="d">for</a> Markdown code. If you prefer that <a href="options.txt.html#%27formatexpr%27" class="o">'formatexpr'</a> <a href="motion.txt.html#is" class="d">is</a> not set, add to your
+<a href="starting.txt.html#vimrc" class="l">vimrc</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">	let rmd_dynamic_comments = 0</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">R RESTRUCTURED TEXT</span>					<span id="ft-rrst-plugin" class="t">ft-rrst-plugin</span>
+
+The <a href="options.txt.html#%27formatexpr%27" class="o">'formatexpr'</a> option <a href="motion.txt.html#is" class="d">is</a> set dynamically with different values <a href="luaref.txt.html#for" class="d">for</a> <a href="change.txt.html#R" class="d">R</a> code
+and <a href="luaref.txt.html#for" class="d">for</a> ReStructured text. If you prefer that <a href="options.txt.html#%27formatexpr%27" class="o">'formatexpr'</a> <a href="motion.txt.html#is" class="d">is</a> not set, add to
+your <a href="starting.txt.html#vimrc" class="l">vimrc</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">	let rrst_dynamic_comments = 0</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">RESTRUCTUREDTEXT</span>					<span id="ft-rst-plugin" class="t">ft-rst-plugin</span>
+
+The following <a href="change.txt.html#formatting" class="d">formatting</a> setting are optionally available: 
+<span class="e">	setlocal expandtab shiftwidth=3 softtabstop=3 tabstop=8</span>
+<span class="e"></span>
+To enable this behavior, set the following variable in your vimrc: 
+<span class="e">	let g:rst_style = 1</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">RNOWEB</span>							<span id="ft-rnoweb-plugin" class="t">ft-rnoweb-plugin</span>
+
+The <a href="options.txt.html#%27formatexpr%27" class="o">'formatexpr'</a> option <a href="motion.txt.html#is" class="d">is</a> set dynamically with different values <a href="luaref.txt.html#for" class="d">for</a> <a href="change.txt.html#R" class="d">R</a> code
+and <a href="luaref.txt.html#for" class="d">for</a> LaTeX code. If you prefer that <a href="options.txt.html#%27formatexpr%27" class="o">'formatexpr'</a> <a href="motion.txt.html#is" class="d">is</a> not set, add to your
+<a href="starting.txt.html#vimrc" class="l">vimrc</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">	let rnw_dynamic_comments = 0</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">RPM SPEC</span>						<span id="ft-spec-plugin" class="t">ft-spec-plugin</span>
+
+Since the text <a href="luaref.txt.html#for" class="d">for</a> this <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> rather long <a href="motion.txt.html#it" class="d">it</a> has been <a href="change.txt.html#put" class="d">put</a> in <a href="insert.txt.html#a" class="d">a</a> separate
+file: <a href="pi_spec.txt.html#pi_spec.txt" class="l">pi_spec.txt</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">SHADA</span>							<span id="ft-shada" class="t">ft-shada</span>
+
+Allows editing binary <a href="starting.txt.html#shada-file" class="l">shada-file</a><a href="change.txt.html#s" class="d">s</a> in <a href="insert.txt.html#a" class="d">a</a> nice way.  Opened binary files are
+displayed in the following format: 
+<span class="e"></span>
+<span class="e">    Type with timestamp YYYY-mm-ddTHH:MM:SS:</span>
+<span class="e">      % Key__  Description___  Value</span>
+<span class="e">      + fooba  foo bar baz fo  {msgpack-value}</span>
+<span class="e">      + abcde  abc def ghi jk  {msgpack-value}</span>
+<span class="e">    Other type with timestamp YYYY-mm-ddTHH:MM:SS:</span>
+<span class="e">      @ Description__  Value</span>
+<span class="e">      - foo bar baz t  {msgpack-value}</span>
+<span class="e">      # Expected more elements in list</span>
+<span class="e">    Some other type with timestamp YYYY-mm-ddTHH:MM:SS:</span>
+<span class="e">      # Unexpected type: type instead of map</span>
+<span class="e">      = {msgpack-value}</span>
+<span class="e"></span>
+Filetype <a href="usr_05.txt.html#plugin" class="d">plugin</a> defines all <a href="autocmd.txt.html#Cmd-event" class="l">Cmd-event</a>s.  Defined <a href="autocmd.txt.html#SourceCmd" class="l">SourceCmd</a> event makes
+"source file.shada" be equivalent to "<a href="starting.txt.html#%3Arshada" class="l">:rshada</a> file.shada"<a href="repeat.txt.html#." class="d">.</a>  <a href="autocmd.txt.html#BufWriteCmd" class="l">BufWriteCmd</a><a href="motion.txt.html#%2C" class="d">,</a>
+<a href="autocmd.txt.html#FileWriteCmd" class="l">FileWriteCmd</a> and <a href="autocmd.txt.html#FileAppendCmd" class="l">FileAppendCmd</a> <a href="autocmd.txt.html#events" class="d">events</a> are affected by the following
+settings:
+
+<span id="g%3Ashada%23keep_old_header" class="t">g:shada#keep_old_header</span>  	Boolean, if set to false all header entries
+				are ignored when writing.  Defaults to 1.
+<span id="g%3Ashada%23add_own_header" class="t">g:shada#add_own_header</span>  	Boolean, if set to true first written entry
+				will always be header entry with two values in
+				<a href="insert.txt.html#a" class="d">a</a> map with attached data: <a href="vvars.txt.html#v%3Aversion" class="l">v:version</a> attached
+				to "version" key and "shada.vim" attached to
+				"generator" key.  Defaults to 1.
+
+Format description:
+
+1. <span class="e">#</span> starts <a href="insert.txt.html#a" class="d">a</a> comment.  Lines <a href="starting.txt.html#starting" class="d">starting</a> with <a href="intro.txt.html#space" class="d">space</a> characters and then <span class="e">#</span>
+   are ignored.  Plugin may only add comment lines to indicate some <a href="message.txt.html#errors" class="d">errors</a> in
+   ShaDa format.  Lines containing no non-whitespace characters are also
+   ignored.
+2. Each entry starts with line that has format "<span class="s">{type}</span> with <a href="editing.txt.html#timestamp" class="d">timestamp</a>
+   <span class="s">{timestamp}</span>:"<a href="repeat.txt.html#." class="d">.</a> <span class="s">{timestamp}</span> <a href="motion.txt.html#is" class="d">is</a> <a href="vimfn.txt.html#strftime%28%29" class="l">strftime()</a>-formatted <a href="vimeval.txt.html#string" class="d">string</a> representing
+   actual Unix <a href="editing.txt.html#timestamp" class="d">timestamp</a> value. First <a href="vimfn.txt.html#strftime%28%29" class="d">strftime()</a> argument <a href="motion.txt.html#is" class="d">is</a> equal to
+   <span class="e">%Y-%m-%dT%H:%M:%S</span>.  When <a href="editing.txt.html#writing" class="d">writing</a> this <a href="editing.txt.html#timestamp" class="d">timestamp</a> <a href="motion.txt.html#is" class="d">is</a> parsed using
+   <a href="pi_msgpack.txt.html#msgpack%23strptime%28%29" class="l">msgpack#strptime()</a><a href="motion.txt.html#%2C" class="d">,</a> with caching (it remembers which <a href="editing.txt.html#timestamp" class="d">timestamp</a> produced
+   particular <a href="vimfn.txt.html#strftime%28%29" class="d">strftime()</a> output and uses this value if you did not change
+   timestamp). <span class="s">{type}</span> <a href="motion.txt.html#is" class="d">is</a> one of
+    1 <a href="motion.txt.html#-" class="d">-</a> Header
+    2 <a href="motion.txt.html#-" class="d">-</a> Search <a href="pattern.txt.html#pattern" class="d">pattern</a>
+    3 <a href="motion.txt.html#-" class="d">-</a> Replacement <a href="vimeval.txt.html#string" class="d">string</a>
+    4 <a href="motion.txt.html#-" class="d">-</a> History entry
+    5 <a href="motion.txt.html#-" class="d">-</a> Register
+    6 <a href="motion.txt.html#-" class="d">-</a> Variable
+    7 <a href="motion.txt.html#-" class="d">-</a> Global <a href="motion.txt.html#mark" class="d">mark</a>
+    8 <a href="motion.txt.html#-" class="d">-</a> Jump
+    9 <a href="motion.txt.html#-" class="d">-</a> Buffer <a href="vimeval.txt.html#list" class="d">list</a>
+   10 <a href="motion.txt.html#-" class="d">-</a> Local <a href="motion.txt.html#mark" class="d">mark</a>
+   11 <a href="motion.txt.html#-" class="d">-</a> Change
+    * <a href="motion.txt.html#-" class="d">-</a> Unknown (0x{type-hex})
+
+   Each type may be represented using Unknown entry: "Jump with <a href="editing.txt.html#timestamp" class="d">timestamp</a> <a href="userfunc.txt.html#..." class="d">...</a>"
+   <a href="motion.txt.html#is" class="d">is</a> the same <a href="motion.txt.html#as" class="d">as</a> "Unknown (0x8) with <a href="editing.txt.html#timestamp" class="d">timestamp</a> ...."<a href="repeat.txt.html#." class="d">.</a>
+3. After header there <a href="motion.txt.html#is" class="d">is</a> one of the following lines:
+   1. "  <a href="motion.txt.html#%25" class="d">%</a> Key__  Description__  Value"<a href="cmdline.txt.html#%3A" class="d">:</a> map header.  After <a href="map.txt.html#mapping" class="d">mapping</a> header
+      follows <a href="insert.txt.html#a" class="d">a</a> table which may contain comments and lines consisting of
+      "  <a href="motion.txt.html#%2B" class="d">+</a>"<a href="motion.txt.html#%2C" class="d">,</a> key, description and <a href="pi_msgpack.txt.html#%7Bmsgpack-value%7D" class="l">{msgpack-value}</a><a href="repeat.txt.html#." class="d">.</a>  Key <a href="motion.txt.html#is" class="d">is</a> separated by <a href="motion.txt.html#at" class="d">at</a>
+      least two spaces with description, description <a href="motion.txt.html#is" class="d">is</a> separated by <a href="motion.txt.html#at" class="d">at</a> least
+      two spaces with the value.  Each key in the map must be <a href="motion.txt.html#at" class="d">at</a> most <a href="motion.txt.html#as" class="d">as</a> wide
+      <a href="motion.txt.html#as" class="d">as</a> "Key__" header: "Key" allows <a href="motion.txt.html#at" class="d">at</a> most 3-byte keys, "Key__" allows <a href="motion.txt.html#at" class="d">at</a>
+      most 5-byte keys.  If keys actually occupy <a href="various.txt.html#less" class="d">less</a> bytes then the rest <a href="motion.txt.html#is" class="d">is</a>
+      filled with spaces.  Keys cannot be empty, <a href="intro.txt.html#end" class="d">end</a> with spaces, contain two
+      consequent spaces inside of them or contain <a href="mbyte.txt.html#multibyte" class="d">multibyte</a> characters (use
+      "<a href="change.txt.html#%3D" class="d">=</a>" format if you need this).  Descriptions have the same restrictions
+      on width and contents, except that empty descriptions are allowed.
+      Description column may be omitted.
+
+      When <a href="editing.txt.html#writing" class="d">writing</a> description <a href="motion.txt.html#is" class="d">is</a> ignored.  Keys with values <a href="pi_msgpack.txt.html#msgpack%23equal" class="l">msgpack#equal</a>
+      to default ones are ignored.  Order of keys <a href="motion.txt.html#is" class="d">is</a> preserved.  All keys are
+      treated <a href="motion.txt.html#as" class="d">as</a> strings (not binary strings).
+
+      <span class="n">Note:</span> specifically <a href="luaref.txt.html#for" class="d">for</a> buffer <a href="vimeval.txt.html#list" class="d">list</a> entries <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> allowed to have more
+      then one map header.  Each map header starts <a href="insert.txt.html#a" class="d">a</a> new map entry inside
+      buffer <a href="vimeval.txt.html#list" class="d">list</a> because ShaDa buffer <a href="vimeval.txt.html#list" class="d">list</a> entry <a href="motion.txt.html#is" class="d">is</a> an array of maps.  I.e. 
+<span class="e"></span>
+<span class="e">        Buffer list with timestamp 1970-01-01T00:00:00:</span>
+<span class="e">          % Key  Description  Value</span>
+<span class="e">          + f    file name    "/foo"</span>
+<span class="e">          + l    line number  1</span>
+<span class="e">          + c    column       10</span>
+
+      <a href="motion.txt.html#is" class="d">is</a> equivalent to 
+<span class="e"></span>
+<span class="e">        Buffer list with timestamp 1970-01-01T00:00:00:</span>
+<span class="e">          = [{="f": "/foo", ="c": 10}]</span>
+
+      and 
+<span class="e"></span>
+<span class="e">        Buffer list with timestamp 1970-01-01T00:00:00:</span>
+<span class="e">          % Key  Description  Value</span>
+<span class="e">          + f    file name    "/foo"</span>
+<span class="e"></span>
+<span class="e">          % Key  Description  Value</span>
+<span class="e">          + f    file name    "/bar"</span>
+
+      <a href="motion.txt.html#is" class="d">is</a> equivalent to 
+<span class="e"></span>
+<span class="e">        Buffer list with timestamp 1970-01-01T00:00:00:</span>
+<span class="e">          = [{="f": "/foo"}, {="f": "/bar"}]</span>
+
+      <span class="n">Note</span> 2: specifically <a href="luaref.txt.html#for" class="d">for</a> <a href="intro.txt.html#register" class="d">register</a> entries special <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="luaref.txt.html#for" class="d">for</a> arrays was
+      designed: 
+<span class="e"></span>
+<span class="e">        Register with timestamp 1970-01-01T00:00:00:</span>
+<span class="e">          % Key  Description  Value</span>
+<span class="e">          + rc   contents     @</span>
+<span class="e">          | - "line1"</span>
+<span class="e">          | - "line2"</span>
+
+      This <a href="motion.txt.html#is" class="d">is</a> equivalent to 
+<span class="e"></span>
+<span class="e">        Register with timestamp 1970-01-01T00:00:00:</span>
+<span class="e">          % Key  Description  Value</span>
+<span class="e">          + rc   contents     ["line1", "line2"]</span>
+
+      Such <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="motion.txt.html#is" class="d">is</a> automatically used if array representation appears to be
+      too lengthy.
+   2. "  <a href="repeat.txt.html#%40" class="d">@</a>  Description__  Value"<a href="cmdline.txt.html#%3A" class="d">:</a> array header.  Same <a href="motion.txt.html#as" class="d">as</a> map, but key <a href="motion.txt.html#is" class="d">is</a>
+      omitted and description cannot be omitted.  Array entries start with
+      "  <a href="motion.txt.html#-" class="d">-</a>"<a href="repeat.txt.html#." class="d">.</a> Example: 
+<span class="e"></span>
+<span class="e">        History entry with timestamp 1970-01-01T00:00:00:</span>
+<span class="e">          @ Description_  Value</span>
+<span class="e">          - history type  SEARCH</span>
+<span class="e">          - contents      "foo"</span>
+<span class="e">          - separator     '/'</span>
+
+      <a href="motion.txt.html#is" class="d">is</a> equivalent to 
+<span class="e"></span>
+<span class="e">        History entry with timestamp 1970-01-01T00:00:00:</span>
+<span class="e">          = [SEARCH, "foo", '/']</span>
+
+      <span class="n">Note:</span> special array <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="intro.txt.html#register" class="d">register</a> entries <a href="motion.txt.html#is" class="d">is</a> not recognized here.
+   3. "  <a href="change.txt.html#%3D" class="d">=</a> <a href="pi_msgpack.txt.html#%7Bmsgpack-value%7D" class="s">{msgpack-value}</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> raw values.  <a href="pi_msgpack.txt.html#%7Bmsgpack-value%7D" class="l">{msgpack-value}</a> in this <a href="change.txt.html#case" class="d">case</a> may
+      have absolutely any type.  Special array <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="intro.txt.html#register" class="d">register</a> entries <a href="motion.txt.html#is" class="d">is</a>
+      not recognized here <a href="motion.txt.html#as" class="d">as</a> well.
+
+
+<span class="c">RUST</span>							<span id="ft-rust" class="t">ft-rust</span>
+
+Since the text <a href="luaref.txt.html#for" class="d">for</a> this <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> rather long <a href="motion.txt.html#it" class="d">it</a> has been <a href="change.txt.html#put" class="d">put</a> in <a href="insert.txt.html#a" class="d">a</a> separate
+file: <a href="ft_rust.txt.html#ft_rust.txt" class="l">ft_rust.txt</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">SQL</span>							<span id="ft-sql" class="t">ft-sql</span>
+
+Since the text <a href="luaref.txt.html#for" class="d">for</a> this <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> rather long <a href="motion.txt.html#it" class="d">it</a> has been <a href="change.txt.html#put" class="d">put</a> in <a href="insert.txt.html#a" class="d">a</a> separate
+file: <a href="ft_sql.txt.html#ft_sql.txt" class="l">ft_sql.txt</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">TEX</span>						<span id="ft-tex-plugin" class="t">ft-tex-plugin</span> <span id="g%3Atex_flavor" class="t">g:tex_flavor</span>
+
+If the first line of <a href="insert.txt.html#a" class="d">a</a> <span class="e">*.tex</span> file has the form 
+<span class="e">	%&amp;&lt;format&gt;</span>
+then this determined the file type:  plaintex (for plain TeX), <a href="repeat.txt.html#context" class="d">context</a> (for
+ConTeXt), or tex (for LaTeX).  Otherwise, the file <a href="motion.txt.html#is" class="d">is</a> searched <a href="luaref.txt.html#for" class="d">for</a> keywords to
+choose <a href="repeat.txt.html#context" class="d">context</a> or tex.  If no keywords are found, <a href="motion.txt.html#it" class="d">it</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to plaintex.
+You can change the default by defining the variable <a href="filetype.txt.html#g%3Atex_flavor" class="d">g:tex_flavor</a> to the format
+(not the file type) you use most.  Use one of these: 
+<span class="e">	let g:tex_flavor = "plain"</span>
+<span class="e">	let g:tex_flavor = "context"</span>
+<span class="e">	let g:tex_flavor = "latex"</span>
+Currently no other formats are recognized.
+
+<span class="c">TYPST</span>							<span id="ft-typst-plugin" class="t">ft-typst-plugin</span>
+
+							<span id="g%3Atypst_conceal" class="t">g:typst_conceal</span>
+When <a href="vimeval.txt.html#TRUE" class="l">TRUE</a> the Typst <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> will set the <a href="options.txt.html#%27conceallevel%27" class="o">'conceallevel'</a> option to 2.
+
+							<span id="g%3Atypst_folding" class="t">g:typst_folding</span>
+When <a href="vimeval.txt.html#TRUE" class="l">TRUE</a> the Typst <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> will fold headings. (default: <a href="vimeval.txt.html#FALSE" class="l">FALSE</a><a href="motion.txt.html#%29" class="d">)</a>
+
+To enable: 
+<span class="e">	let g:typst_folding = 1</span>
+
+							<span id="g%3Atypst_foldnested" class="t">g:typst_foldnested</span>
+When <a href="vimeval.txt.html#TRUE" class="l">TRUE</a> the Typst <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> will fold nested heading under their
+parents. (default: <a href="vimeval.txt.html#TRUE" class="l">TRUE</a><a href="motion.txt.html#%29" class="d">)</a>
+
+To disable: 
+<span class="e">	let g:typst_foldnested = 0</span>
+
+<span class="c">VIM</span>							<span id="ft-vim-plugin" class="t">ft-vim-plugin</span>
+
+The Vim <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> defines mappings to move to the start and <a href="intro.txt.html#end" class="d">end</a> of
+<a href="vimeval.txt.html#functions" class="d">functions</a> with <a href="motion.txt.html#%5B%5B" class="d">[[</a> and ]].  Move around comments with <a href="index.txt.html#%5D" class="d">]</a>" and <a href="index.txt.html#%5B" class="d">[</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+The mappings can be disabled with: 
+<span class="e">	let g:no_vim_maps = 1</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">ZIG</span>							<span id="ft-zig-plugin" class="t">ft-zig-plugin</span>
+
+						<span id="g%3Azig_recommended_style" class="t">g:zig_recommended_style</span>
+By default the following indentation <a href="options.txt.html#options" class="d">options</a> are set, in accordance with Zig's
+recommended style (https://ziglang.org/documentation/master/): 
+<span class="e"></span>
+<span class="e">	setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8</span>
+
+To disable this behavior, set <a href="filetype.txt.html#g%3Azig_recommended_style" class="l">g:zig_recommended_style</a> to 0: 
+<span class="e"></span>
+<span class="e">	let g:zig_recommended_style = 0</span>
+
+							<span id="g%3Azig_std_dir" class="t">g:zig_std_dir</span>
+The path to the Zig standard library. The Zig <a href="usr_41.txt.html#ftplugin" class="l">ftplugin</a> reads <a href="filetype.txt.html#g%3Azig_std_dir" class="l">g:zig_std_dir</a>
+and appends <a href="motion.txt.html#it" class="d">it</a> to the <a href="options.txt.html#%27path%27" class="o">'path'</a> <a href="luaref.txt.html#for" class="d">for</a> Zig files. Where the Zig standard library
+<a href="motion.txt.html#is" class="d">is</a> located <a href="motion.txt.html#is" class="d">is</a> system and installation <a href="vimeval.txt.html#method" class="d">method</a> dependent.
+
+One can automatically set <a href="filetype.txt.html#g%3Azig_std_dir" class="l">g:zig_std_dir</a> using `zig env`: 
+<span class="e"></span>
+<span class="e">	let g:zig_std_dir = json_decode(system('zig env'))['std_dir']</span>
+
+This can, <a href="luaref.txt.html#for" class="d">for</a> example, be <a href="change.txt.html#put" class="d">put</a> in <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#FileType" class="d">FileType</a> <a href="autocmd.txt.html#%3Aautocmd" class="l">:autocmd</a> or user <a href="usr_41.txt.html#ftplugin" class="l">ftplugin</a> to
+only load when <a href="insert.txt.html#a" class="d">a</a> Zig file <a href="motion.txt.html#is" class="d">is</a> opened.
+
+
+<span class="c">ZIMBU</span>							<span id="ft-zimbu-plugin" class="t">ft-zimbu-plugin</span>
+
+The Zimbu <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> defines mappings to move to the start and <a href="intro.txt.html#end" class="d">end</a> of
+<a href="vimeval.txt.html#functions" class="d">functions</a> with <a href="motion.txt.html#%5B%5B" class="d">[[</a> and ]].
+
+The mappings can be disabled with: 
+<span class="e">	let g:no_zimbu_maps = 1</span>
+
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

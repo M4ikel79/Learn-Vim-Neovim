@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: uganda.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="uganda.txt.html#">↑Top↑</a></li>
+<li><a href="uganda.txt.html#_note">Note:</a></li>
+<li><a href="uganda.txt.html#kcc">Kibaale Children's Centre</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="uganda.txt" class="t">uganda.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 13
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar</span>
+
+
+			<span id="uganda" class="t">uganda</span> <span id="Uganda" class="t">Uganda</span> <span id="copying" class="t">copying</span> <span id="copyright" class="t">copyright</span> <span id="license" class="t">license</span>
+<span class="c">SUMMARY</span><span id="_summary"></span>
+							<span id="Kuwasha" class="t">Kuwasha</span>
+Vim <a href="motion.txt.html#is" class="d">is</a> Charityware.  You can use and copy <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a> much <a href="motion.txt.html#as" class="d">as</a> you like, but you are
+encouraged to make <a href="insert.txt.html#a" class="d">a</a> donation for needy children in Uganda.  Please see <a href="uganda.txt.html#kcc" class="l">kcc</a>
+below or visit the <a href="uganda.txt.html#Kuwasha" class="d">Kuwasha</a> web site, available <a href="motion.txt.html#at" class="d">at</a> the following URL:
+
+	<a class="u" href="https://www.kuwasha.net">https://www.kuwasha.net</a>
+
+You can also <a href="sponsor.txt.html#sponsor" class="d">sponsor</a> the <a href="develop.txt.html#development" class="d">development</a> of Vim, see <a href="sponsor.txt.html#sponsor" class="l">sponsor</a><a href="repeat.txt.html#." class="d">.</a>  The money goes to
+<a href="uganda.txt.html#Uganda" class="d">Uganda</a> anyway.
+
+							<span id="iccf" class="t">iccf</span> <span id="ICCF" class="t">ICCF</span>
+<span class="h">ICCF Holland and Kuwasha</span>
+
+<a href="version9.txt.html#Bram" class="l">Bram</a> Moolenaar's charity, <a href="uganda.txt.html#ICCF" class="d">ICCF</a> Holland, has long supported the education of
+children in <a href="uganda.txt.html#Uganda" class="d">Uganda</a> through the <a href="uganda.txt.html#Kibaale" class="d">Kibaale</a> Children's Centre.  Following Bram's
+passing in 2023, <a href="uganda.txt.html#ICCF" class="d">ICCF</a> Holland transfered all activities to its sister <a href="uganda.txt.html#charity" class="d">charity</a>
+<a href="uganda.txt.html#Kuwasha" class="d">Kuwasha</a> in Canada and dissolved <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> of 2025.
+
+Donations from Vim users are still welcome and will continue to <a href="motion.txt.html#go" class="d">go</a> directly to
+Uganda.  To continue supporting this cause, please send contributions to
+Kuwasha.
+
+<span class="h">License</span>
+
+The Open Publication License applies to the Vim documentation, see
+<a href="usr_01.txt.html#manual-copyright" class="l">manual-copyright</a><a href="repeat.txt.html#." class="d">.</a>
+
+The icons used for the toolbar in the <a href="os_win32.txt.html#Win32" class="d">Win32</a> <a href="gui.txt.html#GUI" class="d">GUI</a> are from the "Farm-Fresh Web
+Icons" set.  These icons are licensed under the Creative Commons Attribution
+3.0 License and were created by FatCow Web Hosting.  They were previously
+available <a href="motion.txt.html#at" class="d">at</a> (dead link) fatcow.com/free-icons and are still available at:
+<a class="u" href="https://www.iconarchive.com/show/farm-fresh-icons-by-fatcow.1.html">https://www.iconarchive.com/show/farm-fresh-icons-by-fatcow.1.html</a>
+
+
+<span class="h">=== begin of license ===</span>
+
+<span class="c">VIM LICENSE</span><span id="_vim-license"></span>
+
+I)  There are no restrictions on distributing unmodified copies of Vim except
+    that they <a href="vim_faq.txt.html#must" class="d">must</a> include this <a href="uganda.txt.html#license" class="d">license</a> text.  You can also distribute
+    unmodified parts of Vim, likewise unrestricted except that they <a href="vim_faq.txt.html#must" class="d">must</a>
+    include this <a href="uganda.txt.html#license" class="d">license</a> text.  You are also allowed to include executables
+    that you made from the unmodified Vim sources, plus your own usage
+    examples and Vim scripts.
+
+II) It <a href="motion.txt.html#is" class="d">is</a> allowed to distribute <a href="insert.txt.html#a" class="d">a</a> modified (or extended) version of Vim,
+    including executables and/or source code, when the following four
+    conditions are met:
+    1) This <a href="uganda.txt.html#license" class="d">license</a> text <a href="vim_faq.txt.html#must" class="d">must</a> be included unmodified.
+    2) The modified Vim <a href="vim_faq.txt.html#must" class="d">must</a> be distributed in one of the following five ways:
+       <a href="motion.txt.html#a%29" class="d">a)</a> If you make changes to Vim yourself, you <a href="vim_faq.txt.html#must" class="d">must</a> clearly describe in
+	  the <a href="intro.txt.html#distribution" class="d">distribution</a> how to contact you.  When the maintainer asks you
+	  (in any way) for <a href="insert.txt.html#a" class="d">a</a> copy of the modified Vim you distributed, you
+	  <a href="vim_faq.txt.html#must" class="d">must</a> make your changes, including source code, available to the
+	  maintainer without fee.  The maintainer reserves the right to
+	  include your changes in the official version of Vim.  What the
+	  maintainer will <a href="diff.txt.html#do" class="d">do</a> with your changes and under what <a href="uganda.txt.html#license" class="d">license</a> they
+	  will be distributed <a href="motion.txt.html#is" class="d">is</a> negotiable.  If there has been no negotiation
+	  then this license, or <a href="insert.txt.html#a" class="d">a</a> later version, also applies to your changes.
+	  The current maintainers are listed here:
+	      <a class="u" href="https://github.com/orgs/vim/people">https://github.com/orgs/vim/people</a>
+	  If this changes <a href="motion.txt.html#it" class="d">it</a> will be announced in appropriate places (most
+	  likely vim.sf.net, www.vim.org and/or comp.editors).  When <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+	  completely impossible to contact the maintainer, the obligation to
+	  send him your changes ceases.  Once the maintainer has confirmed
+	  that he has received your changes they will not have to be sent
+	  again.
+       b) If you have received <a href="insert.txt.html#a" class="d">a</a> modified Vim that was distributed <a href="motion.txt.html#as" class="d">as</a>
+	  mentioned under <a href="motion.txt.html#a%29" class="d">a)</a> you are allowed to further distribute <a href="motion.txt.html#it" class="d">it</a>
+	  unmodified, <a href="motion.txt.html#as" class="d">as</a> mentioned <a href="motion.txt.html#at" class="d">at</a> I).  If you make additional changes the
+	  text under <a href="motion.txt.html#a%29" class="d">a)</a> applies to those changes.
+       c) Provide all the changes, including source code, with every copy of
+	  the modified Vim you distribute.  This may be done in the form of <a href="insert.txt.html#a" class="d">a</a>
+	  context diff.  You can choose what <a href="uganda.txt.html#license" class="d">license</a> to use for new code you
+	  add.  The changes and their <a href="uganda.txt.html#license" class="d">license</a> <a href="vim_faq.txt.html#must" class="d">must</a> not restrict others from
+	  making their own changes to the official version of Vim.
+       d) When you have <a href="insert.txt.html#a" class="d">a</a> modified Vim which includes changes <a href="motion.txt.html#as" class="d">as</a> mentioned
+	  under c), you can distribute <a href="motion.txt.html#it" class="d">it</a> without the source code for the
+	  changes if the following three conditions are met:
+	  <a href="motion.txt.html#-" class="d">-</a> The <a href="uganda.txt.html#license" class="d">license</a> that applies to the changes permits you to distribute
+	    the changes to the Vim maintainer without fee or restriction, and
+	    permits the Vim maintainer to include the changes in the official
+	    version of Vim without fee or restriction.
+	  <a href="motion.txt.html#-" class="d">-</a> You keep the changes for <a href="motion.txt.html#at" class="d">at</a> least three years after last
+	    distributing the corresponding modified Vim.  When the maintainer
+	    or someone who you distributed the modified Vim to asks you (in
+	    any way) for the changes within this period, you <a href="vim_faq.txt.html#must" class="d">must</a> make them
+	    available to him.
+	  <a href="motion.txt.html#-" class="d">-</a> You clearly describe in the <a href="intro.txt.html#distribution" class="d">distribution</a> how to contact you.  This
+	    contact information <a href="vim_faq.txt.html#must" class="d">must</a> remain valid for <a href="motion.txt.html#at" class="d">at</a> least three years
+	    after last distributing the corresponding modified Vim, or <a href="motion.txt.html#as" class="d">as</a> long
+	    <a href="motion.txt.html#as" class="d">as</a> possible.
+       e) When the GNU General Public License (GPL) applies to the changes,
+	  you can distribute the modified Vim under the GNU GPL version 2 or
+	  any later version.
+    3) <a href="insert.txt.html#A" class="d">A</a> message <a href="vim_faq.txt.html#must" class="d">must</a> be added, <a href="motion.txt.html#at" class="d">at</a> least in the output of the "<a href="various.txt.html#%3Aversion" class="d">:version</a>"
+       command and in the <a href="intro.txt.html#intro" class="d">intro</a> screen, such that the user of the modified Vim
+       <a href="motion.txt.html#is" class="d">is</a> able to see that <a href="motion.txt.html#it" class="d">it</a> was modified.  When distributing <a href="motion.txt.html#as" class="d">as</a> mentioned
+       under 2)e) adding the message <a href="motion.txt.html#is" class="d">is</a> only required for <a href="motion.txt.html#as" class="d">as</a> far <a href="motion.txt.html#as" class="d">as</a> this does
+       not conflict with the <a href="uganda.txt.html#license" class="d">license</a> used for the changes.
+    4) The contact information <a href="motion.txt.html#as" class="d">as</a> required under 2)a) and 2)d) <a href="vim_faq.txt.html#must" class="d">must</a> not be
+       removed or changed, except that the person himself can make
+       corrections.
+
+III) If you distribute <a href="insert.txt.html#a" class="d">a</a> modified version of Vim, you are encouraged to use
+     the Vim <a href="uganda.txt.html#license" class="d">license</a> for your changes and make them available to the
+     maintainer, including the source code.  The preferred way to <a href="diff.txt.html#do" class="d">do</a> this <a href="motion.txt.html#is" class="d">is</a>
+     by e-mail or by uploading the files to <a href="insert.txt.html#a" class="d">a</a> server and e-mailing the URL.
+     If the number of changes <a href="motion.txt.html#is" class="d">is</a> small (e.g., <a href="insert.txt.html#a" class="d">a</a> modified Makefile) e-mailing <a href="insert.txt.html#a" class="d">a</a>
+     context <a href="diff.txt.html#diff" class="d">diff</a> will do.  The e-mail address to be used <a href="motion.txt.html#is" class="d">is</a>
+     &lt;maintainer@vim.org&gt;
+
+IV)  It <a href="motion.txt.html#is" class="d">is</a> not allowed to remove this <a href="uganda.txt.html#license" class="d">license</a> from the <a href="intro.txt.html#distribution" class="d">distribution</a> of the Vim
+     sources, parts of <a href="motion.txt.html#it" class="d">it</a> or from <a href="insert.txt.html#a" class="d">a</a> modified version.  You may use this
+     <a href="uganda.txt.html#license" class="d">license</a> for previous Vim releases instead of the <a href="uganda.txt.html#license" class="d">license</a> that they came
+     with, <a href="motion.txt.html#at" class="d">at</a> your option.
+
+<span class="h">=== end of license ===</span>
+
+<span id="_note"><span class="n">Note:</span></span>
+
+<a href="motion.txt.html#-" class="d">-</a> If you are happy with Vim, please express that by reading the rest of this
+  file and consider helping needy children in Uganda.
+
+<a href="motion.txt.html#-" class="d">-</a> If you want to support further Vim <a href="develop.txt.html#development" class="d">development</a> consider becoming <a href="insert.txt.html#a" class="d">a</a>
+  <a href="sponsor.txt.html#sponsor" class="l">sponsor</a><a href="repeat.txt.html#." class="d">.</a>  The money goes to <a href="uganda.txt.html#Uganda" class="d">Uganda</a> anyway.
+
+<a href="motion.txt.html#-" class="d">-</a> According to Richard Stallman the Vim <a href="uganda.txt.html#license" class="d">license</a> <a href="motion.txt.html#is" class="d">is</a> GNU GPL compatible.
+  <a href="insert.txt.html#A" class="d">A</a> few minor changes have been made since he checked it, but that should not
+  make <a href="insert.txt.html#a" class="d">a</a> difference.
+
+<a href="motion.txt.html#-" class="d">-</a> If you link Vim with <a href="insert.txt.html#a" class="d">a</a> library that goes under the GNU GPL, this <a href="vi_diff.txt.html#limits" class="d">limits</a>
+  further <a href="intro.txt.html#distribution" class="d">distribution</a> to the GNU GPL.  Also when you didn't actually change
+  anything in Vim.
+
+<a href="motion.txt.html#-" class="d">-</a> Once <a href="insert.txt.html#a" class="d">a</a> change <a href="motion.txt.html#is" class="d">is</a> included that goes under the GNU GPL, this forces all
+  further changes to also be made under the GNU GPL or <a href="insert.txt.html#a" class="d">a</a> compatible license.
+
+<a href="motion.txt.html#-" class="d">-</a> If you distribute <a href="insert.txt.html#a" class="d">a</a> modified version of Vim, you can include your name and
+  contact information with the "--with-modified-by" configure argument or the
+  MODIFIED_BY define.
+
+<a href="motion.txt.html#-" class="d">-</a> This <a href="uganda.txt.html#license" class="d">license</a> applies to the source code of Vim.  However, different <a href="uganda.txt.html#license" class="d">license</a>
+  conditions may apply to some runtime files included with Vim; these will be
+  specified in the header of each respective file.
+<span class="h">==============================================================================</span>
+<a href="uganda.txt.html#Kibaale" class="d">Kibaale</a> Children's Centre		<span id="kcc" class="t">kcc</span> <span id="Kibaale" class="t">Kibaale</span>  <span id="charity" class="t">charity</span>
+
+<a href="uganda.txt.html#Kibaale" class="d">Kibaale</a> Children's Centre (KCC) <a href="motion.txt.html#is" class="d">is</a> located in Kibaale, <a href="insert.txt.html#a" class="d">a</a> small town in the
+south of Uganda, near Tanzania, in East Africa.  The area <a href="motion.txt.html#is" class="d">is</a> known <a href="motion.txt.html#as" class="d">as</a> Rakai
+District.  The population <a href="motion.txt.html#is" class="d">is</a> mostly farmers.  Although people are poor, there
+usually <a href="motion.txt.html#is" class="d">is</a> enough food.  But this district <a href="motion.txt.html#is" class="d">is</a> suffering from AIDS more than
+any other part of the world.  Some say that <a href="motion.txt.html#it" class="d">it</a> started there.  Estimations are
+that in the past 10 to 30% of the Ugandans are infected with HIV.  Because
+parents die, there are many orphans.  In this district about 60,000 children
+have lost one or both parents, out of <a href="insert.txt.html#a" class="d">a</a> population of 350,000.  Although AIDS
+<a href="motion.txt.html#is" class="d">is</a> now mostly under control, the problems are still continuing.
+
+The children need <a href="insert.txt.html#a" class="d">a</a> lot of help.  The KCC <a href="motion.txt.html#is" class="d">is</a> working hard to provide the needy
+with food, medical care and education.  Food and medical care to keep them
+healthy now, and education so that they can take care of themselves in the
+future.  KCC works on <a href="insert.txt.html#a" class="d">a</a> Christian base, but <a href="helphelp.txt.html#help" class="d">help</a> <a href="motion.txt.html#is" class="d">is</a> given to children of any
+religion.
+
+The key to solving the problems in this area <a href="motion.txt.html#is" class="d">is</a> education.  This has been
+neglected in the past years with president Idi Amin and the following civil
+wars.  Now that the government <a href="motion.txt.html#is" class="d">is</a> stable again, the children and parents have
+to learn how to take care of themselves and how to avoid infections.  There <a href="motion.txt.html#is" class="d">is</a>
+also <a href="helphelp.txt.html#help" class="d">help</a> for people who are ill and hungry, but the primary goal <a href="motion.txt.html#is" class="d">is</a> to
+prevent people from getting ill and to teach them how to grow healthy food.
+
+Most of the orphans are living in an extended family.  An uncle or older
+sister <a href="motion.txt.html#is" class="d">is</a> taking care of them.  Because these families are big and the income
+(if any) <a href="motion.txt.html#is" class="d">is</a> low, <a href="insert.txt.html#a" class="d">a</a> child <a href="motion.txt.html#is" class="d">is</a> lucky if <a href="motion.txt.html#it" class="d">it</a> gets healthy food.  Clothes, medical
+care and schooling <a href="motion.txt.html#is" class="d">is</a> beyond its reach.  To <a href="helphelp.txt.html#help" class="d">help</a> these needy children, <a href="insert.txt.html#a" class="d">a</a>
+sponsorship program was <a href="change.txt.html#put" class="d">put</a> into place.  <a href="insert.txt.html#A" class="d">A</a> child can be financially adopted.
+For <a href="insert.txt.html#a" class="d">a</a> few dollars <a href="insert.txt.html#a" class="d">a</a> month KCC sees to <a href="motion.txt.html#it" class="d">it</a> that the child gets indispensable
+items, <a href="motion.txt.html#is" class="d">is</a> healthy, goes to school and KCC takes care of anything else that
+needs to be done for the child and the family that supports it.
+
+Besides helping the child directly, the environment where the child grows up
+needs to be improved.  KCC helps schools to improve their teaching methods.
+There <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> demonstration school <a href="motion.txt.html#at" class="d">at</a> the centre and teacher trainings are given.
+Health workers are being trained, hygiene education <a href="motion.txt.html#is" class="d">is</a> carried out and
+households are stimulated to build <a href="insert.txt.html#a" class="d">a</a> proper latrine.  <a href="insert.txt.html#I" class="d">I</a> helped setting up <a href="insert.txt.html#a" class="d">a</a>
+production site for cement slabs.  These are used to build <a href="insert.txt.html#a" class="d">a</a> good latrine.
+They are sold below cost price.
+
+There <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> clinic <a href="motion.txt.html#at" class="d">at</a> the project, which provides children and their family
+medical help.  Since 2020 <a href="insert.txt.html#a" class="d">a</a> maternity ward was added and 24/7 service <a href="motion.txt.html#is" class="d">is</a>
+available.  When needed, transport to <a href="insert.txt.html#a" class="d">a</a> hospital <a href="motion.txt.html#is" class="d">is</a> offered.  Immunization
+programs are carried out and <a href="helphelp.txt.html#help" class="d">help</a> <a href="motion.txt.html#is" class="d">is</a> provided when an epidemic <a href="motion.txt.html#is" class="d">is</a> breaking out
+(measles and cholera have been <a href="insert.txt.html#a" class="d">a</a> problem).
+
+Summer 1994 to summer 1995 <a href="version9.txt.html#Bram" class="d">Bram</a> spent <a href="insert.txt.html#a" class="d">a</a> whole year <a href="motion.txt.html#at" class="d">at</a> the centre, working <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a>
+volunteer.  <a href="version9.txt.html#Bram" class="d">Bram</a> helped to expand the centre and worked in the area of water
+and sanitation.  <a href="version9.txt.html#Bram" class="d">Bram</a> learned that the <a href="helphelp.txt.html#help" class="d">help</a> that the KCC provides really
+helps. When <a href="version9.txt.html#Bram" class="d">Bram</a> came back to Holland, he wanted to continue supporting KCC.
+To <a href="diff.txt.html#do" class="d">do</a> this he has been raising funds and organizing the sponsorship program.
+
+How <a href="diff.txt.html#do" class="d">do</a> you know that the money will be spent right?  First of all you have the
+personal guarantee of <a href="version9.txt.html#Bram" class="d">Bram</a> <a href="motion.txt.html#as" class="d">as</a> the <a href="intro.txt.html#author" class="d">author</a> of Vim, who knew the people working
+<a href="motion.txt.html#at" class="d">at</a> the centre personally.  Furthermore, the centre has been
+co-sponsored and inspected by World Vision, Save the Children Fund and <a href="motion.txt.html#is" class="d">is</a> now
+under the supervision of Pacific Academy Outreach Society.  <a href="version9.txt.html#Bram" class="d">Bram</a> has
+visited the centre many times, <a href="starting.txt.html#starting" class="d">starting</a> in 1993.  The visit reports are
+have been shared on the <a href="uganda.txt.html#ICCF" class="d">ICCF</a> web site (may no longer be available).
+
+If you have any further questions, send an e-mail: info@kuwasha.net.
+
+The address of the centre is:
+			<a href="uganda.txt.html#Kibaale" class="d">Kibaale</a> Children's Centre
+			p.o. box 1658
+			Masaka, Uganda, East Africa
+
+							<span id="donate" class="t">donate</span>
+Sending money:
+
+Check the <a href="uganda.txt.html#Kuwasha" class="d">Kuwasha</a> web site for the latest information!
+
+		Look on their site for information about sponsorship:
+		    <a class="u" href="https://www.kuwasha.net/">https://www.kuwasha.net/</a>
+		If you make <a href="insert.txt.html#a" class="d">a</a> donation to <a href="uganda.txt.html#Kuwasha" class="d">Kuwasha</a> you will receive <a href="insert.txt.html#a" class="d">a</a> tax
+		receipt which can be submitted with your tax return.
+
+Credit Card:	You can use PayPal to send money with <a href="insert.txt.html#a" class="d">a</a> Credit card.  This <a href="motion.txt.html#is" class="d">is</a>
+		the most widely used Internet based payment system.  It's
+		really simple to use.  Use this link to find more info:
+		    <a class="u" href="https://www.paypal.com/en_US/mrb/pal=XAC62PML3GF8Q">https://www.paypal.com/en_US/mrb/pal=XAC62PML3GF8Q</a>
+		The e-mail address for sending the money to is:
+		    info@kuwasha.net
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

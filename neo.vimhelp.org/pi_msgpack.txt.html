@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: pi_msgpack.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="pi_msgpack.txt.html#">↑Top↑</a></li>
+<li><a href="pi_msgpack.txt.html#msgpack.vim-contents">Contents</a></li>
+<li><a href="pi_msgpack.txt.html#msgpack.vim-intro">Msgpack.vim introduction</a></li>
+<li><a href="pi_msgpack.txt.html#msgpack.vim-manual">Msgpack.vim manual</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="pi_msgpack.txt" class="t">pi_msgpack.txt</span>   msgpack utilities
+
+Author:  Nikolay Pavlov &lt;kp-pav@yandex.ru&gt;
+Copyright: (c) 2015 by Nikolay Pavlov
+
+The Apache <a href="uganda.txt.html#license" class="d">license</a> applies to the files in this package, including
+runtime/autoload/msgpack.vim, runtime/doc/pi_msgpack.txt and
+test/functional/plugin/msgpack_spec.lua.  Like anything else that's free,
+msgpack.vim and its associated files are provided <a href="motion.txt.html#as" class="d">as</a> <a href="motion.txt.html#is" class="d">is</a> and comes with no
+warranty of any kind, either expressed or implied.  No guarantees of
+merchantability.  No guarantees of suitability <a href="luaref.txt.html#for" class="d">for</a> any purpose.  By using this
+plugin, you agree that in no event will the <a href="uganda.txt.html#copyright" class="d">copyright</a> holder be liable <a href="luaref.txt.html#for" class="d">for</a> any
+damages resulting from the use of this software. Use <a href="motion.txt.html#at" class="d">at</a> your own risk!
+
+<span class="h">==============================================================================</span>
+1. <a href="quickref.txt.html#Contents" class="d">Contents</a>				<span id="msgpack.vim-contents" class="t">msgpack.vim-contents</span>
+
+	1. Contents..............................: <a href="pi_msgpack.txt.html#msgpack.vim-contents" class="l">msgpack.vim-contents</a>
+	2. Msgpack.vim introduction..............: <a href="pi_msgpack.txt.html#msgpack.vim-intro" class="l">msgpack.vim-intro</a>
+	3. Msgpack.vim manual....................: <a href="pi_msgpack.txt.html#msgpack.vim-manual" class="l">msgpack.vim-manual</a>
+	   Function arguments....................: <a href="pi_msgpack.txt.html#msgpack.vim-arguments" class="l">msgpack.vim-arguments</a>
+	   msgpack#is_int function...............: <a href="pi_msgpack.txt.html#msgpack%23is_int%28%29" class="l">msgpack#is_int()</a>
+	   msgpack#is_uint function..............: <a href="pi_msgpack.txt.html#msgpack%23is_uint%28%29" class="l">msgpack#is_uint()</a>
+	   <a href="pi_msgpack.txt.html#msgpack%23strftime" class="d">msgpack#strftime</a> function.............: <a href="pi_msgpack.txt.html#msgpack%23strftime%28%29" class="l">msgpack#strftime()</a>
+	   <a href="pi_msgpack.txt.html#msgpack%23strptime" class="d">msgpack#strptime</a> function.............: <a href="pi_msgpack.txt.html#msgpack%23strptime%28%29" class="l">msgpack#strptime()</a>
+	   msgpack#int_dict_to_str function......: <a href="pi_msgpack.txt.html#msgpack%23int_dict_to_str%28%29" class="l">msgpack#int_dict_to_str()</a>
+	   msgpack#special_type function.........: <a href="pi_msgpack.txt.html#msgpack%23special_type%28%29" class="l">msgpack#special_type()</a>
+	   msgpack#type function.................: <a href="pi_msgpack.txt.html#msgpack%23type%28%29" class="l">msgpack#type()</a>
+	   msgpack#deepcopy function.............: <a href="pi_msgpack.txt.html#msgpack%23deepcopy%28%29" class="l">msgpack#deepcopy()</a>
+	   msgpack#string function...............: <a href="pi_msgpack.txt.html#msgpack%23string%28%29" class="l">msgpack#string()</a>
+	   msgpack#eval function.................: <a href="pi_msgpack.txt.html#msgpack%23eval%28%29" class="l">msgpack#eval()</a>
+	   <a href="pi_msgpack.txt.html#msgpack%23equal" class="d">msgpack#equal</a> function................: <a href="pi_msgpack.txt.html#msgpack%23equal%28%29" class="l">msgpack#equal()</a>
+
+
+<span class="h">==============================================================================</span>
+2. Msgpack.vim introduction			<span id="msgpack.vim-intro" class="t">msgpack.vim-intro</span>
+
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> contains utility <a href="vimeval.txt.html#functions" class="d">functions</a> to be used in conjunction with
+<a href="vimfn.txt.html#msgpackdump%28%29" class="l">msgpackdump()</a> and <a href="vimfn.txt.html#msgpackparse%28%29" class="l">msgpackparse()</a> functions.
+
+<span class="h">==============================================================================</span>
+3. Msgpack.vim manual				<span id="msgpack.vim-manual" class="t">msgpack.vim-manual</span>
+
+<span class="c">FUNCTION ARGUMENTS</span>				<span id="msgpack.vim-arguments" class="t">msgpack.vim-arguments</span>
+
+Disambiguation of arguments described below.  <span class="n">Note:</span> if e.g. function <a href="motion.txt.html#is" class="d">is</a> listed
+<a href="motion.txt.html#as" class="d">as</a> accepting <a href="pi_msgpack.txt.html#%7Bmsgpack-integer%7D" class="l">{msgpack-integer}</a> (or anything else) <a href="motion.txt.html#it" class="d">it</a> means that function
+does not check whether argument matches its description.
+
+<span id="%7Bmsgpack-value%7D" class="t">{msgpack-value}</span>  	Either <a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a> or <a href="insert.txt.html#a" class="d">a</a> regular value, but
+			not function reference.
+<span id="%7Bmsgpack-integer%7D" class="t">{msgpack-integer}</span>  	Any value <a href="luaref.txt.html#for" class="d">for</a> which <a href="pi_msgpack.txt.html#msgpack%23type%28%29" class="l">msgpack#type()</a> will return
+			"integer"<a href="repeat.txt.html#." class="d">.</a>
+<span id="%7Bmsgpack-special-int%7D" class="t">{msgpack-special-int}</span>  	<a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a> representing integer.
+
+msgpack#is_int({msgpack-value})				<span id="msgpack%23is_int%28%29" class="t">msgpack#is_int()</span>
+	Returns 1 if given <a href="pi_msgpack.txt.html#%7Bmsgpack-value%7D" class="s">{msgpack-value}</a> <a href="motion.txt.html#is" class="d">is</a> integer value, <a href="motion.txt.html#0" class="d">0</a> otherwise.
+
+msgpack#is_uint({msgpack-value})			<span id="msgpack%23is_uint%28%29" class="t">msgpack#is_uint()</span>
+	Returns 1 if given <a href="pi_msgpack.txt.html#%7Bmsgpack-value%7D" class="s">{msgpack-value}</a> <a href="motion.txt.html#is" class="d">is</a> integer value greater or equal
+	to zero, <a href="motion.txt.html#0" class="d">0</a> otherwise.
+
+							<span id="msgpack%23strftime" class="t">msgpack#strftime</span>
+msgpack#strftime({format}, <a href="pi_msgpack.txt.html#%7Bmsgpack-integer%7D" class="s">{msgpack-integer}</a>)		<span id="msgpack%23strftime%28%29" class="t">msgpack#strftime()</span>
+	Same <a href="motion.txt.html#as" class="d">as</a> <a href="vimfn.txt.html#strftime%28%29" class="l">strftime()</a><a href="motion.txt.html#%2C" class="d">,</a> but second argument may be
+	<a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a><a href="repeat.txt.html#." class="d">.</a>  Requires <a href="if_pyth.txt.html#Python" class="l">Python</a> to really work with
+	<a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a>s.
+
+							<span id="msgpack%23strptime" class="t">msgpack#strptime</span>
+msgpack#strptime({format}, <span class="s">{time}</span>)			<span id="msgpack%23strptime%28%29" class="t">msgpack#strptime()</span>
+	Reverse of <a href="pi_msgpack.txt.html#msgpack%23strftime%28%29" class="l">msgpack#strftime()</a><a href="cmdline.txt.html#%3A" class="d">:</a> <a href="luaref.txt.html#for" class="d">for</a> any time and format
+	<a href="pi_msgpack.txt.html#msgpack%23equal" class="l">msgpack#equal</a><a href="motion.txt.html#%28" class="d">(</a> <a href="pi_msgpack.txt.html#msgpack%23strptime" class="l">msgpack#strptime</a>(format, <a href="pi_msgpack.txt.html#msgpack%23strftime" class="l">msgpack#strftime</a>(format,
+	time)), time) be true.  Requires |<a href="if_pyth.txt.html#Python" class="l">Python</a><a href="motion.txt.html#%2C" class="d">,</a> without <a href="motion.txt.html#it" class="d">it</a> only supports
+	non-<a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a> nonnegative times and format equal to
+	<span class="e">%Y-%m-%dT%H:%M:%S</span>.
+
+msgpack#int_dict_to_str({msgpack-special-int})	<span id="msgpack%23int_dict_to_str%28%29" class="t">msgpack#int_dict_to_str()</span>
+	Function which converts <a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a> integer value to
+	<a href="insert.txt.html#a" class="d">a</a> hexadecimal value like 0x1234567890ABCDEF (always returns exactly 16
+	hexadecimal digits).
+
+msgpack#special_type({msgpack-value})		<span id="msgpack%23special_type%28%29" class="t">msgpack#special_type()</span>
+	Returns zero if <a href="pi_msgpack.txt.html#%7Bmsgpack-value%7D" class="s">{msgpack-value}</a> <a href="motion.txt.html#is" class="d">is</a> not <a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a><a href="repeat.txt.html#." class="d">.</a>  If <a href="motion.txt.html#it" class="d">it</a>
+	<a href="motion.txt.html#is" class="d">is</a> <a href="motion.txt.html#it" class="d">it</a> returns name of the key in <a href="vvars.txt.html#v%3Amsgpack_types" class="l">v:msgpack_types</a> which represents
+	<a href="pi_msgpack.txt.html#%7Bmsgpack-value%7D" class="s">{msgpack-value}</a> type.
+
+msgpack#type({msgpack-value})				<span id="msgpack%23type%28%29" class="t">msgpack#type()</span>
+	Returns name of the key in <a href="vvars.txt.html#v%3Amsgpack_types" class="l">v:msgpack_types</a> that represents
+	<a href="pi_msgpack.txt.html#%7Bmsgpack-value%7D" class="s">{msgpack-value}</a> type.  Never returns zero: this function returns
+	msgpack type which will be dumped by <a href="vimfn.txt.html#msgpackdump%28%29" class="l">msgpackdump()</a> should <a href="motion.txt.html#it" class="d">it</a> receive
+	<a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> with single <a href="pi_msgpack.txt.html#%7Bmsgpack-value%7D" class="s">{msgpack-value}</a> <a href="motion.txt.html#as" class="d">as</a> input.
+
+msgpack#deepcopy({msgpack-value})			<span id="msgpack%23deepcopy%28%29" class="t">msgpack#deepcopy()</span>
+	Like <a href="vimfn.txt.html#deepcopy%28%29" class="l">deepcopy()</a><a href="motion.txt.html#%2C" class="d">,</a> but works correctly with <a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a>
+	values.  Plain <a href="vimfn.txt.html#deepcopy%28%29" class="l">deepcopy()</a> will destroy all types in
+	<a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a> values because <a href="motion.txt.html#it" class="d">it</a> will copy _TYPE key values,
+	while they should be preserved.
+
+msgpack#string({msgpack-value})				<span id="msgpack%23string%28%29" class="t">msgpack#string()</span>
+	Like <a href="vimfn.txt.html#string%28%29" class="l">string()</a><a href="motion.txt.html#%2C" class="d">,</a> but saves information about msgpack types.  Values
+	dumped by msgpack#string may be read back by <a href="pi_msgpack.txt.html#msgpack%23eval%28%29" class="l">msgpack#eval()</a><a href="repeat.txt.html#." class="d">.</a>
+	Returns <a href="motion.txt.html#is" class="d">is</a> the following:
+
+	<a href="motion.txt.html#-" class="d">-</a> <a href="vimeval.txt.html#Dictionaries" class="d">Dictionaries</a> are dumped <a href="motion.txt.html#as" class="d">as</a> "<span class="s">{key1: value1, key2: value2}</span>"<a href="repeat.txt.html#." class="d">.</a> <span class="n">Note:</span>
+	  msgpack allows any values in keys, so with some
+	  <a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a> values <a href="pi_msgpack.txt.html#msgpack%23string%28%29" class="l">msgpack#string()</a> may produce even
+	  "<span class="s">{{1: 2}</span>: 3, [4]: 5}"<a href="repeat.txt.html#." class="d">.</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="vimeval.txt.html#Lists" class="d">Lists</a> are dumped <a href="motion.txt.html#as" class="d">as</a> "[value1, value2]"<a href="repeat.txt.html#." class="d">.</a>
+	<a href="motion.txt.html#-" class="d">-</a> Strings are dumped <a href="motion.txt.html#as" class="d">as</a>
+	  1. <span class="e">"abc"</span>: binary string.
+	  2. <span class="e">="abc"</span>: string.
+	  3. <span class="e">+(10)"ext"</span>: extension strings (10 may be replaced with any
+	     8-bit signed integer).
+	  Inside strings the following <a href="intro.txt.html#escape" class="d">escape</a> sequences may be present: "<a href="change.txt.html#%5C0" class="d">\0</a>"
+	  (represents NUL byte), "\n" (represents line feed) and "\""
+	  (represents double quote).
+	<a href="motion.txt.html#-" class="d">-</a> Floating-point and integer values are dumped using <a href="vimfn.txt.html#string%28%29" class="l">string()</a> or
+	  <a href="pi_msgpack.txt.html#msgpack%23int_dict_to_str%28%29" class="l">msgpack#int_dict_to_str()</a><a href="repeat.txt.html#." class="d">.</a>
+	<a href="motion.txt.html#-" class="d">-</a> Booleans are dumped <a href="motion.txt.html#as" class="d">as</a> "<a href="vimeval.txt.html#TRUE" class="d">TRUE</a>" or "<a href="vimeval.txt.html#FALSE" class="d">FALSE</a>"<a href="repeat.txt.html#." class="d">.</a>
+	<a href="motion.txt.html#-" class="d">-</a> Nil values are dumped <a href="motion.txt.html#as" class="d">as</a> "NIL"<a href="repeat.txt.html#." class="d">.</a>
+
+msgpack#eval({string}, <span class="s">{dict}</span>)				<span id="msgpack%23eval%28%29" class="t">msgpack#eval()</span>
+	Transforms <a href="vimeval.txt.html#string" class="d">string</a> created by <a href="pi_msgpack.txt.html#msgpack%23string%28%29" class="l">msgpack#string()</a> into <a href="insert.txt.html#a" class="d">a</a> value suitable
+	<a href="luaref.txt.html#for" class="d">for</a> <a href="vimfn.txt.html#msgpackdump%28%29" class="l">msgpackdump()</a><a href="repeat.txt.html#." class="d">.</a>  Second argument allows adding special values
+	that start with head characters <a href="motion.txt.html#%28" class="d">(</a><a href="pattern.txt.html#%2F%5Ch" class="l">/\h</a><a href="motion.txt.html#%29" class="d">)</a> and contain only <a href="motion.txt.html#word" class="d">word</a>
+	characters <a href="motion.txt.html#%28" class="d">(</a><a href="pattern.txt.html#%2F%5Cw" class="l">/\w</a>).  Built-in special values are "<a href="vimeval.txt.html#TRUE" class="d">TRUE</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vimeval.txt.html#FALSE" class="d">FALSE</a>"<a href="motion.txt.html#%2C" class="d">,</a>
+	"NIL"<a href="motion.txt.html#%2C" class="d">,</a> "nan" and "inf" and they cannot be overridden.  Map values are
+	always evaluated to <a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a> values, <a href="motion.txt.html#as" class="d">as</a> well <a href="motion.txt.html#as" class="d">as</a>
+	hexadecimal digits.  When evaluating maps order of keys <a href="motion.txt.html#is" class="d">is</a> preserved.
+
+	<span class="n">Note</span> that in addition to regular integer representations that may be
+	obtained using <a href="pi_msgpack.txt.html#msgpack%23string%28%29" class="l">msgpack#string()</a> <a href="pi_msgpack.txt.html#msgpack%23eval%28%29" class="d">msgpack#eval()</a> also supports C-style
+	“character” integer constants like <span class="e">'/'</span> (equivalent to
+	<span class="e">char2nr('/')</span>: <span class="e">47</span>). This also allows <span class="e">'\0'</span> (number <a href="motion.txt.html#is" class="d">is</a> decimal).
+
+							<span id="msgpack%23equal" class="t">msgpack#equal</span>
+msgpack#equal({msgpack-value}, <a href="pi_msgpack.txt.html#%7Bmsgpack-value%7D" class="s">{msgpack-value}</a>)		<span id="msgpack%23equal%28%29" class="t">msgpack#equal()</span>
+	Returns 1 if given values are equal, <a href="motion.txt.html#0" class="d">0</a> otherwise.  When comparing
+	msgpack map values order of keys <a href="motion.txt.html#is" class="d">is</a> ignored.  Comparing
+	<a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a> with equivalent non-special-dict value
+	evaluates to 1.
+
+<span class="h">==============================================================================</span>
+vim:tw=78:ts=8:ft=help:fdm=marker
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

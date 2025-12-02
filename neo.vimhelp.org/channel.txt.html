@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: channel.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="channel.txt.html#">↑Top↑</a></li>
+<li><a href="channel.txt.html#channel-intro">Introduction</a></li>
+<li><a href="channel.txt.html#channel-bytes">Reading and writing raw bytes</a></li>
+<li><a href="channel.txt.html#channel-rpc">Communicating with msgpack RPC</a></li>
+<li><a href="channel.txt.html#channel-stdio">Standard IO channel</a></li>
+<li><a href="channel.txt.html#prompt-buffer">Using a prompt buffer</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="channel.txt" class="t">channel.txt</span>    Nvim
+
+
+		 <span class="i">NVIM REFERENCE MANUAL    by Thiago de Arruda</span>
+
+
+Nvim asynchronous IO					<span id="channel" class="t">channel</span>
+
+				      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+1. Introduction						    <span id="channel-intro" class="t">channel-intro</span>
+
+Channels are Nvim's way of communicating with external processes.
+
+There are several ways to open <a href="insert.txt.html#a" class="d">a</a> channel:
+
+  1. Through stdin/stdout when <span class="e">nvim</span> <a href="motion.txt.html#is" class="d">is</a> started with <span class="e">--headless</span> and <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#startup" class="d">startup</a>
+     <a href="usr_41.txt.html#script" class="d">script</a> or <span class="e">--cmd</span> command opens the stdio <a href="channel.txt.html#channel" class="d">channel</a> using <a href="vimfn.txt.html#stdioopen%28%29" class="l">stdioopen()</a><a href="repeat.txt.html#." class="d">.</a>
+
+  2. Through stdin, stdout and stderr of <a href="insert.txt.html#a" class="d">a</a> process spawned by <a href="vimfn.txt.html#jobstart%28%29" class="l">jobstart()</a><a href="repeat.txt.html#." class="d">.</a>
+
+  3. Through the PTY master <a href="intro.txt.html#end" class="d">end</a> opened with `jobstart(…<a href="motion.txt.html#%2C" class="d">,</a> <span class="s">{'pty': v:true}</span>)`.
+
+  4. By connecting to <a href="insert.txt.html#a" class="d">a</a> TCP/IP socket or named pipe with <a href="vimfn.txt.html#sockconnect%28%29" class="l">sockconnect()</a><a href="repeat.txt.html#." class="d">.</a>
+
+  5. By another process connecting to <a href="insert.txt.html#a" class="d">a</a> socket listened to by Nvim. This only
+     supports <a href="api.txt.html#RPC" class="d">RPC</a> channels, see <a href="api.txt.html#rpc-connecting" class="l">rpc-connecting</a><a href="repeat.txt.html#." class="d">.</a>
+
+Channels <a href="support.txt.html#support" class="d">support</a> multiple modes or protocols. In the most basic
+mode of operation, raw bytes are read and written to the channel.
+The <a href="api.txt.html#RPC" class="l">RPC</a> protocol, based on the <a href="api.txt.html#msgpack-rpc" class="d">msgpack-rpc</a> standard, enables <a href="nvim.txt.html#nvim" class="d">nvim</a> and the
+process <a href="motion.txt.html#at" class="d">at</a> the other <a href="intro.txt.html#end" class="d">end</a> to send remote calls and <a href="autocmd.txt.html#events" class="d">events</a> to each other.
+The builtin <a href="terminal.txt.html#terminal-emulator" class="l">terminal-emulator</a> <a href="motion.txt.html#is" class="d">is</a> also implemented on top of PTY channels.
+
+Channel Id						<span id="channel-id" class="t">channel-id</span>
+
+Each <a href="channel.txt.html#channel" class="d">channel</a> <a href="motion.txt.html#is" class="d">is</a> identified by an integer id, unique <a href="luaref.txt.html#for" class="d">for</a> the life of the
+current Nvim session. Functions like <a href="vimfn.txt.html#stdioopen%28%29" class="l">stdioopen()</a> return <a href="channel.txt.html#channel" class="d">channel</a> ids;
+<a href="vimeval.txt.html#functions" class="d">functions</a> like <a href="vimfn.txt.html#chansend%28%29" class="l">chansend()</a> consume <a href="channel.txt.html#channel" class="d">channel</a> ids.
+
+<span class="h">==============================================================================</span>
+2. Reading and <a href="editing.txt.html#writing" class="d">writing</a> raw bytes			      <span id="channel-bytes" class="t">channel-bytes</span>
+
+Channels opened by Vimscript <a href="vimeval.txt.html#functions" class="d">functions</a> operate with raw bytes by default. For
+<a href="insert.txt.html#a" class="d">a</a> <a href="job_control.txt.html#job" class="d">job</a> <a href="channel.txt.html#channel" class="d">channel</a> using RPC, bytes can still be read over its stderr. Similarly,
+only bytes can be written to Nvim's own stderr.
+
+						<span id="channel-callback" class="t">channel-callback</span>
+<a href="motion.txt.html#-" class="d">-</a> on_stdout({chan-id}, <span class="s">{data}</span>, <span class="s">{name}</span>)		<span id="on_stdout" class="t">on_stdout</span>
+<a href="motion.txt.html#-" class="d">-</a> on_stderr({chan-id}, <span class="s">{data}</span>, <span class="s">{name}</span>)		<span id="on_stderr" class="t">on_stderr</span>
+<a href="motion.txt.html#-" class="d">-</a> on_stdin({chan-id}, <span class="s">{data}</span>, <span class="s">{name}</span>)		<span id="on_stdin" class="t">on_stdin</span>
+<a href="motion.txt.html#-" class="d">-</a> on_data({chan-id}, <span class="s">{data}</span>, <span class="s">{name}</span>)		<span id="on_data" class="t">on_data</span>
+
+    Scripts can react to <a href="channel.txt.html#channel" class="d">channel</a> activity (received data) via callback
+    <a href="vimeval.txt.html#functions" class="d">functions</a> assigned to the <span class="e">on_stdout</span>, <span class="e">on_stderr</span>, <span class="e">on_stdin</span>, or
+    <span class="e">on_data</span> option keys. Callbacks should be fast: avoid potentially
+    slow/expensive work.
+
+<span class="h">    Parameters: </span>
+      <a href="motion.txt.html#-" class="d">-</a> <span class="s">{chan-id}</span>   Channel handle. <a href="channel.txt.html#channel-id" class="l">channel-id</a>
+      <a href="motion.txt.html#-" class="d">-</a> <span class="s">{data}</span>	    Raw data <a href="motion.txt.html#%28" class="d">(</a><a href="vimfn.txt.html#readfile%28%29" class="l">readfile()</a>-style <a href="vimeval.txt.html#list" class="d">list</a> of strings) read from
+		    the channel. EOF <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> single-item list: <span class="e">['']</span>. First and
+		    last items may be <a href="vimfn.txt.html#partial" class="d">partial</a> lines! <a href="channel.txt.html#channel-lines" class="l">channel-lines</a>
+      <a href="motion.txt.html#-" class="d">-</a> <span class="s">{name}</span>	    Stream name (string) like "stdout"<a href="motion.txt.html#%2C" class="d">,</a> so the same function
+		    can handle multiple streams. Event names depend on how the
+		    <a href="channel.txt.html#channel" class="d">channel</a> was opened and in what mode/protocol.
+
+						<span id="channel-buffered" class="t">channel-buffered</span>
+    The callback <a href="motion.txt.html#is" class="d">is</a> invoked immediately <a href="motion.txt.html#as" class="d">as</a> data <a href="motion.txt.html#is" class="d">is</a> available, where
+    <a href="insert.txt.html#a" class="d">a</a> single-item <a href="vimeval.txt.html#list" class="d">list</a> <span class="e">['']</span> indicates EOF (stream closed).  Alternatively
+    set the <span class="e">stdout_buffered</span>, <span class="e">stderr_buffered</span>, <span class="e">stdin_buffered</span>, or
+    <span class="e">data_buffered</span> option keys to invoke the callback only after all output
+    was gathered and the stream was closed.
+						<span id="E5210" class="t">E5210</span>
+    If <a href="insert.txt.html#a" class="d">a</a> buffering mode <a href="motion.txt.html#is" class="d">is</a> used without <a href="insert.txt.html#a" class="d">a</a> callback, the data <a href="motion.txt.html#is" class="d">is</a> saved in the
+    stream <span class="s">{name}</span> key of the <a href="options.txt.html#options" class="d">options</a> dict. It <a href="motion.txt.html#is" class="d">is</a> an error if the key exists.
+
+							      <span id="channel-lines" class="t">channel-lines</span>
+    Stream event handlers receive data <a href="motion.txt.html#as" class="d">as</a> <a href="motion.txt.html#it" class="d">it</a> becomes available from the OS,
+    thus the first and last items in the <span class="s">{data}</span> <a href="vimeval.txt.html#list" class="d">list</a> may be <a href="vimfn.txt.html#partial" class="d">partial</a> lines.
+    Empty <a href="vimeval.txt.html#string" class="d">string</a> completes the previous <a href="vimfn.txt.html#partial" class="d">partial</a> line. Examples (not including
+    the final <span class="e">['']</span> emitted <a href="motion.txt.html#at" class="d">at</a> EOF):
+      <a href="motion.txt.html#-" class="d">-</a> <span class="e">foobar</span> may arrive <a href="motion.txt.html#as" class="d">as</a> `['fo'], ['obar']`
+      <a href="motion.txt.html#-" class="d">-</a> <span class="e">foo\nbar</span> may arrive <a href="motion.txt.html#as" class="d">as</a>
+	<a href="motion.txt.html#-" class="d">-</a> <span class="e">['foo','bar']</span>
+	<a href="motion.txt.html#-" class="d">-</a> or `['foo',''], ['bar']`
+	<a href="motion.txt.html#-" class="d">-</a> or `['foo'], ['','bar']`
+	<a href="motion.txt.html#-" class="d">-</a> or `['fo'], ['o','bar']`
+
+    There are two ways to deal with this:
+    <a href="motion.txt.html#-" class="d">-</a> 1. To wait <a href="luaref.txt.html#for" class="d">for</a> the entire output, use <a href="channel.txt.html#channel-buffered" class="l">channel-buffered</a> mode.
+    <a href="motion.txt.html#-" class="d">-</a> 2. To read line-by-line, use the following code: 
+<span class="e">	let s:lines = ['']</span>
+<span class="e">	func! s:on_event(job_id, data, event) dict</span>
+<span class="e">	  let eof = (a:data == [''])</span>
+<span class="e">	  " Complete the previous line.</span>
+<span class="e">	  let s:lines[-1] .= a:data[0]</span>
+<span class="e">	  " Append (last item may be a partial line, until EOF).</span>
+<span class="e">	  call extend(s:lines, a:data[1:])</span>
+<span class="e">	endf</span>
+
+
+If the callback <a href="vimeval.txt.html#functions" class="d">functions</a> are <a href="vimeval.txt.html#Dictionary-function" class="l">Dictionary-function</a>s, <a href="vimeval.txt.html#self" class="l">self</a> refers to the
+<a href="options.txt.html#options" class="d">options</a> dictionary containing the callbacks. <a href="vimeval.txt.html#Partial" class="l">Partial</a><a href="change.txt.html#s" class="d">s</a> can also be used <a href="motion.txt.html#as" class="d">as</a>
+callbacks.
+
+Data can be sent to the <a href="channel.txt.html#channel" class="d">channel</a> using the <a href="vimfn.txt.html#chansend%28%29" class="l">chansend()</a> function. Here <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+simple example, echoing some data through <a href="insert.txt.html#a" class="d">a</a> cat-process:
+
+<span class="e">    function! s:OnEvent(id, data, event) dict</span>
+<span class="e">      let str = join(a:data, "\n")</span>
+<span class="e">      echomsg str</span>
+<span class="e">    endfunction</span>
+<span class="e">    let id = jobstart(['cat'], {'on_stdout': function('s:OnEvent') } )</span>
+<span class="e">    call chansend(id, "hello!")</span>
+
+
+Here <a href="motion.txt.html#is" class="d">is</a> an example of setting <a href="insert.txt.html#a" class="d">a</a> buffer to the result of grep, but only after
+all data has been processed:
+
+<span class="e">    function! s:OnEvent(id, data, event) dict</span>
+<span class="e">      call nvim_buf_set_lines(2, 0, -1, v:true, a:data)</span>
+<span class="e">    endfunction</span>
+<span class="e">    let id = jobstart(['grep', '^[0-9]'], { 'on_stdout': function('s:OnEvent'),</span>
+<span class="e">					  \ 'stdout_buffered':v:true } )</span>
+<span class="e"></span>
+<span class="e">    call chansend(id, "stuff\n10 PRINT \"NVIM\"\nxx")</span>
+<span class="e">    " no output is received, buffer is empty</span>
+<span class="e"></span>
+<span class="e">    call chansend(id, "xx\n20 GOTO 10\nzz\n")</span>
+<span class="e">    call chanclose(id, 'stdin')</span>
+<span class="e">    " now buffer has result</span>
+
+For additional examples with jobs, see <a href="job_control.txt.html#job-control" class="l">job-control</a><a href="repeat.txt.html#." class="d">.</a>
+
+							      <span id="channel-pty" class="t">channel-pty</span>
+Special case: PTY channels opened with `jobstart(..., <span class="s">{'pty': v:true}</span>)` <a href="diff.txt.html#do" class="d">do</a> not
+preprocess ANSI <a href="intro.txt.html#escape" class="d">escape</a> sequences, these will be sent raw to the callback.
+However, change of PTY size can be signaled to the slave using <a href="vimfn.txt.html#jobresize%28%29" class="l">jobresize()</a><a href="repeat.txt.html#." class="d">.</a>
+See also <a href="terminal.txt.html#terminal-emulator" class="l">terminal-emulator</a><a href="repeat.txt.html#." class="d">.</a>
+
+Terminal characteristics (termios) <a href="luaref.txt.html#for" class="d">for</a> <a href="various.txt.html#%3Aterminal" class="l">:terminal</a> and PTY channels are copied
+from the host TTY, or if Nvim <a href="motion.txt.html#is" class="d">is</a> <a href="starting.txt.html#--headless" class="l">--headless</a> <a href="motion.txt.html#it" class="d">it</a> uses default values: 
+<span class="e">    :echo system('nvim --headless +"te stty -a" +"sleep 1" +"1,/^$/print" +q')</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+3. Communicating with msgpack <a href="api.txt.html#RPC" class="d">RPC</a>			      <span id="channel-rpc" class="t">channel-rpc</span>
+
+When channels are opened with the <span class="e">rpc</span> option set to true, the <a href="channel.txt.html#channel" class="d">channel</a> can be
+used <a href="luaref.txt.html#for" class="d">for</a> remote <a href="vimeval.txt.html#method" class="d">method</a> calls in both directions, see <a href="api.txt.html#msgpack-rpc" class="l">msgpack-rpc</a><a href="repeat.txt.html#." class="d">.</a> <span class="n">Note</span> that
+<a href="api.txt.html#rpc" class="d">rpc</a> channels are implicitly trusted and the process <a href="motion.txt.html#at" class="d">at</a> the other <a href="intro.txt.html#end" class="d">end</a> can
+invoke any <a href="api.txt.html#API" class="l">API</a> function!
+
+<span class="h">==============================================================================</span>
+4. Standard IO <a href="channel.txt.html#channel" class="d">channel</a>					    <span id="channel-stdio" class="t">channel-stdio</span>
+
+Nvim uses stdin/stdout to interact with the user over the <a href="terminal.txt.html#terminal" class="d">terminal</a> interface
+(TUI). If Nvim <a href="motion.txt.html#is" class="d">is</a> <a href="starting.txt.html#--headless" class="l">--headless</a> the <a href="tui.txt.html#TUI" class="d">TUI</a> <a href="motion.txt.html#is" class="d">is</a> not started and stdin/stdout can be
+used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> channel. See also <a href="starting.txt.html#--embed" class="l">--embed</a><a href="repeat.txt.html#." class="d">.</a>
+
+Call <a href="vimfn.txt.html#stdioopen%28%29" class="l">stdioopen()</a> during <a href="starting.txt.html#startup" class="l">startup</a> to open the stdio <a href="channel.txt.html#channel" class="d">channel</a> <a href="motion.txt.html#as" class="d">as</a> <a href="channel.txt.html#channel-id" class="l">channel-id</a> 1.
+Nvim's stderr <a href="motion.txt.html#is" class="d">is</a> always available <a href="motion.txt.html#as" class="d">as</a> <a href="vvars.txt.html#v%3Astderr" class="l">v:stderr</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="insert.txt.html#a" class="d">a</a> write-only bytes channel.
+
+Example: 
+<span class="e">    func! OnEvent(id, data, event)</span>
+<span class="e">      if a:data == [""]</span>
+<span class="e">        quit</span>
+<span class="e">      end</span>
+<span class="e">      call chansend(a:id, map(a:data, {i,v -&gt; toupper(v)}))</span>
+<span class="e">    endfunc</span>
+<span class="e">    call stdioopen({'on_stdin': 'OnEvent'})</span>
+
+Put this in <span class="e">uppercase.vim</span> and run:  &gt;bash
+    <a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#--headless" class="d">--headless</a> <a href="starting.txt.html#--cmd" class="d">--cmd</a> "source uppercase.vim"
+
+<span class="h">==============================================================================</span>
+5. Using <a href="insert.txt.html#a" class="d">a</a> prompt buffer				<span id="prompt-buffer" class="t">prompt-buffer</span>
+
+If you want to type input <a href="luaref.txt.html#for" class="d">for</a> the <a href="job_control.txt.html#job" class="d">job</a> in <a href="insert.txt.html#a" class="d">a</a> Vim <a href="windows.txt.html#window" class="d">window</a> you have <a href="insert.txt.html#a" class="d">a</a> few options:
+<a href="motion.txt.html#-" class="d">-</a> Use <a href="insert.txt.html#a" class="d">a</a> normal buffer and handle all possible commands yourself.
+  This will be complicated, since there are so many possible commands.
+<a href="motion.txt.html#-" class="d">-</a> Use <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> window.  This works well if what you type goes directly to
+  the <a href="job_control.txt.html#job" class="d">job</a> and the <a href="job_control.txt.html#job" class="d">job</a> output <a href="motion.txt.html#is" class="d">is</a> directly displayed in the window.
+  See <a href="terminal.txt.html#terminal" class="l">terminal</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> Use <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> with <a href="insert.txt.html#a" class="d">a</a> prompt buffer. This works well when entering <a href="insert.txt.html#a" class="d">a</a> line <a href="luaref.txt.html#for" class="d">for</a>
+  the <a href="job_control.txt.html#job" class="d">job</a> in Vim while displaying (possibly filtered) output from the job.
+
+<a href="insert.txt.html#A" class="d">A</a> prompt buffer <a href="motion.txt.html#is" class="d">is</a> created by setting <a href="options.txt.html#%27buftype%27" class="o">'buftype'</a> to "prompt"<a href="repeat.txt.html#." class="d">.</a> You would
+normally only <a href="diff.txt.html#do" class="d">do</a> that in <a href="insert.txt.html#a" class="d">a</a> newly created buffer.
+
+The user can edit and enter one line of text <a href="motion.txt.html#at" class="d">at</a> the very last line of the
+buffer.  When pressing Enter in the prompt line the callback set with
+<a href="vimfn.txt.html#prompt_setcallback%28%29" class="l">prompt_setcallback()</a> <a href="motion.txt.html#is" class="d">is</a> invoked.  It would normally send the line to <a href="insert.txt.html#a" class="d">a</a> job.
+Another callback would receive the output from the <a href="job_control.txt.html#job" class="d">job</a> and display <a href="motion.txt.html#it" class="d">it</a> in the
+buffer, below the prompt (and above the next prompt).
+
+Only the text in the last line, after the prompt, <a href="motion.txt.html#is" class="d">is</a> editable. The rest of the
+buffer <a href="motion.txt.html#is" class="d">is</a> not modifiable with <a href="intro.txt.html#Normal" class="d">Normal</a> mode commands.  It can be modified by
+calling functions, such <a href="motion.txt.html#as" class="d">as</a> <a href="vimfn.txt.html#append%28%29" class="l">append()</a><a href="repeat.txt.html#." class="d">.</a>  Using other commands may mess up the
+buffer.
+
+After setting <a href="options.txt.html#%27buftype%27" class="o">'buftype'</a> to "prompt" Vim does not automatically start <a href="insert.txt.html#Insert" class="d">Insert</a>
+mode, use <span class="e">:startinsert</span> if you want to enter <a href="insert.txt.html#Insert" class="d">Insert</a> mode, so that the user
+can start typing <a href="insert.txt.html#a" class="d">a</a> line.
+
+The text of the prompt can be set with the <a href="vimfn.txt.html#prompt_setprompt%28%29" class="l">prompt_setprompt()</a> function. If
+no prompt <a href="motion.txt.html#is" class="d">is</a> set with <a href="vimfn.txt.html#prompt_setprompt%28%29" class="l">prompt_setprompt()</a><a href="motion.txt.html#%2C" class="d">,</a> "<a href="motion.txt.html#%25" class="d">%</a> " <a href="motion.txt.html#is" class="d">is</a> used. You can get the
+effective prompt text <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> buffer, with <a href="vimfn.txt.html#prompt_getprompt%28%29" class="l">prompt_getprompt()</a><a href="repeat.txt.html#." class="d">.</a>
+
+The user can <a href="motion.txt.html#go" class="d">go</a> to <a href="intro.txt.html#Normal" class="d">Normal</a> mode and navigate through the buffer.  This can be
+useful to see older output or copy text.
+
+The <a href="index.txt.html#CTRL-W" class="k">CTRL-W</a> key can be used to start <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> command, such <a href="motion.txt.html#as" class="d">as</a> <a href="index.txt.html#CTRL-W" class="k">CTRL-W</a> <a href="motion.txt.html#w" class="d">w</a> to
+switch to the next window.  This also works in <a href="insert.txt.html#Insert" class="d">Insert</a> mode (use Shift-CTRL-W
+to delete <a href="insert.txt.html#a" class="d">a</a> word). When leaving the <a href="windows.txt.html#window" class="d">window</a> <a href="insert.txt.html#Insert" class="d">Insert</a> mode will be stopped.  When
+coming back to the prompt <a href="windows.txt.html#window" class="d">window</a> <a href="insert.txt.html#Insert" class="d">Insert</a> mode will be restored.
+
+Any command that starts <a href="insert.txt.html#Insert" class="d">Insert</a> mode, such <a href="motion.txt.html#as" class="d">as</a> "<a href="insert.txt.html#a" class="d">a</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="insert.txt.html#i" class="d">i</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="insert.txt.html#A" class="d">A</a>" and "<a href="insert.txt.html#I" class="d">I</a>"<a href="motion.txt.html#%2C" class="d">,</a> will move
+the cursor to the last line.  "<a href="insert.txt.html#A" class="d">A</a>" will move to the <a href="intro.txt.html#end" class="d">end</a> of the line, "<a href="insert.txt.html#I" class="d">I</a>" to the
+start of the line.
+
+Here <a href="motion.txt.html#is" class="d">is</a> an example <a href="luaref.txt.html#for" class="d">for</a> Unix.  It starts <a href="insert.txt.html#a" class="d">a</a> shell in the background and prompts
+<a href="luaref.txt.html#for" class="d">for</a> the next shell command.  Output from the shell <a href="motion.txt.html#is" class="d">is</a> displayed above the
+prompt. 
+<span class="e"></span>
+<span class="e">	" Function handling a line of text that has been typed.</span>
+<span class="e">	func TextEntered(text)</span>
+<span class="e">	  " Send the text to a shell with Enter appended.</span>
+<span class="e">	  call chansend(g:shell_job, [a:text, ''])</span>
+<span class="e">	endfunc</span>
+<span class="e"></span>
+<span class="e">	" Function handling output from the shell: Add it above the prompt.</span>
+<span class="e">	func GotOutput(channel, msg, name)</span>
+<span class="e">	  call append(line("$") - 1, a:msg)</span>
+<span class="e">	endfunc</span>
+<span class="e"></span>
+<span class="e">	" Function handling the shell exits: close the window.</span>
+<span class="e">	func JobExit(job, status, event)</span>
+<span class="e">	  quit!</span>
+<span class="e">	endfunc</span>
+<span class="e"></span>
+<span class="e">	" Start a shell in the background.</span>
+<span class="e">	let shell_job = jobstart(["/bin/sh"], #{</span>
+<span class="e">		\ on_stdout: function('GotOutput'),</span>
+<span class="e">		\ on_stderr: function('GotOutput'),</span>
+<span class="e">		\ on_exit: function('JobExit'),</span>
+<span class="e">		\ })</span>
+<span class="e"></span>
+<span class="e">	new</span>
+<span class="e">	set buftype=prompt</span>
+<span class="e">	let buf = bufnr('')</span>
+<span class="e">	call prompt_setcallback(buf, function("TextEntered"))</span>
+<span class="e">	call prompt_setprompt(buf, "shell command: ")</span>
+<span class="e"></span>
+<span class="e">	" start accepting shell commands</span>
+<span class="e">	startinsert</span>
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: editing.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="editing.txt.html#">↑Top↑</a></li>
+<li><a href="editing.txt.html#edit-intro">Introduction</a></li>
+<li><a href="editing.txt.html#edit-a-file">Editing a file</a></li>
+<li><a href="editing.txt.html#argument-list">The argument list</a></li>
+<li><a href="editing.txt.html#writing">Writing</a></li>
+<li><a href="editing.txt.html#write-quit">Writing and quitting</a></li>
+<li><a href="editing.txt.html#edit-dialogs">Dialogs</a></li>
+<li><a href="editing.txt.html#current-directory">The current directory</a></li>
+<li><a href="editing.txt.html#edit-binary">Editing binary files</a></li>
+<li><a href="editing.txt.html#encryption">Encryption</a></li>
+<li><a href="editing.txt.html#timestamp">Timestamps</a></li>
+<li><a href="editing.txt.html#file-searching">File Searching</a></li>
+<li><a href="editing.txt.html#trust">Trusted Files</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="editing.txt" class="t">editing.txt</span>   Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL    by Bram Moolenaar</span>
+
+
+Editing files						<span id="edit-files" class="t">edit-files</span>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+1. Introduction						<span id="edit-intro" class="t">edit-intro</span>
+
+Editing <a href="insert.txt.html#a" class="d">a</a> file with Vim means:
+
+1. reading the file into <a href="insert.txt.html#a" class="d">a</a> buffer
+2. <a href="change.txt.html#changing" class="d">changing</a> the buffer with editor commands
+3. <a href="editing.txt.html#writing" class="d">writing</a> the buffer into <a href="insert.txt.html#a" class="d">a</a> file
+
+							<span id="current-file" class="t">current-file</span>
+As long <a href="motion.txt.html#as" class="d">as</a> you don't write the buffer, the original file remains unchanged.
+If you start editing <a href="insert.txt.html#a" class="d">a</a> file (read <a href="insert.txt.html#a" class="d">a</a> file into the buffer), the file name <a href="motion.txt.html#is" class="d">is</a>
+remembered <a href="motion.txt.html#as" class="d">as</a> the "current file name"<a href="repeat.txt.html#." class="d">.</a>  This <a href="motion.txt.html#is" class="d">is</a> also known <a href="motion.txt.html#as" class="d">as</a> the name of the
+current buffer.  It can be used with "<a href="motion.txt.html#%25" class="d">%</a>" on the command line <a href="cmdline.txt.html#%3A_%25" class="l">:_%</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="alternate-file" class="t">alternate-file</span>
+If there already was <a href="insert.txt.html#a" class="d">a</a> current file name, then that one becomes the alternate
+file name.  It can be used with "<a href="pattern.txt.html#%23" class="d">#</a>" on the command line <a href="cmdline.txt.html#%3A_%23" class="l">:_#</a> and you can use
+the <a href="editing.txt.html#CTRL-%5E" class="l">CTRL-^</a> command to <a href="options.txt.html#toggle" class="d">toggle</a> between the current and the alternate file.
+However, the alternate file name <a href="motion.txt.html#is" class="d">is</a> not changed when <a href="editing.txt.html#%3Akeepalt" class="l">:keepalt</a> <a href="motion.txt.html#is" class="d">is</a> used.
+An alternate file name <a href="motion.txt.html#is" class="d">is</a> remembered <a href="luaref.txt.html#for" class="d">for</a> each window.
+
+							<span id="%3Akeepalt" class="t">:keepalt</span> <span id="%3Akeepa" class="t">:keepa</span>
+<a href="editing.txt.html#%3Akeepalt" class="d">:keepalt</a> <span class="s">{cmd}</span>		Execute <span class="s">{cmd}</span> while keeping the current alternate file
+			name.  <span class="n">Note</span> that commands invoked indirectly (e.g.,
+			with <a href="insert.txt.html#a" class="d">a</a> function) may still set the alternate file
+			name.
+
+All file names are remembered in the buffer list.  When you enter <a href="insert.txt.html#a" class="d">a</a> file name,
+<a href="luaref.txt.html#for" class="d">for</a> editing (e.g., with "<a href="editing.txt.html#%3Ae" class="d">:e</a> filename"<a href="motion.txt.html#%29" class="d">)</a> or <a href="editing.txt.html#writing" class="d">writing</a> (e.g., with "<a href="editing.txt.html#%3Aw" class="d">:w</a> filename"),
+the file name <a href="motion.txt.html#is" class="d">is</a> added to the list.  You can use the buffer <a href="vimeval.txt.html#list" class="d">list</a> to remember
+which files you edited and to quickly switch from one file to another (e.g.,
+to copy text) with the <a href="editing.txt.html#CTRL-%5E" class="l">CTRL-^</a> command.  First type the number of the file
+and then hit <a href="editing.txt.html#CTRL-%5E" class="k">CTRL-^</a>.
+
+
+<a href="editing.txt.html#CTRL-G" class="k">CTRL-G</a>		or				<span id="CTRL-G" class="t">CTRL-G</span> <span id="%3Af" class="t">:f</span> <span id="%3Afi" class="t">:fi</span> <span id="%3Afile" class="t">:file</span>
+:f[ile]			Prints the current file name (as typed, unless "<a href="editing.txt.html#%3Acd" class="d">:cd</a>"
+			was used), the cursor position (unless the <a href="options.txt.html#%27ruler%27" class="o">'ruler'</a>
+			option <a href="motion.txt.html#is" class="d">is</a> set), and the file status (readonly,
+			modified, read errors, new file).  See the <a href="options.txt.html#%27shortmess%27" class="o">'shortmess'</a>
+			option about how to make this message shorter.
+
+:f[ile]!		like <a href="editing.txt.html#%3Afile" class="l">:file</a><a href="motion.txt.html#%2C" class="d">,</a> but don't truncate the name even when
+			<a href="options.txt.html#%27shortmess%27" class="o">'shortmess'</a> indicates this.
+
+<span class="s">{count}</span><a href="editing.txt.html#CTRL-G" class="k">CTRL-G</a>		Like <a href="editing.txt.html#CTRL-G" class="k">CTRL-G</a>, but prints the current file name with
+			full path.  If the <a href="intro.txt.html#count" class="d">count</a> <a href="motion.txt.html#is" class="d">is</a> higher than 1 the current
+			buffer number <a href="motion.txt.html#is" class="d">is</a> also given.
+
+					<span id="g_CTRL-G" class="t">g_CTRL-G</span> <span id="word-count" class="t">word-count</span> <span id="byte-count" class="t">byte-count</span>
+<a href="index.txt.html#g" class="d">g</a> <a href="editing.txt.html#CTRL-G" class="k">CTRL-G</a>		Prints the current position of the cursor in five
+			ways: Column, Line, Word, Character and Byte.  If the
+			number of Characters and Bytes <a href="motion.txt.html#is" class="d">is</a> the same then the
+			Character position <a href="motion.txt.html#is" class="d">is</a> omitted.
+
+			If there are characters in the line that take more
+			than one position on the screen (&lt;Tab&gt; or special
+			character), or characters using more than one byte per
+			column (characters above 0x7F when <a href="options.txt.html#%27encoding%27" class="o">'encoding'</a> <a href="motion.txt.html#is" class="d">is</a>
+			utf-8), both the byte column and the screen column are
+			shown, separated by <a href="insert.txt.html#a" class="d">a</a> dash.
+
+			Also see the <a href="options.txt.html#%27ruler%27" class="o">'ruler'</a> option and the <a href="vimfn.txt.html#wordcount%28%29" class="l">wordcount()</a>
+			function.
+
+							<span id="v_g_CTRL-G" class="t">v_g_CTRL-G</span>
+<a href="intro.txt.html#%7BVisual%7D" class="s">{Visual}</a>g <a href="editing.txt.html#CTRL-G" class="k">CTRL-G</a>	Similar to "<a href="index.txt.html#g" class="d">g</a> <a href="editing.txt.html#CTRL-G" class="k">CTRL-G</a>"<a href="motion.txt.html#%2C" class="d">,</a> but Word, Character, Line, and
+			Byte counts <a href="luaref.txt.html#for" class="d">for</a> the visually selected region are
+			displayed.
+			In Blockwise mode, Column <a href="intro.txt.html#count" class="d">count</a> <a href="motion.txt.html#is" class="d">is</a> also shown.  (For
+			<a href="intro.txt.html#%7BVisual%7D" class="s">{Visual}</a> see <a href="visual.txt.html#Visual-mode" class="l">Visual-mode</a>.)
+
+							<span id="%3Afile_f" class="t">:file_f</span>
+:f[ile][!] <span class="s">{name}</span>	Sets the current file name to <span class="s">{name}</span>.  The optional <a href="change.txt.html#%21" class="d">!</a>
+			avoids truncating the message, <a href="motion.txt.html#as" class="d">as</a> with <a href="editing.txt.html#%3Afile" class="l">:file</a><a href="repeat.txt.html#." class="d">.</a>
+			If the buffer did have <a href="insert.txt.html#a" class="d">a</a> name, that name becomes the
+			<a href="editing.txt.html#alternate-file" class="l">alternate-file</a> name.  An unlisted buffer <a href="motion.txt.html#is" class="d">is</a> created
+			to hold the old name.
+							<span id="%3A0file" class="t">:0file</span>
+:0f[ile][!]		Remove the name of the current buffer.  The optional <a href="change.txt.html#%21" class="d">!</a>
+			avoids truncating the message, <a href="motion.txt.html#as" class="d">as</a> with <a href="editing.txt.html#%3Afile" class="l">:file</a><a href="repeat.txt.html#." class="d">.</a>
+
+<a href="windows.txt.html#%3Abuffers" class="d">:buffers</a>
+<a href="windows.txt.html#%3Afiles" class="d">:files</a>
+<a href="windows.txt.html#%3Als" class="d">:ls</a>			<a href="vimeval.txt.html#List" class="d">List</a> all the currently known file names.  See
+			<a href="windows.txt.html#windows.txt" class="l">windows.txt</a> <a href="windows.txt.html#%3Afiles" class="l">:files</a> <a href="windows.txt.html#%3Abuffers" class="l">:buffers</a> <a href="windows.txt.html#%3Als" class="l">:ls</a><a href="repeat.txt.html#." class="d">.</a>
+
+Vim will remember the full path name of <a href="insert.txt.html#a" class="d">a</a> file name that you enter.  In most
+cases when the file name <a href="motion.txt.html#is" class="d">is</a> displayed only the name you typed <a href="motion.txt.html#is" class="d">is</a> shown, but
+the full path name <a href="motion.txt.html#is" class="d">is</a> being used if you used the "<a href="editing.txt.html#%3Acd" class="d">:cd</a>" command <a href="editing.txt.html#%3Acd" class="l">:cd</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="home-replace" class="t">home-replace</span>
+If the environment variable <a href="options.txt.html#%24HOME" class="d">$HOME</a> <a href="motion.txt.html#is" class="d">is</a> set, and the file name starts with that
+string, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> often displayed with HOME replaced with "<a href="change.txt.html#~" class="d">~</a>"<a href="repeat.txt.html#." class="d">.</a>  This was done to
+keep file names short.  When reading or <a href="editing.txt.html#writing" class="d">writing</a> files the full name <a href="motion.txt.html#is" class="d">is</a> still
+used, the "<a href="change.txt.html#~" class="d">~</a>" <a href="motion.txt.html#is" class="d">is</a> only used when displaying file names.  When <a href="change.txt.html#replacing" class="d">replacing</a> the
+file name would result in just "<a href="change.txt.html#~" class="d">~</a>"<a href="motion.txt.html#%2C" class="d">,</a> "~/" <a href="motion.txt.html#is" class="d">is</a> used instead (to avoid confusion
+between <a href="options.txt.html#options" class="d">options</a> set to <a href="options.txt.html#%24HOME" class="d">$HOME</a> with <a href="options.txt.html#%27backupext%27" class="o">'backupext'</a> set to "<a href="change.txt.html#~" class="d">~</a>").
+
+When <a href="editing.txt.html#writing" class="d">writing</a> the buffer, the default <a href="motion.txt.html#is" class="d">is</a> to use the current file name.  Thus
+when you give the "<a href="editing.txt.html#ZZ" class="d">ZZ</a>" or "<a href="editing.txt.html#%3Awq" class="d">:wq</a>" command, the original file will be
+overwritten.  If you <a href="diff.txt.html#do" class="d">do</a> not want this, the buffer can be written into another
+file by giving <a href="insert.txt.html#a" class="d">a</a> file name argument to the "<a href="editing.txt.html#%3Awrite" class="d">:write</a>" command.  For example: 
+<span class="e"></span>
+<span class="e">	vim testfile</span>
+<span class="e">	[change the buffer with editor commands]</span>
+<span class="e">	:w newfile</span>
+<span class="e">	:q</span>
+<span class="e"></span>
+This will create <a href="insert.txt.html#a" class="d">a</a> file "newfile"<a href="motion.txt.html#%2C" class="d">,</a> that <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> modified copy of "testfile"<a href="repeat.txt.html#." class="d">.</a>
+The file "testfile" will remain unchanged.  Anyway, if the <a href="options.txt.html#%27backup%27" class="o">'backup'</a> option <a href="motion.txt.html#is" class="d">is</a>
+set, Vim renames or copies the original file before <a href="motion.txt.html#it" class="d">it</a> will be overwritten.
+You can use this file if you discover that you need the original file.  See
+also the <a href="options.txt.html#%27patchmode%27" class="o">'patchmode'</a> option.  The name of the <a href="editing.txt.html#backup" class="d">backup</a> file <a href="motion.txt.html#is" class="d">is</a> normally the same
+<a href="motion.txt.html#as" class="d">as</a> the original file with <a href="options.txt.html#%27backupext%27" class="o">'backupext'</a> appended.  The default "<a href="change.txt.html#~" class="d">~</a>" <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> bit
+strange to avoid accidentally overwriting existing files.  If you prefer ".bak"
+change the <a href="options.txt.html#%27backupext%27" class="o">'backupext'</a> option.  The <a href="editing.txt.html#backup" class="d">backup</a> file can be placed in another
+directory by setting <a href="options.txt.html#%27backupdir%27" class="o">'backupdir'</a>.
+
+When you started editing without giving <a href="insert.txt.html#a" class="d">a</a> file name, "No File" <a href="motion.txt.html#is" class="d">is</a> displayed in
+messages.  If the "<a href="editing.txt.html#%3Awrite" class="d">:write</a>" command <a href="motion.txt.html#is" class="d">is</a> used with <a href="insert.txt.html#a" class="d">a</a> file name argument, the file
+name <a href="luaref.txt.html#for" class="d">for</a> the current file <a href="motion.txt.html#is" class="d">is</a> set to that file name.  This only happens when
+the 'F' flag <a href="motion.txt.html#is" class="d">is</a> included in <a href="options.txt.html#%27cpoptions%27" class="o">'cpoptions'</a> (by default <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> included) <a href="options.txt.html#cpo-F" class="l">cpo-F</a><a href="repeat.txt.html#." class="d">.</a>
+This <a href="motion.txt.html#is" class="d">is</a> useful when entering text in an empty buffer and then <a href="editing.txt.html#writing" class="d">writing</a> <a href="motion.txt.html#it" class="d">it</a> to <a href="insert.txt.html#a" class="d">a</a>
+file.  If <a href="options.txt.html#%27cpoptions%27" class="o">'cpoptions'</a> contains the 'f' flag (by default <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> NOT included)
+<a href="options.txt.html#cpo-f" class="l">cpo-f</a> the file name <a href="motion.txt.html#is" class="d">is</a> set <a href="luaref.txt.html#for" class="d">for</a> the "<a href="insert.txt.html#%3Aread" class="d">:read</a> file" command.  This <a href="motion.txt.html#is" class="d">is</a> useful
+when <a href="starting.txt.html#starting" class="d">starting</a> Vim without an argument and then doing "<a href="insert.txt.html#%3Aread" class="d">:read</a> file" to start
+editing <a href="insert.txt.html#a" class="d">a</a> file.
+When the file name was set and <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> <a href="motion.txt.html#is" class="d">is</a> empty the <a href="filetype.txt.html#filetype" class="d">filetype</a> detection
+autocommands will be triggered.
+							<span id="not-edited" class="t">not-edited</span>
+Because the file name was set without really <a href="starting.txt.html#starting" class="d">starting</a> to edit that file, you
+are protected from overwriting that file.  This <a href="motion.txt.html#is" class="d">is</a> done by setting the
+"notedited" flag.  You can see if this flag <a href="motion.txt.html#is" class="d">is</a> set with the <a href="editing.txt.html#CTRL-G" class="k">CTRL-G</a> or "<a href="editing.txt.html#%3Afile" class="d">:file</a>"
+command.  It will include "[Not edited]" when the "notedited" flag <a href="motion.txt.html#is" class="d">is</a> set.
+When <a href="editing.txt.html#writing" class="d">writing</a> the buffer to the current file name (with "<a href="editing.txt.html#%3Aw%21" class="d">:w!</a>"), the "notedited"
+flag <a href="motion.txt.html#is" class="d">is</a> reset.
+
+							<span id="abandon" class="t">abandon</span>
+Vim remembers whether you have changed the buffer.  You are protected from
+losing the changes you made.  If you try to quit without writing, or want to
+start editing another file, Vim will refuse this.  In order to overrule this
+protection, add <a href="insert.txt.html#a" class="d">a</a> '!' to the command.  The changes will then be lost.  For
+example: "<a href="editing.txt.html#%3Aq" class="d">:q</a>" will not work if the buffer was changed, but ":q!" will.  To see
+whether the buffer was changed use the "<a href="editing.txt.html#CTRL-G" class="k">CTRL-G</a>" command.  The message includes
+the <a href="vimeval.txt.html#string" class="d">string</a> "[Modified]" if the buffer has been changed, or "<a href="motion.txt.html#%2B" class="d">+</a>" if the 'm' flag
+<a href="motion.txt.html#is" class="d">is</a> in <a href="options.txt.html#%27shortmess%27" class="o">'shortmess'</a>.
+
+If you want to automatically save the changes without asking, switch on the
+<a href="options.txt.html#%27autowriteall%27" class="o">'autowriteall'</a> option.  <a href="options.txt.html#%27autowrite%27" class="o">'autowrite'</a> <a href="motion.txt.html#is" class="d">is</a> the associated Vi-compatible option
+that does not work <a href="luaref.txt.html#for" class="d">for</a> all commands.
+
+If you want to keep the changed buffer without saving it, switch on the
+<a href="options.txt.html#%27hidden%27" class="o">'hidden'</a> option.  See <a href="windows.txt.html#hidden-buffer" class="l">hidden-buffer</a><a href="repeat.txt.html#." class="d">.</a>  Some commands work like this even when
+<a href="options.txt.html#%27hidden%27" class="o">'hidden'</a> <a href="motion.txt.html#is" class="d">is</a> not set, check the <a href="helphelp.txt.html#help" class="d">help</a> <a href="luaref.txt.html#for" class="d">for</a> the command.
+
+<span class="h">==============================================================================</span>
+2. Editing <a href="insert.txt.html#a" class="d">a</a> file					<span id="edit-a-file" class="t">edit-a-file</span>
+
+							<span id="%3Ae" class="t">:e</span> <span id="%3Aedit" class="t">:edit</span> <span id="reload" class="t">reload</span>
+:e[dit][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>
+			Edit the current file.  This <a href="motion.txt.html#is" class="d">is</a> useful to re-edit the
+			current file, when <a href="motion.txt.html#it" class="d">it</a> has been changed outside of Vim.
+							<span id="%3Aedit%21" class="t">:edit!</span> <span id="discard" class="t">discard</span>
+			If [!] <a href="motion.txt.html#is" class="d">is</a> given, unsaved changes in the current buffer
+			are discarded. Without [!] the command fails if there
+			are unsaved changes, unless <a href="options.txt.html#%27autowriteall%27" class="o">'autowriteall'</a> <a href="motion.txt.html#is" class="d">is</a> set and
+			the file can be written.
+			Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Aedit_f" class="t">:edit_f</span>
+:e[dit][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>
+			Edit <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>.
+							<span id="%3Aedit%21_f" class="t">:edit!_f</span>
+			If [!] <a href="motion.txt.html#is" class="d">is</a> given, unsaved changes in the current buffer
+			are discarded. Without [!] the command fails if there
+			are unsaved changes, unless <a href="options.txt.html#%27hidden%27" class="o">'hidden'</a> <a href="motion.txt.html#is" class="d">is</a> set or
+			<a href="options.txt.html#%27autowriteall%27" class="o">'autowriteall'</a> <a href="motion.txt.html#is" class="d">is</a> set and the file can be written.
+			Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Aedit_%23" class="t">:edit_#</span> <span id="%3Ae%23" class="t">:e#</span>
+:e[dit] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> #[count]
+			Edit the <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a>th buffer (as shown by <a href="windows.txt.html#%3Afiles" class="l">:files</a>).
+			This command does the same <a href="motion.txt.html#as" class="d">as</a> <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="editing.txt.html#CTRL-%5E" class="k">CTRL-^</a>.  But "<a href="editing.txt.html#%3Ae" class="d">:e</a>
+			<a href="pattern.txt.html#%23" class="d">#</a>" doesn't work if the alternate buffer doesn't have <a href="insert.txt.html#a" class="d">a</a>
+			file name, while <a href="editing.txt.html#CTRL-%5E" class="k">CTRL-^</a> still works then.
+			Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Aene" class="t">:ene</span> <span id="%3Aenew" class="t">:enew</span>
+:ene[w]			Edit <a href="insert.txt.html#a" class="d">a</a> new, unnamed buffer.  This fails when changes
+			have been made to the current buffer, unless <a href="options.txt.html#%27hidden%27" class="o">'hidden'</a>
+			<a href="motion.txt.html#is" class="d">is</a> set or <a href="options.txt.html#%27autowriteall%27" class="o">'autowriteall'</a> <a href="motion.txt.html#is" class="d">is</a> set and the file can be
+			written.
+			If <a href="options.txt.html#%27fileformats%27" class="o">'fileformats'</a> <a href="motion.txt.html#is" class="d">is</a> not empty, the first format given
+			will be used <a href="luaref.txt.html#for" class="d">for</a> the new buffer.  If <a href="options.txt.html#%27fileformats%27" class="o">'fileformats'</a> <a href="motion.txt.html#is" class="d">is</a>
+			empty, the <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> of the current buffer <a href="motion.txt.html#is" class="d">is</a> used.
+
+							<span id="%3Aene%21" class="t">:ene!</span> <span id="%3Aenew%21" class="t">:enew!</span>
+:ene[w]!		Edit <a href="insert.txt.html#a" class="d">a</a> new, unnamed buffer.  Discard any changes to
+			the current buffer.
+			Set <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> like <a href="editing.txt.html#%3Aenew" class="l">:enew</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Afin" class="t">:fin</span> <span id="%3Afind" class="t">:find</span>
+:fin[d][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>
+			Find <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> in <a href="options.txt.html#%27path%27" class="o">'path'</a> and then <a href="editing.txt.html#%3Aedit" class="l">:edit</a> it.
+			See also: <a href="options.txt.html#%27findfunc%27" class="o">'findfunc'</a>.
+
+:{count}fin[d][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>
+			Just like "<a href="editing.txt.html#%3Afind" class="d">:find</a>"<a href="motion.txt.html#%2C" class="d">,</a> but use the <span class="s">{count}</span> match in
+			<a href="options.txt.html#%27path%27" class="o">'path'</a>.  Thus ":2find file" will find the second
+			"file" found in <a href="options.txt.html#%27path%27" class="o">'path'</a>.  When there are fewer matches
+			<a href="luaref.txt.html#for" class="d">for</a> the file in <a href="options.txt.html#%27path%27" class="o">'path'</a> than asked for, you get an
+			error message.
+
+							<span id="%3Aex" class="t">:ex</span>
+<a href="editing.txt.html#%3Aex" class="d">:ex</a> <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <span class="s">[file]</span>
+			Same <a href="motion.txt.html#as" class="d">as</a> <a href="editing.txt.html#%3Aedit" class="l">:edit</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Avi" class="t">:vi</span> <span id="%3Avisual" class="t">:visual</span>
+:vi[sual][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <span class="s">[file]</span>
+			When used in <a href="intro.txt.html#Ex" class="d">Ex</a> mode: Leave <a href="intro.txt.html#Ex-mode" class="l">Ex-mode</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#go" class="d">go</a> back to
+			<a href="intro.txt.html#Normal" class="d">Normal</a> mode.  Otherwise same <a href="motion.txt.html#as" class="d">as</a> <a href="editing.txt.html#%3Aedit" class="l">:edit</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Avie" class="t">:vie</span> <span id="%3Aview" class="t">:view</span>
+:vie[w][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> file
+			When used in <a href="intro.txt.html#Ex" class="d">Ex</a> mode: Leave <a href="intro.txt.html#Ex-mode" class="l">Ex-mode</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#go" class="d">go</a> back to
+			<a href="intro.txt.html#Normal" class="d">Normal</a> mode.  Otherwise same <a href="motion.txt.html#as" class="d">as</a> <a href="editing.txt.html#%3Aedit" class="l">:edit</a><a href="motion.txt.html#%2C" class="d">,</a> but set
+			<a href="options.txt.html#%27readonly%27" class="o">'readonly'</a> option <a href="luaref.txt.html#for" class="d">for</a> this buffer.
+
+							<span id="CTRL-%5E" class="t">CTRL-^</span> <span id="CTRL-6" class="t">CTRL-6</span>
+<a href="editing.txt.html#CTRL-%5E" class="k">CTRL-^</a>			Edit the alternate file.  Mostly the alternate file <a href="motion.txt.html#is" class="d">is</a>
+			the previously edited file.  This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> quick way to
+			<a href="options.txt.html#toggle" class="d">toggle</a> between two files.  It <a href="motion.txt.html#is" class="d">is</a> equivalent to "<a href="editing.txt.html#%3Ae" class="d">:e</a> <a href="pattern.txt.html#%23" class="d">#</a>"<a href="motion.txt.html#%2C" class="d">,</a>
+			except that <a href="motion.txt.html#it" class="d">it</a> also works when there <a href="motion.txt.html#is" class="d">is</a> no file name.
+
+			If the <a href="options.txt.html#%27autowrite%27" class="o">'autowrite'</a> or <a href="options.txt.html#%27autowriteall%27" class="o">'autowriteall'</a> option <a href="motion.txt.html#is" class="d">is</a> on and
+			the buffer was changed, write it.
+			Mostly the <a href="motion.txt.html#%5E" class="d">^</a> character <a href="motion.txt.html#is" class="d">is</a> positioned on the 6 key,
+			pressing CTRL and 6 then gets you what we call <a href="editing.txt.html#CTRL-%5E" class="k">CTRL-^</a>.
+			But on some non-US keyboards <a href="editing.txt.html#CTRL-%5E" class="k">CTRL-^</a> <a href="motion.txt.html#is" class="d">is</a> produced in
+			another way.
+
+<span class="s">{count}</span><a href="editing.txt.html#CTRL-%5E" class="k">CTRL-^</a>		Edit <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a>th file in the buffer <a href="vimeval.txt.html#list" class="d">list</a> (equivalent to
+			"<a href="editing.txt.html#%3Ae" class="d">:e</a> #[count]").  This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> quick way to switch between
+			files.
+			See <a href="editing.txt.html#CTRL-%5E" class="l">CTRL-^</a> above <a href="luaref.txt.html#for" class="d">for</a> further details.
+
+							<span id="gf" class="t">gf</span> <span id="E446" class="t">E446</span> <span id="E447" class="t">E447</span>
+<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a>gf		Edit the file whose name <a href="motion.txt.html#is" class="d">is</a> under or after the cursor.
+			Mnemonic: "goto file"<a href="repeat.txt.html#." class="d">.</a>
+			Uses the <a href="options.txt.html#%27isfname%27" class="o">'isfname'</a> option to find out which characters
+			are supposed to be in <a href="insert.txt.html#a" class="d">a</a> file name.  Trailing
+			punctuation characters ".,:;!" are ignored. Escaped
+			spaces "\ " are reduced to <a href="insert.txt.html#a" class="d">a</a> single space.
+			Uses the <a href="options.txt.html#%27path%27" class="o">'path'</a> option <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of directory names to
+			look <a href="luaref.txt.html#for" class="d">for</a> the file.  See the <a href="options.txt.html#%27path%27" class="o">'path'</a> option <a href="luaref.txt.html#for" class="d">for</a> details
+			about relative directories and wildcards.
+			Uses the <a href="options.txt.html#%27suffixesadd%27" class="o">'suffixesadd'</a> option to check <a href="luaref.txt.html#for" class="d">for</a> file names
+			with <a href="insert.txt.html#a" class="d">a</a> suffix added.
+			If the file can't be found, <a href="options.txt.html#%27includeexpr%27" class="o">'includeexpr'</a> <a href="motion.txt.html#is" class="d">is</a> used to
+			modify the name and another attempt <a href="motion.txt.html#is" class="d">is</a> done.
+			If <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="motion.txt.html#is" class="d">is</a> given, the count'th file that <a href="motion.txt.html#is" class="d">is</a> found
+			in the <a href="options.txt.html#%27path%27" class="o">'path'</a> <a href="motion.txt.html#is" class="d">is</a> edited.
+			This command fails if Vim refuses to <a href="editing.txt.html#abandon" class="l">abandon</a> the
+			current file.
+			If you want to edit the file in <a href="insert.txt.html#a" class="d">a</a> new <a href="windows.txt.html#window" class="d">window</a> use
+			<a href="windows.txt.html#CTRL-W_CTRL-F" class="l">CTRL-W_CTRL-F</a><a href="repeat.txt.html#." class="d">.</a>
+			If you <a href="diff.txt.html#do" class="d">do</a> want to edit <a href="insert.txt.html#a" class="d">a</a> new file, use: 
+<span class="e">				:e &lt;cfile&gt;</span>
+			To make <a href="editing.txt.html#gf" class="d">gf</a> always work like that: 
+<span class="e">				:map gf :e &lt;cfile&gt;&lt;CR&gt;</span>
+			If the name <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> hypertext link, that looks like
+			"type://machine/path"<a href="motion.txt.html#%2C" class="d">,</a> you need the <span class="l">netrw</span> plugin.
+			For Unix the '~' character <a href="motion.txt.html#is" class="d">is</a> expanded, like in
+			"~user/file"<a href="repeat.txt.html#." class="d">.</a>  Environment <a href="vimeval.txt.html#variables" class="d">variables</a> are expanded too
+			<a href="options.txt.html#expand-env" class="l">expand-env</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="v_gf" class="t">v_gf</span>
+<a href="intro.txt.html#%7BVisual%7D" class="s">{Visual}</a><a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a>gf	Same <a href="motion.txt.html#as" class="d">as</a> "<a href="editing.txt.html#gf" class="d">gf</a>"<a href="motion.txt.html#%2C" class="d">,</a> but the highlighted text <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> the
+			name of the file to edit.  <a href="options.txt.html#%27isfname%27" class="o">'isfname'</a> <a href="motion.txt.html#is" class="d">is</a> ignored.
+			Leading blanks are skipped, otherwise all blanks and
+			special characters are included in the file name.
+			(For <a href="intro.txt.html#%7BVisual%7D" class="s">{Visual}</a> see <a href="visual.txt.html#Visual-mode" class="l">Visual-mode</a>.)
+
+							<span id="gF" class="t">gF</span>
+<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a>gF		Same <a href="motion.txt.html#as" class="d">as</a> "<a href="editing.txt.html#gf" class="d">gf</a>"<a href="motion.txt.html#%2C" class="d">,</a> except if <a href="insert.txt.html#a" class="d">a</a> number follows the file
+			name, then the cursor <a href="motion.txt.html#is" class="d">is</a> positioned on that line in
+			the file.
+			The file name and the number must be separated by <a href="insert.txt.html#a" class="d">a</a>
+			non-filename (see <a href="options.txt.html#%27isfname%27" class="o">'isfname'</a>) and non-numeric
+			character. " line " <a href="motion.txt.html#is" class="d">is</a> also recognized, like <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+			used in the output of `:verbose command UserCmd`
+			White <a href="intro.txt.html#space" class="d">space</a> between the filename, the separator and
+			the number are ignored.
+			Examples:
+<span class="h">				eval.c:10 </span>
+<span class="h">				eval.c @ 20 </span>
+<span class="h">				eval.c (30) </span>
+<span class="h">				eval.c 40 </span>
+
+							<span id="v_gF" class="t">v_gF</span>
+<a href="intro.txt.html#%7BVisual%7D" class="s">{Visual}</a><a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a>gF	Same <a href="motion.txt.html#as" class="d">as</a> "<a href="editing.txt.html#v_gf" class="d">v_gf</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+These commands are used to start editing <a href="insert.txt.html#a" class="d">a</a> single file.  This means that the
+file <a href="motion.txt.html#is" class="d">is</a> read into the buffer and the current file name <a href="motion.txt.html#is" class="d">is</a> set.  The file that
+<a href="motion.txt.html#is" class="d">is</a> opened depends on the current directory, see <a href="editing.txt.html#%3Acd" class="l">:cd</a><a href="repeat.txt.html#." class="d">.</a>
+
+See <a href="insert.txt.html#read-messages" class="l">read-messages</a> <a href="luaref.txt.html#for" class="d">for</a> an explanation of the message that <a href="motion.txt.html#is" class="d">is</a> given after the
+file has been read.
+
+You can use the ":e!" command if you messed up the buffer and want to start
+all over again.  The "<a href="editing.txt.html#%3Ae" class="d">:e</a>" command <a href="motion.txt.html#is" class="d">is</a> only useful if you have changed the
+current file name.
+
+							<span id="%3Afilename" class="t">:filename</span> <span id="%7Bfile%7D" class="t">{file}</span>
+Besides the things mentioned here, more special items <a href="luaref.txt.html#for" class="d">for</a> where <a href="insert.txt.html#a" class="d">a</a> filename <a href="motion.txt.html#is" class="d">is</a>
+expected are mentioned <a href="motion.txt.html#at" class="d">at</a> <a href="cmdline.txt.html#cmdline-special" class="l">cmdline-special</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="n">Note</span> <a href="luaref.txt.html#for" class="d">for</a> systems other than Unix: When using <a href="insert.txt.html#a" class="d">a</a> command that accepts <a href="insert.txt.html#a" class="d">a</a> single
+file name (like "<a href="editing.txt.html#%3Aedit" class="d">:edit</a> file"<a href="motion.txt.html#%29" class="d">)</a> spaces in the file name are allowed, but
+trailing spaces are ignored.  This <a href="motion.txt.html#is" class="d">is</a> useful on systems that regularly embed
+spaces in file names (like MS-Windows).  Example: The command "<a href="editing.txt.html#%3Ae" class="d">:e</a>   Long File
+Name " will edit the file "Long File Name"<a href="repeat.txt.html#." class="d">.</a>  When using <a href="insert.txt.html#a" class="d">a</a> command that accepts
+more than one file name (like "<a href="editing.txt.html#%3Anext" class="d">:next</a> file1 file2"<a href="motion.txt.html#%29" class="d">)</a> embedded spaces must be
+escaped with <a href="insert.txt.html#a" class="d">a</a> backslash.
+
+						<span id="wildcard" class="t">wildcard</span> <span id="wildcards" class="t">wildcards</span>
+Wildcards in <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> are expanded, but <a href="motion.txt.html#as" class="d">as</a> with file completion, <a href="options.txt.html#%27wildignore%27" class="o">'wildignore'</a>
+and <a href="options.txt.html#%27suffixes%27" class="o">'suffixes'</a> apply.  Which <a href="editing.txt.html#wildcards" class="d">wildcards</a> are supported depends on the system.
+These are the common ones:
+	<span class="e">?</span>  	matches one character
+	<span class="e">*</span>  	matches anything, including nothing
+	<span class="e">**</span>  	matches anything, including nothing, recurses into directories
+	<span class="s">[abc]</span>	match 'a', 'b' or 'c'
+
+To avoid the special meaning of the <a href="editing.txt.html#wildcards" class="d">wildcards</a> prepend <a href="insert.txt.html#a" class="d">a</a> backslash.  However,
+on MS-Windows the <a href="intro.txt.html#backslash" class="d">backslash</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> path separator and "path\[abc]" <a href="motion.txt.html#is" class="d">is</a> still seen
+<a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="editing.txt.html#wildcard" class="d">wildcard</a> when "<a href="index.txt.html#%5B" class="d">[</a>" <a href="motion.txt.html#is" class="d">is</a> in the <a href="options.txt.html#%27isfname%27" class="o">'isfname'</a> option.  <a href="insert.txt.html#A" class="d">A</a> simple way to avoid this
+<a href="motion.txt.html#is" class="d">is</a> to use "path\[[]abc]"<a href="motion.txt.html#%2C" class="d">,</a> this matches the file "path\[abc]"<a href="repeat.txt.html#." class="d">.</a>
+
+					<span id="starstar-wildcard" class="t">starstar-wildcard</span>
+Expanding "**" <a href="motion.txt.html#is" class="d">is</a> possible on Unix, Win32, macOS and <a href="insert.txt.html#a" class="d">a</a> few other systems (but
+<a href="motion.txt.html#it" class="d">it</a> may depend on your <a href="options.txt.html#%27shell%27" class="o">'shell'</a> setting on Unix and macOS. It's known to work
+correctly <a href="luaref.txt.html#for" class="d">for</a> zsh; <a href="luaref.txt.html#for" class="d">for</a> bash this requires <a href="motion.txt.html#at" class="d">at</a> least bash version &gt;= 4.X).
+This allows searching <a href="insert.txt.html#a" class="d">a</a> directory tree.  This goes up to 100 directories deep.
+<span class="n">Note</span> there are some commands where this works slightly differently, see
+<a href="editing.txt.html#file-searching" class="l">file-searching</a><a href="repeat.txt.html#." class="d">.</a>
+Example: 
+<span class="e">	:n **/*.txt</span>
+Finds files:
+<span class="h">	aaa.txt </span>
+<span class="h">	subdir/bbb.txt </span>
+<span class="h">	a/b/c/d/ccc.txt </span>
+When non-wildcard characters are used right before or after "**" these are
+only matched in the top directory.  They are not used <a href="luaref.txt.html#for" class="d">for</a> directories further
+down in the tree. For example: 
+<span class="e">	:n /usr/inc**/types.h</span>
+Finds files:
+<span class="h">	/usr/include/types.h </span>
+<span class="h">	/usr/include/sys/types.h </span>
+<span class="h">	/usr/inc/old/types.h </span>
+<span class="n">Note</span> that the path with "/sys" <a href="motion.txt.html#is" class="d">is</a> included because <a href="motion.txt.html#it" class="d">it</a> does not need to match
+"/inc"<a href="repeat.txt.html#." class="d">.</a>  Thus it's like matching "/usr/inc*<a href="pattern.txt.html#%2F" class="d">/</a>*<a href="pattern.txt.html#%2F" class="d">/</a>*<a href="userfunc.txt.html#..." class="d">...</a>"<a href="motion.txt.html#%2C" class="d">,</a> not
+"/usr/inc*/inc*/inc*"<a href="repeat.txt.html#." class="d">.</a>
+
+					<span id="backtick-expansion" class="t">backtick-expansion</span> <span id="%60-expansion" class="t">`-expansion</span>
+On Unix and <a href="insert.txt.html#a" class="d">a</a> few other systems you can also use backticks <a href="luaref.txt.html#for" class="d">for</a> the file name
+argument, <a href="luaref.txt.html#for" class="d">for</a> example: 
+<span class="e">	:next `find . -name ver\\*.c -print`</span>
+<span class="e">	:view `ls -t *.patch  \| head -n1`</span>
+Vim will run the command in backticks using the <a href="options.txt.html#%27shell%27" class="o">'shell'</a> and use the standard
+output <a href="motion.txt.html#as" class="d">as</a> argument <a href="luaref.txt.html#for" class="d">for</a> the given Vim command (error <a href="message.txt.html#messages" class="d">messages</a> from the shell
+command will be discarded).
+To see what shell command Vim <a href="motion.txt.html#is" class="d">is</a> running, set the <a href="options.txt.html#%27verbose%27" class="o">'verbose'</a> option to 4. When
+the shell command returns <a href="insert.txt.html#a" class="d">a</a> non-zero exit code, an error message will be
+displayed and the Vim command will be aborted. To avoid this make the shell
+always return zero like so: 
+<span class="e">       :next `find . -name ver\\*.c -print \|\| true`</span>
+<span class="e"></span>
+The backslashes before the <a href="pattern.txt.html#star" class="d">star</a> are required to prevent the shell from
+expanding "ver*.c" prior to execution of the find program.  The <a href="intro.txt.html#backslash" class="d">backslash</a>
+before the shell pipe symbol "|" prevents Vim from parsing <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a> command
+termination.
+This also works <a href="luaref.txt.html#for" class="d">for</a> most other systems, with the restriction that the
+backticks must be around the whole item.  It <a href="motion.txt.html#is" class="d">is</a> not possible to have text
+directly before the first or just after the last backtick.
+
+							<span id="%60%3D" class="t">`=</span>
+You can have the backticks expanded <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> Vim expression, instead of <a href="motion.txt.html#as" class="d">as</a> an
+external command, by putting an equal sign right after the first backtick,
+e.g.: 
+<span class="e">	:e `=tempname()`</span>
+The <a href="vimeval.txt.html#expression" class="d">expression</a> can contain just about anything, thus this can also be used to
+avoid the special meaning of <a href="motion.txt.html#%27" class="d">'</a>"', "|"<a href="motion.txt.html#%2C" class="d">,</a> '%' and '#'.  However, <a href="options.txt.html#%27wildignore%27" class="o">'wildignore'</a>
+does apply like to other wildcards.
+
+Environment <a href="vimeval.txt.html#variables" class="d">variables</a> in the <a href="vimeval.txt.html#expression" class="d">expression</a> are expanded when evaluating the
+expression, thus this works: 
+<span class="e">	:e `=$HOME .. '/.vimrc'`</span>
+This uses <a href="options.txt.html#%24HOME" class="d">$HOME</a> inside <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> and <a href="motion.txt.html#it" class="d">it</a> will be used literally, most likely not
+what you intended: 
+<span class="e">	:e `='$HOME' .. '/.vimrc'`</span>
+<span class="e"></span>
+If the <a href="vimeval.txt.html#expression" class="d">expression</a> returns <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> then names are to be separated with line
+breaks.  When the result <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#List" class="l">List</a> then each item <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> name.  Line
+breaks also separate names.
+<span class="n">Note</span> that such expressions are only supported in places where <a href="insert.txt.html#a" class="d">a</a> filename <a href="motion.txt.html#is" class="d">is</a>
+expected <a href="motion.txt.html#as" class="d">as</a> an argument to an Ex-command.
+
+							<span id="%2B%2Bopt" class="t">++opt</span> <span id="%5B%2B%2Bopt%5D" class="t">[++opt]</span>
+The <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> argument can be used to set some <a href="options.txt.html#options" class="d">options</a> <a href="luaref.txt.html#for" class="d">for</a> one command, and to
+specify the behavior <a href="luaref.txt.html#for" class="d">for</a> bad characters.  The form is: 
+<span class="e">	++{optname}</span>
+Or: 
+<span class="e">	++{optname}={value}</span>
+<span class="e"></span>
+Where <span class="s">{optname}</span> <a href="motion.txt.html#is" class="d">is</a> one of:	    <span id="%2B%2Bff" class="t">++ff</span> <span id="%2B%2Benc" class="t">++enc</span> <span id="%2B%2Bbin" class="t">++bin</span> <span id="%2B%2Bnobin" class="t">++nobin</span> <span id="%2B%2Bedit" class="t">++edit</span>
+    ff     or  fileformat   overrides <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a>
+    enc    or  encoding	    overrides <a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a>
+    bin    or  binary	    sets <a href="options.txt.html#%27binary%27" class="o">'binary'</a>
+    nobin  or  nobinary	    resets <a href="options.txt.html#%27binary%27" class="o">'binary'</a>
+    bad			    specifies behavior <a href="luaref.txt.html#for" class="d">for</a> bad characters
+    edit		    <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#%3Aread" class="l">:read</a><a href="cmdline.txt.html#%3A" class="d">:</a> keeps <a href="options.txt.html#options" class="d">options</a> <a href="motion.txt.html#as" class="d">as</a> if editing <a href="insert.txt.html#a" class="d">a</a> file
+    <a href="change.txt.html#p" class="d">p</a>			    <a href="luaref.txt.html#for" class="d">for</a> <a href="editing.txt.html#%3Awrite" class="l">:write</a><a href="cmdline.txt.html#%3A" class="d">:</a> creates the file's parent directory
+
+<span class="s">{value}</span> cannot contain whitespace.  It can be any valid value <a href="luaref.txt.html#for" class="d">for</a> the options.
+Examples: 
+<span class="e">	:e ++ff=unix</span>
+This edits the same file again with <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> set to "unix"<a href="repeat.txt.html#." class="d">.</a> 
+<span class="e"></span>
+<span class="e">	:w ++enc=latin1 newfile</span>
+This writes the current buffer to "newfile" in latin1 format.
+
+The message given when <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> file will show "[converted]" when
+<a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a> or the value specified with <a href="editing.txt.html#%2B%2Benc" class="d">++enc</a> differs from <a href="options.txt.html#%27encoding%27" class="o">'encoding'</a>.
+
+There may be several <a href="editing.txt.html#%2B%2Bopt" class="d">++opt</a> arguments, separated by whitespace.  They must all
+appear before any <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a> argument.
+
+								<span id="%2B%2Bp" class="t">++p</span>
+The "<a href="editing.txt.html#%2B%2Bp" class="d">++p</a>" flag creates the parent directory of the file if <a href="motion.txt.html#it" class="d">it</a> does not exist.
+For example if you edit "foo/bar/file.txt"<a href="motion.txt.html#%2C" class="d">,</a> the "<a href="editing.txt.html#%3Awrite" class="d">:write</a> <a href="editing.txt.html#%2B%2Bp" class="d">++p</a>" command creates
+"foo/bar/" if necessary before <a href="editing.txt.html#writing" class="d">writing</a> the file. 
+<span class="e"></span>
+<span class="e">	:edit foo/bar/file.txt</span>
+<span class="e">	:write ++p</span>
+<span class="e"></span>
+If you want <a href="editing.txt.html#%3Awrite" class="d">:write</a> (without "<a href="editing.txt.html#%2B%2Bp" class="d">++p</a>"<a href="motion.txt.html#%29" class="d">)</a> to always create missing parent
+directories, add this <a href="autocmd.txt.html#autocmd" class="d">autocmd</a> to your config: 
+<span class="e"></span>
+<span class="e">	" Auto-create parent directories (except for URIs "://").</span>
+<span class="e">	au BufWritePre,FileWritePre * if @% !~# '\(://\)' | call mkdir(expand('&lt;afile&gt;:p:h'), 'p') | endif</span>
+
+
+								<span id="%2B%2Bbad" class="t">++bad</span>
+The argument of "++bad=" specifies what happens with characters that can't be
+converted and illegal bytes.  It can be one of three things:
+    ++bad=X      <a href="insert.txt.html#A" class="d">A</a> single-byte character that replaces each bad character.
+    ++bad=keep   Keep bad characters without conversion.  <span class="n">Note</span> that this may
+		 result in illegal bytes in your text!
+    ++bad=drop   Remove the bad characters.
+
+The default <a href="motion.txt.html#is" class="d">is</a> like "++bad=?"<a href="cmdline.txt.html#%3A" class="d">:</a> <a href="insert.txt.html#Replace" class="d">Replace</a> each bad character with <a href="insert.txt.html#a" class="d">a</a> question
+mark.  In some places an inverted question <a href="motion.txt.html#mark" class="d">mark</a> <a href="motion.txt.html#is" class="d">is</a> used (0xBF).
+
+<span class="n">Note</span> that not all commands use the <a href="editing.txt.html#%2B%2Bbad" class="d">++bad</a> argument, even though they <a href="diff.txt.html#do" class="d">do</a> not
+give an error when you add it.  E.g. <a href="editing.txt.html#%3Awrite" class="l">:write</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="n">Note</span> that when reading, the <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> and <a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a> <a href="options.txt.html#options" class="d">options</a> will be
+set to the used format.  When <a href="editing.txt.html#writing" class="d">writing</a> this doesn't happen, thus <a href="insert.txt.html#a" class="d">a</a> next write
+will use the old value of the option.  Same <a href="luaref.txt.html#for" class="d">for</a> the <a href="options.txt.html#%27binary%27" class="o">'binary'</a> option.
+
+
+							<span id="%2Bcmd" class="t">+cmd</span> <span id="%5B%2Bcmd%5D" class="t">[+cmd]</span>
+The <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> argument can be used to position the cursor in the newly opened
+file, or execute any other command:
+	<a href="motion.txt.html#%2B" class="d">+</a>		Start <a href="motion.txt.html#at" class="d">at</a> the last line.
+	+{num}		Start <a href="motion.txt.html#at" class="d">at</a> line <span class="s">{num}</span>.
+	+/{pat}		Start <a href="motion.txt.html#at" class="d">at</a> first line containing <span class="s">{pat}</span>.
+	+{command}	Execute <span class="s">{command}</span> after opening the new file.
+			<span class="s">{command}</span> <a href="motion.txt.html#is" class="d">is</a> any <a href="intro.txt.html#Ex" class="d">Ex</a> command.
+To include <a href="insert.txt.html#a" class="d">a</a> white <a href="intro.txt.html#space" class="d">space</a> in the <span class="s">{pat}</span> or <span class="s">{command}</span>, precede <a href="motion.txt.html#it" class="d">it</a> with <a href="insert.txt.html#a" class="d">a</a>
+backslash.  Double the number of backslashes. 
+<span class="e">	:edit  +/The\ book	     file</span>
+<span class="e">	:edit  +/dir\ dirname\\      file</span>
+<span class="e">	:edit  +set\ dir=c:\\\\temp  file</span>
+<span class="n">Note</span> that in the last example the number of backslashes <a href="motion.txt.html#is" class="d">is</a> halved twice: Once
+<a href="luaref.txt.html#for" class="d">for</a> the "<a href="editing.txt.html#%2Bcmd" class="d">+cmd</a>" argument and once <a href="luaref.txt.html#for" class="d">for</a> the "<a href="options.txt.html#%3Aset" class="d">:set</a>" command.
+
+							<span id="file-formats" class="t">file-formats</span>
+The <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> option sets the <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a> style <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> file:
+<span class="h">'fileformat'    characters	   name				</span>
+  "dos"		<a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> or <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a>   DOS format		<span id="DOS-format" class="t">DOS-format</span>
+  "unix"	<a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a>		   Unix format		<span id="Unix-format" class="t">Unix-format</span>
+  "mac"		<a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a>		   Mac format		<span id="Mac-format" class="t">Mac-format</span>
+
+When reading <a href="insert.txt.html#a" class="d">a</a> file, the mentioned characters are interpreted <a href="motion.txt.html#as" class="d">as</a> the <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>.
+In DOS format (default <a href="luaref.txt.html#for" class="d">for</a> Windows), <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> and <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> are both interpreted <a href="motion.txt.html#as" class="d">as</a>
+the <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>. <span class="n">Note</span> that when <a href="editing.txt.html#writing" class="d">writing</a> the file in DOS format, <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a> characters will
+be added <a href="luaref.txt.html#for" class="d">for</a> each single <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a>.  Also see <a href="insert.txt.html#file-read" class="l">file-read</a><a href="repeat.txt.html#." class="d">.</a>
+
+When <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> file, the mentioned characters are used <a href="luaref.txt.html#for" class="d">for</a> <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>.  For DOS
+format <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> <a href="motion.txt.html#is" class="d">is</a> used.  Also see <a href="editing.txt.html#DOS-format-write" class="l">DOS-format-write</a><a href="repeat.txt.html#." class="d">.</a>
+
+You can read <a href="insert.txt.html#a" class="d">a</a> file in DOS format and write <a href="motion.txt.html#it" class="d">it</a> in Unix format.  This will
+replace all <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> pairs by <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> (assuming <a href="options.txt.html#%27fileformats%27" class="o">'fileformats'</a> includes "dos"): 
+<span class="e">	:e file</span>
+<span class="e">	:set fileformat=unix</span>
+<span class="e">	:w</span>
+If you read <a href="insert.txt.html#a" class="d">a</a> file in Unix format and write with DOS format, all <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a>
+characters will be replaced with <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> (assuming <a href="options.txt.html#%27fileformats%27" class="o">'fileformats'</a> includes
+"unix"): 
+<span class="e">	:e file</span>
+<span class="e">	:set fileformat=dos</span>
+<span class="e">	:w</span>
+<span class="e"></span>
+If you start editing <a href="insert.txt.html#a" class="d">a</a> new file and the <a href="options.txt.html#%27fileformats%27" class="o">'fileformats'</a> option <a href="motion.txt.html#is" class="d">is</a> not empty
+(which <a href="motion.txt.html#is" class="d">is</a> the default), Vim will try to detect whether the lines in the file
+are separated by the specified formats.  When set to "unix,dos"<a href="motion.txt.html#%2C" class="d">,</a> Vim will
+check <a href="luaref.txt.html#for" class="d">for</a> lines with <a href="insert.txt.html#a" class="d">a</a> single <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> (as used on Unix) or by <a href="insert.txt.html#a" class="d">a</a> <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> pair
+(MS-Windows).  Only when ALL lines <a href="intro.txt.html#end" class="d">end</a> in <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a>, <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> <a href="motion.txt.html#is" class="d">is</a>
+set to "dos"<a href="motion.txt.html#%2C" class="d">,</a> otherwise <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> set to "unix"<a href="repeat.txt.html#." class="d">.</a>  When <a href="options.txt.html#%27fileformats%27" class="o">'fileformats'</a> includes
+"mac"<a href="motion.txt.html#%2C" class="d">,</a> and no <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> characters are found in the file, <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> <a href="motion.txt.html#is" class="d">is</a> set to
+"mac"<a href="repeat.txt.html#." class="d">.</a>
+
+If the <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> option <a href="motion.txt.html#is" class="d">is</a> set to "dos" on non-MS-Windows systems the
+message "[dos]" <a href="motion.txt.html#is" class="d">is</a> shown to remind you that something unusual <a href="motion.txt.html#is" class="d">is</a> happening.  On
+MS-Windows systems you get the message "[unix]" if <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> <a href="motion.txt.html#is" class="d">is</a> set to
+"unix"<a href="repeat.txt.html#." class="d">.</a>  On all systems you get the message "[mac]" if <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> <a href="motion.txt.html#is" class="d">is</a> set to
+"mac"<a href="repeat.txt.html#." class="d">.</a>
+
+If the <a href="options.txt.html#%27fileformats%27" class="o">'fileformats'</a> option <a href="motion.txt.html#is" class="d">is</a> empty and DOS format <a href="motion.txt.html#is" class="d">is</a> used, but while reading
+<a href="insert.txt.html#a" class="d">a</a> file some lines did not <a href="intro.txt.html#end" class="d">end</a> in <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a>, "[CR missing]" will be included in
+the file message.
+If the <a href="options.txt.html#%27fileformats%27" class="o">'fileformats'</a> option <a href="motion.txt.html#is" class="d">is</a> empty and Mac format <a href="motion.txt.html#is" class="d">is</a> used, but while reading
+<a href="insert.txt.html#a" class="d">a</a> file <a href="insert.txt.html#a" class="d">a</a> <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> was found, "[NL missing]" will be included in the file message.
+
+If the new file does not exist, the <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> of the current buffer <a href="motion.txt.html#is" class="d">is</a> used
+when <a href="options.txt.html#%27fileformats%27" class="o">'fileformats'</a> <a href="motion.txt.html#is" class="d">is</a> empty.  Otherwise the first format from <a href="options.txt.html#%27fileformats%27" class="o">'fileformats'</a> <a href="motion.txt.html#is" class="d">is</a>
+used <a href="luaref.txt.html#for" class="d">for</a> the new file.
+
+Before editing binary, executable or Vim <a href="usr_41.txt.html#script" class="d">script</a> files you should set the
+<a href="options.txt.html#%27binary%27" class="o">'binary'</a> option.  <a href="insert.txt.html#A" class="d">A</a> simple way to <a href="diff.txt.html#do" class="d">do</a> this <a href="motion.txt.html#is" class="d">is</a> by <a href="starting.txt.html#starting" class="d">starting</a> Vim with the "<a href="starting.txt.html#-b" class="d">-b</a>"
+option.  This will avoid the use of <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a>.  Without this you risk that
+single <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> characters are unexpectedly replaced with <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a>.
+
+<span class="c">END OF LINE AND END OF FILE</span>				<span id="eol-and-eof" class="t">eol-and-eof</span>
+
+Vim has several <a href="options.txt.html#options" class="d">options</a> to <a href="intro.txt.html#control" class="d">control</a> the file format:
+	<a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a>	the <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a> style: Unix, DOS, Mac
+	<a href="options.txt.html#%27endofline%27" class="o">'endofline'</a>	whether the last line ends with <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>
+	<a href="options.txt.html#%27endoffile%27" class="o">'endoffile'</a>	whether the file ends with <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#CTRL-Z" class="k">CTRL-Z</a>
+	<a href="options.txt.html#%27fixendofline%27" class="o">'fixendofline'</a>	whether to fix eol and eof
+
+The first three values are normally detected automatically when reading the
+file and are used when <a href="editing.txt.html#writing" class="d">writing</a> the text to <a href="insert.txt.html#a" class="d">a</a> file.  While editing the buffer
+<a href="motion.txt.html#it" class="d">it</a> looks like every line has <a href="insert.txt.html#a" class="d">a</a> line ending and the <a href="starting.txt.html#CTRL-Z" class="k">CTRL-Z</a> isn't there (an
+exception <a href="motion.txt.html#is" class="d">is</a> when <a href="options.txt.html#%27binary%27" class="o">'binary'</a> <a href="motion.txt.html#is" class="d">is</a> set, <a href="motion.txt.html#it" class="d">it</a> works differently then).
+
+The <a href="options.txt.html#%27fixendofline%27" class="o">'fixendofline'</a> option can be used to choose what to write.  You can also
+change the option values to write the file differently than how <a href="motion.txt.html#it" class="d">it</a> was read.
+
+Here are some examples how to use them.
+
+If you want files in Unix format (every line NL terminated): 
+<span class="e">	setl ff=unix fixeol</span>
+You should probably <a href="diff.txt.html#do" class="d">do</a> this on any Unix-like system.  Also modern MS-Windows
+systems tend to work well with this.  It <a href="motion.txt.html#is" class="d">is</a> recommended to always use this
+format <a href="luaref.txt.html#for" class="d">for</a> Vim scripts.
+
+If you want to use an old MS-DOS file in <a href="insert.txt.html#a" class="d">a</a> modern environment, fixing line
+endings and dropping <a href="starting.txt.html#CTRL-Z" class="k">CTRL-Z</a>, but keeping the <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> style <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>: 
+<span class="e">	setl ff=dos fixeol</span>
+This <a href="motion.txt.html#is" class="d">is</a> useful <a href="luaref.txt.html#for" class="d">for</a> many MS-Windows programs, they regularly expect the
+<a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> line endings.
+
+If you want to drop the final <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a> and add <a href="insert.txt.html#a" class="d">a</a> final <a href="starting.txt.html#CTRL-Z" class="k">CTRL-Z</a> (e.g. <a href="luaref.txt.html#for" class="d">for</a> an old
+system like CP/M): 
+<span class="e">	setl ff=dos nofixeol noeol eof</span>
+<span class="e"></span>
+If you want to preserve the fileformat exactly as-is, including any final
+<a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a> and final <a href="starting.txt.html#CTRL-Z" class="k">CTRL-Z</a>: 
+<span class="e">	setl nofixeol</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+3. The argument <a href="vimeval.txt.html#list" class="d">list</a>				<span id="argument-list" class="t">argument-list</span> <span id="arglist" class="t">arglist</span>
+
+If you give more than one file name when <a href="starting.txt.html#starting" class="d">starting</a> Vim, this <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> remembered
+<a href="motion.txt.html#as" class="d">as</a> the argument list.  You can jump to each file in this list.
+
+Do not confuse this with the buffer list, which you can see with the
+<a href="windows.txt.html#%3Abuffers" class="l">:buffers</a> command.  The argument <a href="vimeval.txt.html#list" class="d">list</a> was already present in Vi, the buffer
+<a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> new in Vim.  Every file name in the argument <a href="vimeval.txt.html#list" class="d">list</a> will also be present
+in the buffer <a href="vimeval.txt.html#list" class="d">list</a> (unless <a href="motion.txt.html#it" class="d">it</a> was deleted with <a href="windows.txt.html#%3Abdel" class="l">:bdel</a> or <a href="windows.txt.html#%3Abwipe" class="l">:bwipe</a>).  But it's
+common that names in the buffer <a href="vimeval.txt.html#list" class="d">list</a> are not in the argument list.
+
+This subject <a href="motion.txt.html#is" class="d">is</a> introduced in <a href="motion.txt.html#section" class="d">section</a> <a href="usr_07.txt.html#07.2" class="l">07.2</a> of the user manual.
+
+There <a href="motion.txt.html#is" class="d">is</a> one global argument list, which <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> all <a href="windows.txt.html#windows" class="d">windows</a> by default.
+It <a href="motion.txt.html#is" class="d">is</a> possible to create <a href="insert.txt.html#a" class="d">a</a> new argument <a href="vimeval.txt.html#list" class="d">list</a> local to <a href="insert.txt.html#a" class="d">a</a> window, see
+<a href="editing.txt.html#%3Aarglocal" class="l">:arglocal</a><a href="repeat.txt.html#." class="d">.</a>
+
+You can use the argument <a href="vimeval.txt.html#list" class="d">list</a> with the following commands, and with the
+<a href="vimeval.txt.html#expression" class="d">expression</a> <a href="vimeval.txt.html#functions" class="d">functions</a> <a href="vimfn.txt.html#argc%28%29" class="l">argc()</a> and <a href="vimfn.txt.html#argv%28%29" class="l">argv()</a><a href="repeat.txt.html#." class="d">.</a>  These all work on the argument
+<a href="vimeval.txt.html#list" class="d">list</a> of the current window.
+
+							<span id="%3Aar" class="t">:ar</span> <span id="%3Aarg" class="t">:arg</span> <span id="%3Aargs" class="t">:args</span>
+:ar[gs]			Print the argument list, with the current file in
+			square brackets.
+
+:ar[gs] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <a href="editing.txt.html#%7Barglist%7D" class="s">{arglist}</a>			<span id="%3Aargs_f" class="t">:args_f</span>
+			Define <a href="editing.txt.html#%7Barglist%7D" class="s">{arglist}</a> <a href="motion.txt.html#as" class="d">as</a> the new argument <a href="vimeval.txt.html#list" class="d">list</a> and edit
+			the first one.  This fails when changes have been made
+			and Vim does not want to <a href="editing.txt.html#abandon" class="l">abandon</a> the current buffer.
+			Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+:ar[gs]! <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <a href="editing.txt.html#%7Barglist%7D" class="s">{arglist}</a>			<span id="%3Aargs_f%21" class="t">:args_f!</span>
+			Define <a href="editing.txt.html#%7Barglist%7D" class="s">{arglist}</a> <a href="motion.txt.html#as" class="d">as</a> the new argument <a href="vimeval.txt.html#list" class="d">list</a> and edit
+			the first one.  Discard any changes to the current
+			buffer.
+			Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+:[count]arge[dit][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <span class="s">{name}</span> ..		<span id="%3Aarge" class="t">:arge</span> <span id="%3Aargedit" class="t">:argedit</span>
+			Add <span class="s">{name}</span>s to the argument <a href="vimeval.txt.html#list" class="d">list</a> and edit it.
+			There <a href="motion.txt.html#is" class="d">is</a> no check <a href="luaref.txt.html#for" class="d">for</a> duplicates, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> possible to
+			add <a href="insert.txt.html#a" class="d">a</a> file to the argument <a href="vimeval.txt.html#list" class="d">list</a> twice <a href="editing.txt.html#%3Aargded" class="l">:argded</a><a href="repeat.txt.html#." class="d">.</a>
+			This <a href="motion.txt.html#is" class="d">is</a> like using <a href="editing.txt.html#%3Aargadd" class="l">:argadd</a> and then <a href="editing.txt.html#%3Aedit" class="l">:edit</a> (with
+			the small exception that <a href="editing.txt.html#%3Aedit" class="l">:edit</a> does not change the
+			argument list, so the argument <a href="vimeval.txt.html#list" class="d">list</a> pointer isn't
+			changed).
+			Spaces in filenames have to be escaped with "\"<a href="repeat.txt.html#." class="d">.</a>
+			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="motion.txt.html#is" class="d">is</a> used like with <a href="editing.txt.html#%3Aargadd" class="l">:argadd</a><a href="repeat.txt.html#." class="d">.</a>
+			If the current file cannot be <a href="editing.txt.html#abandon" class="l">abandon</a>ed <span class="s">{name}</span>s will
+			still be added to the argument list, but won't be
+			edited. No check <a href="luaref.txt.html#for" class="d">for</a> duplicates <a href="motion.txt.html#is" class="d">is</a> done.
+			Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+:[count]arga[dd] <span class="s">{name}</span> ..			<span id="%3Aarga" class="t">:arga</span> <span id="%3Aargadd" class="t">:argadd</span> <span id="E479" class="t">E479</span>
+:[count]arga[dd]						<span id="E1156" class="t">E1156</span>
+			Add the <span class="s">{name}</span>s to the argument list.  When <span class="s">{name}</span> <a href="motion.txt.html#is" class="d">is</a>
+			omitted add the current buffer name to the argument
+			list.
+			If <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="motion.txt.html#is" class="d">is</a> omitted, the <span class="s">{name}</span>s are added just
+			after the current entry in the argument list.
+			Otherwise they are added after the <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a>'th file.
+			If the argument <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> "<a href="insert.txt.html#a" class="d">a</a> <a href="motion.txt.html#b" class="d">b</a> <a href="change.txt.html#c" class="d">c</a>"<a href="motion.txt.html#%2C" class="d">,</a> and "<a href="motion.txt.html#b" class="d">b</a>" <a href="motion.txt.html#is" class="d">is</a> the
+			current argument, then these commands result in:
+<span class="h">				command		new argument list </span>
+				<a href="editing.txt.html#%3Aargadd" class="d">:argadd</a> <a href="change.txt.html#x" class="d">x</a>	<a href="insert.txt.html#a" class="d">a</a>  [b]  <a href="change.txt.html#x" class="d">x</a>  <a href="change.txt.html#c" class="d">c</a>
+				:0argadd <a href="change.txt.html#x" class="d">x</a>	<a href="change.txt.html#x" class="d">x</a>   <a href="insert.txt.html#a" class="d">a</a>  [b] <a href="change.txt.html#c" class="d">c</a>
+				:1argadd <a href="change.txt.html#x" class="d">x</a>	<a href="insert.txt.html#a" class="d">a</a>   <a href="change.txt.html#x" class="d">x</a>  [b] <a href="change.txt.html#c" class="d">c</a>
+				:$argadd <a href="change.txt.html#x" class="d">x</a>	<a href="insert.txt.html#a" class="d">a</a>  [b]  <a href="change.txt.html#c" class="d">c</a>  <a href="change.txt.html#x" class="d">x</a>
+			And after the last one:
+				:+2argadd <a href="change.txt.html#y" class="d">y</a>	<a href="insert.txt.html#a" class="d">a</a>  [b]  <a href="change.txt.html#c" class="d">c</a>  <a href="change.txt.html#x" class="d">x</a>  <a href="change.txt.html#y" class="d">y</a>
+			There <a href="motion.txt.html#is" class="d">is</a> no check <a href="luaref.txt.html#for" class="d">for</a> duplicates, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> possible to
+			add <a href="insert.txt.html#a" class="d">a</a> file to the argument <a href="vimeval.txt.html#list" class="d">list</a> twice.  You can use
+			<a href="editing.txt.html#%3Aargdedupe" class="l">:argdedupe</a> to fix <a href="motion.txt.html#it" class="d">it</a> afterwards: 
+<span class="e">				:argadd *.txt | argdedupe</span>
+			The currently edited file <a href="motion.txt.html#is" class="d">is</a> not changed.
+			<span class="n">Note:</span> you can also use this method: 
+<span class="e">				:args ## x</span>
+			This will add the "<a href="change.txt.html#x" class="d">x</a>" item and sort the new list.
+
+:argded[upe]					<span id="%3Aargded" class="t">:argded</span> <span id="%3Aargdedupe" class="t">:argdedupe</span>
+			Remove duplicate filenames from the argument list.
+			If your current file <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> duplicate, your current file
+			will change to the original file index.
+
+:argd[elete] <span class="s">{pattern}</span> ..		<span id="%3Aargd" class="t">:argd</span> <span id="%3Aargdelete" class="t">:argdelete</span> <span id="E480" class="t">E480</span> <span id="E610" class="t">E610</span>
+			Delete files from the argument <a href="vimeval.txt.html#list" class="d">list</a> that match the
+			<span class="s">{pattern}</span>s.  <span class="s">{pattern}</span> <a href="motion.txt.html#is" class="d">is</a> used like <a href="insert.txt.html#a" class="d">a</a> file pattern,
+			see <a href="autocmd.txt.html#file-pattern" class="l">file-pattern</a><a href="repeat.txt.html#." class="d">.</a>  "<a href="motion.txt.html#%25" class="d">%</a>" can be used to delete the
+			current entry.
+			This command keeps the currently edited file, also
+			when it's deleted from the argument list.
+			Example: 
+<span class="e">				:argdel *.obj</span>
+<span class="e"></span>
+:[range]argd[elete]	Delete the <a href="cmdline.txt.html#%5Brange%5D" class="s">[range]</a> files from the argument list.
+			Example: 
+<span class="e">				:10,$argdel</span>
+			Deletes arguments 10 and further, keeping 1-9. 
+<span class="e">				:$argd</span>
+			Deletes just the last one. 
+<span class="e">				:argd</span>
+<span class="e">				:.argd</span>
+			Deletes the current argument. 
+<span class="e">				:%argd</span>
+			Removes all the files from the arglist.
+			When the last number in the range <a href="motion.txt.html#is" class="d">is</a> too high, up to
+			the last argument <a href="motion.txt.html#is" class="d">is</a> deleted.
+
+							<span id="%3Aargu" class="t">:argu</span> <span id="%3Aargument" class="t">:argument</span>
+:[count]argu[ment] <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>
+			Edit file <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> in the argument list.  When <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a>
+			<a href="motion.txt.html#is" class="d">is</a> omitted the current entry <a href="motion.txt.html#is" class="d">is</a> used.  This fails
+			when changes have been made and Vim does not want to
+			<a href="editing.txt.html#abandon" class="l">abandon</a> the current buffer.
+			Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+:[count]argu[ment]! <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>
+			Edit file <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> in the argument list, <a href="editing.txt.html#discard" class="d">discard</a> any
+			changes to the current buffer.  When <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="motion.txt.html#is" class="d">is</a>
+			omitted the current entry <a href="motion.txt.html#is" class="d">is</a> used.
+			Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+:[count]n[ext] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>			<span id="%3An" class="t">:n</span> <span id="%3Ane" class="t">:ne</span> <span id="%3Anext" class="t">:next</span> <span id="E165" class="t">E165</span> <span id="E163" class="t">E163</span>
+			Edit <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> next file.  This fails when changes have
+			been made and Vim does not want to <a href="editing.txt.html#abandon" class="l">abandon</a> the
+			current buffer.  Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+								<span id="%5Da" class="t">]a</span>
+<a href="editing.txt.html#%5Da" class="d">]a</a>			Mapped to <a href="editing.txt.html#%3Anext" class="l">:next</a><a href="repeat.txt.html#." class="d">.</a> <a href="vim_diff.txt.html#default-mappings" class="l">default-mappings</a>
+
+:[count]n[ext]! <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>
+			Edit <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> next file, <a href="editing.txt.html#discard" class="d">discard</a> any changes to the
+			buffer.  Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+:n[ext] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <a href="editing.txt.html#%7Barglist%7D" class="s">{arglist}</a>			<span id="%3Anext_f" class="t">:next_f</span>
+			Same <a href="motion.txt.html#as" class="d">as</a> <a href="editing.txt.html#%3Aargs_f" class="l">:args_f</a><a href="repeat.txt.html#." class="d">.</a>
+
+:n[ext]! <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <a href="editing.txt.html#%7Barglist%7D" class="s">{arglist}</a>
+			Same <a href="motion.txt.html#as" class="d">as</a> <a href="editing.txt.html#%3Aargs_f%21" class="l">:args_f!</a><a href="repeat.txt.html#." class="d">.</a>
+
+:[count]N[ext] <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>			<span id="%3ANext" class="t">:Next</span> <span id="%3AN" class="t">:N</span> <span id="E164" class="t">E164</span>
+			Edit <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> previous file in argument list.  This
+			fails when changes have been made and Vim does not
+			want to <a href="editing.txt.html#abandon" class="l">abandon</a> the current buffer.
+			Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+:[count]N[ext]! <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>
+			Edit <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> previous file in argument list.  Discard
+			any changes to the buffer.  Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and
+			<a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+:[count]prev[ious] <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>		<span id="%3Aprev" class="t">:prev</span> <span id="%3Aprevious" class="t">:previous</span>
+			Same <a href="motion.txt.html#as" class="d">as</a> :Next.  Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%5Ba" class="t">[a</span>
+<a href="editing.txt.html#%5Ba" class="d">[a</a>			Mapped to <a href="editing.txt.html#%3Aprevious" class="l">:previous</a><a href="repeat.txt.html#." class="d">.</a> <a href="vim_diff.txt.html#default-mappings" class="l">default-mappings</a>
+
+							<span id="%3Arew" class="t">:rew</span> <span id="%3Arewind" class="t">:rewind</span>
+:rew[ind] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>
+			Start editing the first file in the argument list.
+			This fails when changes have been made and Vim does
+			not want to <a href="editing.txt.html#abandon" class="l">abandon</a> the current buffer.
+			Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+								<span id="%5BA" class="t">[A</span>
+<a href="editing.txt.html#%5BA" class="d">[A</a>			Mapped to <a href="editing.txt.html#%3Arewind" class="l">:rewind</a><a href="repeat.txt.html#." class="d">.</a> <a href="vim_diff.txt.html#default-mappings" class="l">default-mappings</a>
+
+:rew[ind]! <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>
+			Start editing the first file in the argument list.
+			Discard any changes to the buffer.  Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a>
+			and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Afir" class="t">:fir</span> <span id="%3Afirst" class="t">:first</span>
+:fir[st][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>
+			Other name <a href="luaref.txt.html#for" class="d">for</a> "<a href="editing.txt.html#%3Arewind" class="d">:rewind</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Ala" class="t">:la</span> <span id="%3Alast" class="t">:last</span>
+:la[st] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>
+			Start editing the last file in the argument list.
+			This fails when changes have been made and Vim does
+			not want to <a href="editing.txt.html#abandon" class="l">abandon</a> the current buffer.
+			Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+								<span id="%5DA" class="t">]A</span>
+<a href="editing.txt.html#%5DA" class="d">]A</a>			Mapped to <a href="editing.txt.html#%3Alast" class="l">:last</a><a href="repeat.txt.html#." class="d">.</a> <a href="vim_diff.txt.html#default-mappings" class="l">default-mappings</a>
+
+:la[st]! <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a>
+			Start editing the last file in the argument list.
+			Discard any changes to the buffer.  Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a>
+			and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Awn" class="t">:wn</span> <span id="%3Awnext" class="t">:wnext</span>
+:[count]wn[ext] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a>
+			Write current file and start editing the <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a>
+			next file.  Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+:[count]wn[ext] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>
+			Write current file to <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> and start editing the
+			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> next file, unless <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> already exists and
+			the <a href="options.txt.html#%27writeany%27" class="o">'writeany'</a> option <a href="motion.txt.html#is" class="d">is</a> off.  Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and
+			<a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+:[count]wn[ext]! <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>
+			Write current file to <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> and start editing the
+			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> next file.  Also see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a> and <a href="editing.txt.html#%2Bcmd" class="l">+cmd</a><a href="repeat.txt.html#." class="d">.</a>
+
+:[count]wN[ext][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <span class="s">[file]</span>		<span id="%3AwN" class="t">:wN</span> <span id="%3AwNext" class="t">:wNext</span>
+:[count]wp[revious][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <span class="s">[file]</span>		<span id="%3Awp" class="t">:wp</span> <span id="%3Awprevious" class="t">:wprevious</span>
+			Same <a href="motion.txt.html#as" class="d">as</a> :wnext, but <a href="motion.txt.html#go" class="d">go</a> to previous file instead of
+			next.
+
+The <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> in the commands above <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to one.  For some commands <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+possible to use two counts.  The last one (rightmost one) <a href="motion.txt.html#is" class="d">is</a> used.
+
+If no <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> argument <a href="motion.txt.html#is" class="d">is</a> present, the cursor <a href="motion.txt.html#is" class="d">is</a> positioned <a href="motion.txt.html#at" class="d">at</a> the last known
+cursor position <a href="luaref.txt.html#for" class="d">for</a> the file.  If <a href="options.txt.html#%27startofline%27" class="o">'startofline'</a> <a href="motion.txt.html#is" class="d">is</a> set, the cursor will be
+positioned <a href="motion.txt.html#at" class="d">at</a> the first non-blank in the line, otherwise the last know column
+<a href="motion.txt.html#is" class="d">is</a> used.  If there <a href="motion.txt.html#is" class="d">is</a> no last known cursor position the cursor will be in the
+first line (the last line in <a href="intro.txt.html#Ex" class="d">Ex</a> mode).
+
+							<span id="%7Barglist%7D" class="t">{arglist}</span>
+The <a href="editing.txt.html#wildcards" class="d">wildcards</a> in the argument <a href="vimeval.txt.html#list" class="d">list</a> are expanded and the file names are sorted.
+Thus you can use the command `vim *.c` to edit all the <a href="change.txt.html#C" class="d">C</a> files.  From within
+Vim the command `:n *.c` does the same.
+
+White <a href="intro.txt.html#space" class="d">space</a> <a href="motion.txt.html#is" class="d">is</a> used to separate file names.  Put <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#backslash" class="d">backslash</a> before <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#space" class="d">space</a> or
+<a href="intro.txt.html#tab" class="d">tab</a> to include <a href="motion.txt.html#it" class="d">it</a> in <a href="insert.txt.html#a" class="d">a</a> file name.  E.g., to edit the single file "foo <a href="motion.txt.html#bar" class="d">bar</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">	:next foo\ bar</span>
+<span class="e"></span>
+On Unix and <a href="insert.txt.html#a" class="d">a</a> few other systems you can also use backticks, <a href="luaref.txt.html#for" class="d">for</a> example: 
+<span class="e">	:next `find . -name \\*.c -print`</span>
+The backslashes before the <a href="pattern.txt.html#star" class="d">star</a> are required to prevent "*.c" to be expanded
+by the shell before executing the find program.
+
+							<span id="arglist-position" class="t">arglist-position</span>
+When there <a href="motion.txt.html#is" class="d">is</a> an argument <a href="vimeval.txt.html#list" class="d">list</a> you can see which file you are editing in the
+title of the <a href="windows.txt.html#window" class="d">window</a> (if there <a href="motion.txt.html#is" class="d">is</a> one and <a href="options.txt.html#%27title%27" class="o">'title'</a> <a href="motion.txt.html#is" class="d">is</a> on) and with the file
+message you get with the "<a href="editing.txt.html#CTRL-G" class="k">CTRL-G</a>" command.  You will see something like
+	(4 of 11)
+If you are not really editing the file <a href="motion.txt.html#at" class="d">at</a> the current position in the argument
+<a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#it" class="d">it</a> will be
+	((4) of 11)
+This means that you are position 4 in the argument list, but not editing the
+fourth file in the argument list.  This happens when you <a href="diff.txt.html#do" class="d">do</a> "<a href="editing.txt.html#%3Ae" class="d">:e</a> file"<a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">LOCAL ARGUMENT LIST</span>
+
+							<span id="%3Aarglocal" class="t">:arglocal</span>
+:argl[ocal]		Make <a href="insert.txt.html#a" class="d">a</a> local copy of the global argument list.
+			Doesn't start editing another file.
+
+:argl[ocal][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <a href="editing.txt.html#%7Barglist%7D" class="s">{arglist}</a>
+			Define <a href="insert.txt.html#a" class="d">a</a> new argument list, which <a href="motion.txt.html#is" class="d">is</a> local to the
+			current window.  Works like <a href="editing.txt.html#%3Aargs_f" class="l">:args_f</a> otherwise.
+
+							<span id="%3Aargglobal" class="t">:argglobal</span>
+:argg[lobal]		Use the global argument <a href="vimeval.txt.html#list" class="d">list</a> <a href="luaref.txt.html#for" class="d">for</a> the current window.
+			Doesn't start editing another file.
+
+:argg[lobal][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%5B%2Bcmd%5D" class="s">[+cmd]</a> <a href="editing.txt.html#%7Barglist%7D" class="s">{arglist}</a>
+			Use the global argument <a href="vimeval.txt.html#list" class="d">list</a> <a href="luaref.txt.html#for" class="d">for</a> the current window.
+			Define <a href="insert.txt.html#a" class="d">a</a> new global argument <a href="vimeval.txt.html#list" class="d">list</a> like <a href="editing.txt.html#%3Aargs_f" class="l">:args_f</a><a href="repeat.txt.html#." class="d">.</a>
+			All <a href="windows.txt.html#windows" class="d">windows</a> using the global argument <a href="vimeval.txt.html#list" class="d">list</a> will see
+			this new list.
+
+There can be several argument lists.  They can be shared between windows.
+When they are shared, <a href="change.txt.html#changing" class="d">changing</a> the argument <a href="vimeval.txt.html#list" class="d">list</a> in one <a href="windows.txt.html#window" class="d">window</a> will also
+change <a href="motion.txt.html#it" class="d">it</a> in the other window.
+
+When <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> split the new <a href="windows.txt.html#window" class="d">window</a> inherits the argument <a href="vimeval.txt.html#list" class="d">list</a> from the
+current window.  The two <a href="windows.txt.html#windows" class="d">windows</a> then share this list, until one of them uses
+<a href="editing.txt.html#%3Aarglocal" class="l">:arglocal</a> or <a href="editing.txt.html#%3Aargglobal" class="l">:argglobal</a> to use another argument list.
+
+
+<span class="c">USING THE ARGUMENT LIST</span>
+
+						<span id="%3Aargdo" class="t">:argdo</span>
+:[range]argdo[!] <span class="s">{cmd}</span>	Execute <span class="s">{cmd}</span> <a href="luaref.txt.html#for" class="d">for</a> each file in the argument <a href="vimeval.txt.html#list" class="d">list</a> or,
+			if <a href="cmdline.txt.html#%5Brange%5D" class="s">[range]</a> <a href="motion.txt.html#is" class="d">is</a> specified, only <a href="luaref.txt.html#for" class="d">for</a> arguments in that
+			range.  It works like doing this: 
+<span class="e">				:rewind</span>
+<span class="e">				:{cmd}</span>
+<span class="e">				:next</span>
+<span class="e">				:{cmd}</span>
+<span class="e">				etc.</span>
+			When the current file can't be <a href="editing.txt.html#abandon" class="l">abandon</a>ed and the [!]
+			<a href="motion.txt.html#is" class="d">is</a> not present, the command fails.
+			When an error <a href="motion.txt.html#is" class="d">is</a> detected on one file, further files
+			in the argument <a href="vimeval.txt.html#list" class="d">list</a> will not be visited.
+			The last file in the argument <a href="vimeval.txt.html#list" class="d">list</a> (or where an error
+			occurred) becomes the current file.
+			<span class="s">{cmd}</span> can contain <a href="motion.txt.html#%27" class="d">'</a>|<a href="motion.txt.html#%27" class="d">'</a> to concatenate several commands.
+			<span class="s">{cmd}</span> must not change the argument list.
+			<span class="n">Note:</span> While this command <a href="motion.txt.html#is" class="d">is</a> executing, the <a href="autocmd.txt.html#Syntax" class="d">Syntax</a>
+			<a href="autocmd.txt.html#autocommand" class="d">autocommand</a> event <a href="motion.txt.html#is" class="d">is</a> disabled by adding <a href="motion.txt.html#it" class="d">it</a> to
+			<a href="options.txt.html#%27eventignore%27" class="o">'eventignore'</a>.  This considerably speeds up editing
+			each file.
+			Also see <a href="windows.txt.html#%3Awindo" class="l">:windo</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tabpage.txt.html#%3Atabdo" class="l">:tabdo</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%3Abufdo" class="l">:bufdo</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%3Acdo" class="l">:cdo</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%3Aldo" class="l">:ldo</a><a href="motion.txt.html#%2C" class="d">,</a>
+			<a href="quickfix.txt.html#%3Acfdo" class="l">:cfdo</a> and <a href="quickfix.txt.html#%3Alfdo" class="l">:lfdo</a><a href="repeat.txt.html#." class="d">.</a>
+
+Example: 
+<span class="e">	:args *.c</span>
+<span class="e">	:argdo set ff=unix | update</span>
+This sets the <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> option to "unix" and writes the file if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> now
+changed.  This <a href="motion.txt.html#is" class="d">is</a> done <a href="luaref.txt.html#for" class="d">for</a> all <span class="e">*.c</span> files.
+
+Example: 
+<span class="e">	:args *.[ch]</span>
+<span class="e">	:argdo %s/\&lt;my_foo\&gt;/My_Foo/ge | update</span>
+This changes the <a href="motion.txt.html#word" class="d">word</a> "my_foo" to "My_Foo" in all "*.c" and "*.h" files.  The "<a href="motion.txt.html#e" class="d">e</a>"
+flag <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> the "<a href="change.txt.html#%3Asubstitute" class="d">:substitute</a>" command to avoid an error <a href="luaref.txt.html#for" class="d">for</a> files where
+"my_foo" isn't used.  "<a href="editing.txt.html#%3Aupdate" class="d">:update</a>" writes the file only if changes were made.
+
+<span class="h">==============================================================================</span>
+4. Writing					<span id="writing" class="t">writing</span> <span id="save-file" class="t">save-file</span>
+
+<span class="n">Note:</span> When the <a href="options.txt.html#%27write%27" class="o">'write'</a> option <a href="motion.txt.html#is" class="d">is</a> off, you are not able to write any file.
+
+							<span id="%3Aw" class="t">:w</span> <span id="%3Awrite" class="t">:write</span>
+					<span id="E502" class="t">E502</span> <span id="E503" class="t">E503</span> <span id="E504" class="t">E504</span> <span id="E505" class="t">E505</span>
+					<span id="E512" class="t">E512</span> <span id="E514" class="t">E514</span> <span id="E667" class="t">E667</span> <span id="E949" class="t">E949</span>
+:w[rite] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a>	Write the whole buffer to the current file.  This <a href="motion.txt.html#is" class="d">is</a>
+			the normal way to save changes to <a href="insert.txt.html#a" class="d">a</a> file.  Fails when
+			<a href="options.txt.html#%27readonly%27" class="o">'readonly'</a> <a href="motion.txt.html#is" class="d">is</a> set or when there <a href="motion.txt.html#is" class="d">is</a> another reason why
+			the file can't be written, such <a href="motion.txt.html#as" class="d">as</a> when the parent
+			directory doesn't exist (use <a href="editing.txt.html#%2B%2Bp" class="l">++p</a> to avoid that).
+			For <a href="editing.txt.html#%2B%2Bopt" class="d">++opt</a> see <a href="editing.txt.html#%2B%2Bopt" class="l">++opt</a><a href="motion.txt.html#%2C" class="d">,</a> but only ++p, ++bin, ++nobin,
+			<a href="editing.txt.html#%2B%2Bff" class="d">++ff</a> and <a href="editing.txt.html#%2B%2Benc" class="d">++enc</a> are effective.
+
+
+:w[rite]! <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a>	Like "<a href="editing.txt.html#%3Awrite" class="d">:write</a>"<a href="motion.txt.html#%2C" class="d">,</a> but forcefully write when <a href="options.txt.html#%27readonly%27" class="o">'readonly'</a> <a href="motion.txt.html#is" class="d">is</a>
+			set or there <a href="motion.txt.html#is" class="d">is</a> another reason why <a href="editing.txt.html#writing" class="d">writing</a> was
+			refused.
+			<span class="n">Note:</span> This may change the permission and ownership of
+			the file and break (symbolic) links.  Add the 'W' flag
+			to <a href="options.txt.html#%27cpoptions%27" class="o">'cpoptions'</a> to avoid this.
+
+:[range]w[rite][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a>
+			Write the specified lines to the current file.  This
+			<a href="motion.txt.html#is" class="d">is</a> unusual, because the file will not contain all
+			lines in the buffer.
+
+							<span id="%3Aw_f" class="t">:w_f</span> <span id="%3Awrite_f" class="t">:write_f</span>
+:[range]w[rite] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a>	<a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>
+			Write the specified lines to <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>, unless <a href="motion.txt.html#it" class="d">it</a>
+			already exists and the <a href="options.txt.html#%27writeany%27" class="o">'writeany'</a> option <a href="motion.txt.html#is" class="d">is</a> off.
+
+							<span id="%3Aw%21" class="t">:w!</span>
+:[range]w[rite]! <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>
+			Write the specified lines to <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>.  Overwrite an
+			existing file.
+
+						<span id="%3Aw_a" class="t">:w_a</span> <span id="%3Awrite_a" class="t">:write_a</span> <span id="E494" class="t">E494</span>
+:[range]w[rite][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="change.txt.html#%3E%3E" class="d">&gt;&gt;</a>
+			Append the specified lines to the current file.
+
+:[range]w[rite][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="change.txt.html#%3E%3E" class="d">&gt;&gt;</a> <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>
+			Append the specified lines to <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>.  '!' forces the
+			write even if file does not exist.
+
+							<span id="%3Aw_c" class="t">:w_c</span> <span id="%3Awrite_c" class="t">:write_c</span>
+:[range]w[rite] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> !{cmd}
+			Execute <span class="s">{cmd}</span> with <a href="cmdline.txt.html#%5Brange%5D" class="s">[range]</a> lines <a href="motion.txt.html#as" class="d">as</a> standard input
+			(note the <a href="intro.txt.html#space" class="d">space</a> in front of the '!').  <span class="s">{cmd}</span> <a href="motion.txt.html#is" class="d">is</a>
+			executed like with ":!{cmd}"<a href="motion.txt.html#%2C" class="d">,</a> any '!' <a href="motion.txt.html#is" class="d">is</a> replaced with
+			the previous command <a href="various.txt.html#%3A%21" class="l">:!</a><a href="repeat.txt.html#." class="d">.</a>
+
+The default <a href="cmdline.txt.html#%5Brange%5D" class="s">[range]</a> <a href="luaref.txt.html#for" class="d">for</a> the "<a href="editing.txt.html#%3Aw" class="d">:w</a>" command <a href="motion.txt.html#is" class="d">is</a> the whole buffer (1,$).  If you
+write the whole buffer, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> no longer considered changed.  When you
+write <a href="motion.txt.html#it" class="d">it</a> to <a href="insert.txt.html#a" class="d">a</a> different file with "<a href="editing.txt.html#%3Aw" class="d">:w</a> somefile" <a href="motion.txt.html#it" class="d">it</a> depends on the "<a href="motion.txt.html#%2B" class="d">+</a>" flag in
+<a href="options.txt.html#%27cpoptions%27" class="o">'cpoptions'</a>.  When included, the write command will reset the <a href="options.txt.html#%27modified%27" class="o">'modified'</a> flag,
+even though the buffer itself may still be different from its file.
+
+If <a href="insert.txt.html#a" class="d">a</a> file name <a href="motion.txt.html#is" class="d">is</a> given with "<a href="editing.txt.html#%3Aw" class="d">:w</a>" <a href="motion.txt.html#it" class="d">it</a> becomes the alternate file.  This can be
+used, <a href="luaref.txt.html#for" class="d">for</a> example, when the write fails and you want to try again later with
+"<a href="editing.txt.html#%3Aw" class="d">:w</a> <a href="pattern.txt.html#%23" class="d">#</a>"<a href="repeat.txt.html#." class="d">.</a>  This can be switched off by removing the 'A' flag from the
+<a href="options.txt.html#%27cpoptions%27" class="o">'cpoptions'</a> option.
+
+<span class="n">Note</span> that the <a href="options.txt.html#%27fsync%27" class="o">'fsync'</a> option matters here.  If it's set <a href="motion.txt.html#it" class="d">it</a> may make writes
+slower (but safer).
+
+							<span id="%3Asav" class="t">:sav</span> <span id="%3Asaveas" class="t">:saveas</span>
+:sav[eas][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>
+			Save the current buffer under the name <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> and set
+			the filename of the current buffer to <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>.  The
+			previous name <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> the alternate file name.
+			The [!] <a href="motion.txt.html#is" class="d">is</a> needed to overwrite an existing file.
+			When <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> <a href="motion.txt.html#is" class="d">is</a> empty <a href="filetype.txt.html#filetype" class="d">filetype</a> detection <a href="motion.txt.html#is" class="d">is</a> done
+			with the new name, before the file <a href="motion.txt.html#is" class="d">is</a> written.
+			When the write was successful <a href="options.txt.html#%27readonly%27" class="o">'readonly'</a> <a href="motion.txt.html#is" class="d">is</a> reset.
+
+							<span id="%3Aup" class="t">:up</span> <span id="%3Aupdate" class="t">:update</span>
+:[range]up[date][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> [&gt;&gt;] <span class="s">[file]</span>
+			Like "<a href="editing.txt.html#%3Awrite" class="d">:write</a>"<a href="motion.txt.html#%2C" class="d">,</a> but only write when the buffer has been
+			modified.
+
+
+<span class="c">WRITING WITH MULTIPLE BUFFERS</span>				<span id="buffer-write" class="t">buffer-write</span>
+
+							<span id="%3Awa" class="t">:wa</span> <span id="%3Awall" class="t">:wall</span>
+:wa[ll]			Write all changed buffers.  Buffers without <a href="insert.txt.html#a" class="d">a</a> file
+			name cause an error message.  Buffers which are
+			readonly are not written.
+
+:wa[ll]!		Write all changed buffers, even the ones that are
+			readonly.  Buffers without <a href="insert.txt.html#a" class="d">a</a> file name are not
+			written and cause an error message.
+
+
+Vim will warn you if you try to overwrite <a href="insert.txt.html#a" class="d">a</a> file that has been changed
+elsewhere (unless "<a href="change.txt.html#%21" class="d">!</a>" was used).  See <a href="editing.txt.html#timestamp" class="l">timestamp</a><a href="repeat.txt.html#." class="d">.</a>
+
+			    <span id="backup" class="t">backup</span> <span id="E207" class="t">E207</span> <span id="E506" class="t">E506</span> <span id="E507" class="t">E507</span> <span id="E508" class="t">E508</span> <span id="E509" class="t">E509</span> <span id="E510" class="t">E510</span>
+If you write to an existing file (but <a href="diff.txt.html#do" class="d">do</a> not append) while the <a href="options.txt.html#%27backup%27" class="o">'backup'</a>,
+<a href="options.txt.html#%27writebackup%27" class="o">'writebackup'</a> or <a href="options.txt.html#%27patchmode%27" class="o">'patchmode'</a> option <a href="motion.txt.html#is" class="d">is</a> on, <a href="insert.txt.html#a" class="d">a</a> <a href="editing.txt.html#backup" class="d">backup</a> of the original file <a href="motion.txt.html#is" class="d">is</a>
+made.  The file <a href="motion.txt.html#is" class="d">is</a> either copied or renamed (see <a href="options.txt.html#%27backupcopy%27" class="o">'backupcopy'</a>).  After the
+file has been successfully written and when the <a href="options.txt.html#%27writebackup%27" class="o">'writebackup'</a> option <a href="motion.txt.html#is" class="d">is</a> on and
+the <a href="options.txt.html#%27backup%27" class="o">'backup'</a> option <a href="motion.txt.html#is" class="d">is</a> off, the <a href="editing.txt.html#backup" class="d">backup</a> file <a href="motion.txt.html#is" class="d">is</a> deleted.  When the <a href="options.txt.html#%27patchmode%27" class="o">'patchmode'</a>
+option <a href="motion.txt.html#is" class="d">is</a> on the <a href="editing.txt.html#backup" class="d">backup</a> file may be renamed.
+
+							<span id="backup-table" class="t">backup-table</span>
+<span class="h">'backup' 'writebackup'	action	</span>
+   off	     off	no <a href="editing.txt.html#backup" class="d">backup</a> made
+   off	     on		<a href="editing.txt.html#backup" class="d">backup</a> current file, deleted afterwards (default)
+   on	     off	delete old backup, <a href="editing.txt.html#backup" class="d">backup</a> current file
+   on	     on		delete old backup, <a href="editing.txt.html#backup" class="d">backup</a> current file
+
+When the <a href="options.txt.html#%27backupskip%27" class="o">'backupskip'</a> <a href="pattern.txt.html#pattern" class="d">pattern</a> matches with the name of the file which <a href="motion.txt.html#is" class="d">is</a>
+written, no <a href="editing.txt.html#backup" class="d">backup</a> file <a href="motion.txt.html#is" class="d">is</a> made.  The values of <a href="options.txt.html#%27backup%27" class="o">'backup'</a> and <a href="options.txt.html#%27writebackup%27" class="o">'writebackup'</a> are
+ignored then.
+
+When the <a href="options.txt.html#%27backup%27" class="o">'backup'</a> option <a href="motion.txt.html#is" class="d">is</a> on, an old <a href="editing.txt.html#backup" class="d">backup</a> file (with the same name <a href="motion.txt.html#as" class="d">as</a> the
+new <a href="editing.txt.html#backup" class="d">backup</a> file) will be deleted.  If <a href="options.txt.html#%27backup%27" class="o">'backup'</a> <a href="motion.txt.html#is" class="d">is</a> not set, but <a href="options.txt.html#%27writebackup%27" class="o">'writebackup'</a>
+<a href="motion.txt.html#is" class="d">is</a> set, an existing <a href="editing.txt.html#backup" class="d">backup</a> file will not be deleted.  The <a href="editing.txt.html#backup" class="d">backup</a> file that <a href="motion.txt.html#is" class="d">is</a>
+made while the file <a href="motion.txt.html#is" class="d">is</a> being written will have <a href="insert.txt.html#a" class="d">a</a> different name.
+
+On some filesystems it's possible that in <a href="insert.txt.html#a" class="d">a</a> crash you lose both the <a href="editing.txt.html#backup" class="d">backup</a> and
+the newly written file (it might be there but contain bogus data).  In that
+<a href="change.txt.html#case" class="d">case</a> try recovery, because the swap file <a href="motion.txt.html#is" class="d">is</a> synced to disk and might still be
+there. <a href="recover.txt.html#%3Arecover" class="l">:recover</a>
+
+The directories given with the <a href="options.txt.html#%27backupdir%27" class="o">'backupdir'</a> option are used to <a href="change.txt.html#put" class="d">put</a> the <a href="editing.txt.html#backup" class="d">backup</a>
+file in.  (default: same directory <a href="motion.txt.html#as" class="d">as</a> the written file).
+
+Whether the <a href="editing.txt.html#backup" class="d">backup</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> new file, which <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> copy of the original file, or the
+original file renamed depends on the <a href="options.txt.html#%27backupcopy%27" class="o">'backupcopy'</a> option.  See there <a href="luaref.txt.html#for" class="d">for</a> an
+explanation of when the copy <a href="motion.txt.html#is" class="d">is</a> made and when the file <a href="motion.txt.html#is" class="d">is</a> renamed.
+
+If the creation of <a href="insert.txt.html#a" class="d">a</a> <a href="editing.txt.html#backup" class="d">backup</a> file fails, the write <a href="motion.txt.html#is" class="d">is</a> not done.  If you want
+to write anyway add <a href="insert.txt.html#a" class="d">a</a> '!' to the command.
+
+							<span id="file-watcher" class="t">file-watcher</span>
+When you notice issues with programs, that act upon when <a href="insert.txt.html#a" class="d">a</a> buffer <a href="motion.txt.html#is" class="d">is</a> written
+(like inotify, entr or fswatch) or when external applications execute Vim to
+edit the file (like git) and those programs <a href="diff.txt.html#do" class="d">do</a> not seem to notice that the
+original file has been changed, you may want to consider switching the
+<a href="options.txt.html#%27backupcopy%27" class="o">'backupcopy'</a> option value to "yes"<a href="repeat.txt.html#." class="d">.</a>  This makes sure, Vim writes to the same
+file, that those watcher programs expect, without creating <a href="insert.txt.html#a" class="d">a</a> new file (which
+prevents them from detecting that the file has changed).  See also <a href="options.txt.html#crontab" class="l">crontab</a>
+
+							<span id="write-permissions" class="t">write-permissions</span>
+When <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> new file the permissions are read-write.  For unix the mask <a href="motion.txt.html#is" class="d">is</a>
+0o666 with additionally umask applied.  When <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> file that was read Vim
+will preserve the permissions, but clear the s-bit.
+
+							<span id="write-readonly" class="t">write-readonly</span>
+When the <a href="options.txt.html#%27cpoptions%27" class="o">'cpoptions'</a> option contains 'W', Vim will refuse to overwrite <a href="insert.txt.html#a" class="d">a</a>
+readonly file.  When 'W' <a href="motion.txt.html#is" class="d">is</a> not present, "<a href="editing.txt.html#%3Aw%21" class="d">:w!</a>" will overwrite <a href="insert.txt.html#a" class="d">a</a> readonly file,
+if the system allows <a href="motion.txt.html#it" class="d">it</a> (the directory must be writable).
+
+							<span id="write-fail" class="t">write-fail</span>
+If the <a href="editing.txt.html#writing" class="d">writing</a> of the new file fails, you have to be careful not to lose
+your changes AND the original file.  If there <a href="motion.txt.html#is" class="d">is</a> no <a href="editing.txt.html#backup" class="d">backup</a> file and <a href="editing.txt.html#writing" class="d">writing</a>
+the new file failed, you have already lost the original file!  DON'T EXIT VIM
+UNTIL YOU WRITE OUT THE FILE!  If <a href="insert.txt.html#a" class="d">a</a> <a href="editing.txt.html#backup" class="d">backup</a> was made, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> <a href="change.txt.html#put" class="d">put</a> back in place
+of the original file (if possible).  If you exit Vim, and lose the changes
+you made, the original file will mostly still be there.  If putting back the
+original file fails, there will be an error message telling you that you
+lost the original file.
+
+						<span id="DOS-format-write" class="t">DOS-format-write</span>
+If the <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> <a href="motion.txt.html#is" class="d">is</a> "dos"<a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>.  This <a href="motion.txt.html#is" class="d">is</a> default
+<a href="luaref.txt.html#for" class="d">for</a> Windows. On other systems the message "[dos]" <a href="motion.txt.html#is" class="d">is</a> shown to
+remind you that an unusual <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a> was used.
+						<span id="Unix-format-write" class="t">Unix-format-write</span>
+If the <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> <a href="motion.txt.html#is" class="d">is</a> "unix"<a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>.  On Windows
+the message "[unix]" <a href="motion.txt.html#is" class="d">is</a> shown.
+						<span id="Mac-format-write" class="t">Mac-format-write</span>
+If the <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> <a href="motion.txt.html#is" class="d">is</a> "mac"<a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a> <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>.  The
+message "[mac]" <a href="motion.txt.html#is" class="d">is</a> shown.
+
+See also <a href="editing.txt.html#file-formats" class="l">file-formats</a> and the <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> and <a href="options.txt.html#%27fileformats%27" class="o">'fileformats'</a> options.
+
+						<span id="ACL" class="t">ACL</span>
+<a href="editing.txt.html#ACL" class="d">ACL</a> stands <a href="luaref.txt.html#for" class="d">for</a> Access Control List.  It <a href="motion.txt.html#is" class="d">is</a> an advanced way to <a href="intro.txt.html#control" class="d">control</a> access
+rights <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> file.  It <a href="motion.txt.html#is" class="d">is</a> used on new MS-Windows and Unix systems, but only
+when the filesystem supports it.
+   Vim attempts to preserve the <a href="editing.txt.html#ACL" class="d">ACL</a> info when <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> file.  The <a href="editing.txt.html#backup" class="d">backup</a> file
+will get the <a href="editing.txt.html#ACL" class="d">ACL</a> info of the original file.
+   The <a href="editing.txt.html#ACL" class="d">ACL</a> info <a href="motion.txt.html#is" class="d">is</a> also used to check if <a href="insert.txt.html#a" class="d">a</a> file <a href="motion.txt.html#is" class="d">is</a> read-only (when opening the
+file).
+
+					<span id="xattr" class="t">xattr</span> <span id="E1506" class="t">E1506</span> <span id="E1508" class="t">E1508</span> <span id="E1509" class="t">E1509</span>
+<a href="editing.txt.html#xattr" class="d">xattr</a> stands <a href="luaref.txt.html#for" class="d">for</a> Extended Attributes.  It <a href="motion.txt.html#is" class="d">is</a> an advanced way to save metadata
+alongside the file in the filesystem.  It depends on the actual filesystem
+being used and Vim supports <a href="motion.txt.html#it" class="d">it</a> only on <a href="insert.txt.html#a" class="d">a</a> Linux system.
+   Vim attempts to preserve the extended attribute info when <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> file.
+The <a href="editing.txt.html#backup" class="d">backup</a> file will get the extended attribute of the original file.
+
+						<span id="read-only-share" class="t">read-only-share</span>
+When MS-Windows shares <a href="insert.txt.html#a" class="d">a</a> drive on the network <a href="motion.txt.html#it" class="d">it</a> can be marked <a href="motion.txt.html#as" class="d">as</a> read-only.
+This means that even if the file read-only attribute <a href="motion.txt.html#is" class="d">is</a> absent, and the <a href="editing.txt.html#ACL" class="d">ACL</a>
+settings on NT network shared drives allow <a href="editing.txt.html#writing" class="d">writing</a> to the file, you can still
+not write to the file.  Vim on Win32 platforms will detect read-only network
+drives and will <a href="motion.txt.html#mark" class="d">mark</a> the file <a href="motion.txt.html#as" class="d">as</a> read-only.  You will not be able to override
+<a href="motion.txt.html#it" class="d">it</a> with <a href="editing.txt.html#%3Awrite" class="l">:write</a><a href="repeat.txt.html#." class="d">.</a>
+
+						<span id="write-device" class="t">write-device</span>
+When the file name <a href="motion.txt.html#is" class="d">is</a> actually <a href="insert.txt.html#a" class="d">a</a> device name, Vim will not make <a href="insert.txt.html#a" class="d">a</a> <a href="editing.txt.html#backup" class="d">backup</a> (that
+would be impossible).  You need to use "<a href="change.txt.html#%21" class="d">!</a>"<a href="motion.txt.html#%2C" class="d">,</a> since the device already exists.
+Example <a href="luaref.txt.html#for" class="d">for</a> Unix: 
+<span class="e">	:w! /dev/lpt0</span>
+and MS-Windows: 
+<span class="e">	:w! lpt0</span>
+For Unix <a href="insert.txt.html#a" class="d">a</a> device <a href="motion.txt.html#is" class="d">is</a> detected when the name doesn't refer to <a href="insert.txt.html#a" class="d">a</a> normal file or
+<a href="insert.txt.html#a" class="d">a</a> directory.  <a href="insert.txt.html#A" class="d">A</a> fifo or named pipe also looks like <a href="insert.txt.html#a" class="d">a</a> device to Vim.
+For MS-Windows the device <a href="motion.txt.html#is" class="d">is</a> detected by its name:
+	CON
+	CLOCK$
+	NUL
+	PRN
+	COMn	n=1,2,3... etc
+	LPTn	n=1,2,3... etc
+The names can be in upper- or lowercase.
+
+<span class="h">==============================================================================</span>
+5. Writing and quitting					<span id="write-quit" class="t">write-quit</span>
+
+							<span id="%3Aq" class="t">:q</span> <span id="%3Aquit" class="t">:quit</span>
+:q[uit]			Quit the current window.  Quit Vim if this <a href="motion.txt.html#is" class="d">is</a> the last
+			<a href="windows.txt.html#edit-window" class="l">edit-window</a><a href="repeat.txt.html#." class="d">.</a>  This fails when changes have been made
+			and Vim refuses to <a href="editing.txt.html#abandon" class="l">abandon</a> the current buffer, and
+			when the last file in the argument <a href="vimeval.txt.html#list" class="d">list</a> has not been
+			edited.
+			If there are other <a href="intro.txt.html#tab" class="d">tab</a> pages and quitting the last
+			<a href="windows.txt.html#window" class="d">window</a> in the current <a href="intro.txt.html#tab" class="d">tab</a> page the current <a href="intro.txt.html#tab" class="d">tab</a> page <a href="motion.txt.html#is" class="d">is</a>
+			closed <a href="tabpage.txt.html#tab-page" class="l">tab-page</a><a href="repeat.txt.html#." class="d">.</a>
+			Triggers the <a href="autocmd.txt.html#QuitPre" class="l">QuitPre</a> <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> event.
+			See <a href="windows.txt.html#CTRL-W_q" class="l">CTRL-W_q</a> <a href="luaref.txt.html#for" class="d">for</a> quitting another window.
+
+:conf[irm] q[uit]	Quit, but give prompt when changes have been made, or
+			the last file in the argument <a href="vimeval.txt.html#list" class="d">list</a> has not been
+			edited.  See <a href="editing.txt.html#%3Aconfirm" class="l">:confirm</a> and <a href="options.txt.html#%27confirm%27" class="o">'confirm'</a>.
+
+:q[uit]!		Quit without writing, also when the current buffer has
+			changes.  The buffer <a href="motion.txt.html#is" class="d">is</a> unloaded, also when <a href="motion.txt.html#it" class="d">it</a> has
+			<a href="options.txt.html#%27hidden%27" class="o">'hidden'</a> set.
+			If this <a href="motion.txt.html#is" class="d">is</a> the last <a href="windows.txt.html#window" class="d">window</a> and there <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> modified
+			hidden buffer, the current buffer <a href="motion.txt.html#is" class="d">is</a> abandoned and the
+			first changed hidden buffer becomes the current
+			buffer.
+			Use ":qall!" to exit always.
+
+:cq[uit]		Quit always, without writing, and return an error
+			code.  See <a href="quickfix.txt.html#%3Acq" class="l">:cq</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Awq" class="t">:wq</span>
+<a href="editing.txt.html#%3Awq" class="d">:wq</a> <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a>		Write the current file and close the window.  If this
+			was the last <a href="windows.txt.html#edit-window" class="l">edit-window</a> Vim quits.
+			Writing fails when the file <a href="motion.txt.html#is" class="d">is</a> read-only or the buffer
+			does not have <a href="insert.txt.html#a" class="d">a</a> name.  Quitting fails when the last
+			file in the argument <a href="vimeval.txt.html#list" class="d">list</a> has not been edited.
+
+:wq! <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a>		Write the current file and close the window.  If this
+			was the last <a href="windows.txt.html#edit-window" class="l">edit-window</a> Vim quits.  Writing fails
+			when the current buffer does not have <a href="insert.txt.html#a" class="d">a</a> name.
+
+<a href="editing.txt.html#%3Awq" class="d">:wq</a> <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>	Write to <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> and close the window.  If this was the
+			last <a href="windows.txt.html#edit-window" class="l">edit-window</a> Vim quits.  Quitting fails when the
+			last file in the argument <a href="vimeval.txt.html#list" class="d">list</a> has not been edited.
+
+:wq! <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>	Write to <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> and close the current window.  Quit
+			Vim if this was the last <a href="windows.txt.html#edit-window" class="l">edit-window</a><a href="repeat.txt.html#." class="d">.</a>
+
+:[range]wq[!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <span class="s">[file]</span>
+			Same <a href="motion.txt.html#as" class="d">as</a> above, but only write the lines in <a href="cmdline.txt.html#%5Brange%5D" class="s">[range]</a>.
+
+							<span id="%3Ax" class="t">:x</span> <span id="%3Axit" class="t">:xit</span>
+:[range]x[it][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <span class="s">[file]</span>
+			Like "<a href="editing.txt.html#%3Awq" class="d">:wq</a>"<a href="motion.txt.html#%2C" class="d">,</a> but write only when changes have been
+			made.
+			When <a href="options.txt.html#%27hidden%27" class="o">'hidden'</a> <a href="motion.txt.html#is" class="d">is</a> set and there are more windows, the
+			current buffer becomes hidden, after <a href="editing.txt.html#writing" class="d">writing</a> the file.
+
+							<span id="%3Aexi" class="t">:exi</span> <span id="%3Aexit" class="t">:exit</span>
+:[range]exi[t][!] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a> <span class="s">[file]</span>
+			Same <a href="motion.txt.html#as" class="d">as</a> :xit.
+
+							<span id="ZZ" class="t">ZZ</span>
+<a href="editing.txt.html#ZZ" class="d">ZZ</a>			Write current file, if modified, and close the current
+			<a href="windows.txt.html#window" class="d">window</a> (same <a href="motion.txt.html#as" class="d">as</a> "<a href="editing.txt.html#%3Ax" class="d">:x</a>").
+			If there are several <a href="windows.txt.html#windows" class="d">windows</a> <a href="luaref.txt.html#for" class="d">for</a> the current file,
+			only the current <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> closed.
+
+							<span id="ZQ" class="t">ZQ</span>
+<a href="editing.txt.html#ZQ" class="d">ZQ</a>			Quit without checking <a href="luaref.txt.html#for" class="d">for</a> changes (same <a href="motion.txt.html#as" class="d">as</a> ":q!").
+
+<span class="c">MULTIPLE WINDOWS AND BUFFERS</span>				<span id="window-exit" class="t">window-exit</span>
+
+							<span id="%3Aqa" class="t">:qa</span> <span id="%3Aqall" class="t">:qall</span>
+:qa[ll]		Exit Vim, unless there are some <a href="windows.txt.html#buffers" class="d">buffers</a> which have been
+		changed.  (Use ":bmod" to <a href="motion.txt.html#go" class="d">go</a> to the next modified buffer).
+		When <a href="options.txt.html#%27autowriteall%27" class="o">'autowriteall'</a> <a href="motion.txt.html#is" class="d">is</a> set all changed <a href="windows.txt.html#buffers" class="d">buffers</a> will be
+		written, like <a href="editing.txt.html#%3Awqall" class="l">:wqall</a><a href="repeat.txt.html#." class="d">.</a>
+
+:conf[irm] qa[ll]
+		Exit Vim.  Bring up <a href="insert.txt.html#a" class="d">a</a> prompt when some <a href="windows.txt.html#buffers" class="d">buffers</a> have been
+		changed.  See <a href="editing.txt.html#%3Aconfirm" class="l">:confirm</a><a href="repeat.txt.html#." class="d">.</a>
+
+:qa[ll]!	Exit Vim.  Any changes to <a href="windows.txt.html#buffers" class="d">buffers</a> are lost.
+		Also see <a href="quickfix.txt.html#%3Acquit" class="l">:cquit</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#it" class="d">it</a> does the same but exits with <a href="insert.txt.html#a" class="d">a</a> non-zero
+		value.
+
+							<span id="%3Aquita" class="t">:quita</span> <span id="%3Aquitall" class="t">:quitall</span>
+:quita[ll][!]	Same <a href="motion.txt.html#as" class="d">as</a> "<a href="editing.txt.html#%3Aqall" class="d">:qall</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+:wqa[ll] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a>				<span id="%3Awqa" class="t">:wqa</span> <span id="%3Awqall" class="t">:wqall</span> <span id="%3Axa" class="t">:xa</span> <span id="%3Axall" class="t">:xall</span>
+:xa[ll]		Write all changed <a href="windows.txt.html#buffers" class="d">buffers</a> and exit Vim.  If there are <a href="windows.txt.html#buffers" class="d">buffers</a>
+		without <a href="insert.txt.html#a" class="d">a</a> file name, which are readonly or which cannot be
+		written <a href="luaref.txt.html#for" class="d">for</a> another reason, Vim will not quit.
+
+:conf[irm] wqa[ll] <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a>
+:conf[irm] xa[ll]
+		Write all changed <a href="windows.txt.html#buffers" class="d">buffers</a> and exit Vim.  Bring up <a href="insert.txt.html#a" class="d">a</a> prompt
+		when some <a href="windows.txt.html#buffers" class="d">buffers</a> are readonly or cannot be written <a href="luaref.txt.html#for" class="d">for</a>
+		another reason.  See <a href="editing.txt.html#%3Aconfirm" class="l">:confirm</a><a href="repeat.txt.html#." class="d">.</a>
+
+:wqa[ll]! <a href="editing.txt.html#%5B%2B%2Bopt%5D" class="s">[++opt]</a>
+:xa[ll]!	Write all changed buffers, even the ones that are readonly,
+		and exit Vim.  If there are <a href="windows.txt.html#buffers" class="d">buffers</a> without <a href="insert.txt.html#a" class="d">a</a> file name or
+		which cannot be written <a href="luaref.txt.html#for" class="d">for</a> another reason, Vim will not quit.
+
+<span class="h">==============================================================================</span>
+6. Dialogs						<span id="edit-dialogs" class="t">edit-dialogs</span>
+
+							<span id="%3Aconfirm" class="t">:confirm</span> <span id="%3Aconf" class="t">:conf</span>
+:conf[irm] <span class="s">{command}</span>	Execute <span class="s">{command}</span>, and use <a href="insert.txt.html#a" class="d">a</a> dialog when an
+			operation has to be confirmed.  Can be used on the
+			<a href="editing.txt.html#%3Aedit" class="l">:edit</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Aq" class="l">:q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Aqa" class="l">:qa</a> and <a href="editing.txt.html#%3Aw" class="l">:w</a> commands (the latter to
+			override <a href="insert.txt.html#a" class="d">a</a> read-only setting), and any commands that
+			can fail because of unsaved changes, such <a href="motion.txt.html#as" class="d">as</a> <a href="windows.txt.html#%3Aonly" class="l">:only</a><a href="motion.txt.html#%2C" class="d">,</a>
+			<a href="windows.txt.html#%3Abuffer" class="l">:buffer</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%3Abdelete" class="l">:bdelete</a><a href="motion.txt.html#%2C" class="d">,</a> etc.
+
+Examples: 
+<span class="e">  :confirm w foo</span>
+	Will ask <a href="luaref.txt.html#for" class="d">for</a> confirmation when "foo" already exists. 
+<span class="e">  :confirm q</span>
+	Will ask <a href="luaref.txt.html#for" class="d">for</a> confirmation when there are changes. 
+<span class="e">  :confirm qa</span>
+	If any modified, unsaved <a href="windows.txt.html#buffers" class="d">buffers</a> exist, you will be prompted to save
+	or <a href="editing.txt.html#abandon" class="d">abandon</a> each one.  There are also choices to "save all" or "<a href="editing.txt.html#abandon" class="d">abandon</a>
+	all"<a href="repeat.txt.html#." class="d">.</a>
+
+If you want to always use "<a href="editing.txt.html#%3Aconfirm" class="d">:confirm</a>"<a href="motion.txt.html#%2C" class="d">,</a> set the <a href="options.txt.html#%27confirm%27" class="o">'confirm'</a> option.
+
+					<span id="%3Abrowse" class="t">:browse</span> <span id="%3Abro" class="t">:bro</span> <span id="E338" class="t">E338</span> <span id="E614" class="t">E614</span> <span id="E615" class="t">E615</span> <span id="E616" class="t">E616</span>
+:bro[wse] <span class="s">{command}</span>	Open <a href="insert.txt.html#a" class="d">a</a> file selection dialog <a href="luaref.txt.html#for" class="d">for</a> an argument to
+			<span class="s">{command}</span>.  At present this works <a href="luaref.txt.html#for" class="d">for</a> <a href="editing.txt.html#%3Ae" class="l">:e</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Aw" class="l">:w</a><a href="motion.txt.html#%2C" class="d">,</a>
+			<a href="editing.txt.html#%3Awall" class="l">:wall</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Awq" class="l">:wq</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Awqall" class="l">:wqall</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Ax" class="l">:x</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Axall" class="l">:xall</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Aexit" class="l">:exit</a><a href="motion.txt.html#%2C" class="d">,</a>
+			<a href="editing.txt.html#%3Aview" class="l">:view</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%3Asview" class="l">:sview</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="insert.txt.html#%3Ar" class="l">:r</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Asaveas" class="l">:saveas</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%3Asp" class="l">:sp</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="starting.txt.html#%3Amkexrc" class="l">:mkexrc</a><a href="motion.txt.html#%2C" class="d">,</a>
+			<a href="starting.txt.html#%3Amkvimrc" class="l">:mkvimrc</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="starting.txt.html#%3Amksession" class="l">:mksession</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="starting.txt.html#%3Amkview" class="l">:mkview</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%3Asplit" class="l">:split</a><a href="motion.txt.html#%2C" class="d">,</a>
+			<a href="windows.txt.html#%3Avsplit" class="l">:vsplit</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tabpage.txt.html#%3Atabe" class="l">:tabe</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tabpage.txt.html#%3Atabnew" class="l">:tabnew</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%3Acfile" class="l">:cfile</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%3Acgetfile" class="l">:cgetfile</a><a href="motion.txt.html#%2C" class="d">,</a>
+			<a href="quickfix.txt.html#%3Acaddfile" class="l">:caddfile</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%3Alfile" class="l">:lfile</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%3Algetfile" class="l">:lgetfile</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%3Aladdfile" class="l">:laddfile</a><a href="motion.txt.html#%2C" class="d">,</a>
+			<a href="diff.txt.html#%3Adiffsplit" class="l">:diffsplit</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="diff.txt.html#%3Adiffpatch" class="l">:diffpatch</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%3Apedit" class="l">:pedit</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="various.txt.html#%3Aredir" class="l">:redir</a><a href="motion.txt.html#%2C" class="d">,</a>
+			<a href="repeat.txt.html#%3Asource" class="l">:source</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Aupdate" class="l">:update</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Avisual" class="l">:visual</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%3Avsplit" class="l">:vsplit</a><a href="motion.txt.html#%2C" class="d">,</a>
+			and <a href="editing.txt.html#%3Aqall" class="l">:qall</a> if <a href="options.txt.html#%27confirm%27" class="o">'confirm'</a> <a href="motion.txt.html#is" class="d">is</a> set.
+			<span class="n">Note:</span> only in Win32 GUI; in console `:browse edit`
+			works if the <a href="autocmd.txt.html#FileExplorer" class="d">FileExplorer</a> <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> group exists.
+			When "<a href="editing.txt.html#%3Abrowse" class="d">:browse</a>" <a href="motion.txt.html#is" class="d">is</a> not possible you get an error
+			message.  If <span class="s">{command}</span> doesn't <a href="support.txt.html#support" class="d">support</a> browsing, the
+			<span class="s">{command}</span> <a href="motion.txt.html#is" class="d">is</a> executed without <a href="insert.txt.html#a" class="d">a</a> dialog.
+			"<a href="editing.txt.html#%3Abrowse" class="d">:browse</a> set" works like <a href="options.txt.html#%3Aoptions" class="l">:options</a><a href="repeat.txt.html#." class="d">.</a>
+			See also <a href="starting.txt.html#%3Aoldfiles" class="l">:oldfiles</a> <a href="luaref.txt.html#for" class="d">for</a> "<a href="editing.txt.html#%3Abrowse" class="d">:browse</a> oldfiles"<a href="repeat.txt.html#." class="d">.</a>
+
+The <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="motion.txt.html#is" class="d">is</a> best shown via some examples: 
+<span class="e">	:browse e $vim/foo</span>
+		Open the browser in the $vim/foo directory, and edit the
+		file chosen. 
+<span class="e">	:browse e</span>
+		Open the browser in the directory specified with <a href="vim_diff.txt.html#%27browsedir%27" class="o">'browsedir'</a>,
+		and edit the file chosen. 
+<span class="e">	:browse w</span>
+		Open the browser in the directory of the current buffer,
+		with the current buffer filename <a href="motion.txt.html#as" class="d">as</a> default, and save the
+		buffer under the filename chosen. 
+<span class="e">	:browse w C:/bar</span>
+		Open the browser in the C:/bar directory, with the current
+		buffer filename <a href="motion.txt.html#as" class="d">as</a> default, and save the buffer under the
+		filename chosen.
+Also see the <a href="vim_diff.txt.html#%27browsedir%27" class="o">'browsedir'</a> option.
+For versions of Vim where browsing <a href="motion.txt.html#is" class="d">is</a> not supported, the command <a href="motion.txt.html#is" class="d">is</a> executed
+unmodified.
+
+							<span id="browsefilter" class="t">browsefilter</span>
+For MS-Windows you can modify the filters that are used in the browse
+dialog.  By setting the g:browsefilter or b:browsefilter variables, you can
+change the filters globally or locally to the buffer.  The variable <a href="motion.txt.html#is" class="d">is</a> set to
+<a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> in the format "<span class="s">{filter label}</span>\t<span class="s">{pattern}</span>;<span class="s">{pattern}</span>\n" where "{filter
+label}" <a href="motion.txt.html#is" class="d">is</a> the text that appears in the "Files of Type" comboBox, and <span class="s">{pattern}</span>
+<a href="motion.txt.html#is" class="d">is</a> the <a href="pattern.txt.html#pattern" class="d">pattern</a> which filters the filenames.  Several patterns can be given,
+separated by ';'.
+
+For example, to have only Vim files in the dialog, you could use the following
+command: 
+<span class="e"></span>
+<span class="e">     let g:browsefilter = "Vim scripts\t*.vim\nVim Startup Files\t*vimrc\n"</span>
+<span class="e"></span>
+You can override the <a href="change.txt.html#filter" class="d">filter</a> setting on <a href="insert.txt.html#a" class="d">a</a> per-buffer basis by setting the
+b:browsefilter variable.  You would most likely set b:browsefilter in <a href="insert.txt.html#a" class="d">a</a>
+<a href="filetype.txt.html#filetype" class="d">filetype</a> plugin, so that the browse dialog would contain entries related to
+the type of file you are currently editing.  Disadvantage: This makes <a href="motion.txt.html#it" class="d">it</a>
+difficult to start editing <a href="insert.txt.html#a" class="d">a</a> file of <a href="insert.txt.html#a" class="d">a</a> different type.  To overcome this, you
+may want to add "All Files <a href="motion.txt.html#%28" class="d">(</a>*<a href="repeat.txt.html#." class="d">.</a>*)\t*\n" <a href="motion.txt.html#as" class="d">as</a> the final <a href="change.txt.html#filter" class="d">filter</a> on Windows or "All
+Files <a href="motion.txt.html#%28" class="d">(</a>*)\t*\n" on other platforms, so that the user can still access any
+desired file.
+
+To avoid setting <a href="editing.txt.html#browsefilter" class="d">browsefilter</a> when Vim does not actually <a href="support.txt.html#support" class="d">support</a> it, you can
+use has("<a href="editing.txt.html#browsefilter" class="d">browsefilter</a>"): 
+<span class="e"></span>
+<span class="e">	if has("browsefilter")</span>
+<span class="e">	   let g:browsefilter = "whatever"</span>
+<span class="e">	endif</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+7. The current directory				<span id="current-directory" class="t">current-directory</span>
+
+You can use <a href="editing.txt.html#%3Acd" class="l">:cd</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%3Atcd" class="l">:tcd</a> and <a href="editing.txt.html#%3Alcd" class="l">:lcd</a> to change to another directory, so you
+will not have to type that directory name in front of the file names.  It also
+makes <a href="insert.txt.html#a" class="d">a</a> difference <a href="luaref.txt.html#for" class="d">for</a> executing external commands, e.g. ":!ls" or "<a href="various.txt.html#%3Ate" class="d">:te</a> ls"<a href="repeat.txt.html#." class="d">.</a>
+
+There are three <a href="editing.txt.html#current-directory" class="d">current-directory</a> "scopes"<a href="cmdline.txt.html#%3A" class="d">:</a> global, <a href="intro.txt.html#tab" class="d">tab</a> and window.  The
+window-local working directory takes precedence over the tab-local
+working directory, which in turn takes precedence over the global
+working directory.  If <a href="insert.txt.html#a" class="d">a</a> local working directory (tab or window) does not
+exist, the next-higher scope in the hierarchy applies.
+
+							<span id="%3Acd" class="t">:cd</span> <span id="E747" class="t">E747</span> <span id="E472" class="t">E472</span>
+:cd[!]			On non-Unix systems when <a href="options.txt.html#%27cdhome%27" class="o">'cdhome'</a> <a href="motion.txt.html#is" class="d">is</a> off: Print the
+			current directory name.
+			Otherwise: Change the current directory to the <a href="intro.txt.html#home" class="d">home</a>
+			directory.  Clear any window-local directory.
+			Use <a href="editing.txt.html#%3Apwd" class="l">:pwd</a> to print the current directory on all
+			systems.
+
+:cd[!] <span class="s">{path}</span>		Change the current directory to <span class="s">{path}</span>.
+			If <span class="s">{path}</span> <a href="motion.txt.html#is" class="d">is</a> relative, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> searched <a href="luaref.txt.html#for" class="d">for</a> in the
+			directories listed in <a href="options.txt.html#%27cdpath%27" class="l">'cdpath'</a><a href="repeat.txt.html#." class="d">.</a>
+			Clear any window-local directory.
+			Does not change the meaning of an already opened file,
+			because its full path name <a href="motion.txt.html#is" class="d">is</a> remembered.  Files from
+			the <a href="editing.txt.html#arglist" class="l">arglist</a> may change though!
+			On MS-Windows this also changes the active drive.
+			To change to the directory of the current file: 
+<span class="e">				:cd %:h</span>
+
+							<span id="%3Acd-" class="t">:cd-</span> <span id="E186" class="t">E186</span>
+:cd[!] <a href="motion.txt.html#-" class="d">-</a>		Change to the previous current directory (before the
+			previous "<a href="editing.txt.html#%3Acd" class="d">:cd</a> <span class="s">{path}</span>" command).
+
+							<span id="%3Achd" class="t">:chd</span> <span id="%3Achdir" class="t">:chdir</span>
+:chd[ir][!] <span class="s">[path]</span>	Same <a href="motion.txt.html#as" class="d">as</a> <a href="editing.txt.html#%3Acd" class="l">:cd</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Atc" class="t">:tc</span> <span id="%3Atcd" class="t">:tcd</span>
+:tc[d][!] <span class="s">{path}</span>	Like <a href="editing.txt.html#%3Acd" class="l">:cd</a><a href="motion.txt.html#%2C" class="d">,</a> but only set the directory <a href="luaref.txt.html#for" class="d">for</a> the current
+			tab.  The current <a href="windows.txt.html#window" class="d">window</a> will also use this directory.
+			The current directory <a href="motion.txt.html#is" class="d">is</a> not changed <a href="luaref.txt.html#for" class="d">for</a> <a href="windows.txt.html#windows" class="d">windows</a> in
+			other tabs and <a href="luaref.txt.html#for" class="d">for</a> <a href="windows.txt.html#windows" class="d">windows</a> in the current <a href="intro.txt.html#tab" class="d">tab</a> that
+			have their own window-local directory.
+
+							<span id="%3Atcd-" class="t">:tcd-</span>
+:tc[d][!] <a href="motion.txt.html#-" class="d">-</a>		Change to the previous current directory (before the
+			previous "<a href="editing.txt.html#%3Atcd" class="d">:tcd</a> <span class="s">{path}</span>" command).
+
+							<span id="%3Atch" class="t">:tch</span> <span id="%3Atchdir" class="t">:tchdir</span>
+:tch[dir][!]		Same <a href="motion.txt.html#as" class="d">as</a> <a href="editing.txt.html#%3Atcd" class="l">:tcd</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Alc" class="t">:lc</span> <span id="%3Alcd" class="t">:lcd</span>
+:lc[d][!] <span class="s">{path}</span>	Like <a href="editing.txt.html#%3Acd" class="l">:cd</a><a href="motion.txt.html#%2C" class="d">,</a> but only set the current directory <a href="luaref.txt.html#for" class="d">for</a> the
+			current window.  The current directory <a href="luaref.txt.html#for" class="d">for</a> other
+			<a href="windows.txt.html#windows" class="d">windows</a> or tabs <a href="motion.txt.html#is" class="d">is</a> not changed.
+
+							<span id="%3Alch" class="t">:lch</span> <span id="%3Alchdir" class="t">:lchdir</span>
+:lch[dir][!]		Same <a href="motion.txt.html#as" class="d">as</a> <a href="editing.txt.html#%3Alcd" class="l">:lcd</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="%3Alcd-" class="t">:lcd-</span>
+:lc[d][!] <a href="motion.txt.html#-" class="d">-</a>		Change to the previous current directory (before the
+			previous "<a href="editing.txt.html#%3Alcd" class="d">:lcd</a> <span class="s">{path}</span>" command).
+
+							<span id="%3Apw" class="t">:pw</span> <span id="%3Apwd" class="t">:pwd</span> <span id="E187" class="t">E187</span>
+:pw[d]			Print the current directory name.
+			Also see <a href="vimfn.txt.html#getcwd%28%29" class="l">getcwd()</a><a href="repeat.txt.html#." class="d">.</a>
+							<span id="%3Apwd-verbose" class="t">:pwd-verbose</span>
+			When <a href="options.txt.html#%27verbose%27" class="o">'verbose'</a> <a href="motion.txt.html#is" class="d">is</a> non-zero, <a href="editing.txt.html#%3Apwd" class="l">:pwd</a> will also display
+			what scope the current directory was set. Example: 
+<span class="e"></span>
+<span class="e">				" Set by :cd</span>
+<span class="e">				:verbose pwd</span>
+<span class="e">				[global] /path/to/current</span>
+<span class="e"></span>
+<span class="e">				" Set by :lcd</span>
+<span class="e">				:verbose pwd</span>
+<span class="e">				[window] /path/to/current</span>
+<span class="e"></span>
+<span class="e">				" Set by :tcd</span>
+<span class="e">				:verbose pwd</span>
+<span class="e">				[tabpage] /path/to/current</span>
+<span class="e"></span>
+So long <a href="motion.txt.html#as" class="d">as</a> no <a href="editing.txt.html#%3Alcd" class="l">:lcd</a> or <a href="editing.txt.html#%3Atcd" class="l">:tcd</a> command has been used, all <a href="windows.txt.html#windows" class="d">windows</a> share the
+same current directory.  Using <a href="insert.txt.html#a" class="d">a</a> command to jump to another <a href="windows.txt.html#window" class="d">window</a> doesn't
+change anything <a href="luaref.txt.html#for" class="d">for</a> the current directory.
+
+When <a href="editing.txt.html#%3Alcd" class="l">:lcd</a> has been used <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> window, the specified directory becomes the
+current directory <a href="luaref.txt.html#for" class="d">for</a> that window.  Windows where the <a href="editing.txt.html#%3Alcd" class="l">:lcd</a> command has not
+been used stick to the global or tab-local directory.  When jumping to another
+<a href="windows.txt.html#window" class="d">window</a> the current directory <a href="motion.txt.html#is" class="d">is</a> changed to the last specified local current
+directory.  If none was specified, the global or tab-local directory <a href="motion.txt.html#is" class="d">is</a> used.
+When creating <a href="insert.txt.html#a" class="d">a</a> new <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#it" class="d">it</a> inherits the local directory of the current window.
+
+When <a href="change.txt.html#changing" class="d">changing</a> tabs the same behaviour applies.  If the current <a href="intro.txt.html#tab" class="d">tab</a> has no
+local working directory the global working directory <a href="motion.txt.html#is" class="d">is</a> used.
+
+When <a href="insert.txt.html#a" class="d">a</a> <a href="editing.txt.html#%3Acd" class="l">:cd</a> command <a href="motion.txt.html#is" class="d">is</a> used, the current <a href="windows.txt.html#window" class="d">window</a> and <a href="intro.txt.html#tab" class="d">tab</a> will lose their local
+current directories and will use the global current directory from now on.
+When <a href="insert.txt.html#a" class="d">a</a> <a href="editing.txt.html#%3Atcd" class="l">:tcd</a> command <a href="motion.txt.html#is" class="d">is</a> used, only the current <a href="windows.txt.html#window" class="d">window</a> will lose its local
+working directory.
+
+After using <a href="editing.txt.html#%3Acd" class="l">:cd</a> the full path name will be used <a href="luaref.txt.html#for" class="d">for</a> reading and <a href="editing.txt.html#writing" class="d">writing</a>
+files.  On some networked file systems this may cause problems.  The result of
+using the full path name <a href="motion.txt.html#is" class="d">is</a> that the file names currently in use will remain
+referring to the same file.  Example: If you have <a href="insert.txt.html#a" class="d">a</a> file a:test and <a href="insert.txt.html#a" class="d">a</a>
+directory a:vim the commands "<a href="editing.txt.html#%3Ae" class="d">:e</a> test" "<a href="editing.txt.html#%3Acd" class="d">:cd</a> vim" "<a href="editing.txt.html#%3Aw" class="d">:w</a>" will overwrite the file
+a:test and not write a:vim/test.  But if you <a href="diff.txt.html#do" class="d">do</a> "<a href="editing.txt.html#%3Aw" class="d">:w</a> test" the file a:vim/test
+will be written, because you gave <a href="insert.txt.html#a" class="d">a</a> new file name and did not refer to <a href="insert.txt.html#a" class="d">a</a>
+filename before the "<a href="editing.txt.html#%3Acd" class="d">:cd</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+8. Editing binary files					<span id="edit-binary" class="t">edit-binary</span>
+
+Although Vim was made to edit text files, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> possible to edit binary
+files.  The <a href="starting.txt.html#-b" class="l">-b</a> Vim argument (b <a href="luaref.txt.html#for" class="d">for</a> binary) makes Vim <a href="diff.txt.html#do" class="d">do</a> file I/O in binary
+mode, and sets some <a href="options.txt.html#options" class="d">options</a> <a href="luaref.txt.html#for" class="d">for</a> editing binary files ('binary' on, <a href="options.txt.html#%27textwidth%27" class="o">'textwidth'</a>
+to 0, <a href="options.txt.html#%27modeline%27" class="o">'modeline'</a> off, <a href="options.txt.html#%27expandtab%27" class="o">'expandtab'</a> off).  Setting the <a href="options.txt.html#%27binary%27" class="o">'binary'</a> option has the
+same effect.  Don't forget to <a href="diff.txt.html#do" class="d">do</a> this before reading the file.
+
+There are <a href="insert.txt.html#a" class="d">a</a> few things to remember when editing binary files:
+<a href="motion.txt.html#-" class="d">-</a> When editing executable files the number of bytes must not change.
+  Use only the "<a href="change.txt.html#R" class="d">R</a>" or "<a href="change.txt.html#r" class="d">r</a>" command to change text.  Do not delete characters
+  with "<a href="change.txt.html#x" class="d">x</a>" or by backspacing.
+<a href="motion.txt.html#-" class="d">-</a> Set the <a href="options.txt.html#%27textwidth%27" class="o">'textwidth'</a> option to 0.  Otherwise lines will unexpectedly be
+  split in two.
+<a href="motion.txt.html#-" class="d">-</a> When there are not many <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>s, the lines will become very long.  If you
+  want to edit <a href="insert.txt.html#a" class="d">a</a> line that does not fit on the screen reset the <a href="options.txt.html#%27wrap%27" class="o">'wrap'</a> option.
+  Horizontal <a href="scroll.txt.html#scrolling" class="d">scrolling</a> <a href="motion.txt.html#is" class="d">is</a> used then.  If <a href="insert.txt.html#a" class="d">a</a> line becomes too long (see <a href="vi_diff.txt.html#limits" class="l">limits</a><a href="motion.txt.html#%29" class="d">)</a>
+  you cannot edit that line.  The line will be split when reading the file.
+  It <a href="motion.txt.html#is" class="d">is</a> also possible that you get an "out of memory" error when reading the
+  file.
+<a href="motion.txt.html#-" class="d">-</a> Make sure the <a href="options.txt.html#%27binary%27" class="o">'binary'</a> option <a href="motion.txt.html#is" class="d">is</a> set BEFORE loading the
+  file.  Otherwise both <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> and <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> are considered to <a href="intro.txt.html#end" class="d">end</a> <a href="insert.txt.html#a" class="d">a</a> line
+  and when the file <a href="motion.txt.html#is" class="d">is</a> written the <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> will be replaced with <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a>.
+<a href="motion.txt.html#-" class="d">-</a> <a href="intro.txt.html#%3CNul%3E" class="s">&lt;Nul&gt;</a> characters are shown on the screen <a href="motion.txt.html#as" class="d">as</a> ^@.  You can enter them with
+  "<a href="visual.txt.html#CTRL-V" class="k">CTRL-V</a> <span class="k">CTRL-@</span>" or "<a href="visual.txt.html#CTRL-V" class="k">CTRL-V</a> 000"<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> To <a href="insert.txt.html#insert" class="d">insert</a> <a href="insert.txt.html#a" class="d">a</a> <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> character in the file split <a href="insert.txt.html#a" class="d">a</a> line.  When <a href="editing.txt.html#writing" class="d">writing</a> the
+  buffer to <a href="insert.txt.html#a" class="d">a</a> file <a href="insert.txt.html#a" class="d">a</a> <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a> will be written <a href="luaref.txt.html#for" class="d">for</a> the <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>.
+<a href="motion.txt.html#-" class="d">-</a> Vim normally appends an <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a> <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> of the file if there <a href="motion.txt.html#is" class="d">is</a> none.
+  Setting the <a href="options.txt.html#%27binary%27" class="o">'binary'</a> option prevents this.  If you want to add the final
+  <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>, set the <a href="options.txt.html#%27endofline%27" class="o">'endofline'</a> option.  You can also read the value of this
+  option to see if there was an <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a> <a href="luaref.txt.html#for" class="d">for</a> the last line (you cannot see this
+  in the text).
+
+<span class="h">==============================================================================</span>
+9. Encryption						<span id="encryption" class="t">encryption</span>
+
+					                <span id="%3AX" class="t">:X</span> <span id="E817" class="t">E817</span> <span id="E818" class="t">E818</span> <span id="E819" class="t">E819</span> <span id="E820" class="t">E820</span>
+Support <a href="luaref.txt.html#for" class="d">for</a> editing encrypted files has been removed.
+	<a class="u" href="https://github.com/neovim/neovim/issues/694">https://github.com/neovim/neovim/issues/694</a>
+	<a class="u" href="https://github.com/neovim/neovim/issues/701">https://github.com/neovim/neovim/issues/701</a>
+
+<span class="h">==============================================================================</span>
+10. Timestamps					<span id="timestamp" class="t">timestamp</span> <span id="timestamps" class="t">timestamps</span>
+
+Vim remembers the modification timestamp, mode and size of <a href="insert.txt.html#a" class="d">a</a> file when you
+begin editing it.  This <a href="motion.txt.html#is" class="d">is</a> used to avoid that you have two different versions
+of the same file (without you knowing this).
+
+After <a href="insert.txt.html#a" class="d">a</a> shell command <a href="motion.txt.html#is" class="d">is</a> run <a href="motion.txt.html#%28" class="d">(</a><a href="various.txt.html#%3A%21cmd" class="l">:!cmd</a> <a href="starting.txt.html#suspend" class="l">suspend</a> <a href="insert.txt.html#%3Aread%21" class="l">:read!</a> <a href="various.txt.html#K" class="l">K</a><a href="motion.txt.html#%29" class="d">)</a> timestamps,
+file modes and file sizes are compared <a href="luaref.txt.html#for" class="d">for</a> all <a href="windows.txt.html#buffers" class="d">buffers</a> in <a href="insert.txt.html#a" class="d">a</a> window.   Vim will
+run any associated <a href="autocmd.txt.html#FileChangedShell" class="l">FileChangedShell</a> autocommands or display <a href="insert.txt.html#a" class="d">a</a> warning <a href="luaref.txt.html#for" class="d">for</a>
+any files that have changed.  In the <a href="gui.txt.html#GUI" class="d">GUI</a> this happens when Vim regains input
+focus.
+
+							<span id="E321" class="t">E321</span> <span id="E462" class="t">E462</span>
+If you want to automatically <a href="editing.txt.html#reload" class="d">reload</a> <a href="insert.txt.html#a" class="d">a</a> file when <a href="motion.txt.html#it" class="d">it</a> has been changed outside of
+Vim, set the <a href="options.txt.html#%27autoread%27" class="o">'autoread'</a> option.  This doesn't work <a href="motion.txt.html#at" class="d">at</a> the moment you write the
+file though, only when the file wasn't changed inside of Vim.
+							<span id="ignore-timestamp" class="t">ignore-timestamp</span>
+If you <a href="diff.txt.html#do" class="d">do</a> not want to be asked or automatically <a href="editing.txt.html#reload" class="d">reload</a> the file, you can use
+this: 
+<span class="e">	set buftype=nofile</span>
+<span class="e"></span>
+Or, when <a href="starting.txt.html#starting" class="d">starting</a> gvim from <a href="insert.txt.html#a" class="d">a</a> shell: 
+<span class="e">	gvim file.log -c "set buftype=nofile"</span>
+<span class="e"></span>
+<span class="n">Note</span> that if <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#FileChangedShell" class="d">FileChangedShell</a> <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> <a href="motion.txt.html#is" class="d">is</a> defined you will not get <a href="insert.txt.html#a" class="d">a</a>
+warning message or prompt.  The <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> <a href="motion.txt.html#is" class="d">is</a> expected to handle this.
+
+There <a href="motion.txt.html#is" class="d">is</a> no warning <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> directory.  But you <a href="diff.txt.html#do" class="d">do</a> get warned if you started
+editing <a href="insert.txt.html#a" class="d">a</a> new file and <a href="motion.txt.html#it" class="d">it</a> was created <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> directory later.
+
+When Vim notices the <a href="editing.txt.html#timestamp" class="d">timestamp</a> of <a href="insert.txt.html#a" class="d">a</a> file has changed, and the file <a href="motion.txt.html#is" class="d">is</a> being
+edited in <a href="insert.txt.html#a" class="d">a</a> buffer but has not changed, Vim checks if the contents of the file
+<a href="motion.txt.html#is" class="d">is</a> equal.  This <a href="motion.txt.html#is" class="d">is</a> done by reading the file again (into <a href="insert.txt.html#a" class="d">a</a> hidden buffer, which
+<a href="motion.txt.html#is" class="d">is</a> immediately deleted again) and comparing the text.  If the text <a href="motion.txt.html#is" class="d">is</a> equal,
+you will get no warning.
+
+If you don't get warned often enough you can use the following command.
+
+							<span id="%3Acheckt" class="t">:checkt</span> <span id="%3Achecktime" class="t">:checktime</span>
+:checkt[ime]		Check if any <a href="windows.txt.html#buffers" class="d">buffers</a> were changed outside of Vim.
+			This checks and warns you if you would <a href="intro.txt.html#end" class="d">end</a> up with two
+			versions of <a href="insert.txt.html#a" class="d">a</a> file.
+			If this <a href="motion.txt.html#is" class="d">is</a> called from an autocommand, <a href="insert.txt.html#a" class="d">a</a> "<a href="repeat.txt.html#%3Aglobal" class="d">:global</a>"
+			command or <a href="motion.txt.html#is" class="d">is</a> not typed the actual check <a href="motion.txt.html#is" class="d">is</a> postponed
+			until <a href="insert.txt.html#a" class="d">a</a> moment the side effects (reloading the file)
+			would be harmless.
+			Each loaded buffer <a href="motion.txt.html#is" class="d">is</a> checked <a href="luaref.txt.html#for" class="d">for</a> its associated file
+			being changed.  If the file was changed Vim will take
+			action.  If there are no changes in the buffer and
+			<a href="options.txt.html#%27autoread%27" class="o">'autoread'</a> <a href="motion.txt.html#is" class="d">is</a> set, the buffer <a href="motion.txt.html#is" class="d">is</a> reloaded.  Otherwise,
+			you are offered the choice of reloading the file.  If
+			the file was deleted you get an error message.
+			If the file previously didn't exist you get <a href="insert.txt.html#a" class="d">a</a> warning
+			if <a href="motion.txt.html#it" class="d">it</a> exists now.
+			Once <a href="insert.txt.html#a" class="d">a</a> file has been checked the <a href="editing.txt.html#timestamp" class="d">timestamp</a> <a href="motion.txt.html#is" class="d">is</a> reset,
+			you will not be warned again.
+			<a href="autocmd.txt.html#Syntax" class="d">Syntax</a> highlighting, marks, <a href="diff.txt.html#diff" class="d">diff</a> status,
+			<a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a>, <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a> and <a href="options.txt.html#%27binary%27" class="o">'binary'</a> <a href="options.txt.html#options" class="d">options</a>
+			are not changed.  See <a href="vvars.txt.html#v%3Afcs_choice" class="l">v:fcs_choice</a> to <a href="editing.txt.html#reload" class="d">reload</a> these
+			too (for example, if <a href="insert.txt.html#a" class="d">a</a> code <a href="change.txt.html#formatting" class="d">formatting</a> tools has
+			changed the file).
+
+:[N]checkt[ime] <span class="s">{filename}</span>
+:[N]checkt[ime] [N]
+			Check the <a href="editing.txt.html#timestamp" class="d">timestamp</a> of <a href="insert.txt.html#a" class="d">a</a> specific buffer.  The buffer
+			may be specified by name, number or with <a href="insert.txt.html#a" class="d">a</a> pattern.
+
+
+							<span id="E813" class="t">E813</span> <span id="E814" class="t">E814</span>
+Vim will <a href="editing.txt.html#reload" class="d">reload</a> the buffer if you chose to.  If <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> visible that
+contains this buffer, the reloading will happen in the <a href="repeat.txt.html#context" class="d">context</a> of this window.
+Otherwise <a href="insert.txt.html#a" class="d">a</a> special <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> used, so that most autocommands will work.  You
+can't close this window.  <a href="insert.txt.html#A" class="d">A</a> few other restrictions apply.  Best <a href="motion.txt.html#is" class="d">is</a> to make
+sure nothing happens outside of the current buffer.  E.g., setting
+window-local <a href="options.txt.html#options" class="d">options</a> may <a href="intro.txt.html#end" class="d">end</a> up in the wrong window.  Splitting the window,
+doing something there and closing <a href="motion.txt.html#it" class="d">it</a> should be OK (if there are no side
+effects from other autocommands).  Closing unrelated <a href="windows.txt.html#windows" class="d">windows</a> and <a href="windows.txt.html#buffers" class="d">buffers</a> will
+get you into trouble.
+
+Before <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> file, the <a href="editing.txt.html#timestamp" class="d">timestamp</a> <a href="motion.txt.html#is" class="d">is</a> checked (unless "<a href="change.txt.html#%21" class="d">!</a>" was used).
+If <a href="motion.txt.html#it" class="d">it</a> has changed, Vim will ask if you really want to overwrite the file:
+
+	WARNING: The file has been changed since reading it!!!
+	Do you really want to write to <a href="motion.txt.html#it" class="d">it</a> (y/n)?
+
+If you hit 'y' Vim will continue <a href="editing.txt.html#writing" class="d">writing</a> the file.  If you hit 'n' the write <a href="motion.txt.html#is" class="d">is</a>
+aborted.  If you used "<a href="editing.txt.html#%3Awq" class="d">:wq</a>" or "<a href="editing.txt.html#ZZ" class="d">ZZ</a>" Vim will not exit, you will get another
+chance to write the file.
+
+The message would normally mean that somebody has written to the file after
+the edit session started.  This could be another person, in which <a href="change.txt.html#case" class="d">case</a> you
+probably want to check if your changes to the file and the changes from the
+other person should be merged.  Write the file under another name and check <a href="luaref.txt.html#for" class="d">for</a>
+differences (the "<a href="diff.txt.html#diff" class="d">diff</a>" program can be used <a href="luaref.txt.html#for" class="d">for</a> this).
+
+It <a href="motion.txt.html#is" class="d">is</a> also possible that you modified the file yourself, from another edit
+session or with another command (e.g., <a href="insert.txt.html#a" class="d">a</a> <a href="change.txt.html#filter" class="d">filter</a> command).  Then you will know
+which version of the file you want to keep.
+
+The accuracy of the time check depends on the filesystem.  On Unix <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+usually sub-second.  With old file systems and on MS-Windows <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> normally one
+second.  Use <span class="e">has('nanotime')</span> to check if sub-second time stamp checks are
+available.
+
+There <a href="motion.txt.html#is" class="d">is</a> one situation where you get the message while there <a href="motion.txt.html#is" class="d">is</a> nothing wrong:
+On <a href="insert.txt.html#a" class="d">a</a> Win32 system on the day daylight saving time starts.  There <a href="motion.txt.html#is" class="d">is</a> something
+in the Win32 libraries that confuses Vim about the hour time difference.  The
+problem goes away the next day.
+
+<span class="h">==============================================================================</span>
+11. File Searching					<span id="file-searching" class="t">file-searching</span>
+
+The file searching <a href="motion.txt.html#is" class="d">is</a> currently used <a href="luaref.txt.html#for" class="d">for</a> the <a href="options.txt.html#%27path%27" class="o">'path'</a>, <a href="options.txt.html#%27cdpath%27" class="o">'cdpath'</a> and <a href="options.txt.html#%27tags%27" class="o">'tags'</a>
+options, <a href="luaref.txt.html#for" class="d">for</a> <a href="vimfn.txt.html#finddir%28%29" class="l">finddir()</a> and <a href="vimfn.txt.html#findfile%28%29" class="l">findfile()</a><a href="repeat.txt.html#." class="d">.</a>  Other commands use <a href="editing.txt.html#wildcards" class="l">wildcards</a>
+which <a href="motion.txt.html#is" class="d">is</a> slightly different.
+
+There are three different types of searching:
+
+1) Downward search:					<span id="starstar" class="t">starstar</span>
+   Downward search uses the <a href="editing.txt.html#wildcards" class="d">wildcards</a> "*"<a href="motion.txt.html#%2C" class="d">,</a> "**" and possibly others
+   supported by your operating system.  "*" and "**" are handled inside Vim,
+   so they work on all operating systems.  <span class="n">Note</span> that "**" only acts <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a>
+   special <a href="editing.txt.html#wildcard" class="d">wildcard</a> when <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> <a href="motion.txt.html#at" class="d">at</a> the start of <a href="insert.txt.html#a" class="d">a</a> name.
+
+   The usage of "*" <a href="motion.txt.html#is" class="d">is</a> quite simple: It matches <a href="motion.txt.html#0" class="d">0</a> or more characters.  In <a href="insert.txt.html#a" class="d">a</a>
+   search <a href="pattern.txt.html#pattern" class="d">pattern</a> this would be "<a href="repeat.txt.html#." class="d">.</a>*"<a href="repeat.txt.html#." class="d">.</a>  <span class="n">Note</span> that the "<a href="repeat.txt.html#." class="d">.</a>" <a href="motion.txt.html#is" class="d">is</a> not used <a href="luaref.txt.html#for" class="d">for</a> file
+   searching.
+
+   "**" <a href="motion.txt.html#is" class="d">is</a> more sophisticated:
+      <a href="motion.txt.html#-" class="d">-</a> It ONLY matches directories.
+      <a href="motion.txt.html#-" class="d">-</a> It matches up to 30 directories deep by default, so you can use <a href="motion.txt.html#it" class="d">it</a> to
+	search an entire directory tree
+      <a href="motion.txt.html#-" class="d">-</a> The maximum number of levels matched can be given by appending <a href="insert.txt.html#a" class="d">a</a> number
+	to "**"<a href="repeat.txt.html#." class="d">.</a>
+	Thus '/usr/**2' can match: 
+<span class="e">		/usr</span>
+<span class="e">		/usr/include</span>
+<span class="e">		/usr/include/sys</span>
+<span class="e">		/usr/include/g++</span>
+<span class="e">		/usr/lib</span>
+<span class="e">		/usr/lib/X11</span>
+<span class="e">		....</span>
+	It does NOT match '/usr/include/g++/std' <a href="motion.txt.html#as" class="d">as</a> this would be three
+	levels.
+	The allowed number range <a href="motion.txt.html#is" class="d">is</a> <a href="motion.txt.html#0" class="d">0</a> <a href="motion.txt.html#%28" class="d">(</a>"**<a href="motion.txt.html#0" class="d">0</a>" <a href="motion.txt.html#is" class="d">is</a> removed) to 100
+	If the given number <a href="motion.txt.html#is" class="d">is</a> smaller than <a href="motion.txt.html#0" class="d">0</a> <a href="motion.txt.html#it" class="d">it</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to 30, if it's
+	bigger than 100 then 100 <a href="motion.txt.html#is" class="d">is</a> used.  The system also has <a href="insert.txt.html#a" class="d">a</a> limit on the
+	path length, usually 256 or 1024 bytes.
+      <a href="motion.txt.html#-" class="d">-</a> "**" can only be <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> of the path or be followed by <a href="insert.txt.html#a" class="d">a</a> path
+	separator or by <a href="insert.txt.html#a" class="d">a</a> number and <a href="insert.txt.html#a" class="d">a</a> path separator.
+
+   You can combine "*" and "**" in any order: 
+<span class="e">	/usr/**/sys/*</span>
+<span class="e">	/usr/*tory/sys/**</span>
+<span class="e">	/usr/**2/sys/*</span>
+<span class="e"></span>
+2) Upward search:
+   Here you can give <a href="insert.txt.html#a" class="d">a</a> directory and then search the directory tree upward <a href="luaref.txt.html#for" class="d">for</a>
+   <a href="insert.txt.html#a" class="d">a</a> file.  You could give stop-directories to limit the upward search.  The
+   stop-directories are appended to the path (for the <a href="options.txt.html#%27path%27" class="o">'path'</a> option) or to
+   the filename (for the <a href="options.txt.html#%27tags%27" class="o">'tags'</a> option) with <a href="insert.txt.html#a" class="d">a</a> ';'.  If you want several
+   stop-directories separate them with ';'.  If you want no stop-directory
+   <a href="motion.txt.html#%28" class="d">(</a>"search upward till the root directory"<a href="motion.txt.html#%29" class="d">)</a> just use ';'. 
+<span class="e">	/usr/include/sys;/usr</span>
+   will search in: 
+<span class="e">	   /usr/include/sys</span>
+<span class="e">	   /usr/include</span>
+<span class="e">	   /usr</span>
+
+   If you use <a href="insert.txt.html#a" class="d">a</a> relative path the upward search <a href="motion.txt.html#is" class="d">is</a> started in Vim's current
+   directory or in the directory of the current file (if the relative path
+   starts with './' and 'd' <a href="motion.txt.html#is" class="d">is</a> not included in <a href="options.txt.html#%27cpoptions%27" class="o">'cpoptions'</a>).
+
+   If Vim's current path <a href="motion.txt.html#is" class="d">is</a> /u/user_x/work/release and you <a href="diff.txt.html#do" class="d">do</a> 
+<span class="e">	:set path=include;/u/user_x</span>
+   and then search <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> file with <a href="editing.txt.html#gf" class="l">gf</a> the file <a href="motion.txt.html#is" class="d">is</a> searched in: 
+<span class="e">	/u/user_x/work/release/include</span>
+<span class="e">	/u/user_x/work/include</span>
+<span class="e">	/u/user_x/include</span>
+<span class="e"></span>
+   <span class="n">Note:</span> If your <a href="options.txt.html#%27path%27" class="o">'path'</a> setting includes <a href="insert.txt.html#a" class="d">a</a> non-existing directory, Vim will
+   skip the non-existing directory, and also does not search in the parent of
+   the non-existing directory if upwards searching <a href="motion.txt.html#is" class="d">is</a> used.
+
+3) Combined up/downward search:
+   If Vim's current path <a href="motion.txt.html#is" class="d">is</a> /u/user_x/work/release and you <a href="diff.txt.html#do" class="d">do</a> 
+<span class="e">	set path=**;/u/user_x</span>
+   and then search <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> file with <a href="editing.txt.html#gf" class="l">gf</a> the file <a href="motion.txt.html#is" class="d">is</a> searched in: 
+<span class="e">	/u/user_x/work/release/**</span>
+<span class="e">	/u/user_x/work/**</span>
+<span class="e">	/u/user_x/**</span>
+
+   BE CAREFUL!  This might consume <a href="insert.txt.html#a" class="d">a</a> lot of time, <a href="motion.txt.html#as" class="d">as</a> the search of
+   '/u/user_x/**<a href="motion.txt.html#%27" class="d">'</a> includes '/u/user_x/work/**<a href="motion.txt.html#%27" class="d">'</a> and
+   '/u/user_x/work/release/**<a href="motion.txt.html#%27." class="d">'.</a>  So '/u/user_x/work/release/**<a href="motion.txt.html#%27" class="d">'</a> <a href="motion.txt.html#is" class="d">is</a> searched
+   three times and '/u/user_x/work/**<a href="motion.txt.html#%27" class="d">'</a> <a href="motion.txt.html#is" class="d">is</a> searched twice.
+
+   In the above example you might want to set path to: 
+<span class="e">	:set path=**,/u/user_x/**</span>
+   This searches: 
+<span class="e">	/u/user_x/work/release/**</span>
+<span class="e">	/u/user_x/**</span>
+   This searches the same directories, but in <a href="insert.txt.html#a" class="d">a</a> different order.
+
+   <span class="n">Note</span> that completion <a href="luaref.txt.html#for" class="d">for</a> "<a href="editing.txt.html#%3Afind" class="d">:find</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="windows.txt.html#%3Asfind" class="d">:sfind</a>"<a href="motion.txt.html#%2C" class="d">,</a> and "<a href="tabpage.txt.html#%3Atabfind" class="d">:tabfind</a>" commands <a href="diff.txt.html#do" class="d">do</a> not
+   currently work with <a href="options.txt.html#%27path%27" class="o">'path'</a> items that contain <a href="insert.txt.html#a" class="d">a</a> URL or use the double <a href="pattern.txt.html#star" class="d">star</a>
+   with depth limiter (/usr/**2) or upward search (;) notations.
+
+<span class="h">==============================================================================</span>
+12. Trusted Files						<span id="trust" class="t">trust</span>
+
+Nvim executes arbitrary code found on the filesystem if <a href="options.txt.html#%27exrc%27" class="o">'exrc'</a> <a href="motion.txt.html#is" class="d">is</a> enabled. To
+prevent executing malicious code, only "trusted files" are executed. You can
+<a href="motion.txt.html#mark" class="d">mark</a> <a href="insert.txt.html#a" class="d">a</a> file <a href="motion.txt.html#as" class="d">as</a> trusted or untrusted using the <a href="editing.txt.html#%3Atrust" class="l">:trust</a> command or the
+<a href="lua.txt.html#vim.secure.read%28%29" class="l">vim.secure.read()</a> function.
+
+							<span id="%3Atrust" class="t">:trust</span> <span id="E5570" class="t">E5570</span>
+<a href="editing.txt.html#%3Atrust" class="d">:trust</a> [++deny] [++remove] <span class="s">[file]</span>
+
+			Manage trusted files. Without ++ options, <a href="editing.txt.html#%3Atrust" class="d">:trust</a> marks
+			the current buffer <a href="motion.txt.html#as" class="d">as</a> trusted, keyed on <a href="insert.txt.html#a" class="d">a</a> hash of its
+			contents. The <a href="editing.txt.html#trust" class="d">trust</a> <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> stored on disk, Nvim will
+			re-use <a href="motion.txt.html#it" class="d">it</a> after restarting.
+
+			[++deny] marks <span class="s">[file]</span> (or current buffer if no <span class="s">[file]</span>)
+			<a href="motion.txt.html#as" class="d">as</a> untrusted: <a href="motion.txt.html#it" class="d">it</a> will never be executed, <a href="options.txt.html#%27exrc%27" class="o">'exrc'</a> will
+			ignore it.
+
+			[++remove] removes <span class="s">[file]</span> (or current buffer if no
+			<span class="s">[file]</span>) from the <a href="editing.txt.html#trust" class="d">trust</a> list. When the file <a href="motion.txt.html#is" class="d">is</a>
+			discovered by <a href="options.txt.html#%27exrc%27" class="o">'exrc'</a> or <a href="lua.txt.html#vim.secure.read%28%29" class="l">vim.secure.read()</a><a href="motion.txt.html#%2C" class="d">,</a> the user
+			will be asked whether to <a href="editing.txt.html#trust" class="d">trust</a> or deny the file.
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

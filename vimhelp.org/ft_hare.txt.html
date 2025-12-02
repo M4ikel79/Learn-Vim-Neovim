@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: ft_hare.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="ft_hare.txt.html#">↑Top↑</a></li>
+<li><a href="ft_hare.txt.html#hare">CONTENTS</a></li>
+<li><a href="ft_hare.txt.html#ft-hare-intro">INTRODUCTION</a></li>
+<li><a href="ft_hare.txt.html#ft-hare-plugin">FILETYPE PLUGIN</a></li>
+<li><a href="ft_hare.txt.html#ft-haredoc-plugin">HAREDOC FILETYPE</a></li>
+<li><a href="ft_hare.txt.html#ft-hare-indent">INDENTATION SETTINGS</a></li>
+<li><a href="ft_hare.txt.html#compiler-hare">COMPILER SUPPORT</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="ft_hare.txt" class="t">ft_hare.txt</span>  	Support for the Hare programming language
+
+<span class="h">==============================================================================</span>
+<span class="c">CONTENTS</span>						<span id="hare" class="t">hare</span> <span id="hare.vim" class="t">hare.vim</span>
+
+1. Introduction			<a href="ft_hare.txt.html#ft-hare-intro" class="l">ft-hare-intro</a>
+2. Filetype <a href="usr_05.txt.html#plugin" class="d">plugin</a>		<a href="ft_hare.txt.html#ft-hare-plugin" class="l">ft-hare-plugin</a>
+3. Haredoc <a href="filetype.txt.html#filetype" class="d">filetype</a>		<a href="ft_hare.txt.html#ft-haredoc-plugin" class="l">ft-haredoc-plugin</a>
+4. Indentation settings		<a href="ft_hare.txt.html#ft-hare-indent" class="l">ft-hare-indent</a>
+5. Compiler support		<a href="ft_hare.txt.html#compiler-hare" class="l">compiler-hare</a>
+
+<span class="h">==============================================================================</span>
+<span class="c">INTRODUCTION</span>						<span id="ft-hare-intro" class="t">ft-hare-intro</span>
+
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> provides <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting, indentation, and other supporting
+functionality for the Hare programming language.
+
+
+<span class="c">FILETYPE PLUGIN</span>						<span id="ft-hare-plugin" class="t">ft-hare-plugin</span>
+
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> has <a href="insert.txt.html#a" class="d">a</a> few different <a href="eval.txt.html#variables" class="d">variables</a> that can be defined inside your
+<a href="starting.txt.html#vimrc" class="l">vimrc</a> to tweak its behavior.
+
+Additionally, support <a href="motion.txt.html#is" class="d">is</a> provided for <a href="fold.txt.html#folding" class="d">folding</a> <a href="motion.txt.html#%60%7B" class="d">`{</a> }` blocks.  To enable folding,
+add the following to <a href="insert.txt.html#a" class="d">a</a> file inside your <a href="options.txt.html#after-directory" class="l">after-directory</a> (e.g.
+~/.vim/after/ftplugin/hare.vim): 
+<span class="e"></span>
+<span class="e">	setlocal foldmethod=syntax</span>
+<span class="e"></span>
+Because block-based <a href="fold.txt.html#folding" class="d">folding</a> tends to create many small folds, consider setting
+<a href="insert.txt.html#a" class="d">a</a> few related options, such <a href="motion.txt.html#as" class="d">as</a> <a href="options.txt.html#%27foldminlines%27" class="o">'foldminlines'</a> and <a href="options.txt.html#%27foldnestmax%27" class="o">'foldnestmax'</a>.
+
+						<span id="g%3Ahare_recommended_style" class="t">g:hare_recommended_style</span>
+The following <a href="options.txt.html#options" class="d">options</a> are set by default, in accordance with Hare's official
+style guide: 
+<span class="e"></span>
+<span class="e">	setlocal noexpandtab</span>
+<span class="e">	setlocal shiftwidth=0</span>
+<span class="e">	setlocal softtabstop=0</span>
+<span class="e">	setlocal tabstop=8</span>
+<span class="e">	setlocal textwidth=80</span>
+<span class="e"></span>
+To disable this behavior, add the following to your <a href="starting.txt.html#vimrc" class="l">vimrc</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"></span>
+<span class="e">	let g:hare_recommended_style = 0</span>
+
+						<span id="g%3Ahare_symbol_operators" class="t">g:hare_symbol_operators</span>
+By default, symbolic operators <a href="diff.txt.html#do" class="d">do</a> not receive any special highlighting (with
+<span class="e">!</span>, <span class="e">?</span>, and <span class="e">::</span> being the only exceptions).  To enable <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting
+for most other operators, add the following to your <a href="starting.txt.html#vimrc" class="l">vimrc</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"></span>
+<span class="e">	let g:hare_symbol_operators = 1</span>
+
+							<span id="g%3Ahare_space_error" class="t">g:hare_space_error</span>
+By default, trailing <a href="pattern.txt.html#whitespace" class="d">whitespace</a> and spaces followed by <a href="motion.txt.html#%3CTab%3E" class="s">&lt;Tab&gt;</a> characters will
+be highlighted <a href="motion.txt.html#as" class="d">as</a> errors.  This <a href="motion.txt.html#is" class="d">is</a> automatically disabled in <a href="insert.txt.html#Insert" class="d">Insert</a> mode.  To
+turn off this highlighting completely, add the following to your <a href="starting.txt.html#vimrc" class="l">vimrc</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"></span>
+<span class="e">	let g:hare_space_error = 0</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">HAREDOC FILETYPE</span>					<span id="ft-haredoc-plugin" class="t">ft-haredoc-plugin</span>
+
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> will automatically detect README files inside Hare modules, using
+<a href="insert.txt.html#a" class="d">a</a> recursive directory search, and give them the "haredoc" filetype.  Because
+this <a href="motion.txt.html#is" class="d">is</a> such <a href="insert.txt.html#a" class="d">a</a> common filename, this <a href="usr_05.txt.html#plugin" class="d">plugin</a> only searches for Hare source
+files within the same directory by default.
+
+							<span id="g%3Afiletype_haredoc" class="t">g:filetype_haredoc</span>
+The <a href="ft_hare.txt.html#g%3Afiletype_haredoc" class="l">g:filetype_haredoc</a> variable can be used to tweak the depth of this
+search, or bypass the detection of Hare documentation files altogether:
+
+<span class="h">	Value		Effect</span>
+	<a href="motion.txt.html#0" class="d">0</a>		No automatic detection
+	1		Search current directory only (this <a href="motion.txt.html#is" class="d">is</a> the default)
+	2		Search one level of subdirectories
+	3		Search two levels of subdirectories
+
+The search depth may be any positive integer, but values higher than <span class="e">2</span> are
+unlikely to provide <a href="insert.txt.html#a" class="d">a</a> tangible benefit in most situations.
+
+
+<span class="c">INDENTATION SETTINGS</span>					<span id="ft-hare-indent" class="t">ft-hare-indent</span>
+
+Unlike most other settings for this plugin, the indentation settings may also
+be set per-buffer, overriding any global configuration that exists.  To <a href="diff.txt.html#do" class="d">do</a>
+this, simply prefix the variable with <a href="eval.txt.html#b%3A" class="l">b:</a> instead of <a href="eval.txt.html#g%3A" class="l">g:</a><a href="repeat.txt.html#." class="d">.</a>
+
+						<span id="g%3Ahare_indent_match_switch" class="t">g:hare_indent_match_switch</span>
+By default, continuation lines for "match" and "switch" conditions are
+indented only one level: &gt;hare
+
+	const file <a href="change.txt.html#%3D" class="d">=</a> match (os::create(path, 0o644,
+		flag::WRONLY | flag::TRUNC)) <a href="motion.txt.html#%7B" class="d">{</a>
+	<a href="change.txt.html#case" class="d">case</a> let file: io::file =&gt;
+		yield file;
+	<a href="version7.txt.html#%2F%2F" class="d">//</a> <a href="userfunc.txt.html#..." class="d">...</a>
+
+If you instead prefer indenting them two levels, to more closely resemble "if"
+and "for" conditions, add the following line to your <a href="starting.txt.html#vimrc" class="l">vimrc</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"></span>
+<span class="e">	let g:hare_indent_match_switch = 2</span>
+
+							<span id="g%3Ahare_indent_case" class="t">g:hare_indent_case</span>
+By default, continuation lines for cases in "match" and "switch" expressions
+are indented two levels, to visually distinguish them from the body of the
+case: &gt;hare
+
+	<a href="change.txt.html#case" class="d">case</a> ltok::I8, ltok::I16, ltok::I32,
+			ltok::I64, ltok::INT =&gt;
+		<a href="version7.txt.html#%2F%2F" class="d">//</a> <a href="userfunc.txt.html#..." class="d">...</a>
+
+If you prefer <a href="insert.txt.html#a" class="d">a</a> different amount of indentation, you can adjust <a href="motion.txt.html#it" class="d">it</a> using
+<a href="ft_hare.txt.html#g%3Ahare_indent_case" class="l">g:hare_indent_case</a><a href="repeat.txt.html#." class="d">.</a>  Valid values include <span class="e">0</span>, <span class="e">1</span>, and <span class="e">2</span>.
+
+
+<span class="c">COMPILER SUPPORT</span>					<span id="compiler-hare" class="t">compiler-hare</span>
+
+If this <a href="usr_05.txt.html#plugin" class="d">plugin</a> detects <a href="insert.txt.html#a" class="d">a</a> Makefile in the current directory, <a href="motion.txt.html#it" class="d">it</a> will assume you
+wish to use <span class="e">make</span> for your build system, and will leave <a href="options.txt.html#%27makeprg%27" class="o">'makeprg'</a> untouched.
+Otherwise, `hare build` will be used.
+
+							<span id="g%3Ahare_makeprg_params" class="t">g:hare_makeprg_params</span>
+When `hare build` <a href="motion.txt.html#is" class="d">is</a> used, additional compiler <a href="options.txt.html#options" class="d">options</a> may be appended to
+<a href="options.txt.html#%27makeprg%27" class="o">'makeprg'</a> with the <a href="ft_hare.txt.html#g%3Ahare_makeprg_params" class="l">g:hare_makeprg_params</a> variable.  It may also be set on <a href="insert.txt.html#a" class="d">a</a>
+per-buffer basis (using <a href="eval.txt.html#b%3A" class="l">b:</a> instead of <a href="eval.txt.html#g%3A" class="l">g:</a>), overriding any global
+configuration that exists.  For example: 
+<span class="e"></span>
+<span class="e">	let b:hare_makeprg_params = '-lc -t o'</span>
+<span class="e"></span>
+The global default <a href="motion.txt.html#is" class="d">is</a> "<a href="starting.txt.html#-q" class="d">-q</a>"<a href="motion.txt.html#%2C" class="d">,</a> to suppress <a href="editing.txt.html#writing" class="d">writing</a> to stdout while building.
+
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

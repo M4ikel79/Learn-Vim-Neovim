@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: usr_06.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="usr_06.txt.html#">↑Top↑</a></li>
+<li><a href="usr_06.txt.html#06.1">Switching it on</a></li>
+<li><a href="usr_06.txt.html#06.2">No or wrong colors?</a></li>
+<li><a href="usr_06.txt.html#06.3">Different colors</a></li>
+<li><a href="usr_06.txt.html#06.4">With colors or without colors</a></li>
+<li><a href="usr_06.txt.html#06.5">Further reading</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="usr_06.txt" class="t">usr_06.txt</span>  	Nvim
+
+		     VIM USER MANUAL <a href="motion.txt.html#-" class="d">-</a> by <a href="intro.txt.html#Bram" class="d">Bram</a> <a href="intro.txt.html#Moolenaar" class="d">Moolenaar</a>
+
+			  Using <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting
+
+
+Black and white text <a href="motion.txt.html#is" class="d">is</a> boring.  With colors your file comes to life.  This
+not only looks nice, <a href="motion.txt.html#it" class="d">it</a> also speeds up your work.  Change the colors used <a href="luaref.txt.html#for" class="d">for</a>
+the different sorts of text.  Print your text, with the colors you see on the
+screen.
+
+<a href="usr_06.txt.html#06.1" class="l">06.1</a>  	Switching <a href="motion.txt.html#it" class="d">it</a> on
+<a href="usr_06.txt.html#06.2" class="l">06.2</a>  	No or wrong colors?
+<a href="usr_06.txt.html#06.3" class="l">06.3</a>  	Different colors
+<a href="usr_06.txt.html#06.4" class="l">06.4</a>  	With colors or without colors
+<a href="usr_06.txt.html#06.5" class="l">06.5</a>  	Further reading
+
+     Next chapter: <a href="usr_07.txt.html#usr_07.txt" class="l">usr_07.txt</a>  Editing more than one file
+ Previous chapter: <a href="usr_05.txt.html#usr_05.txt" class="l">usr_05.txt</a>  Set your settings
+Table of contents: <a href="usr_toc.txt.html#usr_toc.txt" class="l">usr_toc.txt</a>
+
+<span class="h">==============================================================================</span>
+<span id="06.1" class="t">06.1</span>  	Switching <a href="motion.txt.html#it" class="d">it</a> on
+
+<a href="autocmd.txt.html#Syntax" class="d">Syntax</a> highlighting <a href="motion.txt.html#is" class="d">is</a> enabled by default.  Nvim will automagically detect the
+type of file and load the right <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting.
+
+<span class="h">==============================================================================</span>
+<span id="06.2" class="t">06.2</span>  	No or wrong colors?
+
+There can be <a href="insert.txt.html#a" class="d">a</a> number of reasons why you don't see colors:
+
+<a href="motion.txt.html#-" class="d">-</a> Your <a href="terminal.txt.html#terminal" class="d">terminal</a> does not <a href="support.txt.html#support" class="d">support</a> colors.
+	Vim will use bold, <a href="syntax.txt.html#italic" class="d">italic</a> and underlined text, but this doesn't look
+	very nice.  You probably will want to try to get <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> with
+	colors.
+
+<a href="motion.txt.html#-" class="d">-</a> Your <a href="terminal.txt.html#terminal" class="d">terminal</a> does <a href="support.txt.html#support" class="d">support</a> colors, but Vim doesn't know this.
+	Make sure your <a href="tui.txt.html#%24TERM" class="d">$TERM</a> setting <a href="motion.txt.html#is" class="d">is</a> correct.  For example, when using an
+	xterm that supports colors: 
+<span class="e"></span>
+<span class="e">		setenv TERM xterm-color</span>
+
+	or (depending on your shell): 
+<span class="e"></span>
+<span class="e">		TERM=xterm-color; export TERM</span>
+<span class="e"></span>
+	The <a href="terminal.txt.html#terminal" class="d">terminal</a> name must match the <a href="terminal.txt.html#terminal" class="d">terminal</a> you are using.
+
+<a href="motion.txt.html#-" class="d">-</a> The file type <a href="motion.txt.html#is" class="d">is</a> not recognized.
+	Vim doesn't know all file types, and sometimes it's near to impossible
+	to tell what language <a href="insert.txt.html#a" class="d">a</a> file uses.  Try this command: 
+<span class="e"></span>
+<span class="e">		:set filetype</span>
+
+	If the result <a href="motion.txt.html#is" class="d">is</a> "filetype=" then the problem <a href="motion.txt.html#is" class="d">is</a> indeed that Vim
+	doesn't know what type of file this is.  You can set the type
+	manually: 
+<span class="e"></span>
+<span class="e">		:set filetype=fortran</span>
+<span class="e"></span>
+	To see which types are available, look in the directory
+	$VIMRUNTIME/syntax.  For the <a href="gui.txt.html#GUI" class="d">GUI</a> you can use the <a href="autocmd.txt.html#Syntax" class="d">Syntax</a> menu.
+	Setting the <a href="filetype.txt.html#filetype" class="d">filetype</a> can also be done with <a href="insert.txt.html#a" class="d">a</a> <a href="options.txt.html#modeline" class="l">modeline</a><a href="motion.txt.html#%2C" class="d">,</a> so that the
+	file will be highlighted each time you edit it.  For example, this
+	line can be used in <a href="insert.txt.html#a" class="d">a</a> Makefile (put <a href="motion.txt.html#it" class="d">it</a> near the start or <a href="intro.txt.html#end" class="d">end</a> of the
+	file): 
+<span class="e"></span>
+<span class="e">		# vim: syntax=make</span>
+<span class="e"></span>
+	You might know how to detect the file type yourself.  Often the file
+	name extension (after the dot) can be used.
+	See <a href="filetype.txt.html#new-filetype" class="l">new-filetype</a> <a href="luaref.txt.html#for" class="d">for</a> how to tell Vim to detect that file type.
+
+<a href="motion.txt.html#-" class="d">-</a> There <a href="motion.txt.html#is" class="d">is</a> no highlighting <a href="luaref.txt.html#for" class="d">for</a> your file type.
+	You could try using <a href="insert.txt.html#a" class="d">a</a> similar file type by manually setting <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a>
+	mentioned above.  If that isn't good enough, you can write your own
+	<a href="syntax.txt.html#syntax" class="d">syntax</a> file, see <a href="syntax.txt.html#mysyntaxfile" class="l">mysyntaxfile</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+Or the colors could be wrong:
+
+<a href="motion.txt.html#-" class="d">-</a> The colored text <a href="motion.txt.html#is" class="d">is</a> very hard to read.
+	Vim guesses the background color that you are using.  If <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> black
+	(or another dark color) <a href="motion.txt.html#it" class="d">it</a> will use light colors <a href="luaref.txt.html#for" class="d">for</a> text.  If <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+	white (or another light color) <a href="motion.txt.html#it" class="d">it</a> will use dark colors <a href="luaref.txt.html#for" class="d">for</a> text.  If
+	Vim guessed wrong the text will be hard to read.  To solve this, set
+	the <a href="options.txt.html#%27background%27" class="o">'background'</a> option.  For <a href="insert.txt.html#a" class="d">a</a> dark background: 
+<span class="e"></span>
+<span class="e">		:set background=dark</span>
+<span class="e"></span>
+	And <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> light background: 
+<span class="e"></span>
+<span class="e">		:set background=light</span>
+<span class="e"></span>
+	Make sure you <a href="change.txt.html#put" class="d">put</a> this _before_ the "<a href="syntax.txt.html#%3Asyntax" class="d">:syntax</a> enable" command,
+	otherwise the colors will already have been set.  You could <a href="diff.txt.html#do" class="d">do</a>
+	"<a href="syntax.txt.html#%3Asyntax" class="d">:syntax</a> reset" after setting <a href="options.txt.html#%27background%27" class="o">'background'</a> to make Vim set the default
+	colors again.
+
+<a href="motion.txt.html#-" class="d">-</a> The colors are wrong when <a href="scroll.txt.html#scrolling" class="d">scrolling</a> bottom to top.
+	Vim doesn't read the whole file to parse the text.  It starts parsing
+	wherever you are viewing the file.  That saves <a href="insert.txt.html#a" class="d">a</a> lot of time, but
+	sometimes the colors are wrong.  <a href="insert.txt.html#A" class="d">A</a> simple fix <a href="motion.txt.html#is" class="d">is</a> hitting <a href="various.txt.html#CTRL-L" class="k">CTRL-L</a>.  Or
+	scroll back <a href="insert.txt.html#a" class="d">a</a> bit and then forward again.
+	For <a href="insert.txt.html#a" class="d">a</a> real fix, see <a href="syntax.txt.html#%3Asyn-sync" class="l">:syn-sync</a><a href="repeat.txt.html#." class="d">.</a>  Some <a href="syntax.txt.html#syntax" class="d">syntax</a> files have <a href="insert.txt.html#a" class="d">a</a> way to make
+	<a href="motion.txt.html#it" class="d">it</a> look further back, see the <a href="helphelp.txt.html#help" class="d">help</a> <a href="luaref.txt.html#for" class="d">for</a> the specific <a href="syntax.txt.html#syntax" class="d">syntax</a> file.  For
+	example, <a href="syntax.txt.html#tex.vim" class="l">tex.vim</a> <a href="luaref.txt.html#for" class="d">for</a> the TeX syntax.
+
+<span class="h">==============================================================================</span>
+<span id="06.3" class="t">06.3</span>  	Different colors				<span id="%3Asyn-default-override" class="t">:syn-default-override</span>
+
+If you don't like the default colors, you can select another color scheme.  In
+the <a href="gui.txt.html#GUI" class="d">GUI</a> use the Edit/Color Scheme menu.  You can also type the command: 
+<span class="e"></span>
+<span class="e">	:colorscheme evening</span>
+<span class="e"></span>
+"evening" <a href="motion.txt.html#is" class="d">is</a> the name of the color scheme.  There are several others you might
+want to try out.  Look in the directory $VIMRUNTIME/colors.
+
+When you found the color scheme that you like, add the "<a href="syntax.txt.html#%3Acolorscheme" class="d">:colorscheme</a>" command
+to your <a href="starting.txt.html#init.vim" class="l">init.vim</a> file.
+
+You could also write your own color scheme.  This <a href="motion.txt.html#is" class="d">is</a> how you <a href="diff.txt.html#do" class="d">do</a> it:
+
+1. <a href="visual.txt.html#Select" class="d">Select</a> <a href="insert.txt.html#a" class="d">a</a> color scheme that comes close.  Copy this file to your own Vim
+   directory.  For Unix, this should work: 
+<span class="e"></span>
+<span class="e">	!mkdir -p ~/.config/nvim/colors</span>
+<span class="e">	!cp $VIMRUNTIME/colors/morning.vim ~/.config/nvim/colors/mine.vim</span>
+
+   This <a href="motion.txt.html#is" class="d">is</a> done from Vim, because <a href="motion.txt.html#it" class="d">it</a> knows the value of $VIMRUNTIME.
+
+2. Edit the color scheme file.  These entries are useful:
+
+	cterm		attributes in <a href="insert.txt.html#a" class="d">a</a> color <a href="terminal.txt.html#terminal" class="d">terminal</a>
+	<a href="syntax.txt.html#ctermfg" class="d">ctermfg</a>		foreground color in <a href="insert.txt.html#a" class="d">a</a> color <a href="terminal.txt.html#terminal" class="d">terminal</a>
+	<a href="syntax.txt.html#ctermbg" class="d">ctermbg</a>		background color in <a href="insert.txt.html#a" class="d">a</a> color <a href="terminal.txt.html#terminal" class="d">terminal</a>
+	<a href="gui.txt.html#gui" class="d">gui</a>		attributes in the <a href="gui.txt.html#GUI" class="d">GUI</a>
+	<a href="syntax.txt.html#guifg" class="d">guifg</a>		foreground color in the <a href="gui.txt.html#GUI" class="d">GUI</a>
+	<a href="syntax.txt.html#guibg" class="d">guibg</a>		background color in the <a href="gui.txt.html#GUI" class="d">GUI</a>
+
+   For example, to make comments green: 
+<span class="e"></span>
+<span class="e">	:highlight Comment ctermfg=green guifg=green</span>
+
+   Attributes you can use <a href="luaref.txt.html#for" class="d">for</a> "cterm" and "<a href="gui.txt.html#gui" class="d">gui</a>" are "<a href="syntax.txt.html#bold" class="d">bold</a>" and "<a href="syntax.txt.html#underline" class="d">underline</a>"<a href="repeat.txt.html#." class="d">.</a>
+   If you want both, use "bold,underline"<a href="repeat.txt.html#." class="d">.</a>  For details see the <a href="syntax.txt.html#%3Ahighlight" class="l">:highlight</a>
+   command.
+
+3. Tell Vim to always use your color scheme.  Put this line in your <a href="starting.txt.html#vimrc" class="l">vimrc</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"></span>
+<span class="e">	colorscheme mine</span>
+<span class="e"></span>
+If you want to see what the most often used color combinations look like, use
+this command: 
+<span class="e"></span>
+<span class="e">	:runtime syntax/colortest.vim</span>
+<span class="e"></span>
+You will see text in <a href="various.txt.html#various" class="d">various</a> color combinations.  You can check which ones are
+readable and look nice.
+
+<span class="h">==============================================================================</span>
+<span id="06.4" class="t">06.4</span>  	With colors or without colors
+
+Displaying text in color takes <a href="insert.txt.html#a" class="d">a</a> lot of effort.  If you find the displaying
+too slow, you might want to disable <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> moment: 
+<span class="e"></span>
+<span class="e">	:syntax clear</span>
+<span class="e"></span>
+When editing another file (or the same one) the colors will come back.
+
+If you want to stop highlighting completely use: 
+<span class="e"></span>
+<span class="e">	:syntax off</span>
+<span class="e"></span>
+This will completely disable <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting and remove <a href="motion.txt.html#it" class="d">it</a> immediately <a href="luaref.txt.html#for" class="d">for</a>
+all buffers.  See <a href="syntax.txt.html#%3Asyntax-off" class="l">:syntax-off</a> <a href="luaref.txt.html#for" class="d">for</a> more details.
+
+							<span id="%3Asyn-manual" class="t">:syn-manual</span>
+If you want <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting only <a href="luaref.txt.html#for" class="d">for</a> specific files, use this: 
+<span class="e"></span>
+<span class="e">	:syntax manual</span>
+<span class="e"></span>
+This will enable the <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting, but not switch <a href="motion.txt.html#it" class="d">it</a> on automatically
+when <a href="starting.txt.html#starting" class="d">starting</a> to edit <a href="insert.txt.html#a" class="d">a</a> buffer.  To switch highlighting on <a href="luaref.txt.html#for" class="d">for</a> the current
+buffer, set the <a href="options.txt.html#%27syntax%27" class="o">'syntax'</a> option: 
+<span class="e"></span>
+<span class="e">	:set syntax=ON</span>
+
+<span class="h">==============================================================================</span>
+<span id="06.5" class="t">06.5</span>  	Further reading
+
+<a href="usr_44.txt.html#usr_44.txt" class="l">usr_44.txt</a>  Your own <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighted.
+<a href="syntax.txt.html#syntax" class="l">syntax</a>      All the details.
+
+<span class="h">==============================================================================</span>
+
+Next chapter: <a href="usr_07.txt.html#usr_07.txt" class="l">usr_07.txt</a>  Editing more than one file
+
+Copyright: see <a href="usr_01.txt.html#manual-copyright" class="l">manual-copyright</a>  vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

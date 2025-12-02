@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: os_haiku.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+</div>
+<div id="vh-content">
+<pre>
+<span id="os_haiku.txt" class="t">os_haiku.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 09
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar</span>
+
+
+							<span id="Haiku" class="t">Haiku</span>
+This file contains the particularities for the <a href="os_haiku.txt.html#Haiku" class="d">Haiku</a> version of Vim.  For
+matters not discussed in this file, Vim behaves very much like the <a href="os_unix.txt.html#Unix" class="d">Unix</a>
+<a href="os_unix.txt.html#os_unix.txt" class="l">os_unix.txt</a> version.
+
+<a href="os_haiku.txt.html#Haiku" class="d">Haiku</a> <a href="motion.txt.html#is" class="d">is</a> an open-source operating system inspired by BeOS, that specifically
+targets personal computing.
+
+ 1. General			<a href="os_haiku.txt.html#haiku-general" class="l">haiku-general</a>
+ 2. Compiling Vim		<a href="os_haiku.txt.html#haiku-compiling" class="l">haiku-compiling</a>
+ 3. The <a href="os_haiku.txt.html#Haiku" class="d">Haiku</a> <a href="gui.txt.html#GUI" class="d">GUI</a>		<a href="os_haiku.txt.html#haiku-gui" class="l">haiku-gui</a>
+ 4. The <a href="starting.txt.html#%24VIM" class="d">$VIM</a> directory		<a href="os_haiku.txt.html#haiku-vimdir" class="l">haiku-vimdir</a>
+ 5. The $USER_SETTINGS_DIR
+    directory			<a href="os_haiku.txt.html#haiku-user-settings-dir" class="l">haiku-user-settings-dir</a>
+ 6. Drag <a href="change.txt.html#%26" class="d">&amp;</a> Drop			<a href="os_haiku.txt.html#haiku-dragndrop" class="l">haiku-dragndrop</a>
+ 7. Single Launch vs. Multiple
+    Launch			<a href="os_haiku.txt.html#haiku-launch" class="l">haiku-launch</a>
+ 8. Fonts			<a href="os_haiku.txt.html#haiku-fonts" class="l">haiku-fonts</a>
+ 9. The <a href="intro.txt.html#meta" class="d">meta</a> key modifier	<a href="os_haiku.txt.html#haiku-meta" class="l">haiku-meta</a>
+10. Mouse key mappings		<a href="os_haiku.txt.html#haiku-mouse" class="l">haiku-mouse</a>
+11. Color names			<a href="os_haiku.txt.html#haiku-colors" class="l">haiku-colors</a>
+12. <a href="gui.txt.html#GUI" class="d">GUI</a> Toolbar Images		<a href="os_haiku.txt.html#haiku-toolbar-images" class="l">haiku-toolbar-images</a>
+13. Credits			<a href="os_haiku.txt.html#haiku-support-credits" class="l">haiku-support-credits</a>
+14. Bugs <a href="change.txt.html#%26" class="d">&amp;</a> to-do		<a href="os_haiku.txt.html#haiku-bugs" class="l">haiku-bugs</a>
+
+
+1. General						<span id="haiku-general" class="t">haiku-general</span>
+
+The default <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting mostly works with different foreground colors
+to highlight items.  This works best if you set your Terminal <a href="windows.txt.html#window" class="d">window</a> to <a href="insert.txt.html#a" class="d">a</a>
+darkish background and light letters.  Some middle-grey background (for
+instance (r,g,b)=(168,168,168)) with black letters also works nicely.
+
+
+2. Compiling Vim					<span id="haiku-compiling" class="t">haiku-compiling</span>
+
+Vim can be compiled using the standard configure/make approach.  Running
+./configure without any arguments or passing --enable-gui=haiku, will compile
+vim with the <a href="os_haiku.txt.html#Haiku" class="d">Haiku</a> <a href="gui.txt.html#GUI" class="d">GUI</a> support.  Run ./configure <a href="starting.txt.html#--help" class="d">--help</a> <a href="motion.txt.html#%2C" class="d">,</a> to find out other
+features you can enable/disable.
+
+<a href="os_haiku.txt.html#Haiku" class="d">Haiku</a> uses "ncurses6" <a href="motion.txt.html#as" class="d">as</a> its <a href="terminal.txt.html#terminal" class="d">terminal</a> library, therefore you need to have
+"ncurses6_devel" package installed from HaikuDepot in order to configure
+the <a href="os_haiku.txt.html#Haiku" class="d">Haiku</a> build.  Just append "--with-tlib=ncurses" to ./configure command.
+
+Now you should use "make" to compile Vim, then "make <a href="usr_90.txt.html#install" class="d">install</a>" to <a href="usr_90.txt.html#install" class="d">install</a> it.
+For seamless integration into Haiku, the GUI-less vim binary should be
+additionally installed over the <a href="gui.txt.html#GUI" class="d">GUI</a> version.  Typical build commands are:
+
+  ./configure --prefix=`finddir B_SYSTEM_NONPACKAGED_DIRECTORY` \
+    --datarootdir=`finddir B_SYSTEM_NONPACKAGED_DATA_DIRECTORY` \
+    --mandir=`finddir B_SYSTEM_NONPACKAGED_DIRECTORY`/documentation/man \
+    --with-tlib=ncurses
+  make clean
+  make <a href="usr_90.txt.html#install" class="d">install</a>
+
+  ./configure --prefix=`finddir B_SYSTEM_NONPACKAGED_DIRECTORY`  \
+    --datarootdir=`finddir B_SYSTEM_NONPACKAGED_DATA_DIRECTORY` \
+    --mandir=`finddir B_SYSTEM_NONPACKAGED_DIRECTORY`/documentation/man \
+    --with-tlib=ncurses \
+    --disable-gui
+  make clean
+  make <a href="usr_90.txt.html#install" class="d">install</a>
+
+
+3. The <a href="os_haiku.txt.html#Haiku" class="d">Haiku</a> <a href="gui.txt.html#GUI" class="d">GUI</a>					<span id="haiku-gui" class="t">haiku-gui</span>
+
+Normally Vim starts with the <a href="gui.txt.html#GUI" class="d">GUI</a> if you start <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a> <a href="starting.txt.html#gvim" class="d">gvim</a> or vim -g.  The vim
+version with <a href="gui.txt.html#GUI" class="d">GUI</a> tries to determine if <a href="motion.txt.html#it" class="d">it</a> was started from the Tracker instead
+of the Terminal, and if so, uses the <a href="gui.txt.html#GUI" class="d">GUI</a> anyway.  However, the current
+detection scheme <a href="motion.txt.html#is" class="d">is</a> fooled if you use the command "vim <a href="motion.txt.html#-" class="d">-</a> &lt;/dev/null"<a href="repeat.txt.html#." class="d">.</a>
+
+Toggling between normal managed <a href="windows.txt.html#window" class="d">window</a> and fullscreen mode can be done by
+pressing <span class="s">&lt;Alt-Enter&gt;</span>.
+
+Stuff that does not work yet:
+
+<a href="motion.txt.html#-" class="d">-</a> Mouse up events are not generated when outside the window.  You can notice
+  this when selecting text and moving the cursor outside the window, then
+  letting <a href="motion.txt.html#go" class="d">go</a> of the mouse button.  Another way <a href="motion.txt.html#is" class="d">is</a> when you drag the scrollbar
+  and <a href="diff.txt.html#do" class="d">do</a> the same thing.  Because Vim still thinks you are still playing with
+  the scrollbar <a href="motion.txt.html#it" class="d">it</a> won't change <a href="motion.txt.html#it" class="d">it</a> itself.  There <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> workaround which kicks
+  in when the <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> activated or deactivated (so <a href="motion.txt.html#it" class="d">it</a> works best with focus-
+  follows-mouse turned on).
+<a href="motion.txt.html#-" class="d">-</a> The cursor does not flash.
+<a href="motion.txt.html#-" class="d">-</a> Switching <a href="windows.txt.html#windows" class="d">windows</a> using <span class="s">&lt;C-Tab-Up&gt;</span> and <span class="s">&lt;C-Tab-Down&gt;</span> in Twitcher does not
+  work.  This <a href="motion.txt.html#is" class="d">is</a> due to each <a href="starting.txt.html#gvim" class="d">gvim</a> <a href="windows.txt.html#window" class="d">window</a> being managed by <a href="insert.txt.html#a" class="d">a</a> separate instance
+  completely unaware of other vim processes.
+
+4. The <a href="starting.txt.html#%24VIM" class="d">$VIM</a> directory					<span id="haiku-vimdir" class="t">haiku-vimdir</span>
+
+<a href="starting.txt.html#%24VIM" class="d">$VIM</a> <a href="motion.txt.html#is" class="d">is</a> the symbolic name for the place where Vim's support files are stored.
+The default value for <a href="starting.txt.html#%24VIM" class="d">$VIM</a> <a href="motion.txt.html#is" class="d">is</a> set <a href="motion.txt.html#at" class="d">at</a> compile time and can be determined with:
+
+  <a href="various.txt.html#%3Aversion" class="d">:version</a>
+
+The normal value <a href="motion.txt.html#is" class="d">is</a> /boot/system/data/vim for Haikuports version,
+/boot/system/non-packaged/data/vim for manual builds.  If you don't like <a href="motion.txt.html#it" class="d">it</a>
+you can set the VIM environment variable to override this, or set <a href="options.txt.html#%27helpfile%27" class="o">'helpfile'</a>
+in your .vimrc: 
+<span class="e"></span>
+<span class="e">  :if version &gt;= 500</span>
+<span class="e">  :    set helpfile=~/vim/runtime/doc/help.txt</span>
+<span class="e">  :    syntax on</span>
+<span class="e">  :endif</span>
+<span class="e"></span>
+<span class="e"></span>
+5. The $USER_SETTINGS_DIR directory		<span id="haiku-user-settings-dir" class="t">haiku-user-settings-dir</span>
+
+$USER_SETTINGS_DIR <a href="motion.txt.html#is" class="d">is</a> the symbolic name for the place where <a href="os_haiku.txt.html#Haiku" class="d">Haiku</a>
+configuration and settings files are stored.
+
+The normal value <a href="motion.txt.html#is" class="d">is</a> /boot/home/config/settings.
+
+
+6. Drag <a href="change.txt.html#%26" class="d">&amp;</a> Drop						<span id="haiku-dragndrop" class="t">haiku-dragndrop</span>
+
+You can drop files and directories on either the Vim icon (starts <a href="insert.txt.html#a" class="d">a</a> new Vim
+session, unless you use the File Types application to set Vim to be "Single
+Launch"<a href="motion.txt.html#%29" class="d">)</a> or on the Vim <a href="windows.txt.html#window" class="d">window</a> (starts editing the files).  Dropping <a href="insert.txt.html#a" class="d">a</a> folder
+sets Vim's current working directory <a href="editing.txt.html#%3Acd" class="l">:cd</a> <a href="editing.txt.html#%3Apwd" class="l">:pwd</a><a href="repeat.txt.html#." class="d">.</a>  If you drop files or
+folders with either SHIFT key pressed, Vim changes directory to the folder
+that contains the first item dropped.  When <a href="starting.txt.html#starting" class="d">starting</a> Vim, there <a href="motion.txt.html#is" class="d">is</a> no need to
+press shift: Vim behaves <a href="motion.txt.html#as" class="d">as</a> if you do.
+
+Files dropped set the current argument list. <a href="editing.txt.html#argument-list" class="l">argument-list</a>
+
+
+7. Single Launch vs. Multiple Launch			<span id="haiku-launch" class="t">haiku-launch</span>
+
+As distributed Vim's Application Flags (as seen in the FileTypes preference)
+are set to Multiple Launch.  If you prefer, you can set them to Single Launch
+instead.  Attempts to start <a href="insert.txt.html#a" class="d">a</a> second copy of Vim will cause the first Vim to
+open the files instead.  This works from the Tracker but also from the command
+line.  In the latter case, non-file (option) arguments are not supported.
+Another drawback of the Single Launch <a href="motion.txt.html#is" class="d">is</a> silent ignore of "Open With <a href="userfunc.txt.html#..." class="d">...</a>"
+requests by vim instance that running <a href="motion.txt.html#as" class="d">as</a> non-GUI application even <a href="gui.txt.html#GUI" class="d">GUI</a> support
+was compiled in.  Vim instance running with <a href="gui.txt.html#GUI" class="d">GUI</a> has no such problems.
+
+NB: Only the <a href="gui.txt.html#GUI" class="d">GUI</a> version has <a href="insert.txt.html#a" class="d">a</a> BApplication (and hence Application Flags).
+This <a href="motion.txt.html#section" class="d">section</a> does not apply to the GUI-less version, should you compile one.
+
+
+8. Fonts						<span id="haiku-fonts" class="t">haiku-fonts</span>
+
+Set fonts with 
+<span class="e"></span>
+<span class="e">  :set guifont=DejaVu_Sans_Mono/Book/12</span>
+<span class="e"></span>
+where the first part <a href="motion.txt.html#is" class="d">is</a> the font family, the second part the style, and the
+third part the size.  You can use underscores instead of spaces in family and
+style.
+
+Best results are obtained with monospaced fonts.  Vim attempts to use all
+fonts in B_FIXED_SPACING mode but apparently this does not work for
+proportional fonts (despite what the BeBook says).
+
+To verify which encodings are supported by the current font give the 
+<span class="e"></span>
+<span class="e">  :digraphs</span>
+<span class="e"></span>
+command, which lists <a href="insert.txt.html#a" class="d">a</a> bunch of characters with their ISO Latin 1 encoding.
+If, for instance, there are "box" characters among them, or the last character
+isn't <a href="insert.txt.html#a" class="d">a</a> dotted-y, then for this font the encoding does not work.
+
+If the font you specify <a href="motion.txt.html#is" class="d">is</a> unavailable, you get the system fixed font.
+
+<a href="gui.txt.html#GUI" class="d">GUI</a> Font Selection Dialog <a href="motion.txt.html#is" class="d">is</a> available <a href="motion.txt.html#at" class="d">at</a> giving the:
+
+  <a href="options.txt.html#%3Aset" class="d">:set</a> guifont=*
+
+command.
+
+
+9. The <a href="intro.txt.html#meta" class="d">meta</a> key modifier				<span id="haiku-meta" class="t">haiku-meta</span>
+
+The META key modifier <a href="motion.txt.html#is" class="d">is</a> obtained by the left or right OPTION keys.  This <a href="motion.txt.html#is" class="d">is</a>
+because the ALT (aka COMMAND) keys are not passed to applications.
+
+
+10. Mouse key mappings					<span id="haiku-mouse" class="t">haiku-mouse</span>
+
+Vim calls the <a href="various.txt.html#various" class="d">various</a> mouse buttons LeftMouse, MiddleMouse and RightMouse.  If
+you use the default Mouse preference settings these names indeed correspond to
+reality.  Vim uses this mapping:
+
+    Button 1 <a href="eval.txt.html#-%3E" class="d">-&gt;</a> LeftMouse,
+    Button 2 <a href="eval.txt.html#-%3E" class="d">-&gt;</a> RightMouse,
+    Button 3 <a href="eval.txt.html#-%3E" class="d">-&gt;</a> MiddleMouse.
+
+If your mouse has fewer than 3 buttons you can provide your own <a href="map.txt.html#mapping" class="d">mapping</a> from
+mouse clicks with modifier(s) to other mouse buttons.  See the file
+$VIM/macros/swapmous.vim for an example.		<a href="gui.txt.html#gui-mouse-mapping" class="l">gui-mouse-mapping</a>
+
+
+11. Color names						<span id="haiku-colors" class="t">haiku-colors</span>
+
+Vim has <a href="insert.txt.html#a" class="d">a</a> number of color names built-in.  Additional names can be defined in
+<a href="eval.txt.html#v%3Acolornames" class="l">v:colornames</a><a href="repeat.txt.html#." class="d">.</a>  See <a href="syntax.txt.html#%3Acolorscheme" class="l">:colorscheme</a> for details.
+
+
+12. <a href="gui.txt.html#GUI" class="d">GUI</a> Toolbar Images					<span id="haiku-toolbar-images" class="t">haiku-toolbar-images</span>
+
+Alternative set of toolbar images should be the PNG image of any height you
+like.  Image width <a href="motion.txt.html#is" class="d">is</a> calculated to contain <a href="motion.txt.html#at" class="d">at</a> least 32 buttons in one-row
+cells.
+The image should be stored under the name $VIRUNTIME/bitmaps/builtin-tools.png
+More info about the buttons assignment are <a href="motion.txt.html#at" class="d">at</a> <a href="gui.txt.html#builtin-tools" class="l">builtin-tools</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+13. Credits						<span id="haiku-support-credits" class="t">haiku-support-credits</span>
+
+<a href="os_haiku.txt.html#Haiku" class="d">Haiku</a> port <a href="motion.txt.html#is" class="d">is</a> based on work done for <a href="os_beos.txt.html#BeOS" class="d">BeOS</a> version by many people
+ <a href="motion.txt.html#-" class="d">-</a> <a href="os_beos.txt.html#BeBox" class="d">BeBox</a> <a href="gui.txt.html#GUI" class="d">GUI</a> support Copyright 1998 by Olaf Seibert;
+ <a href="motion.txt.html#-" class="d">-</a> Ported to R4 by Richard Offer &lt;richard@whitequeen.com&gt; Jul 99;
+ <a href="motion.txt.html#-" class="d">-</a> Those who contributed, not listed above but not forgotten;
+ <a href="motion.txt.html#-" class="d">-</a> <a href="os_haiku.txt.html#Haiku" class="d">Haiku</a> support by Siarzhuk Zharski &lt;imker@gmx.li&gt; Apr-Mai 2009.
+
+All the changes and patches released under vim-license.
+
+Thank you, all!
+
+
+14. Bugs <a href="change.txt.html#%26" class="d">&amp;</a> to-do					<span id="haiku-bugs" class="t">haiku-bugs</span>
+
+The port <a href="motion.txt.html#is" class="d">is</a> under <a href="develop.txt.html#development" class="d">development</a> now and far away from the perfect state.  For
+bug reports, patches and wishes, please use the Vim mailing <a href="eval.txt.html#list" class="d">list</a> or Vim Github
+repository.
+
+Mailing list: <a class="u" href="https://www.vim.org/maillist.php">https://www.vim.org/maillist.php</a>
+Vim Github repository: <a class="u" href="https://github.com/vim/vim">https://github.com/vim/vim</a>
+
+
+ vim:tw=78:ts=8:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: if_perl.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="if_perl.txt.html#">↑Top↑</a></li>
+<li><a href="if_perl.txt.html#perl-commands">Commands</a></li>
+<li><a href="if_perl.txt.html#perl-vim">The VIM module</a></li>
+<li><a href="if_perl.txt.html#perl-buffer">VIM::Buffer objects</a></li>
+<li><a href="if_perl.txt.html#perl-window">VIM::Window objects</a></li>
+<li><a href="if_perl.txt.html#perl-globals">Lexical variables</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="if_perl.txt" class="t">if_perl.txt</span>   Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL    by Jacques Germishuys</span>
+
+The <a href="if_perl.txt.html#perl" class="d">perl</a> Interface to Vim				<span id="if_perl" class="t">if_perl</span> <span id="perl" class="t">perl</span>
+
+See <a href="provider.txt.html#provider-perl" class="l">provider-perl</a> <a href="luaref.txt.html#for" class="d">for</a> more information.
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+1. Commands						<span id="perl-commands" class="t">perl-commands</span>
+
+							<span id="%3Aperl" class="t">:perl</span>
+:[range]perl <span class="s">{stmt}</span>
+			Execute <a href="if_perl.txt.html#perl" class="d">perl</a> statement <span class="s">{stmt}</span>.  The current package <a href="motion.txt.html#is" class="d">is</a>
+			"main"<a href="repeat.txt.html#." class="d">.</a>  <a href="insert.txt.html#A" class="d">A</a> simple check if the <span class="e">:perl</span> command <a href="motion.txt.html#is" class="d">is</a>
+			working: 
+<span class="e">				:perl print "Hello"</span>
+<span class="e"></span>
+:[range]perl <a href="change.txt.html#%3C%3C" class="d">&lt;&lt;</a> <span class="s">[trim]</span> [{endmarker}]
+<span class="s">{script}</span>
+<span class="s">{endmarker}</span>
+			Execute <a href="if_perl.txt.html#perl" class="d">perl</a> <a href="usr_41.txt.html#script" class="d">script</a> <span class="s">{script}</span>.
+			The <span class="s">{endmarker}</span> after <span class="s">{script}</span> must NOT be preceded by
+			any white space.
+
+			If <span class="s">[endmarker]</span> <a href="motion.txt.html#is" class="d">is</a> omitted, <a href="motion.txt.html#it" class="d">it</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to <a href="insert.txt.html#a" class="d">a</a> dot '.'
+			like <a href="luaref.txt.html#for" class="d">for</a> the <a href="insert.txt.html#%3Aappend" class="l">:append</a> and <a href="insert.txt.html#%3Ainsert" class="l">:insert</a> commands.
+
+			Useful <a href="luaref.txt.html#for" class="d">for</a> including <a href="if_perl.txt.html#perl" class="d">perl</a> code in Vim scripts.
+			Requires perl, see <a href="if_pyth.txt.html#script-here" class="l">script-here</a><a href="repeat.txt.html#." class="d">.</a>
+
+Example: 
+<span class="e">	function! MyVimMethod()</span>
+<span class="e">	perl &lt;&lt; EOF</span>
+<span class="e">	sub my_vim_method</span>
+<span class="e">	{</span>
+<span class="e">		print "Hello World!\n";</span>
+<span class="e">	}</span>
+<span class="e">	EOF</span>
+<span class="e">	endfunction</span>
+<span class="e"></span>
+To see what version of <a href="if_perl.txt.html#perl" class="d">perl</a> you have: 
+<span class="e"></span>
+<span class="e">	:perl print $^V</span>
+
+							<span id="%3Aperldo" class="t">:perldo</span>
+:[range]perldo <span class="s">{cmd}</span>	Execute <a href="if_perl.txt.html#perl" class="d">perl</a> command <span class="s">{cmd}</span> <a href="luaref.txt.html#for" class="d">for</a> each line in the[range],
+			with $_ being set to the test of each line in turn,
+			without <a href="insert.txt.html#a" class="d">a</a> trailing <a href="intro.txt.html#%3CEOL%3E" class="s">&lt;EOL&gt;</a>. In addition to $_, $line and
+			$linenr <a href="motion.txt.html#is" class="d">is</a> also set to the line content and line number
+			respectively. Setting $_ will change the text, but <span class="n">note</span>
+			that <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not possible to add or delete lines using
+			this command.
+			The default <a href="luaref.txt.html#for" class="d">for</a> <a href="cmdline.txt.html#%5Brange%5D" class="s">[range]</a> <a href="motion.txt.html#is" class="d">is</a> the whole file: "1,$"<a href="repeat.txt.html#." class="d">.</a>
+
+Examples:
+
+<span class="e">	:perldo $_ = reverse($_);</span>
+<span class="e">	:perldo $_ = "".$linenr." =&gt; $line";</span>
+<span class="e"></span>
+One can use <span class="e">:perldo</span> in conjunction with <span class="e">:perl</span> to <a href="change.txt.html#filter" class="d">filter</a> <a href="insert.txt.html#a" class="d">a</a> range using
+perl. For example: 
+<span class="e"></span>
+<span class="e">	:perl &lt;&lt; EOF</span>
+<span class="e">	sub perl_vim_string_replace</span>
+<span class="e">	{</span>
+<span class="e">	    my $line = shift;</span>
+<span class="e">	    my $needle = $vim-&gt;eval('@a');</span>
+<span class="e">	    my $replacement = $vim-&gt;eval('@b');</span>
+<span class="e">	    $line =~ s/$needle/$replacement/g;</span>
+<span class="e">	    return $line;</span>
+<span class="e">	}</span>
+<span class="e">	EOF</span>
+<span class="e">	:let @a='somevalue'</span>
+<span class="e">	:let @b='newvalue'</span>
+<span class="e">	:'&lt;,'&gt;perldo $_ = perl_vim_string_replace($_)</span>
+
+							<span id="%3Aperlfile" class="t">:perlfile</span>
+:[range]perlfile <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>
+			Execute the <a href="if_perl.txt.html#perl" class="d">perl</a> <a href="usr_41.txt.html#script" class="d">script</a> in <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a>.  The whole
+			argument <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> single file name.
+
+Both of these commands <a href="diff.txt.html#do" class="d">do</a> essentially the same thing <a href="motion.txt.html#-" class="d">-</a> they execute <a href="insert.txt.html#a" class="d">a</a> piece of
+<a href="if_perl.txt.html#perl" class="d">perl</a> code, with the "current range" set to the given line range.
+
+In the <a href="change.txt.html#case" class="d">case</a> of :perl, the code to execute <a href="motion.txt.html#is" class="d">is</a> in the command-line.
+In the <a href="change.txt.html#case" class="d">case</a> of :perlfile, the code to execute <a href="motion.txt.html#is" class="d">is</a> the contents of the given file.
+
+<a href="if_perl.txt.html#perl" class="d">perl</a> commands cannot be used in the <a href="vimeval.txt.html#sandbox" class="l">sandbox</a><a href="repeat.txt.html#." class="d">.</a>
+
+To pass arguments you need to set @ARGV explicitly.  Example: 
+<span class="e"></span>
+<span class="e">	:perl @ARGV = ("foo", "bar");</span>
+<span class="e">	:perlfile myscript.pl</span>
+<span class="e"></span>
+Here are some examples					<span id="perl-examples" class="t">perl-examples</span>  
+<span class="e"></span>
+<span class="e">	:perl print "Hello"</span>
+<span class="e">	:perl $current-&gt;line (uc ($current-&gt;line))</span>
+<span class="e">	:perl my $str = $current-&gt;buffer-&gt;[42]; print "Set \$str to: $str"</span>
+<span class="e"></span>
+<span class="n">Note</span> that changes (such <a href="motion.txt.html#as" class="d">as</a> the "use" statements) persist from one command
+to the next.
+
+<span class="h">==============================================================================</span>
+2. The VIM module					<span id="perl-vim" class="t">perl-vim</span>
+
+Perl code gets all of its access to Nvim via the "VIM" module.
+
+Overview 
+<span class="e">	print "Hello"				# displays a message</span>
+<span class="e">	VIM::Msg("Hello")			# displays a message</span>
+<span class="e">	VIM::SetOption("ai")			# sets a vim option</span>
+<span class="e">	$nbuf = VIM::Buffers()			# returns the number of buffers</span>
+<span class="e">	@buflist = VIM::Buffers()		# returns array of all buffers</span>
+<span class="e">	$mybuf = (VIM::Buffers('a.c'))[0]	# returns buffer object for 'a.c'</span>
+<span class="e">	@winlist = VIM::Windows()		# returns array of all windows</span>
+<span class="e">	$nwin = VIM::Windows()			# returns the number of windows</span>
+<span class="e">	($success, $v) = VIM::Eval('&amp;path')	# $v: option 'path', $success: 1</span>
+<span class="e">	($success, $v) = VIM::Eval('&amp;xyz')	# $v: '' and $success: 0</span>
+<span class="e">	$v = VIM::Eval('expand("&lt;cfile&gt;")')	# expands &lt;cfile&gt;</span>
+<span class="e">	$curwin-&gt;SetHeight(10)			# sets the window height</span>
+<span class="e">	@pos = $curwin-&gt;Cursor()		# returns (row, col) array</span>
+<span class="e">	@pos = (10, 10)</span>
+<span class="e">	$curwin-&gt;Cursor(@pos)			# sets cursor to @pos</span>
+<span class="e">	$curwin-&gt;Cursor(10,10)			# sets cursor to row 10 col 10</span>
+<span class="e">	$mybuf = $curwin-&gt;Buffer()		# returns the buffer object for window</span>
+<span class="e">	$curbuf-&gt;Name()				# returns buffer name</span>
+<span class="e">	$curbuf-&gt;Number()			# returns buffer number</span>
+<span class="e">	$curbuf-&gt;Count()			# returns the number of lines</span>
+<span class="e">	$l = $curbuf-&gt;Get(10)			# returns line 10</span>
+<span class="e">	@l = $curbuf-&gt;Get(1 .. 5)		# returns lines 1 through 5</span>
+<span class="e">	$curbuf-&gt;Delete(10)			# deletes line 10</span>
+<span class="e">	$curbuf-&gt;Delete(10, 20)			# delete lines 10 through 20</span>
+<span class="e">	$curbuf-&gt;Append(10, "Line")		# appends a line</span>
+<span class="e">	$curbuf-&gt;Append(10, "L1", "L2", "L3")	# appends 3 lines</span>
+<span class="e">	@l = ("L1", "L2", "L3")</span>
+<span class="e">	$curbuf-&gt;Append(10, @l)			# appends L1, L2 and L3</span>
+<span class="e">	$curbuf-&gt;Set(10, "Line")		# replaces line 10</span>
+<span class="e">	$curbuf-&gt;Set(10, "Line1", "Line2")	# replaces lines 10 and 11</span>
+<span class="e">	$curbuf-&gt;Set(10, @l)			# replaces 3 lines</span>
+<span class="e"></span>
+Module Functions:
+
+							<span id="perl-Msg" class="t">perl-Msg</span>
+VIM::Msg({msg})
+			Displays the message <span class="s">{msg}</span>.
+
+							<span id="perl-SetOption" class="t">perl-SetOption</span>
+VIM::SetOption({arg})	Sets <a href="insert.txt.html#a" class="d">a</a> vim option.  <span class="s">{arg}</span> can be any argument that the
+			"<a href="options.txt.html#%3Aset" class="d">:set</a>" command accepts.  <span class="n">Note</span> that this means that no
+			spaces are allowed in the argument!  See <a href="options.txt.html#%3Aset" class="l">:set</a><a href="repeat.txt.html#." class="d">.</a>
+
+							<span id="perl-Buffers" class="t">perl-Buffers</span>
+VIM::Buffers([{bn}...])	With no arguments, returns <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of all the <a href="windows.txt.html#buffers" class="d">buffers</a>
+			in an array <a href="repeat.txt.html#context" class="d">context</a> or returns the number of <a href="windows.txt.html#buffers" class="d">buffers</a>
+			in <a href="insert.txt.html#a" class="d">a</a> scalar context.  For <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of buffer names or
+			numbers <span class="s">{bn}</span>, returns <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of the <a href="windows.txt.html#buffers" class="d">buffers</a> matching
+			<span class="s">{bn}</span>, using the same rules <a href="motion.txt.html#as" class="d">as</a> Vim's internal
+			<a href="vimfn.txt.html#bufname%28%29" class="l">bufname()</a> function.
+			WARNING: the <a href="vimeval.txt.html#list" class="d">list</a> becomes invalid when <a href="windows.txt.html#%3Abwipe" class="l">:bwipe</a> <a href="motion.txt.html#is" class="d">is</a>
+			used.
+
+							<span id="perl-Windows" class="t">perl-Windows</span>
+VIM::Windows([{wn}...])	With no arguments, returns <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of all the <a href="windows.txt.html#windows" class="d">windows</a>
+			in an array <a href="repeat.txt.html#context" class="d">context</a> or returns the number of <a href="windows.txt.html#windows" class="d">windows</a>
+			in <a href="insert.txt.html#a" class="d">a</a> scalar context.  For <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of <a href="windows.txt.html#window" class="d">window</a> numbers
+			<span class="s">{wn}</span>, returns <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of the <a href="windows.txt.html#windows" class="d">windows</a> with those
+			numbers.
+			WARNING: the <a href="vimeval.txt.html#list" class="d">list</a> becomes invalid when <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a>
+			closed.
+
+							<span id="perl-DoCommand" class="t">perl-DoCommand</span>
+VIM::DoCommand({cmd})	Executes <a href="intro.txt.html#Ex" class="d">Ex</a> command <span class="s">{cmd}</span>.
+
+							<span id="perl-Eval" class="t">perl-Eval</span>
+VIM::Eval({expr})	Evaluates <span class="s">{expr}</span> and returns (success, value) in <a href="vimeval.txt.html#list" class="d">list</a>
+			<a href="repeat.txt.html#context" class="d">context</a> or just value in scalar context.
+			success=1 indicates that val contains the value of
+			<span class="s">{expr}</span>; success=0 indicates <a href="insert.txt.html#a" class="d">a</a> failure to evaluate
+			the expression.  '@x' returns the contents of <a href="intro.txt.html#register" class="d">register</a>
+			x, '&amp;x' returns the value of option x, 'x' returns the
+			value of internal <a href="vimeval.txt.html#variables" class="l">variables</a> x, and '$x' <a href="motion.txt.html#is" class="d">is</a> equivalent
+			to perl's $ENV{x}.  All <a href="vimeval.txt.html#functions" class="l">functions</a> accessible from
+			the command-line are valid <a href="luaref.txt.html#for" class="d">for</a> <span class="s">{expr}</span>.
+			<a href="insert.txt.html#A" class="d">A</a> <a href="vimeval.txt.html#List" class="l">List</a> <a href="motion.txt.html#is" class="d">is</a> turned into <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> by joining the items
+			and <a href="insert.txt.html#inserting" class="d">inserting</a> line breaks.
+
+							<span id="perl-Blob" class="t">perl-Blob</span>
+VIM::Blob({expr})	Return <a href="vimeval.txt.html#Blob" class="d">Blob</a> literal <a href="vimeval.txt.html#string" class="d">string</a> 0zXXXX from scalar value.
+
+<span class="h">==============================================================================</span>
+3. VIM::Buffer <a href="index.txt.html#objects" class="d">objects</a>					<span id="perl-buffer" class="t">perl-buffer</span>
+
+Methods:
+
+							<span id="perl-Buffer-Name" class="t">perl-Buffer-Name</span>
+Name()		Returns the filename <a href="luaref.txt.html#for" class="d">for</a> the Buffer.
+
+							<span id="perl-Buffer-Number" class="t">perl-Buffer-Number</span>
+Number()	Returns the number of the Buffer.
+
+							<span id="perl-Buffer-Count" class="t">perl-Buffer-Count</span>
+Count()		Returns the number of lines in the Buffer.
+
+							<span id="perl-Buffer-Get" class="t">perl-Buffer-Get</span>
+Get({lnum}, <span class="s">{lnum}</span>?, ...)
+			Returns <a href="insert.txt.html#a" class="d">a</a> text <a href="vimeval.txt.html#string" class="d">string</a> of line <span class="s">{lnum}</span> in the Buffer
+			<a href="luaref.txt.html#for" class="d">for</a> each <span class="s">{lnum}</span> specified.  An array can be passed
+			with <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of <span class="s">{lnum}</span>'s specified.
+
+							<span id="perl-Buffer-Delete" class="t">perl-Buffer-Delete</span>
+Delete({lnum}, <span class="s">{lnum}</span>?)
+			Deletes line <span class="s">{lnum}</span> in the Buffer.  With the second
+			<span class="s">{lnum}</span>, deletes the range of lines from the first
+			<span class="s">{lnum}</span> to the second <span class="s">{lnum}</span>.
+
+							<span id="perl-Buffer-Append" class="t">perl-Buffer-Append</span>
+Append({lnum}, <span class="s">{line}</span>, <span class="s">{line}</span>?, ...)
+			Appends each <span class="s">{line}</span> <a href="vimeval.txt.html#string" class="d">string</a> after Buffer line <span class="s">{lnum}</span>.
+			The <a href="vimeval.txt.html#list" class="d">list</a> of <span class="s">{line}</span>s can be an array.
+
+							<span id="perl-Buffer-Set" class="t">perl-Buffer-Set</span>
+Set({lnum}, <span class="s">{line}</span>, <span class="s">{line}</span>?, ...)
+			Replaces one or more Buffer lines with specified
+			<span class="s">{lines}</span>s, <a href="starting.txt.html#starting" class="d">starting</a> <a href="motion.txt.html#at" class="d">at</a> Buffer line <span class="s">{lnum}</span>.  The <a href="vimeval.txt.html#list" class="d">list</a> of
+			<span class="s">{line}</span>s can be an array.  If the arguments are
+			invalid, replacement does not occur.
+
+<span class="h">==============================================================================</span>
+4. VIM::Window <a href="index.txt.html#objects" class="d">objects</a>					<span id="perl-window" class="t">perl-window</span>
+
+Methods:
+							<span id="perl-Window-SetHeight" class="t">perl-Window-SetHeight</span>
+SetHeight({height})
+			Sets the Window height to <span class="s">{height}</span>, within screen
+			limits.
+
+							<span id="perl-Window-GetCursor" class="t">perl-Window-GetCursor</span>
+Cursor({row}?, <span class="s">{col}</span>?)
+			With no arguments, returns <a href="insert.txt.html#a" class="d">a</a> (row, col) array <a href="luaref.txt.html#for" class="d">for</a> the
+			current cursor position in the Window.  With <span class="s">{row}</span> and
+			<span class="s">{col}</span> arguments, sets the Window's cursor position to
+			<span class="s">{row}</span> and <span class="s">{col}</span>.  <span class="n">Note</span> that <span class="s">{col}</span> <a href="motion.txt.html#is" class="d">is</a> numbered from 0,
+			Perl-fashion, and thus <a href="motion.txt.html#is" class="d">is</a> one <a href="various.txt.html#less" class="d">less</a> than the value in
+			Vim's ruler.
+
+Buffer()						<span id="perl-Window-Buffer" class="t">perl-Window-Buffer</span>
+			Returns the Buffer object corresponding to the given
+			Window.
+
+<span class="h">==============================================================================</span>
+5. Lexical <a href="vimeval.txt.html#variables" class="d">variables</a>					<span id="perl-globals" class="t">perl-globals</span>
+
+There are multiple lexical variables.
+
+$curwin			The current Window object.
+$curbuf			The current Buffer object.
+$vim			<a href="insert.txt.html#A" class="d">A</a> Neovim::Ext object.
+$nvim			The same <a href="motion.txt.html#as" class="d">as</a> $nvim.
+$current		<a href="insert.txt.html#A" class="d">A</a> Neovim::Ext::Current object.
+
+These are also available via the "main" package:
+
+$main::curwin		The current Window object.
+$main::curbuf		The current Buffer object.
+
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

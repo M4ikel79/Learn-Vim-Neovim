@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: gui.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="gui.txt.html#">↑Top↑</a></li>
+<li><a href="gui.txt.html#third-party-guis">Third-party GUIs</a></li>
+<li><a href="gui.txt.html#gui-config">Starting the GUI</a></li>
+<li><a href="gui.txt.html#mouse-using">Using the mouse</a></li>
+<li><a href="gui.txt.html#gui-scrollbars">Scrollbars</a></li>
+<li><a href="gui.txt.html#drag-n-drop">Drag and drop</a></li>
+<li><a href="gui.txt.html#menus">Menus</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="gui.txt" class="t">gui.txt</span>       Nvim
+
+
+                  <span class="i">VIM REFERENCE MANUAL    by Bram Moolenaar</span>
+
+
+Nvim Graphical <a href="autocmd.txt.html#User" class="d">User</a> Interface                           <span id="gui" class="t">gui</span> <span id="GUI" class="t">GUI</span>
+
+Any client that supports the Nvim <a href="ui.txt.html#ui-protocol" class="l">ui-protocol</a> can be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="ui.txt.html#UI" class="d">UI</a> <a href="luaref.txt.html#for" class="d">for</a> Nvim.
+And multiple UIs can connect to the same Nvim instance! The terms "<a href="ui.txt.html#UI" class="d">UI</a>" and
+"<a href="gui.txt.html#GUI" class="d">GUI</a>" are often used interchangeably because all Nvim <a href="ui.txt.html#UI" class="d">UI</a> clients have the same
+potential capabilities; the "<a href="tui.txt.html#TUI" class="d">TUI</a>" refers to <a href="insert.txt.html#a" class="d">a</a> <a href="ui.txt.html#UI" class="d">UI</a> client that outputs to your
+terminal, whereas <a href="insert.txt.html#a" class="d">a</a> "<a href="gui.txt.html#GUI" class="d">GUI</a>" outputs directly to the OS graphics system.
+
+Except where noted, this document describes <a href="ui.txt.html#UI" class="d">UI</a> capabilities available to both
+<a href="tui.txt.html#TUI" class="d">TUI</a> and <a href="gui.txt.html#GUI" class="d">GUI</a> (assuming the <a href="ui.txt.html#UI" class="d">UI</a> supports the given feature). See <a href="tui.txt.html#TUI" class="l">TUI</a> <a href="luaref.txt.html#for" class="d">for</a> notes
+specific to the <a href="terminal.txt.html#terminal" class="d">terminal</a> UI. Help <a href="tagsrch.txt.html#tags" class="d">tags</a> with the "gui-" prefix refer to <a href="ui.txt.html#UI" class="d">UI</a>
+features, whereas <a href="helphelp.txt.html#help" class="d">help</a> <a href="tagsrch.txt.html#tags" class="d">tags</a> with the "ui-" prefix refer to the <a href="ui.txt.html#ui-protocol" class="l">ui-protocol</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+Third-party GUIs                                <span id="third-party-guis" class="t">third-party-guis</span> <span id="vscode" class="t">vscode</span>
+
+Nvim provides <a href="insert.txt.html#a" class="d">a</a> builtin "<a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="ui.txt.html#UI" class="d">UI</a>" <a href="motion.txt.html#%28" class="d">(</a><a href="tui.txt.html#TUI" class="l">TUI</a>), but also works with many
+(third-party) GUIs which may provide <a href="insert.txt.html#a" class="d">a</a> fresh look or extra features on top of
+Nvim. For example, "vscode-neovim" essentially allows you to use VSCode <a href="motion.txt.html#as" class="d">as</a>
+<a href="insert.txt.html#a" class="d">a</a> Nvim GUI.
+
+<a href="motion.txt.html#-" class="d">-</a> vscode-neovim (Nvim in VSCode!) <a class="u" href="https://github.com/vscode-neovim/vscode-neovim">https://github.com/vscode-neovim/vscode-neovim</a>
+<a href="motion.txt.html#-" class="d">-</a> Firenvim (Nvim in your web browser!) <a class="u" href="https://github.com/glacambre/firenvim">https://github.com/glacambre/firenvim</a>
+<a href="motion.txt.html#-" class="d">-</a> Neovide <a class="u" href="https://neovide.dev/">https://neovide.dev/</a>
+<a href="motion.txt.html#-" class="d">-</a> Goneovim <a class="u" href="https://github.com/akiyosi/goneovim">https://github.com/akiyosi/goneovim</a>
+<a href="motion.txt.html#-" class="d">-</a> Nvy <a class="u" href="https://github.com/RMichelsen/Nvy">https://github.com/RMichelsen/Nvy</a>
+<a href="motion.txt.html#-" class="d">-</a> Neovim-Qt (Qt5) <a class="u" href="https://github.com/equalsraf/neovim-qt">https://github.com/equalsraf/neovim-qt</a>
+<a href="motion.txt.html#-" class="d">-</a> VimR (macOS) <a class="u" href="https://github.com/qvacua/vimr">https://github.com/qvacua/vimr</a>
+<a href="motion.txt.html#-" class="d">-</a> Others <a class="u" href="https://github.com/neovim/neovim/wiki/Related-projects#gui">https://github.com/neovim/neovim/wiki/Related-projects#gui</a>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+Starting the <a href="gui.txt.html#GUI" class="d">GUI</a>                                <span id="gui-config" class="t">gui-config</span> <span id="gui-start" class="t">gui-start</span>
+
+                                <span id="ginit.vim" class="t">ginit.vim</span> <span id="gui-init" class="t">gui-init</span> <span id="gvimrc" class="t">gvimrc</span> <span id="%24MYGVIMRC" class="t">$MYGVIMRC</span>
+For GUI-specific configuration Nvim provides the <a href="autocmd.txt.html#UIEnter" class="l">UIEnter</a> event.  This
+happens after other <a href="starting.txt.html#initialization" class="l">initialization</a>s, or whenever <a href="insert.txt.html#a" class="d">a</a> <a href="ui.txt.html#UI" class="d">UI</a> attaches (multiple UIs
+can connect to any Nvim instance).
+
+Example: this sets "g:gui" to the value of the UI's "rgb" field:    
+<span class="e">        :autocmd UIEnter * let g:gui = filter(nvim_list_uis(),{k,v-&gt; v.chan==v:event.chan})[0].rgb</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+Stop or detach the current <a href="ui.txt.html#UI" class="d">UI</a>
+
+                                                <span id="%3Adetach" class="t">:detach</span>
+<a href="gui.txt.html#%3Adetach" class="d">:detach</a>
+                Detaches the current UI. Other UIs (if any) remain attached.
+                The server (typically `nvim --embed`) continues running <a href="motion.txt.html#as" class="d">as</a>
+                <a href="insert.txt.html#a" class="d">a</a> background process, and you can reattach to <a href="motion.txt.html#it" class="d">it</a> later.
+                Before detaching, you may want to <span class="n">note</span> the server address:
+                
+<span class="e">                    :echo v:servername</span>
+
+                <span class="n">Note:</span> The server closes the <a href="ui.txt.html#UI" class="d">UI</a> <a href="api.txt.html#RPC" class="d">RPC</a> channel, so <a href="gui.txt.html#%3Adetach" class="d">:detach</a>
+                inherently "works" <a href="luaref.txt.html#for" class="d">for</a> all UIs. But if <a href="insert.txt.html#a" class="d">a</a> <a href="ui.txt.html#UI" class="d">UI</a> isn't expecting
+                the <a href="channel.txt.html#channel" class="d">channel</a> to be closed, <a href="motion.txt.html#it" class="d">it</a> may be (incorrectly) reported <a href="motion.txt.html#as" class="d">as</a>
+                an error.
+
+                <span class="n">Note:</span> Not supported on Windows, currently.
+
+<span class="h">------------------------------------------------------------------------------</span>
+<a href="gui.txt.html#GUI" class="d">GUI</a> commands
+
+                                                <span id="%3Awinp" class="t">:winp</span> <span id="%3Awinpos" class="t">:winpos</span> <span id="E188" class="t">E188</span>
+:winp[os]
+                Display current position of the top left corner of the <a href="gui.txt.html#GUI" class="d">GUI</a> vim
+                <a href="windows.txt.html#window" class="d">window</a> in pixels.  Does not work in all versions.
+                Also see <a href="vimfn.txt.html#getwinpos%28%29" class="l">getwinpos()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vimfn.txt.html#getwinposx%28%29" class="l">getwinposx()</a> and <a href="vimfn.txt.html#getwinposy%28%29" class="l">getwinposy()</a><a href="repeat.txt.html#." class="d">.</a>
+
+:winp[os] <span class="s">{X}</span> <span class="s">{Y}</span>                                                       <span id="E466" class="t">E466</span>
+                Put the <a href="gui.txt.html#GUI" class="d">GUI</a> vim <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#at" class="d">at</a> the given <span class="s">{X}</span> and <span class="s">{Y}</span> coordinates.
+                The coordinates should specify the position in pixels of the
+                top left corner of the window.
+                When the <a href="gui.txt.html#GUI" class="d">GUI</a> <a href="windows.txt.html#window" class="d">window</a> has not been opened yet, the values are
+                remembered until the <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> opened.  The position <a href="motion.txt.html#is" class="d">is</a>
+                adjusted to make the <a href="windows.txt.html#window" class="d">window</a> fit on the screen (if possible).
+
+                                            <span id="%3Awi" class="t">:wi</span> <span id="%3Awin" class="t">:win</span> <span id="%3Awinsize" class="t">:winsize</span> <span id="E465" class="t">E465</span>
+:win[size] <span class="s">{width}</span> <span class="s">{height}</span>
+                Set the <a href="windows.txt.html#window" class="d">window</a> height to <span class="s">{width}</span> by <span class="s">{height}</span> characters.
+                Obsolete, use "<a href="options.txt.html#%3Aset" class="d">:set</a> lines=11 columns=22"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+Using the mouse                                         <span id="mouse-using" class="t">mouse-using</span>
+
+                                        <span id="mouse-mode-table" class="t">mouse-mode-table</span> <span id="mouse-overview" class="t">mouse-overview</span>
+Overview of what the mouse buttons do, when <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a> <a href="motion.txt.html#is" class="d">is</a> "extend"<a href="cmdline.txt.html#%3A" class="d">:</a>
+
+               <span id="%3CS-LeftMouse%3E" class="t">&lt;S-LeftMouse&gt;</span> <span id="%3CA-RightMouse%3E" class="t">&lt;A-RightMouse&gt;</span> <span id="%3CS-RightMouse%3E" class="t">&lt;S-RightMouse&gt;</span> <span id="%3CRightDrag%3E" class="t">&lt;RightDrag&gt;</span>
+                                                 <span id="%3CRightRelease%3E" class="t">&lt;RightRelease&gt;</span> <span id="%3CLeftDrag%3E" class="t">&lt;LeftDrag&gt;</span>
+<a href="intro.txt.html#Normal" class="d">Normal</a> Mode: 
+<span class="e">  event         position     selection        change  action</span>
+<span class="e">                 cursor                       window</span>
+<span class="e">  ---------------------------------------------------------------------------</span>
+<span class="e">  &lt;LeftMouse&gt;     yes          end              yes</span>
+<span class="e">  &lt;C-LeftMouse&gt;   yes          end              yes    "CTRL-]" (2)</span>
+<span class="e">  &lt;S-LeftMouse&gt;   yes       no change           yes    "*" (2)</span>
+<span class="e">  &lt;LeftDrag&gt;      yes     start or extend (1)   no</span>
+<span class="e">  &lt;LeftRelease&gt;   yes     start or extend (1)   no</span>
+<span class="e">  &lt;MiddleMouse&gt;   yes       if not active       no     put</span>
+<span class="e">  &lt;MiddleMouse&gt;   yes       if active           no     yank and put</span>
+<span class="e">  &lt;RightMouse&gt;    yes     start or extend       yes</span>
+<span class="e">  &lt;A-RightMouse&gt;  yes start or extend blockw.   yes</span>
+<span class="e">  &lt;S-RightMouse&gt;  yes        no change          yes    "#" (2)</span>
+<span class="e">  &lt;C-RightMouse&gt;  no         no change          no     "CTRL-T"</span>
+<span class="e">  &lt;RightDrag&gt;     yes         extend            no</span>
+<span class="e">  &lt;RightRelease&gt;  yes         extend            no</span>
+<span class="e"></span>
+<a href="insert.txt.html#Insert" class="d">Insert</a> or <a href="insert.txt.html#Replace" class="d">Replace</a> Mode: 
+<span class="e">  event         position     selection        change  action</span>
+<span class="e">                 cursor                       window</span>
+<span class="e">  ---------------------------------------------------------------------------</span>
+<span class="e">  &lt;LeftMouse&gt;     yes     (cannot be active)    yes</span>
+<span class="e">  &lt;C-LeftMouse&gt;   yes     (cannot be active)    yes    "CTRL-O^]" (2)</span>
+<span class="e">  &lt;S-LeftMouse&gt;   yes     (cannot be active)    yes    "CTRL-O*" (2)</span>
+<span class="e">  &lt;LeftDrag&gt;      yes     start or extend (1)   no     like CTRL-O (1)</span>
+<span class="e">  &lt;LeftRelease&gt;   yes     start or extend (1)   no     like CTRL-O (1)</span>
+<span class="e">  &lt;MiddleMouse&gt;   no      (cannot be active)    no     put register</span>
+<span class="e">  &lt;RightMouse&gt;    yes     start or extend       yes    like CTRL-O</span>
+<span class="e">  &lt;A-RightMouse&gt;  yes start or extend blockw.   yes</span>
+<span class="e">  &lt;S-RightMouse&gt;  yes     (cannot be active)    yes    "CTRL-O#" (2)</span>
+<span class="e">  &lt;C-RightMouse&gt;  no      (cannot be active)    no     "CTRL-O CTRL-T"</span>
+<span class="e"></span>
+In <a href="insert.txt.html#a" class="d">a</a> <a href="helphelp.txt.html#help" class="d">help</a> window: 
+<span class="e">  event         position     selection        change  action</span>
+<span class="e">                 cursor                       window</span>
+<span class="e">  ---------------------------------------------------------------------------</span>
+<span class="e">  &lt;2-LeftMouse&gt;   yes     (cannot be active)    no     "^]" (jump to help tag)</span>
+<span class="e"></span>
+When <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a> <a href="motion.txt.html#is" class="d">is</a> "popup"<a href="motion.txt.html#%2C" class="d">,</a> these are different:
+
+                                                               <span id="%3CA-LeftMouse%3E" class="t">&lt;A-LeftMouse&gt;</span>
+<a href="intro.txt.html#Normal" class="d">Normal</a> Mode: 
+<span class="e">  event         position     selection        change  action</span>
+<span class="e">                 cursor                       window</span>
+<span class="e">  ---------------------------------------------------------------------------</span>
+<span class="e">  &lt;S-LeftMouse&gt;   yes     start or extend (1)   no</span>
+<span class="e">  &lt;A-LeftMouse&gt;   yes     start/extend blockw   no</span>
+<span class="e">  &lt;RightMouse&gt;    no      popup menu            no</span>
+<span class="e"></span>
+<a href="insert.txt.html#Insert" class="d">Insert</a> or <a href="insert.txt.html#Replace" class="d">Replace</a> Mode: 
+<span class="e">  event         position     selection        change  action</span>
+<span class="e">                 cursor                       window</span>
+<span class="e">  ---------------------------------------------------------------------------</span>
+<span class="e">  &lt;S-LeftMouse&gt;   yes     start or extend (1)   no     like CTRL-O (1)</span>
+<span class="e">  &lt;A-LeftMouse&gt;   yes     start/extend blockw   no</span>
+<span class="e">  &lt;RightMouse&gt;    no      popup menu            no</span>
+<span class="e"></span>
+(1) only if mouse pointer moved since press
+(2) only if click <a href="motion.txt.html#is" class="d">is</a> in same buffer
+
+Clicking the left mouse button causes the cursor to be positioned.  If the
+click <a href="motion.txt.html#is" class="d">is</a> in another <a href="windows.txt.html#window" class="d">window</a> that <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> made the active window.  When
+editing the command-line the cursor can only be positioned on the
+command-line.  When in <a href="insert.txt.html#Insert" class="d">Insert</a> mode Vim remains in <a href="insert.txt.html#Insert" class="d">Insert</a> mode.  If <a href="options.txt.html#%27scrolloff%27" class="o">'scrolloff'</a>
+<a href="motion.txt.html#is" class="d">is</a> set, and the cursor <a href="motion.txt.html#is" class="d">is</a> positioned within <a href="options.txt.html#%27scrolloff%27" class="o">'scrolloff'</a> lines from the <a href="windows.txt.html#window" class="d">window</a>
+border, the text <a href="motion.txt.html#is" class="d">is</a> scrolled.
+
+<a href="insert.txt.html#A" class="d">A</a> selection can be started by pressing the left mouse button on the first
+character, moving the mouse to the last character, then releasing the mouse
+button.  You will not always see the selection until you release the button,
+only in some versions (GUI, Win32) will the dragging be shown immediately.
+<span class="n">Note</span> that you can make the text scroll by moving the mouse <a href="motion.txt.html#at" class="d">at</a> least one
+character in the first/last line in the <a href="windows.txt.html#window" class="d">window</a> when <a href="options.txt.html#%27scrolloff%27" class="o">'scrolloff'</a> <a href="motion.txt.html#is" class="d">is</a> non-zero.
+
+In Normal, <a href="visual.txt.html#Visual" class="d">Visual</a> and <a href="visual.txt.html#Select" class="d">Select</a> mode clicking the right mouse button causes the
+<a href="visual.txt.html#Visual" class="d">Visual</a> area to be extended.  When <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a> <a href="motion.txt.html#is" class="d">is</a> "popup"<a href="motion.txt.html#%2C" class="d">,</a> the left button has
+to be used while keeping the <a href="intro.txt.html#shift" class="d">shift</a> key pressed.  When clicking in <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a>
+which <a href="motion.txt.html#is" class="d">is</a> editing another buffer, the <a href="visual.txt.html#Visual" class="d">Visual</a> or <a href="visual.txt.html#Select" class="d">Select</a> mode <a href="motion.txt.html#is" class="d">is</a> stopped.
+
+In Normal, <a href="visual.txt.html#Visual" class="d">Visual</a> and <a href="visual.txt.html#Select" class="d">Select</a> mode clicking the right mouse button with the alt
+key pressed causes the <a href="visual.txt.html#Visual" class="d">Visual</a> area to become blockwise.  When <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a> <a href="motion.txt.html#is" class="d">is</a>
+"popup" the left button has to be used with the alt key.  <span class="n">Note</span> that this won't
+work on systems where the <a href="windows.txt.html#window" class="d">window</a> manager consumes the mouse <a href="autocmd.txt.html#events" class="d">events</a> when the
+alt key <a href="motion.txt.html#is" class="d">is</a> pressed (it may move the window).
+
+                <span id="double-click" class="t">double-click</span> <span id="%3C2-LeftMouse%3E" class="t">&lt;2-LeftMouse&gt;</span> <span id="%3C3-LeftMouse%3E" class="t">&lt;3-LeftMouse&gt;</span> <span id="%3C4-LeftMouse%3E" class="t">&lt;4-LeftMouse&gt;</span>
+Double, triple and quadruple clicks are supported.  For selecting text, extra
+clicks extend the selection: 
+<span class="e"></span>
+<span class="e">        click           select</span>
+<span class="e">        ---------------------------------</span>
+<span class="e">        double          word or % match</span>
+<span class="e">        triple          line</span>
+<span class="e">        quadruple       rectangular block</span>
+<span class="e"></span>
+Exception: In <a href="insert.txt.html#a" class="d">a</a> <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> window, <a href="gui.txt.html#double-click" class="d">double-click</a> jumps to <a href="helphelp.txt.html#help" class="d">help</a> <a href="luaref.txt.html#for" class="d">for</a> the <a href="motion.txt.html#word" class="d">word</a> that <a href="motion.txt.html#is" class="d">is</a>
+clicked on.
+
+Double-click on <a href="insert.txt.html#a" class="d">a</a> <a href="motion.txt.html#word" class="d">word</a> selects that word.  <a href="options.txt.html#%27iskeyword%27" class="o">'iskeyword'</a> <a href="motion.txt.html#is" class="d">is</a> used to specify
+which characters are included in <a href="insert.txt.html#a" class="d">a</a> word.  Double-click on <a href="insert.txt.html#a" class="d">a</a> character that has
+<a href="insert.txt.html#a" class="d">a</a> match selects until that match (like using "v%").  If the match <a href="motion.txt.html#is" class="d">is</a> an
+#if/#else/#endif block, the selection becomes linewise. The time <a href="luaref.txt.html#for" class="d">for</a>
+double-clicking can be set with the <a href="options.txt.html#%27mousetime%27" class="o">'mousetime'</a> option.
+
+Example: configure <a href="gui.txt.html#double-click" class="d">double-click</a> to jump to the <a href="tagsrch.txt.html#tag" class="d">tag</a> under the cursor: 
+<span class="e">        :map &lt;2-LeftMouse&gt; :exe "tag " .. expand("&lt;cword&gt;")&lt;CR&gt;</span>
+<span class="e"></span>
+Dragging the mouse with <a href="insert.txt.html#a" class="d">a</a> <a href="gui.txt.html#double-click" class="d">double-click</a> (button-down, button-up, button-down
+and then drag) will result in whole words to be selected.  This continues
+until the button <a href="motion.txt.html#is" class="d">is</a> released, <a href="motion.txt.html#at" class="d">at</a> which point the selection <a href="motion.txt.html#is" class="d">is</a> per character
+again.
+
+For <a href="scroll.txt.html#scrolling" class="d">scrolling</a> with the mouse see <a href="scroll.txt.html#scroll-mouse-wheel" class="l">scroll-mouse-wheel</a><a href="repeat.txt.html#." class="d">.</a>
+
+In <a href="insert.txt.html#Insert" class="d">Insert</a> mode, when <a href="insert.txt.html#a" class="d">a</a> selection <a href="motion.txt.html#is" class="d">is</a> started, Vim goes into <a href="intro.txt.html#Normal" class="d">Normal</a> mode
+temporarily.  When <a href="visual.txt.html#Visual" class="d">Visual</a> or <a href="visual.txt.html#Select" class="d">Select</a> mode ends, <a href="motion.txt.html#it" class="d">it</a> returns to <a href="insert.txt.html#Insert" class="d">Insert</a> mode.
+This <a href="motion.txt.html#is" class="d">is</a> like using <a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a> in <a href="insert.txt.html#Insert" class="d">Insert</a> mode.  <a href="visual.txt.html#Select" class="d">Select</a> mode <a href="motion.txt.html#is" class="d">is</a> used when the
+<a href="options.txt.html#%27selectmode%27" class="o">'selectmode'</a> option contains "mouse"<a href="repeat.txt.html#." class="d">.</a>
+
+                                                <span id="X1Mouse" class="t">X1Mouse</span> <span id="X1Drag" class="t">X1Drag</span> <span id="X1Release" class="t">X1Release</span>
+                                                <span id="X2Mouse" class="t">X2Mouse</span> <span id="X2Drag" class="t">X2Drag</span> <span id="X2Release" class="t">X2Release</span>
+                                              <span id="%3CMiddleRelease%3E" class="t">&lt;MiddleRelease&gt;</span> <span id="%3CMiddleDrag%3E" class="t">&lt;MiddleDrag&gt;</span>
+Mouse clicks can be mapped using these <a href="intro.txt.html#keycodes" class="l">keycodes</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">      code           mouse button              normal action</span>
+<span class="e">  ---------------------------------------------------------------------------</span>
+<span class="e">  &lt;LeftMouse&gt;     left pressed               set cursor position</span>
+<span class="e">  &lt;LeftDrag&gt;      left moved while pressed   extend selection</span>
+<span class="e">  &lt;LeftRelease&gt;   left released              set selection end</span>
+<span class="e">  &lt;MiddleMouse&gt;   middle pressed             paste text at cursor position</span>
+<span class="e">  &lt;MiddleDrag&gt;    middle moved while pressed -</span>
+<span class="e">  &lt;MiddleRelease&gt; middle released            -</span>
+<span class="e">  &lt;RightMouse&gt;    right pressed              extend selection</span>
+<span class="e">  &lt;RightDrag&gt;     right moved while pressed  extend selection</span>
+<span class="e">  &lt;RightRelease&gt;  right released             set selection end</span>
+<span class="e">  &lt;X1Mouse&gt;       X1 button pressed          -</span>
+<span class="e">  &lt;X1Drag&gt;        X1 moved while pressed     -</span>
+<span class="e">  &lt;X1Release&gt;     X1 button release          -</span>
+<span class="e">  &lt;X2Mouse&gt;       X2 button pressed          -</span>
+<span class="e">  &lt;X2Drag&gt;        X2 moved while pressed     -</span>
+<span class="e">  &lt;X2Release&gt;     X2 button release          -</span>
+<span class="e"></span>
+The X1 and X2 buttons refer to the extra buttons found on some mice (e.g. the
+right thumb).
+
+Examples: 
+<span class="e">        :noremap &lt;MiddleMouse&gt; &lt;LeftMouse&gt;&lt;MiddleMouse&gt;</span>
+Paste <a href="motion.txt.html#at" class="d">at</a> the position of the middle mouse button click (otherwise the <a href="provider.txt.html#paste" class="d">paste</a>
+would be done <a href="motion.txt.html#at" class="d">at</a> the cursor position). 
+<span class="e"></span>
+<span class="e">        :noremap &lt;LeftRelease&gt; &lt;LeftRelease&gt;y</span>
+Immediately <a href="change.txt.html#yank" class="d">yank</a> the selection, when using <a href="visual.txt.html#Visual" class="d">Visual</a> mode.
+
+<span class="n">Note</span> the use of "<a href="map.txt.html#%3Anoremap" class="d">:noremap</a>" instead of "map" to avoid <a href="insert.txt.html#a" class="d">a</a> recursive mapping.
+
+<span class="e">        :map &lt;X1Mouse&gt; &lt;C-O&gt;</span>
+<span class="e">        :map &lt;X2Mouse&gt; &lt;C-I&gt;</span>
+Map the X1 and X2 buttons to <a href="motion.txt.html#go" class="d">go</a> forwards and backwards in the jump list, see
+<a href="motion.txt.html#CTRL-O" class="l">CTRL-O</a> and <a href="motion.txt.html#CTRL-I" class="l">CTRL-I</a><a href="repeat.txt.html#." class="d">.</a>
+
+                                                <span id="mouse-swap-buttons" class="t">mouse-swap-buttons</span>
+To swap the meaning of the left and right mouse buttons: 
+<span class="e">        :noremap        &lt;LeftMouse&gt;     &lt;RightMouse&gt;</span>
+<span class="e">        :noremap        &lt;LeftDrag&gt;      &lt;RightDrag&gt;</span>
+<span class="e">        :noremap        &lt;LeftRelease&gt;   &lt;RightRelease&gt;</span>
+<span class="e">        :noremap        &lt;RightMouse&gt;    &lt;LeftMouse&gt;</span>
+<span class="e">        :noremap        &lt;RightDrag&gt;     &lt;LeftDrag&gt;</span>
+<span class="e">        :noremap        &lt;RightRelease&gt;  &lt;LeftRelease&gt;</span>
+<span class="e">        :noremap        g&lt;LeftMouse&gt;    &lt;C-RightMouse&gt;</span>
+<span class="e">        :noremap        g&lt;RightMouse&gt;   &lt;C-LeftMouse&gt;</span>
+<span class="e">        :noremap!       &lt;LeftMouse&gt;     &lt;RightMouse&gt;</span>
+<span class="e">        :noremap!       &lt;LeftDrag&gt;      &lt;RightDrag&gt;</span>
+<span class="e">        :noremap!       &lt;LeftRelease&gt;   &lt;RightRelease&gt;</span>
+<span class="e">        :noremap!       &lt;RightMouse&gt;    &lt;LeftMouse&gt;</span>
+<span class="e">        :noremap!       &lt;RightDrag&gt;     &lt;LeftDrag&gt;</span>
+<span class="e">        :noremap!       &lt;RightRelease&gt;  &lt;LeftRelease&gt;</span>
+
+
+<span class="h">==============================================================================</span>
+Scrollbars                                              <span id="gui-scrollbars" class="t">gui-scrollbars</span>
+
+There are vertical scrollbars and <a href="insert.txt.html#a" class="d">a</a> horizontal scrollbar.  You may
+configure which ones appear with the <a href="vim_diff.txt.html#%27guioptions%27" class="o">'guioptions'</a> option.
+
+The interface looks like this (with `:set guioptions=mlrb`):
+
+<span class="e">                       +------------------------------+ `</span>
+<span class="e">                       | File  Edit              Help | &lt;- Menu bar (m) `</span>
+<span class="e">                       +-+--------------------------+-+ `</span>
+<span class="e">                       |^|                          |^| `</span>
+<span class="e">                       |#| Text area.               |#| `</span>
+<span class="e">                       | |                          | | `</span>
+<span class="e">                       |v|__________________________|v| `</span>
+<span class="e"> Normal status line -&gt; |-+ File.c              5,2  +-| `</span>
+<span class="e"> between Vim windows   |^|""""""""""""""""""""""""""|^| `</span>
+<span class="e">                       | |                          | | `</span>
+<span class="e">                       | | Another file buffer.     | | `</span>
+<span class="e">                       | |                          | | `</span>
+<span class="e">                       |#|                          |#| `</span>
+<span class="e"> Left scrollbar (l) -&gt; |#|                          |#| &lt;- Right `</span>
+<span class="e">                       |#|                          |#|    scrollbar (r) `</span>
+<span class="e">                       | |                          | | `</span>
+<span class="e">                       |v|                          |v| `</span>
+<span class="e">                       +-+--------------------------+-+ `</span>
+<span class="e">                       | |&lt; ####                   &gt;| | &lt;- Bottom `</span>
+<span class="e">                       +-+--------------------------+-+    scrollbar (b) `</span>
+
+Any of the scrollbar or menu components may be turned off by not putting the
+appropriate letter in the <a href="vim_diff.txt.html#%27guioptions%27" class="o">'guioptions'</a> string.  The bottom scrollbar <a href="motion.txt.html#is" class="d">is</a>
+only useful when <a href="options.txt.html#%27nowrap%27" class="o">'nowrap'</a> <a href="motion.txt.html#is" class="d">is</a> set.
+
+
+<span class="c">VERTICAL SCROLLBARS</span>                                     <span id="gui-vert-scroll" class="t">gui-vert-scroll</span>
+
+Each Vim <a href="windows.txt.html#window" class="d">window</a> has <a href="insert.txt.html#a" class="d">a</a> scrollbar next to <a href="motion.txt.html#it" class="d">it</a> which may be scrolled up and down
+to move through the text in that buffer.  The size of the scrollbar-thumb
+indicates the fraction of the buffer which can be seen in the window.
+When the scrollbar <a href="motion.txt.html#is" class="d">is</a> dragged all the way down, the last line of the file
+will appear in the top of the window.
+
+If <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> shrunk to zero height (by the growth of another window) its
+scrollbar disappears.  It reappears when the <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> restored.
+
+If <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> vertically split, <a href="motion.txt.html#it" class="d">it</a> will get <a href="insert.txt.html#a" class="d">a</a> scrollbar when <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> the
+current <a href="windows.txt.html#window" class="d">window</a> and when, taking the middle of the current <a href="windows.txt.html#window" class="d">window</a> and drawing <a href="insert.txt.html#a" class="d">a</a>
+vertical line, this line goes through the window.
+When there are scrollbars on both sides, and the middle of the current <a href="windows.txt.html#window" class="d">window</a>
+<a href="motion.txt.html#is" class="d">is</a> on the left half, the right scrollbar column will contain scrollbars <a href="luaref.txt.html#for" class="d">for</a>
+the rightmost windows.  The same happens on the other side.
+
+
+<span class="c">HORIZONTAL SCROLLBARS</span>                                   <span id="gui-horiz-scroll" class="t">gui-horiz-scroll</span>
+
+The horizontal scrollbar (at the bottom of the Vim GUI) may be used to
+scroll text sideways when the <a href="options.txt.html#%27wrap%27" class="o">'wrap'</a> option <a href="motion.txt.html#is" class="d">is</a> turned off.  The
+scrollbar-thumb size <a href="motion.txt.html#is" class="d">is</a> such that the text of the longest visible line may be
+scrolled <a href="motion.txt.html#as" class="d">as</a> far <a href="motion.txt.html#as" class="d">as</a> possible left and right.  The cursor <a href="motion.txt.html#is" class="d">is</a> moved when
+necessary, <a href="motion.txt.html#it" class="d">it</a> must remain on <a href="insert.txt.html#a" class="d">a</a> visible character (unless <a href="options.txt.html#%27virtualedit%27" class="o">'virtualedit'</a> <a href="motion.txt.html#is" class="d">is</a>
+set).
+
+Computing the length of the longest visible line takes quite <a href="insert.txt.html#a" class="d">a</a> bit of
+computation, and <a href="motion.txt.html#it" class="d">it</a> has to be done every time something changes.  If this
+takes too much time or you don't like the cursor jumping to another line,
+include the 'h' flag in <a href="vim_diff.txt.html#%27guioptions%27" class="o">'guioptions'</a>.  Then the <a href="scroll.txt.html#scrolling" class="d">scrolling</a> <a href="motion.txt.html#is" class="d">is</a> limited by the
+text of the current cursor line.
+
+<span class="h">==============================================================================</span>
+Drag and drop                                           <span id="drag-n-drop" class="t">drag-n-drop</span>
+
+You can drag and drop one or more files into the Vim window, where they will
+be opened <a href="motion.txt.html#as" class="d">as</a> if <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#%3Adrop" class="l">:drop</a> command was used.
+
+If you hold down Shift while doing this, Vim changes to the first dropped
+file's directory.  If you hold Ctrl Vim will always split <a href="insert.txt.html#a" class="d">a</a> new <a href="windows.txt.html#window" class="d">window</a> <a href="luaref.txt.html#for" class="d">for</a> the
+file.  Otherwise it's only done if the current buffer has been changed.
+
+You can also drop <a href="insert.txt.html#a" class="d">a</a> directory on Vim.  This starts the explorer <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="luaref.txt.html#for" class="d">for</a>
+that directory (assuming <a href="motion.txt.html#it" class="d">it</a> was enabled, otherwise you'll get an error
+message).  Keep Shift pressed to change to the directory instead.
+
+If Vim happens to be editing <a href="insert.txt.html#a" class="d">a</a> command line, the names of the dropped files
+and directories will be inserted <a href="motion.txt.html#at" class="d">at</a> the cursor.  This allows you to use these
+names with any <a href="intro.txt.html#Ex" class="d">Ex</a> command.  Special characters (space, tab, double <a href="change.txt.html#quote" class="d">quote</a> and
+"|"<a href="motion.txt.html#%3B" class="d">;</a> <a href="intro.txt.html#backslash" class="d">backslash</a> on non-MS-Windows systems) will be escaped.
+
+<span class="h">==============================================================================</span>
+Menus                                                   <span id="menus" class="t">menus</span>
+
+For an introduction see <a href="usr_42.txt.html#usr_42.txt" class="l">usr_42.txt</a> in the user manual.
+
+
+Using Menus                                             <span id="using-menus" class="t">using-menus</span>
+
+Basically, <a href="gui.txt.html#menus" class="d">menus</a> can be used just like mappings.  You can define your own
+menus, <a href="motion.txt.html#as" class="d">as</a> many <a href="motion.txt.html#as" class="d">as</a> you like.
+Long-time Vim users won't use <a href="gui.txt.html#menus" class="d">menus</a> much.  But the power <a href="motion.txt.html#is" class="d">is</a> in adding your own
+<a href="gui.txt.html#menus" class="d">menus</a> and menu items.  They are most useful <a href="luaref.txt.html#for" class="d">for</a> things that you can't remember
+what the key sequence was.
+
+For creating <a href="gui.txt.html#menus" class="d">menus</a> in <a href="insert.txt.html#a" class="d">a</a> different language, see <a href="mlang.txt.html#%3Amenutrans" class="l">:menutrans</a><a href="repeat.txt.html#." class="d">.</a>
+
+                                                        <span id="menu.vim" class="t">menu.vim</span>
+The default <a href="gui.txt.html#menus" class="d">menus</a> are read from the file "$VIMRUNTIME/menu.vim"<a href="repeat.txt.html#." class="d">.</a>  See
+<a href="starting.txt.html#%24VIMRUNTIME" class="l">$VIMRUNTIME</a> <a href="luaref.txt.html#for" class="d">for</a> where the path comes from.  You can set up your own menus.
+Starting off with the default set <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> good idea.  You can add more items, or,
+if you don't like the <a href="vim_diff.txt.html#defaults" class="d">defaults</a> <a href="motion.txt.html#at" class="d">at</a> all, start with removing all <a href="gui.txt.html#menus" class="d">menus</a>
+<a href="gui.txt.html#%3Aunmenu-all" class="l">:unmenu-all</a><a href="repeat.txt.html#." class="d">.</a>  You can also avoid the default <a href="gui.txt.html#menus" class="d">menus</a> being loaded by adding
+this line to your <a href="starting.txt.html#vimrc" class="d">vimrc</a> file (NOT your <a href="gui.txt.html#gvimrc" class="d">gvimrc</a> file!): 
+<span class="e">        :let did_install_default_menus = 1</span>
+If you also want to avoid the <a href="autocmd.txt.html#Syntax" class="d">Syntax</a> menu: 
+<span class="e">        :let did_install_syntax_menu = 1</span>
+The first item in the <a href="autocmd.txt.html#Syntax" class="d">Syntax</a> menu can be used to show all available <a href="filetype.txt.html#filetypes" class="d">filetypes</a>
+in the menu (which can take <a href="insert.txt.html#a" class="d">a</a> bit of time to load).  If you want to have all
+<a href="filetype.txt.html#filetypes" class="d">filetypes</a> already present <a href="motion.txt.html#at" class="d">at</a> startup, add: 
+<span class="e">        :let do_syntax_sel_menu = 1</span>
+<span class="e"></span>
+<span class="n">Note</span> that the <a href="gui.txt.html#menu.vim" class="d">menu.vim</a> <a href="motion.txt.html#is" class="d">is</a> sourced when `:syntax on` or `:filetype on` <a href="motion.txt.html#is" class="d">is</a>
+executed or after your .vimrc file <a href="motion.txt.html#is" class="d">is</a> sourced.  This means that the <a href="options.txt.html#%27encoding%27" class="o">'encoding'</a>
+option and the language of <a href="message.txt.html#messages" class="d">messages</a> (`:language messages`) must be set before
+that (if you want to change them).
+
+                                                        <span id="console-menus" class="t">console-menus</span>
+Although this documentation <a href="motion.txt.html#is" class="d">is</a> in the <a href="gui.txt.html#GUI" class="d">GUI</a> section, you can actually use <a href="gui.txt.html#menus" class="d">menus</a>
+in console mode too.  You will have to load <a href="gui.txt.html#menu.vim" class="l">menu.vim</a> explicitly then, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+not done by default.  You can use the <a href="gui.txt.html#%3Aemenu" class="l">:emenu</a> command and command-line
+completion with <a href="options.txt.html#%27wildmenu%27" class="o">'wildmenu'</a> to access the menu entries almost like <a href="insert.txt.html#a" class="d">a</a> real menu
+system.  To <a href="diff.txt.html#do" class="d">do</a> this, <a href="change.txt.html#put" class="d">put</a> these commands in your <a href="starting.txt.html#vimrc" class="d">vimrc</a> file: 
+<span class="e">        :source $VIMRUNTIME/menu.vim</span>
+<span class="e">        :set wildmenu</span>
+<span class="e">        :set cpo-=&lt;</span>
+<span class="e">        :set wcm=&lt;C-Z&gt;</span>
+<span class="e">        :map &lt;F4&gt; :emenu &lt;C-Z&gt;</span>
+Pressing <span class="s">&lt;F4&gt;</span> will start the menu.  You can now use the cursor keys to select
+<a href="insert.txt.html#a" class="d">a</a> menu entry.  Hit <a href="intro.txt.html#%3CEnter%3E" class="s">&lt;Enter&gt;</a> to execute it.  Hit <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> if you want to cancel.
+
+Creating New Menus                                      <span id="creating-menus" class="t">creating-menus</span>
+
+                                <span id="%3Ame" class="t">:me</span>  <span id="%3Amenu" class="t">:menu</span>  <span id="%3Anoreme" class="t">:noreme</span>  <span id="%3Anoremenu" class="t">:noremenu</span>
+                                <span id="E330" class="t">E330</span> <span id="E327" class="t">E327</span> <span id="E331" class="t">E331</span> <span id="E336" class="t">E336</span> <span id="E333" class="t">E333</span>
+                                <span id="E328" class="t">E328</span> <span id="E329" class="t">E329</span> <span id="E337" class="t">E337</span> <span id="E792" class="t">E792</span>
+To create <a href="insert.txt.html#a" class="d">a</a> new menu item, use the "<a href="gui.txt.html#%3Amenu" class="d">:menu</a>" commands.  They are mostly like
+the "<a href="map.txt.html#%3Amap" class="d">:map</a>" set of commands (see <a href="map.txt.html#map-modes" class="l">map-modes</a>), but the first argument <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> menu
+item name, given <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> path of <a href="gui.txt.html#menus" class="d">menus</a> and submenus with <a href="insert.txt.html#a" class="d">a</a> '.' between them,
+e.g.: 
+<span class="e"></span>
+<span class="e">   :menu File.Save  :w&lt;CR&gt;</span>
+<span class="e">   :inoremenu File.Save  &lt;C-O&gt;:w&lt;CR&gt;</span>
+<span class="e">   :menu Edit.Big\ Changes.Delete\ All\ Spaces  :%s/[ ^I]//g&lt;CR&gt;</span>
+<span class="e"></span>
+This last one will create <a href="insert.txt.html#a" class="d">a</a> new item in the menu <a href="motion.txt.html#bar" class="d">bar</a> called "Edit"<a href="motion.txt.html#%2C" class="d">,</a> holding
+the mouse button down on this will pop up <a href="insert.txt.html#a" class="d">a</a> menu containing the item
+"Big Changes"<a href="motion.txt.html#%2C" class="d">,</a> which <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> sub-menu containing the item "Delete All Spaces"<a href="motion.txt.html#%2C" class="d">,</a>
+which when selected, performs the operation.
+
+To create <a href="insert.txt.html#a" class="d">a</a> menu <a href="luaref.txt.html#for" class="d">for</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> mode, use <a href="gui.txt.html#%3Atlmenu" class="l">:tlmenu</a> instead of <a href="gui.txt.html#%3Atmenu" class="l">:tmenu</a> unlike
+key <a href="map.txt.html#mapping" class="d">mapping</a> <a href="motion.txt.html#%28" class="d">(</a><a href="map.txt.html#%3Atmap" class="l">:tmap</a>). This <a href="motion.txt.html#is" class="d">is</a> because <a href="gui.txt.html#%3Atmenu" class="l">:tmenu</a> <a href="motion.txt.html#is" class="d">is</a> already used <a href="luaref.txt.html#for" class="d">for</a> defining
+<a href="gui.txt.html#tooltips" class="d">tooltips</a> <a href="luaref.txt.html#for" class="d">for</a> menus. See <a href="terminal.txt.html#terminal-input" class="l">terminal-input</a><a href="repeat.txt.html#." class="d">.</a>
+
+Special characters in <a href="insert.txt.html#a" class="d">a</a> menu name:
+
+                                                        <span id="menu-shortcut" class="t">menu-shortcut</span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="change.txt.html#%26" class="d">&amp;</a> The next character <a href="motion.txt.html#is" class="d">is</a> the shortcut key.  Make sure each shortcut key <a href="motion.txt.html#is" class="d">is</a>
+  only used once in <a href="insert.txt.html#a" class="d">a</a> (sub)menu.  If you want to <a href="insert.txt.html#insert" class="d">insert</a> <a href="insert.txt.html#a" class="d">a</a> literal "<a href="change.txt.html#%26" class="d">&amp;</a>" in the
+  menu name use "&amp;&amp;"<a href="repeat.txt.html#." class="d">.</a>
+                                                        <span id="menu-text" class="t">menu-text</span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="motion.txt.html#%3CTab%3E" class="s">&lt;Tab&gt;</a> Separates the menu name from right-aligned text.  This can be used to
+  show the equivalent typed command.  The text "<a href="motion.txt.html#%3CTab%3E" class="s">&lt;Tab&gt;</a>" can be used here <a href="luaref.txt.html#for" class="d">for</a>
+  convenience.  If you are using <a href="insert.txt.html#a" class="d">a</a> real tab, don't forget to <a href="change.txt.html#put" class="d">put</a> <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#backslash" class="d">backslash</a>
+  before it!
+
+Example: 
+<span class="e"></span>
+<span class="e">   :amenu &amp;File.&amp;Open&lt;Tab&gt;:e  :browse e&lt;CR&gt;</span>
+<span class="e"></span>
+[typed literally]
+With the shortcut "<a href="motion.txt.html#F" class="d">F</a>" (while keeping the <span class="s">&lt;Alt&gt;</span> key pressed), and then "<a href="insert.txt.html#O" class="d">O</a>"<a href="motion.txt.html#%2C" class="d">,</a>
+this menu can be used.  The second part <a href="motion.txt.html#is" class="d">is</a> shown <a href="motion.txt.html#as" class="d">as</a> "Open     <a href="editing.txt.html#%3Ae" class="d">:e</a>"<a href="repeat.txt.html#." class="d">.</a>  The "<a href="editing.txt.html#%3Ae" class="d">:e</a>"
+<a href="motion.txt.html#is" class="d">is</a> right aligned, and the "<a href="insert.txt.html#O" class="d">O</a>" <a href="motion.txt.html#is" class="d">is</a> underlined, to indicate <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> the shortcut.
+
+                                        <span id="%3Aam" class="t">:am</span>  <span id="%3Aamenu" class="t">:amenu</span>  <span id="%3Aan" class="t">:an</span>      <span id="%3Aanoremenu" class="t">:anoremenu</span>
+The "<a href="gui.txt.html#%3Aamenu" class="d">:amenu</a>" command can be used to define menu entries <a href="luaref.txt.html#for" class="d">for</a> all modes <a href="motion.txt.html#at" class="d">at</a> once,
+except <a href="luaref.txt.html#for" class="d">for</a> Terminal mode.  To make the command work correctly, <a href="insert.txt.html#a" class="d">a</a> character <a href="motion.txt.html#is" class="d">is</a>
+automatically inserted <a href="luaref.txt.html#for" class="d">for</a> some modes: 
+<span class="e">    mode            inserted        appended</span>
+<span class="e">    Normal          nothing         nothing</span>
+<span class="e">    Visual          &lt;C-C&gt;           &lt;C-\&gt;&lt;C-G&gt;</span>
+<span class="e">    Insert          &lt;C-\&gt;&lt;C-O&gt;</span>
+<span class="e">    Cmdline         &lt;C-C&gt;           &lt;C-\&gt;&lt;C-G&gt;</span>
+<span class="e">    Op-pending      &lt;C-C&gt;           &lt;C-\&gt;&lt;C-G&gt;</span>
+
+Example: 
+<span class="e"></span>
+<span class="e">    :amenu File.Next     :next^M</span>
+<span class="e"></span>
+<a href="motion.txt.html#is" class="d">is</a> equal to: 
+<span class="e"></span>
+<span class="e">    :nmenu File.Next     :next^M</span>
+<span class="e">    :vmenu File.Next     ^C:next^M^\^G</span>
+<span class="e">    :imenu File.Next     ^\^O:next^M</span>
+<span class="e">    :cmenu File.Next     ^C:next^M^\^G</span>
+<span class="e">    :omenu File.Next     ^C:next^M^\^G</span>
+<span class="e"></span>
+Careful: In <a href="insert.txt.html#Insert" class="d">Insert</a> mode this only works <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> SINGLE <a href="intro.txt.html#Normal" class="d">Normal</a> mode command,
+because of the <a href="motion.txt.html#CTRL-O" class="k">CTRL-O</a>.  If you have two or more commands, you will need to use
+the "<a href="gui.txt.html#%3Aimenu" class="d">:imenu</a>" command.  For <a href="insert.txt.html#inserting" class="d">inserting</a> text in any mode, you can use the
+<a href="vimeval.txt.html#expression" class="d">expression</a> register: 
+<span class="e"></span>
+<span class="e">    :amenu Insert.foobar   "='foobar'&lt;CR&gt;P</span>
+<span class="e"></span>
+The special text <a href="map.txt.html#%3CCmd%3E" class="s">&lt;Cmd&gt;</a> begins <a href="insert.txt.html#a" class="d">a</a> "command menu"<a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#it" class="d">it</a> executes the command
+directly without <a href="change.txt.html#changing" class="d">changing</a> modes.  Where you might use ":...&lt;CR&gt;" you can
+instead use "<a href="map.txt.html#%3CCmd%3E" class="s">&lt;Cmd&gt;</a>...<a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a>"<a href="repeat.txt.html#." class="d">.</a>  See <a href="map.txt.html#%3CCmd%3E" class="l">&lt;Cmd&gt;</a> <a href="luaref.txt.html#for" class="d">for</a> more info.  Example: 
+<span class="e">    anoremenu File.Next &lt;Cmd&gt;next&lt;CR&gt;</span>
+<span class="e"></span>
+<span class="n">Note</span> that <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> in <a href="cmdline.txt.html#Cmdline" class="d">Cmdline</a> mode executes the command, like in <a href="insert.txt.html#a" class="d">a</a> mapping.  This
+<a href="motion.txt.html#is" class="d">is</a> <a href="credits.txt.html#Vi" class="d">Vi</a> compatible.  Use <a href="pattern.txt.html#CTRL-C" class="k">CTRL-C</a> to quit <a href="cmdline.txt.html#Cmdline" class="d">Cmdline</a> mode.
+
+                <span id="%3Anme" class="t">:nme</span> <span id="%3Anmenu" class="t">:nmenu</span>  <span id="%3Annoreme" class="t">:nnoreme</span> <span id="%3Annoremenu" class="t">:nnoremenu</span> <span id="%3Anunme" class="t">:nunme</span> <span id="%3Anunmenu" class="t">:nunmenu</span>
+Menu commands <a href="starting.txt.html#starting" class="d">starting</a> with "<a href="pattern.txt.html#n" class="d">n</a>" work in <a href="intro.txt.html#Normal" class="d">Normal</a> mode. <a href="map.txt.html#mapmode-n" class="l">mapmode-n</a>
+
+                <span id="%3Aome" class="t">:ome</span> <span id="%3Aomenu" class="t">:omenu</span>  <span id="%3Aonoreme" class="t">:onoreme</span> <span id="%3Aonoremenu" class="t">:onoremenu</span> <span id="%3Aounme" class="t">:ounme</span> <span id="%3Aounmenu" class="t">:ounmenu</span>
+Menu commands <a href="starting.txt.html#starting" class="d">starting</a> with "<a href="insert.txt.html#o" class="d">o</a>" work in <a href="intro.txt.html#Operator-pending" class="d">Operator-pending</a> mode. <a href="map.txt.html#mapmode-o" class="l">mapmode-o</a>
+
+                <span id="%3Avme" class="t">:vme</span> <span id="%3Avmenu" class="t">:vmenu</span>  <span id="%3Avnoreme" class="t">:vnoreme</span> <span id="%3Avnoremenu" class="t">:vnoremenu</span> <span id="%3Avunme" class="t">:vunme</span> <span id="%3Avunmenu" class="t">:vunmenu</span>
+Menu commands <a href="starting.txt.html#starting" class="d">starting</a> with "<a href="visual.txt.html#v" class="d">v</a>" work in <a href="visual.txt.html#Visual" class="d">Visual</a> mode. <a href="map.txt.html#mapmode-v" class="l">mapmode-v</a>
+
+                <span id="%3Axme" class="t">:xme</span> <span id="%3Axmenu" class="t">:xmenu</span>  <span id="%3Axnoreme" class="t">:xnoreme</span> <span id="%3Axnoremenu" class="t">:xnoremenu</span> <span id="%3Axunme" class="t">:xunme</span> <span id="%3Axunmenu" class="t">:xunmenu</span>
+Menu commands <a href="starting.txt.html#starting" class="d">starting</a> with "<a href="change.txt.html#x" class="d">x</a>" work in <a href="visual.txt.html#Visual" class="d">Visual</a> and <a href="visual.txt.html#Select" class="d">Select</a> mode. <a href="map.txt.html#mapmode-x" class="l">mapmode-x</a>
+
+                <span id="%3Asme" class="t">:sme</span> <span id="%3Asmenu" class="t">:smenu</span>  <span id="%3Asnoreme" class="t">:snoreme</span> <span id="%3Asnoremenu" class="t">:snoremenu</span> <span id="%3Asunme" class="t">:sunme</span> <span id="%3Asunmenu" class="t">:sunmenu</span>
+Menu commands <a href="starting.txt.html#starting" class="d">starting</a> with "<a href="change.txt.html#s" class="d">s</a>" work in <a href="visual.txt.html#Select" class="d">Select</a> mode. <a href="map.txt.html#mapmode-s" class="l">mapmode-s</a>
+
+                <span id="%3Aime" class="t">:ime</span> <span id="%3Aimenu" class="t">:imenu</span>  <span id="%3Ainoreme" class="t">:inoreme</span> <span id="%3Ainoremenu" class="t">:inoremenu</span> <span id="%3Aiunme" class="t">:iunme</span> <span id="%3Aiunmenu" class="t">:iunmenu</span>
+Menu commands <a href="starting.txt.html#starting" class="d">starting</a> with "<a href="insert.txt.html#i" class="d">i</a>" work in <a href="insert.txt.html#Insert" class="d">Insert</a> mode. <a href="map.txt.html#mapmode-i" class="l">mapmode-i</a>
+
+                <span id="%3Acme" class="t">:cme</span> <span id="%3Acmenu" class="t">:cmenu</span>  <span id="%3Acnoreme" class="t">:cnoreme</span> <span id="%3Acnoremenu" class="t">:cnoremenu</span> <span id="%3Acunme" class="t">:cunme</span> <span id="%3Acunmenu" class="t">:cunmenu</span>
+Menu commands <a href="starting.txt.html#starting" class="d">starting</a> with "<a href="change.txt.html#c" class="d">c</a>" work in <a href="cmdline.txt.html#Cmdline" class="d">Cmdline</a> mode. <a href="map.txt.html#mapmode-c" class="l">mapmode-c</a>
+
+                <span id="%3Atlm" class="t">:tlm</span> <span id="%3Atlmenu" class="t">:tlmenu</span> <span id="%3Atln" class="t">:tln</span>     <span id="%3Atlnoremenu" class="t">:tlnoremenu</span> <span id="%3Atlu" class="t">:tlu</span>   <span id="%3Atlunmenu" class="t">:tlunmenu</span>
+Menu commands <a href="starting.txt.html#starting" class="d">starting</a> with "tl" work in Terminal mode. <a href="map.txt.html#mapmode-t" class="l">mapmode-t</a>
+
+                                                <span id="%3Amenu-%3Csilent%3E" class="t">:menu-&lt;silent&gt;</span> <span id="%3Amenu-silent" class="t">:menu-silent</span>
+To define <a href="insert.txt.html#a" class="d">a</a> menu which will not be echoed on the command line, add
+"<span class="s">&lt;silent&gt;</span>" <a href="motion.txt.html#as" class="d">as</a> the first argument.  Example: 
+<span class="e">        :menu &lt;silent&gt; Settings.Ignore\ case  :set ic&lt;CR&gt;</span>
+The "<a href="options.txt.html#%3Aset" class="d">:set</a> ic" will not be echoed when using this menu.  Messages from the
+executed command are still given though.  To shut them up too, add <a href="insert.txt.html#a" class="d">a</a> "<a href="various.txt.html#%3Asilent" class="d">:silent</a>"
+in the executed command: 
+<span class="e">        :menu &lt;silent&gt; Search.Header :exe ":silent normal /Header\r"&lt;CR&gt;</span>
+"<span class="s">&lt;silent&gt;</span>" may also appear just after "<a href="cmdline.txt.html#%3Cscript%3E" class="s">&lt;script&gt;</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+                                                <span id="%3Amenu-%3Cscript%3E" class="t">:menu-&lt;script&gt;</span> <span id="%3Amenu-script" class="t">:menu-script</span>
+The "to" part of the menu will be inspected <a href="luaref.txt.html#for" class="d">for</a> mappings.  If you don't want
+this, use the "<a href="gui.txt.html#%3Anoremenu" class="d">:noremenu</a>" command (or the similar one <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> specific mode).
+If you <a href="diff.txt.html#do" class="d">do</a> want to use <a href="map.txt.html#script-local" class="d">script-local</a> mappings, add "<a href="cmdline.txt.html#%3Cscript%3E" class="s">&lt;script&gt;</a>" <a href="motion.txt.html#as" class="d">as</a> the very first
+argument to the "<a href="gui.txt.html#%3Amenu" class="d">:menu</a>" command or just after "<span class="s">&lt;silent&gt;</span>"<a href="repeat.txt.html#." class="d">.</a>
+
+                                                        <span id="menu-priority" class="t">menu-priority</span>
+You can give <a href="insert.txt.html#a" class="d">a</a> priority to <a href="insert.txt.html#a" class="d">a</a> menu.  Menus with <a href="insert.txt.html#a" class="d">a</a> higher priority <a href="motion.txt.html#go" class="d">go</a> more to
+the right.  The priority <a href="motion.txt.html#is" class="d">is</a> given <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> number before the "<a href="gui.txt.html#%3Amenu" class="d">:menu</a>" command.
+Example: 
+<span class="e">        :80menu Buffer.next :bn&lt;CR&gt;</span>
+<span class="e"></span>
+The default <a href="gui.txt.html#menus" class="d">menus</a> have these priorities: 
+<span class="e">        File            10</span>
+<span class="e">        Edit            20</span>
+<span class="e">        Tools           40</span>
+<span class="e">        Syntax          50</span>
+<span class="e">        Buffers         60</span>
+<span class="e">        Window          70</span>
+<span class="e">        Help            9999</span>
+
+When no or zero priority <a href="motion.txt.html#is" class="d">is</a> given, 500 <a href="motion.txt.html#is" class="d">is</a> used.
+The priority <a href="luaref.txt.html#for" class="d">for</a> the PopUp menu <a href="motion.txt.html#is" class="d">is</a> not used.
+
+You can use <a href="insert.txt.html#a" class="d">a</a> priority higher than 9999, to make <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#go" class="d">go</a> after the Help menu,
+but that <a href="motion.txt.html#is" class="d">is</a> non-standard and <a href="motion.txt.html#is" class="d">is</a> discouraged.  The highest possible priority <a href="motion.txt.html#is" class="d">is</a>
+about 32000.  The lowest <a href="motion.txt.html#is" class="d">is</a> 1.
+
+                                                        <span id="sub-menu-priority" class="t">sub-menu-priority</span>
+The same mechanism can be used to position <a href="insert.txt.html#a" class="d">a</a> sub-menu.  The priority <a href="motion.txt.html#is" class="d">is</a> then
+given <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> dot-separated <a href="vimeval.txt.html#list" class="d">list</a> of priorities, before the menu name: 
+<span class="e">        :menu 80.500 Buffer.next :bn&lt;CR&gt;</span>
+Giving the sub-menu priority <a href="motion.txt.html#is" class="d">is</a> only needed when the item <a href="motion.txt.html#is" class="d">is</a> not to be <a href="change.txt.html#put" class="d">put</a>
+in <a href="insert.txt.html#a" class="d">a</a> normal position.  For example, to <a href="change.txt.html#put" class="d">put</a> <a href="insert.txt.html#a" class="d">a</a> sub-menu before the other items: 
+<span class="e">        :menu 80.100 Buffer.first :brew&lt;CR&gt;</span>
+Or to <a href="change.txt.html#put" class="d">put</a> <a href="insert.txt.html#a" class="d">a</a> sub-menu after the other items, and further items with default
+priority will be <a href="change.txt.html#put" class="d">put</a> before it: 
+<span class="e">        :menu 80.900 Buffer.last :blast&lt;CR&gt;</span>
+When <a href="insert.txt.html#a" class="d">a</a> number <a href="motion.txt.html#is" class="d">is</a> missing, the default value 500 will be used: 
+<span class="e">        :menu .900 myMenu.test :echo "text"&lt;CR&gt;</span>
+The menu priority <a href="motion.txt.html#is" class="d">is</a> only used when creating <a href="insert.txt.html#a" class="d">a</a> new menu.  When <a href="motion.txt.html#it" class="d">it</a> already
+existed, e.g., in another mode, the priority will not change.  Thus, the
+priority only needs to be given the first time <a href="insert.txt.html#a" class="d">a</a> menu <a href="motion.txt.html#is" class="d">is</a> used.
+An exception <a href="motion.txt.html#is" class="d">is</a> the PopUp menu.  There <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> separate menu <a href="luaref.txt.html#for" class="d">for</a> each mode
+(Normal, Op-pending, Visual, Insert, Cmdline).  The order in each of these
+<a href="gui.txt.html#menus" class="d">menus</a> can be different.  This <a href="motion.txt.html#is" class="d">is</a> different from menu-bar menus, which have
+the same order <a href="luaref.txt.html#for" class="d">for</a> all modes.
+<span class="n">NOTE:</span> sub-menu priorities currently don't work <a href="luaref.txt.html#for" class="d">for</a> all versions of the GUI.
+
+                                                        <span id="menu-separator" class="t">menu-separator</span> <span id="E332" class="t">E332</span>
+Menu items can be separated by <a href="insert.txt.html#a" class="d">a</a> special item that inserts some <a href="intro.txt.html#space" class="d">space</a> between
+items.  Depending on the system this <a href="motion.txt.html#is" class="d">is</a> displayed <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> line or <a href="insert.txt.html#a" class="d">a</a> dotted line.
+These items must start with <a href="insert.txt.html#a" class="d">a</a> '-' and <a href="intro.txt.html#end" class="d">end</a> in <a href="insert.txt.html#a" class="d">a</a> '-'.  The part in between <a href="motion.txt.html#is" class="d">is</a>
+used to give <a href="motion.txt.html#it" class="d">it</a> <a href="insert.txt.html#a" class="d">a</a> unique name.  Priorities can be used <a href="motion.txt.html#as" class="d">as</a> with normal items.
+Example: 
+<span class="e">        :menu Example.item1     :do something</span>
+<span class="e">        :menu Example.-Sep-     :</span>
+<span class="e">        :menu Example.item2     :do something different</span>
+<span class="n">Note</span> that the separator also requires <a href="insert.txt.html#a" class="d">a</a> rhs.  It doesn't matter what <a href="motion.txt.html#it" class="d">it</a> is,
+because the item will never be selected.  Use <a href="insert.txt.html#a" class="d">a</a> single colon to keep <a href="motion.txt.html#it" class="d">it</a>
+simple.
+
+                                                        <span id="gui-toolbar" class="t">gui-toolbar</span>
+The default toolbar <a href="motion.txt.html#is" class="d">is</a> setup in menu.vim.  The display of the toolbar <a href="motion.txt.html#is" class="d">is</a>
+controlled by the <a href="vim_diff.txt.html#%27guioptions%27" class="o">'guioptions'</a> letter 'T'.  You can thus have menu <a href="change.txt.html#%26" class="d">&amp;</a> toolbar
+together, or either on its own, or neither.  The appearance <a href="motion.txt.html#is" class="d">is</a> controlled by
+the <a href="vim_diff.txt.html#%27toolbar%27" class="o">'toolbar'</a> option.  You can choose between an image, text or both.
+
+                                                        <span id="toolbar-icon" class="t">toolbar-icon</span>
+The toolbar <a href="motion.txt.html#is" class="d">is</a> defined <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> special menu called ToolBar, which only has one
+level.  Vim interprets the items in this menu <a href="motion.txt.html#as" class="d">as</a> follows:
+<a href="motion.txt.html#-" class="d">-</a> 1 If an "icon=" argument was specified, the file with this name <a href="motion.txt.html#is" class="d">is</a> used.
+    The file can either be specified with the full path or with the base name.
+    In the last <a href="change.txt.html#case" class="d">case</a> <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> searched <a href="luaref.txt.html#for" class="d">for</a> in the "bitmaps" directory in
+    <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>, like in point 3.  Examples: 
+<span class="e">        :amenu icon=/usr/local/pixmaps/foo_icon.xpm ToolBar.Foo :echo "Foo"&lt;CR&gt;</span>
+<span class="e">        :amenu icon=FooIcon ToolBar.Foo :echo "Foo"&lt;CR&gt;</span>
+   <span class="n">Note</span> that in the first <a href="change.txt.html#case" class="d">case</a> the extension <a href="motion.txt.html#is" class="d">is</a> included, while in the second
+    <a href="change.txt.html#case" class="d">case</a> <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> omitted.
+    If the file cannot be opened the next points are tried.
+    <a href="insert.txt.html#A" class="d">A</a> <a href="intro.txt.html#space" class="d">space</a> in the file name must be escaped with <a href="insert.txt.html#a" class="d">a</a> backslash.
+    <a href="insert.txt.html#A" class="d">A</a> menu priority must come _after_ the icon argument: 
+<span class="e">        :amenu icon=foo 1.42 ToolBar.Foo :echo "42!"&lt;CR&gt;</span>
+<a href="motion.txt.html#-" class="d">-</a> 2 An item called 'BuiltIn##', where ## <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> number, <a href="motion.txt.html#is" class="d">is</a> taken <a href="motion.txt.html#as" class="d">as</a> number ## of
+    the built-in bitmaps available in Vim.  Currently there are 31 numbered
+    from <a href="motion.txt.html#0" class="d">0</a> to 30 which cover most common editing operations <a href="gui.txt.html#builtin-tools" class="l">builtin-tools</a><a href="repeat.txt.html#." class="d">.</a> 
+<span class="e">        :amenu ToolBar.BuiltIn22 :call SearchNext("back")&lt;CR&gt;</span>
+<a href="motion.txt.html#-" class="d">-</a> 3 An item with another name <a href="motion.txt.html#is" class="d">is</a> first searched <a href="luaref.txt.html#for" class="d">for</a> in the directory
+    "bitmaps" in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  If found, the bitmap file <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> the
+    toolbar button image.  <span class="n">Note</span> that the exact filename <a href="motion.txt.html#is" class="d">is</a> OS-specific: For
+    example, under Win32 the command 
+<span class="e">        :amenu ToolBar.Hello :echo "hello"&lt;CR&gt;</span>
+   would find the file 'hello.bmp'.  Under X11 <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> 'Hello.xpm'.
+    For MS-Windows and the bitmap <a href="motion.txt.html#is" class="d">is</a> scaled to fit the button.  For
+    MS-Windows <a href="insert.txt.html#a" class="d">a</a> size of 18 by 18 pixels works best.
+    For MS-Windows the bitmap should have 16 colors with the standard palette.
+    The light grey pixels will be changed to the Window frame color and the
+    dark grey pixels to the <a href="windows.txt.html#window" class="d">window</a> shadow color.  More colors might also work,
+    depending on your system.
+<a href="motion.txt.html#-" class="d">-</a> 4 If the bitmap <a href="motion.txt.html#is" class="d">is</a> still not found, Vim checks <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> match against its <a href="vimeval.txt.html#list" class="d">list</a>
+    of built-in names.  Each built-in button image has <a href="insert.txt.html#a" class="d">a</a> name.
+    So the command 
+<span class="e">        :amenu ToolBar.Open :e</span>
+   will show the built-in "open <a href="insert.txt.html#a" class="d">a</a> file" button image if no open.bmp exists.
+    All the built-in names can be seen used in menu.vim.
+<a href="motion.txt.html#-" class="d">-</a> 5 If all else fails, <a href="insert.txt.html#a" class="d">a</a> blank, but functioning, button <a href="motion.txt.html#is" class="d">is</a> displayed.
+
+                                                        <span id="builtin-tools" class="t">builtin-tools</span>
+
+<span class="e">    nr  Name                Normal action</span>
+<span class="e">    00  New                 open new window</span>
+<span class="e">    01  Open                browse for file to open in current window</span>
+<span class="e">    02  Save                write buffer to file</span>
+<span class="e">    03  Undo                undo last change</span>
+<span class="e">    04  Redo                redo last undone change</span>
+<span class="e">    05  Cut                 delete selected text to clipboard</span>
+<span class="e">    06  Copy                copy selected text to clipboard</span>
+<span class="e">    07  Paste               paste text from clipboard</span>
+<span class="e">    08  Print               print current buffer</span>
+<span class="e">    09  Help                open a buffer on Vim's builtin help</span>
+<span class="e">    10  Find                start a search command</span>
+<span class="e">    11  SaveAll             write all modified buffers to file</span>
+<span class="e">    12  SaveSesn            write session file for current situation</span>
+<span class="e">    13  NewSesn             write new session file</span>
+<span class="e">    14  LoadSesn            load session file</span>
+<span class="e">    15  RunScript           browse for file to run as a Vim script</span>
+<span class="e">    16  Replace             prompt for substitute command</span>
+<span class="e">    17  WinClose            close current window</span>
+<span class="e">    18  WinMax              make current window use many lines</span>
+<span class="e">    19  WinMin              make current window use few lines</span>
+<span class="e">    20  WinSplit            split current window</span>
+<span class="e">    21  Shell               start a shell</span>
+<span class="e">    22  FindPrev            search again, backward</span>
+<span class="e">    23  FindNext            search again, forward</span>
+<span class="e">    24  FindHelp            prompt for word to search help for</span>
+<span class="e">    25  Make                run make and jump to first error</span>
+<span class="e">    26  TagJump             jump to tag under the cursor</span>
+<span class="e">    27  RunCtags            build tags for files in current directory</span>
+<span class="e">    28  WinVSplit           split current window vertically</span>
+<span class="e">    29  WinMaxWidth         make current window use many columns</span>
+<span class="e">    30  WinMinWidth         make current window use few columns</span>
+
+                                        <span id="hidden-menus" class="t">hidden-menus</span> <span id="win32-hidden-menus" class="t">win32-hidden-menus</span>
+In the Win32 GUI, <a href="starting.txt.html#starting" class="d">starting</a> <a href="insert.txt.html#a" class="d">a</a> menu name with ']' excludes that menu from the
+main menu bar.  You must then use the <a href="gui.txt.html#%3Apopup" class="l">:popup</a> command to display it.
+
+When splitting the <a href="windows.txt.html#window" class="d">window</a> the <a href="windows.txt.html#window" class="d">window</a> toolbar <a href="motion.txt.html#is" class="d">is</a> not copied to the new window.
+
+                                                        <span id="popup-menu" class="t">popup-menu</span>
+You can define the special menu "PopUp"<a href="repeat.txt.html#." class="d">.</a>  This <a href="motion.txt.html#is" class="d">is</a> the menu that <a href="motion.txt.html#is" class="d">is</a> displayed
+when the right mouse button <a href="motion.txt.html#is" class="d">is</a> pressed, if <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a> <a href="motion.txt.html#is" class="d">is</a> set to popup or
+popup_setpos.
+
+The default "PopUp" menu is: 
+<span class="e">    anoremenu PopUp.Go\ to\ definition      &lt;Cmd&gt;lua vim.lsp.buf.definition()&lt;CR&gt;</span>
+<span class="e">    amenu     PopUp.Open\ in\ web\ browser  gx</span>
+<span class="e">    anoremenu PopUp.Inspect                 &lt;Cmd&gt;Inspect&lt;CR&gt;</span>
+<span class="e">    anoremenu PopUp.-1-                     &lt;Nop&gt;</span>
+<span class="e">    vnoremenu PopUp.Cut                     "+x</span>
+<span class="e">    vnoremenu PopUp.Copy                    "+y</span>
+<span class="e">    anoremenu PopUp.Paste                   "+gP</span>
+<span class="e">    vnoremenu PopUp.Paste                   "+P</span>
+<span class="e">    vnoremenu PopUp.Delete                  "_x</span>
+<span class="e">    nnoremenu PopUp.Select\ All             ggVG</span>
+<span class="e">    vnoremenu PopUp.Select\ All             gg0oG$</span>
+<span class="e">    inoremenu PopUp.Select\ All             &lt;C-Home&gt;&lt;C-O&gt;VG</span>
+<span class="e">    anoremenu PopUp.-2-                     &lt;Nop&gt;</span>
+<span class="e">    anoremenu PopUp.How-to\ disable\ mouse  &lt;Cmd&gt;help disable-mouse&lt;CR&gt;</span>
+
+
+Showing What Menus Are Mapped To                        <span id="showing-menus" class="t">showing-menus</span>
+
+To see what an existing menu <a href="motion.txt.html#is" class="d">is</a> mapped to, use just one argument after the
+menu commands (just like you would with the "<a href="map.txt.html#%3Amap" class="d">:map</a>" commands).  If the menu
+specified <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> submenu, then all <a href="gui.txt.html#menus" class="d">menus</a> under that hierarchy will be shown.
+If no argument <a href="motion.txt.html#is" class="d">is</a> given after <a href="gui.txt.html#%3Amenu" class="d">:menu</a> <a href="motion.txt.html#at" class="d">at</a> all, then ALL menu items are shown
+<a href="luaref.txt.html#for" class="d">for</a> the appropriate mode (e.g., <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> mode <a href="luaref.txt.html#for" class="d">for</a> :cmenu).
+
+Special characters in the list, just before the rhs:
+• * Menu was defined with "nore" to disallow remapping.
+• <a href="change.txt.html#%26" class="d">&amp;</a> Menu was defined with "<a href="cmdline.txt.html#%3Cscript%3E" class="s">&lt;script&gt;</a>" to allow remapping <a href="map.txt.html#script-local" class="d">script-local</a> mappings.
+• <a href="change.txt.html#s" class="d">s</a> Menu was defined with "<span class="s">&lt;silent&gt;</span>" to avoid showing what <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> mapped to
+    when triggered.
+• <a href="motion.txt.html#-" class="d">-</a> Menu was disabled.
+
+<span class="n">Note</span> that hitting <a href="motion.txt.html#%3CTab%3E" class="s">&lt;Tab&gt;</a> while entering <a href="insert.txt.html#a" class="d">a</a> menu name after <a href="insert.txt.html#a" class="d">a</a> menu command may
+be used to complete the name of the menu item.
+
+
+Executing Menus                                         <span id="execute-menus" class="t">execute-menus</span>
+
+                                                <span id="%3Aem" class="t">:em</span>  <span id="%3Aemenu" class="t">:emenu</span> <span id="E334" class="t">E334</span> <span id="E335" class="t">E335</span>
+:[range]em[enu] <span class="s">{menu}</span>          Execute <span class="s">{menu}</span> from the command line.
+                                The default <a href="motion.txt.html#is" class="d">is</a> to execute the <a href="intro.txt.html#Normal" class="d">Normal</a> mode
+                                menu.  If <a href="insert.txt.html#a" class="d">a</a> range <a href="motion.txt.html#is" class="d">is</a> specified, <a href="motion.txt.html#it" class="d">it</a> executes
+                                the <a href="visual.txt.html#Visual" class="d">Visual</a> mode menu.
+                                If used from <span class="s">&lt;c-o&gt;</span>, <a href="motion.txt.html#it" class="d">it</a> executes the
+                                insert-mode menu Eg: 
+<span class="e">        :emenu File.Exit</span>
+<span class="e"></span>
+:[range]em[enu] <span class="s">{mode}</span> <span class="s">{menu}</span>   Like above, but execute the menu <a href="luaref.txt.html#for" class="d">for</a> <span class="s">{mode}</span>:
+                                <a href="motion.txt.html#-" class="d">-</a> 'n': <a href="gui.txt.html#%3Anmenu" class="l">:nmenu</a>  <a href="intro.txt.html#Normal" class="d">Normal</a> mode
+                                <a href="motion.txt.html#-" class="d">-</a> 'v': <a href="gui.txt.html#%3Avmenu" class="l">:vmenu</a>  <a href="visual.txt.html#Visual" class="d">Visual</a> mode
+                                <a href="motion.txt.html#-" class="d">-</a> 's': <a href="gui.txt.html#%3Asmenu" class="l">:smenu</a>  <a href="visual.txt.html#Select" class="d">Select</a> mode
+                                <a href="motion.txt.html#-" class="d">-</a> 'o': <a href="gui.txt.html#%3Aomenu" class="l">:omenu</a>  <a href="intro.txt.html#Operator-pending" class="d">Operator-pending</a> mode
+                                <a href="motion.txt.html#-" class="d">-</a> 't': <a href="gui.txt.html#%3Atlmenu" class="l">:tlmenu</a> Terminal mode
+                                <a href="motion.txt.html#-" class="d">-</a> 'i': <a href="gui.txt.html#%3Aimenu" class="l">:imenu</a>  <a href="insert.txt.html#Insert" class="d">Insert</a> mode
+                                <a href="motion.txt.html#-" class="d">-</a> 'c': <a href="gui.txt.html#%3Acmenu" class="l">:cmenu</a>  <a href="cmdline.txt.html#Cmdline" class="d">Cmdline</a> mode
+
+
+You can use <a href="gui.txt.html#%3Aemenu" class="d">:emenu</a> to access useful menu items you may have got used to from
+<a href="gui.txt.html#GUI" class="d">GUI</a> mode.  See <a href="options.txt.html#%27wildmenu%27" class="o">'wildmenu'</a> <a href="luaref.txt.html#for" class="d">for</a> an option that works well with this.  See
+<a href="gui.txt.html#console-menus" class="l">console-menus</a> <a href="luaref.txt.html#for" class="d">for</a> an example.
+
+When using <a href="insert.txt.html#a" class="d">a</a> range, if the lines match with '&lt;,'&gt;, then the menu <a href="motion.txt.html#is" class="d">is</a> executed
+using the last visual selection.
+
+
+Deleting Menus                                          <span id="delete-menus" class="t">delete-menus</span>
+
+                                                <span id="%3Aunme" class="t">:unme</span>  <span id="%3Aunmenu" class="t">:unmenu</span>
+                                                <span id="%3Aaun" class="t">:aun</span>   <span id="%3Aaunmenu" class="t">:aunmenu</span>
+To delete <a href="insert.txt.html#a" class="d">a</a> menu item or <a href="insert.txt.html#a" class="d">a</a> whole submenu, use the unmenu commands, which are
+analogous to the unmap commands.  Eg: 
+<span class="e">    :unmenu! Edit.Paste</span>
+<span class="e"></span>
+This will remove the Paste item from the Edit menu <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#Insert" class="d">Insert</a> and
+<a href="cmdline.txt.html#Command-line" class="d">Command-line</a> modes.
+
+<span class="n">Note</span> that hitting <a href="motion.txt.html#%3CTab%3E" class="s">&lt;Tab&gt;</a> while entering <a href="insert.txt.html#a" class="d">a</a> menu name after an umenu command
+may be used to complete the name of the menu item <a href="luaref.txt.html#for" class="d">for</a> the appropriate mode.
+
+To remove all <a href="gui.txt.html#menus" class="d">menus</a> use:                        <span id="%3Aunmenu-all" class="t">:unmenu-all</span>  
+<span class="e">        :unmenu *       " remove all menus in Normal and visual mode</span>
+<span class="e">        :unmenu! *      " remove all menus in Insert and Command-line mode</span>
+<span class="e">        :aunmenu *      " remove all menus in all modes, except for Terminal</span>
+<span class="e">                        " mode</span>
+<span class="e">        :tlunmenu *     " remove all menus in Terminal mode</span>
+<span class="e"></span>
+If you want to get rid of the menu bar: 
+<span class="e">        :set guioptions-=m</span>
+<span class="e"></span>
+<span class="e"></span>
+Disabling Menus                                         <span id="disable-menus" class="t">disable-menus</span>
+
+                                                <span id="%3Amenu-disable" class="t">:menu-disable</span> <span id="%3Amenu-enable" class="t">:menu-enable</span>
+If you <a href="diff.txt.html#do" class="d">do</a> not want to remove <a href="insert.txt.html#a" class="d">a</a> menu, but disable <a href="motion.txt.html#it" class="d">it</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> moment, this can be
+done by adding the "enable" or "disable" keyword to <a href="insert.txt.html#a" class="d">a</a> "<a href="gui.txt.html#%3Amenu" class="d">:menu</a>" command.
+Examples: 
+<span class="e">        :menu disable &amp;File.&amp;Open\.\.\.</span>
+<span class="e">        :amenu enable *</span>
+<span class="e">        :amenu disable &amp;Tools.*</span>
+<span class="e"></span>
+The command applies to the modes <a href="motion.txt.html#as" class="d">as</a> used with all menu commands.  <span class="n">Note</span> that
+characters like "<a href="change.txt.html#%26" class="d">&amp;</a>" need to be included <a href="luaref.txt.html#for" class="d">for</a> translated names to be found.
+When the argument <a href="motion.txt.html#is" class="d">is</a> "*"<a href="motion.txt.html#%2C" class="d">,</a> all <a href="gui.txt.html#menus" class="d">menus</a> are affected.  Otherwise the given menu
+name and all existing submenus below <a href="motion.txt.html#it" class="d">it</a> are affected.
+
+
+Examples <a href="luaref.txt.html#for" class="d">for</a> Menus                                      <span id="menu-examples" class="t">menu-examples</span>
+
+Here <a href="motion.txt.html#is" class="d">is</a> an example on how to add menu items with menus!  You can add <a href="insert.txt.html#a" class="d">a</a> menu
+item <a href="luaref.txt.html#for" class="d">for</a> the keyword under the cursor.  The <a href="intro.txt.html#register" class="d">register</a> "<a href="index.txt.html#z" class="d">z</a>" <a href="motion.txt.html#is" class="d">is</a> used. 
+<span class="e"></span>
+<span class="e">  :nmenu Words.Add\ Var         wb"zye:menu! Words.&lt;C-R&gt;z &lt;C-R&gt;z&lt;CR&gt;</span>
+<span class="e">  :nmenu Words.Remove\ Var      wb"zye:unmenu! Words.&lt;C-R&gt;z&lt;CR&gt;</span>
+<span class="e">  :vmenu Words.Add\ Var         "zy:menu! Words.&lt;C-R&gt;z &lt;C-R&gt;z &lt;CR&gt;</span>
+<span class="e">  :vmenu Words.Remove\ Var      "zy:unmenu! Words.&lt;C-R&gt;z&lt;CR&gt;</span>
+<span class="e">  :imenu Words.Add\ Var         &lt;Esc&gt;wb"zye:menu! Words.&lt;C-R&gt;z &lt;C-R&gt;z&lt;CR&gt;a</span>
+<span class="e">  :imenu Words.Remove\ Var      &lt;Esc&gt;wb"zye:unmenu! Words.&lt;C-R&gt;z&lt;CR&gt;a</span>
+<span class="e"></span>
+(the rhs <a href="motion.txt.html#is" class="d">is</a> in <a href="intro.txt.html#%3C%3E" class="d">&lt;&gt;</a> notation, you can copy/paste this text to try out the
+mappings, or <a href="change.txt.html#put" class="d">put</a> these lines in your gvimrc; "<span class="s">&lt;C-R&gt;</span>" <a href="motion.txt.html#is" class="d">is</a> <a href="undo.txt.html#CTRL-R" class="k">CTRL-R</a>, "<a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a>" <a href="motion.txt.html#is" class="d">is</a>
+the <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a> key.  <a href="intro.txt.html#%3C%3E" class="l">&lt;&gt;</a><a href="motion.txt.html#%29" class="d">)</a>
+
+                                                        <span id="tooltips" class="t">tooltips</span> <span id="menu-tips" class="t">menu-tips</span>
+Tooltips <a href="change.txt.html#%26" class="d">&amp;</a> Menu <a href="tips.txt.html#tips" class="d">tips</a>
+
+See <a href="motion.txt.html#section" class="d">section</a> <a href="usr_42.txt.html#42.4" class="l">42.4</a> in the user manual.
+
+                                                        <span id="%3Atmenu" class="t">:tmenu</span>
+:tm[enu] <span class="s">{menupath}</span> <a href="map.txt.html#%7Brhs%7D" class="s">{rhs}</a>       Define <a href="insert.txt.html#a" class="d">a</a> tip <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> menu or tool.  (only in
+                                X11 and Win32 GUI)
+
+:tm[enu] <span class="s">[menupath]</span>             <a href="vimeval.txt.html#List" class="d">List</a> menu tips. (only in X11 and Win32 GUI)
+
+                                                        <span id="%3Atunmenu" class="t">:tunmenu</span>
+:tu[nmenu] <span class="s">{menupath}</span>           Remove <a href="insert.txt.html#a" class="d">a</a> tip <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> menu or tool.
+                                (only in X11 and Win32 GUI)
+
+<span class="n">Note:</span> To create <a href="gui.txt.html#menus" class="d">menus</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> mode, use <a href="gui.txt.html#%3Atlmenu" class="l">:tlmenu</a> instead.
+
+When <a href="insert.txt.html#a" class="d">a</a> tip <a href="motion.txt.html#is" class="d">is</a> defined <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> menu item, <a href="motion.txt.html#it" class="d">it</a> appears in the command-line area
+when the mouse <a href="motion.txt.html#is" class="d">is</a> over that item, much like <a href="insert.txt.html#a" class="d">a</a> standard Windows menu hint in
+the status bar.  (Except when Vim <a href="motion.txt.html#is" class="d">is</a> in <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> mode, when of course
+nothing <a href="motion.txt.html#is" class="d">is</a> displayed.)
+When <a href="insert.txt.html#a" class="d">a</a> tip <a href="motion.txt.html#is" class="d">is</a> defined <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> ToolBar item, <a href="motion.txt.html#it" class="d">it</a> appears <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> tooltip when the
+mouse pauses over that button, in the usual fashion.  Use the <a href="syntax.txt.html#hl-Tooltip" class="l">hl-Tooltip</a>
+highlight group to change its colors.
+
+<a href="insert.txt.html#A" class="d">A</a> "tip" can be defined <a href="luaref.txt.html#for" class="d">for</a> each menu item.  For example, when defining <a href="insert.txt.html#a" class="d">a</a> menu
+item like this: 
+<span class="e">        :amenu MyMenu.Hello :echo "Hello"&lt;CR&gt;</span>
+The tip <a href="motion.txt.html#is" class="d">is</a> defined like this: 
+<span class="e">        :tmenu MyMenu.Hello Displays a greeting.</span>
+And delete <a href="motion.txt.html#it" class="d">it</a> with: 
+<span class="e">        :tunmenu MyMenu.Hello</span>
+<span class="e"></span>
+Tooltips are currently only supported <a href="luaref.txt.html#for" class="d">for</a> the X11 and Win32 GUI.  However, they
+should appear <a href="luaref.txt.html#for" class="d">for</a> the other <a href="gui.txt.html#gui" class="d">gui</a> platforms in the not too distant future.
+
+The "<a href="gui.txt.html#%3Atmenu" class="d">:tmenu</a>" command works just like other menu commands, <a href="motion.txt.html#it" class="d">it</a> uses the same
+arguments.  "<a href="gui.txt.html#%3Atunmenu" class="d">:tunmenu</a>" deletes an existing menu tip, in the same way <a href="motion.txt.html#as" class="d">as</a> the
+other unmenu commands.
+
+If <a href="insert.txt.html#a" class="d">a</a> menu item becomes invalid (i.e. its actions in all modes are deleted) Vim
+deletes the menu tip (and the item) <a href="luaref.txt.html#for" class="d">for</a> you.  This means that <a href="gui.txt.html#%3Aaunmenu" class="d">:aunmenu</a> deletes
+<a href="insert.txt.html#a" class="d">a</a> menu item <a href="motion.txt.html#-" class="d">-</a> you don't need to <a href="diff.txt.html#do" class="d">do</a> <a href="insert.txt.html#a" class="d">a</a> <a href="gui.txt.html#%3Atunmenu" class="d">:tunmenu</a> <a href="motion.txt.html#as" class="d">as</a> well.
+
+
+5.9 Popup Menus
+
+You can cause <a href="insert.txt.html#a" class="d">a</a> menu to popup <a href="motion.txt.html#at" class="d">at</a> the cursor.  This behaves similarly to the
+PopUp <a href="gui.txt.html#menus" class="d">menus</a> except that any menu tree can be popped up.
+
+                                                        <span id="%3Apopup" class="t">:popup</span> <span id="%3Apopu" class="t">:popu</span>
+:popu[p] <span class="s">{name}</span>                 Popup the menu <span class="s">{name}</span>.  The menu named must
+                                have <a href="motion.txt.html#at" class="d">at</a> least one subentry, but need not
+                                appear on the menu-bar (see <a href="gui.txt.html#hidden-menus" class="l">hidden-menus</a>).
+
+:popu[p]! <span class="s">{name}</span>                Like above, but use the position of the mouse
+                                pointer instead of the cursor.
+
+Example: 
+<span class="e">        :popup File</span>
+will make the "File" menu (if there <a href="motion.txt.html#is" class="d">is</a> one) appear <a href="motion.txt.html#at" class="d">at</a> the text cursor (mouse
+pointer if <a href="change.txt.html#%21" class="d">!</a> was used). 
+<span class="e"></span>
+<span class="e">        :amenu ]Toolbar.Make    :make&lt;CR&gt;</span>
+<span class="e">        :popup ]Toolbar</span>
+This creates <a href="insert.txt.html#a" class="d">a</a> popup menu that doesn't exist on the main menu-bar.
+
+<span class="n">Note</span> that <a href="insert.txt.html#a" class="d">a</a> menu that starts with ']' will not be displayed.
+
+
+ vim:tw=78:sw=4:ts=8:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

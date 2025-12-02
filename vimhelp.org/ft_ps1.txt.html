@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: ft_ps1.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/6GFVgWe7mZKS0irS/tom-select.min.css">
+<script defer src="s/RYIr7-eUV9L7hwPw/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="ft_ps1.txt.html#">↑Top↑</a></li>
+<li><a href="ft_ps1.txt.html#ps1-syntax">INTRODUCTION</a></li>
+<li><a href="ft_ps1.txt.html#ps1-about">ABOUT</a></li>
+<li><a href="ft_ps1.txt.html#ps1-folding">FOLDING</a></li>
+<li><a href="ft_ps1.txt.html#ps1-compiler">COMPILER</a></li>
+<li><a href="ft_ps1.txt.html#ps1-keyword">KEYWORD LOOKUP</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="ft_ps1.txt" class="t">ft_ps1.txt</span>  <a href="insert.txt.html#A" class="d">A</a> Windows PowerShell <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> for Vim
+
+Author:  Peter Provost &lt;https://www.github.com/PProvost&gt;
+License: Apache 2.0
+URL:     <a class="u" href="https://github.com/PProvost/vim-ps1">https://github.com/PProvost/vim-ps1</a>
+
+<span class="c">INTRODUCTION</span>                                                    <span id="ps1-syntax" class="t">ps1-syntax</span>
+
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> provides Vim syntax, indent and <a href="filetype.txt.html#filetype" class="d">filetype</a> detection for Windows
+PowerShell scripts, modules, and XML configuration files.
+
+
+<span class="c">ABOUT</span>                                                           <span id="ps1-about" class="t">ps1-about</span>
+
+Grab the latest version or report <a href="insert.txt.html#a" class="d">a</a> bug on GitHub:
+
+<a class="u" href="https://github.com/PProvost/vim-ps1">https://github.com/PProvost/vim-ps1</a>
+
+
+<span class="c">FOLDING</span>                                                         <span id="ps1-folding" class="t">ps1-folding</span>
+
+The ps1 <a href="syntax.txt.html#syntax" class="d">syntax</a> file provides <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="fold.txt.html#folding" class="d">folding</a> (see <a href="syntax.txt.html#%3Asyn-fold" class="l">:syn-fold</a><a href="motion.txt.html#%29" class="d">)</a> for <a href="usr_41.txt.html#script" class="d">script</a> blocks
+and digital signatures in scripts.
+
+When <a href="options.txt.html#%27foldmethod%27" class="o">'foldmethod'</a> <a href="motion.txt.html#is" class="d">is</a> set to "<a href="syntax.txt.html#syntax" class="d">syntax</a>" then function <a href="usr_41.txt.html#script" class="d">script</a> blocks will be
+folded unless you use the following in your <a href="starting.txt.html#.vimrc" class="d">.vimrc</a> or before opening <a href="insert.txt.html#a" class="d">a</a> script: 
+<span class="e"></span>
+<span class="e">    :let g:ps1_nofold_blocks = 1</span>
+
+Digital signatures in scripts will also be folded unless you use: 
+<span class="e"></span>
+<span class="e">    :let g:ps1_nofold_sig = 1</span>
+
+<span class="n">Note:</span> <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="fold.txt.html#folding" class="d">folding</a> might slow down <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting significantly,
+especially for large files.
+
+
+<span class="c">COMPILER</span>                                                        <span id="ps1-compiler" class="t">ps1-compiler</span>
+
+The powershell <span class="e">:compiler</span> <a href="usr_41.txt.html#script" class="d">script</a> configures <a href="quickfix.txt.html#%3Amake" class="l">:make</a> to execute the <a href="usr_41.txt.html#script" class="d">script</a> in
+PowerShell.
+
+It tries to pick <a href="insert.txt.html#a" class="d">a</a> smart default PowerShell command: <span class="e">pwsh</span> if available and
+<span class="e">powershell</span> otherwise, but you can customize the command: 
+<span class="e"></span>
+<span class="e">    :let g:ps1_makeprg_cmd = '/path/to/pwsh'</span>
+
+To configure whether to show the exception type information: 
+<span class="e"></span>
+<span class="e">    :let g:ps1_efm_show_error_categories = 1</span>
+
+
+<span class="c">KEYWORD LOOKUP</span>                                                 <span id="ps1-keyword" class="t">ps1-keyword</span>
+
+To look up keywords using PowerShell's Get-Help, press the <a href="various.txt.html#K" class="l">K</a> key. For more
+convenient paging, the <a href="message.txt.html#pager" class="d">pager</a> <span class="e">less</span> should be installed, which <a href="motion.txt.html#is" class="d">is</a> included in
+many Linux distributions and in macOS.
+
+Many other distributions are available for Windows like
+<a class="u" href="https://chocolatey.org/packages/less/">https://chocolatey.org/packages/less/</a>. Make sure <span class="e">less</span> <a href="motion.txt.html#is" class="d">is</a> in <a href="insert.txt.html#a" class="d">a</a> directory
+listed in the <span class="e">PATH</span> environment variable, which chocolatey above does.
+
+<span class="h">------------------------------------------------------------------------------</span>
+ vim:ft=help:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

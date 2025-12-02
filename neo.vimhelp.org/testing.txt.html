@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: testing.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="testing.txt.html#">↑Top↑</a></li>
+<li><a href="testing.txt.html#testing">Testing Vim</a></li>
+<li><a href="testing.txt.html#test-functions-details">Test functions</a></li>
+<li><a href="testing.txt.html#assert-functions-details">Assert functions</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="testing.txt" class="t">testing.txt</span>  	Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar</span>
+
+
+Testing Vim and Vim <a href="usr_41.txt.html#script" class="d">script</a>			<span id="testing-support" class="t">testing-support</span>
+
+Expression evaluation <a href="motion.txt.html#is" class="d">is</a> explained in <a href="vimeval.txt.html#eval.txt" class="l">eval.txt</a><a href="repeat.txt.html#." class="d">.</a>  This file goes into details
+about <a href="editing.txt.html#writing" class="d">writing</a> tests in Vim script.  This can be used <a href="luaref.txt.html#for" class="d">for</a> <a href="testing.txt.html#testing" class="d">testing</a> Vim itself
+and <a href="luaref.txt.html#for" class="d">for</a> <a href="testing.txt.html#testing" class="d">testing</a> plugins.
+
+1. Testing Vim				<a href="testing.txt.html#testing" class="l">testing</a>
+2. Test <a href="vimeval.txt.html#functions" class="d">functions</a>			<a href="testing.txt.html#test-functions-details" class="l">test-functions-details</a>
+3. Assert <a href="vimeval.txt.html#functions" class="d">functions</a>			<a href="testing.txt.html#assert-functions-details" class="l">assert-functions-details</a>
+
+<span class="h">==============================================================================</span>
+1. Testing Vim						<span id="testing" class="t">testing</span>
+
+Vim can be tested after building it, usually with "make test"<a href="repeat.txt.html#." class="d">.</a>
+The tests are located in the directory "src/testdir"<a href="repeat.txt.html#." class="d">.</a>
+
+						<span id="new-style-testing" class="t">new-style-testing</span>
+New tests should be added <a href="motion.txt.html#as" class="d">as</a> new style tests.  The test scripts are named
+test_&lt;feature&gt;.vim (replace <span class="s">&lt;feature&gt;</span> with the feature under test). These use
+<a href="vimeval.txt.html#functions" class="d">functions</a> such <a href="motion.txt.html#as" class="d">as</a> <a href="vimfn.txt.html#assert_equal%28%29" class="l">assert_equal()</a> to keep the test commands and the expected
+result in one place.
+
+Find more information in the file src/testdir/README.txt.
+
+<span class="h">==============================================================================</span>
+2. Test <a href="vimeval.txt.html#functions" class="d">functions</a>				<span id="test-functions-details" class="t">test-functions-details</span>
+
+See <a href="vimfn.txt.html#test_garbagecollect_now%28%29" class="l">test_garbagecollect_now()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+3. Assert <a href="vimeval.txt.html#functions" class="d">functions</a>				<span id="assert-functions-details" class="t">assert-functions-details</span>
+
+See:
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_beeps%28%29" class="l">assert_beeps()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_equal%28%29" class="l">assert_equal()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_equalfile%28%29" class="l">assert_equalfile()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_exception%28%29" class="l">assert_exception()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_fails%28%29" class="l">assert_fails()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_false%28%29" class="l">assert_false()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_inrange%28%29" class="l">assert_inrange()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_match%28%29" class="l">assert_match()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_nobeep%28%29" class="l">assert_nobeep()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_notequal%28%29" class="l">assert_notequal()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_notmatch%28%29" class="l">assert_notmatch()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_report%28%29" class="l">assert_report()</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#assert_true%28%29" class="l">assert_true()</a>
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

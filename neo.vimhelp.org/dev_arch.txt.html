@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: dev_arch.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="dev_arch.txt.html#">↑Top↑</a></li>
+<li><a href="dev_arch.txt.html#_data-structures">Data structures</a></li>
+<li><a href="dev_arch.txt.html#_ui-events">UI events</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="dev_arch.txt" class="t">dev_arch.txt</span>          Nvim
+
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+How to develop Nvim, explanation of modules and subsystems    <span id="dev-arch" class="t">dev-arch</span>
+
+The top of each major module has (or should have) an overview in <a href="insert.txt.html#a" class="d">a</a> comment <a href="motion.txt.html#at" class="d">at</a>
+the top of its file. The purpose of this document <a href="motion.txt.html#is" class="d">is</a> to give:
+
+1. an overview of how <a href="motion.txt.html#it" class="d">it</a> all fits together
+2. how-to guides <a href="luaref.txt.html#for" class="d">for</a> common tasks such as:
+    <a href="motion.txt.html#-" class="d">-</a> deprecating public <a href="vimeval.txt.html#functions" class="d">functions</a>
+    <a href="motion.txt.html#-" class="d">-</a> adding <a href="insert.txt.html#a" class="d">a</a> new public (API) function
+    <a href="motion.txt.html#-" class="d">-</a> adding <a href="insert.txt.html#a" class="d">a</a> new public (UI) event
+3. TODO: move src/nvim/README.md into this doc.
+
+                                  Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+<span id="_data-structures">Data structures</span>
+
+Use <span class="e">kvec.h</span> <a href="luaref.txt.html#for" class="d">for</a> most lists. When you absolutely need <a href="insert.txt.html#a" class="d">a</a> linked list, use
+<span class="e">lib/queue_defs.h</span> which defines an "intrusive" linked list.
+
+<span class="h">==============================================================================</span>
+<span id="_ui-events"><a href="ui.txt.html#UI" class="d">UI</a> <a href="autocmd.txt.html#events" class="d">events</a></span>
+
+The source files most directly involved with <a href="ui.txt.html#UI" class="d">UI</a> <a href="autocmd.txt.html#events" class="d">events</a> are:
+1. <span class="e">src/nvim/ui.*</span>: calls handler <a href="vimeval.txt.html#functions" class="d">functions</a> of registered <a href="ui.txt.html#UI" class="d">UI</a> structs (independent from msgpack-rpc)
+2. <span class="e">src/nvim/api/ui.*</span>: forwards <a href="message.txt.html#messages" class="d">messages</a> over <a href="api.txt.html#msgpack-rpc" class="d">msgpack-rpc</a> to remote UIs.
+
+<a href="ui.txt.html#UI" class="d">UI</a> <a href="autocmd.txt.html#events" class="d">events</a> are defined in <span class="e">src/nvim/api/ui_events.in.h</span> <a href="motion.txt.html#%2C" class="d">,</a> this file <a href="motion.txt.html#is" class="d">is</a> not
+compiled directly, rather <a href="motion.txt.html#it" class="d">it</a> parsed by
+<span class="e">src/nvim/generators/gen_api_ui_events.lua</span> which autogenerates wrapper
+<a href="vimeval.txt.html#functions" class="d">functions</a> used by the source files above. It also generates metadata
+accessible <a href="motion.txt.html#as" class="d">as</a> <span class="e">api_info().ui_events</span>.
+
+See commit d3a8e9217f39c59dd7762bd22a76b8bd03ca85ff <a href="luaref.txt.html#for" class="d">for</a> an example of adding
+<a href="insert.txt.html#a" class="d">a</a> new <a href="ui.txt.html#UI" class="d">UI</a> event.
+
+<a href="ui.txt.html#UI" class="d">UI</a> <a href="autocmd.txt.html#events" class="d">events</a> are deferred to UIs, which implies <a href="insert.txt.html#a" class="d">a</a> deepcopy of the <a href="ui.txt.html#UI" class="d">UI</a> event data.
+
+Remember to bump NVIM_API_LEVEL if <a href="motion.txt.html#it" class="d">it</a> wasn't already during this <a href="develop.txt.html#development" class="d">development</a>
+cycle.
+
+Other references:
+<a href="motion.txt.html#-" class="d">-</a> <a href="api.txt.html#msgpack-rpc" class="l">msgpack-rpc</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="ui.txt.html#ui" class="l">ui</a>
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/neovim/neovim/pull/3246">https://github.com/neovim/neovim/pull/3246</a>
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/neovim/neovim/pull/18375">https://github.com/neovim/neovim/pull/18375</a>
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/neovim/neovim/pull/21605">https://github.com/neovim/neovim/pull/21605</a>
+
+
+
+<span class="h">==============================================================================</span>
+
+vim:tw=78:ts=8:sw=4:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

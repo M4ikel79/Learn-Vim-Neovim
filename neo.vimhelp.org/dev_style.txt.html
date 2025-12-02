@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: dev_style.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="dev_style.txt.html#">↑Top↑</a></li>
+<li><a href="dev_style.txt.html#_background">Background</a></li>
+<li><a href="dev_style.txt.html#dev-style-header">Header Files</a></li>
+<li><a href="dev_style.txt.html#dev-style-scope">Scoping</a></li>
+<li><a href="dev_style.txt.html#_nvimspecific-magic">Nvim-Specific Magic</a></li>
+<li><a href="dev_style.txt.html#dev-style-features">Other C Features</a></li>
+<li><a href="dev_style.txt.html#dev-style-naming">Naming</a></li>
+<li><a href="dev_style.txt.html#dev-style-comments">Comments</a></li>
+<li><a href="dev_style.txt.html#dev-style-format">Formatting</a></li>
+<li><a href="dev_style.txt.html#_parting-words">Parting Words</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="dev_style.txt" class="t">dev_style.txt</span>          Nvim
+
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Nvim style guide                                        <span id="dev-style" class="t">dev-style</span>
+
+Style guidelines <a href="luaref.txt.html#for" class="d">for</a> developers working Nvim's source code.
+
+License: CC-By 3.0 <a class="u" href="https://creativecommons.org/licenses/by/3.0/">https://creativecommons.org/licenses/by/3.0/</a>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+<span id="_background">Background</span>
+
+One way in which we keep the code base manageable <a href="motion.txt.html#is" class="d">is</a> by enforcing consistency.
+It <a href="motion.txt.html#is" class="d">is</a> very important that any programmer be able to look <a href="motion.txt.html#at" class="d">at</a> another's code and
+quickly understand it.
+
+Maintaining <a href="insert.txt.html#a" class="d">a</a> uniform style and following conventions means that we can more
+easily use "pattern-matching" to infer what <a href="various.txt.html#various" class="d">various</a> symbols are and what
+invariants are true about them. Creating common, required idioms and patterns
+makes code much easier to understand.
+
+In some cases there might be good arguments <a href="luaref.txt.html#for" class="d">for</a> <a href="change.txt.html#changing" class="d">changing</a> certain style rules,
+but we nonetheless keep things <a href="motion.txt.html#as" class="d">as</a> they are in order to preserve consistency.
+
+
+<span class="h">==============================================================================</span>
+Header Files                                            <span id="dev-style-header" class="t">dev-style-header</span>
+
+
+<span class="h">Header guard </span>
+
+All header files should start with `#pragma once` to prevent multiple inclusion.
+
+    In foo/bar.h:
+&gt;c
+        #pragma once
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+<span class="h">Headers system </span>
+
+Nvim uses two types of headers. There are "normal" headers and "defs" headers.
+Typically, each normal header will have <a href="insert.txt.html#a" class="d">a</a> corresponding defs header, e.g.
+<span class="e">fileio.h</span> and <span class="e">fileio_defs.h</span>. This distinction <a href="motion.txt.html#is" class="d">is</a> done to minimize
+recompilation on change. The reason <a href="luaref.txt.html#for" class="d">for</a> this <a href="motion.txt.html#is" class="d">is</a> because adding <a href="insert.txt.html#a" class="d">a</a> function or
+modifying <a href="insert.txt.html#a" class="d">a</a> function's signature happens more frequently than <a href="change.txt.html#changing" class="d">changing</a> <a href="insert.txt.html#a" class="d">a</a> type
+The goal <a href="motion.txt.html#is" class="d">is</a> to achieve the following:
+
+<a href="motion.txt.html#-" class="d">-</a> All headers (defs and normal) must include only defs headers, system
+  headers, and generated declarations. In other words, headers must not
+  include normal headers.
+
+<a href="motion.txt.html#-" class="d">-</a> Source (.c) files may include all headers, but should only include normal
+  headers if they need symbols and not types.
+
+Use the following guideline to determine what to <a href="change.txt.html#put" class="d">put</a> where:
+
+Symbols:
+  <a href="motion.txt.html#-" class="d">-</a> regular function declarations
+  <a href="motion.txt.html#-" class="d">-</a> <span class="e">extern</span> <a href="vimeval.txt.html#variables" class="d">variables</a> (including the <span class="e">EXTERN</span> macro)
+
+Non-symbols:
+  <a href="motion.txt.html#-" class="d">-</a> macros, i.e. <span class="e">#define</span>
+  <a href="motion.txt.html#-" class="d">-</a> static inline <a href="vimeval.txt.html#functions" class="d">functions</a> with the <span class="e">FUNC_ATTR_ALWAYS_INLINE</span> attribute
+  <a href="motion.txt.html#-" class="d">-</a> typedefs
+  <a href="motion.txt.html#-" class="d">-</a> structs
+  <a href="motion.txt.html#-" class="d">-</a> enums
+
+<a href="motion.txt.html#-" class="d">-</a> All symbols must be moved to normal headers.
+
+<a href="motion.txt.html#-" class="d">-</a> Non-symbols used by multiple headers should be moved to defs headers. This
+  <a href="motion.txt.html#is" class="d">is</a> to ensure headers only include defs headers. Conversely, non-symbols used
+  by only <a href="insert.txt.html#a" class="d">a</a> single header should be moved to that header.
+
+<a href="motion.txt.html#-" class="d">-</a> EXCEPTION: if the <a href="repeat.txt.html#macro" class="d">macro</a> calls <a href="insert.txt.html#a" class="d">a</a> function, then <a href="motion.txt.html#it" class="d">it</a> must be moved to <a href="insert.txt.html#a" class="d">a</a> normal
+  header.
+
+<span class="h">==============================================================================</span>
+Scoping                                                 <span id="dev-style-scope" class="t">dev-style-scope</span>
+
+<span class="h">Local Variables </span>
+
+Place <a href="insert.txt.html#a" class="d">a</a> function's <a href="vimeval.txt.html#variables" class="d">variables</a> in the narrowest scope possible, and initialize
+<a href="vimeval.txt.html#variables" class="d">variables</a> in the declaration.
+
+C99 allows you to declare <a href="vimeval.txt.html#variables" class="d">variables</a> anywhere in <a href="insert.txt.html#a" class="d">a</a> function. Declare them in <a href="motion.txt.html#as" class="d">as</a>
+local <a href="insert.txt.html#a" class="d">a</a> scope <a href="motion.txt.html#as" class="d">as</a> possible, and <a href="motion.txt.html#as" class="d">as</a> close to the first use <a href="motion.txt.html#as" class="d">as</a> possible. This
+makes <a href="motion.txt.html#it" class="d">it</a> easier <a href="luaref.txt.html#for" class="d">for</a> the reader to find the declaration and see what type the
+variable <a href="motion.txt.html#is" class="d">is</a> and what <a href="motion.txt.html#it" class="d">it</a> was initialized to. In particular, <a href="starting.txt.html#initialization" class="d">initialization</a>
+should be used instead of declaration and assignment, e.g. &gt;c
+
+    int i;
+    <a href="insert.txt.html#i" class="d">i</a> <a href="change.txt.html#%3D" class="d">=</a> f();      // ❌<a href="cmdline.txt.html#%3A" class="d">:</a> <a href="starting.txt.html#initialization" class="d">initialization</a> separate from declaration.
+
+    int <a href="motion.txt.html#j" class="d">j</a> <a href="change.txt.html#%3D" class="d">=</a> g();  // ✅<a href="cmdline.txt.html#%3A" class="d">:</a> declaration has initialization.
+
+
+<span class="h">Initialization </span>
+
+Multiple declarations can be defined in one line if they aren't initialized,
+but each <a href="starting.txt.html#initialization" class="d">initialization</a> should be done on <a href="insert.txt.html#a" class="d">a</a> separate line.
+
+&gt;c
+    int i;
+    int j;              // ✅
+    int i, j;           // ✅<a href="cmdline.txt.html#%3A" class="d">:</a> multiple declarations, no initialization.
+    int <a href="insert.txt.html#i" class="d">i</a> <a href="change.txt.html#%3D" class="d">=</a> 0;
+    int <a href="motion.txt.html#j" class="d">j</a> <a href="change.txt.html#%3D" class="d">=</a> 0;          // ✅<a href="cmdline.txt.html#%3A" class="d">:</a> one <a href="starting.txt.html#initialization" class="d">initialization</a> per line.
+
+    int <a href="insert.txt.html#i" class="d">i</a> <a href="change.txt.html#%3D" class="d">=</a> 0, j;       // ❌<a href="cmdline.txt.html#%3A" class="d">:</a> multiple declarations with initialization.
+    int <a href="insert.txt.html#i" class="d">i</a> <a href="change.txt.html#%3D" class="d">=</a> 0, <a href="motion.txt.html#j" class="d">j</a> <a href="change.txt.html#%3D" class="d">=</a> 0;   // ❌<a href="cmdline.txt.html#%3A" class="d">:</a> multiple declarations with initialization.
+
+<span class="h">==============================================================================</span>
+<span id="_nvimspecific-magic">Nvim-Specific Magic</span>
+
+<span class="h">clint </span>
+
+Use <span class="e">clint.py</span> to detect style errors.
+
+<span class="e">src/clint.py</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="if_pyth.txt.html#Python" class="d">Python</a> <a href="usr_41.txt.html#script" class="d">script</a> that reads <a href="insert.txt.html#a" class="d">a</a> source file and identifies
+style errors. It <a href="motion.txt.html#is" class="d">is</a> not perfect, and has both false positives and false
+negatives, but <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> still <a href="insert.txt.html#a" class="d">a</a> valuable tool. False positives can be ignored by
+putting `// NOLINT` <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> of the line.
+
+<span class="h">uncrustify </span>
+
+src/uncrustify.cfg <a href="motion.txt.html#is" class="d">is</a> the authority <a href="luaref.txt.html#for" class="d">for</a> expected code formatting, <a href="luaref.txt.html#for" class="d">for</a> cases
+not covered by clint.py.  We remove checks in clint.py if they are covered by
+uncrustify rules.
+
+<span class="h">==============================================================================</span>
+Other <a href="change.txt.html#C" class="d">C</a> Features                                        <span id="dev-style-features" class="t">dev-style-features</span>
+
+
+<span class="h">Variable-Length Arrays and alloca() </span>
+
+We <a href="diff.txt.html#do" class="d">do</a> not allow variable-length arrays or <span class="e">alloca()</span>.
+
+Variable-length arrays can cause hard to detect stack overflows.
+
+
+<span class="h">Postincrement and Postdecrement </span>
+
+Use postfix form (`i++`) in statements. &gt;c
+
+    <a href="luaref.txt.html#for" class="d">for</a> (int <a href="insert.txt.html#i" class="d">i</a> <a href="change.txt.html#%3D" class="d">=</a> 0; <a href="insert.txt.html#i" class="d">i</a> <a href="change.txt.html#%3C" class="d">&lt;</a> 3; i++) <span class="s">{ }</span>
+    int <a href="motion.txt.html#j" class="d">j</a> <a href="change.txt.html#%3D" class="d">=</a> ++i;  // ✅<a href="cmdline.txt.html#%3A" class="d">:</a> ++i <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> an expression.
+
+    <a href="luaref.txt.html#for" class="d">for</a> (int <a href="insert.txt.html#i" class="d">i</a> <a href="change.txt.html#%3D" class="d">=</a> 0; <a href="insert.txt.html#i" class="d">i</a> <a href="change.txt.html#%3C" class="d">&lt;</a> 3; ++i) <span class="s">{ }</span>
+    ++i;  // ❌<a href="cmdline.txt.html#%3A" class="d">:</a> ++i <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> statement.
+
+
+<span class="h">Use of const </span>
+
+Use <span class="e">const</span> pointers whenever possible. Avoid <span class="e">const</span> on non-pointer parameter definitions.
+
+<span class="h">    Where to put the const </span>
+
+    Some people favor the form `int const *foo` to `const int *foo` <a href="repeat.txt.html#." class="d">.</a> They
+    argue that this <a href="motion.txt.html#is" class="d">is</a> more readable because it's more consistent: <a href="motion.txt.html#it" class="d">it</a> keeps
+    the rule that <span class="e">const</span> always follows the object it's describing. However,
+    this consistency argument doesn't apply in codebases with few
+    deeply-nested pointer expressions since most <span class="e">const</span> expressions have only
+    one <span class="e">const</span>, and <a href="motion.txt.html#it" class="d">it</a> applies to the underlying value. In such cases, there's
+    no consistency to maintain. Putting the <span class="e">const</span> first <a href="motion.txt.html#is" class="d">is</a> arguably more
+    readable, since <a href="motion.txt.html#it" class="d">it</a> follows English in putting the "adjective" (`const`)
+    before the "noun" (`int`).
+
+    That said, while we encourage putting <span class="e">const</span> first, we <a href="diff.txt.html#do" class="d">do</a> not require it.
+    But be consistent with the code around you! &gt;c
+
+    void foo(const char *p, int i);
+    <a href="motion.txt.html#%7D" class="d">}</a>
+
+    int foo(const int a, const bool b) <a href="motion.txt.html#%7B" class="d">{</a>
+    <a href="motion.txt.html#%7D" class="d">}</a>
+
+    int foo(int *const p) <a href="motion.txt.html#%7B" class="d">{</a>
+    <a href="motion.txt.html#%7D" class="d">}</a>
+
+
+<span class="h">Integer Types </span>
+
+Of the built-in integer types only use <span class="e">char</span>, <span class="e">int</span>, <span class="e">uint8_t</span>, <span class="e">int8_t</span>,
+<span class="e">uint16_t</span>, <span class="e">int16_t</span>, <span class="e">uint32_t</span>, <span class="e">int32_t</span>, <span class="e">uint64_t</span>, <span class="e">int64_t</span>,
+<span class="e">uintmax_t</span>, <span class="e">intmax_t</span>, <span class="e">size_t</span>, <span class="e">ssize_t</span>, <span class="e">uintptr_t</span>, <span class="e">intptr_t</span>, and
+<span class="e">ptrdiff_t</span>.
+
+Use <span class="e">int</span> <a href="luaref.txt.html#for" class="d">for</a> error codes and local, trivial <a href="vimeval.txt.html#variables" class="d">variables</a> only.
+
+Use care when converting integer types. <a href="vimeval.txt.html#Integer" class="d">Integer</a> conversions and promotions can
+cause non-intuitive behavior. <span class="n">Note</span> that the signedness of <span class="e">char</span> <a href="motion.txt.html#is" class="d">is</a>
+implementation defined.
+
+Public facing types must have fixed width (`uint8_t`, etc.)
+
+There are no convenient <span class="e">printf</span> format placeholders <a href="luaref.txt.html#for" class="d">for</a> fixed width types.
+Cast to <span class="e">uintmax_t</span> or <span class="e">intmax_t</span> if you have to format fixed width integers.
+
+Type		unsigned    signed
+<span class="e">char</span>  		<span class="e">%hhu</span>  	    <span class="e">%hhd</span>
+<span class="e">int</span>  		n/a	    <span class="e">%d</span>
+<span class="e">(u)intmax_t</span>  	<span class="e">%ju</span>  	    <span class="e">%jd</span>
+<span class="e">(s)size_t</span>  	<span class="e">%zu</span>  	    <span class="e">%zd</span>
+<span class="e">ptrdiff_t</span>  	<span class="e">%tu</span>  	    <span class="e">%td</span>
+
+
+<span class="h">Booleans </span>
+
+Use <span class="e">bool</span> to represent <a href="options.txt.html#boolean" class="d">boolean</a> values. &gt;c
+
+    int loaded <a href="change.txt.html#%3D" class="d">=</a> 1;  // ❌<a href="cmdline.txt.html#%3A" class="d">:</a> loaded should have type bool.
+
+
+<span class="h">Conditions </span>
+
+Don't use "yoda-conditions"<a href="repeat.txt.html#." class="d">.</a> Use <a href="motion.txt.html#at" class="d">at</a> most one assignment per condition. &gt;c
+
+    if (1 <a href="change.txt.html#%3D%3D" class="d">==</a> x) <a href="motion.txt.html#%7B" class="d">{</a>
+
+    if (x <a href="change.txt.html#%3D%3D" class="d">==</a> 1) <a href="motion.txt.html#%7B" class="d">{</a>  //use this order
+
+    if ((x <a href="change.txt.html#%3D" class="d">=</a> f()) &amp;&amp; (y <a href="change.txt.html#%3D" class="d">=</a> g())) <a href="motion.txt.html#%7B" class="d">{</a>
+
+
+<span class="h">Function declarations </span>
+
+Every function must not have <a href="insert.txt.html#a" class="d">a</a> separate declaration.
+
+Function declarations are created by the gen_declarations.lua script. &gt;c
+
+    static void f(void);
+
+    static void f(void)
+    <a href="motion.txt.html#%7B" class="d">{</a>
+      <a href="userfunc.txt.html#..." class="d">...</a>
+    <a href="motion.txt.html#%7D" class="d">}</a>
+
+
+<span class="h">General translation unit layout </span>
+
+The <a href="intro.txt.html#definitions" class="d">definitions</a> of public <a href="vimeval.txt.html#functions" class="d">functions</a> precede the <a href="intro.txt.html#definitions" class="d">definitions</a> of static
+functions. &gt;c
+
+    <span class="s">&lt;HEADER&gt;</span>
+
+    &lt;PUBLIC FUNCTION DEFINITIONS&gt;
+
+    &lt;STATIC FUNCTION DEFINITIONS&gt;
+
+
+<span class="h">Integration with declarations generator </span>
+
+Every <a href="change.txt.html#C" class="d">C</a> file must contain #include of the generated header file, guarded by
+#ifdef INCLUDE_GENERATED_DECLARATIONS.
+
+Include must <a href="motion.txt.html#go" class="d">go</a> after other #includes and typedefs in .c files and after
+everything else in header files. It <a href="motion.txt.html#is" class="d">is</a> allowed to omit #include in <a href="insert.txt.html#a" class="d">a</a> .c file
+if .c file does not contain any static functions.
+
+Included file name consists of the .c file name without extension, preceded by
+the directory name relative to src/nvim. Name of the file containing static
+<a href="vimeval.txt.html#functions" class="d">functions</a> declarations ends with <span class="e">.c.generated.h</span>, <span class="e">*.h.generated.h</span> files
+contain only non-static function declarations. &gt;c
+
+    // src/nvim/foo.c file
+    #include &lt;stddef.h&gt;
+
+    typedef int FooType;
+
+    #ifdef INCLUDE_GENERATED_DECLARATIONS
+    <a href="pattern.txt.html#%23" class="d">#</a> include "foo.c.generated.h"
+    #endif
+
+    …
+
+
+    // src/nvim/foo.h file
+    #pragma once
+
+    …
+
+    #ifdef INCLUDE_GENERATED_DECLARATIONS
+    <a href="pattern.txt.html#%23" class="d">#</a> include "foo.h.generated.h"
+    #endif
+
+
+<span class="h">64-bit Portability </span>
+
+Code should be 64-bit and 32-bit friendly. Bear in mind problems of printing,
+comparisons, and structure alignment.
+
+<a href="motion.txt.html#-" class="d">-</a> Remember that `sizeof(void *)` != <span class="e">sizeof(int)</span>. Use <span class="e">intptr_t</span> if you want
+  <a href="insert.txt.html#a" class="d">a</a> pointer-sized integer.
+
+<a href="motion.txt.html#-" class="d">-</a> You may need to be careful with structure alignments, particularly <a href="luaref.txt.html#for" class="d">for</a>
+  structures being stored on disk. Any class/structure with <a href="insert.txt.html#a" class="d">a</a>
+  <span class="e">int64_t</span>/<span class="e">uint64_t</span> member will by default <a href="intro.txt.html#end" class="d">end</a> up being 8-byte aligned on <a href="insert.txt.html#a" class="d">a</a>
+  64-bit system. If you have such structures being shared on disk between
+  32-bit and 64-bit code, you will need to ensure that they are packed the
+  same on both architectures. Most compilers offer <a href="insert.txt.html#a" class="d">a</a> way to alter structure
+  alignment. For gcc, you can use <span class="e">__attribute__((packed))</span>. MSVC offers
+  `#pragma pack()` and <span class="e">__declspec(align())</span>.
+
+<a href="motion.txt.html#-" class="d">-</a> Use the <span class="e">LL</span> or <span class="e">ULL</span> <a href="cmdline.txt.html#suffixes" class="d">suffixes</a> <a href="motion.txt.html#as" class="d">as</a> needed to create 64-bit constants. For
+  example: &gt;c
+
+    int64_t my_value <a href="change.txt.html#%3D" class="d">=</a> 0x123456789LL;
+    uint64_t my_mask <a href="change.txt.html#%3D" class="d">=</a> 3ULL <a href="change.txt.html#%3C%3C" class="d">&lt;&lt;</a> 48;
+
+
+<span class="h">sizeof </span>
+
+Prefer <span class="e">sizeof(varname)</span> to <span class="e">sizeof(type)</span>.
+
+Use <span class="e">sizeof(varname)</span> when you take the size of <a href="insert.txt.html#a" class="d">a</a> particular variable.
+<span class="e">sizeof(varname)</span> will update appropriately if someone changes the variable
+type either now or later. You may use <span class="e">sizeof(type)</span> <a href="luaref.txt.html#for" class="d">for</a> code unrelated to any
+particular variable, such <a href="motion.txt.html#as" class="d">as</a> code that manages an external or internal data
+format where <a href="insert.txt.html#a" class="d">a</a> variable of an appropriate <a href="change.txt.html#C" class="d">C</a> type <a href="motion.txt.html#is" class="d">is</a> not convenient. &gt;c
+
+    Struct data;
+    memset(&amp;data, 0, sizeof(data));
+
+    memset(&amp;data, 0, sizeof(Struct));
+
+    if (raw_size <a href="change.txt.html#%3C" class="d">&lt;</a> sizeof(int)) <a href="motion.txt.html#%7B" class="d">{</a>
+      fprintf(stderr, "compressed record not big enough <a href="luaref.txt.html#for" class="d">for</a> count: %ju"<a href="motion.txt.html#%2C" class="d">,</a> raw_size);
+      return false;
+    <a href="motion.txt.html#%7D" class="d">}</a>
+
+
+<span class="h">==============================================================================</span>
+Naming                                                  <span id="dev-style-naming" class="t">dev-style-naming</span>
+
+The most important consistency rules are those that govern naming. The style
+of <a href="insert.txt.html#a" class="d">a</a> name immediately informs us what sort of thing the named entity is: <a href="insert.txt.html#a" class="d">a</a>
+type, <a href="insert.txt.html#a" class="d">a</a> variable, <a href="insert.txt.html#a" class="d">a</a> function, <a href="insert.txt.html#a" class="d">a</a> constant, <a href="insert.txt.html#a" class="d">a</a> macro, etc., without requiring us
+to search <a href="luaref.txt.html#for" class="d">for</a> the declaration of that entity. The pattern-matching engine in
+our brains relies <a href="insert.txt.html#a" class="d">a</a> great deal on these naming rules.
+
+Naming rules are pretty arbitrary, but we feel that consistency <a href="motion.txt.html#is" class="d">is</a> more
+important than individual preferences in this area, so regardless of whether
+you find them sensible or not, the rules are the rules.
+
+
+<span class="h">General Naming Rules </span>
+
+Function names, variable names, and filenames should be descriptive; eschew
+abbreviation.
+
+Give <a href="motion.txt.html#as" class="d">as</a> descriptive <a href="insert.txt.html#a" class="d">a</a> name <a href="motion.txt.html#as" class="d">as</a> possible, within reason. Do not worry about
+saving horizontal <a href="intro.txt.html#space" class="d">space</a> <a href="motion.txt.html#as" class="d">as</a> <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> far more important to make your code
+immediately understandable by <a href="insert.txt.html#a" class="d">a</a> new reader. Do not use <a href="map.txt.html#abbreviations" class="d">abbreviations</a> that are
+ambiguous or unfamiliar to readers outside your project, and <a href="diff.txt.html#do" class="d">do</a> not abbreviate
+by <a href="change.txt.html#deleting" class="d">deleting</a> letters within <a href="insert.txt.html#a" class="d">a</a> word. &gt;c
+
+    int price_count_reader;    // No abbreviation.
+    int num_errors;            // "num" <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> widespread convention.
+    int num_dns_connections;   // Most people know what "DNS" stands for.
+
+    int n;                     // Meaningless.
+    int nerr;                  // Ambiguous abbreviation.
+    int n_comp_conns;          // Ambiguous abbreviation.
+    int wgc_connections;       // Only your group knows what this stands for.
+    int pc_reader;             // Lots of things can be abbreviated "pc"<a href="repeat.txt.html#." class="d">.</a>
+    int cstmr_id;              // Deletes internal letters.
+
+
+<span class="h">File Names </span>
+
+Filenames should be all <a href="change.txt.html#lowercase" class="d">lowercase</a> and can include underscores (`_`).
+
+Use underscores to separate words. Examples of acceptable file names: 
+<span class="e"></span>
+<span class="e">    my_useful_file.c</span>
+<span class="e">    getline_fix.c  // ✅: getline refers to the glibc function.</span>
+<span class="e"></span>
+<a href="change.txt.html#C" class="d">C</a> files should <a href="intro.txt.html#end" class="d">end</a> in <span class="e">.c</span> and header files should <a href="intro.txt.html#end" class="d">end</a> in <span class="e">.h</span>.
+
+Do not use filenames that already exist in <span class="e">/usr/include</span>, such <a href="motion.txt.html#as" class="d">as</a> <span class="e">db.h</span>.
+
+In general, make your filenames very specific. For example, use
+<span class="e">http_server_logs.h</span> rather than <span class="e">logs.h</span>.
+
+
+<span class="h">Type Names </span>
+
+Typedef-ed structs and enums start with <a href="insert.txt.html#a" class="d">a</a> capital letter and have <a href="insert.txt.html#a" class="d">a</a> capital
+letter <a href="luaref.txt.html#for" class="d">for</a> each new word, with no underscores: <span class="e">MyExcitingStruct</span>.
+
+Non-Typedef-ed structs and enums are all <a href="change.txt.html#lowercase" class="d">lowercase</a> with underscores between
+words: `struct my_exciting_struct` <a href="repeat.txt.html#." class="d">.</a> &gt;c
+
+    struct my_struct <a href="motion.txt.html#%7B" class="d">{</a>
+      <a href="userfunc.txt.html#..." class="d">...</a>
+    };
+    typedef struct my_struct MyAwesomeStruct;
+
+
+<span class="h">Variable Names </span>
+
+Variable names are all lowercase, with underscores between words. For
+instance: <span class="e">my_exciting_local_variable</span>.
+
+<span class="h">    Common Variable names </span>
+
+    For example: &gt;c
+
+        <a href="vimeval.txt.html#string" class="d">string</a> table_name;  // ✅<a href="cmdline.txt.html#%3A" class="d">:</a> uses underscore.
+        <a href="vimeval.txt.html#string" class="d">string</a> tablename;   // ✅<a href="cmdline.txt.html#%3A" class="d">:</a> all lowercase.
+
+        <a href="vimeval.txt.html#string" class="d">string</a> tableName;   // ❌<a href="cmdline.txt.html#%3A" class="d">:</a> mixed case.
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+<span class="h">    Struct Variables </span>
+
+    Data members in structs should be named like regular variables. &gt;c
+
+        struct url_table_properties <a href="motion.txt.html#%7B" class="d">{</a>
+          <a href="vimeval.txt.html#string" class="d">string</a> name;
+          int num_entries;
+        <a href="motion.txt.html#%7D" class="d">}</a>
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+<span class="h">    Global Variables </span>
+
+    Don't use global <a href="vimeval.txt.html#variables" class="d">variables</a> unless absolutely necessary. Prefix global
+    <a href="vimeval.txt.html#variables" class="d">variables</a> with <span class="e">g_</span>.
+
+
+<span class="h">Constant Names </span>
+
+Use <a href="insert.txt.html#a" class="d">a</a> <span class="e">k</span> followed by mixed case: <span class="e">kDaysInAWeek</span>.
+
+All compile-time constants, whether they are declared locally or globally,
+follow <a href="insert.txt.html#a" class="d">a</a> slightly different naming convention from other variables. Use <a href="insert.txt.html#a" class="d">a</a> <span class="e">k</span>
+followed by words with <a href="change.txt.html#uppercase" class="d">uppercase</a> first letters: &gt;c
+
+    const int kDaysInAWeek <a href="change.txt.html#%3D" class="d">=</a> 7;
+
+<span class="h">Function Names </span>
+
+Function names are all lowercase, with underscores between words. For
+instance: <span class="e">my_exceptional_function()</span>. All <a href="vimeval.txt.html#functions" class="d">functions</a> in the same header file
+should have <a href="insert.txt.html#a" class="d">a</a> common prefix.
+
+In <span class="e">os_unix.h</span>: &gt;c
+
+    void unix_open(const char *path);
+    void unix_user_id(void);
+
+If your function crashes upon an error, you should append <span class="e">or_die</span> to the
+function name. This only applies to <a href="vimeval.txt.html#functions" class="d">functions</a> which could be used by
+production code and to <a href="message.txt.html#errors" class="d">errors</a> that are reasonably likely to occur during
+normal operation.
+
+
+<span class="h">Enumerator Names </span>
+
+Enumerators should be named like constants: <span class="e">kEnumName</span>. &gt;c
+
+    enum url_table_errors <a href="motion.txt.html#%7B" class="d">{</a>
+      kOK <a href="change.txt.html#%3D" class="d">=</a> 0,
+      kErrorOutOfMemory,
+      kErrorMalformedInput,
+    };
+
+
+<span class="h">Macro Names </span>
+
+They're like this: <span class="e">MY_MACRO_THAT_SCARES_CPP_DEVELOPERS</span>. &gt;c
+
+    #define ROUND(x) <a href="userfunc.txt.html#..." class="d">...</a>
+    #define PI_ROUNDED 5.0
+
+
+<span class="h">==============================================================================</span>
+Comments                                                <span id="dev-style-comments" class="t">dev-style-comments</span>
+
+Comments are vital to keeping our code readable. The following rules describe
+what you should comment and where. But remember: while comments are very
+important, the best code <a href="motion.txt.html#is" class="d">is</a> self-documenting.
+
+When <a href="editing.txt.html#writing" class="d">writing</a> your comments, write <a href="luaref.txt.html#for" class="d">for</a> your audience: the next contributor who
+will need to understand your code. Be generous — the next one may be you!
+
+Nvim uses Doxygen comments.
+
+
+<span class="h">Comment Style </span>
+
+Use the <span class="e">//</span>-style <a href="syntax.txt.html#syntax" class="d">syntax</a> only. &gt;c
+
+    // This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> comment spanning
+    // multiple lines
+    f();
+
+
+<span class="h">File Comments </span>
+
+Start each file with <a href="insert.txt.html#a" class="d">a</a> description of its contents.
+
+<span class="h">    Legal Notice </span>
+
+    We have no such thing. These things are in LICENSE and only there.
+
+<span class="h">    File Contents </span>
+
+    Every file should have <a href="insert.txt.html#a" class="d">a</a> comment <a href="motion.txt.html#at" class="d">at</a> the top describing its contents.
+
+    Generally <a href="insert.txt.html#a" class="d">a</a> <span class="e">.h</span> file will describe the <a href="vimeval.txt.html#variables" class="d">variables</a> and <a href="vimeval.txt.html#functions" class="d">functions</a> that are
+    declared in the file with an overview of what they are <a href="luaref.txt.html#for" class="d">for</a> and how they
+    are used. <a href="insert.txt.html#A" class="d">A</a> <span class="e">.c</span> file should contain more information about implementation
+    details or discussions of tricky algorithms. If you feel the
+    implementation details or <a href="insert.txt.html#a" class="d">a</a> discussion of the algorithms would be useful
+    <a href="luaref.txt.html#for" class="d">for</a> someone reading the <span class="e">.h</span>, feel free to <a href="change.txt.html#put" class="d">put</a> <a href="motion.txt.html#it" class="d">it</a> there instead, but
+    mention in the <span class="e">.c</span> that the documentation <a href="motion.txt.html#is" class="d">is</a> in the <span class="e">.h</span> file.
+
+    Do not duplicate comments in both the <span class="e">.h</span> and the <span class="e">.c</span>. Duplicated
+    comments diverge. &gt;c
+
+    /// <a href="insert.txt.html#A" class="d">A</a> brief description of this file.
+    ///
+    /// <a href="insert.txt.html#A" class="d">A</a> longer description of this file.
+    /// Be very generous here.
+
+
+<span class="h">Struct Comments </span>
+
+Every struct definition should have accompanying comments that describes what
+<a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> <a href="luaref.txt.html#for" class="d">for</a> and how <a href="motion.txt.html#it" class="d">it</a> should be used. &gt;c
+
+    /// Window info stored with <a href="insert.txt.html#a" class="d">a</a> buffer.
+    ///
+    /// Two types of info are kept <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> buffer which are associated with <a href="insert.txt.html#a" class="d">a</a>
+    /// specific window:
+    /// 1. Each <a href="windows.txt.html#window" class="d">window</a> can have <a href="insert.txt.html#a" class="d">a</a> different line number associated with <a href="insert.txt.html#a" class="d">a</a>
+    /// buffer.
+    /// 2. The window-local <a href="options.txt.html#options" class="d">options</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> buffer work in <a href="insert.txt.html#a" class="d">a</a> similar way.
+    /// The window-info <a href="motion.txt.html#is" class="d">is</a> kept in <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#at" class="d">at</a> g_wininfo.  It <a href="motion.txt.html#is" class="d">is</a> kept in
+    /// most-recently-used order.
+    struct win_info <a href="motion.txt.html#%7B" class="d">{</a>
+      /// Next entry or NULL <a href="luaref.txt.html#for" class="d">for</a> last entry.
+      WinInfo *wi_next;
+      /// Previous entry or NULL <a href="luaref.txt.html#for" class="d">for</a> first entry.
+      WinInfo *wi_prev;
+      /// Pointer to <a href="windows.txt.html#window" class="d">window</a> that did the wi_fpos.
+      Win *wi_win;
+      <a href="userfunc.txt.html#..." class="d">...</a>
+    };
+
+If the field comments are short, you can also <a href="change.txt.html#put" class="d">put</a> them next to the field. But
+be consistent within one struct, and follow the necessary doxygen style. &gt;c
+
+    struct wininfo_S <a href="motion.txt.html#%7B" class="d">{</a>
+      WinInfo *wi_next;  ///&lt; Next entry or NULL <a href="luaref.txt.html#for" class="d">for</a> last entry.
+      WinInfo *wi_prev;  ///&lt; Previous entry or NULL <a href="luaref.txt.html#for" class="d">for</a> first entry.
+      Win *wi_win;       ///&lt; Pointer to <a href="windows.txt.html#window" class="d">window</a> that did the wi_fpos.
+      <a href="userfunc.txt.html#..." class="d">...</a>
+    };
+
+If you have already described <a href="insert.txt.html#a" class="d">a</a> struct in detail in the comments <a href="motion.txt.html#at" class="d">at</a> the top of
+your file feel free to simply state "See comment <a href="motion.txt.html#at" class="d">at</a> top of file <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> complete
+description"<a href="motion.txt.html#%2C" class="d">,</a> but be sure to have some sort of comment.
+
+Document the synchronization assumptions the struct makes, if any. If an
+instance of the struct can be accessed by multiple threads, take extra care to
+document the rules and invariants surrounding multithreaded use.
+
+
+<span class="h">Function Comments </span>
+
+Declaration comments describe use of the function; comments <a href="motion.txt.html#at" class="d">at</a> the definition
+of <a href="insert.txt.html#a" class="d">a</a> function describe operation.
+
+<span class="h">    Function Declarations </span>
+
+    Every function declaration should have comments immediately preceding <a href="motion.txt.html#it" class="d">it</a>
+    that describe what the function does and how to use it. These comments
+    should be descriptive <a href="motion.txt.html#%28" class="d">(</a>"Opens the file"<a href="motion.txt.html#%29" class="d">)</a> rather than imperative <a href="motion.txt.html#%28" class="d">(</a>"Open the
+    file"); the comment describes the function, <a href="motion.txt.html#it" class="d">it</a> does not tell the function
+    what to do. In general, these comments <a href="diff.txt.html#do" class="d">do</a> not describe how the function
+    performs its task. Instead, that should be left to comments in the
+    function definition.
+
+    Types of things to mention in comments <a href="motion.txt.html#at" class="d">at</a> the function declaration:
+
+    <a href="motion.txt.html#-" class="d">-</a> If the function allocates memory that the caller must free.
+    <a href="motion.txt.html#-" class="d">-</a> Whether any of the arguments can be <a href="insert.txt.html#a" class="d">a</a> null pointer.
+    <a href="motion.txt.html#-" class="d">-</a> If there are any performance implications of how <a href="insert.txt.html#a" class="d">a</a> function <a href="motion.txt.html#is" class="d">is</a> used.
+    <a href="motion.txt.html#-" class="d">-</a> If the function <a href="motion.txt.html#is" class="d">is</a> re-entrant. What are its synchronization assumptions? &gt;c
+    /// Brief description of the function.
+    ///
+    /// Detailed description.
+    /// May span multiple paragraphs.
+    ///
+    /// @param arg1 Description of arg1
+    /// @param arg2 Description of arg2. May span
+    ///        multiple lines.
+    ///
+    /// @return Description of the return value.
+    Iterator *get_iterator(void *arg1, void *arg2);
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+<span class="h">    Function Definitions </span>
+
+    If there <a href="motion.txt.html#is" class="d">is</a> anything tricky about how <a href="insert.txt.html#a" class="d">a</a> function does its job, the
+    function definition should have an explanatory comment. For example, in
+    the definition comment you might describe any coding tricks you use, give
+    an overview of the steps you <a href="motion.txt.html#go" class="d">go</a> through, or explain why you chose to
+    implement the function in the way you did rather than using <a href="insert.txt.html#a" class="d">a</a> viable
+    alternative. For instance, you might mention why <a href="motion.txt.html#it" class="d">it</a> must acquire <a href="insert.txt.html#a" class="d">a</a> lock
+    <a href="luaref.txt.html#for" class="d">for</a> the first half of the function but why <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not needed <a href="luaref.txt.html#for" class="d">for</a> the second
+    half.
+
+    <span class="n">Note</span> you should not just repeat the comments given with the function
+    declaration, in the <span class="e">.h</span> file or wherever. It's okay to recapitulate
+    briefly what the function does, but the focus of the comments should be on
+    how <a href="motion.txt.html#it" class="d">it</a> does it. &gt;c
+
+    // <span class="n">Note</span> that we don't use Doxygen comments here.
+    Iterator *get_iterator(void *arg1, void *arg2)
+    <a href="motion.txt.html#%7B" class="d">{</a>
+      <a href="userfunc.txt.html#..." class="d">...</a>
+    <a href="motion.txt.html#%7D" class="d">}</a>
+
+
+<span class="h">Variable Comments </span>
+
+In general the actual name of the variable should be descriptive enough to
+give <a href="insert.txt.html#a" class="d">a</a> good idea of what the variable <a href="motion.txt.html#is" class="d">is</a> used for. In certain cases, more
+comments are required.
+
+<span class="h">    Global Variables </span>
+
+    All global <a href="vimeval.txt.html#variables" class="d">variables</a> should have <a href="insert.txt.html#a" class="d">a</a> comment describing what they are and
+    what they are used for. For example: &gt;c
+
+        /// The total number of tests cases that we run
+        /// through in this regression test.
+        const int kNumTestCases <a href="change.txt.html#%3D" class="d">=</a> 6;
+
+
+<span class="h">Implementation Comments </span>
+
+In your implementation you should have comments in tricky, non-obvious,
+interesting, or important parts of your code.
+
+<span class="h">    Line Comments </span>
+
+    Also, lines that are non-obvious should get <a href="insert.txt.html#a" class="d">a</a> comment <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> of the
+    line. These end-of-line comments should be separated from the code by 2
+    spaces. Example: &gt;c
+
+        // If we have enough memory, mmap the data portion too.
+        mmap_budget <a href="change.txt.html#%3D" class="d">=</a> max&lt;int64&gt;(0, mmap_budget <a href="motion.txt.html#-" class="d">-</a> index_-&gt;length());
+        if (mmap_budget &gt;= data_size_ &amp;&amp; !MmapData(mmap_chunk_bytes, mlock)) <a href="motion.txt.html#%7B" class="d">{</a>
+          return;  // Error already logged.
+        <a href="motion.txt.html#%7D" class="d">}</a>
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+    <span class="n">Note</span> that there are both comments that describe what the code <a href="motion.txt.html#is" class="d">is</a> doing,
+    and comments that mention that an error has already been logged when the
+    function returns.
+
+    If you have several comments on subsequent lines, <a href="motion.txt.html#it" class="d">it</a> can often be more
+    readable to line them up: &gt;c
+
+        do_something();                      // Comment here so the comments line up.
+        do_something_else_that_is_longer();  // Comment here so there are two spaces between
+                                             // the code and the comment.
+        <a href="motion.txt.html#%7B" class="d">{</a> // One <a href="intro.txt.html#space" class="d">space</a> before comment when opening <a href="insert.txt.html#a" class="d">a</a> new scope <a href="motion.txt.html#is" class="d">is</a> allowed,
+          // thus the comment lines up with the following comments and code.
+          do_something_else();  // Two spaces before line comments normally.
+        <a href="motion.txt.html#%7D" class="d">}</a>
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+<span class="h">    NULL, true/false, 1, 2, 3... </span>
+
+    When you pass in <a href="insert.txt.html#a" class="d">a</a> null pointer, boolean, or literal integer values to
+    functions, you should consider adding <a href="insert.txt.html#a" class="d">a</a> comment about what they are, or
+    make your code self-documenting by using constants. For example, compare:
+    &gt;c
+
+        bool success <a href="change.txt.html#%3D" class="d">=</a> calculate_something(interesting_value,
+                                           10,
+                                           false,
+                                           NULL);  // What are these arguments??
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+    versus: &gt;c
+
+        bool success <a href="change.txt.html#%3D" class="d">=</a> calculate_something(interesting_value,
+                                           10,     // Default base value.
+                                           false,  // Not the first time we're calling this.
+                                           NULL);  // No callback.
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+    Or alternatively, constants or self-describing variables: &gt;c
+
+        const int kDefaultBaseValue <a href="change.txt.html#%3D" class="d">=</a> 10;
+        const bool kFirstTimeCalling <a href="change.txt.html#%3D" class="d">=</a> false;
+        Callback *null_callback <a href="change.txt.html#%3D" class="d">=</a> NULL;
+        bool success <a href="change.txt.html#%3D" class="d">=</a> calculate_something(interesting_value,
+                                           kDefaultBaseValue,
+                                           kFirstTimeCalling,
+                                           null_callback);
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+<span class="h">    Don'ts </span>
+
+    <span class="n">Note</span> that you should never describe the code itself. Assume that the
+    person reading the code knows <a href="change.txt.html#C" class="d">C</a> better than you do, even though he or she
+    does not know what you are trying to do: &gt;c
+
+        // Now <a href="motion.txt.html#go" class="d">go</a> through the <a href="motion.txt.html#b" class="d">b</a> array and make sure that if <a href="insert.txt.html#i" class="d">i</a> occurs,
+        // the next element <a href="motion.txt.html#is" class="d">is</a> i+1.
+        <a href="userfunc.txt.html#..." class="d">...</a>        // Geez.  What <a href="insert.txt.html#a" class="d">a</a> useless comment.
+
+
+<span class="h">Punctuation, Spelling and Grammar </span>
+
+Pay attention to punctuation, spelling, and grammar; <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> easier to read
+well-written comments than badly written ones.
+
+Comments should be <a href="motion.txt.html#as" class="d">as</a> readable <a href="motion.txt.html#as" class="d">as</a> narrative text, with proper capitalization
+and punctuation. In many cases, complete sentences are more readable than
+<a href="motion.txt.html#sentence" class="d">sentence</a> fragments. Shorter comments, such <a href="motion.txt.html#as" class="d">as</a> comments <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> of <a href="insert.txt.html#a" class="d">a</a> line of
+code, can sometimes be <a href="various.txt.html#less" class="d">less</a> formal, but you should be consistent with your
+style.
+
+Although <a href="motion.txt.html#it" class="d">it</a> can be frustrating to have <a href="insert.txt.html#a" class="d">a</a> code reviewer point out that you are
+using <a href="insert.txt.html#a" class="d">a</a> comma when you should be using <a href="insert.txt.html#a" class="d">a</a> semicolon, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> very important that
+source code maintain <a href="insert.txt.html#a" class="d">a</a> high level of clarity and readability. Proper
+punctuation, spelling, and grammar <a href="helphelp.txt.html#help" class="d">help</a> with that goal.
+
+
+<span class="h">TODO Comments </span>
+
+Use <span class="e">TODO</span> comments <a href="luaref.txt.html#for" class="d">for</a> code that <a href="motion.txt.html#is" class="d">is</a> temporary, <a href="insert.txt.html#a" class="d">a</a> short-term solution, or
+good-enough but not perfect.
+
+<span class="e">TODO</span>s should include the <a href="vimeval.txt.html#string" class="d">string</a> <span class="e">TODO</span> in all caps, followed by the name,
+email address, or other identifier of the person who can best provide <a href="repeat.txt.html#context" class="d">context</a>
+about the problem referenced by the <span class="e">TODO</span>. The main purpose <a href="motion.txt.html#is" class="d">is</a> to have <a href="insert.txt.html#a" class="d">a</a>
+consistent <span class="e">TODO</span> format that can be searched to find the person who can
+provide more details upon request. <a href="insert.txt.html#A" class="d">A</a> <span class="e">TODO</span> <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> commitment that the
+person referenced will fix the problem. Thus when you create <a href="insert.txt.html#a" class="d">a</a> <span class="e">TODO</span>, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+almost always your name that <a href="motion.txt.html#is" class="d">is</a> given. &gt;c
+
+    // TODO(kl@gmail.com): Use <a href="insert.txt.html#a" class="d">a</a> "*" here <a href="luaref.txt.html#for" class="d">for</a> concatenation operator.
+    // TODO(Zeke): change this to use relations.
+
+If your <span class="e">TODO</span> <a href="motion.txt.html#is" class="d">is</a> of the form "At <a href="insert.txt.html#a" class="d">a</a> future date <a href="diff.txt.html#do" class="d">do</a> something" make sure that
+you either include <a href="insert.txt.html#a" class="d">a</a> very specific date <a href="motion.txt.html#%28" class="d">(</a>"Fix by November 2005"<a href="motion.txt.html#%29" class="d">)</a> or <a href="insert.txt.html#a" class="d">a</a> very
+specific event <a href="motion.txt.html#%28" class="d">(</a>"Remove this code when all clients can handle XML
+responses.").
+
+
+<span class="h">Deprecation Comments </span>
+
+<a href="motion.txt.html#Mark" class="d">Mark</a> <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> interface points with <span class="e">@deprecated</span> docstring token.
+
+You can <a href="motion.txt.html#mark" class="d">mark</a> an interface <a href="motion.txt.html#as" class="d">as</a> <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> by <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> comment containing the
+<a href="motion.txt.html#word" class="d">word</a> <span class="e">@deprecated</span> in all caps. The comment goes either before the declaration
+of the interface or on the same line <a href="motion.txt.html#as" class="d">as</a> the declaration.
+
+After <span class="e">@deprecated</span>, write your name, email, or other identifier in
+parentheses.
+
+<a href="insert.txt.html#A" class="d">A</a> deprecation comment must include simple, clear directions <a href="luaref.txt.html#for" class="d">for</a> people to fix
+their callsites. In C, you can implement <a href="insert.txt.html#a" class="d">a</a> <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> function <a href="motion.txt.html#as" class="d">as</a> an inline
+function that calls the new interface point.
+
+Marking an interface point <span class="e">DEPRECATED</span> will not magically cause any callsites
+to change. If you want people to actually stop using the <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> facility,
+you will have to fix the callsites yourself or recruit <a href="insert.txt.html#a" class="d">a</a> crew to <a href="helphelp.txt.html#help" class="d">help</a> you.
+
+New code should not contain calls to <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> interface points. Use the new
+interface point instead. If you cannot understand the directions, find the
+person who created the deprecation and ask them <a href="luaref.txt.html#for" class="d">for</a> <a href="helphelp.txt.html#help" class="d">help</a> using the new
+interface point.
+
+
+<span class="h">==============================================================================</span>
+Formatting                                              <span id="dev-style-format" class="t">dev-style-format</span>
+
+Coding style and <a href="change.txt.html#formatting" class="d">formatting</a> are pretty arbitrary, but <a href="insert.txt.html#a" class="d">a</a> project <a href="motion.txt.html#is" class="d">is</a> much easier
+to follow if everyone uses the same style. Individuals may not agree with
+every aspect of the <a href="change.txt.html#formatting" class="d">formatting</a> rules, and some of the rules may take some
+getting used to, but <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> important that all project contributors follow the
+style rules so that they can all read and understand everyone's code easily.
+
+
+<span class="h">Non-ASCII Characters </span>
+
+Non-ASCII characters should be rare, and must use <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> formatting.
+
+You shouldn't hard-code user-facing text in source (OR SHOULD YOU?), even
+English, so use of non-ASCII characters should be rare. However, in certain
+cases <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> appropriate to include such words in your code. For example, if
+your code parses data files from foreign sources, <a href="motion.txt.html#it" class="d">it</a> may be appropriate to
+hard-code the non-ASCII string(s) used in those data files <a href="motion.txt.html#as" class="d">as</a> delimiters. More
+commonly, unittest code (which does not need to be localized) might contain
+non-ASCII strings. In such cases, you should use UTF-8, since that <a href="motion.txt.html#is" class="d">is</a> an
+encoding understood by most tools able to handle more than just ASCII.
+
+Hex encoding <a href="motion.txt.html#is" class="d">is</a> also OK, and encouraged where <a href="motion.txt.html#it" class="d">it</a> enhances readability — <a href="luaref.txt.html#for" class="d">for</a>
+example, <span class="e">"\uFEFF"</span>, <a href="motion.txt.html#is" class="d">is</a> the <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> zero-width no-break <a href="intro.txt.html#space" class="d">space</a> character, which
+would be invisible if included in the source <a href="motion.txt.html#as" class="d">as</a> straight UTF-8.
+
+
+<span class="h">Braced Initializer Lists </span>
+
+Format <a href="insert.txt.html#a" class="d">a</a> braced <a href="vimeval.txt.html#list" class="d">list</a> exactly like you would format <a href="insert.txt.html#a" class="d">a</a> function call in its
+place but with one <a href="intro.txt.html#space" class="d">space</a> after the <span class="e">{</span> and one <a href="intro.txt.html#space" class="d">space</a> before the <span class="e">}</span>
+
+If the braced <a href="vimeval.txt.html#list" class="d">list</a> follows <a href="insert.txt.html#a" class="d">a</a> name (e.g. <a href="insert.txt.html#a" class="d">a</a> type or variable name), format <a href="motion.txt.html#as" class="d">as</a> if
+the <span class="e">{}</span> were the parentheses of <a href="insert.txt.html#a" class="d">a</a> function call with that name. If there <a href="motion.txt.html#is" class="d">is</a>
+no name, assume <a href="insert.txt.html#a" class="d">a</a> zero-length name. &gt;c
+
+    struct my_struct <a href="motion.txt.html#m" class="d">m</a> <a href="change.txt.html#%3D" class="d">=</a> <a href="motion.txt.html#%7B" class="d">{</a>  // Here, you could also break before {.
+        superlongvariablename1,
+        superlongvariablename2,
+        <span class="s">{ short, interior, list }</span>,
+        <a href="motion.txt.html#%7B" class="d">{</a> interiorwrappinglist,
+          interiorwrappinglist2 <a href="motion.txt.html#%7D" class="d">}</a> };
+
+
+<span class="h">Loops and Switch Statements </span>
+
+Annotate non-trivial fall-through between cases.
+
+If not conditional on an enumerated value, switch statements should always
+have <a href="insert.txt.html#a" class="d">a</a> <span class="e">default</span> <a href="change.txt.html#case" class="d">case</a> (in the <a href="change.txt.html#case" class="d">case</a> of an enumerated value, the compiler will
+warn you if any values are not handled). If the default <a href="change.txt.html#case" class="d">case</a> should never
+execute, simply use <span class="e">abort()</span>: &gt;c
+
+    switch (var) <a href="motion.txt.html#%7B" class="d">{</a>
+      <a href="change.txt.html#case" class="d">case</a> 0:
+        <a href="userfunc.txt.html#..." class="d">...</a>
+        break;
+      <a href="change.txt.html#case" class="d">case</a> 1:
+        <a href="userfunc.txt.html#..." class="d">...</a>
+        break;
+      default:
+        abort();
+    <a href="motion.txt.html#%7D" class="d">}</a>
+
+Switch statements that are conditional on an enumerated value should not have
+<a href="insert.txt.html#a" class="d">a</a> <span class="e">default</span> <a href="change.txt.html#case" class="d">case</a> if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> exhaustive. Explicit <a href="change.txt.html#case" class="d">case</a> labels are preferred over
+<span class="e">default</span>, even if <a href="motion.txt.html#it" class="d">it</a> leads to multiple <a href="change.txt.html#case" class="d">case</a> labels <a href="luaref.txt.html#for" class="d">for</a> the same code. For
+example, instead of: &gt;c
+
+    <a href="change.txt.html#case" class="d">case</a> A:
+      <a href="userfunc.txt.html#..." class="d">...</a>
+    <a href="change.txt.html#case" class="d">case</a> B:
+      <a href="userfunc.txt.html#..." class="d">...</a>
+    <a href="change.txt.html#case" class="d">case</a> C:
+      <a href="userfunc.txt.html#..." class="d">...</a>
+    default:
+      <a href="userfunc.txt.html#..." class="d">...</a>
+
+You should use: &gt;c
+
+    <a href="change.txt.html#case" class="d">case</a> A:
+      <a href="userfunc.txt.html#..." class="d">...</a>
+    <a href="change.txt.html#case" class="d">case</a> B:
+      <a href="userfunc.txt.html#..." class="d">...</a>
+    <a href="change.txt.html#case" class="d">case</a> C:
+      <a href="userfunc.txt.html#..." class="d">...</a>
+    <a href="change.txt.html#case" class="d">case</a> D:
+    <a href="change.txt.html#case" class="d">case</a> E:
+    <a href="change.txt.html#case" class="d">case</a> F:
+      <a href="userfunc.txt.html#..." class="d">...</a>
+
+Certain compilers <a href="diff.txt.html#do" class="d">do</a> not recognize an exhaustive enum switch statement <a href="motion.txt.html#as" class="d">as</a>
+exhaustive, which causes compiler warnings when there <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> return statement in
+every <a href="change.txt.html#case" class="d">case</a> of <a href="insert.txt.html#a" class="d">a</a> switch statement, but no <a href="vimeval.txt.html#catch-all" class="d">catch-all</a> return statement. To fix
+these spurious errors, you are advised to use <span class="e">UNREACHABLE</span> after the switch
+statement to explicitly tell the compiler that the switch statement always
+returns and any code after <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> unreachable. For example: &gt;c
+
+    enum <span class="s">{ A, B, C }</span> var;
+    <a href="userfunc.txt.html#..." class="d">...</a>
+    switch (var) <a href="motion.txt.html#%7B" class="d">{</a>
+      <a href="change.txt.html#case" class="d">case</a> A:
+        return 1;
+      <a href="change.txt.html#case" class="d">case</a> B:
+        return 2;
+      <a href="change.txt.html#case" class="d">case</a> C:
+        return 3;
+    <a href="motion.txt.html#%7D" class="d">}</a>
+    UNREACHABLE;
+
+<span class="h">Return Values </span>
+
+Do not needlessly surround the <span class="e">return</span> <a href="vimeval.txt.html#expression" class="d">expression</a> with parentheses.
+
+Use parentheses in `return expr`; only where you would use them in `x <a href="change.txt.html#%3D" class="d">=</a>
+expr;`. &gt;c
+
+    return result;
+    return (some_long_condition &amp;&amp; another_condition);
+
+    return (value);  // You wouldn't write var <a href="change.txt.html#%3D" class="d">=</a> (value);
+    return(result);  // return <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> function!
+
+
+<span class="h">Horizontal Whitespace </span>
+
+Use of horizontal <a href="pattern.txt.html#whitespace" class="d">whitespace</a> depends on location.
+
+<span class="h">    Variables </span>
+&gt;c
+        int long_variable <a href="change.txt.html#%3D" class="d">=</a> 0;  // Don't align assignments.
+        int <a href="insert.txt.html#i" class="d">i</a>             <a href="change.txt.html#%3D" class="d">=</a> 1;
+
+        struct my_struct <a href="motion.txt.html#%7B" class="d">{</a>  // Exception: struct arrays.
+          const char *boy;
+          const char *girl;
+          int pos;
+        <a href="motion.txt.html#%7D" class="d">}</a> my_variable[] <a href="change.txt.html#%3D" class="d">=</a> <a href="motion.txt.html#%7B" class="d">{</a>
+          <span class="s">{ "Mia",       "Michael", 8  }</span>,
+          <span class="s">{ "Elizabeth", "Aiden",   10 }</span>,
+          <span class="s">{ "Emma",      "Mason",   2  }</span>,
+        };
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+<span class="h">==============================================================================</span>
+<span id="_parting-words">Parting Words</span>
+
+The style guide <a href="motion.txt.html#is" class="d">is</a> intended to make the code more readable. If you think you
+must violate its rules <a href="luaref.txt.html#for" class="d">for</a> the sake of clarity, <a href="diff.txt.html#do" class="d">do</a> it! But please add <a href="insert.txt.html#a" class="d">a</a> <span class="n">note</span>
+to your pull request explaining your reasoning.
+
+
+ vim:tw=78:ts=8:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

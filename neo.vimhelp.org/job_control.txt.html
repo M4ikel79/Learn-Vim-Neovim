@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: job_control.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="job_control.txt.html#">↑Top↑</a></li>
+<li><a href="job_control.txt.html#_concepts">Concepts</a></li>
+<li><a href="job_control.txt.html#job-control-usage">Usage</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="job_control.txt" class="t">job_control.txt</span>    Nvim
+
+
+		 <span class="i">NVIM REFERENCE MANUAL    by Thiago de Arruda</span>
+
+
+Nvim <a href="job_control.txt.html#job" class="d">job</a> <a href="intro.txt.html#control" class="d">control</a>					<span id="job" class="t">job</span> <span id="job-control" class="t">job-control</span>
+
+Job <a href="intro.txt.html#control" class="d">control</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> way to perform multitasking in Nvim, so scripts can spawn and
+<a href="intro.txt.html#control" class="d">control</a> multiple processes without blocking the current Nvim instance.
+
+				      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+<span id="_concepts">Concepts</span>
+
+Job Id							<span id="job-id" class="t">job-id</span>
+
+Each <a href="job_control.txt.html#job" class="d">job</a> <a href="motion.txt.html#is" class="d">is</a> identified by an integer id, unique <a href="luaref.txt.html#for" class="d">for</a> the life of the current
+Nvim session. Each <a href="job_control.txt.html#job-id" class="d">job-id</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> valid <a href="channel.txt.html#channel-id" class="l">channel-id</a><a href="cmdline.txt.html#%3A" class="d">:</a> they share the same "key
+<a href="intro.txt.html#space" class="d">space</a>"<a href="repeat.txt.html#." class="d">.</a> Functions like <a href="vimfn.txt.html#jobstart%28%29" class="l">jobstart()</a> return <a href="job_control.txt.html#job" class="d">job</a> ids; <a href="vimeval.txt.html#functions" class="d">functions</a> like
+<a href="vimfn.txt.html#jobstop%28%29" class="l">jobstop()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vimfn.txt.html#chansend%28%29" class="l">chansend()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vimfn.txt.html#rpcnotify%28%29" class="l">rpcnotify()</a><a href="motion.txt.html#%2C" class="d">,</a> and <a href="vimfn.txt.html#rpcrequest%28%29" class="l">rpcrequest()</a> take <a href="job_control.txt.html#job" class="d">job</a> ids.
+
+Job stdio streams form <a href="insert.txt.html#a" class="d">a</a> <a href="channel.txt.html#channel" class="l">channel</a> which can send and receive raw bytes or
+<a href="api.txt.html#msgpack-rpc" class="l">msgpack-rpc</a> messages.
+
+<span class="h">==============================================================================</span>
+Usage							<span id="job-control-usage" class="t">job-control-usage</span>
+
+To <a href="intro.txt.html#control" class="d">control</a> jobs, use the "<a href="job_control.txt.html#job" class="d">job</a>…" family of functions: <a href="vimfn.txt.html#jobstart%28%29" class="l">jobstart()</a><a href="motion.txt.html#%2C" class="d">,</a>
+<a href="vimfn.txt.html#jobstop%28%29" class="l">jobstop()</a><a href="motion.txt.html#%2C" class="d">,</a> etc.
+
+Example: 
+<span class="e"></span>
+<span class="e">    function! s:OnEvent(job_id, data, event) dict</span>
+<span class="e">      if a:event == 'stdout'</span>
+<span class="e">        let str = self.shell.' stdout: '.join(a:data)</span>
+<span class="e">      elseif a:event == 'stderr'</span>
+<span class="e">        let str = self.shell.' stderr: '.join(a:data)</span>
+<span class="e">      else</span>
+<span class="e">        let str = self.shell.' exited'</span>
+<span class="e">      endif</span>
+<span class="e"></span>
+<span class="e">      call append(line('$'), str)</span>
+<span class="e">    endfunction</span>
+<span class="e">    let s:callbacks = {</span>
+<span class="e">    \ 'on_stdout': function('s:OnEvent'),</span>
+<span class="e">    \ 'on_stderr': function('s:OnEvent'),</span>
+<span class="e">    \ 'on_exit': function('s:OnEvent')</span>
+<span class="e">    \ }</span>
+<span class="e">    let job1 = jobstart(['bash'], extend({'shell': 'shell 1'}, s:callbacks))</span>
+<span class="e">    let job2 = jobstart(['bash', '-c', 'for i in {1..10}; do echo hello $i!; sleep 1; done'], extend({'shell': 'shell 2'}, s:callbacks))</span>
+<span class="e"></span>
+To test the above script, copy <a href="motion.txt.html#it" class="d">it</a> to <a href="insert.txt.html#a" class="d">a</a> file ~/foo.vim and run it: &gt;bash
+    <a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#-u" class="d">-u</a> ~/foo.vim
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+Description of what happens:
+  <a href="motion.txt.html#-" class="d">-</a> Two bash shells are spawned by <a href="vimfn.txt.html#jobstart%28%29" class="l">jobstart()</a> with their stdin/stdout/stderr
+    streams connected to nvim.
+  <a href="motion.txt.html#-" class="d">-</a> The first shell <a href="motion.txt.html#is" class="d">is</a> idle, waiting to read commands from its stdin.
+  <a href="motion.txt.html#-" class="d">-</a> The second shell <a href="motion.txt.html#is" class="d">is</a> started with <a href="starting.txt.html#-c" class="d">-c</a> which executes the command (a for-loop
+    printing <a href="motion.txt.html#0" class="d">0</a> through 9) and then exits.
+  <a href="motion.txt.html#-" class="d">-</a> <span class="e">OnEvent()</span> callback <a href="motion.txt.html#is" class="d">is</a> passed to <a href="vimfn.txt.html#jobstart%28%29" class="l">jobstart()</a> to handle <a href="various.txt.html#various" class="d">various</a> <a href="job_control.txt.html#job" class="d">job</a>
+    events. It displays stdout/stderr data received from the shells.
+
+For <a href="channel.txt.html#on_stdout" class="l">on_stdout</a> and <a href="channel.txt.html#on_stderr" class="l">on_stderr</a> see <a href="channel.txt.html#channel-callback" class="l">channel-callback</a><a href="repeat.txt.html#." class="d">.</a>
+							<span id="on_exit" class="t">on_exit</span>
+Arguments passed to <a href="job_control.txt.html#on_exit" class="d">on_exit</a> callback:
+  0: <a href="job_control.txt.html#job-id" class="l">job-id</a>
+  1: Exit-code of the process, or 128+SIGNUM if by signal (e.g. 143 on SIGTERM).
+  2: Event type: "exit"
+
+
+  <span class="n">Note:</span> Buffered stdout/stderr data which has not been flushed by the sender
+	will not trigger the on_stdout/on_stderr callback (but if the process
+	ends, the <a href="job_control.txt.html#on_exit" class="d">on_exit</a> callback will be invoked).
+        For example, "<a href="if_ruby.txt.html#ruby" class="d">ruby</a> <a href="starting.txt.html#-e" class="d">-e</a>" <a href="windows.txt.html#buffers" class="d">buffers</a> output, so small strings will be
+        buffered unless "auto-flushing" ($stdout.sync=true) <a href="motion.txt.html#is" class="d">is</a> enabled. 
+<span class="e">          function! Receive(job_id, data, event)</span>
+<span class="e">            echom printf('%s: %s',a:event,string(a:data))</span>
+<span class="e">          endfunction</span>
+<span class="e">          call jobstart(['ruby', '-e',</span>
+<span class="e">            \ '$stdout.sync = true; 5.times do sleep 1 and puts "Hello Ruby!" end'],</span>
+<span class="e">            \ {'on_stdout': 'Receive'})</span>
+       <a class="u" href="https://github.com/neovim/neovim/issues/1592">https://github.com/neovim/neovim/issues/1592</a>
+
+  <span class="n">Note</span> 2:
+	Job event handlers may receive <a href="vimfn.txt.html#partial" class="d">partial</a> (incomplete) lines. For <a href="insert.txt.html#a" class="d">a</a> given
+	invocation of on_stdout/on_stderr, <span class="e">a:data</span> <a href="motion.txt.html#is" class="d">is</a> not guaranteed to <a href="intro.txt.html#end" class="d">end</a>
+	with <a href="insert.txt.html#a" class="d">a</a> newline.
+	  <a href="motion.txt.html#-" class="d">-</a> <span class="e">abcdefg</span> may arrive <a href="motion.txt.html#as" class="d">as</a> <span class="e">['abc']</span>, <span class="e">['defg']</span>.
+	  <a href="motion.txt.html#-" class="d">-</a> <span class="e">abc\nefg</span> may arrive <a href="motion.txt.html#as" class="d">as</a> `['abc', '']`, <span class="e">['efg']</span> or <span class="e">['abc']</span>,
+	    <span class="e">['','efg']</span>, or even <span class="e">['ab']</span>, <span class="e">['c','efg']</span>.
+	Easy way to deal with this: initialize <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#as" class="d">as</a> <span class="e">['']</span>, then append
+	to <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a> follows: 
+<span class="e">	  let s:chunks = ['']</span>
+<span class="e">	  func! s:on_stdout(job_id, data, event) dict</span>
+<span class="e">	    let s:chunks[-1] .= a:data[0]</span>
+<span class="e">	    call extend(s:chunks, a:data[1:])</span>
+<span class="e">	  endf</span>
+
+
+The <a href="vimfn.txt.html#jobstart-options" class="l">jobstart-options</a> dictionary <a href="motion.txt.html#is" class="d">is</a> passed <a href="motion.txt.html#as" class="d">as</a> <a href="vimeval.txt.html#self" class="l">self</a> to the callback.
+The above example could be written in this "object-oriented" style: 
+<span class="e"></span>
+<span class="e">    let Shell = {}</span>
+<span class="e"></span>
+<span class="e">    function Shell.on_stdout(_job_id, data, event)</span>
+<span class="e">      call append(line('$'),</span>
+<span class="e">            \ printf('[%s] %s: %s', a:event, self.name, join(a:data[:-2])))</span>
+<span class="e">    endfunction</span>
+<span class="e"></span>
+<span class="e">    let Shell.on_stderr = function(Shell.on_stdout)</span>
+<span class="e"></span>
+<span class="e">    function Shell.on_exit(job_id, _data, event)</span>
+<span class="e">      let msg = printf('job %d ("%s") finished', a:job_id, self.name)</span>
+<span class="e">      call append(line('$'), printf('[%s] BOOM!', a:event))</span>
+<span class="e">      call append(line('$'), printf('[%s] %s!', a:event, msg))</span>
+<span class="e">    endfunction</span>
+<span class="e"></span>
+<span class="e">    function Shell.new(name, cmd)</span>
+<span class="e">      let object = extend(copy(g:Shell), {'name': a:name})</span>
+<span class="e">      let object.cmd = ['sh', '-c', a:cmd]</span>
+<span class="e">      let object.id = jobstart(object.cmd, object)</span>
+<span class="e">      $</span>
+<span class="e">      return object</span>
+<span class="e">    endfunction</span>
+<span class="e"></span>
+<span class="e">    let instance = Shell.new('bomb',</span>
+<span class="e">          \ 'for i in $(seq 9 -1 1); do echo $i 1&gt;&amp;$((i % 2 + 1)); sleep 1; done')</span>
+
+To send data to the job's stdin, use <a href="vimfn.txt.html#chansend%28%29" class="l">chansend()</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">    :call chansend(job1, "ls\n")</span>
+<span class="e">    :call chansend(job1, "invalid-command\n")</span>
+<span class="e">    :call chansend(job1, "exit\n")</span>
+
+<a href="insert.txt.html#A" class="d">A</a> <a href="job_control.txt.html#job" class="d">job</a> may be killed <a href="motion.txt.html#at" class="d">at</a> any time with the <a href="vimfn.txt.html#jobstop%28%29" class="l">jobstop()</a> function:
+
+<span class="e">    :call jobstop(job1)</span>
+
+Individual streams can be closed without killing the job, see <a href="vimfn.txt.html#chanclose%28%29" class="l">chanclose()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

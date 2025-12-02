@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: lua-bit.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="lua-bit.txt.html#">↑Top↑</a></li>
+<li><a href="lua-bit.txt.html#lua-bit-api">API FUNCTIONS</a></li>
+<li><a href="lua-bit.txt.html#lua-bit-semantics">OPERATIONAL SEMANTICS AND RATIONALE</a></li>
+<li><a href="lua-bit.txt.html#_copyright">COPYRIGHT</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="lua-bit.txt" class="t">lua-bit.txt</span>           Nvim
+                                                                <span id="lua-bit" class="t">lua-bit</span>
+
+			  LUA BITOP REFERENCE MANUAL
+
+
+		   Adapted from &lt;https://bitop.luajit.org&gt;
+
+
+<a href="lua.txt.html#Lua" class="d">Lua</a> BitOp <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="change.txt.html#C" class="d">C</a> extension module <a href="luaref.txt.html#for" class="d">for</a> <a href="lua.txt.html#Lua" class="d">Lua</a> 5.1/5.2 which adds bitwise
+operations on numbers.
+
+                                        Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+<span class="c">API FUNCTIONS</span>                                                    <span id="lua-bit-api" class="t">lua-bit-api</span>
+
+This <a href="vimeval.txt.html#list" class="d">list</a> of <a href="api.txt.html#API" class="d">API</a> <a href="vimeval.txt.html#functions" class="d">functions</a> <a href="motion.txt.html#is" class="d">is</a> not intended to replace <a href="insert.txt.html#a" class="d">a</a> tutorial. If you are
+not familiar with the terms used, you may want to study the Wikipedia article
+on bitwise operations (https://en.wikipedia.org/wiki/Bitwise_operation) first.
+
+<span class="h">------------------------------------------------------------------------------</span>
+Loading the BitOp module
+                                                               <span id="lua-bit-module" class="t">lua-bit-module</span>
+
+The suggested way to use the BitOp module <a href="motion.txt.html#is" class="d">is</a> to add the following to the start
+of every <a href="lua.txt.html#Lua" class="d">Lua</a> file that needs one of its functions: 
+<span class="e">    local bit = require("bit")</span>
+
+This makes the dependency explicit, <a href="vi_diff.txt.html#limits" class="d">limits</a> the scope to the current file and
+provides faster access to the bit.* functions, too. It's good programming
+practice not to rely on the global variable bit being set (assuming some other
+part of your application has already loaded the module). The require function
+ensures the module <a href="motion.txt.html#is" class="d">is</a> only loaded once, in any case.
+
+<span class="h">------------------------------------------------------------------------------</span>
+Defining Shortcuts
+                                                            <span id="lua-bit-shortcuts" class="t">lua-bit-shortcuts</span>
+
+It's <a href="insert.txt.html#a" class="d">a</a> common (but not <a href="insert.txt.html#a" class="d">a</a> required) practice to cache often used module
+<a href="vimeval.txt.html#functions" class="d">functions</a> in locals. This serves <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> shortcut to save some typing and also
+speeds up resolving them (only relevant if called hundreds of thousands of
+times).
+
+<span class="e">    local bnot = bit.bnot</span>
+<span class="e">    local band, bor, bxor = bit.band, bit.bor, bit.bxor</span>
+<span class="e">    local lshift, rshift, rol = bit.lshift, bit.rshift, bit.rol</span>
+<span class="e">    -- etc...</span>
+<span class="e"></span>
+<span class="e">    -- Example use of the shortcuts:</span>
+<span class="e">    local function tr_i(a, b, c, d, x, s)</span>
+<span class="e">      return rol(bxor(c, bor(b, bnot(d))) + a + x, s) + b</span>
+<span class="e">    end</span>
+
+
+Remember that <span class="e">and</span>, <span class="e">or</span> and <span class="e">not</span> are reserved keywords in Lua. They cannot
+be used <a href="luaref.txt.html#for" class="d">for</a> variable names or literal field names. That's why the
+corresponding bitwise <a href="vimeval.txt.html#functions" class="d">functions</a> have been named <span class="e">band</span>, <span class="e">bor</span>, and <span class="e">bnot</span> (and
+<span class="e">bxor</span> <a href="luaref.txt.html#for" class="d">for</a> consistency).
+
+While we are <a href="motion.txt.html#at" class="d">at</a> it: <a href="insert.txt.html#a" class="d">a</a> common pitfall <a href="motion.txt.html#is" class="d">is</a> to use bit <a href="motion.txt.html#as" class="d">as</a> the name of <a href="insert.txt.html#a" class="d">a</a> local
+temporary variable — well, don't! :-)
+
+<span class="h">------------------------------------------------------------------------------</span>
+About the Examples
+
+The examples below show small <a href="lua.txt.html#Lua" class="d">Lua</a> one-liners. Their expected output <a href="motion.txt.html#is" class="d">is</a> shown
+after <span class="e">--&gt;</span>. This <a href="motion.txt.html#is" class="d">is</a> interpreted <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> comment marker by <a href="lua.txt.html#Lua" class="d">Lua</a> so you can cut <a href="change.txt.html#%26" class="d">&amp;</a>
+<a href="provider.txt.html#paste" class="d">paste</a> the whole line to <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> prompt and experiment with it.
+
+<span class="n">Note</span> that all bit operations return signed 32 bit numbers (rationale). And
+these print <a href="motion.txt.html#as" class="d">as</a> signed decimal numbers by default.
+
+For clarity the examples assume the definition of <a href="insert.txt.html#a" class="d">a</a> helper function
+<span class="e">printx()</span>. This prints its argument <a href="motion.txt.html#as" class="d">as</a> an unsigned 32 bit hexadecimal number
+on all platforms:
+
+<span class="e">    function printx(x)</span>
+<span class="e">      print("0x"..bit.tohex(x))</span>
+<span class="e">    end</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+Bit operations
+                                                                    <span id="lua-bitop" class="t">lua-bitop</span>
+
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.tobit(x)                                                   <span id="bit.tobit%28%29" class="t">bit.tobit()</span>
+    Normalizes <a href="insert.txt.html#a" class="d">a</a> number to the numeric range <a href="luaref.txt.html#for" class="d">for</a> bit operations and returns
+    it. This function <a href="motion.txt.html#is" class="d">is</a> usually not needed since all bit operations already
+    normalize all of their input arguments. See <a href="lua-bit.txt.html#lua-bit-semantics" class="l">lua-bit-semantics</a><a href="repeat.txt.html#." class="d">.</a>
+
+    Example: 
+<span class="e">        print(0xffffffff)                --&gt; 4294967295 (see Note)</span>
+<span class="e">        print(bit.tobit(0xffffffff))     --&gt; -1</span>
+<span class="e">        printx(bit.tobit(0xffffffff))    --&gt; 0xffffffff</span>
+<span class="e">        print(bit.tobit(0xffffffff + 1)) --&gt; 0</span>
+<span class="e">        print(bit.tobit(2^40 + 1234))    --&gt; 1234</span>
+
+    <span class="n">Note:</span> <a href="lua-bit.txt.html#lua-bit-hex-literals" class="l">lua-bit-hex-literals</a> explains why the numbers printed in the first
+    two lines differ (if your <a href="lua.txt.html#Lua" class="d">Lua</a> installation uses <a href="insert.txt.html#a" class="d">a</a> double number type).
+
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.tohex(x [,n])                                           <span id="bit.tohex%28%29" class="t">bit.tohex()</span>
+    Converts its first argument to <a href="insert.txt.html#a" class="d">a</a> hex string. The number of hex digits <a href="motion.txt.html#is" class="d">is</a>
+    given by the absolute value of the optional second argument. Positive
+    numbers between 1 and 8 generate <a href="change.txt.html#lowercase" class="d">lowercase</a> hex digits. Negative numbers
+    generate <a href="change.txt.html#uppercase" class="d">uppercase</a> hex digits. Only the least-significant <span class="e">4*|n|</span> bits are
+    used. The default <a href="motion.txt.html#is" class="d">is</a> to generate 8 <a href="change.txt.html#lowercase" class="d">lowercase</a> hex digits.
+
+    Example: 
+<span class="e">        print(bit.tohex(1))              --&gt; 00000001</span>
+<span class="e">        print(bit.tohex(-1))             --&gt; ffffffff</span>
+<span class="e">        print(bit.tohex(0xffffffff))     --&gt; ffffffff</span>
+<span class="e">        print(bit.tohex(-1, -8))         --&gt; FFFFFFFF</span>
+<span class="e">        print(bit.tohex(0x21, 4))        --&gt; 0021</span>
+<span class="e">        print(bit.tohex(0x87654321, 4))  --&gt; 4321</span>
+
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.bnot(x)                                                 <span id="bit.bnot%28%29" class="t">bit.bnot()</span>
+    Returns the bitwise <span class="e">not</span> of its argument.
+
+    Example: 
+<span class="e">        print(bit.bnot(0))            --&gt; -1</span>
+<span class="e">        printx(bit.bnot(0))           --&gt; 0xffffffff</span>
+<span class="e">        print(bit.bnot(-1))           --&gt; 0</span>
+<span class="e">        print(bit.bnot(0xffffffff))   --&gt; 0</span>
+<span class="e">        printx(bit.bnot(0x12345678))  --&gt; 0xedcba987</span>
+
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.bor(x1 [,x2...])                                        <span id="bit.bor%28%29" class="t">bit.bor()</span>
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.band(x1 [,x2...])                                       <span id="bit.band%28%29" class="t">bit.band()</span>
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.bxor(x1 [,x2...])                                       <span id="bit.bxor%28%29" class="t">bit.bxor()</span>
+    Returns either the bitwise <span class="e">or</span>, bitwise <span class="e">and</span>, or bitwise <span class="e">xor</span> of all of its
+    arguments. <span class="n">Note</span> that more than two arguments are allowed.
+
+    Example: 
+<span class="e">        print(bit.bor(1, 2, 4, 8))                --&gt; 15</span>
+<span class="e">        printx(bit.band(0x12345678, 0xff))        --&gt; 0x00000078</span>
+<span class="e">        printx(bit.bxor(0xa5a5f0f0, 0xaa55ff00))  --&gt; 0x0ff00ff0</span>
+
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.lshift(x, n)                                            <span id="bit.lshift%28%29" class="t">bit.lshift()</span>
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.rshift(x, n)                                            <span id="bit.rshift%28%29" class="t">bit.rshift()</span>
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.arshift(x, n)                                           <span id="bit.arshift%28%29" class="t">bit.arshift()</span>
+    Returns either the bitwise `logical left-shift`, bitwise <span class="e">logical</span>
+    <span class="e">right-shift</span>, or bitwise `arithmetic right-shift` of its first argument
+    by the number of bits given by the second argument.
+
+    Logical shifts treat the first argument <a href="motion.txt.html#as" class="d">as</a> an unsigned number and <a href="intro.txt.html#shift" class="d">shift</a> in
+    0-bits. Arithmetic right-shift treats the most-significant bit <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> sign
+    bit and replicates it. Only the lower 5 bits of the <a href="intro.txt.html#shift" class="d">shift</a> <a href="intro.txt.html#count" class="d">count</a> are used
+    (reduces to the range [0..31]).
+
+    Example: 
+<span class="e">        print(bit.lshift(1, 0))              --&gt; 1</span>
+<span class="e">        print(bit.lshift(1, 8))              --&gt; 256</span>
+<span class="e">        print(bit.lshift(1, 40))             --&gt; 256</span>
+<span class="e">        print(bit.rshift(256, 8))            --&gt; 1</span>
+<span class="e">        print(bit.rshift(-256, 8))           --&gt; 16777215</span>
+<span class="e">        print(bit.arshift(256, 8))           --&gt; 1</span>
+<span class="e">        print(bit.arshift(-256, 8))          --&gt; -1</span>
+<span class="e">        printx(bit.lshift(0x87654321, 12))   --&gt; 0x54321000</span>
+<span class="e">        printx(bit.rshift(0x87654321, 12))   --&gt; 0x00087654</span>
+<span class="e">        printx(bit.arshift(0x87654321, 12))  --&gt; 0xfff87654</span>
+
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.rol(x, n)                                               <span id="bit.rol%28%29" class="t">bit.rol()</span>
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.ror(x, n)                                               <span id="bit.ror%28%29" class="t">bit.ror()</span>
+    Returns either the bitwise `left rotation`, or bitwise `right rotation` of its
+    first argument by the number of bits given by the second argument. Bits
+    shifted out on one side are shifted back in on the other side.
+
+    Only the lower 5 bits of the rotate <a href="intro.txt.html#count" class="d">count</a> are used (reduces to the range
+    [0..31]).
+
+    Example: 
+<span class="e">        printx(bit.rol(0x12345678, 12))   --&gt; 0x45678123</span>
+<span class="e">        printx(bit.ror(0x12345678, 12))   --&gt; 0x67812345</span>
+
+<a href="change.txt.html#y" class="d">y</a> <a href="change.txt.html#%3D" class="d">=</a> bit.bswap(x)
+    Swaps the bytes of its argument and returns it. This can be used to
+    convert little-endian 32 bit numbers to big-endian 32 bit numbers or vice
+    versa.
+
+    Example: 
+<span class="e">        printx(bit.bswap(0x12345678)) --&gt; 0x78563412</span>
+<span class="e">        printx(bit.bswap(0x78563412)) --&gt; 0x12345678</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+Example Program
+
+This <a href="motion.txt.html#is" class="d">is</a> an implementation of the (naïve) Sieve of Eratosthenes algorithm. It
+counts the number of primes up to some maximum number.
+
+<a href="insert.txt.html#A" class="d">A</a> <a href="lua.txt.html#Lua" class="d">Lua</a> table <a href="motion.txt.html#is" class="d">is</a> used to hold <a href="insert.txt.html#a" class="d">a</a> bit-vector. Every array <a href="index.txt.html#index" class="d">index</a> has 32 bits of the
+vector. Bitwise operations are used to access and modify them. <span class="n">Note</span> that the
+<a href="intro.txt.html#shift" class="d">shift</a> counts don't need to be masked since this <a href="motion.txt.html#is" class="d">is</a> already done by the BitOp
+<a href="intro.txt.html#shift" class="d">shift</a> and rotate functions.
+
+<span class="e">    local bit = require("bit")</span>
+<span class="e">    local band, bxor = bit.band, bit.bxor</span>
+<span class="e">    local rshift, rol = bit.rshift, bit.rol</span>
+<span class="e"></span>
+<span class="e">    local m = tonumber(arg and arg[1]) or 100000</span>
+<span class="e">    if m &lt; 2 then m = 2 end</span>
+<span class="e">    local count = 0</span>
+<span class="e">    local p = {}</span>
+<span class="e"></span>
+<span class="e">    for i=0,(m+31)/32 do p[i] = -1 end</span>
+<span class="e"></span>
+<span class="e">    for i=2,m do</span>
+<span class="e">      if band(rshift(p[rshift(i, 5)], i), 1) ~= 0 then</span>
+<span class="e">        count = count + 1</span>
+<span class="e">        for j=i+i,m,i do</span>
+<span class="e">          local jx = rshift(j, 5)</span>
+<span class="e">          p[jx] = band(p[jx], rol(-2, j))</span>
+<span class="e">        end</span>
+<span class="e">      end</span>
+<span class="e">    end</span>
+<span class="e"></span>
+<span class="e">    io.write(string.format("Found %d primes up to %d\n", count, m))</span>
+
+<a href="lua.txt.html#Lua" class="d">Lua</a> BitOp <a href="motion.txt.html#is" class="d">is</a> quite fast. This program runs in <a href="various.txt.html#less" class="d">less</a> than 90 milliseconds on <a href="insert.txt.html#a" class="d">a</a> 3
+GHz CPU with <a href="insert.txt.html#a" class="d">a</a> standard <a href="lua.txt.html#Lua" class="d">Lua</a> installation, but performs more than <a href="insert.txt.html#a" class="d">a</a> million
+calls to bitwise functions. If you're looking <a href="luaref.txt.html#for" class="d">for</a> even more speed, check out
+<a href="lua.txt.html#lua-luajit" class="l">lua-luajit</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">------------------------------------------------------------------------------</span>
+Caveats                                                      <span id="lua-bit-caveats" class="t">lua-bit-caveats</span>
+
+<span class="h">Signed Results </span>
+
+Returning signed numbers from bitwise operations may be surprising to
+programmers coming from other programming languages which have both signed and
+unsigned types. But <a href="motion.txt.html#as" class="d">as</a> long <a href="motion.txt.html#as" class="d">as</a> you treat the results of bitwise operations
+uniformly everywhere, this shouldn't cause any problems.
+
+Preferably format results with <span class="e">bit.tohex</span> if you want <a href="insert.txt.html#a" class="d">a</a> reliable unsigned
+<a href="vimeval.txt.html#string" class="d">string</a> representation. Avoid the <span class="e">"%x"</span> or <span class="e">"%u"</span> formats <a href="luaref.txt.html#for" class="d">for</a> <span class="e">string.format</span>. They
+fail on some architectures <a href="luaref.txt.html#for" class="d">for</a> negative numbers and can return more than 8 hex
+digits on others.
+
+You may also want to avoid the default number to <a href="vimeval.txt.html#string" class="d">string</a> coercion, since this
+<a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> signed conversion. The coercion <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> <a href="vimeval.txt.html#string" class="d">string</a> concatenation and all
+standard library <a href="vimeval.txt.html#functions" class="d">functions</a> which accept <a href="vimeval.txt.html#string" class="d">string</a> arguments (such <a href="motion.txt.html#as" class="d">as</a> <span class="e">print()</span> or
+<span class="e">io.write()</span>).
+
+<span class="h">Conditionals </span>
+
+If you're transcribing some code from C/C++, watch out <a href="luaref.txt.html#for" class="d">for</a> bit operations in
+conditionals. In C/C++ any non-zero value <a href="motion.txt.html#is" class="d">is</a> implicitly considered <a href="motion.txt.html#as" class="d">as</a> <span class="e">true</span>.
+E.g. this <a href="change.txt.html#C" class="d">C</a> code: &gt;c
+    if (x <a href="change.txt.html#%26" class="d">&amp;</a> 3) <a href="userfunc.txt.html#..." class="d">...</a>
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+must not be turned into this <a href="lua.txt.html#Lua" class="d">Lua</a> code: 
+<span class="e">    if band(x, 3) then ... -- wrong!</span>
+
+In <a href="lua.txt.html#Lua" class="d">Lua</a> all <a href="index.txt.html#objects" class="d">objects</a> except <span class="e">nil</span> and <span class="e">false</span> are considered <span class="e">true</span>. This
+includes all numbers. An explicit comparison against zero <a href="motion.txt.html#is" class="d">is</a> required in this
+case: 
+<span class="e">    if band(x, 3) ~= 0 then ... -- correct!</span>
+<span class="e"></span>
+<span class="h">Comparing Against Hex Literals </span>
+
+Comparing the results of bitwise operations (signed numbers) against hex
+literals (unsigned numbers) needs some additional care. The following
+conditional <a href="vimeval.txt.html#expression" class="d">expression</a> may or may not work right, depending on the platform
+you run <a href="motion.txt.html#it" class="d">it</a> on: 
+<span class="e">    bit.bor(x, 1) == 0xffffffff</span>
+
+E.g. it's never true on <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> installation with the default number type. Some
+simple solutions:
+
+    Never use hex literals larger than 0x7fffffff in comparisons: 
+<span class="e">        bit.bor(x, 1) == -1</span>
+
+    Or convert them with <a href="lua-bit.txt.html#bit.tobit%28%29" class="d">bit.tobit()</a> before comparing: 
+<span class="e">        bit.bor(x, 1) == bit.tobit(0xffffffff)</span>
+
+    Or use <a href="insert.txt.html#a" class="d">a</a> generic workaround with bit.bxor(): 
+<span class="e">        bit.bxor(bit.bor(x, 1), 0xffffffff) == 0</span>
+
+    Or use <a href="insert.txt.html#a" class="d">a</a> case-specific workaround: 
+<span class="e">        bit.rshift(x, 1) == 0x7fffffff</span>
+
+<span class="h">==============================================================================</span>
+<span class="c">OPERATIONAL SEMANTICS AND RATIONALE</span>                        <span id="lua-bit-semantics" class="t">lua-bit-semantics</span>
+
+
+<span class="h">Input and Output Ranges </span>
+                                                          <span id="lua-bit-io-ranges" class="t">lua-bit-io-ranges</span>
+
+Bitwise operations cannot sensibly be applied to FP numbers (or their
+underlying bit patterns). They must be converted to integers before operating
+on them and then back to FP numbers.
+
+It's desirable to define semantics that work the same across all platforms.
+This dictates that all operations are based on the common denominator of 32
+bit integers. The <span class="e">float</span> type provides only 24 bits of precision. This makes <a href="motion.txt.html#it" class="d">it</a>
+unsuitable <a href="luaref.txt.html#for" class="d">for</a> use in bitwise operations. <a href="lua.txt.html#Lua" class="d">Lua</a> BitOp refuses to compile against
+<a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> installation with this number type.
+
+Bit operations only deal with the underlying bit patterns and generally ignore
+signedness (except <a href="luaref.txt.html#for" class="d">for</a> arithmetic right-shift). They are commonly displayed
+and treated like unsigned numbers, though.
+
+But the <a href="lua.txt.html#Lua" class="d">Lua</a> number type must be signed and may be limited to 32 bits. Defining
+the result type <a href="motion.txt.html#as" class="d">as</a> an unsigned number would not be cross-platform safe. All
+bit operations are thus defined to return results in the range of signed 32
+bit numbers (converted to the <a href="lua.txt.html#Lua" class="d">Lua</a> number type).
+
+                                                        <span id="lua-bit-hex-literals" class="t">lua-bit-hex-literals</span>
+Hexadecimal literals are treated <a href="motion.txt.html#as" class="d">as</a> unsigned numbers by the <a href="lua.txt.html#Lua" class="d">Lua</a> parser before
+converting them to the <a href="lua.txt.html#Lua" class="d">Lua</a> number type. This means they can be out of the
+range of signed 32 bit integers if the <a href="lua.txt.html#Lua" class="d">Lua</a> number type has <a href="insert.txt.html#a" class="d">a</a> greater range.
+E.g. 0xffffffff has <a href="insert.txt.html#a" class="d">a</a> value of 4294967295 in the default installation, but may
+be -1 on embedded systems. It's highly desirable that hex literals are treated
+uniformly across systems when used in bitwise operations. All bit operations
+accept arguments in the signed or the unsigned 32 bit range (and more, see
+below). Numbers with the same underlying bit <a href="pattern.txt.html#pattern" class="d">pattern</a> are treated the same by
+all operations.
+
+
+<span class="h">Modular Arithmetic </span>
+                                                        <span id="lua-bit-modular-arith" class="t">lua-bit-modular-arith</span>
+
+Arithmetic operations on n-bit integers are usually based on the rules of
+modular arithmetic modulo 2^n. Numbers wrap around when the mathematical result
+of operations <a href="motion.txt.html#is" class="d">is</a> outside their defined range. This simplifies hardware
+implementations and some algorithms actually require this behavior (like many
+cryptographic functions).
+
+E.g. <a href="luaref.txt.html#for" class="d">for</a> 32 bit integers the following holds: `0xffffffff <a href="motion.txt.html#%2B" class="d">+</a> 1 <a href="change.txt.html#%3D" class="d">=</a> 0`
+
+Arithmetic modulo 2^32 <a href="motion.txt.html#is" class="d">is</a> trivially available if the <a href="lua.txt.html#Lua" class="d">Lua</a> number type <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> 32
+bit integer. Otherwise normalization steps must be inserted. Modular
+arithmetic should work the same across all platforms <a href="motion.txt.html#as" class="d">as</a> far <a href="motion.txt.html#as" class="d">as</a> possible:
+
+<a href="motion.txt.html#-" class="d">-</a> For the default number type of double, arguments can be in the range of
+  ±2^51 and still be safely normalized across all platforms by taking their
+  least-significant 32 bits. The limit <a href="motion.txt.html#is" class="d">is</a> derived from the way doubles are
+  converted to integers.
+<a href="motion.txt.html#-" class="d">-</a> The function bit.tobit can be used to explicitly normalize numbers to
+  implement modular addition or subtraction. E.g. 
+<span class="e">                bit.tobit(0xffffffff + 1)</span>
+<span class="e">  returns 0 on all platforms.</span>
+<a href="motion.txt.html#-" class="d">-</a> The limit on the argument range implies that modular multiplication <a href="motion.txt.html#is" class="d">is</a>
+  usually restricted to multiplying already normalized numbers with small
+  constants. FP numbers are limited to 53 bits of precision, anyway. E.g.
+  (2^30+1)^2 does not return an odd number when computed with doubles.
+
+BTW: The <span class="e">tr_i</span> function shown here <a href="lua-bit.txt.html#lua-bit-shortcuts" class="l">lua-bit-shortcuts</a> <a href="motion.txt.html#is" class="d">is</a> one of the
+non-linear <a href="vimeval.txt.html#functions" class="d">functions</a> of the (flawed) MD5 cryptographic hash and relies on
+modular arithmetic <a href="luaref.txt.html#for" class="d">for</a> correct operation. The result <a href="motion.txt.html#is" class="d">is</a> fed back to other
+bitwise operations (not shown) and does not need to be normalized until the
+last step.
+
+
+<span class="h">Restricted and undefined behaviors </span>
+                                                      <span id="lua-bit-restrictions" class="t">lua-bit-restrictions</span>
+
+The following rules are intended to give <a href="insert.txt.html#a" class="d">a</a> precise and useful definition (for
+the programmer), yet give the implementation (interpreter and compiler) the
+maximum flexibility and the freedom to apply advanced optimizations. It's
+strongly advised not to rely on undefined or implementation-defined behavior.
+
+<a href="motion.txt.html#-" class="d">-</a> All kinds of floating-point numbers are acceptable to the bitwise
+  operations. None of them cause an error, but some may invoke undefined
+  behavior:
+        <a href="motion.txt.html#-" class="d">-</a> -0 <a href="motion.txt.html#is" class="d">is</a> treated the same <a href="motion.txt.html#as" class="d">as</a> +0 on input and <a href="motion.txt.html#is" class="d">is</a> never returned <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> result.
+        <a href="motion.txt.html#-" class="d">-</a> Passing ±Inf, NaN or numbers outside the range of ±2^51 <a href="motion.txt.html#as" class="d">as</a> input yields
+          an undefined result.
+        <a href="motion.txt.html#-" class="d">-</a> Non-integral numbers may be rounded or truncated in an
+          implementation-defined way. This means the result could differ between
+          different BitOp versions, different <a href="lua.txt.html#Lua" class="d">Lua</a> VMs, on different platforms or
+          even between interpreted vs. compiled code (as in LuaJIT). Avoid
+          passing fractional numbers to bitwise functions. Use <span class="e">math.floor()</span> or
+          <span class="e">math.ceil()</span> to get defined behavior.
+<a href="motion.txt.html#-" class="d">-</a> <a href="lua.txt.html#Lua" class="d">Lua</a> provides auto-coercion of <a href="vimeval.txt.html#string" class="d">string</a> arguments to numbers by default. This
+  behavior <a href="motion.txt.html#is" class="d">is</a> <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> <a href="luaref.txt.html#for" class="d">for</a> bitwise operations.
+
+<span class="h">==============================================================================</span>
+<span class="c">COPYRIGHT</span><span id="_copyright"></span>
+
+<a href="lua.txt.html#Lua" class="d">Lua</a> BitOp <a href="motion.txt.html#is" class="d">is</a> Copyright (C) 2008-2012 Mike Pall.
+<a href="lua.txt.html#Lua" class="d">Lua</a> BitOp <a href="motion.txt.html#is" class="d">is</a> free software, released under the MIT license.
+
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=4:sw=4:sts=4:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

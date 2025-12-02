@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: pi_paren.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+</div>
+<div id="vh-content">
+<pre>
+<span id="pi_paren.txt" class="t">pi_paren.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 09
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar</span>
+
+
+Highlighting matching parens			<span id="matchparen" class="t">matchparen</span>
+
+The functionality mentioned here <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#standard-plugin" class="l">standard-plugin</a><a href="repeat.txt.html#." class="d">.</a>
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> only available if <a href="options.txt.html#%27compatible%27" class="o">'compatible'</a> <a href="motion.txt.html#is" class="d">is</a> not set.
+
+You can avoid loading this <a href="usr_05.txt.html#plugin" class="d">plugin</a> by setting the "loaded_matchparen" variable: 
+<span class="e"></span>
+<span class="e">	:let loaded_matchparen = 1</span>
+<span class="e"></span>
+The <a href="usr_05.txt.html#plugin" class="d">plugin</a> installs CursorMoved, <a href="autocmd.txt.html#CursorMovedI" class="d">CursorMovedI</a> and <a href="autocmd.txt.html#WinEnter" class="d">WinEnter</a> <a href="autocmd.txt.html#autocommands" class="d">autocommands</a> to
+redefine the match highlighting.
+
+					<span id="%3ANoMatchParen" class="t">:NoMatchParen</span> <span id="%3ADoMatchParen" class="t">:DoMatchParen</span>
+To disable the <a href="usr_05.txt.html#plugin" class="d">plugin</a> after <a href="motion.txt.html#it" class="d">it</a> was loaded use this command: 
+<span class="e"></span>
+<span class="e">	:NoMatchParen</span>
+<span class="e"></span>
+And to enable <a href="motion.txt.html#it" class="d">it</a> again: 
+<span class="e"></span>
+<span class="e">	:DoMatchParen</span>
+<span class="e"></span>
+The highlighting used <a href="motion.txt.html#is" class="d">is</a> MatchParen.  You can specify different colors with
+the "<a href="syntax.txt.html#%3Ahighlight" class="d">:highlight</a>" command.  Example: 
+<span class="e"></span>
+<span class="e">	:hi MatchParen ctermbg=blue guibg=lightblue</span>
+<span class="e"></span>
+By default the <a href="usr_05.txt.html#plugin" class="d">plugin</a> will highlight both the paren under the cursor and the
+matching one using the <a href="syntax.txt.html#hl-MatchParen" class="l">hl-MatchParen</a> highlighting group.  This may result in
+the cursor briefly disappearing from the screen <a href="motion.txt.html#as" class="d">as</a> the MatchParen colors take
+over the cursor highlight.  To prevent this from happening and have the <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+only highlight the matching paren and not the one under the cursor
+(effectively leaving the cursor style unchanged), you can set the
+"matchparen_disable_cursor_hl" variable: 
+<span class="e"></span>
+<span class="e">	:let matchparen_disable_cursor_hl = 1</span>
+<span class="e"></span>
+The characters to be matched come from the <a href="options.txt.html#%27matchpairs%27" class="o">'matchpairs'</a> option.  You can
+change the value to highlight different matches.  <span class="n">Note</span> that not everything <a href="motion.txt.html#is" class="d">is</a>
+possible.  For example, you can't highlight single or double quotes, because
+the start and <a href="intro.txt.html#end" class="d">end</a> are equal.
+
+The <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting attributes are used.  When the cursor currently <a href="motion.txt.html#is" class="d">is</a> not
+in <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#string" class="d">string</a> or comment <a href="syntax.txt.html#syntax" class="d">syntax</a> item, then matches inside <a href="eval.txt.html#string" class="d">string</a> and comment
+<a href="syntax.txt.html#syntax" class="d">syntax</a> items are ignored.  Any <a href="syntax.txt.html#syntax" class="d">syntax</a> items with "<a href="eval.txt.html#string" class="d">string</a>" or "comment"
+somewhere in their name are considered <a href="eval.txt.html#string" class="d">string</a> or comment items.
+
+The search <a href="motion.txt.html#is" class="d">is</a> limited to avoid <a href="insert.txt.html#a" class="d">a</a> delay when moving the cursor.  The <a href="vi_diff.txt.html#limits" class="d">limits</a>
+are:
+<a href="motion.txt.html#-" class="d">-</a> What <a href="motion.txt.html#is" class="d">is</a> visible in the window.
+<a href="motion.txt.html#-" class="d">-</a> 100 lines above or below the cursor to avoid <a href="insert.txt.html#a" class="d">a</a> long delay when there are
+  closed folds.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27synmaxcol%27" class="o">'synmaxcol'</a> times 2 bytes before or after the cursor to avoid <a href="insert.txt.html#a" class="d">a</a> delay
+  in <a href="insert.txt.html#a" class="d">a</a> long line with <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting.
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> timeout of 300 msec (60 msec in <a href="insert.txt.html#Insert" class="d">Insert</a> mode).  This can be changed with
+  the "g:matchparen_timeout" and "g:matchparen_insert_timeout" <a href="eval.txt.html#variables" class="d">variables</a> and
+  their buffer-local equivalents "b:matchparen_timeout" and
+  "b:matchparen_insert_timeout"<a href="repeat.txt.html#." class="d">.</a>
+
+If you would like the <a href="motion.txt.html#%25" class="l">%</a> command to work better, the <a href="matchit.txt.html#matchit" class="d">matchit</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> can be
+used, see <a href="usr_05.txt.html#matchit-install" class="l">matchit-install</a><a href="repeat.txt.html#." class="d">.</a>  This <a href="usr_05.txt.html#plugin" class="d">plugin</a> also helps to skip matches in
+comments.  This <a href="motion.txt.html#is" class="d">is</a> unrelated to the <a href="pi_paren.txt.html#matchparen" class="d">matchparen</a> highlighting, they use <a href="insert.txt.html#a" class="d">a</a>
+different mechanism.
+
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

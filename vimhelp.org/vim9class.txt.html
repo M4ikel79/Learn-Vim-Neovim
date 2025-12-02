@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: vim9class.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="vim9class.txt.html#">↑Top↑</a></li>
+<li><a href="vim9class.txt.html#Vim9-class-overview">Overview</a></li>
+<li><a href="vim9class.txt.html#Vim9-simple-class">A simple class</a></li>
+<li><a href="vim9class.txt.html#Vim9-class-member">Class Variables and Methods</a></li>
+<li><a href="vim9class.txt.html#Vim9-abstract-class">Using an abstract class</a></li>
+<li><a href="vim9class.txt.html#Vim9-using-interface">Using an interface</a></li>
+<li><a href="vim9class.txt.html#Vim9-class">More class details</a></li>
+<li><a href="vim9class.txt.html#typealias">Type definition</a></li>
+<li><a href="vim9class.txt.html#Vim9-enum">Enum</a></li>
+<li><a href="vim9class.txt.html#_rationale">Rationale</a></li>
+<li><a href="vim9class.txt.html#_to-be-done-later">To be done later</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="vim9class.txt" class="t">vim9class.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 11
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar</span>
+
+
+<a href="vim9.txt.html#Vim9" class="d">Vim9</a> classes, objects, interfaces, types and enums.		<span id="vim9-class" class="t">vim9-class</span>
+
+1.  Overview			<a href="vim9class.txt.html#Vim9-class-overview" class="l">Vim9-class-overview</a>
+2.  <a href="insert.txt.html#A" class="d">A</a> simple <a href="vim9class.txt.html#class" class="d">class</a>		<a href="vim9class.txt.html#Vim9-simple-class" class="l">Vim9-simple-class</a>
+3.  <a href="vim9class.txt.html#Class" class="d">Class</a> <a href="eval.txt.html#variables" class="d">variables</a> and methods	<a href="vim9class.txt.html#Vim9-class-member" class="l">Vim9-class-member</a>
+4.  Using an abstract <a href="vim9class.txt.html#class" class="d">class</a>	<a href="vim9class.txt.html#Vim9-abstract-class" class="l">Vim9-abstract-class</a>
+5.  Using an <a href="vim9class.txt.html#interface" class="d">interface</a>		<a href="vim9class.txt.html#Vim9-using-interface" class="l">Vim9-using-interface</a>
+6.  More <a href="vim9class.txt.html#class" class="d">class</a> details		<a href="vim9class.txt.html#Vim9-class" class="l">Vim9-class</a>
+7.  Type definition		<a href="vim9class.txt.html#Vim9-type" class="l">Vim9-type</a>
+8.  Enum			<a href="vim9class.txt.html#Vim9-enum" class="l">Vim9-enum</a>
+
+9.  Rationale
+10. To be done later
+
+<span class="h">==============================================================================</span>
+
+1. Overview					<span id="Vim9-class-overview" class="t">Vim9-class-overview</span>
+
+The fancy term <a href="motion.txt.html#is" class="d">is</a> "object-oriented programming"<a href="repeat.txt.html#." class="d">.</a>  You can find lots of study
+material on this subject.  Here we document what <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> provides,
+assuming you know the basics already.  Added are helpful hints about how to
+use this functionality effectively.  <a href="vim9.txt.html#Vim9" class="d">Vim9</a> classes and <a href="index.txt.html#objects" class="d">objects</a> cannot be used
+in legacy Vim scripts and legacy functions.
+
+The basic item <a href="motion.txt.html#is" class="d">is</a> an object:
+<a href="motion.txt.html#-" class="d">-</a> An <a href="vim9class.txt.html#object" class="d">object</a> stores state.  It contains one or more <a href="eval.txt.html#variables" class="d">variables</a> that can each
+  have <a href="insert.txt.html#a" class="d">a</a> value.
+<a href="motion.txt.html#-" class="d">-</a> An <a href="vim9class.txt.html#object" class="d">object</a> provides <a href="eval.txt.html#functions" class="d">functions</a> that use and manipulate its state.  These
+  <a href="eval.txt.html#functions" class="d">functions</a> are invoked "on the <a href="vim9class.txt.html#object" class="d">object</a>"<a href="motion.txt.html#%2C" class="d">,</a> which <a href="motion.txt.html#is" class="d">is</a> what sets <a href="motion.txt.html#it" class="d">it</a> apart from the
+  traditional separation of data and code that manipulates the data.
+<a href="motion.txt.html#-" class="d">-</a> An <a href="vim9class.txt.html#object" class="d">object</a> has <a href="insert.txt.html#a" class="d">a</a> well defined interface, with typed member <a href="eval.txt.html#variables" class="d">variables</a> and
+  methods.
+<a href="motion.txt.html#-" class="d">-</a> Objects are created from <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> and all <a href="index.txt.html#objects" class="d">objects</a> have the same interface.
+  This does not change <a href="motion.txt.html#at" class="d">at</a> runtime, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not dynamic.
+
+An <a href="vim9class.txt.html#object" class="d">object</a> can only be created by <a href="insert.txt.html#a" class="d">a</a> class.  <a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> provides:
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#new%28%29" class="d">new()</a> method, the constructor, which returns an <a href="vim9class.txt.html#object" class="d">object</a> for the class.
+  This <a href="eval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> invoked on the <a href="vim9class.txt.html#class" class="d">class</a> name: MyClass.new().
+<a href="motion.txt.html#-" class="d">-</a> State shared by all <a href="index.txt.html#objects" class="d">objects</a> of the class: <a href="vim9class.txt.html#class" class="d">class</a> <a href="eval.txt.html#variables" class="d">variables</a> (class members).
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> hierarchy of classes, with super-classes and sub-classes, inheritance.
+
+An <a href="vim9class.txt.html#interface" class="d">interface</a> <a href="motion.txt.html#is" class="d">is</a> used to specify properties of an object:
+<a href="motion.txt.html#-" class="d">-</a> An <a href="vim9class.txt.html#object" class="d">object</a> can declare several interfaces that <a href="motion.txt.html#it" class="d">it</a> implements.
+<a href="motion.txt.html#-" class="d">-</a> Different <a href="index.txt.html#objects" class="d">objects</a> implementing the same <a href="vim9class.txt.html#interface" class="d">interface</a> can be used the same way.
+
+The <a href="vim9class.txt.html#class" class="d">class</a> hierarchy allows for single inheritance.  Otherwise interfaces are
+to be used where needed.
+
+<span class="h">Class modeling </span>
+
+You can model classes any way you like.  Keep in mind what you are building,
+don't try to model the real world.  This can be confusing, especially because
+teachers use real-world <a href="index.txt.html#objects" class="d">objects</a> to explain <a href="vim9class.txt.html#class" class="d">class</a> relations and you might think
+your model should therefore reflect the real world.  It doesn't!  The model
+should match your purpose.
+
+Keep in mind that composition (an <a href="vim9class.txt.html#object" class="d">object</a> contains other objects) <a href="motion.txt.html#is" class="d">is</a> often
+better than inheritance (an <a href="vim9class.txt.html#object" class="d">object</a> <a href="vim9class.txt.html#extends" class="d">extends</a> another object).  Don't waste time
+trying to find the optimal <a href="vim9class.txt.html#class" class="d">class</a> model.  Or waste time discussing whether <a href="insert.txt.html#a" class="d">a</a>
+square <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> rectangle or that <a href="insert.txt.html#a" class="d">a</a> rectangle <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> square.  It doesn't matter.
+
+
+<span class="h">==============================================================================</span>
+
+2.  <a href="insert.txt.html#A" class="d">A</a> simple <a href="vim9class.txt.html#class" class="d">class</a>				<span id="Vim9-simple-class" class="t">Vim9-simple-class</span>
+
+Let's start with <a href="insert.txt.html#a" class="d">a</a> simple example: <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> that stores <a href="insert.txt.html#a" class="d">a</a> text position (see
+below for how to <a href="diff.txt.html#do" class="d">do</a> this more efficiently): 
+<span class="e"></span>
+<span class="e">	class TextPosition</span>
+<span class="e">	   var lnum: number</span>
+<span class="e">	   var col: number</span>
+<span class="e"></span>
+<span class="e">	   def new(lnum: number, col: number)</span>
+<span class="e">	      this.lnum = lnum</span>
+<span class="e">	      this.col = col</span>
+<span class="e">	   enddef</span>
+<span class="e"></span>
+<span class="e">	   def SetLnum(lnum: number)</span>
+<span class="e">	      this.lnum = lnum</span>
+<span class="e">	   enddef</span>
+<span class="e"></span>
+<span class="e">	   def SetCol(col: number)</span>
+<span class="e">	      this.col = col</span>
+<span class="e">	   enddef</span>
+<span class="e"></span>
+<span class="e">	   def SetPosition(lnum: number, col: number)</span>
+<span class="e">	      this.lnum = lnum</span>
+<span class="e">	      this.col = col</span>
+<span class="e">	   enddef</span>
+<span class="e">	 endclass</span>
+							<span id="object" class="t">object</span> <span id="Object" class="t">Object</span>
+You can create an <a href="vim9class.txt.html#object" class="d">object</a> from this <a href="vim9class.txt.html#class" class="d">class</a> with the <a href="vim9class.txt.html#new%28%29" class="d">new()</a> method: 
+<span class="e"></span>
+<span class="e">	var pos = TextPosition.new(1, 1)</span>
+
+The <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> "lnum" and "col" can be accessed directly: 
+<span class="e"></span>
+<span class="e">	echo $'The text position is ({pos.lnum}, {pos.col})'</span>
+						    <span id="E1317" class="t">E1317</span> <span id="E1327" class="t">E1327</span> <span id="%3Athis" class="t">:this</span>
+If you have been using other object-oriented languages you will notice that in
+Vim, within <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> definition, the declared <a href="vim9class.txt.html#object" class="d">object</a> members are consistently
+referred to with the "this." prefix.  This <a href="motion.txt.html#is" class="d">is</a> different from languages like
+Java and TypeScript.  The naming convention makes the <a href="vim9class.txt.html#object" class="d">object</a> members <a href="starting.txt.html#easy" class="d">easy</a> to
+spot.  Also, when <a href="insert.txt.html#a" class="d">a</a> variable does not have the "this." prefix you know <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+not an <a href="vim9class.txt.html#object" class="d">object</a> variable.
+								<span id="E1411" class="t">E1411</span>
+From outside the <a href="vim9class.txt.html#class" class="d">class</a> definition, access an object's methods and <a href="eval.txt.html#variables" class="d">variables</a> by
+using the <a href="vim9class.txt.html#object" class="d">object</a> name followed by <a href="insert.txt.html#a" class="d">a</a> dot following by the member: 
+<span class="e"></span>
+<span class="e">	pos.lnum</span>
+<span class="e">	pos.SetCol(10)</span>
+
+							<span id="E1405" class="t">E1405</span> <span id="E1406" class="t">E1406</span>
+<a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> name cannot be used <a href="motion.txt.html#as" class="d">as</a> an expression.  <a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> name cannot be used in
+the left-hand-side of an assignment.
+
+<span class="h">Object variable write access </span>
+						    <span id="read-only-variable" class="t">read-only-variable</span>
+Now try to change an <a href="vim9class.txt.html#object" class="d">object</a> variable directly: 
+<span class="e"></span>
+<span class="e">	pos.lnum = 9</span>
+							<span id="E1335" class="t">E1335</span>
+This will give you an error!  That <a href="motion.txt.html#is" class="d">is</a> because by default <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> can
+be read but not set.  That's why the TextPosition <a href="vim9class.txt.html#class" class="d">class</a> provides <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="d">method</a> for
+it: 
+<span class="e"></span>
+<span class="e">	pos.SetLnum(9)</span>
+<span class="e"></span>
+Allowing to read but not set an <a href="vim9class.txt.html#object" class="d">object</a> variable <a href="motion.txt.html#is" class="d">is</a> the most common and safest
+way.  Most often there <a href="motion.txt.html#is" class="d">is</a> no problem using <a href="insert.txt.html#a" class="d">a</a> value, while setting <a href="insert.txt.html#a" class="d">a</a> value may
+have side effects that need to be taken care of.  In this case, the SetLnum()
+<a href="eval.txt.html#method" class="d">method</a> could check if the line number <a href="motion.txt.html#is" class="d">is</a> valid and either give an error or use
+the closest valid value.
+					<span id="%3Apublic" class="t">:public</span> <span id="public-variable" class="t">public-variable</span> <span id="E1331" class="t">E1331</span>
+If you don't care about side effects and want to allow the <a href="vim9class.txt.html#object" class="d">object</a> variable to
+be changed <a href="motion.txt.html#at" class="d">at</a> any time, you can make <a href="motion.txt.html#it" class="d">it</a> public: 
+<span class="e"></span>
+<span class="e">	public var lnum: number</span>
+<span class="e">	public var col: number</span>
+<span class="e"></span>
+Now you don't need the SetLnum(), SetCol() and SetPosition() methods, setting
+"pos.lnum" directly above will no longer give an error.
+							<span id="E1326" class="t">E1326</span>
+If you try to set an <a href="vim9class.txt.html#object" class="d">object</a> variable that doesn't exist you get an error: 
+<span class="e">	pos.other = 9</span>
+<span class="h">	E1326: Member not found on object "TextPosition": other </span>
+
+							<span id="E1376" class="t">E1376</span>
+<a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#object" class="d">object</a> variable cannot be accessed using the <a href="vim9class.txt.html#class" class="d">class</a> name.
+
+<span class="h">Protected variables </span>
+					<span id="protected-variable" class="t">protected-variable</span> <span id="E1332" class="t">E1332</span> <span id="E1333" class="t">E1333</span>
+On the other hand, if you <a href="diff.txt.html#do" class="d">do</a> not want the <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> to be read directly
+from outside the <a href="vim9class.txt.html#class" class="d">class</a> or its sub-classes, you can make them protected.  This
+<a href="motion.txt.html#is" class="d">is</a> done by prefixing an underscore to the name: 
+<span class="e"></span>
+<span class="e">	var _lnum: number</span>
+<span class="e">	var _col: number</span>
+<span class="e"></span>
+Now you need to provide methods to get the value of the protected variables.
+These are commonly called getters.  We recommend using <a href="insert.txt.html#a" class="d">a</a> name that starts with
+"Get"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"></span>
+<span class="e">	def GetLnum(): number</span>
+<span class="e">	   return this._lnum</span>
+<span class="e">	enddef</span>
+<span class="e"></span>
+<span class="e">	def GetCol(): number</span>
+<span class="e">	   return this._col</span>
+<span class="e">	enddef</span>
+<span class="e"></span>
+This example isn't very useful, the <a href="eval.txt.html#variables" class="d">variables</a> might <a href="motion.txt.html#as" class="d">as</a> well have been public.
+It does become useful if you check the value.  For example, restrict the line
+number to the total number of lines: 
+<span class="e"></span>
+<span class="e">	def GetLnum(): number</span>
+<span class="e">	   if this._lnum &gt; this._lineCount</span>
+<span class="e">	      return this._lineCount</span>
+<span class="e">	   endif</span>
+<span class="e">	   return this._lnum</span>
+<span class="e">	enddef</span>
+
+<span class="h">Protected methods </span>
+						<span id="protected-method" class="t">protected-method</span> <span id="E1366" class="t">E1366</span>
+If you want <a href="vim9class.txt.html#object" class="d">object</a> methods to be accessible only from other methods of the
+same <a href="vim9class.txt.html#class" class="d">class</a> and not used from outside the class, then you can make them
+protected.  This <a href="motion.txt.html#is" class="d">is</a> done by prefixing the <a href="eval.txt.html#method" class="d">method</a> name with an underscore: 
+<span class="e"></span>
+<span class="e">    class SomeClass</span>
+<span class="e">	def _Foo(): number</span>
+<span class="e">	  return 10</span>
+<span class="e">	enddef</span>
+<span class="e">	def Bar(): number</span>
+<span class="e">	  return this._Foo()</span>
+<span class="e">	enddef</span>
+<span class="e">    endclass</span>
+
+Accessing <a href="insert.txt.html#a" class="d">a</a> protected <a href="eval.txt.html#method" class="d">method</a> outside the <a href="vim9class.txt.html#class" class="d">class</a> will result in an error (using
+the above class): 
+<span class="e"></span>
+<span class="e">    var a = SomeClass.new()</span>
+<span class="e">    a._Foo()</span>
+
+<span class="h">Simplifying the new() method </span>
+						<span id="new%28%29" class="t">new()</span> <span id="constructor" class="t">constructor</span>
+See also <a href="vim9class.txt.html#default-constructor" class="l">default-constructor</a> and <a href="vim9class.txt.html#multiple-constructors" class="l">multiple-constructors</a><a href="repeat.txt.html#." class="d">.</a>
+
+Many constructors take values for the <a href="vim9class.txt.html#object" class="d">object</a> variables.  Thus you very often
+see this pattern: 
+<span class="e"></span>
+<span class="e">	 class SomeClass</span>
+<span class="e">	   var lnum: number</span>
+<span class="e">	   var col: number</span>
+<span class="e"></span>
+<span class="e">	   def new(lnum: number, col: number)</span>
+<span class="e">	      this.lnum = lnum</span>
+<span class="e">	      this.col = col</span>
+<span class="e">	   enddef</span>
+<span class="e">	 endclass</span>
+
+							<span id="E1390" class="t">E1390</span>
+Not only <a href="motion.txt.html#is" class="d">is</a> this text you need to write, <a href="motion.txt.html#it" class="d">it</a> also has the type of each
+variable twice.  Since this <a href="motion.txt.html#is" class="d">is</a> so common <a href="insert.txt.html#a" class="d">a</a> shorter way to write <a href="vim9class.txt.html#new%28%29" class="d">new()</a> <a href="motion.txt.html#is" class="d">is</a>
+provided: 
+<span class="e"></span>
+<span class="e">	   def new(this.lnum, this.col)</span>
+<span class="e">	   enddef</span>
+<span class="e"></span>
+The semantics are <a href="starting.txt.html#easy" class="d">easy</a> to understand: Providing the <a href="vim9class.txt.html#object" class="d">object</a> variable name,
+including "this."<a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#as" class="d">as</a> the argument to <a href="vim9class.txt.html#new%28%29" class="d">new()</a> means the value provided in the
+<a href="vim9class.txt.html#new%28%29" class="d">new()</a> call <a href="motion.txt.html#is" class="d">is</a> assigned to that <a href="vim9class.txt.html#object" class="d">object</a> variable.  This mechanism comes from the
+Dart language.
+
+Putting together this way of using <a href="vim9class.txt.html#new%28%29" class="d">new()</a> and making the <a href="eval.txt.html#variables" class="d">variables</a> public
+results in <a href="insert.txt.html#a" class="d">a</a> much shorter <a href="vim9class.txt.html#class" class="d">class</a> definition than what we started with: 
+<span class="e"></span>
+<span class="e">	class TextPosition</span>
+<span class="e">	   public var lnum: number</span>
+<span class="e">	   public var col: number</span>
+<span class="e"></span>
+<span class="e">	   def new(this.lnum, this.col)</span>
+<span class="e">	   enddef</span>
+<span class="e"></span>
+<span class="e">	   def SetPosition(lnum: number, col: number)</span>
+<span class="e">	      this.lnum = lnum</span>
+<span class="e">	      this.col = col</span>
+<span class="e">	   enddef</span>
+<span class="e">	 endclass</span>
+<span class="e"></span>
+The sequence of constructing <a href="insert.txt.html#a" class="d">a</a> new <a href="vim9class.txt.html#object" class="d">object</a> is:
+1. Memory <a href="motion.txt.html#is" class="d">is</a> allocated and cleared.  All values are zero/false/empty.
+2. For each declared <a href="vim9class.txt.html#object" class="d">object</a> variable that has an initializer, the <a href="eval.txt.html#expression" class="d">expression</a>
+   <a href="motion.txt.html#is" class="d">is</a> evaluated and assigned to the variable.  This happens in the sequence
+   the <a href="eval.txt.html#variables" class="d">variables</a> are declared in the class.
+3. Arguments in the <a href="vim9class.txt.html#new%28%29" class="d">new()</a> <a href="eval.txt.html#method" class="d">method</a> in the "this.name" form are assigned.
+4. The body of the <a href="vim9class.txt.html#new%28%29" class="d">new()</a> <a href="eval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> executed.
+
+If the <a href="vim9class.txt.html#class" class="d">class</a> <a href="vim9class.txt.html#extends" class="d">extends</a> <a href="insert.txt.html#a" class="d">a</a> parent class, the same thing happens.  In the second
+step the <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> of the parent <a href="vim9class.txt.html#class" class="d">class</a> are initialized first.  There <a href="motion.txt.html#is" class="d">is</a>
+no need to call "super()" or "<a href="vim9class.txt.html#new%28%29" class="d">new()</a>" on the parent.
+
+							<span id="E1365" class="t">E1365</span>
+When defining the <a href="vim9class.txt.html#new%28%29" class="d">new()</a> <a href="eval.txt.html#method" class="d">method</a> the return type should not be specified.  It
+always returns an <a href="vim9class.txt.html#object" class="d">object</a> of the class.
+
+The <a href="vim9class.txt.html#new%28%29" class="d">new()</a> <a href="eval.txt.html#method" class="d">method</a> can be made <a href="insert.txt.html#a" class="d">a</a> protected <a href="eval.txt.html#method" class="d">method</a> by using "_new()"<a href="repeat.txt.html#." class="d">.</a>  This can
+be used to support the singleton design pattern.
+
+							<span id="E1386" class="t">E1386</span>
+When invoking an <a href="vim9class.txt.html#object" class="d">object</a> method, the <a href="eval.txt.html#method" class="d">method</a> name should be preceded by the
+<a href="vim9class.txt.html#object" class="d">object</a> variable name.  An <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#method" class="d">method</a> cannot be invoked using the <a href="vim9class.txt.html#class" class="d">class</a>
+name.
+
+<span class="h">==============================================================================</span>
+
+3.  <a href="vim9class.txt.html#Class" class="d">Class</a> Variables and Methods			<span id="Vim9-class-member" class="t">Vim9-class-member</span>
+
+				    <span id="%3Astatic" class="t">:static</span> <span id="E1329" class="t">E1329</span> <span id="E1337" class="t">E1337</span> <span id="E1338" class="t">E1338</span> <span id="E1368" class="t">E1368</span>
+<a href="vim9class.txt.html#Class" class="d">Class</a> members are declared with "static"<a href="repeat.txt.html#." class="d">.</a>  They are used by the name without <a href="insert.txt.html#a" class="d">a</a>
+prefix in the <a href="vim9class.txt.html#class" class="d">class</a> where they are defined: 
+<span class="e"></span>
+<span class="e">	class OtherThing</span>
+<span class="e">	   var size: number</span>
+<span class="e">	   static var totalSize: number</span>
+<span class="e"></span>
+<span class="e">	   def new(this.size)</span>
+<span class="e">	      totalSize += this.size</span>
+<span class="e">	   enddef</span>
+<span class="e">	endclass</span>
+							<span id="E1340" class="t">E1340</span> <span id="E1341" class="t">E1341</span>
+Since the name <a href="motion.txt.html#is" class="d">is</a> used as-is, shadowing the name by <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="d">method</a> argument name
+or local variable name <a href="motion.txt.html#is" class="d">is</a> not allowed.
+
+					    <span id="E1374" class="t">E1374</span> <span id="E1375" class="t">E1375</span> <span id="E1384" class="t">E1384</span> <span id="E1385" class="t">E1385</span>
+To access <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> member outside of the <a href="vim9class.txt.html#class" class="d">class</a> where <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> defined, the <a href="vim9class.txt.html#class" class="d">class</a>
+name prefix <a href="vim_faq.txt.html#must" class="d">must</a> be used.  <a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> member cannot be accessed using an object.
+
+Just like <a href="vim9class.txt.html#object" class="d">object</a> members the access can be made protected by using an
+underscore <a href="motion.txt.html#as" class="d">as</a> the first character in the name, and <a href="motion.txt.html#it" class="d">it</a> can be made public by
+prefixing "public"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"></span>
+<span class="e">    class OtherThing</span>
+<span class="e">	static var total: number	  # anybody can read, only class can write</span>
+<span class="e">	static var _sum: number	          # only class can read and write</span>
+<span class="e">	public static var result: number  # anybody can read and write</span>
+<span class="e">    endclass</span>
+
+							<span id="class-method" class="t">class-method</span>
+<a href="vim9class.txt.html#Class" class="d">Class</a> methods are also declared with "static"<a href="repeat.txt.html#." class="d">.</a>  They can use the <a href="vim9class.txt.html#class" class="d">class</a>
+<a href="eval.txt.html#variables" class="d">variables</a> but they have no access to the <a href="vim9class.txt.html#object" class="d">object</a> variables, they cannot use the
+"this" keyword:
+
+<span class="e">	class OtherThing</span>
+<span class="e">	   var size: number</span>
+<span class="e">	   static var totalSize: number</span>
+<span class="e"></span>
+<span class="e">	   # Clear the total size and return the value it had before.</span>
+<span class="e">	   static def ClearTotalSize(): number</span>
+<span class="e">	      var prev = totalSize</span>
+<span class="e">	      totalSize = 0</span>
+<span class="e">	      return prev</span>
+<span class="e">	   enddef</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+Inside the class, the <a href="vim9class.txt.html#class" class="d">class</a> <a href="eval.txt.html#method" class="d">method</a> can be called by name directly, outside the
+class, the <a href="vim9class.txt.html#class" class="d">class</a> name <a href="vim_faq.txt.html#must" class="d">must</a> be prefixed: <span class="e">OtherThing.ClearTotalSize()</span>.  Also,
+the name prefix <a href="vim_faq.txt.html#must" class="d">must</a> be used for public <a href="vim9class.txt.html#class" class="d">class</a> methods in the special contexts
+of <a href="vim9class.txt.html#class" class="d">class</a> variable initializers and of <a href="eval.txt.html#lambda" class="d">lambda</a> expressions and nested functions:
+
+<span class="e">    class OtherThing</span>
+<span class="e">	static var name: string = OtherThing.GiveName()</span>
+<span class="e"></span>
+<span class="e">	static def GiveName(): string</span>
+<span class="e">	    def DoGiveName(): string</span>
+<span class="e">		return OtherThing.NameAny()</span>
+<span class="e">	    enddef</span>
+<span class="e"></span>
+<span class="e">	    return DoGiveName()</span>
+<span class="e">	enddef</span>
+<span class="e"></span>
+<span class="e">	static def NameAny(): string</span>
+<span class="e">	    return "any"</span>
+<span class="e">	enddef</span>
+<span class="e">    endclass</span>
+
+
+Just like <a href="vim9class.txt.html#object" class="d">object</a> methods the access can be made protected by using an
+underscore <a href="motion.txt.html#as" class="d">as</a> the first character in the <a href="eval.txt.html#method" class="d">method</a> name: 
+<span class="e"></span>
+<span class="e">    class OtherThing</span>
+<span class="e">	static def _Foo()</span>
+<span class="e">	    echo "Foo"</span>
+<span class="e">	enddef</span>
+<span class="e">	def Bar()</span>
+<span class="e">	    _Foo()</span>
+<span class="e">	enddef</span>
+<span class="e">    endclass</span>
+
+							<span id="E1370" class="t">E1370</span>
+<span class="n">Note</span> that constructors cannot be declared <a href="motion.txt.html#as" class="d">as</a> "static"<a href="repeat.txt.html#." class="d">.</a> They are called like <a href="insert.txt.html#a" class="d">a</a>
+static but execute <a href="motion.txt.html#as" class="d">as</a> an <a href="vim9class.txt.html#object" class="d">object</a> method; they have access to "this"<a href="repeat.txt.html#." class="d">.</a>
+
+To access the <a href="vim9class.txt.html#class" class="d">class</a> methods and <a href="vim9class.txt.html#class" class="d">class</a> <a href="eval.txt.html#variables" class="d">variables</a> of <a href="insert.txt.html#a" class="d">a</a> super <a href="vim9class.txt.html#class" class="d">class</a> in an
+extended class, the <a href="vim9class.txt.html#class" class="d">class</a> name prefix should be used just <a href="motion.txt.html#as" class="d">as</a> from anywhere
+outside of the defining class: 
+<span class="e"></span>
+<span class="e">    vim9script</span>
+<span class="e">    class Vehicle</span>
+<span class="e">	static var nextID: number = 1000</span>
+<span class="e">	static def GetID(): number</span>
+<span class="e">	    nextID += 1</span>
+<span class="e">	    return nextID</span>
+<span class="e">	enddef</span>
+<span class="e">    endclass</span>
+<span class="e">    class Car extends Vehicle</span>
+<span class="e">	var myID: number</span>
+<span class="e">	def new()</span>
+<span class="e">	    this.myID = Vehicle.GetID()</span>
+<span class="e">	enddef</span>
+<span class="e">    endclass</span>
+
+<a href="vim9class.txt.html#Class" class="d">Class</a> <a href="eval.txt.html#variables" class="d">variables</a> and methods are not inherited by <a href="insert.txt.html#a" class="d">a</a> child class.  <a href="insert.txt.html#A" class="d">A</a> child <a href="vim9class.txt.html#class" class="d">class</a>
+can declare <a href="insert.txt.html#a" class="d">a</a> static variable or <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="d">method</a> with the same name <a href="motion.txt.html#as" class="d">as</a> the one in the
+super class.  Depending on the <a href="vim9class.txt.html#class" class="d">class</a> where the member <a href="motion.txt.html#is" class="d">is</a> used the
+corresponding <a href="vim9class.txt.html#class" class="d">class</a> member will be used.  The type of the <a href="vim9class.txt.html#class" class="d">class</a> member in <a href="insert.txt.html#a" class="d">a</a>
+child <a href="vim9class.txt.html#class" class="d">class</a> can be different from that in the super class.
+
+The double underscore (__) prefix for <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> or <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#method" class="d">method</a> name <a href="motion.txt.html#is" class="d">is</a>
+reserved for future use.
+
+					<span id="object-final-variable" class="t">object-final-variable</span> <span id="E1409" class="t">E1409</span>
+The <a href="vim9.txt.html#%3Afinal" class="l">:final</a> keyword can be used to make <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> or <a href="vim9class.txt.html#object" class="d">object</a> variable <a href="insert.txt.html#a" class="d">a</a>
+constant.  Examples: 
+<span class="e"></span>
+<span class="e">    class A</span>
+<span class="e">	final v1 = [1, 2]		# final object variable</span>
+<span class="e">	public final v2 = {x: 1}	# final object variable</span>
+<span class="e">	static final v3 = 'abc'		# final class variable</span>
+<span class="e">	public static final v4 = 0z10	# final class variable</span>
+<span class="e">    endclass</span>
+
+<a href="insert.txt.html#A" class="d">A</a> final variable can be changed only from <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#constructor" class="d">constructor</a> function.  Example: 
+<span class="e"></span>
+<span class="e">    class A</span>
+<span class="e">	final v1: list&lt;number&gt;</span>
+<span class="e">	def new()</span>
+<span class="e">	    this.v1 = [1, 2]</span>
+<span class="e">	enddef</span>
+<span class="e">    endclass</span>
+<span class="e">    var a = A.new()</span>
+<span class="e">    echo a.v1</span>
+
+<span class="n">Note</span> that the value of <a href="insert.txt.html#a" class="d">a</a> final variable can be changed.  Example: 
+<span class="e"></span>
+<span class="e">    class A</span>
+<span class="e">	public final v1 = [1, 2]</span>
+<span class="e">    endclass</span>
+<span class="e">    var a = A.new()</span>
+<span class="e">    a.v1[0] = 6			# OK</span>
+<span class="e">    a.v1-&gt;add(3)		# OK</span>
+<span class="e">    a.v1 = [3, 4]		# Error</span>
+
+							<span id="E1408" class="t">E1408</span>
+Final <a href="eval.txt.html#variables" class="d">variables</a> are not supported in an interface.  <a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> or <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#method" class="d">method</a>
+cannot be final.
+
+					<span id="object-const-variable" class="t">object-const-variable</span>
+The <a href="eval.txt.html#%3Aconst" class="l">:const</a> keyword can be used to make <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> or <a href="vim9class.txt.html#object" class="d">object</a> variable and the
+value <a href="insert.txt.html#a" class="d">a</a> constant.  Examples: 
+<span class="e"></span>
+<span class="e">    class A</span>
+<span class="e">	const v1 = [1, 2]		# const object variable</span>
+<span class="e">	public const v2 = {x: 1}	# const object variable</span>
+<span class="e">	static const v3 = 'abc'		# const class variable</span>
+<span class="e">	public static const v4 = 0z10	# const class variable</span>
+<span class="e">    endclass</span>
+
+<a href="insert.txt.html#A" class="d">A</a> const variable can be changed only from <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#constructor" class="d">constructor</a> function. Example: 
+<span class="e"></span>
+<span class="e">    class A</span>
+<span class="e">	const v1: list&lt;number&gt;</span>
+<span class="e">	def new()</span>
+<span class="e">	    this.v1 = [1, 2]</span>
+<span class="e">	enddef</span>
+<span class="e">    endclass</span>
+<span class="e">    var a = A.new()</span>
+<span class="e">    echo a.v1</span>
+
+<a href="insert.txt.html#A" class="d">A</a> const variable and its value cannot be changed.  Example: 
+<span class="e"></span>
+<span class="e">    class A</span>
+<span class="e">	public const v1 = [1, 2]</span>
+<span class="e">    endclass</span>
+<span class="e">    var a = A.new()</span>
+<span class="e">    a.v1[0] = 6			# Error</span>
+<span class="e">    a.v1-&gt;add(3)		# Error</span>
+<span class="e">    a.v1 = [3, 4]		# Error</span>
+
+							 <span id="E1410" class="t">E1410</span>
+Const <a href="eval.txt.html#variables" class="d">variables</a> are not supported in an interface.  <a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> or <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#method" class="d">method</a>
+cannot be <a href="insert.txt.html#a" class="d">a</a> const.
+
+<span class="h">==============================================================================</span>
+
+4.  Using an abstract <a href="vim9class.txt.html#class" class="d">class</a>			<span id="Vim9-abstract-class" class="t">Vim9-abstract-class</span>
+
+An abstract <a href="vim9class.txt.html#class" class="d">class</a> forms the base for <a href="motion.txt.html#at" class="d">at</a> least one sub-class.  In the <a href="vim9class.txt.html#class" class="d">class</a>
+model one often finds that <a href="insert.txt.html#a" class="d">a</a> few classes have the same properties that can be
+shared, but <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> with these properties does not have enough state to create
+an <a href="vim9class.txt.html#object" class="d">object</a> from.  <a href="insert.txt.html#A" class="d">A</a> sub-class <a href="vim_faq.txt.html#must" class="d">must</a> extend the abstract <a href="vim9class.txt.html#class" class="d">class</a> and add the
+missing state and/or methods before <a href="motion.txt.html#it" class="d">it</a> can be used to create <a href="index.txt.html#objects" class="d">objects</a> for.
+
+For example, <a href="insert.txt.html#a" class="d">a</a> Shape <a href="vim9class.txt.html#class" class="d">class</a> could store <a href="insert.txt.html#a" class="d">a</a> color and thickness.  You cannot
+create <a href="insert.txt.html#a" class="d">a</a> Shape object, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> missing the information about what kind of shape
+<a href="motion.txt.html#it" class="d">it</a> is.  The Shape <a href="vim9class.txt.html#class" class="d">class</a> <a href="eval.txt.html#functions" class="d">functions</a> <a href="motion.txt.html#as" class="d">as</a> the base for <a href="insert.txt.html#a" class="d">a</a> Square and <a href="insert.txt.html#a" class="d">a</a> Triangle
+class, for which <a href="index.txt.html#objects" class="d">objects</a> can be created.  Example: 
+<span class="e"></span>
+<span class="e">	abstract class Shape</span>
+<span class="e">	   var color = Color.Black</span>
+<span class="e">	   var thickness = 10</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+<span class="e">	class Square extends Shape</span>
+<span class="e">	   var size: number</span>
+<span class="e"></span>
+<span class="e">	   def new(this.size)</span>
+<span class="e">	   enddef</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+<span class="e">	class Triangle extends Shape</span>
+<span class="e">	   var base: number</span>
+<span class="e">	   var height: number</span>
+<span class="e"></span>
+<span class="e">	   def new(this.base, this.height)</span>
+<span class="e">	   enddef</span>
+<span class="e">	endclass</span>
+
+An abstract <a href="vim9class.txt.html#class" class="d">class</a> <a href="motion.txt.html#is" class="d">is</a> defined the same way <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> normal class, except that <a href="motion.txt.html#it" class="d">it</a>
+does not have any <a href="vim9class.txt.html#new%28%29" class="d">new()</a> method. <span id="E1359" class="t">E1359</span>
+
+					    <span id="abstract-method" class="t">abstract-method</span> <span id="E1371" class="t">E1371</span> <span id="E1372" class="t">E1372</span>
+An abstract <a href="eval.txt.html#method" class="d">method</a> can be defined in an abstract <a href="vim9class.txt.html#class" class="d">class</a> by using the "abstract"
+prefix when defining the method: 
+<span class="e"></span>
+<span class="e">	abstract class Shape</span>
+<span class="e">	   abstract def Draw()</span>
+<span class="e">	endclass</span>
+
+<a href="insert.txt.html#A" class="d">A</a> static <a href="eval.txt.html#method" class="d">method</a> in an abstract <a href="vim9class.txt.html#class" class="d">class</a> cannot be an abstract method.
+
+						<span id="E1404" class="t">E1404</span>
+An <a href="vim9class.txt.html#interface" class="d">interface</a> <a href="eval.txt.html#method" class="d">method</a> cannot be an abstract method.
+
+						<span id="E1373" class="t">E1373</span>
+<a href="insert.txt.html#A" class="d">A</a> non-abstract <a href="vim9class.txt.html#class" class="d">class</a> extending the abstract <a href="vim9class.txt.html#class" class="d">class</a> <a href="vim_faq.txt.html#must" class="d">must</a> implement all the
+abstract methods.  The signature (arguments, argument types and return type)
+<a href="vim_faq.txt.html#must" class="d">must</a> be exactly the same.  If the return type of <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> class, then
+that <a href="vim9class.txt.html#class" class="d">class</a> or one of its subclasses can be used in the extended method.
+
+						<span id="E1431" class="t">E1431</span>
+An abstract <a href="eval.txt.html#method" class="d">method</a> in an abstract super <a href="vim9class.txt.html#class" class="d">class</a> cannot be invoked.
+
+<span class="h">==============================================================================</span>
+
+5.  Using an <a href="vim9class.txt.html#interface" class="d">interface</a>				<span id="Vim9-using-interface" class="t">Vim9-using-interface</span>
+
+The example above with Shape, Square and Triangle can be made more useful if
+we add <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="d">method</a> to compute the surface of the object.  For that we create the
+<a href="vim9class.txt.html#interface" class="d">interface</a> called HasSurface, which <a href="vim9class.txt.html#specifies" class="d">specifies</a> one <a href="eval.txt.html#method" class="d">method</a> Surface() that returns
+<a href="insert.txt.html#a" class="d">a</a> number.  This example <a href="vim9class.txt.html#extends" class="d">extends</a> the one above: 
+<span class="e"></span>
+<span class="e">	abstract class Shape</span>
+<span class="e">	   var color = Color.Black</span>
+<span class="e">	   var thickness = 10</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+<span class="e">	interface HasSurface</span>
+<span class="e">	   def Surface(): number</span>
+<span class="e">	endinterface</span>
+<span class="e"></span>
+<span class="e">	class Square extends Shape implements HasSurface</span>
+<span class="e">	   var size: number</span>
+<span class="e"></span>
+<span class="e">	   def new(this.size)</span>
+<span class="e">	   enddef</span>
+<span class="e"></span>
+<span class="e">	   def Surface(): number</span>
+<span class="e">	      return this.size * this.size</span>
+<span class="e">	   enddef</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+<span class="e">	class Triangle extends Shape implements HasSurface</span>
+<span class="e">	   var base: number</span>
+<span class="e">	   var height: number</span>
+<span class="e"></span>
+<span class="e">	   def new(this.base, this.height)</span>
+<span class="e">	   enddef</span>
+<span class="e"></span>
+<span class="e">	   def Surface(): number</span>
+<span class="e">	      return this.base * this.height / 2</span>
+<span class="e">	   enddef</span>
+<span class="e">	endclass</span>
+
+					<span id="E1348" class="t">E1348</span> <span id="E1349" class="t">E1349</span> <span id="E1367" class="t">E1367</span> <span id="E1382" class="t">E1382</span> <span id="E1383" class="t">E1383</span>
+If <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> declares to implement an interface, all the items specified in the
+<a href="vim9class.txt.html#interface" class="d">interface</a> <a href="vim_faq.txt.html#must" class="d">must</a> appear in the class, with the same types.
+
+The <a href="vim9class.txt.html#interface" class="d">interface</a> name can be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> type: 
+<span class="e"></span>
+<span class="e">	var shapes: list&lt;HasSurface&gt; = [</span>
+<span class="e">				Square.new(12),</span>
+<span class="e">				Triangle.new(8, 15),</span>
+<span class="e">				]</span>
+<span class="e">	for shape in shapes</span>
+<span class="e">	   echo $'the surface is {shape.Surface()}'</span>
+<span class="e">	endfor</span>
+
+					<span id="E1378" class="t">E1378</span> <span id="E1379" class="t">E1379</span> <span id="E1380" class="t">E1380</span> <span id="E1387" class="t">E1387</span>
+An <a href="vim9class.txt.html#interface" class="d">interface</a> can contain only <a href="vim9class.txt.html#object" class="d">object</a> methods and read-only <a href="vim9class.txt.html#object" class="d">object</a> variables.
+An <a href="vim9class.txt.html#interface" class="d">interface</a> cannot contain read-write or protected <a href="vim9class.txt.html#object" class="d">object</a> variables,
+protected <a href="vim9class.txt.html#object" class="d">object</a> methods, <a href="vim9class.txt.html#class" class="d">class</a> <a href="eval.txt.html#variables" class="d">variables</a> and <a href="vim9class.txt.html#class" class="d">class</a> methods.
+
+An <a href="vim9class.txt.html#interface" class="d">interface</a> can extend another <a href="vim9class.txt.html#interface" class="d">interface</a> using "<a href="vim9class.txt.html#extends" class="d">extends</a>"<a href="repeat.txt.html#." class="d">.</a>  The sub-interface
+inherits all the instance <a href="eval.txt.html#variables" class="d">variables</a> and methods from the super interface.
+
+An <a href="vim9class.txt.html#interface" class="d">interface</a> cannot be defined inside <a href="insert.txt.html#a" class="d">a</a> function.	<span id="E1436" class="t">E1436</span>
+
+<span class="h">==============================================================================</span>
+
+6.  More <a href="vim9class.txt.html#class" class="d">class</a> details				<span id="Vim9-class" class="t">Vim9-class</span> <span id="Class" class="t">Class</span> <span id="class" class="t">class</span>
+
+<span class="h">Defining a class </span>
+					<span id="%3Aclass" class="t">:class</span> <span id="%3Aendclass" class="t">:endclass</span> <span id="%3Aabstract" class="t">:abstract</span>
+<a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> <a href="motion.txt.html#is" class="d">is</a> defined between <span class="e">:class</span> and <span class="e">:endclass</span>.  The whole <a href="vim9class.txt.html#class" class="d">class</a> <a href="motion.txt.html#is" class="d">is</a>
+defined in one <a href="usr_41.txt.html#script" class="d">script</a> file.  It <a href="motion.txt.html#is" class="d">is</a> not possible to add to <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> later.
+
+<a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> can only be defined in <a href="insert.txt.html#a" class="d">a</a> <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> file.  <span id="E1316" class="t">E1316</span>
+<a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> cannot be defined inside <a href="insert.txt.html#a" class="d">a</a> function.  <span id="E1429" class="t">E1429</span>
+
+It <a href="motion.txt.html#is" class="d">is</a> possible to define more than one <a href="vim9class.txt.html#class" class="d">class</a> in <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> file.  Although <a href="motion.txt.html#it" class="d">it</a>
+usually <a href="motion.txt.html#is" class="d">is</a> better to export only one main class.  It can be useful to define
+types, enums and helper classes though.
+
+The <span class="e">:abstract</span> keyword may be prefixed and <span class="e">:export</span> may be used.  That gives
+these variants: 
+<span class="e"></span>
+<span class="e">	class ClassName</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+<span class="e">	export class ClassName</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+<span class="e">	abstract class ClassName</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+<span class="e">	export abstract class ClassName</span>
+<span class="e">	endclass</span>
+
+							<span id="E1314" class="t">E1314</span>
+The <a href="vim9class.txt.html#class" class="d">class</a> name should be CamelCased.  It <a href="vim_faq.txt.html#must" class="d">must</a> start with an <a href="change.txt.html#uppercase" class="d">uppercase</a> letter.
+That avoids clashing with builtin types.
+							<span id="E1315" class="t">E1315</span>
+After the <a href="vim9class.txt.html#class" class="d">class</a> name these optional items can be used.  Each can appear only
+once.  They can appear in any order, although this order <a href="motion.txt.html#is" class="d">is</a> recommended: 
+<span class="e">	extends ClassName</span>
+<span class="e">	implements InterfaceName, OtherInterface</span>
+<span class="e">	specifies SomeInterface</span>
+
+The "<a href="vim9class.txt.html#specifies" class="d">specifies</a>" feature <a href="motion.txt.html#is" class="d">is</a> currently not implemented.
+
+							<span id="E1355" class="t">E1355</span> <span id="E1369" class="t">E1369</span>
+Each variable and <a href="eval.txt.html#method" class="d">method</a> name can be used only once.  It <a href="motion.txt.html#is" class="d">is</a> not possible to
+define <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="d">method</a> with the same name and different type of arguments.  It <a href="motion.txt.html#is" class="d">is</a> not
+possible to use <a href="insert.txt.html#a" class="d">a</a> public and protected member variable with the same name.  An
+<a href="vim9class.txt.html#object" class="d">object</a> variable name used in <a href="insert.txt.html#a" class="d">a</a> super <a href="vim9class.txt.html#class" class="d">class</a> cannot be reused in <a href="insert.txt.html#a" class="d">a</a> child class.
+
+<span class="h">Object Variable Initialization </span>
+
+							<span id="E1430" class="t">E1430</span>
+If the type of <a href="insert.txt.html#a" class="d">a</a> variable <a href="motion.txt.html#is" class="d">is</a> not explicitly specified in <a href="insert.txt.html#a" class="d">a</a> class, then <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+set to "any" during <a href="vim9class.txt.html#class" class="d">class</a> definition.  When an <a href="vim9class.txt.html#object" class="d">object</a> <a href="motion.txt.html#is" class="d">is</a> instantiated from the
+class, then the type of the variable <a href="motion.txt.html#is" class="d">is</a> set.
+
+The following reserved keyword names cannot be used <a href="motion.txt.html#as" class="d">as</a> an <a href="vim9class.txt.html#object" class="d">object</a> or <a href="vim9class.txt.html#class" class="d">class</a>
+variable name: "super"<a href="motion.txt.html#%2C" class="d">,</a> "this"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vim9.txt.html#true" class="d">true</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vim9.txt.html#false" class="d">false</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vim9.txt.html#null" class="d">null</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vim9.txt.html#null_blob" class="d">null_blob</a>"<a href="motion.txt.html#%2C" class="d">,</a>
+"<a href="vim9.txt.html#null_channel" class="d">null_channel</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vim9.txt.html#null_class" class="d">null_class</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vim9.txt.html#null_dict" class="d">null_dict</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vim9.txt.html#null_function" class="d">null_function</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vim9.txt.html#null_job" class="d">null_job</a>"<a href="motion.txt.html#%2C" class="d">,</a>
+"<a href="vim9.txt.html#null_list" class="d">null_list</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vim9.txt.html#null_object" class="d">null_object</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vim9.txt.html#null_partial" class="d">null_partial</a>" and "<a href="vim9.txt.html#null_string" class="d">null_string</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">Extending a class </span>
+							<span id="extends" class="t">extends</span>
+<a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> can extend one other class. <span id="E1352" class="t">E1352</span> <span id="E1353" class="t">E1353</span> <span id="E1354" class="t">E1354</span>
+The basic idea <a href="motion.txt.html#is" class="d">is</a> to build on top of an existing class, add properties to it.
+
+The extended <a href="vim9class.txt.html#class" class="d">class</a> <a href="motion.txt.html#is" class="d">is</a> called the "base <a href="vim9class.txt.html#class" class="d">class</a>" or "super <a href="vim9class.txt.html#class" class="d">class</a>"<a href="repeat.txt.html#." class="d">.</a>  The new <a href="vim9class.txt.html#class" class="d">class</a>
+<a href="motion.txt.html#is" class="d">is</a> called the "child <a href="vim9class.txt.html#class" class="d">class</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+<a href="vim9class.txt.html#Object" class="d">Object</a> <a href="eval.txt.html#variables" class="d">variables</a> from the base <a href="vim9class.txt.html#class" class="d">class</a> are all taken over by the child class.
+It <a href="motion.txt.html#is" class="d">is</a> not possible to override them (unlike some other languages).
+
+						<span id="E1356" class="t">E1356</span> <span id="E1357" class="t">E1357</span> <span id="E1358" class="t">E1358</span>
+<a href="vim9class.txt.html#Object" class="d">Object</a> methods of the base <a href="vim9class.txt.html#class" class="d">class</a> can be overruled.  The signature (arguments,
+argument types and return type) <a href="vim_faq.txt.html#must" class="d">must</a> be exactly the same.  If the return type
+of <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> class, then that <a href="vim9class.txt.html#class" class="d">class</a> or one of its subclasses can be used
+in the extended method.  The <a href="eval.txt.html#method" class="d">method</a> of the base <a href="vim9class.txt.html#class" class="d">class</a> can be called by
+prefixing "super."<a href="repeat.txt.html#." class="d">.</a>
+
+						<span id="E1377" class="t">E1377</span>
+The access level of <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="d">method</a> (public or protected) in <a href="insert.txt.html#a" class="d">a</a> child <a href="vim9class.txt.html#class" class="d">class</a> should be
+the same <a href="motion.txt.html#as" class="d">as</a> the super class.
+
+Other <a href="vim9class.txt.html#object" class="d">object</a> methods of the base <a href="vim9class.txt.html#class" class="d">class</a> are taken over by the child class.
+
+<a href="vim9class.txt.html#Class" class="d">Class</a> methods, including methods <a href="starting.txt.html#starting" class="d">starting</a> with "new"<a href="motion.txt.html#%2C" class="d">,</a> can be overruled, like
+with <a href="vim9class.txt.html#object" class="d">object</a> methods.  The <a href="eval.txt.html#method" class="d">method</a> on the base <a href="vim9class.txt.html#class" class="d">class</a> can be called by prefixing
+the name of the <a href="vim9class.txt.html#class" class="d">class</a> (for <a href="vim9class.txt.html#class" class="d">class</a> methods) or "super."<a href="repeat.txt.html#." class="d">.</a>
+
+Unlike other languages, the <a href="vim9class.txt.html#constructor" class="d">constructor</a> of the base <a href="vim9class.txt.html#class" class="d">class</a> does not need to be
+invoked.  In fact, <a href="motion.txt.html#it" class="d">it</a> cannot be invoked.  If some <a href="starting.txt.html#initialization" class="d">initialization</a> from the base
+<a href="vim9class.txt.html#class" class="d">class</a> also needs to be done in <a href="insert.txt.html#a" class="d">a</a> child class, <a href="change.txt.html#put" class="d">put</a> <a href="motion.txt.html#it" class="d">it</a> in an <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#method" class="d">method</a> and
+call that <a href="eval.txt.html#method" class="d">method</a> from every constructor().
+
+If the base <a href="vim9class.txt.html#class" class="d">class</a> did not specify <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#new%28%29" class="d">new()</a> <a href="eval.txt.html#method" class="d">method</a> then one was automatically
+created.  This <a href="eval.txt.html#method" class="d">method</a> will not be taken over by the child class.  The child
+<a href="vim9class.txt.html#class" class="d">class</a> can define its own <a href="vim9class.txt.html#new%28%29" class="d">new()</a> method, or, if there isn't one, <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#new%28%29" class="d">new()</a> <a href="eval.txt.html#method" class="d">method</a>
+will be added automatically.
+
+
+<span class="h">A class implementing an interface </span>
+					<span id="implements" class="t">implements</span> <span id="E1346" class="t">E1346</span> <span id="E1347" class="t">E1347</span> <span id="E1389" class="t">E1389</span>
+<a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> can implement one or more interfaces.  The "<a href="vim9class.txt.html#implements" class="d">implements</a>" keyword can
+only appear once <span id="E1350" class="t">E1350</span> <a href="repeat.txt.html#." class="d">.</a>  Multiple interfaces can be specified, separated by
+commas.  Each <a href="vim9class.txt.html#interface" class="d">interface</a> name can appear only once. <span id="E1351" class="t">E1351</span>
+
+<span class="h">A class defining an interface </span>
+							<span id="specifies" class="t">specifies</span>
+<a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> can declare its interface, the <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> and methods, with <a href="insert.txt.html#a" class="d">a</a>
+named interface.  This avoids the need for separately specifying the
+interface, which <a href="motion.txt.html#is" class="d">is</a> often done in many languages, especially Java.
+TODO: This <a href="motion.txt.html#is" class="d">is</a> currently not implemented.
+
+<span class="h">Items in a class </span>
+						<span id="E1318" class="t">E1318</span> <span id="E1325" class="t">E1325</span> <span id="E1388" class="t">E1388</span>
+Inside <a href="insert.txt.html#a" class="d">a</a> class, in between <span class="e">:class</span> and <span class="e">:endclass</span>, these items can appear:
+<a href="motion.txt.html#-" class="d">-</a> An <a href="vim9class.txt.html#object" class="d">object</a> variable declaration: 
+<span class="e">	var _protectedVariableName: memberType</span>
+<span class="e">	var readonlyVariableName: memberType</span>
+<span class="e">	public var readwriteVariableName: memberType</span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> variable declaration: 
+<span class="e">	static var _protectedClassVariableName: memberType</span>
+<span class="e">	static var readonlyClassVariableName: memberType</span>
+<span class="e">	public static var readwriteClassVariableName: memberType</span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#constructor" class="d">constructor</a> method: 
+<span class="e">	def new(arguments)</span>
+<span class="e">	def newName(arguments)</span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> method: 
+<span class="e">	static def SomeMethod(arguments)</span>
+<span class="e">	static def _ProtectedMethod(arguments)</span>
+<a href="motion.txt.html#-" class="d">-</a> An <a href="vim9class.txt.html#object" class="d">object</a> method: 
+<span class="e">	def SomeMethod(arguments)</span>
+<span class="e">	def _ProtectedMethod(arguments)</span>
+<span class="e"></span>
+For the <a href="vim9class.txt.html#object" class="d">object</a> variable the type <a href="vim_faq.txt.html#must" class="d">must</a> be specified.  The best way <a href="motion.txt.html#is" class="d">is</a> to <a href="diff.txt.html#do" class="d">do</a>
+this explicitly with "<a href="cmdline.txt.html#%3A" class="d">:</a> <span class="s">{type}</span>"<a href="repeat.txt.html#." class="d">.</a>  For simple types you can also use an
+initializer, such <a href="motion.txt.html#as" class="d">as</a> "<a href="change.txt.html#%3D" class="d">=</a> 123"<a href="motion.txt.html#%2C" class="d">,</a> and Vim will see that the type <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> number.
+Avoid doing this for more complex types and when the type will be incomplete.
+For example: 
+<span class="e">	var nameList = []</span>
+This <a href="vim9class.txt.html#specifies" class="d">specifies</a> <a href="insert.txt.html#a" class="d">a</a> list, but the item type <a href="motion.txt.html#is" class="d">is</a> unknown.  Better use: 
+<span class="e">	var nameList: list&lt;string&gt;</span>
+The <a href="starting.txt.html#initialization" class="d">initialization</a> isn't needed, the <a href="eval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> empty by default.
+							<span id="E1330" class="t">E1330</span>
+Some types cannot be used, such <a href="motion.txt.html#as" class="d">as</a> "void"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="vim9.txt.html#null" class="d">null</a>" and "<a href="eval.txt.html#v%3Anone" class="d">v:none</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">Builtin Object Methods </span>
+                                                       <span id="builtin-object-methods" class="t">builtin-object-methods</span>
+Some of the builtin <a href="eval.txt.html#functions" class="d">functions</a> like <a href="builtin.txt.html#empty%28%29" class="l">empty()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="builtin.txt.html#len%28%29" class="l">len()</a> and <a href="builtin.txt.html#string%28%29" class="l">string()</a> can be
+used with an object.  An <a href="vim9class.txt.html#object" class="d">object</a> can implement <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="d">method</a> with the same name <a href="motion.txt.html#as" class="d">as</a>
+these builtin <a href="eval.txt.html#functions" class="d">functions</a> to return an object-specific value.
+
+							<span id="E1412" class="t">E1412</span>
+The following builtin methods are supported:
+							<span id="object-empty%28%29" class="t">object-empty()</span>
+    <a href="builtin.txt.html#empty%28%29" class="d">empty()</a>  Invoked by the <a href="builtin.txt.html#empty%28%29" class="l">empty()</a> function to check whether an <a href="vim9class.txt.html#object" class="d">object</a> <a href="motion.txt.html#is" class="d">is</a>
+	     empty.  If this <a href="eval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> missing, then <a href="vim9.txt.html#true" class="d">true</a> <a href="motion.txt.html#is" class="d">is</a> returned.  This
+	     <a href="eval.txt.html#method" class="d">method</a> should not accept any arguments and <a href="vim_faq.txt.html#must" class="d">must</a> return <a href="insert.txt.html#a" class="d">a</a> boolean.
+							<span id="object-len%28%29" class="t">object-len()</span>
+    <a href="builtin.txt.html#len%28%29" class="d">len()</a>    Invoked by the <a href="builtin.txt.html#len%28%29" class="l">len()</a> function to return the length of an
+	     object.  If this <a href="eval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> missing in the class, then an error <a href="motion.txt.html#is" class="d">is</a>
+	     given and zero <a href="motion.txt.html#is" class="d">is</a> returned.  This <a href="eval.txt.html#method" class="d">method</a> should not accept any
+	     arguments and <a href="vim_faq.txt.html#must" class="d">must</a> return <a href="insert.txt.html#a" class="d">a</a> number.
+							<span id="object-string%28%29" class="t">object-string()</span>
+    <a href="builtin.txt.html#string%28%29" class="d">string()</a> Invoked by the <a href="builtin.txt.html#string%28%29" class="l">string()</a> function to get <a href="insert.txt.html#a" class="d">a</a> textual
+	     representation of an object.  Also used by the <a href="eval.txt.html#%3Aecho" class="l">:echo</a> command
+	     for an object.  If this <a href="eval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> missing in the class, then <a href="insert.txt.html#a" class="d">a</a>
+	     built-in default textual representation <a href="motion.txt.html#is" class="d">is</a> used.  This <a href="eval.txt.html#method" class="d">method</a>
+	     should not accept any arguments and <a href="vim_faq.txt.html#must" class="d">must</a> return <a href="insert.txt.html#a" class="d">a</a> string.
+
+							<span id="E1413" class="t">E1413</span>
+<a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#class" class="d">class</a> <a href="eval.txt.html#method" class="d">method</a> cannot be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> builtin method.
+
+<span class="h">Defining an interface </span>
+			<span id="interface" class="t">interface</span> <span id="Interface" class="t">Interface</span> <span id="%3Ainterface" class="t">:interface</span> <span id="%3Aendinterface" class="t">:endinterface</span>
+An <a href="vim9class.txt.html#interface" class="d">interface</a> <a href="motion.txt.html#is" class="d">is</a> defined between <span class="e">:interface</span> and <span class="e">:endinterface</span>.  It may be
+prefixed with <span class="e">:export</span>: 
+<span class="e"></span>
+<span class="e">	interface InterfaceName</span>
+<span class="e">	endinterface</span>
+<span class="e"></span>
+<span class="e">	export interface InterfaceName</span>
+<span class="e">	endinterface</span>
+							<span id="E1344" class="t">E1344</span>
+An <a href="vim9class.txt.html#interface" class="d">interface</a> can declare <a href="vim9class.txt.html#object" class="d">object</a> variables, just like in <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> but without
+any initializer.
+							<span id="E1345" class="t">E1345</span>
+An <a href="vim9class.txt.html#interface" class="d">interface</a> can declare methods with <span class="e">:def</span>, including the arguments and
+return type, but without the body and without <span class="e">:enddef</span>.  Example: 
+<span class="e"></span>
+<span class="e">	interface HasSurface</span>
+<span class="e">	   var size: number</span>
+<span class="e">	   def Surface(): number</span>
+<span class="e">	endinterface</span>
+<span class="e"></span>
+An <a href="vim9class.txt.html#interface" class="d">interface</a> name <a href="vim_faq.txt.html#must" class="d">must</a> start with an <a href="change.txt.html#uppercase" class="d">uppercase</a> letter. <span id="E1343" class="t">E1343</span>
+The "Has" prefix can be used to make <a href="motion.txt.html#it" class="d">it</a> easier to guess this <a href="motion.txt.html#is" class="d">is</a> an <a href="vim9class.txt.html#interface" class="d">interface</a>
+name, with <a href="insert.txt.html#a" class="d">a</a> hint about what <a href="motion.txt.html#it" class="d">it</a> provides.
+An <a href="vim9class.txt.html#interface" class="d">interface</a> can only be defined in <a href="insert.txt.html#a" class="d">a</a> <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> file.  <span id="E1342" class="t">E1342</span>
+An <a href="vim9class.txt.html#interface" class="d">interface</a> cannot "implement" another <a href="vim9class.txt.html#interface" class="d">interface</a> but <a href="motion.txt.html#it" class="d">it</a> can "extend" another
+interface. <span id="E1381" class="t">E1381</span>
+
+<span class="h">null object </span>
+
+When <a href="insert.txt.html#a" class="d">a</a> variable <a href="motion.txt.html#is" class="d">is</a> declared to have the type of an object, but <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not
+initialized, the value <a href="motion.txt.html#is" class="d">is</a> null.  When trying to use this <a href="vim9.txt.html#null" class="d">null</a> <a href="vim9class.txt.html#object" class="d">object</a> Vim often
+does not know what <a href="vim9class.txt.html#class" class="d">class</a> was supposed to be used.  Vim then cannot check if
+<a href="insert.txt.html#a" class="d">a</a> variable name <a href="motion.txt.html#is" class="d">is</a> correct and you will get <a href="insert.txt.html#a" class="d">a</a> "Using <a href="insert.txt.html#a" class="d">a</a> <a href="vim9.txt.html#null" class="d">null</a> <a href="vim9class.txt.html#object" class="d">object</a>" error,
+even when the variable name <a href="motion.txt.html#is" class="d">is</a> invalid. <span id="E1360" class="t">E1360</span> <span id="E1362" class="t">E1362</span>
+
+<span class="h">Default constructor </span>
+							<span id="default-constructor" class="t">default-constructor</span>
+In <a href="change.txt.html#case" class="d">case</a> you define <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> without <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#new%28%29" class="d">new()</a> method, one will be automatically
+defined.  This default <a href="vim9class.txt.html#constructor" class="d">constructor</a> will have arguments for all the <a href="vim9class.txt.html#object" class="d">object</a>
+variables, in the order they were specified.  Thus if your <a href="vim9class.txt.html#class" class="d">class</a> looks like: 
+<span class="e"></span>
+<span class="e">	class AutoNew</span>
+<span class="e">	   var name: string</span>
+<span class="e">	   var age: number</span>
+<span class="e">	   var gender: Gender</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+Then the default <a href="vim9class.txt.html#constructor" class="d">constructor</a> will be: 
+<span class="e"></span>
+<span class="e">	def new(this.name = v:none, this.age = v:none, this.gender = v:none)</span>
+<span class="e">	enddef</span>
+<span class="e"></span>
+The "<a href="change.txt.html#%3D" class="d">=</a> <a href="eval.txt.html#v%3Anone" class="d">v:none</a>" default values make the arguments optional.  Thus you can also
+call <span class="e">new()</span> without any arguments.  No assignment will happen and the default
+value for the <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> will be used.  This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> more useful example,
+with default values: 
+<span class="e"></span>
+<span class="e">	class TextPosition</span>
+<span class="e">	   var lnum: number = 1</span>
+<span class="e">	   var col: number = 1</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+If you want the <a href="vim9class.txt.html#constructor" class="d">constructor</a> to have mandatory arguments, you need to write <a href="motion.txt.html#it" class="d">it</a>
+yourself.  For example, if for the AutoNew <a href="vim9class.txt.html#class" class="d">class</a> above you insist on getting
+the name, you can define the <a href="vim9class.txt.html#constructor" class="d">constructor</a> like this: 
+<span class="e"></span>
+<span class="e">	def new(this.name, this.age = v:none, this.gender = v:none)</span>
+<span class="e">	enddef</span>
+
+When using the default <a href="vim9class.txt.html#new%28%29" class="d">new()</a> method, if the order of the <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> in
+the <a href="vim9class.txt.html#class" class="d">class</a> <a href="motion.txt.html#is" class="d">is</a> changed later, then all the callers of the default <a href="vim9class.txt.html#new%28%29" class="d">new()</a> <a href="eval.txt.html#method" class="d">method</a>
+need to change.  To avoid this, the <a href="vim9class.txt.html#new%28%29" class="d">new()</a> <a href="eval.txt.html#method" class="d">method</a> can be explicitly defined
+without any arguments.
+
+							<span id="E1328" class="t">E1328</span>
+<span class="n">Note</span> that you cannot use another default value than "<a href="eval.txt.html#v%3Anone" class="d">v:none</a>" here.  If you
+want to initialize the <a href="vim9class.txt.html#object" class="d">object</a> variables, <a href="diff.txt.html#do" class="d">do</a> <a href="motion.txt.html#it" class="d">it</a> where they are declared.  This
+way you only need to look in one place for the default values.
+
+All <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> will be used in the default constructor, including
+protected access ones.
+
+If the <a href="vim9class.txt.html#class" class="d">class</a> <a href="vim9class.txt.html#extends" class="d">extends</a> another one, the <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> of that <a href="vim9class.txt.html#class" class="d">class</a> will come
+first.
+
+
+<span class="h">Multiple constructors </span>
+						<span id="multiple-constructors" class="t">multiple-constructors</span>
+Normally <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> has just one <a href="vim9class.txt.html#new%28%29" class="d">new()</a> constructor.  In <a href="change.txt.html#case" class="d">case</a> you find that the
+<a href="vim9class.txt.html#constructor" class="d">constructor</a> <a href="motion.txt.html#is" class="d">is</a> often called with the same arguments you may want to simplify
+your code by putting those arguments into <a href="insert.txt.html#a" class="d">a</a> second <a href="vim9class.txt.html#constructor" class="d">constructor</a> method.  For
+example, if you tend to use the color black <a href="insert.txt.html#a" class="d">a</a> lot: 
+<span class="e"></span>
+<span class="e">	def new(this.garment, this.color, this.size)</span>
+<span class="e">	enddef</span>
+<span class="e">	...</span>
+<span class="e">	var pants = new(Garment.pants, Color.black, "XL")</span>
+<span class="e">	var shirt = new(Garment.shirt, Color.black, "XL")</span>
+<span class="e">	var shoes = new(Garment.shoes, Color.black, "45")</span>
+<span class="e"></span>
+Instead of <a href="repeat.txt.html#repeating" class="d">repeating</a> the color every time you can add <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#constructor" class="d">constructor</a> that
+includes it: 
+<span class="e"></span>
+<span class="e">	def newBlack(this.garment, this.size)</span>
+<span class="e">	   this.color = Color.black</span>
+<span class="e">	enddef</span>
+<span class="e">	...</span>
+<span class="e">	var pants = newBlack(Garment.pants, "XL")</span>
+<span class="e">	var shirt = newBlack(Garment.shirt, "XL")</span>
+<span class="e">	var shoes = newBlack(Garment.shoes, "9.5")</span>
+<span class="e"></span>
+<span class="n">Note</span> that the <a href="eval.txt.html#method" class="d">method</a> name <a href="vim_faq.txt.html#must" class="d">must</a> start with "new"<a href="repeat.txt.html#." class="d">.</a>  If there <a href="motion.txt.html#is" class="d">is</a> no <a href="eval.txt.html#method" class="d">method</a> called
+"<a href="vim9class.txt.html#new%28%29" class="d">new()</a>" then the default <a href="vim9class.txt.html#constructor" class="d">constructor</a> <a href="motion.txt.html#is" class="d">is</a> added, even though there are other
+<a href="vim9class.txt.html#constructor" class="d">constructor</a> methods.
+
+<span class="h">Using variable type "any" for an Object</span>
+							<span id="obj-var-type-any" class="t">obj-var-type-any</span>
+You can use <a href="insert.txt.html#a" class="d">a</a> variable declared with type "any" to hold an object.  e.g.
+
+<span class="e">    vim9script</span>
+<span class="e">    class A</span>
+<span class="e">	var n = 10</span>
+<span class="e">	def Get(): number</span>
+<span class="e">	    return this.n</span>
+<span class="e">	enddef</span>
+<span class="e">    endclass</span>
+<span class="e"></span>
+<span class="e">    def Fn(o: any)</span>
+<span class="e">	echo o.n</span>
+<span class="e">	echo o.Get()</span>
+<span class="e">    enddef</span>
+<span class="e"></span>
+<span class="e">    var a = A.new()</span>
+<span class="e">    Fn(a)</span>
+
+In this example, Vim cannot determine the type of the parameter "<a href="insert.txt.html#o" class="d">o</a>" for
+function Fn() <a href="motion.txt.html#at" class="d">at</a> compile time.  It can be either <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#Dict" class="l">Dict</a> or an <a href="vim9class.txt.html#Object" class="l">Object</a>
+value.  Therefore, <a href="motion.txt.html#at" class="d">at</a> runtime, when the type <a href="motion.txt.html#is" class="d">is</a> known, the <a href="vim9class.txt.html#object" class="d">object</a> member
+variable and <a href="eval.txt.html#method" class="d">method</a> are looked up.  This process <a href="motion.txt.html#is" class="d">is</a> not efficient, so <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+recommended to use <a href="insert.txt.html#a" class="d">a</a> more specific type whenever possible for better
+efficiency.
+
+<span class="h">Compiling methods in a Class </span>
+							<span id="class-compile" class="t">class-compile</span>
+The <a href="vim9.txt.html#%3Adefcompile" class="l">:defcompile</a> command can be used to compile all the <a href="vim9class.txt.html#class" class="d">class</a> and <a href="vim9class.txt.html#object" class="d">object</a>
+methods defined in <a href="insert.txt.html#a" class="d">a</a> class: 
+<span class="e"></span>
+<span class="e">	defcompile MyClass	# Compile class "MyClass"</span>
+<span class="e">	defcompile		# Compile the classes in the current script</span>
+
+<span class="h">==============================================================================</span>
+
+7.  Type definition				<span id="typealias" class="t">typealias</span> <span id="Vim9-type" class="t">Vim9-type</span> <span id="%3Atype" class="t">:type</span>
+
+					<span id="E1393" class="t">E1393</span> <span id="E1395" class="t">E1395</span> <span id="E1396" class="t">E1396</span> <span id="E1397" class="t">E1397</span> <span id="E1398" class="t">E1398</span>
+<a href="insert.txt.html#A" class="d">A</a> type definition <a href="motion.txt.html#is" class="d">is</a> giving <a href="insert.txt.html#a" class="d">a</a> name to <a href="insert.txt.html#a" class="d">a</a> type specification.  This <a href="motion.txt.html#is" class="d">is</a> also
+known <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> "type alias"<a href="repeat.txt.html#." class="d">.</a>  The type alias can be used wherever <a href="insert.txt.html#a" class="d">a</a> built-in type
+can be used.  Example: 
+<span class="e"></span>
+<span class="e">    type ListOfStrings = list&lt;string&gt;</span>
+<span class="e">    var s: ListOfStrings = ['a', 'b']</span>
+<span class="e"></span>
+<span class="e">    def ProcessStr(str: ListOfStrings): ListOfStrings</span>
+<span class="e">	return str</span>
+<span class="e">    enddef</span>
+<span class="e">    echo ProcessStr(s)</span>
+
+							<span id="E1394" class="t">E1394</span>
+<a href="insert.txt.html#A" class="d">A</a> type alias name <a href="vim_faq.txt.html#must" class="d">must</a> start with an upper <a href="change.txt.html#case" class="d">case</a> character.  Only existing
+types can be aliased.
+
+							<span id="E1399" class="t">E1399</span>
+<a href="insert.txt.html#A" class="d">A</a> type alias can be created only <a href="motion.txt.html#at" class="d">at</a> the <a href="usr_41.txt.html#script" class="d">script</a> level and not inside <a href="insert.txt.html#a" class="d">a</a>
+function.  <a href="insert.txt.html#A" class="d">A</a> type alias can be exported and used across scripts.
+
+					<span id="E1400" class="t">E1400</span> <span id="E1401" class="t">E1401</span> <span id="E1402" class="t">E1402</span> <span id="E1403" class="t">E1403</span> <span id="E1407" class="t">E1407</span>
+<a href="insert.txt.html#A" class="d">A</a> type alias cannot be used <a href="motion.txt.html#as" class="d">as</a> an expression.  <a href="insert.txt.html#A" class="d">A</a> type alias cannot be used in
+the left-hand-side of an assignment.
+
+For <a href="insert.txt.html#a" class="d">a</a> type alias name, the <a href="builtin.txt.html#typename%28%29" class="l">typename()</a> function returns the type that <a href="motion.txt.html#is" class="d">is</a>
+aliased: 
+<span class="e"></span>
+<span class="e">    type ListOfStudents = list&lt;dict&lt;any&gt;&gt;</span>
+<span class="e">    echo typename(ListOfStudents)</span>
+<span class="e">    typealias&lt;list&lt;dict&lt;any&gt;&gt;&gt;</span>
+
+<span class="h">==============================================================================</span>
+
+8.  Enum					<span id="Vim9-enum" class="t">Vim9-enum</span> <span id="%3Aenum" class="t">:enum</span> <span id="%3Aendenum" class="t">:endenum</span>
+
+						<span id="enum" class="t">enum</span> <span id="E1418" class="t">E1418</span> <span id="E1419" class="t">E1419</span> <span id="E1420" class="t">E1420</span>
+An <a href="vim9class.txt.html#enum" class="d">enum</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> type that can have one of <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of values.  Example: 
+<span class="e"></span>
+<span class="e">    enum Color</span>
+<span class="e">	White,</span>
+<span class="e">	Red,</span>
+<span class="e">	Green, Blue, Black</span>
+<span class="e">    endenum</span>
+
+						<span id="enumvalue" class="t">enumvalue</span> <span id="E1422" class="t">E1422</span> <span id="E1428" class="t">E1428</span>
+The <a href="vim9class.txt.html#enum" class="d">enum</a> values are separated by commas.  More than one <a href="vim9class.txt.html#enum" class="d">enum</a> value can be
+listed in <a href="insert.txt.html#a" class="d">a</a> single line.  The final <a href="vim9class.txt.html#enum" class="d">enum</a> value should not be followed by <a href="insert.txt.html#a" class="d">a</a>
+comma.  Duplicate <a href="vim9class.txt.html#enum" class="d">enum</a> values are not allowed.
+
+An <a href="vim9class.txt.html#enum" class="d">enum</a> value <a href="motion.txt.html#is" class="d">is</a> accessed using the <a href="vim9class.txt.html#enum" class="d">enum</a> name followed by the value name: 
+<span class="e"></span>
+<span class="e">    var a: Color = Color.Blue</span>
+
+Enums are treated <a href="motion.txt.html#as" class="d">as</a> classes, where each <a href="vim9class.txt.html#enum" class="d">enum</a> value <a href="motion.txt.html#is" class="d">is</a> essentially an instance
+of that class.  Unlike typical <a href="vim9class.txt.html#object" class="d">object</a> instantiation with the <a href="vim9class.txt.html#new%28%29" class="l">new()</a> method,
+<a href="vim9class.txt.html#enum" class="d">enum</a> instances cannot be created this way.
+
+An <a href="vim9class.txt.html#enum" class="d">enum</a> can only be defined in <a href="insert.txt.html#a" class="d">a</a> <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> file.  	<span id="E1414" class="t">E1414</span>
+An <a href="vim9class.txt.html#enum" class="d">enum</a> cannot be defined inside <a href="insert.txt.html#a" class="d">a</a> function.		<span id="E1435" class="t">E1435</span>
+
+							<span id="E1415" class="t">E1415</span>
+An <a href="vim9class.txt.html#enum" class="d">enum</a> name <a href="vim_faq.txt.html#must" class="d">must</a> start with an <a href="change.txt.html#uppercase" class="d">uppercase</a> letter.  The name of an <a href="vim9class.txt.html#enum" class="d">enum</a> value
+in an <a href="vim9class.txt.html#enum" class="d">enum</a> can start with an upper or <a href="change.txt.html#lowercase" class="d">lowercase</a> letter.
+
+							<span id="E1416" class="t">E1416</span>
+An <a href="vim9class.txt.html#enum" class="d">enum</a> can implement an <a href="vim9class.txt.html#interface" class="d">interface</a> but cannot extend <a href="insert.txt.html#a" class="d">a</a> class: 
+<span class="e"></span>
+<span class="e">    enum MyEnum implements MyIntf</span>
+<span class="e">	Value1,</span>
+<span class="e">	Value2</span>
+<span class="e"></span>
+<span class="e">	def SomeMethod()</span>
+<span class="e">	enddef</span>
+<span class="e">    endenum</span>
+
+							<span id="enum-constructor" class="t">enum-constructor</span>
+The <a href="vim9class.txt.html#enum" class="d">enum</a> value <a href="index.txt.html#objects" class="d">objects</a> in an <a href="vim9class.txt.html#enum" class="d">enum</a> are constructed like any other <a href="index.txt.html#objects" class="d">objects</a> using
+the <a href="vim9class.txt.html#new%28%29" class="l">new()</a> method.  Arguments can be passed to the <a href="vim9class.txt.html#enum" class="d">enum</a> <a href="vim9class.txt.html#constructor" class="d">constructor</a> by
+specifying them after the <a href="vim9class.txt.html#enum" class="d">enum</a> value name, just like calling <a href="insert.txt.html#a" class="d">a</a> function.  The
+default <a href="vim9class.txt.html#constructor" class="d">constructor</a> doesn't have any arguments.
+
+							<span id="E1417" class="t">E1417</span>
+An <a href="vim9class.txt.html#enum" class="d">enum</a> can contain <a href="vim9class.txt.html#class" class="d">class</a> variables, <a href="vim9class.txt.html#class" class="d">class</a> methods, <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> and
+<a href="vim9class.txt.html#object" class="d">object</a> methods.  The methods in an <a href="vim9class.txt.html#enum" class="d">enum</a> cannot be <a href="vim9class.txt.html#%3Aabstract" class="l">:abstract</a> methods.
+
+The following example shows an <a href="vim9class.txt.html#enum" class="d">enum</a> with <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> and methods: 
+<span class="e"></span>
+<span class="e">    vim9script</span>
+<span class="e">    enum Planet</span>
+<span class="e">	Earth(1, false),</span>
+<span class="e">	Jupiter(95, true),</span>
+<span class="e">	Saturn(146, true)</span>
+<span class="e"></span>
+<span class="e">	var moons: number</span>
+<span class="e">	var has_rings: bool</span>
+<span class="e">	def GetMoons(): number</span>
+<span class="e">	    return this.moons</span>
+<span class="e">	enddef</span>
+<span class="e">    endenum</span>
+<span class="e">    echo Planet.Jupiter.GetMoons()</span>
+<span class="e">    echo Planet.Earth.has_rings</span>
+
+						<span id="E1421" class="t">E1421</span> <span id="E1423" class="t">E1423</span> <span id="E1424" class="t">E1424</span> <span id="E1425" class="t">E1425</span>
+Enums and their values are immutable.  They cannot be utilized <a href="motion.txt.html#as" class="d">as</a> numerical or
+<a href="eval.txt.html#string" class="d">string</a> types.  Enum values can declare mutable instance variables.
+
+						<span id="enum-name" class="t">enum-name</span> <span id="E1427" class="t">E1427</span>
+Each <a href="vim9class.txt.html#enum" class="d">enum</a> value <a href="vim9class.txt.html#object" class="d">object</a> has <a href="insert.txt.html#a" class="d">a</a> "name" instance variable which contains the name
+of the <a href="vim9class.txt.html#enum" class="d">enum</a> value.  This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> readonly variable.
+
+						<span id="enum-ordinal" class="t">enum-ordinal</span> <span id="E1426" class="t">E1426</span>
+Each <a href="vim9class.txt.html#enum" class="d">enum</a> value has an associated ordinal number <a href="starting.txt.html#starting" class="d">starting</a> with 0.  The ordinal
+number of an <a href="vim9class.txt.html#enum" class="d">enum</a> value can be accessed using the "ordinal" instance variable.
+This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> readonly variable.  <span class="n">Note</span> that if the ordering of the <a href="vim9class.txt.html#enum" class="d">enum</a> values in
+an <a href="vim9class.txt.html#enum" class="d">enum</a> <a href="motion.txt.html#is" class="d">is</a> changed, then their ordinal values will also change.
+
+						<span id="enum-values" class="t">enum-values</span>
+All the values in an <a href="vim9class.txt.html#enum" class="d">enum</a> can be accessed using the "values" <a href="vim9class.txt.html#class" class="d">class</a> variable
+which <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#List" class="d">List</a> of the <a href="vim9class.txt.html#enum" class="d">enum</a> objects.  This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> readonly variable.
+
+Example: 
+<span class="e">    enum Planet</span>
+<span class="e">	Mercury,</span>
+<span class="e">	Venus,</span>
+<span class="e">	Earth</span>
+<span class="e">    endenum</span>
+<span class="e"></span>
+<span class="e">    echo Planet.Mercury</span>
+<span class="e">    echo Planet.Venus.name</span>
+<span class="e">    echo Planet.Venus.ordinal</span>
+<span class="e">    for p in Planet.values</span>
+<span class="e">	# ...</span>
+<span class="e">    endfor</span>
+
+An <a href="vim9class.txt.html#enum" class="d">enum</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> with <a href="vim9class.txt.html#class" class="d">class</a> <a href="eval.txt.html#variables" class="d">variables</a> for the <a href="vim9class.txt.html#enum" class="d">enum</a> value <a href="index.txt.html#objects" class="d">objects</a> and <a href="vim9class.txt.html#object" class="d">object</a>
+<a href="eval.txt.html#variables" class="d">variables</a> for the <a href="vim9class.txt.html#enum" class="d">enum</a> value name and the <a href="vim9class.txt.html#enum" class="d">enum</a> value ordinal: 
+<span class="e"></span>
+<span class="e">    enum Planet</span>
+<span class="e">	Mercury,</span>
+<span class="e">	Venus</span>
+<span class="e">    endenum</span>
+
+The above <a href="vim9class.txt.html#enum" class="d">enum</a> definition <a href="motion.txt.html#is" class="d">is</a> equivalent to the following <a href="vim9class.txt.html#class" class="d">class</a> definition: 
+<span class="e"></span>
+<span class="e">    class Planet</span>
+<span class="e">      public static final Mercury: Planet = Planet.new('Mercury', 0)</span>
+<span class="e">      public static final Venus: Planet = Planet.new('Venus', 1)</span>
+<span class="e"></span>
+<span class="e">      public static const values: list&lt;Planet&gt; = [Planet.Mercury, Planet.Venus]</span>
+<span class="e"></span>
+<span class="e">      public const name: string</span>
+<span class="e">      public const ordinal: number</span>
+<span class="e">    endclass</span>
+
+<a href="insert.txt.html#A" class="d">A</a> <a href="vim9class.txt.html#enum" class="d">enum</a> can contain <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> and methods just like <a href="insert.txt.html#a" class="d">a</a> regular class: 
+<span class="e"></span>
+<span class="e">    enum Color</span>
+<span class="e">	Cyan([0, 255, 255]),</span>
+<span class="e">	Magenta([255, 0, 255]),</span>
+<span class="e">	Gray([128, 128, 128])</span>
+<span class="e"></span>
+<span class="e">	var rgb_values: list&lt;number&gt;</span>
+<span class="e"></span>
+<span class="e">	def Get_RGB(): list&lt;number&gt;</span>
+<span class="e">	    return this.rgb_values</span>
+<span class="e">	enddef</span>
+<span class="e">    endenum</span>
+<span class="e">    echo Color.Magenta.Get_RGB()</span>
+
+<span class="h">==============================================================================</span>
+
+<span id="_rationale">9.  Rationale</span>
+
+Most of the choices for <a href="vim9.txt.html#Vim9" class="l">Vim9</a> classes come from popular and recently
+developed languages, such <a href="motion.txt.html#as" class="d">as</a> Java, TypeScript and Dart.  The <a href="syntax.txt.html#syntax" class="d">syntax</a> has been
+made to fit with the way Vim <a href="usr_41.txt.html#script" class="d">script</a> works, such <a href="motion.txt.html#as" class="d">as</a> using <span class="e">endclass</span> instead of
+using curly braces around the whole class.
+
+Some common constructs of object-oriented languages were chosen very long ago
+when this kind of programming was still new, and later found to be
+sub-optimal.  By this time those constructs were widely used and <a href="change.txt.html#changing" class="d">changing</a> them
+was not an option.  In Vim we <a href="diff.txt.html#do" class="d">do</a> have the freedom to make different choices,
+since classes are completely new.  We can make the <a href="syntax.txt.html#syntax" class="d">syntax</a> simpler and more
+consistent than what "old" languages use.  Without diverting too much, <a href="motion.txt.html#it" class="d">it</a>
+should still mostly look like what you know from existing languages.
+
+Some recently developed languages add all kinds of fancy features that we
+don't need for Vim.  But some have nice ideas that we <a href="diff.txt.html#do" class="d">do</a> want to use.
+Thus we <a href="intro.txt.html#end" class="d">end</a> up with <a href="insert.txt.html#a" class="d">a</a> base of what <a href="motion.txt.html#is" class="d">is</a> common in popular languages, dropping
+what looks like <a href="insert.txt.html#a" class="d">a</a> bad idea, and adding some nice features that are <a href="starting.txt.html#easy" class="d">easy</a> to
+understand.
+
+The main rules we use to make decisions:
+<a href="motion.txt.html#-" class="d">-</a> Keep <a href="motion.txt.html#it" class="d">it</a> simple.
+<a href="motion.txt.html#-" class="d">-</a> No surprises, mostly <a href="diff.txt.html#do" class="d">do</a> what other languages are doing.
+<a href="motion.txt.html#-" class="d">-</a> Avoid mistakes from the past.
+<a href="motion.txt.html#-" class="d">-</a> Avoid the need for the <a href="usr_41.txt.html#script" class="d">script</a> writer to consult the <a href="helphelp.txt.html#help" class="d">help</a> to understand how
+  things work, most things should be obvious.
+<a href="motion.txt.html#-" class="d">-</a> Keep <a href="motion.txt.html#it" class="d">it</a> consistent.
+<a href="motion.txt.html#-" class="d">-</a> Aim <a href="motion.txt.html#at" class="d">at</a> an average size plugin, not <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> huge project.
+
+
+<span class="h">Using new() for the constructor </span>
+
+Many languages use the <a href="vim9class.txt.html#class" class="d">class</a> name for the <a href="vim9class.txt.html#constructor" class="d">constructor</a> method.  <a href="insert.txt.html#A" class="d">A</a> disadvantage
+<a href="motion.txt.html#is" class="d">is</a> that quite often this <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> long name.  And when <a href="change.txt.html#changing" class="d">changing</a> the <a href="vim9class.txt.html#class" class="d">class</a> name all
+<a href="vim9class.txt.html#constructor" class="d">constructor</a> methods need to be renamed.  Not <a href="insert.txt.html#a" class="d">a</a> big deal, but still <a href="insert.txt.html#a" class="d">a</a>
+disadvantage.
+
+Other languages, such <a href="motion.txt.html#as" class="d">as</a> TypeScript, use <a href="insert.txt.html#a" class="d">a</a> specific name, such <a href="motion.txt.html#as" class="d">as</a>
+"constructor()"<a href="repeat.txt.html#." class="d">.</a>  That seems better.  However, using "new" or "<a href="vim9class.txt.html#new%28%29" class="d">new()</a>" to
+create <a href="insert.txt.html#a" class="d">a</a> new <a href="vim9class.txt.html#object" class="d">object</a> has no obvious relation with "constructor()"<a href="repeat.txt.html#." class="d">.</a>
+
+For <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> using the same <a href="eval.txt.html#method" class="d">method</a> name for all constructors seemed like
+the right choice, and by calling <a href="motion.txt.html#it" class="d">it</a> <a href="vim9class.txt.html#new%28%29" class="d">new()</a> the relation between the caller and
+the <a href="eval.txt.html#method" class="d">method</a> being called <a href="motion.txt.html#is" class="d">is</a> obvious.
+
+<span class="h">No overloading of the constructor </span>
+
+In Vim script, both legacy and <a href="vim9.txt.html#Vim9" class="l">Vim9</a> script, there <a href="motion.txt.html#is" class="d">is</a> no overloading of
+methods.  That means <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not possible to use the same <a href="eval.txt.html#method" class="d">method</a> name with
+different types of arguments.  Therefore there also <a href="motion.txt.html#is" class="d">is</a> only one <a href="vim9class.txt.html#new%28%29" class="d">new()</a>
+constructor.
+
+With <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#it" class="d">it</a> would be possible to support overloading, since
+arguments are typed.  However, this gets complicated very quickly.  Looking <a href="motion.txt.html#at" class="d">at</a>
+<a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#new%28%29" class="d">new()</a> call one has to inspect the types of the arguments to know which of
+several <a href="vim9class.txt.html#new%28%29" class="d">new()</a> methods <a href="motion.txt.html#is" class="d">is</a> actually being called.  And that can require
+inspecting quite <a href="insert.txt.html#a" class="d">a</a> bit of code.  For example, if one of the arguments <a href="motion.txt.html#is" class="d">is</a> the
+return value of <a href="insert.txt.html#a" class="d">a</a> method, you need to find that <a href="eval.txt.html#method" class="d">method</a> to see what type <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+returning.
+
+Instead, every <a href="vim9class.txt.html#constructor" class="d">constructor</a> has to have <a href="insert.txt.html#a" class="d">a</a> different name, <a href="starting.txt.html#starting" class="d">starting</a> with "new"<a href="repeat.txt.html#." class="d">.</a>
+That way multiple constructors with different arguments are possible, while <a href="motion.txt.html#it" class="d">it</a>
+<a href="motion.txt.html#is" class="d">is</a> very <a href="starting.txt.html#easy" class="d">easy</a> to see which <a href="vim9class.txt.html#constructor" class="d">constructor</a> <a href="motion.txt.html#is" class="d">is</a> being used.  And the type of
+arguments can be properly checked.
+
+<span class="h">No overloading of methods </span>
+
+Same reasoning <a href="motion.txt.html#as" class="d">as</a> for the constructor: It <a href="motion.txt.html#is" class="d">is</a> often not obvious what type
+arguments have, which would make <a href="motion.txt.html#it" class="d">it</a> difficult to figure out what <a href="eval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a>
+actually being called.  Better just give the methods <a href="insert.txt.html#a" class="d">a</a> different name, then
+type checking will make sure <a href="motion.txt.html#it" class="d">it</a> works <a href="motion.txt.html#as" class="d">as</a> you intended.  This rules out
+polymorphism, which we don't really need anyway.
+
+<span class="h">Single inheritance and interfaces </span>
+
+Some languages support multiple inheritance.  Although that can be useful in
+some cases, <a href="motion.txt.html#it" class="d">it</a> makes the rules of how <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> works quite complicated.
+Instead, using interfaces to declare what <a href="motion.txt.html#is" class="d">is</a> supported <a href="motion.txt.html#is" class="d">is</a> much simpler.  The
+very popular Java language does <a href="motion.txt.html#it" class="d">it</a> this way, and <a href="motion.txt.html#it" class="d">it</a> should be good enough for
+Vim.  The "keep <a href="motion.txt.html#it" class="d">it</a> simple" rule applies here.
+
+Explicitly declaring that <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> supports an <a href="vim9class.txt.html#interface" class="d">interface</a> makes <a href="motion.txt.html#it" class="d">it</a> <a href="starting.txt.html#easy" class="d">easy</a> to see
+what <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> <a href="motion.txt.html#is" class="d">is</a> intended for.  It also makes <a href="motion.txt.html#it" class="d">it</a> possible to <a href="diff.txt.html#do" class="d">do</a> proper type
+checking.  When an <a href="vim9class.txt.html#interface" class="d">interface</a> <a href="motion.txt.html#is" class="d">is</a> changed any <a href="vim9class.txt.html#class" class="d">class</a> that declares to implement
+<a href="motion.txt.html#it" class="d">it</a> will be checked if that change was also changed.  The mechanism to assume <a href="insert.txt.html#a" class="d">a</a>
+<a href="vim9class.txt.html#class" class="d">class</a> <a href="vim9class.txt.html#implements" class="d">implements</a> an <a href="vim9class.txt.html#interface" class="d">interface</a> just because the methods happen to match <a href="motion.txt.html#is" class="d">is</a>
+brittle and leads to obscure problems, let's not <a href="diff.txt.html#do" class="d">do</a> that.
+
+<span class="h">Using "this.variable" everywhere </span>
+
+The <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> in <a href="various.txt.html#various" class="d">various</a> programming languages can often be accessed in
+different ways, depending on the location.  Sometimes "this." has to be
+prepended to avoid ambiguity.  They are usually declared without "this."<a href="repeat.txt.html#." class="d">.</a>
+That <a href="motion.txt.html#is" class="d">is</a> quite inconsistent and sometimes confusing.
+
+<a href="insert.txt.html#A" class="d">A</a> very common issue <a href="motion.txt.html#is" class="d">is</a> that in the <a href="vim9class.txt.html#constructor" class="d">constructor</a> the arguments use the same name
+<a href="motion.txt.html#as" class="d">as</a> the <a href="vim9class.txt.html#object" class="d">object</a> variable.  Then for these <a href="eval.txt.html#variables" class="d">variables</a> "this." needs to be prefixed
+in the body, while for other <a href="eval.txt.html#variables" class="d">variables</a> this <a href="motion.txt.html#is" class="d">is</a> not needed and often omitted.
+This leads to <a href="insert.txt.html#a" class="d">a</a> mix of <a href="eval.txt.html#variables" class="d">variables</a> with and without "this."<a href="motion.txt.html#%2C" class="d">,</a> which <a href="motion.txt.html#is" class="d">is</a>
+inconsistent.
+
+For <a href="vim9.txt.html#Vim9" class="l">Vim9</a> classes the "this." prefix <a href="motion.txt.html#is" class="d">is</a> always used for declared methods and
+variables.  Simple and consistent.  When looking <a href="motion.txt.html#at" class="d">at</a> the code inside <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a>
+it's also directly clear which variable references are <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> and
+which aren't.
+
+<span class="h">Using class variables </span>
+
+Using "static variable" to declare <a href="insert.txt.html#a" class="d">a</a> <a href="vim9class.txt.html#class" class="d">class</a> variable <a href="motion.txt.html#is" class="d">is</a> very common, nothing
+new here.  In <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> these can be accessed directly by their name.
+Very much like how <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#script-local" class="d">script-local</a> variable can be used in <a href="insert.txt.html#a" class="d">a</a> method.  Since
+<a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> are always accessed with "this." prepended, it's also quickly
+clear what kind of variable <a href="motion.txt.html#it" class="d">it</a> is.
+
+TypeScript prepends the <a href="vim9class.txt.html#class" class="d">class</a> name before the <a href="vim9class.txt.html#class" class="d">class</a> variable name, also inside
+the class.  This has two problems: The <a href="vim9class.txt.html#class" class="d">class</a> name can be rather long, taking
+up quite <a href="insert.txt.html#a" class="d">a</a> bit of space, and when the <a href="vim9class.txt.html#class" class="d">class</a> <a href="motion.txt.html#is" class="d">is</a> renamed all these places need
+to be changed too.
+
+<span class="h">Declaring object and class variables </span>
+
+The main choice <a href="motion.txt.html#is" class="d">is</a> whether to use "var" <a href="motion.txt.html#as" class="d">as</a> with variable declarations.
+TypeScript does not use it: 
+<span class="e">	class Point {</span>
+<span class="e">	  x: number;</span>
+<span class="e">	  y = 0;</span>
+<span class="e">	}</span>
+<span class="e"></span>
+Following that Vim <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> could be declared like this: 
+<span class="e">	class Point</span>
+<span class="e">	  this.x: number</span>
+<span class="e">	  this.y = 0</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+Some users pointed out that this looks more like an assignment than <a href="insert.txt.html#a" class="d">a</a>
+declaration.  Adding "var" and omitting "this." changes that: 
+<span class="e">	class Point</span>
+<span class="e">	  var x: number</span>
+<span class="e">	  var y = 0</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+We also need to be able to declare <a href="vim9class.txt.html#class" class="d">class</a> <a href="eval.txt.html#variables" class="d">variables</a> using the "static" keyword.
+There we can also choose to leave out "var"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">	class Point</span>
+<span class="e">	  var x: number</span>
+<span class="e">	  static count = 0</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+Or <a href="diff.txt.html#do" class="d">do</a> use it, before "static"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">	class Point</span>
+<span class="e">	  var x: number</span>
+<span class="e">	  var static count = 0</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+Or after "static"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">	class Point</span>
+<span class="e">	  var x: number</span>
+<span class="e">	  static var count = 0</span>
+<span class="e">	endclass</span>
+<span class="e"></span>
+This <a href="motion.txt.html#is" class="d">is</a> more in line with "static def Func()"<a href="repeat.txt.html#." class="d">.</a>
+
+There <a href="motion.txt.html#is" class="d">is</a> no clear preference whether to use "var" or not.  The two main
+reasons to leave <a href="motion.txt.html#it" class="d">it</a> out are:
+1. TypeScript and other popular languages <a href="diff.txt.html#do" class="d">do</a> not use it.
+2. Less clutter.
+
+However, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> more common for languages to reuse their general variable and
+function declaration <a href="syntax.txt.html#syntax" class="d">syntax</a> for class/object <a href="eval.txt.html#variables" class="d">variables</a> and methods.  <a href="vim9.txt.html#Vim9" class="d">Vim9</a> also
+reuses the general function declaration <a href="syntax.txt.html#syntax" class="d">syntax</a> for methods.  So, for the sake
+of consistency, we require "var" in these declarations.
+
+<span class="h">Using "ClassName.new()" to construct an object </span>
+
+Many languages use the "new" <a href="motion.txt.html#operator" class="d">operator</a> to create an object, which <a href="motion.txt.html#is" class="d">is</a> actually
+kind of strange, since the <a href="vim9class.txt.html#constructor" class="d">constructor</a> <a href="motion.txt.html#is" class="d">is</a> defined <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="d">method</a> with arguments,
+not <a href="insert.txt.html#a" class="d">a</a> command.  TypeScript also has the "new" keyword, but the <a href="eval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a>
+called "constructor()"<a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> hard to see the relation between the two.
+
+In <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> the <a href="vim9class.txt.html#constructor" class="d">constructor</a> <a href="eval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> called new(), and <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> invoked <a href="motion.txt.html#as" class="d">as</a>
+new(), simple and straightforward.  Other languages use "new ClassName()"<a href="motion.txt.html#%2C" class="d">,</a>
+while there <a href="motion.txt.html#is" class="d">is</a> no ClassName() method, it's <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="d">method</a> by another name in the
+<a href="vim9class.txt.html#class" class="d">class</a> called ClassName.  Quite confusing.
+
+
+<span class="h">Vim9class access modes </span>
+						    <span id="vim9-access-modes" class="t">vim9-access-modes</span>
+The variable access modes, and their meaning, supported by Vim9class are
+	<a href="vim9class.txt.html#public-variable" class="l">public-variable</a>  	read and write from anywhere
+	<a href="vim9class.txt.html#read-only-variable" class="l">read-only-variable</a>  	read from anywhere, write from inside the
+				<a href="vim9class.txt.html#class" class="d">class</a> and sub-classes
+	<a href="vim9class.txt.html#protected-variable" class="l">protected-variable</a>  	read and write from inside the <a href="vim9class.txt.html#class" class="d">class</a> and
+				sub-classes
+
+The <a href="eval.txt.html#method" class="d">method</a> access modes are similar, but without the read-only mode.
+
+
+<span class="h">Default read access to object variables </span>
+
+Some users will remark that the access rules for <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> are
+asymmetric.  Well, that <a href="motion.txt.html#is" class="d">is</a> intentional.  Changing <a href="insert.txt.html#a" class="d">a</a> value <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> very different
+action than reading <a href="insert.txt.html#a" class="d">a</a> value.  The read operation has no side effects, <a href="motion.txt.html#it" class="d">it</a> can
+be done any number of times without affecting the object.  Changing the value
+can have many side effects, and even have <a href="insert.txt.html#a" class="d">a</a> ripple effect, affecting other
+objects.
+
+When adding <a href="vim9class.txt.html#object" class="d">object</a> <a href="eval.txt.html#variables" class="d">variables</a> one usually doesn't think much about this, just
+get the type right.  And normally the values are set in the <a href="vim9class.txt.html#new%28%29" class="d">new()</a> method.
+Therefore defaulting to read access only "just works" in most cases.  And when
+directly <a href="editing.txt.html#writing" class="d">writing</a> you get an error, which makes you wonder if you actually want
+to allow that.  This helps <a href="editing.txt.html#writing" class="d">writing</a> code with fewer mistakes.
+
+
+<span class="h">Making object variables protected with an underscore </span>
+
+When an <a href="vim9class.txt.html#object" class="d">object</a> variable <a href="motion.txt.html#is" class="d">is</a> protected, <a href="motion.txt.html#it" class="d">it</a> can only be read and changed inside
+the <a href="vim9class.txt.html#class" class="d">class</a> (and in sub-classes), then <a href="motion.txt.html#it" class="d">it</a> cannot be used outside of the class.
+Prepending an underscore <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> simple way to make that visible.  Various
+programming languages have this <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> recommendation.
+
+In <a href="change.txt.html#case" class="d">case</a> you change your mind and want to make the <a href="vim9class.txt.html#object" class="d">object</a> variable accessible
+outside of the class, you will have to remove the underscore everywhere.
+Since the name only appears in the <a href="vim9class.txt.html#class" class="d">class</a> (and sub-classes) they will be <a href="starting.txt.html#easy" class="d">easy</a>
+to find and change.
+
+The other way around <a href="motion.txt.html#is" class="d">is</a> much harder: you can easily prepend an underscore to
+the <a href="vim9class.txt.html#object" class="d">object</a> variable inside the <a href="vim9class.txt.html#class" class="d">class</a> to make <a href="motion.txt.html#it" class="d">it</a> protected, but any usage
+elsewhere you will have to track down and change.  You may have to make <a href="motion.txt.html#it" class="d">it</a> <a href="insert.txt.html#a" class="d">a</a>
+"set" <a href="eval.txt.html#method" class="d">method</a> call.  This reflects the real world problem that taking away
+access requires work to be done for all places where that access exists.
+
+An alternative would have been using the "protected" keyword, just like
+"public" changes the access in the other direction.  Well, that's just to
+reduce the number of keywords.
+
+<span class="h">No private object variables </span>
+
+Some languages provide several ways to <a href="intro.txt.html#control" class="d">control</a> access to <a href="vim9class.txt.html#object" class="d">object</a> variables.
+The most known <a href="motion.txt.html#is" class="d">is</a> "protected"<a href="motion.txt.html#%2C" class="d">,</a> and the meaning varies from language to
+language.  Others are "shared"<a href="motion.txt.html#%2C" class="d">,</a> "private"<a href="motion.txt.html#%2C" class="d">,</a> "package" and even "friend"<a href="repeat.txt.html#." class="d">.</a>
+
+These rules make life more difficult.  That can be justified in projects where
+many people work on the same, complex code where <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> <a href="starting.txt.html#easy" class="d">easy</a> to make mistakes.
+Especially when refactoring or other changes to the <a href="vim9class.txt.html#class" class="d">class</a> model.
+
+The Vim scripts are expected to be used in <a href="insert.txt.html#a" class="d">a</a> plugin, with just one person or <a href="insert.txt.html#a" class="d">a</a>
+small team working on it.  Complex rules then only make <a href="motion.txt.html#it" class="d">it</a> more complicated,
+the extra safety provided by the rules isn't really needed.  Let's just keep
+<a href="motion.txt.html#it" class="d">it</a> simple and not specify access details.
+
+
+<span class="h">==============================================================================</span>
+
+<span id="_to-be-done-later">10. To be done later</span>
+
+Can <a href="insert.txt.html#a" class="d">a</a> newSomething() <a href="vim9class.txt.html#constructor" class="d">constructor</a> invoke another constructor?  If yes, what are
+the restrictions?
+
+Thoughts:
+<a href="motion.txt.html#-" class="d">-</a> Generics for <a href="insert.txt.html#a" class="d">a</a> class: `class &lt;Tkey, Tentry&gt;`
+<a href="motion.txt.html#-" class="d">-</a> Generics for <a href="insert.txt.html#a" class="d">a</a> function: `def <span class="s">&lt;Tkey&gt;</span> GetLast(key: Tkey)`
+<a href="motion.txt.html#-" class="d">-</a> Mixins: not sure if that <a href="motion.txt.html#is" class="d">is</a> useful, leave out for simplicity.
+
+Some things that look like good additions:
+<a href="motion.txt.html#-" class="d">-</a> For testing: Mock mechanism
+
+An important <a href="vim9class.txt.html#class" class="d">class</a> to be provided <a href="motion.txt.html#is" class="d">is</a> "Promise"<a href="repeat.txt.html#." class="d">.</a>  Since Vim <a href="motion.txt.html#is" class="d">is</a> single
+threaded, connecting asynchronous operations <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> natural way of allowing
+plugins to <a href="diff.txt.html#do" class="d">do</a> their work without blocking the user.  It's <a href="insert.txt.html#a" class="d">a</a> uniform way to
+invoke callbacks and handle timeouts and errors.
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

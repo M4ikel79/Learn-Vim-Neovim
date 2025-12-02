@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: ft_hare.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="ft_hare.txt.html#">↑Top↑</a></li>
+<li><a href="ft_hare.txt.html#hare">CONTENTS</a></li>
+<li><a href="ft_hare.txt.html#hare-intro">INTRODUCTION</a></li>
+<li><a href="ft_hare.txt.html#hare-plugin">FILETYPE PLUGIN</a></li>
+<li><a href="ft_hare.txt.html#hare-settings">SETTINGS</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="ft_hare.txt" class="t">ft_hare.txt</span>  	Support <a href="luaref.txt.html#for" class="d">for</a> the Hare programming language
+
+<span class="h">==============================================================================</span>
+<span class="c">CONTENTS</span>								<span id="hare" class="t">hare</span>
+
+1. Introduction							  <a href="ft_hare.txt.html#hare-intro" class="l">hare-intro</a>
+2. Filetype <a href="usr_05.txt.html#plugin" class="d">plugin</a>						 <a href="ft_hare.txt.html#hare-plugin" class="l">hare-plugin</a>
+3. Settings						       <a href="ft_hare.txt.html#hare-settings" class="l">hare-settings</a>
+
+<span class="h">==============================================================================</span>
+<span class="c">INTRODUCTION</span>							  <span id="hare-intro" class="t">hare-intro</span>
+
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> provides <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting, indentation, and other functionality
+<a href="luaref.txt.html#for" class="d">for</a> the Hare programming language. Support <a href="motion.txt.html#is" class="d">is</a> also provided <a href="luaref.txt.html#for" class="d">for</a> README files
+inside Hare modules, but this must be enabled by setting <a href="ft_hare.txt.html#g%3Afiletype_haredoc" class="l">g:filetype_haredoc</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+<span class="c">FILETYPE PLUGIN</span>							 <span id="hare-plugin" class="t">hare-plugin</span>
+
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> automatically sets the value of <a href="options.txt.html#%27path%27" class="o">'path'</a> to include the contents of
+the HAREPATH environment variable, allowing commands such <a href="motion.txt.html#as" class="d">as</a> <a href="editing.txt.html#gf" class="l">gf</a> to directly
+open standard library or third-party modules. If HAREPATH <a href="motion.txt.html#is" class="d">is</a> not set, <a href="motion.txt.html#it" class="d">it</a>
+<a href="vim_diff.txt.html#defaults" class="d">defaults</a> to the recommended paths <a href="luaref.txt.html#for" class="d">for</a> most Unix-like filesystems, namely
+/usr/src/hare/stdlib and /usr/src/hare/third-party.
+
+<span class="h">==============================================================================</span>
+<span class="c">SETTINGS</span>						       <span id="hare-settings" class="t">hare-settings</span>
+
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> provides <a href="insert.txt.html#a" class="d">a</a> small number of <a href="vimeval.txt.html#variables" class="d">variables</a> that you can define in your
+<a href="starting.txt.html#vimrc" class="d">vimrc</a> to configure its behavior.
+
+							  <span id="g%3Afiletype_haredoc" class="t">g:filetype_haredoc</span>
+This <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> able to automatically detect Hare modules and set the "haredoc"
+<a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="luaref.txt.html#for" class="d">for</a> any README files. As the recursive directory search used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a>
+heuristic has <a href="insert.txt.html#a" class="d">a</a> minor performance impact, this feature <a href="motion.txt.html#is" class="d">is</a> disabled by default
+and must be specifically opted into: 
+<span class="e">	let g:filetype_haredoc = 1</span>
+
+See <a href="ft_hare.txt.html#g%3Aharedoc_search_depth" class="l">g:haredoc_search_depth</a> <a href="luaref.txt.html#for" class="d">for</a> ways to tweak the searching behavior.
+
+						    <span id="g%3Ahare_recommended_style" class="t">g:hare_recommended_style</span>
+The following <a href="options.txt.html#options" class="d">options</a> are set by default, in accordance with the official Hare
+style guide: 
+<span class="e">	setlocal noexpandtab</span>
+<span class="e">	setlocal shiftwidth=0</span>
+<span class="e">	setlocal softtabstop=0</span>
+<span class="e">	setlocal tabstop=8</span>
+<span class="e">	setlocal textwidth=80</span>
+
+To disable this behavior: 
+<span class="e">	let g:hare_recommended_style = 0</span>
+
+							  <span id="g%3Ahare_space_error" class="t">g:hare_space_error</span>
+By default, trailing <a href="pattern.txt.html#whitespace" class="d">whitespace</a> and tabs preceded by <a href="intro.txt.html#space" class="d">space</a> characters are
+highlighted <a href="motion.txt.html#as" class="d">as</a> errors. This <a href="motion.txt.html#is" class="d">is</a> automatically turned off when in <a href="insert.txt.html#insert" class="d">insert</a> mode.
+To disable this highlighting completely: 
+<span class="e">	let g:hare_space_error = 0</span>
+
+						      <span id="g%3Aharedoc_search_depth" class="t">g:haredoc_search_depth</span>
+By default, when <a href="ft_hare.txt.html#g%3Afiletype_haredoc" class="l">g:filetype_haredoc</a> <a href="motion.txt.html#is" class="d">is</a> enabled, only the current directory
+and its immediate subdirectories are searched <a href="luaref.txt.html#for" class="d">for</a> Hare files. The maximum
+search depth may be adjusted with: 
+<span class="e">	let g:haredoc_search_depth = 2</span>
+
+<span class="h">	Value		Effect</span>
+	<a href="motion.txt.html#0" class="d">0</a>		Only search the current directory.
+	1		Search the current directory and immediate
+			subdirectories.
+	2		Search the current directory and two levels of
+			subdirectories.
+
+The maximum search depth can be set to any integer, but using values higher
+than 2 <a href="motion.txt.html#is" class="d">is</a> not recommended, and will likely provide no tangible benefit in most
+situations.
+
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: lua-guide.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="lua-guide.txt.html#">↑Top↑</a></li>
+<li><a href="lua-guide.txt.html#lua-guide">Introduction</a></li>
+<li><a href="lua-guide.txt.html#lua-guide-using-Lua">Using Lua</a></li>
+<li><a href="lua-guide.txt.html#lua-guide-vimscript">Using Vim commands and functions from Lua</a></li>
+<li><a href="lua-guide.txt.html#lua-guide-variables">Variables</a></li>
+<li><a href="lua-guide.txt.html#lua-guide-options">Options</a></li>
+<li><a href="lua-guide.txt.html#lua-guide-mappings">Mappings</a></li>
+<li><a href="lua-guide.txt.html#lua-guide-autocommands">Autocommands</a></li>
+<li><a href="lua-guide.txt.html#lua-guide-commands">User commands</a></li>
+<li><a href="lua-guide.txt.html#lua-guide-credits">Credits</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="lua-guide.txt" class="t">lua-guide.txt</span>                        Nvim
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+                          Guide to using <a href="lua.txt.html#Lua" class="d">Lua</a> in Nvim
+
+
+                                       Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+Introduction                                                         <span id="lua-guide" class="t">lua-guide</span>
+
+This guide introduces the basics of everyday <a href="lua.txt.html#Lua" class="d">Lua</a> usage <a href="luaref.txt.html#for" class="d">for</a> configuring and
+controlling Nvim. It assumes some familiarity with the (non-Lua) basics of
+Nvim (commands, options, mappings, autocommands), which are covered in the
+<a href="usr_toc.txt.html#user-manual" class="l">user-manual</a><a href="repeat.txt.html#." class="d">.</a>
+
+This <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> comprehensive encyclopedia of all available features. Think of
+<a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> survival kit: the bare minimum needed to comfortably get started on
+using <a href="lua.txt.html#Lua" class="d">Lua</a> in Nvim.
+
+See <a href="lua-plugin.txt.html#lua-plugin" class="l">lua-plugin</a> <a href="luaref.txt.html#for" class="d">for</a> guidance on developing <a href="lua.txt.html#Lua" class="d">Lua</a> plugins.
+See <a href="luaref.txt.html#luaref" class="l">luaref</a> and <a href="lua.txt.html#lua-concepts" class="l">lua-concepts</a> <a href="luaref.txt.html#for" class="d">for</a> details on the <a href="lua.txt.html#Lua" class="d">Lua</a> programming language.
+
+<span class="h">------------------------------------------------------------------------------</span>
+Some words on the <a href="api.txt.html#API" class="d">API</a>                                            <span id="lua-guide-api" class="t">lua-guide-api</span>
+
+The purpose of this guide <a href="motion.txt.html#is" class="d">is</a> to introduce the different ways of interacting
+with Nvim through <a href="lua.txt.html#Lua" class="d">Lua</a> (the "<a href="api.txt.html#API" class="d">API</a>"). This <a href="api.txt.html#API" class="d">API</a> consists of three different
+layers:
+
+1. The "Vim <a href="api.txt.html#API" class="d">API</a>" inherited from Vim: <a href="index.txt.html#Ex-commands" class="l">Ex-commands</a> and <a href="vimfn.txt.html#builtin-functions" class="l">builtin-functions</a> <a href="motion.txt.html#as" class="d">as</a>
+well <a href="motion.txt.html#as" class="d">as</a> <a href="vimeval.txt.html#user-function" class="l">user-function</a><a href="change.txt.html#s" class="d">s</a> in Vimscript. These are accessed through <a href="lua.txt.html#vim.cmd%28%29" class="l">vim.cmd()</a>
+and <a href="lua.txt.html#vim.fn" class="l">vim.fn</a> respectively, which are discussed under <a href="lua-guide.txt.html#lua-guide-vimscript" class="l">lua-guide-vimscript</a>
+below.
+
+2. The "Nvim <a href="api.txt.html#API" class="d">API</a>" written in <a href="change.txt.html#C" class="d">C</a> <a href="luaref.txt.html#for" class="d">for</a> use in remote plugins and GUIs; see <a href="api.txt.html#api" class="l">api</a><a href="repeat.txt.html#." class="d">.</a>
+These <a href="vimeval.txt.html#functions" class="d">functions</a> are accessed through <a href="lua.txt.html#vim.api" class="l">vim.api</a><a href="repeat.txt.html#." class="d">.</a>
+
+3. The "<a href="lua.txt.html#Lua" class="d">Lua</a> <a href="api.txt.html#API" class="d">API</a>" written in and specifically <a href="luaref.txt.html#for" class="d">for</a> Lua. These are any other
+<a href="vimeval.txt.html#functions" class="d">functions</a> accessible through <span class="e">vim.*</span> not mentioned already; see <a href="lua.txt.html#lua-stdlib" class="l">lua-stdlib</a><a href="repeat.txt.html#." class="d">.</a>
+
+This distinction <a href="motion.txt.html#is" class="d">is</a> important, <a href="motion.txt.html#as" class="d">as</a> <a href="api.txt.html#API" class="d">API</a> <a href="vimeval.txt.html#functions" class="d">functions</a> inherit behavior from their
+original layer: For example, Nvim <a href="api.txt.html#API" class="d">API</a> <a href="vimeval.txt.html#functions" class="d">functions</a> always need all arguments to
+be specified even if <a href="lua.txt.html#Lua" class="d">Lua</a> itself allows omitting arguments (which are then
+passed <a href="motion.txt.html#as" class="d">as</a> <span class="e">nil</span>); and Vim <a href="api.txt.html#API" class="d">API</a> <a href="vimeval.txt.html#functions" class="d">functions</a> can use 0-based indexing even if <a href="lua.txt.html#Lua" class="d">Lua</a>
+arrays are 1-indexed by default.
+
+Through this, any possible interaction can be done through <a href="lua.txt.html#Lua" class="d">Lua</a> without <a href="editing.txt.html#writing" class="d">writing</a>
+<a href="insert.txt.html#a" class="d">a</a> complete new <a href="api.txt.html#API" class="d">API</a> from scratch. For this reason, <a href="vimeval.txt.html#functions" class="d">functions</a> are usually not
+duplicated between layers unless there <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> significant benefit in
+functionality or performance (e.g., you can map <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="vimeval.txt.html#functions" class="d">functions</a> directly through
+<a href="api.txt.html#nvim_create_autocmd%28%29" class="l">nvim_create_autocmd()</a> but not through <a href="autocmd.txt.html#%3Aautocmd" class="l">:autocmd</a>). In <a href="change.txt.html#case" class="d">case</a> there are multiple
+ways of achieving the same thing, this guide will only cover what <a href="motion.txt.html#is" class="d">is</a> most
+convenient to use from Lua.
+
+<span class="h">==============================================================================</span>
+Using <a href="lua.txt.html#Lua" class="d">Lua</a>                                                  <span id="lua-guide-using-Lua" class="t">lua-guide-using-Lua</span>
+
+To run <a href="lua.txt.html#Lua" class="d">Lua</a> code from the Nvim command line, use the <a href="lua.txt.html#%3Alua" class="l">:lua</a> command:
+
+<span class="e">    :lua print("Hello!")</span>
+
+<span class="n">Note:</span> each <a href="lua.txt.html#%3Alua" class="l">:lua</a> command has its own scope and <a href="vimeval.txt.html#variables" class="d">variables</a> declared with the
+local keyword are not accessible outside of the command. This won't work:
+
+<span class="e">    :lua local foo = 1</span>
+<span class="e">    :lua print(foo)</span>
+<span class="e">    " prints "nil" instead of "1"</span>
+
+You can also use <span class="e">:lua=</span>, which <a href="motion.txt.html#is" class="d">is</a> equivalent to `:lua vim.print(...)`, to
+conveniently check the value of <a href="insert.txt.html#a" class="d">a</a> variable or <a href="insert.txt.html#a" class="d">a</a> table:
+
+<span class="e">    :lua =package</span>
+
+To run <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="usr_41.txt.html#script" class="d">script</a> in an external file, you can use the <a href="repeat.txt.html#%3Asource" class="l">:source</a> command
+exactly like <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> Vimscript file:
+
+<span class="e">    :source ~/programs/baz/myluafile.lua</span>
+
+Finally, you can include <a href="lua.txt.html#Lua" class="d">Lua</a> code in <a href="insert.txt.html#a" class="d">a</a> Vimscript file by putting <a href="motion.txt.html#it" class="d">it</a> inside <a href="insert.txt.html#a" class="d">a</a>
+<a href="lua.txt.html#%3Alua-heredoc" class="l">:lua-heredoc</a> block:
+
+<span class="e">    lua &lt;&lt; EOF</span>
+<span class="e">      local tbl = {1, 2, 3}</span>
+<span class="e">      for k, v in ipairs(tbl) do</span>
+<span class="e">        print(v)</span>
+<span class="e">      end</span>
+<span class="e">    EOF</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+Using <a href="lua.txt.html#Lua" class="d">Lua</a> files on <a href="starting.txt.html#startup" class="d">startup</a>                                    <span id="lua-guide-config" class="t">lua-guide-config</span>
+
+Nvim supports using <span class="e">init.vim</span> or <span class="e">init.lua</span> <a href="motion.txt.html#as" class="d">as</a> the configuration file, but
+not both <a href="motion.txt.html#at" class="d">at</a> the same time. This should be placed in your <a href="starting.txt.html#config" class="l">config</a> directory
+(run `:echo stdpath('config')` to see where <a href="motion.txt.html#it" class="d">it</a> is). <span class="n">Note</span> that you can also use
+<a href="lua.txt.html#Lua" class="d">Lua</a> in <span class="e">init.vim</span> and Vimscript in <span class="e">init.lua</span>, which will be covered below.
+
+If you'd like to run any other <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="usr_41.txt.html#script" class="d">script</a> on <a href="starting.txt.html#startup" class="l">startup</a> automatically, then you
+can simply <a href="change.txt.html#put" class="d">put</a> <a href="motion.txt.html#it" class="d">it</a> in <span class="e">plugin/</span> in your <a href="options.txt.html#%27runtimepath%27" class="l">'runtimepath'</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">------------------------------------------------------------------------------</span>
+<a href="lua.txt.html#Lua" class="d">Lua</a> modules                                                  <span id="lua-guide-modules" class="t">lua-guide-modules</span>
+
+If you want to load <a href="lua.txt.html#Lua" class="d">Lua</a> files on demand, you can place them in the <span class="e">lua/</span>
+directory in your <a href="options.txt.html#%27runtimepath%27" class="l">'runtimepath'</a> and load them with <span class="e">require</span>. (This <a href="motion.txt.html#is" class="d">is</a> the
+<a href="lua.txt.html#Lua" class="d">Lua</a> equivalent of Vimscript's <a href="userfunc.txt.html#autoload" class="l">autoload</a> mechanism.)
+
+Let's assume you have the following directory structure:
+
+<span class="e">    ~/.config/nvim</span>
+<span class="e">    |-- after/</span>
+<span class="e">    |-- ftplugin/</span>
+<span class="e">    |-- lua/</span>
+<span class="e">    |   |-- myluamodule.lua</span>
+<span class="e">    |   |-- other_modules/</span>
+<span class="e">    |       |-- anothermodule.lua</span>
+<span class="e">    |       |-- init.lua</span>
+<span class="e">    |-- plugin/</span>
+<span class="e">    |-- syntax/</span>
+<span class="e">    |-- init.vim</span>
+
+
+Then the following <a href="lua.txt.html#Lua" class="d">Lua</a> code will load <span class="e">myluamodule.lua</span>:
+
+<span class="e">    require("myluamodule")</span>
+
+<span class="n">Note</span> the absence of <a href="insert.txt.html#a" class="d">a</a> <span class="e">.lua</span> extension.
+
+Similarly, loading <span class="e">other_modules/anothermodule.lua</span> <a href="motion.txt.html#is" class="d">is</a> done via
+
+<span class="e">    require('other_modules/anothermodule')</span>
+<span class="e">    -- or</span>
+<span class="e">    require('other_modules.anothermodule')</span>
+
+
+<span class="n">Note</span> how "submodules" are just subdirectories; the <span class="e">.</span> <a href="motion.txt.html#is" class="d">is</a> equivalent to the
+path separator <span class="e">/</span> (even on Windows).
+
+<a href="insert.txt.html#A" class="d">A</a> folder containing an <a href="starting.txt.html#init.lua" class="l">init.lua</a> file can be required directly, without
+having to specify the name of the file:
+
+<span class="e">    require('other_modules') -- loads other_modules/init.lua</span>
+
+Requiring <a href="insert.txt.html#a" class="d">a</a> nonexistent module or <a href="insert.txt.html#a" class="d">a</a> module which contains <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="message.txt.html#errors" class="d">errors</a> aborts
+the currently executing script. <span class="e">pcall()</span> may be used to catch such errors. The
+following example tries to load the <span class="e">module_with_error</span> and only calls one of
+its <a href="vimeval.txt.html#functions" class="d">functions</a> if this succeeds and prints an error message otherwise:
+
+<span class="e">    local ok, mymod = pcall(require, 'module_with_error')</span>
+<span class="e">    if not ok then</span>
+<span class="e">      print("Module had an error")</span>
+<span class="e">    else</span>
+<span class="e">      mymod.func()</span>
+<span class="e">    end</span>
+
+In contrast to <a href="repeat.txt.html#%3Asource" class="l">:source</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="luaref.txt.html#require%28%29" class="l">require()</a> not only searches through all <span class="e">lua/</span> directories
+under <a href="options.txt.html#%27runtimepath%27" class="l">'runtimepath'</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#it" class="d">it</a> also caches the module on first use. Calling
+<span class="e">require()</span> <a href="insert.txt.html#a" class="d">a</a> second time will therefore _not_ execute the <a href="usr_41.txt.html#script" class="d">script</a> again and
+instead return the cached file. To rerun the file, you need to remove <a href="motion.txt.html#it" class="d">it</a> from
+the cache manually first:
+
+<span class="e">    package.loaded['myluamodule'] = nil</span>
+<span class="e">    require('myluamodule')    -- read and execute the module again from disk</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+See also:
+• <a href="lua.txt.html#lua-module-load" class="l">lua-module-load</a>
+• <a href="luaref.txt.html#pcall%28%29" class="l">pcall()</a>
+
+<span class="h">==============================================================================</span>
+Using Vim commands and <a href="vimeval.txt.html#functions" class="d">functions</a> from <a href="lua.txt.html#Lua" class="d">Lua</a>                  <span id="lua-guide-vimscript" class="t">lua-guide-vimscript</span>
+
+All Vim commands and <a href="vimeval.txt.html#functions" class="d">functions</a> are accessible from Lua.
+
+<span class="h">------------------------------------------------------------------------------</span>
+Vim commands                                            <span id="lua-guide-vim-commands" class="t">lua-guide-vim-commands</span>
+
+To run an arbitrary Vim command from Lua, pass <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> to <a href="lua.txt.html#vim.cmd%28%29" class="l">vim.cmd()</a><a href="cmdline.txt.html#%3A" class="d">:</a>
+
+<span class="e">    vim.cmd("colorscheme habamax")</span>
+
+<span class="n">Note</span> that special characters will need to be escaped with backslashes:
+
+<span class="e">    vim.cmd("%s/\\Vfoo/bar/g")</span>
+
+An alternative <a href="motion.txt.html#is" class="d">is</a> to use <a href="insert.txt.html#a" class="d">a</a> literal <a href="vimeval.txt.html#string" class="d">string</a> (see <a href="luaref.txt.html#lua-literal" class="l">lua-literal</a><a href="motion.txt.html#%29" class="d">)</a> delimited by
+double brackets `[[ ]]` <a href="motion.txt.html#as" class="d">as</a> in
+
+<span class="e">    vim.cmd([[%s/\Vfoo/bar/g]])</span>
+
+Another benefit of using literal strings <a href="motion.txt.html#is" class="d">is</a> that they can be multiple lines;
+this allows you to pass multiple commands to <a href="insert.txt.html#a" class="d">a</a> single call of <a href="lua.txt.html#vim.cmd%28%29" class="l">vim.cmd()</a><a href="cmdline.txt.html#%3A" class="d">:</a>
+
+<span class="e">    vim.cmd([[</span>
+<span class="e">      highlight Error guibg=red</span>
+<span class="e">      highlight link Warning Error</span>
+<span class="e">    ]])</span>
+
+This <a href="motion.txt.html#is" class="d">is</a> the converse of <a href="lua.txt.html#%3Alua-heredoc" class="l">:lua-heredoc</a> and allows you to include Vimscript
+code in your <span class="e">init.lua</span>.
+
+If you want to build your Vim command programmatically, the following form can
+be useful (all these are equivalent to the corresponding line above):
+
+<span class="e">    vim.cmd.colorscheme("habamax")</span>
+<span class="e">    vim.cmd.highlight({ "Error", "guibg=red" })</span>
+<span class="e">    vim.cmd.highlight({ "link", "Warning", "Error" })</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+Vimscript <a href="vimeval.txt.html#functions" class="d">functions</a>                                    <span id="lua-guide-vim-functions" class="t">lua-guide-vim-functions</span>
+
+Use <a href="lua.txt.html#vim.fn" class="l">vim.fn</a> to call Vimscript <a href="vimeval.txt.html#functions" class="d">functions</a> from Lua. Data types between <a href="lua.txt.html#Lua" class="d">Lua</a> and
+Vimscript are automatically converted:
+
+<span class="e">    print(vim.fn.printf('Hello from %s', 'Lua'))</span>
+<span class="e"></span>
+<span class="e">    local reversed_list = vim.fn.reverse({ 'a', 'b', 'c' })</span>
+<span class="e">    vim.print(reversed_list) -- { "c", "b", "a" }</span>
+<span class="e"></span>
+<span class="e">    local function print_stdout(chan_id, data, name)</span>
+<span class="e">      print(data[1])</span>
+<span class="e">    end</span>
+<span class="e"></span>
+<span class="e">    vim.fn.jobstart('ls', { on_stdout = print_stdout })</span>
+
+This works <a href="luaref.txt.html#for" class="d">for</a> both <a href="vimfn.txt.html#builtin-functions" class="l">builtin-functions</a> and <a href="vimeval.txt.html#user-function" class="l">user-function</a>s.
+
+<span class="n">Note</span> that hashes (`#`) are not valid characters <a href="luaref.txt.html#for" class="d">for</a> identifiers in Lua, so,
+e.g., <a href="userfunc.txt.html#autoload" class="l">autoload</a> <a href="vimeval.txt.html#functions" class="d">functions</a> have to be called with this syntax:
+
+<span class="e">    vim.fn['my#autoload#function']()</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+See also:
+• <a href="vimfn.txt.html#builtin-functions" class="l">builtin-functions</a><a href="cmdline.txt.html#%3A" class="d">:</a> alphabetic <a href="vimeval.txt.html#list" class="d">list</a> of all Vimscript <a href="vimeval.txt.html#functions" class="d">functions</a>
+• <a href="usr_41.txt.html#function-list" class="l">function-list</a><a href="cmdline.txt.html#%3A" class="d">:</a>     <a href="vimeval.txt.html#list" class="d">list</a> of all Vimscript <a href="vimeval.txt.html#functions" class="d">functions</a> grouped by topic
+• <a href="repeat.txt.html#%3Aruntime" class="l">:runtime</a><a href="cmdline.txt.html#%3A" class="d">:</a>          run all <a href="lua.txt.html#Lua" class="d">Lua</a> scripts matching <a href="insert.txt.html#a" class="d">a</a> <a href="pattern.txt.html#pattern" class="d">pattern</a> in <a href="options.txt.html#%27runtimepath%27" class="l">'runtimepath'</a>
+• <a href="luaref.txt.html#package.path" class="l">package.path</a><a href="cmdline.txt.html#%3A" class="d">:</a>      <a href="vimeval.txt.html#list" class="d">list</a> of all paths searched by <span class="e">require()</span>
+
+<span class="h">==============================================================================</span>
+Variables                                                  <span id="lua-guide-variables" class="t">lua-guide-variables</span>
+
+Variables can be set and read using the following wrappers, which directly
+correspond to their <a href="vimeval.txt.html#variable-scope" class="l">variable-scope</a><a href="cmdline.txt.html#%3A" class="d">:</a>
+
+• <a href="lua.txt.html#vim.g" class="l">vim.g</a><a href="cmdline.txt.html#%3A" class="d">:</a>   global <a href="vimeval.txt.html#variables" class="d">variables</a> <a href="motion.txt.html#%28" class="d">(</a><a href="vimeval.txt.html#g%3A" class="l">g:</a><a href="motion.txt.html#%29" class="d">)</a>
+• <a href="lua.txt.html#vim.b" class="l">vim.b</a><a href="cmdline.txt.html#%3A" class="d">:</a>   <a href="vimeval.txt.html#variables" class="d">variables</a> <a href="luaref.txt.html#for" class="d">for</a> the current buffer <a href="motion.txt.html#%28" class="d">(</a><a href="vimeval.txt.html#b%3A" class="l">b:</a><a href="motion.txt.html#%29" class="d">)</a>
+• <a href="lua.txt.html#vim.w" class="l">vim.w</a><a href="cmdline.txt.html#%3A" class="d">:</a>   <a href="vimeval.txt.html#variables" class="d">variables</a> <a href="luaref.txt.html#for" class="d">for</a> the current <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#%28" class="d">(</a><a href="vimeval.txt.html#w%3A" class="l">w:</a><a href="motion.txt.html#%29" class="d">)</a>
+• <a href="lua.txt.html#vim.t" class="l">vim.t</a><a href="cmdline.txt.html#%3A" class="d">:</a>   <a href="vimeval.txt.html#variables" class="d">variables</a> <a href="luaref.txt.html#for" class="d">for</a> the current <a href="tabpage.txt.html#tabpage" class="d">tabpage</a> <a href="motion.txt.html#%28" class="d">(</a><a href="vimeval.txt.html#t%3A" class="l">t:</a><a href="motion.txt.html#%29" class="d">)</a>
+• <a href="lua.txt.html#vim.v" class="l">vim.v</a><a href="cmdline.txt.html#%3A" class="d">:</a>   predefined Vim <a href="vimeval.txt.html#variables" class="d">variables</a> <a href="motion.txt.html#%28" class="d">(</a><a href="vimeval.txt.html#v%3A" class="l">v:</a><a href="motion.txt.html#%29" class="d">)</a>
+• <a href="lua.txt.html#vim.env" class="l">vim.env</a><a href="cmdline.txt.html#%3A" class="d">:</a> environment <a href="vimeval.txt.html#variables" class="d">variables</a> defined in the editor session
+
+Data types are converted automatically. For example:
+
+<span class="e">    vim.g.some_global_variable = {</span>
+<span class="e">      key1 = "value",</span>
+<span class="e">      key2 = 300</span>
+<span class="e">    }</span>
+<span class="e"></span>
+<span class="e">    vim.print(vim.g.some_global_variable)</span>
+<span class="e">    --&gt; { key1 = "value", key2 = 300 }</span>
+
+You can target specific <a href="windows.txt.html#buffers" class="d">buffers</a> (via number), <a href="windows.txt.html#windows" class="d">windows</a> (via <a href="windows.txt.html#window-ID" class="l">window-ID</a>), or
+tabpages by indexing the wrappers:
+
+<span class="e">    vim.b[2].myvar = 1               -- set myvar for buffer number 2</span>
+<span class="e">    vim.w[1005].myothervar = true    -- set myothervar for window ID 1005</span>
+
+Some variable names may contain characters that cannot be used <a href="luaref.txt.html#for" class="d">for</a> identifiers
+in Lua. You can still manipulate these <a href="vimeval.txt.html#variables" class="d">variables</a> by using the <a href="syntax.txt.html#syntax" class="d">syntax</a>
+
+<span class="e">    vim.g['my#variable'] = 1</span>
+
+<span class="n">Note</span> that you cannot directly change fields of array variables. This won't
+work:
+
+<span class="e">    vim.g.some_global_variable.key2 = 400</span>
+<span class="e">    vim.print(vim.g.some_global_variable)</span>
+<span class="e">    --&gt; { key1 = "value", key2 = 300 }</span>
+
+Instead, you need to create an intermediate <a href="lua.txt.html#Lua" class="d">Lua</a> table and change this:
+
+<span class="e">    local temp_table = vim.g.some_global_variable</span>
+<span class="e">    temp_table.key2 = 400</span>
+<span class="e">    vim.g.some_global_variable = temp_table</span>
+<span class="e">    vim.print(vim.g.some_global_variable)</span>
+<span class="e">    --&gt; { key1 = "value", key2 = 400 }</span>
+
+To delete <a href="insert.txt.html#a" class="d">a</a> variable, simply set <a href="motion.txt.html#it" class="d">it</a> to <span class="e">nil</span>:
+
+<span class="e">    vim.g.myvar = nil</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+See also:
+• <a href="lua.txt.html#lua-vim-variables" class="l">lua-vim-variables</a>
+
+<span class="h">==============================================================================</span>
+Options                                                      <span id="lua-guide-options" class="t">lua-guide-options</span>
+
+There are two complementary ways of setting <a href="options.txt.html#options" class="l">options</a> via Lua.
+
+<span class="h">------------------------------------------------------------------------------</span>
+<a href="lua.txt.html#vim.opt" class="d">vim.opt</a>
+
+The most convenient way <a href="luaref.txt.html#for" class="d">for</a> setting global and local options, e.g., in <span class="e">init.lua</span>,
+<a href="motion.txt.html#is" class="d">is</a> through <span class="e">vim.opt</span> and friends:
+
+• <a href="lua.txt.html#vim.opt" class="l">vim.opt</a><a href="cmdline.txt.html#%3A" class="d">:</a>        behaves like <a href="options.txt.html#%3Aset" class="l">:set</a>
+• <a href="lua.txt.html#vim.opt_global" class="l">vim.opt_global</a><a href="cmdline.txt.html#%3A" class="d">:</a> behaves like <a href="options.txt.html#%3Asetglobal" class="l">:setglobal</a>
+• <a href="lua.txt.html#vim.opt_local" class="l">vim.opt_local</a><a href="cmdline.txt.html#%3A" class="d">:</a>  behaves like <a href="options.txt.html#%3Asetlocal" class="l">:setlocal</a>
+
+For example, the Vimscript commands
+
+<span class="e">    set smarttab</span>
+<span class="e">    set nosmarttab</span>
+
+are equivalent to
+
+<span class="e">    vim.opt.smarttab = true</span>
+<span class="e">    vim.opt.smarttab = false</span>
+
+In particular, they allow an easy way to working with list-like, map-like, and
+set-like <a href="options.txt.html#options" class="d">options</a> through <a href="lua.txt.html#Lua" class="d">Lua</a> tables: Instead of
+
+<span class="e">    set wildignore=*.o,*.a,__pycache__</span>
+<span class="e">    set listchars=space:_,tab:&gt;~</span>
+<span class="e">    set formatoptions=njt</span>
+
+you can use
+
+<span class="e">    vim.opt.wildignore = { '*.o', '*.a', '__pycache__' }</span>
+<span class="e">    vim.opt.listchars = { space = '_', tab = '&gt;~' }</span>
+<span class="e">    vim.opt.formatoptions = { n = true, j = true, t = true }</span>
+
+These wrappers also come with methods that work similarly to their <a href="options.txt.html#%3Aset%2B%3D" class="l">:set+=</a><a href="motion.txt.html#%2C" class="d">,</a>
+<a href="options.txt.html#%3Aset%5E%3D" class="l">:set^=</a> and <a href="options.txt.html#%3Aset-%3D" class="l">:set-=</a> counterparts in Vimscript:
+
+<span class="e">    vim.opt.shortmess:append({ I = true })</span>
+<span class="e">    vim.opt.wildignore:prepend('*.o')</span>
+<span class="e">    vim.opt.whichwrap:remove({ 'b', 's' })</span>
+
+The price to pay <a href="motion.txt.html#is" class="d">is</a> that you cannot access the option values directly but must
+use <a href="lua.txt.html#vim.opt%3Aget%28%29" class="l">vim.opt:get()</a><a href="cmdline.txt.html#%3A" class="d">:</a>
+
+<span class="e">    print(vim.opt.smarttab)</span>
+<span class="e">    --&gt; {...} (big table)</span>
+<span class="e">    print(vim.opt.smarttab:get())</span>
+<span class="e">    --&gt; false</span>
+<span class="e">    vim.print(vim.opt.listchars:get())</span>
+<span class="e">    --&gt; { space = '_', tab = '&gt;~' }</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+<a href="lua.txt.html#vim.o" class="d">vim.o</a>
+
+For this reason, there exists <a href="insert.txt.html#a" class="d">a</a> more direct variable-like access using <span class="e">vim.o</span>
+and friends, similarly to how you can get and set <a href="options.txt.html#options" class="d">options</a> via `:echo &amp;number`
+and `:let &amp;listchars='space:_,tab:&gt;~'`:
+
+• <a href="lua.txt.html#vim.o" class="l">vim.o</a><a href="cmdline.txt.html#%3A" class="d">:</a>  behaves like <a href="options.txt.html#%3Aset" class="l">:set</a>
+• <a href="lua.txt.html#vim.go" class="l">vim.go</a><a href="cmdline.txt.html#%3A" class="d">:</a> behaves like <a href="options.txt.html#%3Asetglobal" class="l">:setglobal</a>
+• <a href="lua.txt.html#vim.bo" class="l">vim.bo</a><a href="cmdline.txt.html#%3A" class="d">:</a> <a href="luaref.txt.html#for" class="d">for</a> buffer-scoped <a href="options.txt.html#options" class="d">options</a>
+• <a href="lua.txt.html#vim.wo" class="l">vim.wo</a><a href="cmdline.txt.html#%3A" class="d">:</a> <a href="luaref.txt.html#for" class="d">for</a> window-scoped <a href="options.txt.html#options" class="d">options</a> (can be double indexed)
+
+For example:
+
+<span class="e">    vim.o.smarttab = false -- :set nosmarttab</span>
+<span class="e">    print(vim.o.smarttab)</span>
+<span class="e">    --&gt; false</span>
+<span class="e">    vim.o.listchars = 'space:_,tab:&gt;~' -- :set listchars='space:_,tab:&gt;~'</span>
+<span class="e">    print(vim.o.listchars)</span>
+<span class="e">    --&gt; 'space:_,tab:&gt;~'</span>
+<span class="e">    vim.o.isfname = vim.o.isfname .. ',@-@' -- :set isfname+=@-@</span>
+<span class="e">    print(vim.o.isfname)</span>
+<span class="e">    --&gt; '@,48-57,/,.,-,_,+,,,#,$,%,~,=,@-@'</span>
+<span class="e">    vim.bo.shiftwidth = 4 -- :setlocal shiftwidth=4</span>
+<span class="e">    print(vim.bo.shiftwidth)</span>
+<span class="e">    --&gt; 4</span>
+
+Just like variables, you can specify <a href="insert.txt.html#a" class="d">a</a> buffer number or <a href="windows.txt.html#window-ID" class="l">window-ID</a> <a href="luaref.txt.html#for" class="d">for</a> buffer
+and <a href="windows.txt.html#window" class="d">window</a> options, respectively. If no number <a href="motion.txt.html#is" class="d">is</a> given, the current buffer or
+<a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> used:
+
+<span class="e">    vim.bo[4].expandtab = true -- sets expandtab to true in buffer 4</span>
+<span class="e">    vim.wo.number = true       -- sets number to true in current window</span>
+<span class="e">    vim.wo[0].number = true    -- same as above</span>
+<span class="e">    vim.wo[0][0].number = true -- sets number to true in current buffer</span>
+<span class="e">                               -- in current window only</span>
+<span class="e">    print(vim.wo[0].number)    --&gt; true</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+See also:
+• <a href="lua.txt.html#lua-options" class="l">lua-options</a>
+
+<span class="h">==============================================================================</span>
+Mappings                                                    <span id="lua-guide-mappings" class="t">lua-guide-mappings</span>
+
+You can map either Vim commands or <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="vimeval.txt.html#functions" class="d">functions</a> to key sequences.
+
+<span class="h">------------------------------------------------------------------------------</span>
+Creating mappings                                       <span id="lua-guide-mappings-set" class="t">lua-guide-mappings-set</span>
+
+Mappings can be created using <a href="lua.txt.html#vim.keymap.set%28%29" class="l">vim.keymap.set()</a><a href="repeat.txt.html#." class="d">.</a> This function takes three
+mandatory arguments:
+• <span class="s">{mode}</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> or <a href="insert.txt.html#a" class="d">a</a> table of strings containing the mode
+  prefix <a href="luaref.txt.html#for" class="d">for</a> which the <a href="map.txt.html#mapping" class="d">mapping</a> will take effect. The prefixes are the ones
+  listed in <a href="map.txt.html#%3Amap-modes" class="l">:map-modes</a><a href="motion.txt.html#%2C" class="d">,</a> or "<a href="change.txt.html#%21" class="d">!</a>" <a href="luaref.txt.html#for" class="d">for</a> <a href="map.txt.html#%3Amap%21" class="l">:map!</a><a href="motion.txt.html#%2C" class="d">,</a> or empty <a href="vimeval.txt.html#string" class="d">string</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="map.txt.html#%3Amap" class="l">:map</a><a href="repeat.txt.html#." class="d">.</a>
+• <a href="map.txt.html#%7Blhs%7D" class="s">{lhs}</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> with the key sequences that should trigger the mapping.
+• <a href="map.txt.html#%7Brhs%7D" class="s">{rhs}</a> <a href="motion.txt.html#is" class="d">is</a> either <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> with <a href="insert.txt.html#a" class="d">a</a> Vim command or <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> function that should
+  be executed when the <a href="map.txt.html#%7Blhs%7D" class="s">{lhs}</a> <a href="motion.txt.html#is" class="d">is</a> entered.
+  An empty <a href="vimeval.txt.html#string" class="d">string</a> <a href="motion.txt.html#is" class="d">is</a> equivalent to <a href="intro.txt.html#%3CNop%3E" class="l">&lt;Nop&gt;</a><a href="motion.txt.html#%2C" class="d">,</a> which disables <a href="insert.txt.html#a" class="d">a</a> key.
+
+Examples:
+
+<span class="e">    -- Normal mode mapping for Vim command</span>
+<span class="e">    vim.keymap.set('n', '&lt;Leader&gt;ex1', '&lt;cmd&gt;echo "Example 1"&lt;cr&gt;')</span>
+<span class="e">    -- Normal and Command-line mode mapping for Vim command</span>
+<span class="e">    vim.keymap.set({'n', 'c'}, '&lt;Leader&gt;ex2', '&lt;cmd&gt;echo "Example 2"&lt;cr&gt;')</span>
+<span class="e">    -- Normal mode mapping for Lua function</span>
+<span class="e">    vim.keymap.set('n', '&lt;Leader&gt;ex3', vim.treesitter.start)</span>
+<span class="e">    -- Normal mode mapping for Lua function with arguments</span>
+<span class="e">    vim.keymap.set('n', '&lt;Leader&gt;ex4', function() print('Example 4') end)</span>
+
+You can map <a href="vimeval.txt.html#functions" class="d">functions</a> from <a href="lua.txt.html#Lua" class="d">Lua</a> modules via
+
+<span class="e">    vim.keymap.set('n', '&lt;Leader&gt;pl1', require('plugin').action)</span>
+
+<span class="n">Note</span> that this loads the <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#at" class="d">at</a> the time the <a href="map.txt.html#mapping" class="d">mapping</a> <a href="motion.txt.html#is" class="d">is</a> defined. If you
+want to defer the loading to the time when the <a href="map.txt.html#mapping" class="d">mapping</a> <a href="motion.txt.html#is" class="d">is</a> executed (as <a href="luaref.txt.html#for" class="d">for</a>
+<a href="userfunc.txt.html#autoload" class="l">autoload</a> functions), wrap <a href="motion.txt.html#it" class="d">it</a> in `function() end`:
+
+<span class="e">    vim.keymap.set('n', '&lt;Leader&gt;pl2', function() require('plugin').action() end)</span>
+
+The fourth, optional, argument <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> table with keys that modify the behavior
+of the <a href="map.txt.html#mapping" class="d">mapping</a> such <a href="motion.txt.html#as" class="d">as</a> those from <a href="map.txt.html#%3Amap-arguments" class="l">:map-arguments</a><a href="repeat.txt.html#." class="d">.</a> The following are the most
+useful options:
+• <span class="e">buffer</span>: If given, only set the <a href="map.txt.html#mapping" class="d">mapping</a> <a href="luaref.txt.html#for" class="d">for</a> the buffer with the specified
+  number; <span class="e">0</span> or <span class="e">true</span> means the current buffer. 
+<span class="e">    -- set mapping for the current buffer</span>
+<span class="e">    vim.keymap.set('n', '&lt;Leader&gt;pl1', require('plugin').action, { buffer = true })</span>
+<span class="e">    -- set mapping for the buffer number 4</span>
+<span class="e">    vim.keymap.set('n', '&lt;Leader&gt;pl1', require('plugin').action, { buffer = 4 })</span>
+
+• <span class="e">silent</span>: If set to <span class="e">true</span>, suppress output such <a href="motion.txt.html#as" class="d">as</a> error messages. 
+<span class="e">    vim.keymap.set('n', '&lt;Leader&gt;pl1', require('plugin').action, { silent = true })</span>
+
+• <span class="e">expr</span>: If set to <span class="e">true</span>, <a href="diff.txt.html#do" class="d">do</a> not execute the <a href="map.txt.html#%7Brhs%7D" class="s">{rhs}</a> but use the return value
+  <a href="motion.txt.html#as" class="d">as</a> input. Special <a href="intro.txt.html#keycodes" class="l">keycodes</a> are converted automatically. For example, the following
+  <a href="map.txt.html#mapping" class="d">mapping</a> replaces <span class="s">&lt;down&gt;</span> with <span class="s">&lt;c-n&gt;</span> in the popupmenu only: 
+<span class="e">    vim.keymap.set('c', '&lt;down&gt;', function()</span>
+<span class="e">      if vim.fn.pumvisible() == 1 then return '&lt;c-n&gt;' end</span>
+<span class="e">      return '&lt;down&gt;'</span>
+<span class="e">    end, { expr = true })</span>
+
+• <span class="e">desc</span>: <a href="insert.txt.html#A" class="d">A</a> <a href="vimeval.txt.html#string" class="d">string</a> that <a href="motion.txt.html#is" class="d">is</a> shown when listing mappings with, e.g., <a href="map.txt.html#%3Amap" class="l">:map</a><a href="repeat.txt.html#." class="d">.</a>
+  This <a href="motion.txt.html#is" class="d">is</a> useful since <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="vimeval.txt.html#functions" class="d">functions</a> <a href="motion.txt.html#as" class="d">as</a> <a href="map.txt.html#%7Brhs%7D" class="s">{rhs}</a> are otherwise only listed <a href="motion.txt.html#as" class="d">as</a>
+  `Lua: <span class="s">&lt;number&gt;</span> &lt;source file&gt;:&lt;line&gt;`. Plugins should therefore always use this
+  <a href="luaref.txt.html#for" class="d">for</a> mappings they create. 
+<span class="e">    vim.keymap.set('n', '&lt;Leader&gt;pl1', require('plugin').action,</span>
+<span class="e">      { desc = 'Execute action from plugin' })</span>
+
+• <span class="e">remap</span>: By default, all mappings are nonrecursive (i.e., <a href="lua.txt.html#vim.keymap.set%28%29" class="l">vim.keymap.set()</a>
+  behaves like <a href="map.txt.html#%3Anoremap" class="l">:noremap</a>). If the <a href="map.txt.html#%7Brhs%7D" class="s">{rhs}</a> <a href="motion.txt.html#is" class="d">is</a> itself <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> that should be
+  executed, set `remap <a href="change.txt.html#%3D" class="d">=</a> true`: 
+<span class="e">    vim.keymap.set('n', '&lt;Leader&gt;ex1', '&lt;cmd&gt;echo "Example 1"&lt;cr&gt;')</span>
+<span class="e">    -- add a shorter mapping</span>
+<span class="e">    vim.keymap.set('n', 'e', '&lt;Leader&gt;ex1', { remap = true })</span>
+
+  <span class="n">Note:</span> <a href="map.txt.html#%3CPlug%3E" class="l">&lt;Plug&gt;</a> mappings are always expanded even with the default `remap <a href="change.txt.html#%3D" class="d">=</a> false`: 
+<span class="e">    vim.keymap.set('n', '[%', '&lt;Plug&gt;(MatchitNormalMultiBackward)')</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+Removing mappings                                       <span id="lua-guide-mappings-del" class="t">lua-guide-mappings-del</span>
+
+<a href="insert.txt.html#A" class="d">A</a> specific <a href="map.txt.html#mapping" class="d">mapping</a> can be removed with <a href="lua.txt.html#vim.keymap.del%28%29" class="l">vim.keymap.del()</a><a href="cmdline.txt.html#%3A" class="d">:</a>
+
+<span class="e">    vim.keymap.del('n', '&lt;Leader&gt;ex1')</span>
+<span class="e">    vim.keymap.del({'n', 'c'}, '&lt;Leader&gt;ex2', {buffer = true})</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+See also:
+• <span class="e">vim.api.</span><a href="api.txt.html#nvim_get_keymap%28%29" class="l">nvim_get_keymap()</a><a href="cmdline.txt.html#%3A" class="d">:</a>     return all global <a href="map.txt.html#mapping" class="d">mapping</a>
+• <span class="e">vim.api.</span><a href="api.txt.html#nvim_buf_get_keymap%28%29" class="l">nvim_buf_get_keymap()</a><a href="cmdline.txt.html#%3A" class="d">:</a> return all mappings <a href="luaref.txt.html#for" class="d">for</a> buffer
+
+<span class="h">==============================================================================</span>
+Autocommands                                            <span id="lua-guide-autocommands" class="t">lua-guide-autocommands</span>
+
+An <a href="autocmd.txt.html#autocommand" class="l">autocommand</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> Vim command or <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> function that <a href="motion.txt.html#is" class="d">is</a> automatically
+executed whenever one or more <a href="autocmd.txt.html#events" class="l">events</a> are triggered, e.g., when <a href="insert.txt.html#a" class="d">a</a> file <a href="motion.txt.html#is" class="d">is</a>
+read or written, or when <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> created. These are accessible from <a href="lua.txt.html#Lua" class="d">Lua</a>
+through the Nvim API.
+
+<span class="h">------------------------------------------------------------------------------</span>
+Creating autocommands                             <span id="lua-guide-autocommand-create" class="t">lua-guide-autocommand-create</span>
+
+Autocommands are created using <span class="e">vim.api.</span><a href="api.txt.html#nvim_create_autocmd%28%29" class="l">nvim_create_autocmd()</a><a href="motion.txt.html#%2C" class="d">,</a> which takes
+two mandatory arguments:
+• <a href="autocmd.txt.html#%7Bevent%7D" class="s">{event}</a>: <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> or table of strings containing the event(s) which should
+           trigger the command or function.
+• <span class="s">{opts}</span>:  <a href="insert.txt.html#a" class="d">a</a> table with keys that <a href="intro.txt.html#control" class="d">control</a> what should happen when the event(s)
+           are triggered.
+
+The most important <a href="options.txt.html#options" class="d">options</a> are:
+
+• <span class="e">pattern</span>:  <a href="insert.txt.html#A" class="d">A</a> <a href="vimeval.txt.html#string" class="d">string</a> or table of strings containing the <a href="autocmd.txt.html#autocmd-pattern" class="l">autocmd-pattern</a><a href="repeat.txt.html#." class="d">.</a>
+            <span class="n">Note:</span> Environment variable like <span class="e">$HOME</span> and <span class="e">~</span> are not automatically
+            expanded; you need to explicitly use <span class="e">vim.fn.</span><a href="vimfn.txt.html#expand%28%29" class="l">expand()</a> <a href="luaref.txt.html#for" class="d">for</a> this.
+• <span class="e">command</span>:  <a href="insert.txt.html#A" class="d">A</a> <a href="vimeval.txt.html#string" class="d">string</a> containing <a href="insert.txt.html#a" class="d">a</a> Vim command.
+• <span class="e">callback</span>: <a href="insert.txt.html#A" class="d">A</a> <a href="lua.txt.html#Lua" class="d">Lua</a> function.
+
+You must specify one and only one of <span class="e">command</span> and <span class="e">callback</span>. If <span class="e">pattern</span> <a href="motion.txt.html#is" class="d">is</a>
+omitted, <a href="motion.txt.html#it" class="d">it</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to `pattern <a href="change.txt.html#%3D" class="d">=</a> <a href="motion.txt.html#%27" class="d">'</a>*'`.
+Examples:
+
+<span class="e">    vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {</span>
+<span class="e">      pattern = {"*.c", "*.h"},</span>
+<span class="e">      command = "echo 'Entering a C or C++ file'",</span>
+<span class="e">    })</span>
+<span class="e"></span>
+<span class="e">    -- Same autocommand written with a Lua function instead</span>
+<span class="e">    vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {</span>
+<span class="e">      pattern = {"*.c", "*.h"},</span>
+<span class="e">      callback = function() print("Entering a C or C++ file") end,</span>
+<span class="e">    })</span>
+<span class="e"></span>
+<span class="e">    -- User event triggered by MyPlugin</span>
+<span class="e">    vim.api.nvim_create_autocmd("User", {</span>
+<span class="e">      pattern = "MyPlugin",</span>
+<span class="e">      callback = function() print("My Plugin Works!") end,</span>
+<span class="e">    })</span>
+
+
+Nvim will always call <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> function with <a href="insert.txt.html#a" class="d">a</a> single table containing information
+about the triggered autocommand. The most useful keys are
+• <span class="e">match</span>: <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> that matched the <span class="e">pattern</span> (see <a href="cmdline.txt.html#%3Camatch%3E" class="l">&lt;amatch&gt;</a><a href="motion.txt.html#%29" class="d">)</a>
+• <span class="e">buf</span>:   the number of the buffer the event was triggered in (see <a href="cmdline.txt.html#%3Cabuf%3E" class="l">&lt;abuf&gt;</a><a href="motion.txt.html#%29" class="d">)</a>
+• <span class="e">file</span>:  the file name of the buffer the event was triggered in (see <a href="cmdline.txt.html#%3Cafile%3E" class="l">&lt;afile&gt;</a><a href="motion.txt.html#%29" class="d">)</a>
+• <span class="e">data</span>:  <a href="insert.txt.html#a" class="d">a</a> table with other relevant data that <a href="motion.txt.html#is" class="d">is</a> passed <a href="luaref.txt.html#for" class="d">for</a> some <a href="autocmd.txt.html#events" class="d">events</a>
+
+For example, this allows you to set buffer-local mappings <a href="luaref.txt.html#for" class="d">for</a> some filetypes:
+
+<span class="e">    vim.api.nvim_create_autocmd("FileType", {</span>
+<span class="e">      pattern = "lua",</span>
+<span class="e">      callback = function(args)</span>
+<span class="e">        vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = args.buf })</span>
+<span class="e">      end</span>
+<span class="e">    })</span>
+
+This means that if your callback itself takes an (even optional) argument, you
+must wrap <a href="motion.txt.html#it" class="d">it</a> in `function() end` to avoid an error:
+
+<span class="e">    vim.api.nvim_create_autocmd('TextYankPost', {</span>
+<span class="e">      callback = function() vim.hl.on_yank() end</span>
+<span class="e">    })</span>
+
+(Since unused arguments can be omitted in <a href="lua.txt.html#Lua" class="d">Lua</a> function definitions, this <a href="motion.txt.html#is" class="d">is</a>
+equivalent to `function(args) <a href="userfunc.txt.html#..." class="d">...</a> end`.)
+
+Instead of using <a href="insert.txt.html#a" class="d">a</a> pattern, you can create <a href="insert.txt.html#a" class="d">a</a> buffer-local <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> (see
+<a href="autocmd.txt.html#autocmd-buflocal" class="l">autocmd-buflocal</a><a href="motion.txt.html#%29" class="d">)</a> with <span class="e">buffer</span>; in this case, <span class="e">pattern</span> cannot be used:
+
+<span class="e">    -- set autocommand for current buffer</span>
+<span class="e">    vim.api.nvim_create_autocmd("CursorHold", {</span>
+<span class="e">      buffer = 0,</span>
+<span class="e">      callback = function() print("hold") end,</span>
+<span class="e">    })</span>
+<span class="e"></span>
+<span class="e">    -- set autocommand for buffer number 33</span>
+<span class="e">    vim.api.nvim_create_autocmd("CursorHold", {</span>
+<span class="e">      buffer = 33,</span>
+<span class="e">      callback = function() print("hold") end,</span>
+<span class="e">    })</span>
+
+Similarly to mappings, you can (and should) add <a href="insert.txt.html#a" class="d">a</a> description using <span class="e">desc</span>:
+
+<span class="e">    vim.api.nvim_create_autocmd('TextYankPost', {</span>
+<span class="e">      callback = function() vim.hl.on_yank() end,</span>
+<span class="e">      desc = "Briefly highlight yanked text"</span>
+<span class="e">    })</span>
+
+Finally, you can group autocommands using the <span class="e">group</span> key; this will be
+covered in detail in the next section.
+
+<span class="h">------------------------------------------------------------------------------</span>
+Grouping autocommands                             <span id="lua-guide-autocommands-group" class="t">lua-guide-autocommands-group</span>
+
+Autocommand groups can be used to group related autocommands together; see
+<a href="autocmd.txt.html#autocmd-groups" class="l">autocmd-groups</a><a href="repeat.txt.html#." class="d">.</a> This <a href="motion.txt.html#is" class="d">is</a> useful <a href="luaref.txt.html#for" class="d">for</a> organizing autocommands and especially
+<a href="luaref.txt.html#for" class="d">for</a> preventing autocommands to be set multiple times.
+
+Groups can be created with <span class="e">vim.api.</span><a href="api.txt.html#nvim_create_augroup%28%29" class="l">nvim_create_augroup()</a><a href="repeat.txt.html#." class="d">.</a> This function
+takes two mandatory arguments: <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> with the name of <a href="insert.txt.html#a" class="d">a</a> group and <a href="insert.txt.html#a" class="d">a</a> table
+determining whether the group should be cleared (i.e., all grouped
+autocommands removed) if <a href="motion.txt.html#it" class="d">it</a> already exists. The function returns <a href="insert.txt.html#a" class="d">a</a> number that
+<a href="motion.txt.html#is" class="d">is</a> the internal identifier of the group. Groups can be specified either by
+this identifier or by the name (but only if the group has been created first).
+
+For example, <a href="insert.txt.html#a" class="d">a</a> common Vimscript <a href="pattern.txt.html#pattern" class="d">pattern</a> <a href="luaref.txt.html#for" class="d">for</a> autocommands defined in files that
+may be reloaded <a href="motion.txt.html#is" class="d">is</a>
+
+<span class="e">    augroup vimrc</span>
+<span class="e">      " Remove all vimrc autocommands</span>
+<span class="e">      autocmd!</span>
+<span class="e">      au BufNewFile,BufRead *.html set shiftwidth=4</span>
+<span class="e">      au BufNewFile,BufRead *.html set expandtab</span>
+<span class="e">    augroup END</span>
+
+This <a href="motion.txt.html#is" class="d">is</a> equivalent to the following <a href="lua.txt.html#Lua" class="d">Lua</a> code:
+
+<span class="e">    local mygroup = vim.api.nvim_create_augroup('vimrc', { clear = true })</span>
+<span class="e">    vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {</span>
+<span class="e">      pattern = '*.html',</span>
+<span class="e">      group = mygroup,</span>
+<span class="e">      command = 'set shiftwidth=4',</span>
+<span class="e">    })</span>
+<span class="e">    vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {</span>
+<span class="e">      pattern = '*.html',</span>
+<span class="e">      group = 'vimrc',  -- equivalent to group=mygroup</span>
+<span class="e">      command = 'set expandtab',</span>
+<span class="e">    })</span>
+
+Autocommand groups are unique <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> given name, so you can reuse them, e.g.,
+in <a href="insert.txt.html#a" class="d">a</a> different file:
+
+<span class="e">    local mygroup = vim.api.nvim_create_augroup('vimrc', { clear = false })</span>
+<span class="e">    vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {</span>
+<span class="e">      pattern = '*.c',</span>
+<span class="e">      group = mygroup,</span>
+<span class="e">      command = 'set noexpandtab',</span>
+<span class="e">    })</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+Deleting autocommands                            <span id="lua-guide-autocommands-delete" class="t">lua-guide-autocommands-delete</span>
+
+You can use <span class="e">vim.api.</span><a href="api.txt.html#nvim_clear_autocmds%28%29" class="l">nvim_clear_autocmds()</a> to remove autocommands. This
+function takes <a href="insert.txt.html#a" class="d">a</a> single mandatory argument that <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> table of keys describing
+the autocommands that are to be removed:
+
+<span class="e">    -- Delete all BufEnter and InsertLeave autocommands</span>
+<span class="e">    vim.api.nvim_clear_autocmds({event = {"BufEnter", "InsertLeave"}})</span>
+<span class="e"></span>
+<span class="e">    -- Delete all autocommands that uses "*.py" pattern</span>
+<span class="e">    vim.api.nvim_clear_autocmds({pattern = "*.py"})</span>
+<span class="e"></span>
+<span class="e">    -- Delete all autocommands in group "scala"</span>
+<span class="e">    vim.api.nvim_clear_autocmds({group = "scala"})</span>
+<span class="e"></span>
+<span class="e">    -- Delete all ColorScheme autocommands in current buffer</span>
+<span class="e">    vim.api.nvim_clear_autocmds({event = "ColorScheme", buffer = 0 })</span>
+
+<span class="n">Note:</span> Autocommands in groups will only be removed if the <span class="e">group</span> key <a href="motion.txt.html#is" class="d">is</a>
+specified, even if another option matches it.
+
+<span class="h">------------------------------------------------------------------------------</span>
+See also
+• <a href="api.txt.html#nvim_get_autocmds%28%29" class="l">nvim_get_autocmds()</a><a href="cmdline.txt.html#%3A" class="d">:</a>  return all matching autocommands
+• <a href="api.txt.html#nvim_exec_autocmds%28%29" class="l">nvim_exec_autocmds()</a><a href="cmdline.txt.html#%3A" class="d">:</a> execute all matching autocommands
+
+<span class="h">==============================================================================</span>
+<a href="autocmd.txt.html#User" class="d">User</a> commands                                           <span id="lua-guide-commands" class="t">lua-guide-commands</span>
+
+<a href="map.txt.html#user-commands" class="l">user-commands</a> are custom Vim commands that call <a href="insert.txt.html#a" class="d">a</a> Vimscript or <a href="lua.txt.html#Lua" class="d">Lua</a> function.
+Just like built-in commands, they can have arguments, act on ranges, or have
+custom completion of arguments. As these are most useful <a href="luaref.txt.html#for" class="d">for</a> plugins, we will
+cover only the basics of this advanced topic.
+
+<span class="h">------------------------------------------------------------------------------</span>
+Creating user commands                           <span id="lua-guide-commands-create" class="t">lua-guide-commands-create</span>
+
+<a href="autocmd.txt.html#User" class="d">User</a> commands can be created via <a href="api.txt.html#nvim_create_user_command%28%29" class="l">nvim_create_user_command()</a><a href="repeat.txt.html#." class="d">.</a> This function
+takes three mandatory arguments:
+• <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> that <a href="motion.txt.html#is" class="d">is</a> the name of the command (which must start with an <a href="change.txt.html#uppercase" class="d">uppercase</a>
+  letter to distinguish <a href="motion.txt.html#it" class="d">it</a> from builtin commands);
+• <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> containing Vim commands or <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> function that <a href="motion.txt.html#is" class="d">is</a> executed when the
+  command <a href="motion.txt.html#is" class="d">is</a> invoked;
+• <a href="insert.txt.html#a" class="d">a</a> table with <a href="map.txt.html#command-attributes" class="l">command-attributes</a><a href="motion.txt.html#%3B" class="d">;</a> in addition, <a href="motion.txt.html#it" class="d">it</a> can contain the keys
+  <span class="e">desc</span> (a <a href="vimeval.txt.html#string" class="d">string</a> describing the command); <span class="e">force</span> (set to <span class="e">false</span> to avoid
+  <a href="change.txt.html#replacing" class="d">replacing</a> an already existing command with the same name), and <span class="e">preview</span> (a
+  <a href="lua.txt.html#Lua" class="d">Lua</a> function that <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> <a href="map.txt.html#%3Acommand-preview" class="l">:command-preview</a>).
+
+Example:
+
+<span class="e">    vim.api.nvim_create_user_command('Test', 'echo "It works!"', {})</span>
+<span class="e">    vim.cmd.Test()</span>
+<span class="e">    --&gt; It works!</span>
+
+(Note that the third argument <a href="motion.txt.html#is" class="d">is</a> mandatory even if no attributes are given.)
+
+<a href="lua.txt.html#Lua" class="d">Lua</a> <a href="vimeval.txt.html#functions" class="d">functions</a> are called with <a href="insert.txt.html#a" class="d">a</a> single table argument containing arguments and
+modifiers. The most important are:
+• <span class="e">name</span>: <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> with the command name
+• <span class="e">fargs</span>: <a href="insert.txt.html#a" class="d">a</a> table containing the command arguments split by <a href="pattern.txt.html#whitespace" class="d">whitespace</a> (see <a href="map.txt.html#%3Cf-args%3E" class="l">&lt;f-args&gt;</a><a href="motion.txt.html#%29" class="d">)</a>
+• <span class="e">bang</span>: <span class="e">true</span> if the command was executed with <a href="insert.txt.html#a" class="d">a</a> <span class="e">!</span> modifier (see <a href="map.txt.html#%3Cbang%3E" class="l">&lt;bang&gt;</a><a href="motion.txt.html#%29" class="d">)</a>
+• <span class="e">line1</span>: the <a href="starting.txt.html#starting" class="d">starting</a> line number of the command range (see <a href="map.txt.html#%3Cline1%3E" class="l">&lt;line1&gt;</a><a href="motion.txt.html#%29" class="d">)</a>
+• <span class="e">line2</span>: the final line number of the command range (see <a href="map.txt.html#%3Cline2%3E" class="l">&lt;line2&gt;</a><a href="motion.txt.html#%29" class="d">)</a>
+• <span class="e">range</span>: the number of items in the command range: 0, 1, or 2 (see <a href="map.txt.html#%3Crange%3E" class="l">&lt;range&gt;</a><a href="motion.txt.html#%29" class="d">)</a>
+• <span class="e">count</span>: any <a href="intro.txt.html#count" class="d">count</a> supplied (see <a href="map.txt.html#%3Ccount%3E" class="l">&lt;count&gt;</a><a href="motion.txt.html#%29" class="d">)</a>
+• <span class="e">smods</span>: <a href="insert.txt.html#a" class="d">a</a> table containing the command modifiers (see <a href="map.txt.html#%3Cmods%3E" class="l">&lt;mods&gt;</a><a href="motion.txt.html#%29" class="d">)</a>
+
+For example:
+
+<span class="e">    vim.api.nvim_create_user_command('Upper',</span>
+<span class="e">      function(opts)</span>
+<span class="e">        print(string.upper(opts.fargs[1]))</span>
+<span class="e">      end,</span>
+<span class="e">      { nargs = 1 })</span>
+<span class="e"></span>
+<span class="e">    vim.cmd.Upper('foo')</span>
+<span class="e">    --&gt; FOO</span>
+
+The <span class="e">complete</span> attribute can take <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> function in addition to the
+attributes listed in <a href="map.txt.html#%3Acommand-complete" class="l">:command-complete</a><a href="repeat.txt.html#." class="d">.</a> 
+<span class="e"></span>
+<span class="e">    vim.api.nvim_create_user_command('Upper',</span>
+<span class="e">      function(opts)</span>
+<span class="e">        print(string.upper(opts.fargs[1]))</span>
+<span class="e">      end,</span>
+<span class="e">      { nargs = 1,</span>
+<span class="e">        complete = function(ArgLead, CmdLine, CursorPos)</span>
+<span class="e">          -- return completion candidates as a list-like table</span>
+<span class="e">          return { "foo", "bar", "baz" }</span>
+<span class="e">        end,</span>
+<span class="e">    })</span>
+
+Buffer-local user commands are created with <span class="e">vim.api.</span><a href="api.txt.html#nvim_buf_create_user_command%28%29" class="l">nvim_buf_create_user_command()</a><a href="repeat.txt.html#." class="d">.</a>
+Here the first argument <a href="motion.txt.html#is" class="d">is</a> the buffer number (`0` being the current buffer);
+the remaining arguments are the same <a href="motion.txt.html#as" class="d">as</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="api.txt.html#nvim_create_user_command%28%29" class="l">nvim_create_user_command()</a><a href="cmdline.txt.html#%3A" class="d">:</a>
+
+<span class="e">    vim.api.nvim_buf_create_user_command(0, 'Upper',</span>
+<span class="e">      function(opts)</span>
+<span class="e">        print(string.upper(opts.fargs[1]))</span>
+<span class="e">      end,</span>
+<span class="e">      { nargs = 1 })</span>
+
+<span class="h">------------------------------------------------------------------------------</span>
+Deleting user commands                           <span id="lua-guide-commands-delete" class="t">lua-guide-commands-delete</span>
+
+<a href="autocmd.txt.html#User" class="d">User</a> commands can be deleted with <span class="e">vim.api.</span><a href="api.txt.html#nvim_del_user_command%28%29" class="l">nvim_del_user_command()</a><a href="repeat.txt.html#." class="d">.</a> The only
+argument <a href="motion.txt.html#is" class="d">is</a> the name of the command:
+
+<span class="e">    vim.api.nvim_del_user_command('Upper')</span>
+
+To delete buffer-local user commands use <span class="e">vim.api.</span><a href="api.txt.html#nvim_buf_del_user_command%28%29" class="l">nvim_buf_del_user_command()</a><a href="repeat.txt.html#." class="d">.</a>
+Here the first argument <a href="motion.txt.html#is" class="d">is</a> the buffer number (`0` being the current buffer),
+and second <a href="motion.txt.html#is" class="d">is</a> command name:
+
+<span class="e">    vim.api.nvim_buf_del_user_command(4, 'Upper')</span>
+
+<span class="h">==============================================================================</span>
+Credits                                                      <span id="lua-guide-credits" class="t">lua-guide-credits</span>
+This guide <a href="motion.txt.html#is" class="d">is</a> in large part taken from nanotee's <a href="lua.txt.html#Lua" class="d">Lua</a> guide:
+<a class="u" href="https://github.com/nanotee/nvim-lua-guide">https://github.com/nanotee/nvim-lua-guide</a>
+
+Thank you @nanotee!
+
+vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

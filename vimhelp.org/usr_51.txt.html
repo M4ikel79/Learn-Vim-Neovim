@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: usr_51.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="usr_51.txt.html#">↑Top↑</a></li>
+<li><a href="usr_51.txt.html#51.1">Writing a generic plugin</a></li>
+<li><a href="usr_51.txt.html#51.2">Writing a filetype plugin</a></li>
+<li><a href="usr_51.txt.html#51.3">Writing a compiler plugin</a></li>
+<li><a href="usr_51.txt.html#51.4">Distributing Vim scripts</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="usr_51.txt" class="t">usr_51.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 09
+
+
+		     VIM USER MANUAL	by <a href="version9.txt.html#Bram" class="d">Bram</a> <a href="version9.txt.html#Moolenaar" class="d">Moolenaar</a>
+
+
+			      Write plugins
+
+
+Plugins can be used to define settings for <a href="insert.txt.html#a" class="d">a</a> specific type of file, <a href="syntax.txt.html#syntax" class="d">syntax</a>
+highlighting and many other things.  This chapter explains how to write the
+most common Vim plugins.
+
+<a href="usr_51.txt.html#51.1" class="l">51.1</a>  	Writing <a href="insert.txt.html#a" class="d">a</a> generic <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+<a href="usr_51.txt.html#51.2" class="l">51.2</a>  	Writing <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+<a href="usr_51.txt.html#51.3" class="l">51.3</a>  	Writing <a href="insert.txt.html#a" class="d">a</a> compiler <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+<a href="usr_51.txt.html#51.4" class="l">51.4</a>  	Distributing Vim scripts
+
+     Next chapter: <a href="usr_52.txt.html#usr_52.txt" class="l">usr_52.txt</a>  Write large plugins
+ Previous chapter: <a href="usr_50.txt.html#usr_50.txt" class="l">usr_50.txt</a>  Advanced Vim <a href="usr_41.txt.html#script" class="d">script</a> <a href="editing.txt.html#writing" class="d">writing</a>
+Table of contents: <a href="usr_toc.txt.html#usr_toc.txt" class="l">usr_toc.txt</a>
+
+<span class="h">==============================================================================</span>
+<span id="51.1" class="t">51.1</span>  	Writing <a href="insert.txt.html#a" class="d">a</a> generic <a href="usr_05.txt.html#plugin" class="d">plugin</a>			<span id="write-plugin" class="t">write-plugin</span>
+
+You can write <a href="insert.txt.html#a" class="d">a</a> Vim <a href="usr_41.txt.html#script" class="d">script</a> in such <a href="insert.txt.html#a" class="d">a</a> way that many people can use it.  This <a href="motion.txt.html#is" class="d">is</a>
+called <a href="insert.txt.html#a" class="d">a</a> plugin.  Vim users can drop your <a href="usr_41.txt.html#script" class="d">script</a> in their <a href="usr_05.txt.html#plugin" class="d">plugin</a> directory and
+use its features right away <a href="usr_05.txt.html#add-plugin" class="l">add-plugin</a><a href="repeat.txt.html#." class="d">.</a>
+
+There are actually two types of plugins:
+
+  global plugins: For all types of files.
+<a href="filetype.txt.html#filetype" class="d">filetype</a> plugins: Only for files of <a href="insert.txt.html#a" class="d">a</a> specific type.
+
+In this <a href="motion.txt.html#section" class="d">section</a> the first type <a href="motion.txt.html#is" class="d">is</a> explained.  Most items are also relevant for
+<a href="editing.txt.html#writing" class="d">writing</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> plugins.  The specifics for <a href="filetype.txt.html#filetype" class="d">filetype</a> plugins are in the next
+<a href="motion.txt.html#section" class="d">section</a> <a href="usr_51.txt.html#write-filetype-plugin" class="l">write-filetype-plugin</a><a href="repeat.txt.html#." class="d">.</a>
+
+We will use <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="syntax.txt.html#syntax" class="d">syntax</a> here, the recommended way to write new plugins.
+Make sure the file starts with the <span class="e">vim9script</span> command.
+
+
+<span class="c">NAME</span>
+
+First of all you <a href="vim_faq.txt.html#must" class="d">must</a> choose <a href="insert.txt.html#a" class="d">a</a> name for your plugin.  The features provided
+by the <a href="usr_05.txt.html#plugin" class="d">plugin</a> should be clear from its name.  And <a href="motion.txt.html#it" class="d">it</a> should be unlikely that
+someone else writes <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> with the same name but which does something
+different.
+
+<a href="insert.txt.html#A" class="d">A</a> <a href="usr_41.txt.html#script" class="d">script</a> that corrects typing mistakes could be called "typecorrect.vim"<a href="repeat.txt.html#." class="d">.</a>  We
+will use <a href="motion.txt.html#it" class="d">it</a> here <a href="motion.txt.html#as" class="d">as</a> an example.
+
+For the <a href="usr_05.txt.html#plugin" class="d">plugin</a> to work for everybody, <a href="motion.txt.html#it" class="d">it</a> should follow <a href="insert.txt.html#a" class="d">a</a> few guidelines.  This
+will be explained step-by-step.  The complete example <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> <a href="motion.txt.html#at" class="d">at</a> the end.
+
+
+<span class="c">BODY</span>
+
+Let's start with the body of the plugin, the lines that <a href="diff.txt.html#do" class="d">do</a> the actual work: 
+<span class="e"></span>
+<span class="e"> 12	iabbrev teh the</span>
+<span class="e"> 13	iabbrev otehr other</span>
+<span class="e"> 14	iabbrev wnat want</span>
+<span class="e"> 15	iabbrev synchronisation</span>
+<span class="e"> 16		\ synchronization</span>
+<span class="e"></span>
+The actual <a href="eval.txt.html#list" class="d">list</a> should be much longer, of course.
+
+The line numbers have only been added to explain <a href="insert.txt.html#a" class="d">a</a> few things, don't <a href="change.txt.html#put" class="d">put</a> them
+in your <a href="usr_05.txt.html#plugin" class="d">plugin</a> file!
+
+
+<span class="c">FIRST LINE</span>
+
+<span class="e">  1	vim9script noclear</span>
+<span class="e"></span>
+You need to use <span class="e">vim9script</span> <a href="motion.txt.html#as" class="d">as</a> the very first command.  Best <a href="motion.txt.html#is" class="d">is</a> to <a href="change.txt.html#put" class="d">put</a> <a href="motion.txt.html#it" class="d">it</a> in
+the very first line.
+
+The <a href="usr_41.txt.html#script" class="d">script</a> we are <a href="editing.txt.html#writing" class="d">writing</a> will have <a href="insert.txt.html#a" class="d">a</a> <span class="e">finish</span> command to bail out when <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+loaded <a href="insert.txt.html#a" class="d">a</a> second time.  To avoid that the items defined in the <a href="usr_41.txt.html#script" class="d">script</a> are lost
+the "noclear" argument <a href="motion.txt.html#is" class="d">is</a> used.  More info about this <a href="motion.txt.html#at" class="d">at</a> <a href="vim9.txt.html#vim9-reload" class="l">vim9-reload</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">HEADER</span>
+
+You will probably add new corrections to the <a href="usr_05.txt.html#plugin" class="d">plugin</a> and soon have several
+versions lying around.  And when distributing this file, people will want to
+know who wrote this wonderful <a href="usr_05.txt.html#plugin" class="d">plugin</a> and where they can send remarks.
+Therefore, <a href="change.txt.html#put" class="d">put</a> <a href="insert.txt.html#a" class="d">a</a> header <a href="motion.txt.html#at" class="d">at</a> the top of your plugin: 
+<span class="e"></span>
+<span class="e">  2	# Vim global plugin for correcting typing mistakes</span>
+<span class="e">  3	# Last Change:	2021 Dec 30</span>
+<span class="e">  4	# Maintainer:	Bram Moolenaar &lt;Bram@vim.org&gt;</span>
+<span class="e"></span>
+About <a href="uganda.txt.html#copyright" class="d">copyright</a> and licensing: Since plugins are very useful and it's hardly
+worth restricting their distribution, please consider making your <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+either public domain or use the Vim <a href="uganda.txt.html#license" class="l">license</a><a href="repeat.txt.html#." class="d">.</a>  <a href="insert.txt.html#A" class="d">A</a> short <span class="n">note</span> about this near
+the top of the <a href="usr_05.txt.html#plugin" class="d">plugin</a> should be sufficient.  Example: 
+<span class="e"></span>
+<span class="e">  5	# License:	This file is placed in the public domain.</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">NOT LOADING</span>
+
+It <a href="motion.txt.html#is" class="d">is</a> possible that <a href="insert.txt.html#a" class="d">a</a> user doesn't always want to load this plugin.  Or the
+system administrator has dropped <a href="motion.txt.html#it" class="d">it</a> in the system-wide <a href="usr_05.txt.html#plugin" class="d">plugin</a> directory, but <a href="insert.txt.html#a" class="d">a</a>
+user has their own <a href="usr_05.txt.html#plugin" class="d">plugin</a> they want to use.  Then the user <a href="vim_faq.txt.html#must" class="d">must</a> have <a href="insert.txt.html#a" class="d">a</a> chance
+to disable loading this specific plugin.  These lines will make <a href="motion.txt.html#it" class="d">it</a> possible: 
+<span class="e"></span>
+<span class="e">  7	if exists("g:loaded_typecorrect")</span>
+<span class="e">  8	  finish</span>
+<span class="e">  9	endif</span>
+<span class="e"> 10	g:loaded_typecorrect = 1</span>
+<span class="e"></span>
+This also avoids that when the <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> loaded twice <a href="motion.txt.html#it" class="d">it</a> would pointlessly
+redefine <a href="eval.txt.html#functions" class="d">functions</a> and cause trouble for <a href="autocmd.txt.html#autocommands" class="d">autocommands</a> that are added twice.
+
+The name <a href="motion.txt.html#is" class="d">is</a> recommended to start with "g:loaded_" and then the file name of
+the plugin, literally.  The "<a href="eval.txt.html#g%3A" class="d">g:</a>" <a href="motion.txt.html#is" class="d">is</a> prepended to make the variable global, so
+that other places can check whether its functionality <a href="motion.txt.html#is" class="d">is</a> available.  Without
+"<a href="eval.txt.html#g%3A" class="d">g:</a>" <a href="motion.txt.html#it" class="d">it</a> would be local to the script.
+
+Using <span class="e">finish</span> stops Vim from reading the rest of the file, it's much quicker
+than using if-endif around the whole file, since Vim would still need to parse
+the commands to find the <span class="e">endif</span>.
+
+
+<span class="c">MAPPING</span>
+
+Now let's make the <a href="usr_05.txt.html#plugin" class="d">plugin</a> more interesting: We will add <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> that adds <a href="insert.txt.html#a" class="d">a</a>
+correction for the <a href="motion.txt.html#word" class="d">word</a> under the cursor.  We could just pick <a href="insert.txt.html#a" class="d">a</a> key sequence
+for this mapping, but the user might already use <a href="motion.txt.html#it" class="d">it</a> for something else.  To
+allow the user to define which keys <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> in <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> uses, the <a href="map.txt.html#%3CLeader%3E" class="s">&lt;Leader&gt;</a>
+item can be used: 
+<span class="e"></span>
+<span class="e"> 20	  map &lt;unique&gt; &lt;Leader&gt;a  &lt;Plug&gt;TypecorrAdd;</span>
+<span class="e"></span>
+The "<a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a>TypecorrAdd;" thing will <a href="diff.txt.html#do" class="d">do</a> the work, more about that further on.
+
+The user can set the "g:mapleader" variable to the key sequence that they want
+<a href="usr_05.txt.html#plugin" class="d">plugin</a> mappings to start with.  Thus if the user has done: 
+<span class="e"></span>
+<span class="e">	g:mapleader = "_"</span>
+<span class="e"></span>
+the <a href="map.txt.html#mapping" class="d">mapping</a> will define "_a"<a href="repeat.txt.html#." class="d">.</a>  If the user didn't <a href="diff.txt.html#do" class="d">do</a> this, the default value
+will be used, which <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> backslash.  Then <a href="insert.txt.html#a" class="d">a</a> map for "\a" will be defined.
+
+<span class="n">Note</span> that <span class="s">&lt;unique&gt;</span> <a href="motion.txt.html#is" class="d">is</a> used, this will cause an error message if the <a href="map.txt.html#mapping" class="d">mapping</a>
+already happened to exist. <a href="map.txt.html#%3Amap-%3Cunique%3E" class="l">:map-&lt;unique&gt;</a>
+
+But what if the user wants to define their own key sequence?  We can allow
+that with this mechanism: 
+<span class="e"></span>
+<span class="e"> 19	if !hasmapto('&lt;Plug&gt;TypecorrAdd;')</span>
+<span class="e"> 20	  map &lt;unique&gt; &lt;Leader&gt;a  &lt;Plug&gt;TypecorrAdd;</span>
+<span class="e"> 21	endif</span>
+<span class="e"></span>
+This checks if <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> to "<a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a>TypecorrAdd;" already exists, and only
+defines the <a href="map.txt.html#mapping" class="d">mapping</a> from "<a href="map.txt.html#%3CLeader%3E" class="s">&lt;Leader&gt;</a>a" if <a href="motion.txt.html#it" class="d">it</a> doesn't.  The user then has <a href="insert.txt.html#a" class="d">a</a>
+chance of putting this in their <a href="starting.txt.html#vimrc" class="d">vimrc</a> file: 
+<span class="e"></span>
+<span class="e">	map ,c  &lt;Plug&gt;TypecorrAdd;</span>
+<span class="e"></span>
+Then the mapped key sequence will be ",c" instead of "_a" or "\a"<a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">PIECES</span>
+
+If <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> gets longer, you often want to break up the work in pieces.  You
+can use <a href="eval.txt.html#functions" class="d">functions</a> or mappings for this.  But you don't want these <a href="eval.txt.html#functions" class="d">functions</a>
+and mappings to interfere with the ones from other scripts.  For example, you
+could define <a href="insert.txt.html#a" class="d">a</a> function Add(), but another <a href="usr_41.txt.html#script" class="d">script</a> could try to define the same
+function.  To avoid this, we define the function local to the script.
+Fortunately, in <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> this <a href="motion.txt.html#is" class="d">is</a> the default.  In <a href="insert.txt.html#a" class="d">a</a> legacy <a href="usr_41.txt.html#script" class="d">script</a> you
+would need to prefix the name with "s:"<a href="repeat.txt.html#." class="d">.</a>
+
+We will define <a href="insert.txt.html#a" class="d">a</a> function that adds <a href="insert.txt.html#a" class="d">a</a> new typing correction: 
+<span class="e"></span>
+<span class="e"> 28	def Add(from: string, correct: bool)</span>
+<span class="e"> 29	  var to = input($"type the correction for {from}: ")</span>
+<span class="e"> 30	  exe $":iabbrev {from} {to}"</span>
+<span class="e"> ...</span>
+<span class="e"> 34	enddef</span>
+<span class="e"></span>
+Now we can call the function Add() from within this script.  If another
+<a href="usr_41.txt.html#script" class="d">script</a> also defines Add(), <a href="motion.txt.html#it" class="d">it</a> will be local to that <a href="usr_41.txt.html#script" class="d">script</a> and can only
+be called from that script.  There can also be <a href="insert.txt.html#a" class="d">a</a> global g:Add() function,
+which <a href="motion.txt.html#is" class="d">is</a> again another function.
+
+<a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a> can be used with mappings.  It generates <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> ID, which identifies
+the current script.  In our typing correction <a href="usr_05.txt.html#plugin" class="d">plugin</a> we use <a href="motion.txt.html#it" class="d">it</a> like this: 
+<span class="e"></span>
+<span class="e"> 22	noremap &lt;unique&gt; &lt;script&gt; &lt;Plug&gt;TypecorrAdd;  &lt;SID&gt;Add</span>
+<span class="e"> ...</span>
+<span class="e"> 26	noremap &lt;SID&gt;Add  :call &lt;SID&gt;Add(expand("&lt;cword&gt;"), true)&lt;CR&gt;</span>
+<span class="e"></span>
+Thus when <a href="insert.txt.html#a" class="d">a</a> user types "\a"<a href="motion.txt.html#%2C" class="d">,</a> this sequence <a href="motion.txt.html#is" class="d">is</a> invoked: 
+<span class="e"></span>
+<span class="e">	\a  -&gt;  &lt;Plug&gt;TypecorrAdd;  -&gt;  &lt;SID&gt;Add  -&gt;  :call &lt;SID&gt;Add(...)</span>
+<span class="e"></span>
+If another <a href="usr_41.txt.html#script" class="d">script</a> also maps <a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a>Add, <a href="motion.txt.html#it" class="d">it</a> will get another <a href="usr_41.txt.html#script" class="d">script</a> ID and
+thus define another mapping.
+
+<span class="n">Note</span> that instead of Add() we use <a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a>Add() here.  That <a href="motion.txt.html#is" class="d">is</a> because the
+<a href="map.txt.html#mapping" class="d">mapping</a> <a href="motion.txt.html#is" class="d">is</a> typed by the user, thus outside of the <a href="usr_41.txt.html#script" class="d">script</a> context.  The <a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a>
+<a href="motion.txt.html#is" class="d">is</a> translated to the <a href="usr_41.txt.html#script" class="d">script</a> ID, so that Vim knows in which <a href="usr_41.txt.html#script" class="d">script</a> to look for
+the Add() function.
+
+This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> bit complicated, but it's required for the <a href="usr_05.txt.html#plugin" class="d">plugin</a> to work together
+with other plugins.  The basic rule <a href="motion.txt.html#is" class="d">is</a> that you use <a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a>Add() in mappings and
+Add() in other places (the <a href="usr_41.txt.html#script" class="d">script</a> itself, autocommands, user commands).
+
+We can also add <a href="insert.txt.html#a" class="d">a</a> menu entry to <a href="diff.txt.html#do" class="d">do</a> the same <a href="motion.txt.html#as" class="d">as</a> the mapping: 
+<span class="e"></span>
+<span class="e"> 24	noremenu &lt;script&gt; Plugin.Add\ Correction      &lt;SID&gt;Add</span>
+<span class="e"></span>
+The "Plugin" menu <a href="motion.txt.html#is" class="d">is</a> recommended for adding menu items for plugins.  In this
+<a href="change.txt.html#case" class="d">case</a> only one item <a href="motion.txt.html#is" class="d">is</a> used.  When adding more items, creating <a href="insert.txt.html#a" class="d">a</a> submenu <a href="motion.txt.html#is" class="d">is</a>
+recommended.  For example, "Plugin.CVS" could be used for <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> that offers
+CVS operations "Plugin.CVS.checkin"<a href="motion.txt.html#%2C" class="d">,</a> "Plugin.CVS.checkout"<a href="motion.txt.html#%2C" class="d">,</a> etc.
+
+<span class="n">Note</span> that in line 28 "<a href="map.txt.html#%3Anoremap" class="d">:noremap</a>" <a href="motion.txt.html#is" class="d">is</a> used to avoid that any other mappings cause
+trouble.  Someone may have remapped "<a href="userfunc.txt.html#%3Acall" class="d">:call</a>"<a href="motion.txt.html#%2C" class="d">,</a> for example.  In line 24 we also
+use "<a href="map.txt.html#%3Anoremap" class="d">:noremap</a>"<a href="motion.txt.html#%2C" class="d">,</a> but we <a href="diff.txt.html#do" class="d">do</a> want "<a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a>Add" to be remapped.  This <a href="motion.txt.html#is" class="d">is</a> why
+"<a href="cmdline.txt.html#%3Cscript%3E" class="s">&lt;script&gt;</a>" <a href="motion.txt.html#is" class="d">is</a> used here.  This only allows mappings which are local to the
+script. <a href="map.txt.html#%3Amap-%3Cscript%3E" class="l">:map-&lt;script&gt;</a>  The same <a href="motion.txt.html#is" class="d">is</a> done in line 26 for "<a href="gui.txt.html#%3Anoremenu" class="d">:noremenu</a>"<a href="repeat.txt.html#." class="d">.</a>
+<a href="gui.txt.html#%3Amenu-%3Cscript%3E" class="l">:menu-&lt;script&gt;</a>
+
+
+<a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a> AND <a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a>					<span id="using-%3CPlug%3E" class="t">using-&lt;Plug&gt;</span>
+
+Both <a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a> and <a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a> are used to avoid that mappings of typed keys interfere
+with mappings that are only to be used from other mappings.  <span class="n">Note</span> the
+difference between using <a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a> and <a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a>:
+
+<a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a>	<a href="motion.txt.html#is" class="d">is</a> visible outside of the script.  It <a href="motion.txt.html#is" class="d">is</a> used for mappings which the
+	user might want to map <a href="insert.txt.html#a" class="d">a</a> key sequence to.  <a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> special code
+	that <a href="insert.txt.html#a" class="d">a</a> typed key will never produce.
+	To make <a href="motion.txt.html#it" class="d">it</a> very unlikely that other plugins use the same sequence of
+	characters, use this structure: <a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a> scriptname mapname
+	In our example the scriptname <a href="motion.txt.html#is" class="d">is</a> "Typecorr" and the mapname <a href="motion.txt.html#is" class="d">is</a> "Add"<a href="repeat.txt.html#." class="d">.</a>
+	We add <a href="insert.txt.html#a" class="d">a</a> semicolon <a href="motion.txt.html#as" class="d">as</a> the terminator.  This results in
+	"<a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a>TypecorrAdd;"<a href="repeat.txt.html#." class="d">.</a>  Only the first character of scriptname and
+	mapname <a href="motion.txt.html#is" class="d">is</a> uppercase, so that we can see where mapname starts.
+
+<a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a>	<a href="motion.txt.html#is" class="d">is</a> the <a href="usr_41.txt.html#script" class="d">script</a> ID, <a href="insert.txt.html#a" class="d">a</a> <a href="change.txt.html#unique" class="d">unique</a> identifier for <a href="insert.txt.html#a" class="d">a</a> script.
+	Internally Vim translates <a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a> to "<a href="map.txt.html#%3CSNR%3E" class="s">&lt;SNR&gt;</a>123_"<a href="motion.txt.html#%2C" class="d">,</a> where "123" can be any
+	number.  Thus <a href="insert.txt.html#a" class="d">a</a> function "<a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a>Add()" will have <a href="insert.txt.html#a" class="d">a</a> name "<a href="map.txt.html#%3CSNR%3E" class="s">&lt;SNR&gt;</a>11_Add()"
+	in one script, and "<a href="map.txt.html#%3CSNR%3E" class="s">&lt;SNR&gt;</a>22_Add()" in another.  You can see this if
+	you use the "<a href="userfunc.txt.html#%3Afunction" class="d">:function</a>" command to get <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of functions.  The
+	translation of <a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a> in mappings <a href="motion.txt.html#is" class="d">is</a> exactly the same, that's how you
+	can call <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#script-local" class="d">script-local</a> function from <a href="insert.txt.html#a" class="d">a</a> mapping.
+
+
+<span class="c">USER COMMAND</span>
+
+Now let's add <a href="insert.txt.html#a" class="d">a</a> user command to add <a href="insert.txt.html#a" class="d">a</a> correction: 
+<span class="e"></span>
+<span class="e"> 36	if !exists(":Correct")</span>
+<span class="e"> 37	  command -nargs=1  Correct  :call Add(&lt;q-args&gt;, false)</span>
+<span class="e"> 38	endif</span>
+<span class="e"></span>
+The user command <a href="motion.txt.html#is" class="d">is</a> defined only if no command with the same name already
+exists.  Otherwise we would get an error here.  Overriding the existing user
+command with ":command!" <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> good idea, this would probably make the user
+wonder why the command they defined themselves doesn't work.  <a href="map.txt.html#%3Acommand" class="l">:command</a>
+If <a href="motion.txt.html#it" class="d">it</a> did happen you can find out who to blame with: 
+<span class="e"></span>
+<span class="e">	verbose command Correct</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">SCRIPT VARIABLES</span>
+
+When <a href="insert.txt.html#a" class="d">a</a> variable starts with "s:" <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> variable.  It can only be used
+inside <a href="insert.txt.html#a" class="d">a</a> script.  Outside the <a href="usr_41.txt.html#script" class="d">script</a> it's not visible.  This avoids trouble
+with using the same variable name in different scripts.  The <a href="eval.txt.html#variables" class="d">variables</a> will be
+kept <a href="motion.txt.html#as" class="d">as</a> long <a href="motion.txt.html#as" class="d">as</a> Vim <a href="motion.txt.html#is" class="d">is</a> running.  And the same <a href="eval.txt.html#variables" class="d">variables</a> are used when sourcing
+the same <a href="usr_41.txt.html#script" class="d">script</a> again. <a href="eval.txt.html#s%3Avar" class="l">s:var</a>
+
+The nice thing about <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> that <a href="eval.txt.html#variables" class="d">variables</a> are local to the <a href="usr_41.txt.html#script" class="d">script</a>
+by default.  You can prepend "s:" if you like, but you <a href="diff.txt.html#do" class="d">do</a> not need to.  And
+<a href="eval.txt.html#functions" class="d">functions</a> in the <a href="usr_41.txt.html#script" class="d">script</a> can also use the <a href="usr_41.txt.html#script" class="d">script</a> <a href="eval.txt.html#variables" class="d">variables</a> without <a href="insert.txt.html#a" class="d">a</a> prefix
+(they <a href="vim_faq.txt.html#must" class="d">must</a> be declared before the function for this to work).
+
+Script-local <a href="eval.txt.html#variables" class="d">variables</a> can also be used in functions, <a href="autocmd.txt.html#autocommands" class="d">autocommands</a> and user
+commands that are defined in the script.  Thus they are the perfect way to
+share information between parts of your plugin, without <a href="motion.txt.html#it" class="d">it</a> leaking out.  In
+our example we can add <a href="insert.txt.html#a" class="d">a</a> few lines to <a href="intro.txt.html#count" class="d">count</a> the number of corrections: 
+<span class="e"></span>
+<span class="e"> 17	var count = 4</span>
+<span class="e"> ...</span>
+<span class="e"> 28	def Add(from: string, correct: bool)</span>
+<span class="e"> ...</span>
+<span class="e"> 32	  count += 1</span>
+<span class="e"> 33	  echo "you now have " .. count .. " corrections"</span>
+<span class="e"> 34	enddef</span>
+<span class="e"></span>
+"<a href="intro.txt.html#count" class="d">count</a>" <a href="motion.txt.html#is" class="d">is</a> declared and initialized to 4 in the <a href="usr_41.txt.html#script" class="d">script</a> itself.  When later
+the Add() function <a href="motion.txt.html#is" class="d">is</a> called, <a href="motion.txt.html#it" class="d">it</a> increments "<a href="intro.txt.html#count" class="d">count</a>"<a href="repeat.txt.html#." class="d">.</a>  It doesn't matter from
+where the function was called, since <a href="motion.txt.html#it" class="d">it</a> has been defined in the script, <a href="motion.txt.html#it" class="d">it</a>
+will use the local <a href="eval.txt.html#variables" class="d">variables</a> from this script.
+
+
+<span class="c">THE RESULT</span>
+
+Here <a href="motion.txt.html#is" class="d">is</a> the resulting complete example: 
+<span class="e"></span>
+<span class="e">  1	vim9script noclear</span>
+<span class="e">  2	# Vim global plugin for correcting typing mistakes</span>
+<span class="e">  3	# Last Change:	2021 Dec 30</span>
+<span class="e">  4	# Maintainer:	Bram Moolenaar &lt;Bram@vim.org&gt;</span>
+<span class="e">  5	# License:	This file is placed in the public domain.</span>
+<span class="e">  6</span>
+<span class="e">  7	if exists("g:loaded_typecorrect")</span>
+<span class="e">  8	  finish</span>
+<span class="e">  9	endif</span>
+<span class="e"> 10	g:loaded_typecorrect = 1</span>
+<span class="e"> 11</span>
+<span class="e"> 12	iabbrev teh the</span>
+<span class="e"> 13	iabbrev otehr other</span>
+<span class="e"> 14	iabbrev wnat want</span>
+<span class="e"> 15	iabbrev synchronisation</span>
+<span class="e"> 16		\ synchronization</span>
+<span class="e"> 17	var count = 4</span>
+<span class="e"> 18</span>
+<span class="e"> 19	if !hasmapto('&lt;Plug&gt;TypecorrAdd;')</span>
+<span class="e"> 20	  map &lt;unique&gt; &lt;Leader&gt;a  &lt;Plug&gt;TypecorrAdd;</span>
+<span class="e"> 21	endif</span>
+<span class="e"> 22	noremap &lt;unique&gt; &lt;script&gt; &lt;Plug&gt;TypecorrAdd;  &lt;SID&gt;Add</span>
+<span class="e"> 23</span>
+<span class="e"> 24	noremenu &lt;script&gt; Plugin.Add\ Correction      &lt;SID&gt;Add</span>
+<span class="e"> 25</span>
+<span class="e"> 26	noremap &lt;SID&gt;Add  :call &lt;SID&gt;Add(expand("&lt;cword&gt;"), true)&lt;CR&gt;</span>
+<span class="e"> 27</span>
+<span class="e"> 28	def Add(from: string, correct: bool)</span>
+<span class="e"> 29	  var to = input("type the correction for " .. from .. ": ")</span>
+<span class="e"> 30	  exe ":iabbrev " .. from .. " " .. to</span>
+<span class="e"> 31	  if correct | exe "normal viws\&lt;C-R&gt;\" \b\e" | endif</span>
+<span class="e"> 32	  count += 1</span>
+<span class="e"> 33	  echo "you now have " .. count .. " corrections"</span>
+<span class="e"> 34	enddef</span>
+<span class="e"> 35</span>
+<span class="e"> 36	if !exists(":Correct")</span>
+<span class="e"> 37	  command -nargs=1  Correct  call Add(&lt;q-args&gt;, false)</span>
+<span class="e"> 38	endif</span>
+<span class="e"></span>
+Line 31 wasn't explained yet.  It applies the new correction to the <a href="motion.txt.html#word" class="d">word</a> under
+the cursor.  The <a href="various.txt.html#%3Anormal" class="l">:normal</a> command <a href="motion.txt.html#is" class="d">is</a> used to use the new abbreviation.  <span class="n">Note</span>
+that mappings and <a href="map.txt.html#abbreviations" class="d">abbreviations</a> are expanded here, even though the function
+was called from <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> defined with "<a href="map.txt.html#%3Anoremap" class="d">:noremap</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">DOCUMENTATION</span>						<span id="write-local-help" class="t">write-local-help</span>
+
+It's <a href="insert.txt.html#a" class="d">a</a> good idea to also write some documentation for your plugin.  Especially
+when its behavior can be changed by the user.  See <a href="helphelp.txt.html#help-writing" class="l">help-writing</a> for the
+<a href="syntax.txt.html#syntax" class="d">syntax</a> used by the <a href="helphelp.txt.html#help" class="d">help</a> files and <a href="usr_05.txt.html#add-local-help" class="l">add-local-help</a> for how local <a href="helphelp.txt.html#help" class="d">help</a> files
+are installed.
+
+Here <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> simple example for <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="helphelp.txt.html#help" class="d">help</a> file, called "typecorrect.txt"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"></span>
+<span class="e">  1	*typecorrect.txt*	Plugin for correcting typing mistakes</span>
+<span class="e">  2</span>
+<span class="e">  3	If you make typing mistakes, this plugin will have them corrected</span>
+<span class="e">  4	automatically.</span>
+<span class="e">  5</span>
+<span class="e">  6	There are currently only a few corrections.  Add your own if you like.</span>
+<span class="e">  7</span>
+<span class="e">  8	Mappings:</span>
+<span class="e">  9	&lt;Leader&gt;a   or   &lt;Plug&gt;TypecorrAdd;</span>
+<span class="e"> 10		Add a correction for the word under the cursor.</span>
+<span class="e"> 11</span>
+<span class="e"> 12	Commands:</span>
+<span class="e"> 13	:Correct {word}</span>
+<span class="e"> 14		Add a correction for {word}.</span>
+<span class="e"> 15</span>
+<span class="e"> 16							*typecorrect-settings*</span>
+<span class="e"> 17	This plugin doesn't have any settings.</span>
+<span class="e"></span>
+The first line <a href="motion.txt.html#is" class="d">is</a> actually the only one for which the format matters.  It will
+be extracted from the <a href="helphelp.txt.html#help" class="d">help</a> file to be <a href="change.txt.html#put" class="d">put</a> in the "LOCAL ADDITIONS:" <a href="motion.txt.html#section" class="d">section</a> of
+<a href="index.html#help.txt" class="d">help.txt</a> <a href="index.html#local-additions" class="l">local-additions</a><a href="repeat.txt.html#." class="d">.</a>  The first "*" <a href="vim_faq.txt.html#must" class="d">must</a> be in the first column of the
+first line.  After adding your <a href="helphelp.txt.html#help" class="d">help</a> file <a href="diff.txt.html#do" class="d">do</a> "<a href="helphelp.txt.html#%3Ahelp" class="d">:help</a>" and check that the entries
+line up nicely.
+
+You can add more <a href="tagsrch.txt.html#tags" class="d">tags</a> inside ** in your <a href="helphelp.txt.html#help" class="d">help</a> file.  But be careful not to use
+existing <a href="helphelp.txt.html#help" class="d">help</a> tags.  You would probably use the name of your <a href="usr_05.txt.html#plugin" class="d">plugin</a> in most of
+them, like "typecorrect-settings" in the example.
+
+Using references to other parts of the <a href="helphelp.txt.html#help" class="d">help</a> in || <a href="motion.txt.html#is" class="d">is</a> recommended.  This makes
+<a href="motion.txt.html#it" class="d">it</a> <a href="starting.txt.html#easy" class="d">easy</a> for the user to find associated help.
+
+
+<span class="c">SUMMARY</span>							<span id="plugin-special" class="t">plugin-special</span>
+
+Summary of special things to use in <a href="insert.txt.html#a" class="d">a</a> plugin:
+
+var name		Variable local to the script.
+
+<a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a>			Script-ID, used for mappings and <a href="eval.txt.html#functions" class="d">functions</a> local to
+			the script.
+
+<a href="builtin.txt.html#hasmapto%28%29" class="d">hasmapto()</a>		Function to test if the user already defined <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a>
+			for functionality the <a href="usr_41.txt.html#script" class="d">script</a> offers.
+
+<a href="map.txt.html#%3CLeader%3E" class="s">&lt;Leader&gt;</a>		Value of "<a href="map.txt.html#mapleader" class="d">mapleader</a>"<a href="motion.txt.html#%2C" class="d">,</a> which the user defines <a href="motion.txt.html#as" class="d">as</a> the
+			keys that <a href="usr_05.txt.html#plugin" class="d">plugin</a> mappings start with.
+
+map <span class="s">&lt;unique&gt;</span>		Give <a href="insert.txt.html#a" class="d">a</a> warning if <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> already exists.
+
+noremap <a href="cmdline.txt.html#%3Cscript%3E" class="s">&lt;script&gt;</a>	Use only mappings local to the script, not global
+			mappings.
+
+exists(":Cmd"<a href="motion.txt.html#%29" class="d">)</a>		Check if <a href="insert.txt.html#a" class="d">a</a> user command already exists.
+
+<span class="h">==============================================================================</span>
+<span id="51.2" class="t">51.2</span>  	Writing <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a>	<span id="write-filetype-plugin" class="t">write-filetype-plugin</span> <span id="ftplugin" class="t">ftplugin</span>
+
+<a href="insert.txt.html#A" class="d">A</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> like <a href="insert.txt.html#a" class="d">a</a> global plugin, except that <a href="motion.txt.html#it" class="d">it</a> sets <a href="options.txt.html#options" class="d">options</a> and
+defines mappings for the current buffer only.  See <a href="usr_05.txt.html#add-filetype-plugin" class="l">add-filetype-plugin</a> for
+how this type of <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> used.
+
+First read the <a href="motion.txt.html#section" class="d">section</a> on global plugins above <a href="usr_51.txt.html#51.1" class="l">51.1</a><a href="repeat.txt.html#." class="d">.</a>  All that <a href="motion.txt.html#is" class="d">is</a> said there
+also applies to <a href="filetype.txt.html#filetype" class="d">filetype</a> plugins.  There are <a href="insert.txt.html#a" class="d">a</a> few extras, which are explained
+here.  The essential thing <a href="motion.txt.html#is" class="d">is</a> that <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> should only have an
+effect on the current buffer.
+
+
+<span class="c">DISABLING</span>
+
+If you are <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> to be used by many people, they need <a href="insert.txt.html#a" class="d">a</a>
+chance to disable loading it.  Put this <a href="motion.txt.html#at" class="d">at</a> the top of the plugin: 
+<span class="e"></span>
+<span class="e">	# Only do this when not done yet for this buffer</span>
+<span class="e">	if exists("b:did_ftplugin")</span>
+<span class="e">	  finish</span>
+<span class="e">	endif</span>
+<span class="e">	b:did_ftplugin = 1</span>
+<span class="e"></span>
+This also needs to be used to avoid that the same <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> executed twice for
+the same buffer (happens when using an "<a href="editing.txt.html#%3Aedit" class="d">:edit</a>" command without arguments).
+
+Now users can disable loading the default <a href="usr_05.txt.html#plugin" class="d">plugin</a> completely by making <a href="insert.txt.html#a" class="d">a</a>
+<a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> with only these lines: 
+<span class="e"></span>
+<span class="e">	vim9script</span>
+<span class="e">	b:did_ftplugin = 1</span>
+<span class="e"></span>
+This does require that the <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> directory comes before <a href="starting.txt.html#%24VIMRUNTIME" class="d">$VIMRUNTIME</a>
+in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>!
+
+If you <a href="diff.txt.html#do" class="d">do</a> want to use the default plugin, but overrule one of the settings,
+you can write the different setting in <a href="insert.txt.html#a" class="d">a</a> script: 
+<span class="e"></span>
+<span class="e">	setlocal textwidth=70</span>
+<span class="e"></span>
+Now write this in the "after" directory, so that <a href="motion.txt.html#it" class="d">it</a> gets sourced after the
+distributed "<a href="syntax.txt.html#vim.vim" class="d">vim.vim</a>" <a href="usr_51.txt.html#ftplugin" class="d">ftplugin</a> <a href="options.txt.html#after-directory" class="l">after-directory</a><a href="repeat.txt.html#." class="d">.</a>  For <a href="os_unix.txt.html#Unix" class="d">Unix</a> this would be
+"~/.vim/after/ftplugin/vim.vim"<a href="repeat.txt.html#." class="d">.</a>  <span class="n">Note</span> that the default <a href="usr_05.txt.html#plugin" class="d">plugin</a> will have set
+"b:did_ftplugin"<a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> ignored here.
+
+
+<span class="c">OPTIONS</span>
+
+To make sure the <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> only affects the current buffer use the 
+<span class="e"></span>
+<span class="e">	setlocal</span>
+<span class="e"></span>
+command to set options.  And only set <a href="options.txt.html#options" class="d">options</a> which are local to <a href="insert.txt.html#a" class="d">a</a> buffer (see
+the <a href="helphelp.txt.html#help" class="d">help</a> for the option to check that).  When using <span class="e">:setlocal</span> for global
+<a href="options.txt.html#options" class="d">options</a> or <a href="options.txt.html#options" class="d">options</a> local to <a href="insert.txt.html#a" class="d">a</a> window, the value will change for many buffers,
+and that <a href="motion.txt.html#is" class="d">is</a> not what <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> should do.
+
+When an option has <a href="insert.txt.html#a" class="d">a</a> value that <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of flags or items, consider using
+"+=" and "-=" to keep the existing value.  Be aware that the user may have
+changed an option value already.  First resetting to the default value and
+then <a href="change.txt.html#changing" class="d">changing</a> <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> often <a href="insert.txt.html#a" class="d">a</a> good idea.  Example: 
+<span class="e"></span>
+<span class="e">	setlocal formatoptions&amp; formatoptions+=ro</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">MAPPINGS</span>
+
+To make sure mappings will only work in the current buffer use the 
+<span class="e"></span>
+<span class="e">	map &lt;buffer&gt;</span>
+<span class="e"></span>
+command.  This needs to be combined with the two-step <a href="map.txt.html#mapping" class="d">mapping</a> explained above.
+An example of how to define functionality in <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> plugin: 
+<span class="e"></span>
+<span class="e">	if !hasmapto('&lt;Plug&gt;JavaImport;')</span>
+<span class="e">	  map &lt;buffer&gt; &lt;unique&gt; &lt;LocalLeader&gt;i &lt;Plug&gt;JavaImport;</span>
+<span class="e">	endif</span>
+<span class="e">	noremap &lt;buffer&gt; &lt;unique&gt; &lt;Plug&gt;JavaImport; oimport ""&lt;Left&gt;&lt;Esc&gt;</span>
+<span class="e"></span>
+<a href="builtin.txt.html#hasmapto%28%29" class="l">hasmapto()</a> <a href="motion.txt.html#is" class="d">is</a> used to check if the user has already defined <a href="insert.txt.html#a" class="d">a</a> map to
+<a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a>JavaImport;.  If not, then the <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> defines the default
+mapping.  This starts with <a href="map.txt.html#%3CLocalLeader%3E" class="l">&lt;LocalLeader&gt;</a><a href="motion.txt.html#%2C" class="d">,</a> which allows the user to select
+the key(s) they want <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> mappings to start with.  The default <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+backslash.
+"<span class="s">&lt;unique&gt;</span>" <a href="motion.txt.html#is" class="d">is</a> used to give an error message if the <a href="map.txt.html#mapping" class="d">mapping</a> already exists or
+overlaps with an existing mapping.
+<a href="map.txt.html#%3Anoremap" class="l">:noremap</a> <a href="motion.txt.html#is" class="d">is</a> used to avoid that any other mappings that the user has defined
+interferes.  You might want to use "<a href="map.txt.html#%3Anoremap" class="d">:noremap</a> <a href="cmdline.txt.html#%3Cscript%3E" class="s">&lt;script&gt;</a>" to allow remapping
+mappings defined in this <a href="usr_41.txt.html#script" class="d">script</a> that start with <a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a>.
+
+The user <a href="vim_faq.txt.html#must" class="d">must</a> have <a href="insert.txt.html#a" class="d">a</a> chance to disable the mappings in <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> plugin,
+without disabling everything.  Here <a href="motion.txt.html#is" class="d">is</a> an example of how this <a href="motion.txt.html#is" class="d">is</a> done for <a href="insert.txt.html#a" class="d">a</a>
+<a href="usr_05.txt.html#plugin" class="d">plugin</a> for the mail filetype: 
+<span class="e"></span>
+<span class="e">	# Add mappings, unless the user didn't want this.</span>
+<span class="e">	if !exists("g:no_plugin_maps") &amp;&amp; !exists("g:no_mail_maps")</span>
+<span class="e">	  # Quote text by inserting "&gt; "</span>
+<span class="e">	  if !hasmapto('&lt;Plug&gt;MailQuote;')</span>
+<span class="e">	    vmap &lt;buffer&gt; &lt;LocalLeader&gt;q &lt;Plug&gt;MailQuote;</span>
+<span class="e">	    nmap &lt;buffer&gt; &lt;LocalLeader&gt;q &lt;Plug&gt;MailQuote;</span>
+<span class="e">	  endif</span>
+<span class="e">	  vnoremap &lt;buffer&gt; &lt;Plug&gt;MailQuote; :s/^/&gt; /&lt;CR&gt;</span>
+<span class="e">	  nnoremap &lt;buffer&gt; &lt;Plug&gt;MailQuote; :.,$s/^/&gt; /&lt;CR&gt;</span>
+<span class="e">	endif</span>
+<span class="e"></span>
+Two global <a href="eval.txt.html#variables" class="d">variables</a> are used:
+<a href="filetype.txt.html#g%3Ano_plugin_maps" class="l">g:no_plugin_maps</a>  	disables mappings for all <a href="filetype.txt.html#filetype" class="d">filetype</a> plugins
+<a href="filetype.txt.html#g%3Ano_mail_maps" class="l">g:no_mail_maps</a>  	disables mappings for the "mail" <a href="filetype.txt.html#filetype" class="d">filetype</a>
+
+
+<span class="c">USER COMMANDS</span>
+
+To add <a href="insert.txt.html#a" class="d">a</a> user command for <a href="insert.txt.html#a" class="d">a</a> specific file type, so that <a href="motion.txt.html#it" class="d">it</a> can only be used in
+one buffer, use the "-buffer" argument to <a href="map.txt.html#%3Acommand" class="l">:command</a><a href="repeat.txt.html#." class="d">.</a>  Example: 
+<span class="e"></span>
+<span class="e">	command -buffer  Make  make %:r.s</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">VARIABLES</span>
+
+<a href="insert.txt.html#A" class="d">A</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> will be sourced for each buffer of the type it's for.  Local
+<a href="usr_41.txt.html#script" class="d">script</a> <a href="eval.txt.html#variables" class="d">variables</a> will be shared between all invocations.  Use local buffer
+<a href="eval.txt.html#variables" class="d">variables</a> <a href="eval.txt.html#b%3Avar" class="l">b:var</a> if you want <a href="insert.txt.html#a" class="d">a</a> variable specifically for one buffer.
+
+
+<span class="c">FUNCTIONS</span>
+
+When defining <a href="insert.txt.html#a" class="d">a</a> function, this only needs to be done once.  But the <a href="filetype.txt.html#filetype" class="d">filetype</a>
+<a href="usr_05.txt.html#plugin" class="d">plugin</a> will be sourced every time <a href="insert.txt.html#a" class="d">a</a> file with this <a href="filetype.txt.html#filetype" class="d">filetype</a> will be opened.
+This construct makes sure the function <a href="motion.txt.html#is" class="d">is</a> only defined once: 
+<span class="e"></span>
+<span class="e">	if !exists("*Func")</span>
+<span class="e">	  def Func(arg)</span>
+<span class="e">	    ...</span>
+<span class="e">	  enddef</span>
+<span class="e">	endif</span>
+
+Don't forget to use "noclear" with the <span class="e">vim9script</span> command to avoid that the
+function <a href="motion.txt.html#is" class="d">is</a> deleted when the <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> sourced <a href="insert.txt.html#a" class="d">a</a> second time.
+
+
+<span class="c">UNDO</span>						<span id="undo_indent" class="t">undo_indent</span> <span id="undo_ftplugin" class="t">undo_ftplugin</span>
+
+When the user does "<a href="options.txt.html#%3Asetfiletype" class="d">:setfiletype</a> xyz" the effect of the previous <a href="filetype.txt.html#filetype" class="d">filetype</a>
+should be undone.  Set the b:undo_ftplugin variable to the commands that will
+<a href="undo.txt.html#undo" class="d">undo</a> the settings in your <a href="filetype.txt.html#filetype" class="d">filetype</a> plugin.  Example: 
+<span class="e"></span>
+<span class="e">	b:undo_ftplugin = "setlocal fo&lt; com&lt; tw&lt; commentstring&lt;"</span>
+<span class="e">		\ .. "| unlet b:match_ignorecase b:match_words b:match_skip"</span>
+<span class="e"></span>
+Using "<a href="options.txt.html#%3Asetlocal" class="d">:setlocal</a>" with "<a href="change.txt.html#%3C" class="d">&lt;</a>" after the option name resets the option to its
+global value.  That <a href="motion.txt.html#is" class="d">is</a> mostly the best way to reset the option value.
+
+For undoing the effect of an indent script, the b:undo_indent variable should
+be set accordingly.
+
+Both these <a href="eval.txt.html#variables" class="d">variables</a> use legacy <a href="usr_41.txt.html#script" class="d">script</a> syntax, not <a href="vim9.txt.html#Vim9" class="l">Vim9</a> syntax.
+
+
+<span class="c">FILE NAME</span>
+
+The <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="vim_faq.txt.html#must" class="d">must</a> be included in the file name <a href="usr_05.txt.html#ftplugin-name" class="l">ftplugin-name</a><a href="repeat.txt.html#." class="d">.</a>  Use one of
+these three forms:
+
+	.../ftplugin/stuff.vim
+	.../ftplugin/stuff_foo.vim
+	.../ftplugin/stuff/bar.vim
+
+"stuff" <a href="motion.txt.html#is" class="d">is</a> the filetype, "foo" and "<a href="motion.txt.html#bar" class="d">bar</a>" are arbitrary names.
+
+
+<span class="c">FILETYPE DETECTION</span>					<span id="plugin-filetype" class="t">plugin-filetype</span>
+
+If your <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="motion.txt.html#is" class="d">is</a> not already detected by Vim, you should create <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a>
+detection snippet in <a href="insert.txt.html#a" class="d">a</a> separate file.  It <a href="motion.txt.html#is" class="d">is</a> usually in the form of an
+<a href="autocmd.txt.html#autocommand" class="d">autocommand</a> that sets the <a href="filetype.txt.html#filetype" class="d">filetype</a> when the file name matches <a href="insert.txt.html#a" class="d">a</a> pattern.
+Example: 
+<span class="e"></span>
+<span class="e">	au BufNewFile,BufRead *.foo		setlocal filetype=foofoo</span>
+<span class="e"></span>
+Write this single-line file <a href="motion.txt.html#as" class="d">as</a> "ftdetect/foofoo.vim" in the first directory
+that appears in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  For <a href="os_unix.txt.html#Unix" class="d">Unix</a> that would be
+"~/.vim/ftdetect/foofoo.vim"<a href="repeat.txt.html#." class="d">.</a>  The convention <a href="motion.txt.html#is" class="d">is</a> to use the name of the
+<a href="filetype.txt.html#filetype" class="d">filetype</a> for the <a href="usr_41.txt.html#script" class="d">script</a> name.
+
+You can make more complicated checks if you like, for example to inspect the
+contents of the file to recognize the language.  Also see <a href="filetype.txt.html#new-filetype" class="l">new-filetype</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">SUMMARY</span>							<span id="ftplugin-special" class="t">ftplugin-special</span>
+
+Summary of special things to use in <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> plugin:
+
+<a href="map.txt.html#%3CLocalLeader%3E" class="s">&lt;LocalLeader&gt;</a>		Value of "<a href="map.txt.html#maplocalleader" class="d">maplocalleader</a>"<a href="motion.txt.html#%2C" class="d">,</a> which the user defines <a href="motion.txt.html#as" class="d">as</a>
+			the keys that <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> mappings start with.
+
+map <span class="s">&lt;buffer&gt;</span>		Define <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> local to the buffer.
+
+noremap <a href="cmdline.txt.html#%3Cscript%3E" class="s">&lt;script&gt;</a>	Only remap mappings defined in this <a href="usr_41.txt.html#script" class="d">script</a> that start
+			with <a href="map.txt.html#%3CSID%3E" class="s">&lt;SID&gt;</a>.
+
+setlocal		Set an option for the current buffer only.
+
+command -buffer		Define <a href="insert.txt.html#a" class="d">a</a> user command local to the buffer.
+
+exists("*s:Func"<a href="motion.txt.html#%29" class="d">)</a>	Check if <a href="insert.txt.html#a" class="d">a</a> function was already defined.
+
+Also see <a href="usr_51.txt.html#plugin-special" class="l">plugin-special</a><a href="motion.txt.html#%2C" class="d">,</a> the special things used for all plugins.
+
+<span class="h">==============================================================================</span>
+<span id="51.3" class="t">51.3</span>  	Writing <a href="insert.txt.html#a" class="d">a</a> compiler <a href="usr_05.txt.html#plugin" class="d">plugin</a>		<span id="write-compiler-plugin" class="t">write-compiler-plugin</span>
+
+<a href="insert.txt.html#A" class="d">A</a> compiler <a href="usr_05.txt.html#plugin" class="d">plugin</a> sets <a href="options.txt.html#options" class="d">options</a> for use with <a href="insert.txt.html#a" class="d">a</a> specific compiler.  The user can
+load <a href="motion.txt.html#it" class="d">it</a> with the <a href="quickfix.txt.html#%3Acompiler" class="l">:compiler</a> command.  The main use <a href="motion.txt.html#is" class="d">is</a> to set the
+<a href="options.txt.html#%27errorformat%27" class="o">'errorformat'</a> and <a href="options.txt.html#%27makeprg%27" class="o">'makeprg'</a> options.
+
+Easiest <a href="motion.txt.html#is" class="d">is</a> to have <a href="insert.txt.html#a" class="d">a</a> look <a href="motion.txt.html#at" class="d">at</a> examples.  This command will edit all the default
+compiler plugins: 
+<span class="e"></span>
+<span class="e">	next $VIMRUNTIME/compiler/*.vim</span>
+<span class="e"></span>
+Type <span class="e">:next</span> to <a href="motion.txt.html#go" class="d">go</a> to the next <a href="usr_05.txt.html#plugin" class="d">plugin</a> file.
+
+There are two special items about these files.  First <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> mechanism to allow
+<a href="insert.txt.html#a" class="d">a</a> user to overrule or add to the default file.  The default files start with: 
+<span class="e"></span>
+<span class="e">	vim9script</span>
+<span class="e">	if exists("g:current_compiler")</span>
+<span class="e">	  finish</span>
+<span class="e">	endif</span>
+<span class="e">	g:current_compiler = "mine"</span>
+<span class="e"></span>
+When you write <a href="insert.txt.html#a" class="d">a</a> compiler file and <a href="change.txt.html#put" class="d">put</a> <a href="motion.txt.html#it" class="d">it</a> in your personal runtime directory
+(e.g., ~/.vim/compiler for Unix), you set the "<a href="quickfix.txt.html#current_compiler" class="d">current_compiler</a>" variable to
+make the default file skip the settings.
+							<span id="%3ACompilerSet" class="t">:CompilerSet</span>
+The second mechanism <a href="motion.txt.html#is" class="d">is</a> to use "<a href="options.txt.html#%3Aset" class="d">:set</a>" for ":compiler!" and "<a href="options.txt.html#%3Asetlocal" class="d">:setlocal</a>" for
+"<a href="quickfix.txt.html#%3Acompiler" class="d">:compiler</a>"<a href="repeat.txt.html#." class="d">.</a>  Vim defines the "<a href="usr_51.txt.html#%3ACompilerSet" class="d">:CompilerSet</a>" user command for this.  This <a href="motion.txt.html#is" class="d">is</a>
+an example: 
+<span class="e"></span>
+<span class="e">  CompilerSet errorformat&amp;		" use the default 'errorformat'</span>
+<span class="e">  CompilerSet makeprg=nmake</span>
+<span class="e"></span>
+<span class="n">Note:</span> arguments need to be escaped according to <a href="options.txt.html#option-backslash" class="l">option-backslash</a><a href="repeat.txt.html#." class="d">.</a>
+
+When you write <a href="insert.txt.html#a" class="d">a</a> compiler <a href="usr_05.txt.html#plugin" class="d">plugin</a> for the Vim <a href="intro.txt.html#distribution" class="d">distribution</a> or for <a href="insert.txt.html#a" class="d">a</a> system-wide
+runtime directory, use the mechanism mentioned above.  When
+"<a href="quickfix.txt.html#current_compiler" class="d">current_compiler</a>" was already set by <a href="insert.txt.html#a" class="d">a</a> user <a href="usr_05.txt.html#plugin" class="d">plugin</a> nothing will be done.
+
+When you write <a href="insert.txt.html#a" class="d">a</a> compiler <a href="usr_05.txt.html#plugin" class="d">plugin</a> to overrule settings from <a href="insert.txt.html#a" class="d">a</a> default plugin,
+don't check "<a href="quickfix.txt.html#current_compiler" class="d">current_compiler</a>"<a href="repeat.txt.html#." class="d">.</a>  This <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> supposed to be loaded
+last, thus <a href="motion.txt.html#it" class="d">it</a> should be in <a href="insert.txt.html#a" class="d">a</a> directory <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> of <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  For <a href="os_unix.txt.html#Unix" class="d">Unix</a>
+that could be ~/.vim/after/compiler.
+
+<span class="h">==============================================================================</span>
+<span id="51.4" class="t">51.4</span>  	Distributing Vim scripts			<span id="distribute-script" class="t">distribute-script</span>
+
+Vim users will look for scripts on the Vim website: <a class="u" href="http://www.vim.org">http://www.vim.org</a>.
+If you made something that <a href="motion.txt.html#is" class="d">is</a> useful for others, share it!
+
+Another place <a href="motion.txt.html#is" class="d">is</a> github.  But there you need to know where to find it!  The
+advantage <a href="motion.txt.html#is" class="d">is</a> that most <a href="usr_05.txt.html#plugin" class="d">plugin</a> managers <a href="pi_netrw.txt.html#fetch" class="d">fetch</a> plugins from github.  You'll have
+to use your favorite search engine to find them.
+
+Vim scripts can be used on any system.  However, there might not be <a href="insert.txt.html#a" class="d">a</a> <a href="pi_tar.txt.html#tar" class="d">tar</a> or
+<a href="pi_gzip.txt.html#gzip" class="d">gzip</a> command.  If you want to pack files together and/or <a href="pi_gzip.txt.html#compress" class="d">compress</a> them the
+"<a href="pi_zip.txt.html#zip" class="d">zip</a>" utility <a href="motion.txt.html#is" class="d">is</a> recommended.
+
+For utmost portability use Vim itself to pack scripts together.  This can be
+done with the Vimball utility.  See <a href="pi_vimball.txt.html#vimball" class="l">vimball</a><a href="repeat.txt.html#." class="d">.</a>
+
+It's good if you add <a href="insert.txt.html#a" class="d">a</a> line to allow automatic updating.  See <a href="pi_getscript.txt.html#glvs-plugins" class="l">glvs-plugins</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+
+Next chapter: <a href="usr_52.txt.html#usr_52.txt" class="l">usr_52.txt</a>  Write large plugins
+
+Copyright: see <a href="usr_01.txt.html#manual-copyright" class="l">manual-copyright</a>  vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: usr_32.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="usr_32.txt.html#">↑Top↑</a></li>
+<li><a href="usr_32.txt.html#32.1">Undo up to a file write</a></li>
+<li><a href="usr_32.txt.html#32.2">Numbering changes</a></li>
+<li><a href="usr_32.txt.html#32.3">Jumping around the tree</a></li>
+<li><a href="usr_32.txt.html#32.4">Time travelling</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="usr_32.txt" class="t">usr_32.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 09
+
+
+		     VIM USER MANUAL	by <a href="version9.txt.html#Bram" class="d">Bram</a> <a href="version9.txt.html#Moolenaar" class="d">Moolenaar</a>
+
+
+			      The <a href="undo.txt.html#undo" class="d">undo</a> tree
+
+
+Vim provides multi-level undo.  If you <a href="undo.txt.html#undo" class="d">undo</a> <a href="insert.txt.html#a" class="d">a</a> few changes and then make <a href="insert.txt.html#a" class="d">a</a> new
+change you create <a href="insert.txt.html#a" class="d">a</a> branch in the <a href="undo.txt.html#undo" class="d">undo</a> tree.  This text <a href="motion.txt.html#is" class="d">is</a> about moving
+through the branches.
+
+<a href="usr_32.txt.html#32.1" class="l">32.1</a>  	Undo up to <a href="insert.txt.html#a" class="d">a</a> file write
+<a href="usr_32.txt.html#32.2" class="l">32.2</a>  	Numbering changes
+<a href="usr_32.txt.html#32.3" class="l">32.3</a>  	Jumping around the tree
+<a href="usr_32.txt.html#32.4" class="l">32.4</a>  	Time travelling
+
+     Next chapter: <a href="usr_40.txt.html#usr_40.txt" class="l">usr_40.txt</a>  Make new commands
+ Previous chapter: <a href="usr_31.txt.html#usr_31.txt" class="l">usr_31.txt</a>  Exploiting the <a href="gui.txt.html#GUI" class="d">GUI</a>
+Table of contents: <a href="usr_toc.txt.html#usr_toc.txt" class="l">usr_toc.txt</a>
+
+<span class="h">==============================================================================</span>
+<span id="32.1" class="t">32.1</span>  	Undo up to <a href="insert.txt.html#a" class="d">a</a> file write
+
+Sometimes you make several changes, and then discover you want to <a href="motion.txt.html#go" class="d">go</a> back to
+when you have last written the file.  You can <a href="diff.txt.html#do" class="d">do</a> that with this command: 
+<span class="e"></span>
+<span class="e">	:earlier 1f</span>
+<span class="e"></span>
+The "<a href="motion.txt.html#f" class="d">f</a>" stands for "file" here.
+
+You can repeat this command to <a href="motion.txt.html#go" class="d">go</a> further back in the past.  Or use <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#count" class="d">count</a>
+different from 1 to <a href="motion.txt.html#go" class="d">go</a> back faster.
+
+If you <a href="motion.txt.html#go" class="d">go</a> back too far, <a href="motion.txt.html#go" class="d">go</a> forward again with: 
+<span class="e"></span>
+<span class="e">	:later 1f</span>
+<span class="e"></span>
+<span class="n">Note</span> that these commands really work in time sequence.  This matters if you
+made changes after undoing some changes.  It's explained in the next section.
+
+Also <span class="n">note</span> that we are talking about text writes here.  For <a href="editing.txt.html#writing" class="d">writing</a> the <a href="undo.txt.html#undo" class="d">undo</a>
+information in <a href="insert.txt.html#a" class="d">a</a> file see <a href="undo.txt.html#undo-persistence" class="l">undo-persistence</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+<span id="32.2" class="t">32.2</span>  	Numbering changes
+
+In <a href="motion.txt.html#section" class="d">section</a> <a href="usr_02.txt.html#02.5" class="l">02.5</a> we only discussed one line of undo/redo.  But <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> also
+possible to branch off.  This happens when you <a href="undo.txt.html#undo" class="d">undo</a> <a href="insert.txt.html#a" class="d">a</a> few changes and then
+make <a href="insert.txt.html#a" class="d">a</a> new change.  The new changes become <a href="insert.txt.html#a" class="d">a</a> branch in the <a href="undo.txt.html#undo" class="d">undo</a> tree.
+
+Let's start with the text "one"<a href="repeat.txt.html#." class="d">.</a>  The first change to make <a href="motion.txt.html#is" class="d">is</a> to append
+" too"<a href="repeat.txt.html#." class="d">.</a>  And then move to the first 'o' and change <a href="motion.txt.html#it" class="d">it</a> into 'w'.  We then have
+two changes, numbered 1 and 2, and three states of the text:
+
+<span class="h">		one </span>
+		 |
+	      change 1
+		 |
+<span class="h">	      one too </span>
+		 |
+	      change 2
+		 |
+<span class="h">	      one two </span>
+
+If we now <a href="undo.txt.html#undo" class="d">undo</a> one change, back to "one too"<a href="motion.txt.html#%2C" class="d">,</a> and change "one" to "me" we
+create <a href="insert.txt.html#a" class="d">a</a> branch in the <a href="undo.txt.html#undo" class="d">undo</a> tree:
+
+<span class="h">		one </span>
+		 |
+	      change 1
+		 |
+<span class="h">	      one too </span>
+	      <a href="pattern.txt.html#%2F" class="d">/</a>     \
+	 change 2  change 3
+	    |	      |
+<span class="h">	 one two    me too </span>
+
+You can now use the <a href="undo.txt.html#u" class="l">u</a> command to undo.  If you <a href="diff.txt.html#do" class="d">do</a> this twice you get to
+"one"<a href="repeat.txt.html#." class="d">.</a>  Use <a href="undo.txt.html#CTRL-R" class="l">CTRL-R</a> to redo, and you will <a href="motion.txt.html#go" class="d">go</a> to "one too"<a href="repeat.txt.html#." class="d">.</a>  One more <a href="undo.txt.html#CTRL-R" class="l">CTRL-R</a>
+takes you to "me too"<a href="repeat.txt.html#." class="d">.</a>  Thus <a href="undo.txt.html#undo" class="d">undo</a> and <a href="undo.txt.html#redo" class="d">redo</a> <a href="motion.txt.html#go" class="d">go</a> up and down in the tree, using
+the branch that was last used.
+
+What matters here <a href="motion.txt.html#is" class="d">is</a> the order in which the changes are made.  Undo and <a href="undo.txt.html#redo" class="d">redo</a>
+are not considered changes in this context.  After each change you have <a href="insert.txt.html#a" class="d">a</a> new
+state of the text.
+
+<span class="n">Note</span> that only the changes are numbered, the text shown in the tree above has
+no identifier.  They are mostly referred to by the number of the change above
+it.  But sometimes by the number of one of the changes below it, especially
+when moving up in the tree, so that you know which change was just undone.
+
+<span class="h">==============================================================================</span>
+<span id="32.3" class="t">32.3</span>  	Jumping around the tree
+
+So how <a href="diff.txt.html#do" class="d">do</a> you get to "one two" now?  You can use this command: 
+<span class="e"></span>
+<span class="e">	:undo 2</span>
+<span class="e"></span>
+The text <a href="motion.txt.html#is" class="d">is</a> now "one two"<a href="motion.txt.html#%2C" class="d">,</a> you are below change 2.  You can use the <a href="undo.txt.html#%3Aundo" class="l">:undo</a>
+command to jump to below any change in the tree.
+
+Now make another change: change "one" to "not"<a href="cmdline.txt.html#%3A" class="d">:</a>
+
+<span class="h">		one </span>
+		 |
+	      change 1
+		 |
+<span class="h">	      one too </span>
+	      <a href="pattern.txt.html#%2F" class="d">/</a>     \
+	 change 2  change 3
+	    |	      |
+<span class="h">	 one two    me too </span>
+	    |
+	 change 4
+	    |
+<span class="h">	 not two </span>
+
+Now you change your mind and want to <a href="motion.txt.html#go" class="d">go</a> back to "me too"<a href="repeat.txt.html#." class="d">.</a>  Use the <a href="undo.txt.html#g-" class="l">g-</a>
+command.  This moves back in time.  Thus <a href="motion.txt.html#it" class="d">it</a> doesn't walk the tree upwards or
+downwards, but goes to the change made before.
+
+You can repeat <a href="undo.txt.html#g-" class="l">g-</a> and you will see the text change:
+<span class="h">	me too </span>
+<span class="h">	one two </span>
+<span class="h">	one too </span>
+<span class="h">	one </span>
+
+Use <a href="undo.txt.html#g%2B" class="l">g+</a> to move forward in time:
+<span class="h">	one </span>
+<span class="h">	one too </span>
+<span class="h">	one two </span>
+<span class="h">	me too </span>
+<span class="h">	not two </span>
+
+Using <a href="undo.txt.html#%3Aundo" class="l">:undo</a> <a href="motion.txt.html#is" class="d">is</a> useful if you know what change you want to jump to.  <a href="undo.txt.html#g-" class="l">g-</a> and
+<a href="undo.txt.html#g%2B" class="l">g+</a> are useful if you don't know exactly what the change number is.
+
+You can type <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#count" class="d">count</a> before <a href="undo.txt.html#g-" class="l">g-</a> and <a href="undo.txt.html#g%2B" class="l">g+</a> to repeat them.
+
+<span class="h">==============================================================================</span>
+<span id="32.4" class="t">32.4</span>  	Time travelling
+
+When you have been working on text for <a href="insert.txt.html#a" class="d">a</a> while the tree grows to become big.
+Then you may want to <a href="motion.txt.html#go" class="d">go</a> to the text of some minutes ago.
+
+To see what branches there are in the <a href="undo.txt.html#undo" class="d">undo</a> tree use this command: 
+<span class="e"></span>
+<span class="e">	:undolist</span>
+<span class="h">	number changes  time </span>
+	     3       2  16 seconds ago
+	     4       3  5 seconds ago
+
+Here you can see the number of the leaves in each branch and when the change
+was made.  Assuming we are below change 4, <a href="motion.txt.html#at" class="d">at</a> "not two"<a href="motion.txt.html#%2C" class="d">,</a> you can <a href="motion.txt.html#go" class="d">go</a> back ten
+seconds with this command: 
+<span class="e"></span>
+<span class="e">	:earlier 10s</span>
+<span class="e"></span>
+Depending on how much time you took for the changes you <a href="intro.txt.html#end" class="d">end</a> up <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> certain
+position in the tree.  The <a href="undo.txt.html#%3Aearlier" class="l">:earlier</a> command argument can be "<a href="motion.txt.html#m" class="d">m</a>" for minutes,
+"<a href="motion.txt.html#h" class="d">h</a>" for hours and "<a href="change.txt.html#d" class="d">d</a>" for days.  To <a href="motion.txt.html#go" class="d">go</a> all the way back use <a href="insert.txt.html#a" class="d">a</a> big number: 
+<span class="e"></span>
+<span class="e">	:earlier 100d</span>
+<span class="e"></span>
+To travel forward in time again use the <a href="undo.txt.html#%3Alater" class="l">:later</a> command: 
+<span class="e"></span>
+<span class="e">	:later 1m</span>
+<span class="e"></span>
+The arguments are "<a href="change.txt.html#s" class="d">s</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="motion.txt.html#m" class="d">m</a>" and "<a href="motion.txt.html#h" class="d">h</a>"<a href="motion.txt.html#%2C" class="d">,</a> just like with <a href="undo.txt.html#%3Aearlier" class="l">:earlier</a><a href="repeat.txt.html#." class="d">.</a>
+
+If you want even more details, or want to manipulate the information, you can
+use the <a href="builtin.txt.html#undotree%28%29" class="l">undotree()</a> function.  To see what <a href="motion.txt.html#it" class="d">it</a> returns: 
+<span class="e"></span>
+<span class="e">	:echo undotree()</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+
+Next chapter: <a href="usr_40.txt.html#usr_40.txt" class="l">usr_40.txt</a>  Make new commands
+
+Copyright: see <a href="usr_01.txt.html#manual-copyright" class="l">manual-copyright</a>  vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

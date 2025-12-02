@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: ui.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="ui.txt.html#">↑Top↑</a></li>
+<li><a href="ui.txt.html#ui-protocol">UI Events</a></li>
+<li><a href="ui.txt.html#ui-startup">UI startup</a></li>
+<li><a href="ui.txt.html#ui-global">Global Events</a></li>
+<li><a href="ui.txt.html#ui-linegrid">Grid Events (line-based)</a></li>
+<li><a href="ui.txt.html#ui-grid-old">Grid Events (cell-based)</a></li>
+<li><a href="ui.txt.html#ui-hlstate">Highlight Events</a></li>
+<li><a href="ui.txt.html#ui-multigrid">Multigrid Events</a></li>
+<li><a href="ui.txt.html#ui-popupmenu">Popupmenu Events</a></li>
+<li><a href="ui.txt.html#ui-tabline">Tabline Events</a></li>
+<li><a href="ui.txt.html#ui-cmdline">Cmdline Events</a></li>
+<li><a href="ui.txt.html#ui-messages">Message/Dialog Events</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="ui.txt" class="t">ui.txt</span>  	Nvim
+
+
+			    <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Nvim <a href="ui.txt.html#UI" class="d">UI</a> protocol					<span id="UI" class="t">UI</span> <span id="ui" class="t">ui</span>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+<a href="ui.txt.html#UI" class="d">UI</a> Events						<span id="ui-protocol" class="t">ui-protocol</span> <span id="ui-events" class="t">ui-events</span>
+
+UIs can be implemented <a href="motion.txt.html#as" class="d">as</a> external client processes communicating with Nvim
+over the <a href="api.txt.html#RPC" class="d">RPC</a> API. The default <a href="ui.txt.html#UI" class="d">UI</a> model <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> terminal-like grid with <a href="insert.txt.html#a" class="d">a</a> single,
+monospace font. The <a href="ui.txt.html#UI" class="d">UI</a> can opt-in to have <a href="windows.txt.html#windows" class="d">windows</a> drawn on separate grids, and
+have some elements <a href="motion.txt.html#%28" class="d">(</a>"widgets"<a href="motion.txt.html#%29" class="d">)</a> presented by the <a href="ui.txt.html#UI" class="d">UI</a> itself rather than by Nvim
+<a href="motion.txt.html#%28" class="d">(</a>"externalized").
+
+							<span id="ui-option" class="t">ui-option</span>
+Call <a href="api.txt.html#nvim_ui_attach%28%29" class="l">nvim_ui_attach()</a> to tell Nvim that your program wants to draw the Nvim
+screen grid with <a href="insert.txt.html#a" class="d">a</a> size of width × height cells. This <a href="motion.txt.html#is" class="d">is</a> typically done by an
+embedder <a href="motion.txt.html#at" class="d">at</a> <a href="starting.txt.html#startup" class="d">startup</a> (see <a href="ui.txt.html#ui-startup" class="l">ui-startup</a>), but UIs can also connect to <a href="insert.txt.html#a" class="d">a</a> running
+Nvim instance and invoke nvim_ui_attach(). The <span class="e">options</span> parameter <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> map
+with these (optional) keys:
+
+							<span id="ui-rgb" class="t">ui-rgb</span>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">rgb</span>  			Decides the color format.
+			<a href="motion.txt.html#-" class="d">-</a> true: (default) 24-bit RGB colors
+			<a href="motion.txt.html#-" class="d">-</a> false: Terminal colors (8-bit, max 256)
+
+							<span id="ui-override" class="t">ui-override</span>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">override</span>  		Decides how <a href="ui.txt.html#UI" class="d">UI</a> capabilities are resolved.
+			<a href="motion.txt.html#-" class="d">-</a> true: Enable requested <a href="ui.txt.html#UI" class="d">UI</a> capabilities, even if not
+			  supported by all connected UIs (including <a href="tui.txt.html#TUI" class="l">TUI</a>).
+			<a href="motion.txt.html#-" class="d">-</a> false: (default) Disable <a href="ui.txt.html#UI" class="d">UI</a> capabilities not
+			  supported by all connected UIs (including TUI).
+
+							<span id="ui-ext-options" class="t">ui-ext-options</span>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">ext_cmdline</span>  		Externalize the cmdline. <a href="ui.txt.html#ui-cmdline" class="l">ui-cmdline</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">ext_hlstate</span>  		Detailed highlight state. <a href="ui.txt.html#ui-hlstate" class="l">ui-hlstate</a>
+			Sets <span class="e">ext_linegrid</span> implicitly.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">ext_linegrid</span>  	Line-based grid events. <a href="ui.txt.html#ui-linegrid" class="l">ui-linegrid</a>
+			Deactivates <a href="ui.txt.html#ui-grid-old" class="l">ui-grid-old</a> implicitly.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">ext_messages</span>  	Externalize messages. <a href="ui.txt.html#ui-messages" class="l">ui-messages</a>
+			Sets <span class="e">ext_linegrid</span> and <span class="e">ext_cmdline</span> implicitly.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">ext_multigrid</span>  	Per-window grid events. <a href="ui.txt.html#ui-multigrid" class="l">ui-multigrid</a>
+			Sets <span class="e">ext_linegrid</span> implicitly.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">ext_popupmenu</span>  	Externalize <a href="insert.txt.html#popupmenu-completion" class="l">popupmenu-completion</a> and
+			<a href="options.txt.html#%27wildmenu%27" class="o">'wildmenu'</a>. <a href="ui.txt.html#ui-popupmenu" class="l">ui-popupmenu</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">ext_tabline</span>  		Externalize the tabline. <a href="ui.txt.html#ui-tabline" class="l">ui-tabline</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">ext_termcolors</span>  	Use external default colors.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">term_name</span>  		Sets the name of the <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="vim_diff.txt.html#%27term%27" class="o">'term'</a>.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">term_colors</span>  		Sets the number of supported colors <span class="o">'t_Co'</span>.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">stdin_fd</span>  		Read buffer 1 from this fd <a href="motion.txt.html#as" class="d">as</a> if <a href="motion.txt.html#it" class="d">it</a> were stdin <a href="starting.txt.html#--" class="l">--</a><a href="repeat.txt.html#." class="d">.</a>
+			Only from <a href="starting.txt.html#--embed" class="l">--embed</a> <a href="ui.txt.html#UI" class="d">UI</a> on startup. <a href="ui.txt.html#ui-startup-stdin" class="l">ui-startup-stdin</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">stdin_tty</span>  		Tells if <span class="e">stdin</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <span class="e">tty</span> or not.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">stdout_tty</span>  		Tells if <span class="e">stdout</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <span class="e">tty</span> or not.
+
+Specifying an unknown option <a href="motion.txt.html#is" class="d">is</a> an error; UIs can check the <a href="api.txt.html#api-metadata" class="l">api-metadata</a>
+<span class="e">ui_options</span> key <a href="luaref.txt.html#for" class="d">for</a> supported options.
+
+By default Nvim requires all connected UIs to <a href="support.txt.html#support" class="d">support</a> the same capabilities,
+thus the active capabilities are the intersection of those requested. UIs may
+specify <a href="ui.txt.html#ui-override" class="l">ui-override</a> to invert this behavior (useful <a href="luaref.txt.html#for" class="d">for</a> debugging). The
+"option_set" event announces which capabilities are active.
+
+Nvim sends <a href="api.txt.html#RPC" class="d">RPC</a> notifications to all attached UIs, with <a href="vimeval.txt.html#method" class="d">method</a> name "redraw"
+and <a href="insert.txt.html#a" class="d">a</a> single argument: an array (batch) of screen "update <a href="autocmd.txt.html#events" class="d">events</a>"<a href="repeat.txt.html#." class="d">.</a> Each update
+event <a href="motion.txt.html#is" class="d">is</a> itself an array whose first element <a href="motion.txt.html#is" class="d">is</a> the event name and remaining
+elements are event-parameter tuples. Thus multiple <a href="autocmd.txt.html#events" class="d">events</a> of the same kind can
+be sent contiguously without <a href="repeat.txt.html#repeating" class="d">repeating</a> the event name.
+
+Example of <a href="insert.txt.html#a" class="d">a</a> typical "redraw" batch in <a href="insert.txt.html#a" class="d">a</a> single <a href="api.txt.html#RPC" class="d">RPC</a> notification: 
+<span class="e"></span>
+<span class="e">    ['notification', 'redraw',</span>
+<span class="e">      [</span>
+<span class="e">	['grid_resize', [2, 77, 36]],</span>
+<span class="e">	['grid_line',</span>
+<span class="e">	  [2, 0, 0, [[' ' , 0, 77]], false],</span>
+<span class="e">	  [2, 1, 0, [['~', 7], [' ', 7, 76]], false],</span>
+<span class="e">	  [2, 9, 0, [['~', 7], [' ', 7, 76]], false],</span>
+<span class="e">	  ...</span>
+<span class="e">	  [2, 35, 0, [['~', 7], [' ', 7, 76]], false],</span>
+<span class="e">	  [1, 36, 0, [['[', 9], ['N'], ['o'], [' '], ['N'], ['a'], ['m'], ['e'], [']']], false],</span>
+<span class="e">	  [1, 36, 9, [[' ', 9, 50]], false],</span>
+<span class="e">	  [1, 36, 59, [['0', 9], [','], ['0'], ['-' ], ['1'], [' ', 9, 10], ['A'], ['l', 9, 2]], false]</span>
+<span class="e">	],</span>
+<span class="e">	['msg_showmode', [[]]],</span>
+<span class="e">	['win_pos', [2, 1000, 0, 0, 77, 36]],</span>
+<span class="e">	['grid_cursor_goto', [2, 0, 0]],</span>
+<span class="e">	['flush', []]</span>
+<span class="e">      ]</span>
+<span class="e">    ]</span>
+<span class="e"></span>
+Events must be handled in-order. Nvim sends <a href="insert.txt.html#a" class="d">a</a> "flush" event when <a href="motion.txt.html#it" class="d">it</a> has
+completed <a href="insert.txt.html#a" class="d">a</a> redraw of the entire screen (so all <a href="windows.txt.html#windows" class="d">windows</a> have <a href="insert.txt.html#a" class="d">a</a> consistent view
+of buffer state, options, etc.). Multiple "redraw" batches may be sent before
+the entire screen has been redrawn, with "flush" following only the last
+batch. The user should only see the final state (when "flush" <a href="motion.txt.html#is" class="d">is</a> sent), not
+any intermediate state while processing part of the batch array, nor after
+<a href="insert.txt.html#a" class="d">a</a> batch not ending with "flush"<a href="repeat.txt.html#." class="d">.</a>
+
+By default, Nvim sends <a href="ui.txt.html#ui-global" class="l">ui-global</a> and <a href="ui.txt.html#ui-grid-old" class="l">ui-grid-old</a> <a href="autocmd.txt.html#events" class="d">events</a> (for backwards
+compatibility); these suffice to implement <a href="insert.txt.html#a" class="d">a</a> terminal-like interface. However
+the new <a href="ui.txt.html#ui-linegrid" class="l">ui-linegrid</a> represents text more efficiently (especially highlighted
+text), and allows <a href="ui.txt.html#UI" class="d">UI</a> capabilities requiring multiple grids. New UIs should
+implement <a href="ui.txt.html#ui-linegrid" class="l">ui-linegrid</a> instead of <a href="ui.txt.html#ui-grid-old" class="l">ui-grid-old</a><a href="repeat.txt.html#." class="d">.</a>
+
+Nvim optionally sends <a href="various.txt.html#various" class="d">various</a> screen elements "semantically" <a href="motion.txt.html#as" class="d">as</a> structured
+<a href="autocmd.txt.html#events" class="d">events</a> instead of raw grid-lines, <a href="motion.txt.html#as" class="d">as</a> specified by <a href="ui.txt.html#ui-ext-options" class="l">ui-ext-options</a><a href="repeat.txt.html#." class="d">.</a> The <a href="ui.txt.html#UI" class="d">UI</a>
+must present such elements itself, Nvim will not draw them on the grid.
+
+Future versions of Nvim may add new update kinds and may append new parameters
+to existing update kinds. Clients must be prepared to ignore such extensions,
+<a href="luaref.txt.html#for" class="d">for</a> forward-compatibility. <a href="api.txt.html#api-contract" class="l">api-contract</a>
+
+<span class="h">==============================================================================</span>
+<a href="ui.txt.html#UI" class="d">UI</a> <a href="starting.txt.html#startup" class="d">startup</a>							   <span id="ui-startup" class="t">ui-startup</span>
+
+<a href="ui.txt.html#UI" class="d">UI</a> embedders (clients that start Nvim with <a href="starting.txt.html#--embed" class="l">--embed</a> and later call
+<a href="api.txt.html#nvim_ui_attach%28%29" class="l">nvim_ui_attach()</a><a href="motion.txt.html#%29" class="d">)</a> must start Nvim without <a href="starting.txt.html#--headless" class="l">--headless</a><a href="cmdline.txt.html#%3A" class="d">:</a> &gt;bash
+    <a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#--embed" class="d">--embed</a>
+Nvim will pause before loading <a href="starting.txt.html#startup" class="d">startup</a> files and reading buffers, so the <a href="ui.txt.html#UI" class="d">UI</a>
+has <a href="insert.txt.html#a" class="d">a</a> chance to invoke requests and <a href="diff.txt.html#do" class="d">do</a> early initialization. Startup will
+continue when the <a href="ui.txt.html#UI" class="d">UI</a> invokes <a href="api.txt.html#nvim_ui_attach%28%29" class="l">nvim_ui_attach()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<a href="insert.txt.html#A" class="d">A</a> simple <a href="ui.txt.html#UI" class="d">UI</a> only needs to <a href="diff.txt.html#do" class="d">do</a> <a href="insert.txt.html#a" class="d">a</a> single <a href="api.txt.html#nvim_ui_attach%28%29" class="l">nvim_ui_attach()</a> request and then
+prepare to handle any <a href="ui.txt.html#UI" class="d">UI</a> event. <a href="insert.txt.html#A" class="d">A</a> more featureful UI, which might need
+additional configuration of the Nvim process, should use the following <a href="starting.txt.html#startup" class="d">startup</a>
+procedure:
+
+1. Invoke <a href="api.txt.html#nvim_get_api_info%28%29" class="l">nvim_get_api_info()</a><a href="motion.txt.html#%2C" class="d">,</a> if needed to setup the client library and/or
+   to get the <a href="vimeval.txt.html#list" class="d">list</a> of supported <a href="ui.txt.html#UI" class="d">UI</a> extensions.
+
+2. Do any configuration that should be happen before user <a href="starting.txt.html#config" class="d">config</a> <a href="motion.txt.html#is" class="d">is</a> loaded.
+   Buffers and <a href="windows.txt.html#windows" class="d">windows</a> are not available <a href="motion.txt.html#at" class="d">at</a> this point, but this could be used
+   to set <a href="vimeval.txt.html#g%3A" class="l">g:</a> <a href="vimeval.txt.html#variables" class="d">variables</a> visible to <a href="starting.txt.html#init.vim" class="d">init.vim</a>
+
+3. If the <a href="ui.txt.html#UI" class="d">UI</a> wants to <a href="diff.txt.html#do" class="d">do</a> additional setup after user <a href="starting.txt.html#config" class="d">config</a> <a href="motion.txt.html#is" class="d">is</a> loaded,
+   <a href="intro.txt.html#register" class="d">register</a> <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#VimEnter" class="d">VimEnter</a> autocmd: 
+<span class="e">      nvim_command("autocmd VimEnter * call rpcrequest(1, 'vimenter')")</span>
+<span class="e"></span>
+4. Now invoke <a href="api.txt.html#nvim_ui_attach%28%29" class="l">nvim_ui_attach()</a><a href="repeat.txt.html#." class="d">.</a> The <a href="ui.txt.html#UI" class="d">UI</a> must handle user input by now:
+   sourcing <a href="starting.txt.html#init.vim" class="d">init.vim</a> and loading <a href="windows.txt.html#buffers" class="d">buffers</a> might lead to blocking prompts.
+
+5. If step 3 was used, Nvim will send <a href="insert.txt.html#a" class="d">a</a> blocking "vimenter" request to the UI.
+   Inside this request handler, the <a href="ui.txt.html#UI" class="d">UI</a> can safely <a href="diff.txt.html#do" class="d">do</a> any <a href="starting.txt.html#initialization" class="d">initialization</a> before
+   entering normal mode, <a href="luaref.txt.html#for" class="d">for</a> example reading <a href="vimeval.txt.html#variables" class="d">variables</a> set by init.vim.
+
+							   <span id="ui-startup-stdin" class="t">ui-startup-stdin</span>
+UIs can <a href="support.txt.html#support" class="d">support</a> reading from stdin (like `command | <a href="nvim.txt.html#nvim" class="d">nvim</a> -`, see <a href="starting.txt.html#--" class="l">--</a><a href="motion.txt.html#%29" class="d">)</a> <a href="motion.txt.html#as" class="d">as</a> follows:
+
+1. The embedding process detects that the stdin fd <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> terminal.
+2. It then needs to forward this fd to Nvim. Because fd=0 <a href="motion.txt.html#is" class="d">is</a> already <a href="motion.txt.html#is" class="d">is</a> used
+   to send <a href="api.txt.html#RPC" class="d">RPC</a> data from embedder to Nvim, <a href="motion.txt.html#it" class="d">it</a> must use some other file
+   descriptor, like fd=3 or higher.
+3. Then pass the fd <a href="motion.txt.html#as" class="d">as</a> the <span class="e">stdin_fd</span> parameter of <span class="e">nvim_ui_attach</span>. Nvim will
+   read <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a> text into buffer 1.
+
+<span class="h">==============================================================================</span>
+Global Events							    <span id="ui-global" class="t">ui-global</span>
+
+The following <a href="ui.txt.html#UI" class="d">UI</a> <a href="autocmd.txt.html#events" class="d">events</a> are always emitted, and describe global state of
+the editor.
+
+<span class="h">["set_title", title] </span>
+<span class="h">["set_icon", icon] </span>
+	Set the <a href="windows.txt.html#window" class="d">window</a> title, and icon (minimized) <a href="windows.txt.html#window" class="d">window</a> title, respectively.
+	In windowing systems not distinguishing between the two, "set_icon"
+	can be ignored.
+
+<span class="h">["mode_info_set", cursor_style_enabled, mode_info] </span>
+	<span class="e">cursor_style_enabled</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="options.txt.html#boolean" class="d">boolean</a> indicating if the <a href="ui.txt.html#UI" class="d">UI</a> should set
+	the cursor style. <span class="e">mode_info</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of mode property maps. The
+	current mode <a href="motion.txt.html#is" class="d">is</a> given by the <span class="e">mode_idx</span> field of the <span class="e">mode_change</span>
+	event.
+
+	Each mode property map may contain these keys:
+
+<span class="h">	KEY		DESCRIPTION </span>
+	<span class="e">cursor_shape</span>:  	"block"<a href="motion.txt.html#%2C" class="d">,</a> "horizontal"<a href="motion.txt.html#%2C" class="d">,</a> "vertical"
+	<span class="e">cell_percentage</span>: Cell <a href="motion.txt.html#%25" class="d">%</a> occupied by the cursor.
+	<span class="e">blinkwait</span>, <span class="e">blinkon</span>, <span class="e">blinkoff</span>: See <a href="options.txt.html#cursor-blinking" class="l">cursor-blinking</a><a href="repeat.txt.html#." class="d">.</a>
+	<span class="e">attr_id</span>:  	Cursor attribute id (defined by <span class="e">hl_attr_define</span>).
+			When attr_id <a href="motion.txt.html#is" class="d">is</a> 0, the background and foreground
+			colors should be swapped.
+	<span class="e">attr_id_lm</span>:  	Cursor attribute id <a href="luaref.txt.html#for" class="d">for</a> when <a href="map.txt.html#%3Almap" class="l">:lmap</a> <a href="motion.txt.html#is" class="d">is</a> on.
+	<span class="e">short_name</span>:  	Mode code name, see <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a>.
+	<span class="e">name</span>:  		Mode descriptive name.
+	<span class="e">mouse_shape</span>:  	(To be implemented.)
+
+	Some keys are missing in some modes.
+
+	The following keys are deprecated:
+
+	<span class="e">hl_id</span>:  	Use <span class="e">attr_id</span> instead.
+	<span class="e">id_lm</span>:  	Use <span class="e">attr_id_lm</span> instead.
+
+<span class="h">["option_set", name, value] </span>
+	UI-related option changed, where <span class="e">name</span> <a href="motion.txt.html#is" class="d">is</a> one of:
+
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27arabicshape%27" class="o">'arabicshape'</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27ambiwidth%27" class="o">'ambiwidth'</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27emoji%27" class="o">'emoji'</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27guifont%27" class="o">'guifont'</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27guifontwide%27" class="o">'guifontwide'</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27linespace%27" class="o">'linespace'</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27mousefocus%27" class="o">'mousefocus'</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27mousehide%27" class="o">'mousehide'</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27mousemoveevent%27" class="o">'mousemoveevent'</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27pumblend%27" class="o">'pumblend'</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27showtabline%27" class="o">'showtabline'</a>
+	<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27termguicolors%27" class="o">'termguicolors'</a>
+	<a href="motion.txt.html#-" class="d">-</a> "ext_*" (all <a href="ui.txt.html#ui-ext-options" class="l">ui-ext-options</a><a href="motion.txt.html#%29" class="d">)</a>
+
+	Triggered when the <a href="ui.txt.html#UI" class="d">UI</a> first connects to Nvim, and whenever an option
+	<a href="motion.txt.html#is" class="d">is</a> changed by the user or <a href="insert.txt.html#a" class="d">a</a> plugin.
+
+	Options are not represented here if their effects are communicated in
+	other <a href="ui.txt.html#UI" class="d">UI</a> events. For example, instead of forwarding the <a href="options.txt.html#%27mouse%27" class="o">'mouse'</a> option
+	value, the "mouse_on" and "mouse_off" <a href="ui.txt.html#UI" class="d">UI</a> <a href="autocmd.txt.html#events" class="d">events</a> directly indicate if
+	mouse <a href="support.txt.html#support" class="d">support</a> <a href="motion.txt.html#is" class="d">is</a> active. Some <a href="options.txt.html#options" class="d">options</a> like <a href="options.txt.html#%27ambiwidth%27" class="o">'ambiwidth'</a> have already
+	taken effect on the grid, where appropriate empty cells are added,
+	however <a href="insert.txt.html#a" class="d">a</a> <a href="ui.txt.html#UI" class="d">UI</a> might still use such <a href="options.txt.html#options" class="d">options</a> when rendering raw text
+	sent from Nvim, like <a href="luaref.txt.html#for" class="d">for</a> <a href="ui.txt.html#ui-cmdline" class="l">ui-cmdline</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">["chdir", path] </span>
+	The <a href="editing.txt.html#current-directory" class="l">current-directory</a> of the embedded Nvim process changed to
+	<span class="e">path</span>.
+
+<span class="h">["mode_change", mode, mode_idx] </span>
+	Editor mode changed.  The <span class="e">mode</span> parameter <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> representing
+	the current mode. <span class="e">mode_idx</span> <a href="motion.txt.html#is" class="d">is</a> an <a href="index.txt.html#index" class="d">index</a> into the array emitted in
+	the <span class="e">mode_info_set</span> event. UIs should change the cursor style
+	according to the properties specified in the corresponding item. The
+	set of modes reported will change in new versions of Nvim, <a href="luaref.txt.html#for" class="d">for</a>
+	instance more submodes and temporary states might be represented <a href="motion.txt.html#as" class="d">as</a>
+	separate modes.
+
+<span class="h">["mouse_on"] </span>
+<span class="h">["mouse_off"] </span>
+	<a href="options.txt.html#%27mouse%27" class="o">'mouse'</a> was enabled/disabled in the current editor mode. Useful <a href="luaref.txt.html#for" class="d">for</a>
+	<a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> UI, or embedding into an application where Nvim mouse would
+	conflict with other usages of the mouse. Other UI:s may ignore this event.
+
+<span class="h">["busy_start"] </span>
+<span class="h">["busy_stop"] </span>
+	Indicates to the <a href="ui.txt.html#UI" class="d">UI</a> that <a href="motion.txt.html#it" class="d">it</a> must stop rendering the cursor. This event
+	<a href="motion.txt.html#is" class="d">is</a> misnamed and does not actually have anything to <a href="diff.txt.html#do" class="d">do</a> with busyness.
+
+<span class="h">["suspend"] </span>
+	<a href="starting.txt.html#%3Asuspend" class="l">:suspend</a> command or <a href="starting.txt.html#CTRL-Z" class="l">CTRL-Z</a> <a href="map.txt.html#mapping" class="d">mapping</a> <a href="motion.txt.html#is" class="d">is</a> used. <a href="insert.txt.html#A" class="d">A</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> client (or
+	another client where <a href="motion.txt.html#it" class="d">it</a> makes sense) could <a href="starting.txt.html#suspend" class="d">suspend</a> itself.  Other
+	clients can safely ignore it.
+
+<span class="h">["update_menu"] </span>
+	The menu mappings changed.
+
+<span class="h">["bell"] </span>
+<span class="h">["visual_bell"] </span>
+	Notify the user with an audible or visual bell, respectively.
+
+<span class="h">["flush"] </span>
+	Nvim <a href="motion.txt.html#is" class="d">is</a> done redrawing the screen. For an implementation that renders
+	to an internal buffer, this <a href="motion.txt.html#is" class="d">is</a> the time to display the redrawn parts
+	to the user.
+
+<span class="h">==============================================================================</span>
+Grid Events (line-based)					  <span id="ui-linegrid" class="t">ui-linegrid</span>
+
+Activated by the <span class="e">ext_linegrid</span> <a href="ui.txt.html#ui-option" class="l">ui-option</a><a href="repeat.txt.html#." class="d">.</a> Recommended <a href="luaref.txt.html#for" class="d">for</a> all new UIs.
+Deactivates <a href="ui.txt.html#ui-grid-old" class="l">ui-grid-old</a> implicitly.
+
+Unlike <a href="ui.txt.html#ui-grid-old" class="l">ui-grid-old</a><a href="motion.txt.html#%2C" class="d">,</a> this <a href="ui.txt.html#UI" class="d">UI</a> extension emits <a href="insert.txt.html#a" class="d">a</a> single <span class="e">grid_line</span> event to
+update <a href="insert.txt.html#a" class="d">a</a> screen-line (whereas the old protocol emitted separate cursor,
+highlight and text <a href="autocmd.txt.html#events" class="d">events</a> per screen-line).
+
+Most of these <a href="autocmd.txt.html#events" class="d">events</a> take <a href="insert.txt.html#a" class="d">a</a> <span class="e">grid</span> <a href="index.txt.html#index" class="d">index</a> <a href="motion.txt.html#as" class="d">as</a> first parameter.  Grid 1 <a href="motion.txt.html#is" class="d">is</a> the
+global grid used by default <a href="luaref.txt.html#for" class="d">for</a> the entire editor screen state. The
+<span class="e">ext_linegrid</span> capability by itself will never cause any additional grids to
+be created; to enable per-window grids, activate <a href="ui.txt.html#ui-multigrid" class="l">ui-multigrid</a><a href="repeat.txt.html#." class="d">.</a>
+
+Highlight attribute groups are predefined. UIs should maintain <a href="insert.txt.html#a" class="d">a</a> table to map
+numerical highlight ids to the actual attributes.
+
+<span class="h">["grid_resize", grid, width, height] </span>
+	Resize <a href="insert.txt.html#a" class="d">a</a> <span class="e">grid</span>. If <span class="e">grid</span> wasn't seen by the client before, <a href="insert.txt.html#a" class="d">a</a> new grid <a href="motion.txt.html#is" class="d">is</a>
+	being created with this size.
+
+<span class="h">["default_colors_set", rgb_fg, rgb_bg, rgb_sp, cterm_fg, cterm_bg] </span>
+	The first three arguments set the default foreground, background and
+	special colors respectively. <span class="e">cterm_fg</span> and <span class="e">cterm_bg</span> specifies the
+	default color codes to use in <a href="insert.txt.html#a" class="d">a</a> 256-color terminal.
+
+	The RGB values will always be valid colors, by default. If no
+	colors have been set, they will default to black and white, depending
+	on <a href="options.txt.html#%27background%27" class="o">'background'</a>. By setting the <span class="e">ext_termcolors</span> option, instead
+	-1 will be used <a href="luaref.txt.html#for" class="d">for</a> unset colors. This <a href="motion.txt.html#is" class="d">is</a> mostly useful <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="tui.txt.html#TUI" class="d">TUI</a>
+	implementation, where using the <a href="terminal.txt.html#terminal" class="d">terminal</a> builtin <a href="motion.txt.html#%28" class="d">(</a>"ANSI"<a href="motion.txt.html#%29" class="d">)</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a>
+	are expected.
+
+	<span class="n">Note:</span> Unlike the corresponding <a href="ui.txt.html#ui-grid-old" class="l">ui-grid-old</a> events, the screen <a href="motion.txt.html#is" class="d">is</a> not
+	always cleared after sending this event. The <a href="ui.txt.html#UI" class="d">UI</a> must repaint the
+	screen with changed background color itself.
+
+							<span id="ui-event-hl_attr_define" class="t">ui-event-hl_attr_define</span>
+<span class="h">["hl_attr_define", id, rgb_attr, cterm_attr, info] </span>
+	Add <a href="insert.txt.html#a" class="d">a</a> highlight with <span class="e">id</span>  to the highlight table, with the
+	attributes specified by the <span class="e">rgb_attr</span> and <span class="e">cterm_attr</span> dicts, with the
+	following (all optional) keys.
+
+	<span class="e">foreground</span>:  		foreground color.
+	<span class="e">background</span>:  		background color.
+	<span class="e">special</span>:  		color to use <a href="luaref.txt.html#for" class="d">for</a> <a href="various.txt.html#various" class="d">various</a> underlines, when
+				present.
+	<span class="e">reverse</span>:  		reverse video. Foreground and background colors
+				are switched.
+	<span class="e">italic</span>:  		<a href="syntax.txt.html#italic" class="d">italic</a> text.
+	<span class="e">bold</span>:  			<a href="syntax.txt.html#bold" class="d">bold</a> text.
+	<span class="e">strikethrough</span>:  	struckthrough text.
+	<span class="e">underline</span>:  		underlined text. The line has <span class="e">special</span> color.
+	<span class="e">undercurl</span>:  		undercurled text. The curl has <span class="e">special</span> color.
+	<span class="e">underdouble</span>:  		double underlined text. The lines have <span class="e">special</span> color.
+	<span class="e">underdotted</span>:  		<a href="syntax.txt.html#underdotted" class="d">underdotted</a> text. The dots have <span class="e">special</span> color.
+	<span class="e">underdashed</span>:  		<a href="syntax.txt.html#underdashed" class="d">underdashed</a> text. The dashes have <span class="e">special</span> color.
+	<span class="e">altfont</span>:  		alternative font.
+	<span class="e">blend</span>:  		blend level (0-100). Could be used by UIs to
+				<a href="support.txt.html#support" class="d">support</a> blending floating <a href="windows.txt.html#windows" class="d">windows</a> to the
+				background or to signal <a href="insert.txt.html#a" class="d">a</a> transparent cursor.
+	<span class="e">url</span>:  			URL associated with this highlight. UIs should
+				present the region <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> clickable hyperlink.
+
+	For absent color keys the default color should be used. Don't store
+	the default value in the table, rather <a href="insert.txt.html#a" class="d">a</a> sentinel value, so that
+	<a href="insert.txt.html#a" class="d">a</a> changed default color will take effect.
+	All <a href="options.txt.html#boolean" class="d">boolean</a> keys default to false, and will only be sent when they
+	are true.
+
+	Highlights are always transmitted both <a href="luaref.txt.html#for" class="d">for</a> both the RGB format and <a href="motion.txt.html#as" class="d">as</a>
+	<a href="terminal.txt.html#terminal" class="d">terminal</a> 256-color codes, <a href="motion.txt.html#as" class="d">as</a> the <span class="e">rgb_attr</span> and <span class="e">cterm_attr</span> parameters
+	respectively. The <a href="ui.txt.html#ui-rgb" class="l">ui-rgb</a> option has no effect anymore.
+	Most external UIs will only need to store and use the <span class="e">rgb_attr</span>
+	attributes.
+
+	<span class="e">id</span> <a href="motion.txt.html#0" class="d">0</a> will always be used <a href="luaref.txt.html#for" class="d">for</a> the default highlight with colors defined
+	by <span class="e">default_colors_set</span> and no styles applied.
+
+	<span class="n">Note:</span> Nvim may reuse <span class="e">id</span> values if its internal highlight table <a href="motion.txt.html#is" class="d">is</a> full.
+	In that <a href="change.txt.html#case" class="d">case</a> Nvim will always issue redraws of screen cells that are
+	affected by redefined ids, so UIs <a href="diff.txt.html#do" class="d">do</a> not need to keep track of this
+	themselves.
+
+	<span class="e">info</span> <a href="motion.txt.html#is" class="d">is</a> an empty array unless <a href="ui.txt.html#ui-hlstate" class="l">ui-hlstate</a> <a href="motion.txt.html#is" class="d">is</a> enabled.
+
+<span class="h">["hl_group_set", name, hl_id] </span>
+	The built-in highlight group <span class="e">name</span> was set to use the attributes <span class="e">hl_id</span>
+	defined by <a href="insert.txt.html#a" class="d">a</a> previous <span class="e">hl_attr_define</span> call. This event <a href="motion.txt.html#is" class="d">is</a> not needed
+	to render the grids which use attribute ids directly, but <a href="motion.txt.html#is" class="d">is</a> useful
+	<a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="ui.txt.html#UI" class="d">UI</a> who want to render its own elements with consistent
+	highlighting. For instance <a href="insert.txt.html#a" class="d">a</a> <a href="ui.txt.html#UI" class="d">UI</a> using <a href="ui.txt.html#ui-popupmenu" class="l">ui-popupmenu</a> events, might
+	use the <a href="syntax.txt.html#hl-Pmenu" class="l">hl-Pmenu</a> family of builtin highlights.
+
+							    <span id="ui-event-grid_line" class="t">ui-event-grid_line</span>
+<span class="h">["grid_line", grid, row, col_start, cells, wrap] </span>
+	Redraw <a href="insert.txt.html#a" class="d">a</a> continuous part of <a href="insert.txt.html#a" class="d">a</a> <span class="e">row</span> on <a href="insert.txt.html#a" class="d">a</a> <span class="e">grid</span>, <a href="starting.txt.html#starting" class="d">starting</a> <a href="motion.txt.html#at" class="d">at</a> the column
+	<span class="e">col_start</span>. <span class="e">cells</span> <a href="motion.txt.html#is" class="d">is</a> an array of arrays each with 1 to 3 items:
+	`[text(, hl_id, repeat)]` <a href="repeat.txt.html#." class="d">.</a> <span class="e">text</span> <a href="motion.txt.html#is" class="d">is</a> the <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> text that should be <a href="change.txt.html#put" class="d">put</a> in
+	<a href="insert.txt.html#a" class="d">a</a> cell, with the highlight <span class="e">hl_id</span> defined by <a href="insert.txt.html#a" class="d">a</a> previous <span class="e">hl_attr_define</span>
+	call.  If <span class="e">hl_id</span> <a href="motion.txt.html#is" class="d">is</a> not present the most recently seen <span class="e">hl_id</span> in
+	the same call should be used (it <a href="motion.txt.html#is" class="d">is</a> always sent <a href="luaref.txt.html#for" class="d">for</a> the first
+	cell in the event). If <span class="e">repeat</span> <a href="motion.txt.html#is" class="d">is</a> present, the cell should be
+	repeated <span class="e">repeat</span> times (including the first time), otherwise just
+	once.
+
+	The right cell of <a href="insert.txt.html#a" class="d">a</a> double-width char will be represented <a href="motion.txt.html#as" class="d">as</a> the empty
+	string. Double-width chars never use <span class="e">repeat</span>.
+
+	If the array of cell changes doesn't reach to the <a href="intro.txt.html#end" class="d">end</a> of the line, the
+	rest should remain unchanged. <a href="insert.txt.html#A" class="d">A</a> <a href="pattern.txt.html#whitespace" class="d">whitespace</a> char, repeated
+	enough to cover the remaining line, will be sent when the rest of the
+	line should be cleared.
+
+	<span class="e">wrap</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="options.txt.html#boolean" class="d">boolean</a> indicating that this line wraps to the next row.
+	When redrawing <a href="insert.txt.html#a" class="d">a</a> line which wraps to the next row, Nvim will emit <a href="insert.txt.html#a" class="d">a</a>
+	<span class="e">grid_line</span> event covering the last column of the line with <span class="e">wrap</span> set
+	to true, followed immediately by <a href="insert.txt.html#a" class="d">a</a> <span class="e">grid_line</span> event <a href="starting.txt.html#starting" class="d">starting</a> <a href="motion.txt.html#at" class="d">at</a> the
+	first column of the next row.
+
+<span class="h">["grid_clear", grid] </span>
+	Clear <a href="insert.txt.html#a" class="d">a</a> <span class="e">grid</span>.
+
+<span class="h">["grid_destroy", grid] </span>
+	<span class="e">grid</span> will not be used anymore and the <a href="ui.txt.html#UI" class="d">UI</a> can free any data associated
+	with it.
+
+<span class="h">["grid_cursor_goto", grid, row, col] </span>
+	Makes <span class="e">grid</span> the current grid and `row, col` the cursor position on this
+	grid.  This event will be sent <a href="motion.txt.html#at" class="d">at</a> most once in <a href="insert.txt.html#a" class="d">a</a> <span class="e">redraw</span> batch and
+	indicates the visible cursor position.
+
+<span class="h">["grid_scroll", grid, top, bot, left, right, rows, cols] </span>
+	Scroll <a href="insert.txt.html#a" class="d">a</a> region of <span class="e">grid</span>. This <a href="motion.txt.html#is" class="d">is</a> semantically unrelated to editor
+	<a href="scroll.txt.html#scrolling" class="l">scrolling</a><a href="motion.txt.html#%2C" class="d">,</a> rather this <a href="motion.txt.html#is" class="d">is</a> an optimized way to say "copy these screen
+	cells"<a href="repeat.txt.html#." class="d">.</a>
+
+	The following diagrams show what happens per scroll direction.
+	"===" represents the SR (scroll region) boundaries.
+	"<a href="starting.txt.html#---" class="d">---</a>" represents the moved rectangles.
+	<span class="n">Note</span> that dst and src share <a href="insert.txt.html#a" class="d">a</a> common region.
+
+	If <span class="e">rows</span> <a href="motion.txt.html#is" class="d">is</a> bigger than 0, move <a href="insert.txt.html#a" class="d">a</a> rectangle in the SR up, this can
+	happen while <a href="scroll.txt.html#scrolling" class="d">scrolling</a> down.
+
+<span class="e">		+-------------------------+</span>
+<span class="e">		| (clipped above SR)      |            ^</span>
+<span class="e">		|=========================| dst_top    |</span>
+<span class="e">		| dst (still in SR)       |            |</span>
+<span class="e">		+-------------------------+ src_top    |</span>
+<span class="e">		| src (moved up) and dst  |            |</span>
+<span class="e">		|-------------------------| dst_bot    |</span>
+<span class="e">		| src (invalid)           |            |</span>
+<span class="e">		+=========================+ src_bot</span>
+
+	If <span class="e">rows</span> <a href="motion.txt.html#is" class="d">is</a> <a href="various.txt.html#less" class="d">less</a> than zero, move <a href="insert.txt.html#a" class="d">a</a> rectangle in the SR down, this can
+	happen while <a href="scroll.txt.html#scrolling" class="d">scrolling</a> up.
+
+<span class="e">		+=========================+ src_top</span>
+<span class="e">		| src (invalid)           |            |</span>
+<span class="e">		|------------------------ | dst_top    |</span>
+<span class="e">		| src (moved down) and dst|            |</span>
+<span class="e">		+-------------------------+ src_bot    |</span>
+<span class="e">		| dst (still in SR)       |            |</span>
+<span class="e">		|=========================| dst_bot    |</span>
+<span class="e">		| (clipped below SR)      |            v</span>
+<span class="e">		+-------------------------+</span>
+
+	<span class="e">cols</span> <a href="motion.txt.html#is" class="d">is</a> always zero in this version of Nvim, and reserved <a href="luaref.txt.html#for" class="d">for</a> future
+	use.
+
+	<span class="n">Note</span> when updating code from <a href="ui.txt.html#ui-grid-old" class="l">ui-grid-old</a> events: ranges are
+	end-exclusive, which <a href="motion.txt.html#is" class="d">is</a> consistent with <a href="api.txt.html#API" class="d">API</a> conventions, but different
+	from <span class="e">set_scroll_region</span> which was end-inclusive.
+
+	The scrolled-in area will be filled using <a href="ui.txt.html#ui-event-grid_line" class="l">ui-event-grid_line</a> directly
+	after the scroll event. The <a href="ui.txt.html#UI" class="d">UI</a> thus doesn't need to clear this area <a href="motion.txt.html#as" class="d">as</a>
+	part of handling the scroll event.
+
+<span class="h">==============================================================================</span>
+Grid Events (cell-based)					   <span id="ui-grid-old" class="t">ui-grid-old</span>
+
+This <a href="motion.txt.html#is" class="d">is</a> the legacy representation of the screen grid, emitted if <a href="ui.txt.html#ui-linegrid" class="l">ui-linegrid</a>
+<a href="motion.txt.html#is" class="d">is</a> not active. New UIs should implement <a href="ui.txt.html#ui-linegrid" class="l">ui-linegrid</a> instead.
+
+<span class="h">["resize", width, height] </span>
+	The grid <a href="motion.txt.html#is" class="d">is</a> resized to <span class="e">width</span> and <span class="e">height</span> cells.
+
+<span class="h">["clear"] </span>
+	Clear the grid.
+
+<span class="h">["eol_clear"] </span>
+	Clear from the cursor position to the <a href="intro.txt.html#end" class="d">end</a> of the current line.
+
+<span class="h">["cursor_goto", row, col] </span>
+	Move the cursor to position (row, col). Currently, the same cursor <a href="motion.txt.html#is" class="d">is</a>
+	used to define the position <a href="luaref.txt.html#for" class="d">for</a> text insertion and the visible cursor.
+	However, only the last cursor position, after processing the entire
+	array in the "redraw" event, <a href="motion.txt.html#is" class="d">is</a> intended to be <a href="insert.txt.html#a" class="d">a</a> visible cursor
+	position.
+
+<span class="h">["update_fg", color] </span>
+<span class="h">["update_bg", color] </span>
+<span class="h">["update_sp", color] </span>
+	Set the default foreground, background and special colors
+	respectively.
+
+							<span id="ui-event-highlight_set" class="t">ui-event-highlight_set</span>
+<span class="h">["highlight_set", attrs] </span>
+	Set the attributes that the next text <a href="change.txt.html#put" class="d">put</a> on the grid will have.
+	<span class="e">attrs</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#dict" class="d">dict</a> with the keys below. Any absent key <a href="motion.txt.html#is" class="d">is</a> reset
+	to its default value. Color <a href="vim_diff.txt.html#defaults" class="d">defaults</a> are set by the <span class="e">update_fg</span> etc
+	updates. All <a href="options.txt.html#boolean" class="d">boolean</a> keys default to false.
+
+	<span class="e">foreground</span>:  	foreground color.
+	<span class="e">background</span>:  	background color.
+	<span class="e">special</span>:  	color to use <a href="luaref.txt.html#for" class="d">for</a> <a href="various.txt.html#various" class="d">various</a> underlines, when present.
+	<span class="e">reverse</span>:  	reverse video. Foreground and background colors are
+			switched.
+	<span class="e">italic</span>:  	<a href="syntax.txt.html#italic" class="d">italic</a> text.
+	<span class="e">bold</span>:  		<a href="syntax.txt.html#bold" class="d">bold</a> text.
+	<span class="e">strikethrough</span>:  struckthrough text.
+	<span class="e">underline</span>:  	underlined text. The line has <span class="e">special</span> color.
+	<span class="e">undercurl</span>:  	undercurled text. The curl has <span class="e">special</span> color.
+	<span class="e">underdouble</span>:  	double underlined text. The lines have <span class="e">special</span> color.
+	<span class="e">underdotted</span>:  	<a href="syntax.txt.html#underdotted" class="d">underdotted</a> text. The dots have <span class="e">special</span> color.
+	<span class="e">underdashed</span>:  	<a href="syntax.txt.html#underdashed" class="d">underdashed</a> text. The dashes have <span class="e">special</span> color.
+
+<span class="h">["put", text] </span>
+	The (utf-8 encoded) <a href="vimeval.txt.html#string" class="d">string</a> <span class="e">text</span> <a href="motion.txt.html#is" class="d">is</a> <a href="change.txt.html#put" class="d">put</a> <a href="motion.txt.html#at" class="d">at</a> the cursor position
+	(and the cursor <a href="motion.txt.html#is" class="d">is</a> advanced), with the highlights <a href="motion.txt.html#as" class="d">as</a> set by the
+	last <span class="e">highlight_set</span> update.
+
+<span class="h">["set_scroll_region", top, bot, left, right] </span>
+	Define the scroll region used by <span class="e">scroll</span> below.
+
+	<span class="n">Note:</span> ranges are end-inclusive, which <a href="motion.txt.html#is" class="d">is</a> inconsistent with <a href="api.txt.html#API" class="d">API</a>
+	conventions.
+
+<span class="h">["scroll", count] </span>
+	Scroll the text in the scroll region. The diagrams below illustrate
+	what will happen, depending on the scroll direction. "<a href="change.txt.html#%3D" class="d">=</a>" <a href="motion.txt.html#is" class="d">is</a> used to
+	represent the SR(scroll region) boundaries and "<a href="motion.txt.html#-" class="d">-</a>" the moved rectangles.
+	<span class="n">Note</span> that dst and src share <a href="insert.txt.html#a" class="d">a</a> common region.
+
+	If <a href="intro.txt.html#count" class="d">count</a> <a href="motion.txt.html#is" class="d">is</a> bigger than 0, move <a href="insert.txt.html#a" class="d">a</a> rectangle in the SR up, this can
+	happen while <a href="scroll.txt.html#scrolling" class="d">scrolling</a> down.
+
+<span class="e">		+-------------------------+</span>
+<span class="e">		| (clipped above SR)      |            ^</span>
+<span class="e">		|=========================| dst_top    |</span>
+<span class="e">		| dst (still in SR)       |            |</span>
+<span class="e">		+-------------------------+ src_top    |</span>
+<span class="e">		| src (moved up) and dst  |            |</span>
+<span class="e">		|-------------------------| dst_bot    |</span>
+<span class="e">		| src (cleared)           |            |</span>
+<span class="e">		+=========================+ src_bot</span>
+
+	If <a href="intro.txt.html#count" class="d">count</a> <a href="motion.txt.html#is" class="d">is</a> <a href="various.txt.html#less" class="d">less</a> than zero, move <a href="insert.txt.html#a" class="d">a</a> rectangle in the SR down, this can
+	happen while <a href="scroll.txt.html#scrolling" class="d">scrolling</a> up.
+
+<span class="e">		+=========================+ src_top</span>
+<span class="e">		| src (cleared)           |            |</span>
+<span class="e">		|------------------------ | dst_top    |</span>
+<span class="e">		| src (moved down) and dst|            |</span>
+<span class="e">		+-------------------------+ src_bot    |</span>
+<span class="e">		| dst (still in SR)       |            |</span>
+<span class="e">		|=========================| dst_bot    |</span>
+<span class="e">		| (clipped below SR)      |            v</span>
+<span class="e">		+-------------------------+</span>
+
+<span class="h">==============================================================================</span>
+Highlight Events						  <span id="ui-hlstate" class="t">ui-hlstate</span>
+
+Activated by the <span class="e">ext_hlstate</span> <a href="ui.txt.html#ui-option" class="l">ui-option</a><a href="repeat.txt.html#." class="d">.</a>
+Activates <a href="ui.txt.html#ui-linegrid" class="l">ui-linegrid</a> implicitly.
+
+If <span class="e">ext_hlstate</span> <a href="motion.txt.html#is" class="d">is</a> enabled, Nvim will emit detailed highlight state in
+<a href="ui.txt.html#ui-linegrid" class="l">ui-linegrid</a> events. Otherwise (by default) Nvim only describes grid cells
+using the final calculated highlight attributes described <a href="motion.txt.html#at" class="d">at</a>
+<a href="ui.txt.html#ui-event-highlight_set" class="l">ui-event-highlight_set</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="e">ext_hlstate</span> provides <a href="insert.txt.html#a" class="d">a</a> semantic description of active highlights <a href="luaref.txt.html#for" class="d">for</a> each
+grid cell. Highlights are predefined in <a href="insert.txt.html#a" class="d">a</a> table, see <a href="ui.txt.html#ui-event-hl_attr_define" class="l">ui-event-hl_attr_define</a>
+and <a href="ui.txt.html#ui-event-grid_line" class="l">ui-event-grid_line</a><a href="repeat.txt.html#." class="d">.</a>
+
+The <span class="e">info</span> parameter in <span class="e">hl_attr_define</span> contains <a href="insert.txt.html#a" class="d">a</a> semantic description of
+the highlights. Because highlight groups can be combined, this <a href="motion.txt.html#is" class="d">is</a> an array
+where the highest-priority item <a href="motion.txt.html#is" class="d">is</a> last. Each item <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#dict" class="d">dict</a> with these keys:
+
+    <span class="e">kind</span>:  	always present. One of the following values:
+	"<a href="ui.txt.html#ui" class="d">ui</a>"<a href="cmdline.txt.html#%3A" class="d">:</a>       Builtin <a href="ui.txt.html#UI" class="d">UI</a> highlight. <a href="syntax.txt.html#highlight-groups" class="l">highlight-groups</a>
+	"<a href="syntax.txt.html#syntax" class="d">syntax</a>"<a href="cmdline.txt.html#%3A" class="d">:</a>   Highlight applied to <a href="insert.txt.html#a" class="d">a</a> buffer by <a href="insert.txt.html#a" class="d">a</a> <a href="syntax.txt.html#syntax" class="d">syntax</a> declaration or
+		    other runtime/plugin functionality such <a href="motion.txt.html#as" class="d">as</a>
+		    <a href="api.txt.html#nvim_buf_set_extmark%28%29" class="l">nvim_buf_set_extmark()</a>
+	"<a href="terminal.txt.html#terminal" class="d">terminal</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> highlight from <a href="insert.txt.html#a" class="d">a</a> process running in <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal-emulator" class="l">terminal-emulator</a><a href="repeat.txt.html#." class="d">.</a>
+		    Contains no further semantic information.
+    <span class="e">ui_name</span>:  	Highlight name from <a href="syntax.txt.html#highlight-groups" class="l">highlight-groups</a><a href="repeat.txt.html#." class="d">.</a> Only <a href="luaref.txt.html#for" class="d">for</a> "<a href="ui.txt.html#ui" class="d">ui</a>" kind.
+    <span class="e">hi_name</span>:  	Name of the final <a href="syntax.txt.html#%3Ahighlight" class="l">:highlight</a> group where the used
+		attributes are defined.
+    <span class="e">id</span>:  	Unique numeric id representing this item.
+
+<span class="n">Note:</span> "<a href="ui.txt.html#ui" class="d">ui</a>" items will have both <span class="e">ui_name</span> and <span class="e">hi_name</span> present. These can
+differ, because the builtin group was linked to another group <a href="syntax.txt.html#%3Ahi-link" class="l">:hi-link</a> <a href="motion.txt.html#%2C" class="d">,</a> or
+because <a href="options.txt.html#%27winhighlight%27" class="o">'winhighlight'</a> was used. <a href="ui.txt.html#UI" class="d">UI</a> items will be transmitted, even if the
+highlight group <a href="motion.txt.html#is" class="d">is</a> cleared, so <span class="e">ui_name</span> can always be used to reliably identify
+screen elements, even if no attributes have been applied.
+
+<span class="h">==============================================================================</span>
+Multigrid Events						 <span id="ui-multigrid" class="t">ui-multigrid</span>
+
+Activated by the <span class="e">ext_multigrid</span> <a href="ui.txt.html#ui-option" class="l">ui-option</a><a href="repeat.txt.html#." class="d">.</a>
+Activates <a href="ui.txt.html#ui-linegrid" class="l">ui-linegrid</a> implicitly.
+
+See <a href="ui.txt.html#ui-linegrid" class="l">ui-linegrid</a> <a href="luaref.txt.html#for" class="d">for</a> grid events.
+See <a href="api.txt.html#nvim_ui_try_resize_grid%28%29" class="l">nvim_ui_try_resize_grid()</a> to request <a href="change.txt.html#changing" class="d">changing</a> the grid size.
+See <a href="api.txt.html#nvim_input_mouse%28%29" class="l">nvim_input_mouse()</a> <a href="luaref.txt.html#for" class="d">for</a> sending mouse <a href="autocmd.txt.html#events" class="d">events</a> to Nvim.
+
+The multigrid extension gives UIs more <a href="intro.txt.html#control" class="d">control</a> over how <a href="windows.txt.html#windows" class="d">windows</a> are displayed:
+<a href="motion.txt.html#-" class="d">-</a> UIs receive updates on <a href="insert.txt.html#a" class="d">a</a> separate grid <a href="luaref.txt.html#for" class="d">for</a> each window.
+<a href="motion.txt.html#-" class="d">-</a> UIs can set the grid size independently of how much <a href="intro.txt.html#space" class="d">space</a> the <a href="windows.txt.html#window" class="d">window</a>
+  occupies on the global layout. So the <a href="ui.txt.html#UI" class="d">UI</a> could use <a href="insert.txt.html#a" class="d">a</a> different font size
+  per-window. Or reserve <a href="intro.txt.html#space" class="d">space</a> around the border of the <a href="windows.txt.html#window" class="d">window</a> <a href="luaref.txt.html#for" class="d">for</a> its own
+  elements, such <a href="motion.txt.html#as" class="d">as</a> scrollbars from the <a href="ui.txt.html#UI" class="d">UI</a> toolkit.
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> dedicated grid <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> messages, which may scroll over the <a href="windows.txt.html#window" class="d">window</a>
+  area. (Alternatively <a href="ui.txt.html#ui-messages" class="l">ui-messages</a> can be used).
+
+By default, the grid size <a href="motion.txt.html#is" class="d">is</a> handled by Nvim and set to the outer grid size
+(i.e. the size of the <a href="windows.txt.html#window" class="d">window</a> frame in Nvim) whenever the split <a href="motion.txt.html#is" class="d">is</a> created.
+Once <a href="insert.txt.html#a" class="d">a</a> <a href="ui.txt.html#UI" class="d">UI</a> sets <a href="insert.txt.html#a" class="d">a</a> grid size, Nvim does not handle the size <a href="luaref.txt.html#for" class="d">for</a> that grid and
+the <a href="ui.txt.html#UI" class="d">UI</a> must change the grid size whenever the outer size <a href="motion.txt.html#is" class="d">is</a> changed. To
+delegate grid-size handling back to Nvim, request the size (0, 0).
+
+<a href="insert.txt.html#A" class="d">A</a> <a href="windows.txt.html#window" class="d">window</a> can be hidden and redisplayed without its grid being deallocated.
+This can happen multiple times <a href="luaref.txt.html#for" class="d">for</a> the same window, <a href="luaref.txt.html#for" class="d">for</a> instance when switching
+tabs.
+
+<span class="h">["win_pos", grid, win, start_row, start_col, width, height] </span>
+	Set the position and size of the grid in Nvim (i.e. the outer grid
+	size). If the <a href="windows.txt.html#window" class="d">window</a> was previously hidden, <a href="motion.txt.html#it" class="d">it</a> should now be shown
+	again.
+
+<span class="h">["win_float_pos", grid, win, anchor, anchor_grid, anchor_row, anchor_col, mouse_enabled, zindex] </span>
+	Display or reconfigure floating <a href="windows.txt.html#window" class="d">window</a> <span class="e">win</span>. The <a href="windows.txt.html#window" class="d">window</a> should be
+	displayed above another grid <span class="e">anchor_grid</span> <a href="motion.txt.html#at" class="d">at</a> the specified position
+	<span class="e">anchor_row</span> and <span class="e">anchor_col</span>. For the meaning of <span class="e">anchor</span> and more details
+	of positioning, see <a href="api.txt.html#nvim_open_win%28%29" class="l">nvim_open_win()</a><a href="repeat.txt.html#." class="d">.</a> <span class="e">mouse_enabled</span> <a href="motion.txt.html#is" class="d">is</a> true if the
+	<a href="windows.txt.html#window" class="d">window</a> can receive mouse events.
+
+<span class="h">["win_external_pos", grid, win] </span>
+	Display or reconfigure external <a href="windows.txt.html#window" class="d">window</a> <span class="e">win</span>. The <a href="windows.txt.html#window" class="d">window</a> should be
+	displayed <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> separate top-level <a href="windows.txt.html#window" class="d">window</a> in the desktop environment,
+	or something similar.
+
+<span class="h">["win_hide", grid] </span>
+	Stop displaying the window. The <a href="windows.txt.html#window" class="d">window</a> can be shown again later.
+
+<span class="h">["win_close", grid] </span>
+	Close the window.
+
+<span class="h">["msg_set_pos", grid, row, scrolled, sep_char] </span>
+	Display <a href="message.txt.html#messages" class="d">messages</a> on <span class="e">grid</span>.  The grid will be displayed <a href="motion.txt.html#at" class="d">at</a> <span class="e">row</span> on
+	the default grid (grid=1), covering the full column width. <span class="e">scrolled</span>
+	indicates whether the message area has been scrolled to cover other
+	grids. It can be useful to draw <a href="insert.txt.html#a" class="d">a</a> separator then <a href="vim_diff.txt.html#msgsep" class="l">msgsep</a><a href="repeat.txt.html#." class="d">.</a> The Builtin
+	<a href="tui.txt.html#TUI" class="d">TUI</a> draws <a href="insert.txt.html#a" class="d">a</a> full line filled with <span class="e">sep_char</span> ('fillchars' <a href="vim_diff.txt.html#msgsep" class="d">msgsep</a>
+	field) and <a href="syntax.txt.html#hl-MsgSeparator" class="l">hl-MsgSeparator</a> highlight.
+
+	When <a href="ui.txt.html#ui-messages" class="l">ui-messages</a> <a href="motion.txt.html#is" class="d">is</a> active, no message grid <a href="motion.txt.html#is" class="d">is</a> used, and this event
+	will not be sent.
+
+<span class="h">["win_viewport", grid, win, topline, botline, curline, curcol, line_count, scroll_delta] </span>
+	Indicates the range of buffer text displayed in the window, <a href="motion.txt.html#as" class="d">as</a> well
+	<a href="motion.txt.html#as" class="d">as</a> the cursor position in the buffer. All positions are zero-based.
+	<span class="e">botline</span> <a href="motion.txt.html#is" class="d">is</a> set to one more than the line <a href="intro.txt.html#count" class="d">count</a> of the buffer, if
+	there are filler lines past the end. <span class="e">scroll_delta</span> contains how much
+	the top line of <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> moved since <span class="e">win_viewport</span> was last emitted.
+	It <a href="motion.txt.html#is" class="d">is</a> intended to be used to implement smooth scrolling. For this
+	purpose <a href="motion.txt.html#it" class="d">it</a> only counts "virtual" or "displayed" lines, so <a href="fold.txt.html#folds" class="d">folds</a>
+	only <a href="intro.txt.html#count" class="d">count</a> <a href="motion.txt.html#as" class="d">as</a> one line. When <a href="scroll.txt.html#scrolling" class="d">scrolling</a> more than <a href="insert.txt.html#a" class="d">a</a> full screen <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+	an approximate value.
+
+	All updates, such <a href="motion.txt.html#as" class="d">as</a> <span class="e">grid_line</span>, in <a href="insert.txt.html#a" class="d">a</a> batch affects the new viewport,
+	despite the fact that <span class="e">win_viewport</span> <a href="motion.txt.html#is" class="d">is</a> received after the updates.
+	Applications implementing, <a href="luaref.txt.html#for" class="d">for</a> example, smooth <a href="scroll.txt.html#scrolling" class="d">scrolling</a> should take
+	this into account and keep the grid separated from what's displayed on
+	the screen and copy <a href="motion.txt.html#it" class="d">it</a> to the viewport destination once <span class="e">win_viewport</span>
+	<a href="motion.txt.html#is" class="d">is</a> received.
+
+<span class="h">["win_viewport_margins", grid, win, top, bottom, left, right] </span>
+	Indicates the margins of <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> grid which are _not_ part of the
+	viewport <a href="motion.txt.html#as" class="d">as</a> indicated by the <span class="e">win_viewport</span> event. This happens
+	e.g. in the presence of <a href="options.txt.html#%27winbar%27" class="o">'winbar'</a> and floating <a href="windows.txt.html#window" class="d">window</a> borders.
+
+<span class="h">["win_extmark", grid, win, ns_id, mark_id, row, col] </span>
+	Updates the position of an <a href="api.txt.html#extmark" class="d">extmark</a> which <a href="motion.txt.html#is" class="d">is</a> currently visible in <a href="insert.txt.html#a" class="d">a</a>
+	window. Only emitted if the <a href="motion.txt.html#mark" class="d">mark</a> has the <span class="e">ui_watched</span> attribute.
+
+<span class="h">==============================================================================</span>
+Popupmenu Events						 <span id="ui-popupmenu" class="t">ui-popupmenu</span>
+
+Activated by the <span class="e">ext_popupmenu</span> <a href="ui.txt.html#ui-option" class="l">ui-option</a><a href="repeat.txt.html#." class="d">.</a>
+
+This <a href="ui.txt.html#UI" class="d">UI</a> extension delegates presentation of the <a href="insert.txt.html#popupmenu-completion" class="l">popupmenu-completion</a> and
+command-line <a href="options.txt.html#%27wildmenu%27" class="o">'wildmenu'</a>.
+
+The <a href="ui.txt.html#UI" class="d">UI</a> decides how to present the menu. For example, depending on the last
+<span class="e">mode_change</span> event, command-line wildmenu may be presented horizontally,
+while insert-mode completion would show <a href="insert.txt.html#a" class="d">a</a> vertical popupmenu.
+
+<span class="h">["popupmenu_show", items, selected, row, col, grid] </span>
+	Show <a href="insert.txt.html#popupmenu-completion" class="l">popupmenu-completion</a><a href="repeat.txt.html#." class="d">.</a> <span class="e">items</span> <a href="motion.txt.html#is" class="d">is</a> an array of completion items
+	to show; each item <a href="motion.txt.html#is" class="d">is</a> an array of the form [word, kind, menu, info] <a href="motion.txt.html#as" class="d">as</a>
+	defined <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#complete-items" class="l">complete-items</a><a href="motion.txt.html#%2C" class="d">,</a> except that <span class="e">word</span> <a href="motion.txt.html#is" class="d">is</a> replaced by <span class="e">abbr</span>
+	if present.  <span class="e">selected</span> <a href="motion.txt.html#is" class="d">is</a> the initially-selected item, <a href="insert.txt.html#a" class="d">a</a> zero-based
+	<a href="index.txt.html#index" class="d">index</a> into the array of items (-1 if no item <a href="motion.txt.html#is" class="d">is</a> selected). <span class="e">row</span> and
+	<span class="e">col</span> give the anchor position, where the first character of the
+	completed <a href="motion.txt.html#word" class="d">word</a> will be. When <a href="ui.txt.html#ui-multigrid" class="l">ui-multigrid</a> <a href="motion.txt.html#is" class="d">is</a> used, <span class="e">grid</span> <a href="motion.txt.html#is" class="d">is</a> the
+	grid <a href="luaref.txt.html#for" class="d">for</a> the anchor position. When <span class="e">ext_cmdline</span> <a href="motion.txt.html#is" class="d">is</a> active, <span class="e">grid</span> <a href="motion.txt.html#is" class="d">is</a>
+	set to -1 to indicate the popupmenu should be anchored to the external
+	cmdline. Then <span class="e">col</span> will be <a href="insert.txt.html#a" class="d">a</a> byte position in the <a href="cmdline.txt.html#cmdline" class="d">cmdline</a> text.
+
+<span class="h">["popupmenu_select", selected] </span>
+	<a href="visual.txt.html#Select" class="d">Select</a> an item in the current popupmenu. <span class="e">selected</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> zero-based
+	<a href="index.txt.html#index" class="d">index</a> into the array of items from the last popupmenu_show event, or
+	-1 if no item <a href="motion.txt.html#is" class="d">is</a> selected.
+
+<span class="h">["popupmenu_hide"] </span>
+	Hide the popupmenu.
+
+<span class="h">==============================================================================</span>
+Tabline Events							   <span id="ui-tabline" class="t">ui-tabline</span>
+
+Activated by the <span class="e">ext_tabline</span> <a href="ui.txt.html#ui-option" class="l">ui-option</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">["tabline_update", curtab, tabs, curbuf, buffers] </span>
+	Tabline was updated. UIs should present this data in <a href="insert.txt.html#a" class="d">a</a> custom tabline
+	widget. <span class="n">Note:</span> <a href="options.txt.html#options" class="d">options</a> <span class="e">curbuf</span> <a href="motion.txt.html#%2B" class="d">+</a> <span class="e">buffers</span> were added in API7.
+	curtab:   Current Tabpage
+	tabs:     <a href="vimeval.txt.html#List" class="d">List</a> of Dicts <a href="motion.txt.html#%5B%7B" class="d">[{</a> "<a href="intro.txt.html#tab" class="d">tab</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> Tabpage, "name"<a href="cmdline.txt.html#%3A" class="d">:</a> <a href="vimeval.txt.html#String" class="d">String</a> }, ...]
+	curbuf:   Current buffer handle.
+	buffers:  <a href="vimeval.txt.html#List" class="d">List</a> of Dicts <a href="motion.txt.html#%5B%7B" class="d">[{</a> "buffer"<a href="cmdline.txt.html#%3A" class="d">:</a> buffer handle, "name"<a href="cmdline.txt.html#%3A" class="d">:</a> String}, ...]
+
+<span class="h">==============================================================================</span>
+<a href="cmdline.txt.html#Cmdline" class="d">Cmdline</a> Events							   <span id="ui-cmdline" class="t">ui-cmdline</span>
+
+Activated by the <span class="e">ext_cmdline</span> <a href="ui.txt.html#ui-option" class="l">ui-option</a><a href="repeat.txt.html#." class="d">.</a>
+
+This <a href="ui.txt.html#UI" class="d">UI</a> extension delegates presentation of the <a href="cmdline.txt.html#cmdline" class="l">cmdline</a> (except <a href="options.txt.html#%27wildmenu%27" class="o">'wildmenu'</a>).
+For command-line <a href="options.txt.html#%27wildmenu%27" class="o">'wildmenu'</a> <a href="ui.txt.html#UI" class="d">UI</a> events, activate <a href="ui.txt.html#ui-popupmenu" class="l">ui-popupmenu</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">["cmdline_show", content, pos, firstc, prompt, indent, level, hl_id] </span>
+        content: <a href="vimeval.txt.html#List" class="d">List</a> of [attrs, string]
+	         [[{}, "<a href="motion.txt.html#t" class="d">t</a>"], [attrs, "est"], ...]
+
+	Triggered when the <a href="cmdline.txt.html#cmdline" class="d">cmdline</a> <a href="motion.txt.html#is" class="d">is</a> displayed or changed.
+	The <span class="e">content</span> <a href="motion.txt.html#is" class="d">is</a> the full content that should be displayed in the
+	cmdline, and the <span class="e">pos</span> <a href="motion.txt.html#is" class="d">is</a> the position of the cursor that in the
+	cmdline. The content <a href="motion.txt.html#is" class="d">is</a> divided into chunks with different highlight
+	attributes represented <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#dict" class="d">dict</a> (see <a href="ui.txt.html#ui-event-highlight_set" class="l">ui-event-highlight_set</a>).
+
+	<span class="e">firstc</span> and <span class="e">prompt</span> are text, that if non-empty should be
+	displayed in front of the command line. <span class="e">firstc</span> always indicates
+	built-in command lines such <a href="motion.txt.html#as" class="d">as</a> <span class="e">:</span> (ex command) and <span class="e">/</span> <span class="e">?</span> (search),
+	while <span class="e">prompt</span> <a href="motion.txt.html#is" class="d">is</a> an <a href="vimfn.txt.html#input%28%29" class="l">input()</a> prompt, highlighted with <span class="e">hl_id</span>.
+	<span class="e">indent</span> tells how many spaces the content should be indented.
+
+	The Nvim command line can be invoked recursively, <a href="luaref.txt.html#for" class="d">for</a> instance by
+	typing <span class="e">&lt;c-r&gt;=</span> <a href="motion.txt.html#at" class="d">at</a> the command line prompt. The <span class="e">level</span> field <a href="motion.txt.html#is" class="d">is</a> used
+	to distinguish different command lines active <a href="motion.txt.html#at" class="d">at</a> the same time. The
+	first invoked command line has level 1, the next recursively-invoked
+	prompt has level 2. <a href="insert.txt.html#A" class="d">A</a> command line invoked from the <a href="cmdline.txt.html#cmdline-window" class="l">cmdline-window</a>
+	has <a href="insert.txt.html#a" class="d">a</a> higher level than the edited command line.
+
+<span class="h">["cmdline_pos", pos, level] </span>
+	Change the cursor position in the cmdline.
+
+<span class="h">["cmdline_special_char", c, shift, level] </span>
+	Display <a href="insert.txt.html#a" class="d">a</a> special char in the <a href="cmdline.txt.html#cmdline" class="d">cmdline</a> <a href="motion.txt.html#at" class="d">at</a> the cursor position. This <a href="motion.txt.html#is" class="d">is</a>
+	typically used to indicate <a href="insert.txt.html#a" class="d">a</a> pending state, e.g. after <a href="cmdline.txt.html#c_CTRL-V" class="l">c_CTRL-V</a><a href="repeat.txt.html#." class="d">.</a> If
+	<span class="e">shift</span> <a href="motion.txt.html#is" class="d">is</a> true the text after the cursor should be shifted, otherwise
+	<a href="motion.txt.html#it" class="d">it</a> should overwrite the char <a href="motion.txt.html#at" class="d">at</a> the cursor.
+
+	Should be hidden <a href="motion.txt.html#at" class="d">at</a> next cmdline_show.
+
+<span class="h">["cmdline_hide", abort] </span>
+	Hide the cmdline. <span class="e">abort</span> <a href="motion.txt.html#is" class="d">is</a> true if the <a href="cmdline.txt.html#cmdline" class="d">cmdline</a> <a href="motion.txt.html#is" class="d">is</a> hidden after an
+	aborting condition <a href="motion.txt.html#%28" class="d">(</a><a href="cmdline.txt.html#c_Esc" class="l">c_Esc</a> or <a href="cmdline.txt.html#c_CTRL-C" class="l">c_CTRL-C</a>).
+
+<span class="h">["cmdline_block_show", lines] </span>
+	Show <a href="insert.txt.html#a" class="d">a</a> block of <a href="repeat.txt.html#context" class="d">context</a> to the current command line. For example if
+	the user defines <a href="insert.txt.html#a" class="d">a</a> <a href="userfunc.txt.html#%3Afunction" class="l">:function</a> interactively: 
+<span class="e">	    :function Foo()</span>
+<span class="e">	    :  echo "foo"</span>
+<span class="e">	    :</span>
+
+	<span class="e">lines</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of lines of highlighted chunks, in the same form <a href="motion.txt.html#as" class="d">as</a>
+	the "cmdline_show" <span class="e">contents</span> parameter.
+
+<span class="h">["cmdline_block_append", line] </span>
+	Append <a href="insert.txt.html#a" class="d">a</a> line <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> of the currently shown block.
+
+<span class="h">["cmdline_block_hide"] </span>
+	Hide the block.
+
+<span class="h">==============================================================================</span>
+Message/Dialog Events					   <span id="ui-messages" class="t">ui-messages</span>
+
+Activated by the <span class="e">ext_messages</span> <a href="ui.txt.html#ui-option" class="l">ui-option</a><a href="repeat.txt.html#." class="d">.</a>
+Activates <a href="ui.txt.html#ui-linegrid" class="l">ui-linegrid</a> and <a href="ui.txt.html#ui-cmdline" class="l">ui-cmdline</a> implicitly.
+
+This <a href="ui.txt.html#UI" class="d">UI</a> extension delegates presentation of <a href="message.txt.html#messages" class="d">messages</a> and dialogs. Messages
+that would otherwise render in the message/cmdline screen space, are emitted
+<a href="motion.txt.html#as" class="d">as</a> <a href="ui.txt.html#UI" class="d">UI</a> events.
+
+Nvim will not allocate screen <a href="intro.txt.html#space" class="d">space</a> <a href="luaref.txt.html#for" class="d">for</a> the <a href="cmdline.txt.html#cmdline" class="d">cmdline</a> or messages. <a href="options.txt.html#%27cmdheight%27" class="o">'cmdheight'</a>
+will be set to zero, but can be changed and used <a href="luaref.txt.html#for" class="d">for</a> the <a href="change.txt.html#replacing" class="d">replacing</a> <a href="cmdline.txt.html#cmdline" class="d">cmdline</a> or
+message window. <a href="cmdline.txt.html#Cmdline" class="d">Cmdline</a> state <a href="motion.txt.html#is" class="d">is</a> emitted <a href="motion.txt.html#as" class="d">as</a> <a href="ui.txt.html#ui-cmdline" class="l">ui-cmdline</a> events, which the <a href="ui.txt.html#UI" class="d">UI</a>
+must handle.
+
+<span class="h">["msg_show", kind, content, replace_last, history] </span>
+	Display <a href="insert.txt.html#a" class="d">a</a> message to the user.
+
+	kind
+	    Name indicating the message kind:
+		"" (empty)	Unknown (consider <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#feature-request" class="l">feature-request</a><a href="motion.txt.html#%29" class="d">)</a>
+		"bufwrite"	<a href="editing.txt.html#%3Awrite" class="l">:write</a> message
+		"confirm"	Message preceding <a href="insert.txt.html#a" class="d">a</a> prompt <a href="motion.txt.html#%28" class="d">(</a><a href="editing.txt.html#%3Aconfirm" class="l">:confirm</a><a href="motion.txt.html#%2C" class="d">,</a>
+				<a href="vimfn.txt.html#confirm%28%29" class="l">confirm()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vimfn.txt.html#inputlist%28%29" class="l">inputlist()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="spell.txt.html#z%3D" class="l">z=</a><a href="motion.txt.html#%2C" class="d">,</a> …<a href="motion.txt.html#%29" class="d">)</a>
+		"emsg"		Error <a href="motion.txt.html#%28" class="d">(</a><a href="message.txt.html#errors" class="l">errors</a><a href="motion.txt.html#%2C" class="d">,</a> internal error, <a href="vimeval.txt.html#%3Athrow" class="l">:throw</a><a href="motion.txt.html#%2C" class="d">,</a> …<a href="motion.txt.html#%29" class="d">)</a>
+		"echo"		<a href="vimeval.txt.html#%3Aecho" class="l">:echo</a> message
+		"echomsg"	<a href="vimeval.txt.html#%3Aechomsg" class="l">:echomsg</a> message
+		"echoerr"	<a href="vimeval.txt.html#%3Aechoerr" class="l">:echoerr</a> message
+		"completion"    <a href="insert.txt.html#ins-completion-menu" class="l">ins-completion-menu</a> message
+		"list_cmd"	<a href="vimeval.txt.html#List" class="d">List</a> output <a href="luaref.txt.html#for" class="d">for</a> <a href="various.txt.html#various" class="d">various</a> commands <a href="motion.txt.html#%28" class="d">(</a><a href="windows.txt.html#%3Als" class="l">:ls</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="options.txt.html#%3Aset" class="l">:set</a><a href="motion.txt.html#%2C" class="d">,</a> …<a href="motion.txt.html#%29" class="d">)</a>
+		"lua_error"	Error in <a href="lua.txt.html#%3Alua" class="l">:lua</a> code
+		"lua_print"	<a href="luaref.txt.html#print%28%29" class="l">print()</a> from <a href="lua.txt.html#%3Alua" class="l">:lua</a> code
+		"rpc_error"	Error response from <a href="vimfn.txt.html#rpcrequest%28%29" class="l">rpcrequest()</a>
+		"return_prompt"	<a href="message.txt.html#press-enter" class="l">press-enter</a> prompt after <a href="insert.txt.html#a" class="d">a</a> multiple <a href="message.txt.html#messages" class="d">messages</a>
+		"<a href="quickfix.txt.html#quickfix" class="d">quickfix</a>"	<a href="quickfix.txt.html#Quickfix" class="d">Quickfix</a> <a href="motion.txt.html#navigation" class="d">navigation</a> message
+		"search_cmd"	Entered search command
+		"search_count"	Search <a href="intro.txt.html#count" class="d">count</a> message <a href="motion.txt.html#%28" class="d">(</a>"<a href="change.txt.html#S" class="d">S</a>" flag of <a href="options.txt.html#%27shortmess%27" class="o">'shortmess'</a>)
+		"shell_err"	<a href="various.txt.html#%3A%21cmd" class="l">:!cmd</a> shell stderr output
+		"shell_out"	<a href="various.txt.html#%3A%21cmd" class="l">:!cmd</a> shell stdout output
+		"shell_ret"	<a href="various.txt.html#%3A%21cmd" class="l">:!cmd</a> shell return code
+		"<a href="undo.txt.html#undo" class="d">undo</a>"		<a href="undo.txt.html#%3Aundo" class="l">:undo</a> and <a href="undo.txt.html#%3Aredo" class="l">:redo</a> message
+		"<a href="starting.txt.html#verbose" class="d">verbose</a>"	<a href="options.txt.html#%27verbose%27" class="o">'verbose'</a> message
+		"wildlist"	<a href="options.txt.html#%27wildmode%27" class="o">'wildmode'</a> "<a href="vimeval.txt.html#list" class="d">list</a>" message
+		"wmsg"		Warning <a href="motion.txt.html#%28" class="d">(</a>"search hit BOTTOM"<a href="motion.txt.html#%2C" class="d">,</a> <a href="message.txt.html#W10" class="l">W10</a><a href="motion.txt.html#%2C" class="d">,</a> …<a href="motion.txt.html#%29" class="d">)</a>
+	    New kinds may be added in the future; clients should treat unknown
+	    kinds <a href="motion.txt.html#as" class="d">as</a> the empty kind.
+
+	content
+	    Array of `[attr_id, text_chunk, hl_id]` tuples, building up the
+	    message text of chunks of different highlights. No extra spacing
+	    should be added between chunks, the <span class="e">text_chunk</span> by itself
+	    contains any necessary whitespace. Messages can contain line
+	    breaks "\n"<a href="repeat.txt.html#." class="d">.</a>
+
+	replace_last
+	    Decides how multiple <a href="message.txt.html#messages" class="d">messages</a> should be displayed:
+	    false: Display the message together with all previous <a href="message.txt.html#messages" class="d">messages</a>
+		   that are still visible.
+	    true:  <a href="insert.txt.html#Replace" class="d">Replace</a> the message in the most-recent <span class="e">msg_show</span> call,
+		   but any other visible message should still remain.
+
+	<a href="cmdline.txt.html#history" class="d">history</a>
+	    True if the message was added to the <a href="message.txt.html#%3Amessages" class="l">:messages</a> history.
+
+<span class="h">["msg_clear"] </span>
+	Clear all <a href="message.txt.html#messages" class="d">messages</a> currently displayed by "msg_show"<a href="repeat.txt.html#." class="d">.</a> (Messages sent
+	by other "msg_" <a href="autocmd.txt.html#events" class="d">events</a> below will not be affected).
+
+<span class="h">["msg_showmode", content] </span>
+	Shows <a href="options.txt.html#%27showmode%27" class="o">'showmode'</a> and <a href="repeat.txt.html#recording" class="l">recording</a> messages. <span class="e">content</span> has the same
+	format <a href="motion.txt.html#as" class="d">as</a> in "msg_show"<a href="repeat.txt.html#." class="d">.</a> This event <a href="motion.txt.html#is" class="d">is</a> sent with empty <span class="e">content</span> to
+	hide the last message.
+
+<span class="h">["msg_showcmd", content] </span>
+	Shows <a href="options.txt.html#%27showcmd%27" class="o">'showcmd'</a> messages. <span class="e">content</span> has the same format <a href="motion.txt.html#as" class="d">as</a> in "msg_show"<a href="repeat.txt.html#." class="d">.</a>
+	This event <a href="motion.txt.html#is" class="d">is</a> sent with empty <span class="e">content</span> to hide the last message.
+
+<span class="h">["msg_ruler", content] </span>
+	Used to display <a href="options.txt.html#%27ruler%27" class="o">'ruler'</a> when there <a href="motion.txt.html#is" class="d">is</a> no <a href="intro.txt.html#space" class="d">space</a> <a href="luaref.txt.html#for" class="d">for</a> the ruler in <a href="insert.txt.html#a" class="d">a</a>
+	statusline. <span class="e">content</span> has the same format <a href="motion.txt.html#as" class="d">as</a> in "msg_show"<a href="repeat.txt.html#." class="d">.</a> This event <a href="motion.txt.html#is" class="d">is</a>
+	sent with empty <span class="e">content</span> to hide the last message.
+
+<span class="h">["msg_history_show", entries] </span>
+	Sent when <a href="message.txt.html#%3Amessages" class="l">:messages</a> command <a href="motion.txt.html#is" class="d">is</a> invoked. History <a href="motion.txt.html#is" class="d">is</a> sent <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of
+	entries, where each entry <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> `[kind, content]` tuple.
+
+<span class="h">["msg_history_clear"] </span>
+	Clear the <a href="message.txt.html#%3Amessages" class="l">:messages</a> history.
+
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

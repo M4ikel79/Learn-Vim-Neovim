@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: news.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="news.txt.html#">↑Top↑</a></li>
+<li><a href="news.txt.html#news-breaking">BREAKING CHANGES</a></li>
+<li><a href="news.txt.html#_api">API</a></li>
+<li><a href="news.txt.html#_build">BUILD</a></li>
+<li><a href="news.txt.html#_diagnostics">DIAGNOSTICS</a></li>
+<li><a href="news.txt.html#_editor">EDITOR</a></li>
+<li><a href="news.txt.html#_events">EVENTS</a></li>
+<li><a href="news.txt.html#_highlights">HIGHLIGHTS</a></li>
+<li><a href="news.txt.html#_lsp">LSP</a></li>
+<li><a href="news.txt.html#_lua">LUA</a></li>
+<li><a href="news.txt.html#_options">OPTIONS</a></li>
+<li><a href="news.txt.html#_treesitter">TREESITTER</a></li>
+<li><a href="news.txt.html#_tui">TUI</a></li>
+<li><a href="news.txt.html#_vimscript">VIMSCRIPT</a></li>
+<li><a href="news.txt.html#news-features">NEW FEATURES</a></li>
+<li><a href="news.txt.html#_api">API</a></li>
+<li><a href="news.txt.html#_defaults">DEFAULTS</a></li>
+<li><a href="news.txt.html#_diagnostics">DIAGNOSTICS</a></li>
+<li><a href="news.txt.html#_editor">EDITOR</a></li>
+<li><a href="news.txt.html#_events">EVENTS</a></li>
+<li><a href="news.txt.html#_lsp">LSP</a></li>
+<li><a href="news.txt.html#_lua">LUA</a></li>
+<li><a href="news.txt.html#_options">OPTIONS</a></li>
+<li><a href="news.txt.html#_performance">PERFORMANCE</a></li>
+<li><a href="news.txt.html#_plugins">PLUGINS</a></li>
+<li><a href="news.txt.html#_startup">STARTUP</a></li>
+<li><a href="news.txt.html#_terminal">TERMINAL</a></li>
+<li><a href="news.txt.html#_treesitter">TREESITTER</a></li>
+<li><a href="news.txt.html#_tui">TUI</a></li>
+<li><a href="news.txt.html#_ui">UI</a></li>
+<li><a href="news.txt.html#_vimscript">VIMSCRIPT</a></li>
+<li><a href="news.txt.html#news-changed">CHANGED FEATURES</a></li>
+<li><a href="news.txt.html#news-removed">REMOVED FEATURES</a></li>
+<li><a href="news.txt.html#news-deprecations">DEPRECATIONS</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="news.txt" class="t">news.txt</span>    Nvim
+
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Notable changes since Nvim 0.10                                 <span id="news" class="t">news</span>
+
+For changes in the previous release, see <span class="l">news-0.10</span><a href="repeat.txt.html#." class="d">.</a>
+
+                                       Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+<span class="c">BREAKING CHANGES</span>                                                <span id="news-breaking" class="t">news-breaking</span>
+
+These changes may require adaptations in your <a href="starting.txt.html#config" class="d">config</a> or plugins.
+
+<span class="c">API</span><span id="_api"></span>
+
+• <span class="e">vim.rpcnotify(0)</span> and <span class="e">rpcnotify(0)</span> broadcast to ALL channels. Previously
+  they would "multicast" only to subscribed channels (controlled by
+  <span class="e">nvim_subscribe()</span>). Plugins and clients that want "multicast" behavior must
+  now maintain their own <a href="vimeval.txt.html#list" class="d">list</a> of channels.
+  • In the future, <a href="lua.txt.html#vim.rpcnotify%28%29" class="l">vim.rpcnotify()</a> may accept <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of channels, if there
+    <a href="motion.txt.html#is" class="d">is</a> demand <a href="luaref.txt.html#for" class="d">for</a> this use-case.
+• "<a href="vimeval.txt.html#Dictionary" class="d">Dictionary</a>" was renamed to "<a href="vimeval.txt.html#Dict" class="d">Dict</a>" internally and in the <a href="api.txt.html#RPC" class="d">RPC</a> <a href="api.txt.html#api-metadata" class="l">api-metadata</a><a href="repeat.txt.html#." class="d">.</a>
+  This <a href="motion.txt.html#is" class="d">is</a> not expected to break clients because there are no known clients
+  that actually use the <span class="e">return_type</span> field or the parameter type names
+  reported by <a href="starting.txt.html#--api-info" class="l">--api-info</a> or <a href="api.txt.html#nvim_get_api_info%28%29" class="l">nvim_get_api_info()</a><a href="repeat.txt.html#." class="d">.</a>
+• Renamed <span class="e">nvim__id_dictionary</span> (unsupported/experimental API) to
+  <span class="e">nvim__id_dict</span>.
+
+<span class="c">BUILD</span><span id="_build"></span>
+
+• On Windows, only building with the UCRT runtime <a href="motion.txt.html#is" class="d">is</a> supported.
+• Translations are turned off by default. Enable by building Nvim with the
+  CMake flag <span class="e">ENABLE_TRANSLATIONS=ON</span>.
+
+<span class="c">DIAGNOSTICS</span><span id="_diagnostics"></span>
+
+• The "<a href="syntax.txt.html#underline" class="d">underline</a>" diagnostics handler sorts diagnostics by severity when using
+  the "severity_sort" option.
+• Diagnostics are filtered by severity before being passed to <a href="insert.txt.html#a" class="d">a</a> diagnostic
+  handler <a href="diagnostic.txt.html#diagnostic-handlers" class="l">diagnostic-handlers</a><a href="repeat.txt.html#." class="d">.</a>
+• The "virtual_text" handler <a href="motion.txt.html#is" class="d">is</a> disabled by default. Enable with 
+<span class="e">    vim.diagnostic.config({ virtual_text = true })</span>
+
+<span class="c">EDITOR</span><span id="_editor"></span>
+
+• The order in which <a href="sign.txt.html#signs" class="d">signs</a> are placed was changed. Higher priority <a href="sign.txt.html#signs" class="d">signs</a> will
+  now appear left of lower priority signs.
+• <a href="syntax.txt.html#hl-CurSearch" class="l">hl-CurSearch</a> now behaves the same <a href="motion.txt.html#as" class="d">as</a> Vim and no longer updates on every
+  cursor movement.
+• Moving in the buffer <a href="vimeval.txt.html#list" class="d">list</a> using <a href="windows.txt.html#%3Abnext" class="l">:bnext</a> and similar commands behaves <a href="motion.txt.html#as" class="d">as</a>
+  documented and skips <a href="helphelp.txt.html#help" class="d">help</a> <a href="windows.txt.html#buffers" class="d">buffers</a> if run from <a href="insert.txt.html#a" class="d">a</a> non-help buffer, otherwise
+  <a href="motion.txt.html#it" class="d">it</a> moves to another <a href="helphelp.txt.html#help" class="d">help</a> buffer.
+• Bells from <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="l">terminal</a> buffer are now silent by default, unless <a href="options.txt.html#%27belloff%27" class="o">'belloff'</a>
+  option doesn't contain "term" or "all"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="c">EVENTS</span><span id="_events"></span>
+
+• <a href="lua.txt.html#vim.ui_attach%28%29" class="l">vim.ui_attach()</a> callbacks <a href="luaref.txt.html#for" class="d">for</a> <a href="ui.txt.html#ui-messages" class="l">ui-messages</a> <span class="e">msg_show</span> <a href="autocmd.txt.html#events" class="d">events</a> are executed in
+  <a href="api.txt.html#api-fast" class="l">api-fast</a> context.
+• New/enhanced arguments in these existing <a href="ui.txt.html#UI" class="d">UI</a> events:
+  • <span class="e">cmdline_hide</span>: <span class="e">abort</span> argument indicating if the <a href="cmdline.txt.html#cmdline" class="d">cmdline</a> was aborted.
+  • <span class="e">cmdline_show</span>:
+    • Prompts that were previously emitted <a href="motion.txt.html#as" class="d">as</a> <span class="e">msg_show</span> events, are now routed
+      through <span class="e">cmdline_show</span>.
+    • <span class="e">hl_id</span> argument to highlight the prompt text.
+  • <span class="e">msg_show</span>:
+    • <span class="e">history</span> argument indicating if the message was added to the history.
+    • new message kinds: "bufwrite"<a href="motion.txt.html#%2C" class="d">,</a> "completion"<a href="motion.txt.html#%2C" class="d">,</a> "list_cmd"<a href="motion.txt.html#%2C" class="d">,</a> "lua_print"<a href="motion.txt.html#%2C" class="d">,</a>
+      "search_cmd"<a href="motion.txt.html#%2C" class="d">,</a> "shell_out/err/ret"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="undo.txt.html#undo" class="d">undo</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="starting.txt.html#verbose" class="d">verbose</a>"<a href="motion.txt.html#%2C" class="d">,</a> wildlist"<a href="repeat.txt.html#." class="d">.</a>
+• <a href="autocmd.txt.html#TermRequest" class="l">TermRequest</a> and <a href="autocmd.txt.html#TermResponse" class="l">TermResponse</a> <a href="api.txt.html#event-data" class="l">event-data</a> <a href="motion.txt.html#is" class="d">is</a> now <a href="insert.txt.html#a" class="d">a</a> table. The "sequence"
+  field contains the received sequence. <a href="autocmd.txt.html#TermRequest" class="l">TermRequest</a> also contains <a href="insert.txt.html#a" class="d">a</a> "cursor"
+  field indicating the cursor's position when the sequence was received.
+
+<span class="c">HIGHLIGHTS</span><span id="_highlights"></span>
+
+• <a href="deprecated.txt.html#TermCursorNC" class="l">TermCursorNC</a> <a href="motion.txt.html#is" class="d">is</a> removed and no longer supported. Unfocused terminals no
+  longer have <a href="insert.txt.html#a" class="d">a</a> cursor.
+
+<span class="c">LSP</span><span id="_lsp"></span>
+
+• <a href="lsp.txt.html#vim.lsp.buf.references%28%29" class="l">vim.lsp.buf.references()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="lsp.txt.html#vim.lsp.buf.declaration%28%29" class="l">vim.lsp.buf.declaration()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="lsp.txt.html#vim.lsp.buf.definition%28%29" class="l">vim.lsp.buf.definition()</a><a href="motion.txt.html#%2C" class="d">,</a>
+  <a href="lsp.txt.html#vim.lsp.buf.type_definition%28%29" class="l">vim.lsp.buf.type_definition()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="lsp.txt.html#vim.lsp.buf.implementation%28%29" class="l">vim.lsp.buf.implementation()</a> and
+  <a href="lsp.txt.html#vim.lsp.buf.hover%28%29" class="l">vim.lsp.buf.hover()</a> now <a href="support.txt.html#support" class="d">support</a> merging the results of multiple clients
+  but no longer trigger the global handlers from <span class="e">vim.lsp.handlers</span>
+• <a href="lsp.txt.html#vim.lsp.buf.typehierarchy%28%29" class="l">vim.lsp.buf.typehierarchy()</a> now passes the correct params <a href="luaref.txt.html#for" class="d">for</a> each
+  client request.
+• <a href="deprecated.txt.html#vim.lsp.handlers.signature_help%28%29" class="l">vim.lsp.handlers.signature_help()</a> <a href="motion.txt.html#is" class="d">is</a> no longer used.
+• <a href="lsp.txt.html#vim.lsp.diagnostic.on_publish_diagnostics%28%29" class="l">vim.lsp.diagnostic.on_publish_diagnostics()</a> and
+  <a href="lsp.txt.html#vim.lsp.diagnostic.on_diagnostic%28%29" class="l">vim.lsp.diagnostic.on_diagnostic()</a> no longer accept <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#config" class="d">config</a> parameter and
+  can no longer be configured with <a href="deprecated.txt.html#vim.lsp.with%28%29" class="l">vim.lsp.with()</a><a href="repeat.txt.html#." class="d">.</a>
+  Instead use: 
+<span class="e">    vim.diagnostic.config(config, vim.lsp.diagnostic.get_namespace(client_id))</span>
+
+• <a href="lsp.txt.html#vim.lsp.util.make_position_params%28%29" class="l">vim.lsp.util.make_position_params()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="lsp.txt.html#vim.lsp.util.make_range_params%28%29" class="l">vim.lsp.util.make_range_params()</a>
+  and <a href="lsp.txt.html#vim.lsp.util.make_given_range_params%28%29" class="l">vim.lsp.util.make_given_range_params()</a> now require the <span class="e">position_encoding</span>
+  parameter.
+• <a href="lsp.txt.html#vim.lsp.util.symbols_to_items%28%29" class="l">vim.lsp.util.symbols_to_items()</a> now requires the <span class="e">position_encoding</span> parameter.
+
+<span class="c">LUA</span><span id="_lua"></span>
+
+• <a href="api.txt.html#API" class="d">API</a> <a href="vimeval.txt.html#functions" class="d">functions</a> now consistently return an empty dictionary <a href="motion.txt.html#as" class="d">as</a>
+  <a href="lua.txt.html#vim.empty_dict%28%29" class="l">vim.empty_dict()</a><a href="repeat.txt.html#." class="d">.</a> Earlier, <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#lua-special-tbl" class="l">lua-special-tbl</a> was sometimes used.
+• <a href="lua.txt.html#vim.json.encode%28%29" class="l">vim.json.encode()</a> no longer escapes forward slashes "<a href="pattern.txt.html#%2F" class="d">/</a>" by default
+
+<span class="c">OPTIONS</span><span id="_options"></span>
+
+• The <a href="options.txt.html#%27statuscolumn%27" class="o">'statuscolumn'</a> <span class="e">%l</span> item can now be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> number column segment that
+  changes according to related options. It takes care of alignment, <a href="options.txt.html#%27number%27" class="o">'number'</a>,
+  <a href="options.txt.html#%27relativenumber%27" class="o">'relativenumber'</a> and <a href="options.txt.html#%27signcolumn%27" class="o">'signcolumn'</a> set to "number"<a href="repeat.txt.html#." class="d">.</a> The now redundant <span class="e">%r</span> item
+  <a href="motion.txt.html#is" class="d">is</a> no longer treated specially <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#%27statuscolumn%27" class="o">'statuscolumn'</a>.
+• `:set <span class="s">{option}</span>&lt;` removes the local value <a href="luaref.txt.html#for" class="d">for</a> all <a href="options.txt.html#global-local" class="l">global-local</a> <a href="options.txt.html#options" class="d">options</a> instead
+  of just <a href="vimeval.txt.html#string" class="d">string</a> <a href="options.txt.html#global-local" class="l">global-local</a> options.
+• `:setlocal <span class="s">{option}</span>&lt;` copies the global value to the local value <a href="luaref.txt.html#for" class="d">for</a> number
+  and <a href="options.txt.html#boolean" class="d">boolean</a> <a href="options.txt.html#global-local" class="l">global-local</a> <a href="options.txt.html#options" class="d">options</a> instead of removing the local value.
+• Setting <a href="options.txt.html#hidden-options" class="l">hidden-options</a> now gives an error. In particular, setting
+  <a href="options.txt.html#%27noshellslash%27" class="o">'noshellslash'</a> <a href="motion.txt.html#is" class="d">is</a> now only allowed on Windows.
+
+<span class="c">TREESITTER</span><span id="_treesitter"></span>
+
+• <a href="treesitter.txt.html#Query%3Aiter_matches%28%29" class="l">Query:iter_matches()</a> correctly returns all matching nodes in <a href="insert.txt.html#a" class="d">a</a> match
+  instead of only the last node. This means that the returned table maps
+  capture IDs to <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of nodes that need to be iterated over. For
+  backwards compatibility, an option <span class="e">all=false</span> (only return the last
+  matching node) <a href="motion.txt.html#is" class="d">is</a> provided that will be removed in <a href="insert.txt.html#a" class="d">a</a> future release.
+• <a href="treesitter.txt.html#vim.treesitter.language.get_filetypes%28%29" class="l">vim.treesitter.language.get_filetypes()</a> always includes the <span class="s">{language}</span>
+  argument in addition to explicitly registered filetypes.
+• <a href="treesitter.txt.html#vim.treesitter.language.get_lang%28%29" class="l">vim.treesitter.language.get_lang()</a> falls back to the <span class="s">{filetype}</span> argument
+  if no languages are explicitly registered.
+• <a href="treesitter.txt.html#vim.treesitter.language.add%28%29" class="l">vim.treesitter.language.add()</a> returns <span class="e">true</span> if <a href="insert.txt.html#a" class="d">a</a> parser was loaded
+  successfully and <span class="e">nil,errmsg</span> otherwise instead of throwing an error.
+• <a href="treesitter.txt.html#vim.treesitter.get_parser%28%29" class="l">vim.treesitter.get_parser()</a> and <a href="treesitter.txt.html#vim.treesitter.start%28%29" class="l">vim.treesitter.start()</a> no longer parse the
+  tree before returning. Scripts must call <a href="treesitter.txt.html#LanguageTree%3Aparse%28%29" class="l">LanguageTree:parse()</a> explicitly. 
+<span class="e">    local p = vim.treesitter.get_parser(0, 'c')</span>
+<span class="e">    p:parse()</span>
+• <a href="treesitter.txt.html#vim.treesitter.get_parser%28%29" class="l">vim.treesitter.get_parser()</a> expects its buffer to be loaded.
+
+<span class="c">TUI</span><span id="_tui"></span>
+
+• OSC 52 <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> fallback <a href="provider.txt.html#clipboard" class="d">clipboard</a> <a href="provider.txt.html#provider" class="d">provider</a> when no other
+  <a href="provider.txt.html#clipboard-tool" class="l">clipboard-tool</a> <a href="motion.txt.html#is" class="d">is</a> found, even when not using SSH <a href="provider.txt.html#clipboard-osc52" class="l">clipboard-osc52</a><a href="repeat.txt.html#." class="d">.</a> To
+  disable OSC 52 queries, set the "osc52" key of <a href="provider.txt.html#g%3Atermfeatures" class="l">g:termfeatures</a> to false.
+
+<span class="c">VIMSCRIPT</span><span id="_vimscript"></span>
+
+• <a href="vvars.txt.html#v%3Amsgpack_types" class="l">v:msgpack_types</a> has the type "binary" removed. <a href="vimfn.txt.html#msgpackparse%28%29" class="l">msgpackparse()</a> no longer
+  treats BIN, STR and FIXSTR <a href="motion.txt.html#as" class="d">as</a> separate types. Any of these <a href="motion.txt.html#is" class="d">is</a> returned <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a>
+  <a href="vimeval.txt.html#string" class="d">string</a> if possible, or <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#blob" class="l">blob</a> if the value contained embedded NUL:s.
+
+<span class="h">==============================================================================</span>
+<span class="c">NEW FEATURES</span>                                                    <span id="news-features" class="t">news-features</span>
+
+The following new features were added.
+
+<span class="c">API</span><span id="_api"></span>
+
+• Improved <a href="api.txt.html#API" class="d">API</a> "meta" docstrings and <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> documentation.
+• <a href="api.txt.html#nvim__ns_set%28%29" class="l">nvim__ns_set()</a> can set properties <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="api.txt.html#namespace" class="d">namespace</a>
+• <a href="api.txt.html#nvim_echo%28%29" class="l">nvim_echo()</a> <span class="e">err</span> field to print error <a href="message.txt.html#messages" class="d">messages</a> and <span class="e">chunks</span> accepts
+  highlight group IDs.
+• <a href="api.txt.html#nvim_open_win%28%29" class="l">nvim_open_win()</a> supports <a href="insert.txt.html#a" class="d">a</a> <span class="e">mouse</span> field that allows configuring mouse
+  interaction with the <a href="windows.txt.html#window" class="d">window</a> separately from <span class="e">focusable</span> field.
+• <a href="api.txt.html#nvim_open_win%28%29" class="l">nvim_open_win()</a> <span class="e">relative</span> field can be set to "laststatus" and "tabline"<a href="repeat.txt.html#." class="d">.</a>
+• Additions to <a href="api.txt.html#nvim_buf_set_extmark%28%29" class="l">nvim_buf_set_extmark()</a><a href="cmdline.txt.html#%3A" class="d">:</a>
+  • <span class="e">conceal_lines</span> field to <a href="syntax.txt.html#conceal" class="d">conceal</a> an entire line.
+  • <span class="e">hl_group</span> field can be an array of layered groups.
+  • <span class="e">virt_text_pos</span> field accepts value <span class="e">eol_right_align</span> to allow <a href="luaref.txt.html#for" class="d">for</a> right
+    aligned text that truncates before covering up buffer text.
+  • <span class="e">virt_lines_overflow</span> field accepts value <span class="e">scroll</span> to enable horizontal
+    <a href="scroll.txt.html#scrolling" class="d">scrolling</a> <a href="luaref.txt.html#for" class="d">for</a> virtual lines with <a href="options.txt.html#%27nowrap%27" class="o">'nowrap'</a>.
+• <a href="lua.txt.html#vim.secure.read%28%29" class="l">vim.secure.read()</a> now returns <span class="e">true</span> <a href="luaref.txt.html#for" class="d">for</a> trusted directories. Previously
+  <a href="motion.txt.html#it" class="d">it</a> would return <span class="e">nil</span>, which made <a href="motion.txt.html#it" class="d">it</a> impossible to tell if the directory was
+  actually trusted.
+• Added <a href="lsp.txt.html#vim.lsp.is_enabled%28%29" class="l">vim.lsp.is_enabled()</a> to check if <a href="insert.txt.html#a" class="d">a</a> given <a href="lsp.txt.html#LSP" class="d">LSP</a> <a href="starting.txt.html#config" class="d">config</a> has been enabled
+  by <a href="lsp.txt.html#vim.lsp.enable%28%29" class="l">vim.lsp.enable()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="c">DEFAULTS</span><span id="_defaults"></span>
+
+• Highlighting:
+  • Improved styling of <a href="health.txt.html#%3Acheckhealth" class="d">:checkhealth</a> and <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> buffers.
+
+• Mappings:
+  • <a href="lsp.txt.html#grn" class="l">grn</a> in <a href="intro.txt.html#Normal" class="d">Normal</a> mode maps to <a href="lsp.txt.html#vim.lsp.buf.rename%28%29" class="l">vim.lsp.buf.rename()</a>
+  • <a href="lsp.txt.html#grr" class="l">grr</a> in <a href="intro.txt.html#Normal" class="d">Normal</a> mode maps to <a href="lsp.txt.html#vim.lsp.buf.references%28%29" class="l">vim.lsp.buf.references()</a>
+  • <a href="lsp.txt.html#gri" class="l">gri</a> in <a href="intro.txt.html#Normal" class="d">Normal</a> mode maps to <a href="lsp.txt.html#vim.lsp.buf.implementation%28%29" class="l">vim.lsp.buf.implementation()</a>
+  • <a href="various.txt.html#gO" class="l">gO</a> in <a href="intro.txt.html#Normal" class="d">Normal</a> mode maps to <a href="lsp.txt.html#vim.lsp.buf.document_symbol%28%29" class="l">vim.lsp.buf.document_symbol()</a>
+  • <a href="lsp.txt.html#gra" class="l">gra</a> in <a href="intro.txt.html#Normal" class="d">Normal</a> and <a href="visual.txt.html#Visual" class="d">Visual</a> mode maps to <a href="lsp.txt.html#vim.lsp.buf.code_action%28%29" class="l">vim.lsp.buf.code_action()</a>
+  • <a href="lsp.txt.html#grt" class="l">grt</a> in <a href="intro.txt.html#Normal" class="d">Normal</a> mode maps to <a href="lsp.txt.html#vim.lsp.buf.type_definition%28%29" class="l">vim.lsp.buf.type_definition()</a>
+  • <span class="k">CTRL-S</span> in <a href="insert.txt.html#Insert" class="d">Insert</a> and <a href="visual.txt.html#Select" class="d">Select</a> mode maps to <a href="lsp.txt.html#vim.lsp.buf.signature_help%28%29" class="l">vim.lsp.buf.signature_help()</a>
+  • Mouse <a href="gui.txt.html#popup-menu" class="l">popup-menu</a> includes an "Open in web browser" item when you right-click
+    on <a href="insert.txt.html#a" class="d">a</a> URL.
+  • Mouse <a href="gui.txt.html#popup-menu" class="l">popup-menu</a> includes <a href="insert.txt.html#a" class="d">a</a> "Go to definition" item when <a href="lsp.txt.html#LSP" class="d">LSP</a> <a href="motion.txt.html#is" class="d">is</a> active
+    in the buffer.
+  • Mouse <a href="gui.txt.html#popup-menu" class="l">popup-menu</a> includes "Show Diagnostics"<a href="motion.txt.html#%2C" class="d">,</a> "Show All Diagnostics" and
+    "Configure Diagnostics" items when there are diagnostics in the buffer.
+  • <a href="tagsrch.txt.html#%5Dd-default" class="l">]d-default</a> and <a href="tagsrch.txt.html#%5Bd-default" class="l">[d-default</a> accept <a href="insert.txt.html#a" class="d">a</a> count.
+  • <a href="tagsrch.txt.html#%5BD-default" class="l">[D-default</a> and <a href="tagsrch.txt.html#%5DD-default" class="l">]D-default</a> jump to the first and last diagnostic in the
+    current buffer, respectively.
+  • Mappings inspired by Tim Pope's vim-unimpaired:
+    • <a href="quickfix.txt.html#%5Bq" class="l">[q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5Dq" class="l">]q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5BQ" class="l">[Q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5DQ" class="l">]Q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5BCTRL-Q" class="l">[CTRL-Q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5DCTRL-Q" class="l">]CTRL-Q</a> navigate through the <a href="quickfix.txt.html#quickfix" class="l">quickfix</a> <a href="vimeval.txt.html#list" class="d">list</a>
+    • <a href="quickfix.txt.html#%5Bl" class="l">[l</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5Dl" class="l">]l</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5BL" class="l">[L</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5DL" class="l">]L</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5BCTRL-L" class="l">[CTRL-L</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5DCTRL-L" class="l">]CTRL-L</a> navigate through the <a href="quickfix.txt.html#location-list" class="l">location-list</a>
+    • <a href="tagsrch.txt.html#%5Bt" class="l">[t</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tagsrch.txt.html#%5Dt" class="l">]t</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tagsrch.txt.html#%5BT" class="l">[T</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tagsrch.txt.html#%5DT" class="l">]T</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tagsrch.txt.html#%5BCTRL-T" class="l">[CTRL-T</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tagsrch.txt.html#%5DCTRL-T" class="l">]CTRL-T</a> navigate through the <a href="tagsrch.txt.html#tag-matchlist" class="l">tag-matchlist</a>
+    • <a href="editing.txt.html#%5Ba" class="l">[a</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%5Da" class="l">]a</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%5BA" class="l">[A</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%5DA" class="l">]A</a> navigate through the <a href="editing.txt.html#argument-list" class="l">argument-list</a>
+    • <a href="windows.txt.html#%5Bb" class="l">[b</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%5Db" class="l">]b</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%5BB" class="l">[B</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%5DB" class="l">]B</a> navigate through the <a href="windows.txt.html#buffer-list" class="l">buffer-list</a>
+    • <a href="insert.txt.html#%5B%3CSpace%3E" class="l">[&lt;Space&gt;</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="insert.txt.html#%5D%3CSpace%3E" class="l">]&lt;Space&gt;</a> add an empty line above and below the cursor
+  • <a href="motion.txt.html#%5B%5B" class="l">[[</a> and <a href="motion.txt.html#%5D%5D" class="l">]]</a> in <a href="intro.txt.html#Normal" class="d">Normal</a> mode jump between shell prompts <a href="luaref.txt.html#for" class="d">for</a> shells which emit
+    OSC 133 sequences <a href="motion.txt.html#%28" class="d">(</a>"shell integration" or "semantic prompts").
+
+• Options:
+  • <a href="options.txt.html#%27diffopt%27" class="o">'diffopt'</a> default includes "linematch:40"<a href="repeat.txt.html#." class="d">.</a>
+  • <a href="options.txt.html#%27number%27" class="o">'number'</a>, <a href="options.txt.html#%27relativenumber%27" class="o">'relativenumber'</a>, <a href="options.txt.html#%27signcolumn%27" class="o">'signcolumn'</a>, and <a href="options.txt.html#%27foldcolumn%27" class="o">'foldcolumn'</a> are disabled in
+    <a href="terminal.txt.html#terminal" class="l">terminal</a> buffers. <a href="terminal.txt.html#terminal-config" class="l">terminal-config</a> shows how to change these defaults.
+  • <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="usr_41.txt.html#ftplugin" class="l">ftplugin</a> sets <a href="options.txt.html#%27omnifunc%27" class="o">'omnifunc'</a> to "v:lua.vim.lua_omnifunc"<a href="repeat.txt.html#." class="d">.</a>
+  • <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="usr_41.txt.html#ftplugin" class="l">ftplugin</a> sets <a href="options.txt.html#%27foldexpr%27" class="o">'foldexpr'</a> to "v:lua.vim.treesitter.foldexpr()"<a href="repeat.txt.html#." class="d">.</a>
+
+• Snippet:
+  • <span class="e">&lt;Tab&gt;</span> in <a href="insert.txt.html#Insert" class="d">Insert</a> and <a href="visual.txt.html#Select" class="d">Select</a> mode maps to `vim.snippet.jump({ direction <a href="change.txt.html#%3D" class="d">=</a> 1 })`
+    when <a href="insert.txt.html#a" class="d">a</a> snippet <a href="motion.txt.html#is" class="d">is</a> active and jumpable forwards.
+  • <span class="e">&lt;S-Tab&gt;</span> in <a href="insert.txt.html#Insert" class="d">Insert</a> and <a href="visual.txt.html#Select" class="d">Select</a> mode maps to `vim.snippet.jump({ direction <a href="change.txt.html#%3D" class="d">=</a> -1 })`
+    when <a href="insert.txt.html#a" class="d">a</a> snippet <a href="motion.txt.html#is" class="d">is</a> active and jumpable backwards.
+
+<span class="c">DIAGNOSTICS</span><span id="_diagnostics"></span>
+
+• <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a> accepts <a href="insert.txt.html#a" class="d">a</a> "jump" table to specify <a href="vim_diff.txt.html#defaults" class="d">defaults</a> <a href="luaref.txt.html#for" class="d">for</a>
+  <a href="diagnostic.txt.html#vim.diagnostic.jump%28%29" class="l">vim.diagnostic.jump()</a><a href="repeat.txt.html#." class="d">.</a>
+• <a href="insert.txt.html#A" class="d">A</a> "virtual_lines" diagnostic handler was added to render diagnostics using
+  virtual lines below the respective code.
+• The "virtual_text" diagnostic handler accepts <a href="insert.txt.html#a" class="d">a</a> <span class="e">current_line</span> option to
+  only show virtual text <a href="motion.txt.html#at" class="d">at</a> the cursor's line.
+
+<span class="c">EDITOR</span><span id="_editor"></span>
+
+• Improved <a href="provider.txt.html#paste" class="l">paste</a> handling <a href="luaref.txt.html#for" class="d">for</a> <a href="undo.txt.html#redo" class="d">redo</a> (dot-repeat) and macros <a href="motion.txt.html#%28" class="d">(</a><a href="repeat.txt.html#recording" class="l">recording</a>):
+  • Redoing <a href="insert.txt.html#a" class="d">a</a> large <a href="provider.txt.html#paste" class="d">paste</a> <a href="motion.txt.html#is" class="d">is</a> significantly faster and ignores <a href="options.txt.html#%27autoindent%27" class="o">'autoindent'</a>.
+  • Replaying <a href="insert.txt.html#a" class="d">a</a> <a href="repeat.txt.html#macro" class="d">macro</a> with <a href="repeat.txt.html#%40" class="l">@</a> also replays pasted text.
+• On Windows, filename arguments on the command-line prefixed with "~\" or
+  "~/" are now expanded to the user's <a href="repeat.txt.html#profile" class="d">profile</a> directory, not <a href="insert.txt.html#a" class="d">a</a> relative path
+  to <a href="insert.txt.html#a" class="d">a</a> literal "<a href="change.txt.html#~" class="d">~</a>" directory.
+• <a href="syntax.txt.html#hl-ComplMatchIns" class="l">hl-ComplMatchIns</a> shows matched text of the currently inserted completion.
+• <a href="syntax.txt.html#hl-PmenuMatch" class="l">hl-PmenuMatch</a> and <a href="syntax.txt.html#hl-PmenuMatchSel" class="l">hl-PmenuMatchSel</a> show matched text in completion popup.
+• <a href="various.txt.html#gO" class="l">gO</a> now works in <span class="e">help</span>, <span class="e">checkhealth</span>, and <span class="e">markdown</span> buffers.
+• Jump between sections in <span class="e">help</span> and <span class="e">checkhealth</span> <a href="windows.txt.html#buffers" class="d">buffers</a> with <span class="e">[[</span> and <span class="e">]]</span>.
+• <a href="various.txt.html#gx" class="l">gx</a> in <a href="helphelp.txt.html#help" class="d">help</a> <a href="windows.txt.html#buffers" class="d">buffers</a> opens the online documentation <a href="luaref.txt.html#for" class="d">for</a> the <a href="tagsrch.txt.html#tag" class="d">tag</a> under the
+  cursor.
+
+<span class="c">EVENTS</span><span id="_events"></span>
+
+• <a href="autocmd.txt.html#CompleteDone" class="l">CompleteDone</a> now sets the <span class="e">reason</span> key in <span class="e">v:event</span> which specifies the reason
+  <a href="luaref.txt.html#for" class="d">for</a> completion being done.
+• <a href="lua.txt.html#vim.on_key%28%29" class="l">vim.on_key()</a> callbacks can consume the key by returning an empty string.
+
+<span class="c">LSP</span><span id="_lsp"></span>
+
+• Improved rendering of <a href="lsp.txt.html#LSP" class="d">LSP</a> hover docs. <a href="various.txt.html#K-lsp-default" class="l">K-lsp-default</a>
+• <a href="lsp.txt.html#vim.lsp.completion.enable%28%29" class="l">vim.lsp.completion.enable()</a> gained the <span class="e">convert</span> callback which enables
+  customizing the transformation of an <a href="lsp.txt.html#LSP" class="d">LSP</a> CompletionItem to <a href="insert.txt.html#complete-items" class="l">complete-items</a><a href="repeat.txt.html#." class="d">.</a>
+• <a href="lsp.txt.html#vim.lsp.diagnostic.from%28%29" class="l">vim.lsp.diagnostic.from()</a> can be used to convert <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of
+  <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a> <a href="index.txt.html#objects" class="d">objects</a> into their <a href="lsp.txt.html#LSP" class="d">LSP</a> diagnostic representation.
+• `:checkhealth vim.lsp` displays the server version (if available).
+• Completion side effects (including snippet expansion, execution of commands
+  and application of additional text edits) <a href="motion.txt.html#is" class="d">is</a> now built-in.
+• <a href="lsp.txt.html#vim.lsp.util.locations_to_items%28%29" class="l">vim.lsp.util.locations_to_items()</a> and <a href="lsp.txt.html#vim.lsp.util.symbols_to_items%28%29" class="l">vim.lsp.util.symbols_to_items()</a> now
+  sets <span class="e">end_col</span> and <span class="e">end_lnum</span> fields.
+• <a href="lsp.txt.html#vim.lsp.buf.format%28%29" class="l">vim.lsp.buf.format()</a> now supports passing <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of ranges
+  via the <span class="e">range</span> parameter (this requires <a href="support.txt.html#support" class="d">support</a> <a href="luaref.txt.html#for" class="d">for</a> the
+  <span class="e">textDocument/rangesFormatting</span> request).
+• <a href="lsp.txt.html#vim.lsp.buf.code_action%28%29" class="l">vim.lsp.buf.code_action()</a> actions show client name when there are multiple
+  clients.
+• <a href="lsp.txt.html#vim.lsp.buf.signature_help%28%29" class="l">vim.lsp.buf.signature_help()</a> can now cycle through different signatures
+  using <span class="e">&lt;C-s&gt;</span> and also <a href="support.txt.html#support" class="d">support</a> multiple clients.
+• The client now supports <span class="e">'utf-8'</span> and <span class="e">'utf-32'</span> position encodings.
+• <a href="lsp.txt.html#vim.lsp.buf.hover%28%29" class="l">vim.lsp.buf.hover()</a> now highlights hover ranges using the
+  <a href="lsp.txt.html#hl-LspReferenceTarget" class="l">hl-LspReferenceTarget</a> highlight group.
+• Functions in <a href="lsp.txt.html#vim.lsp.Client" class="l">vim.lsp.Client</a> can now be called <a href="motion.txt.html#as" class="d">as</a> methods.
+• Implemented <a href="lsp.txt.html#LSP" class="d">LSP</a> folding: <a href="lsp.txt.html#vim.lsp.foldexpr%28%29" class="l">vim.lsp.foldexpr()</a>
+  <a class="u" href="https://microsoft.github.io/language-server-protocol/specification/#textDocument_foldingRange">https://microsoft.github.io/language-server-protocol/specification/#textDocument_foldingRange</a>
+• <a href="lsp.txt.html#vim.lsp.config%28%29" class="l">vim.lsp.config()</a> has been added to define default configurations <a href="luaref.txt.html#for" class="d">for</a>
+  servers. In addition, configurations can be specified in <span class="e">lsp/&lt;name&gt;.lua</span>.
+• <a href="lsp.txt.html#vim.lsp.enable%28%29" class="l">vim.lsp.enable()</a> has been added to enable servers.
+• <a href="lsp.txt.html#vim.lsp.buf.code_action%28%29" class="l">vim.lsp.buf.code_action()</a> resolves the <span class="e">command</span> property during the
+  <span class="e">codeAction/resolve</span> request.
+• The <span class="e">textDocument/completion</span> request now includes the completion <a href="repeat.txt.html#context" class="d">context</a> in
+  its parameters.
+• <a href="lsp.txt.html#vim.lsp.Config" class="l">vim.lsp.Config</a> gained <span class="e">workspace_required</span>.
+• <span class="e">root_markers</span> in <a href="lsp.txt.html#vim.lsp.Config" class="l">vim.lsp.Config</a> can now be ordered by priority.
+• The function form of <span class="e">cmd</span> in <a href="insert.txt.html#a" class="d">a</a> <a href="lsp.txt.html#vim.lsp.Config" class="d">vim.lsp.Config</a> or <a href="lsp.txt.html#vim.lsp.ClientConfig" class="d">vim.lsp.ClientConfig</a>
+  receives the resolved <a href="starting.txt.html#config" class="d">config</a> <a href="motion.txt.html#as" class="d">as</a> the second arg: `cmd(dispatchers, config)`.
+
+<span class="c">LUA</span><span id="_lua"></span>
+
+• <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> completions for: <span class="e">vim.g</span>, <span class="e">vim.t</span>, <span class="e">vim.w</span>, <span class="e">vim.b</span>, <span class="e">vim.v</span>,
+  <span class="e">vim.o</span>, <span class="e">vim.wo</span>, <span class="e">vim.bo</span>, <span class="e">vim.opt</span>, <span class="e">vim.opt_local</span>, <span class="e">vim.opt_global</span>,
+  <span class="e">vim.env</span> and <span class="e">vim.fn</span>.
+• Documentation <a href="luaref.txt.html#for" class="d">for</a> <a href="lua-bit.txt.html#lua-bit" class="l">lua-bit</a><a href="repeat.txt.html#." class="d">.</a>
+• <a href="editing.txt.html#gf" class="l">gf</a> in <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="windows.txt.html#buffers" class="d">buffers</a> can <a href="motion.txt.html#go" class="d">go</a> to module in same repo, <a href="repeat.txt.html#runtime-search-path" class="l">runtime-search-path</a> and
+  <a href="luaref.txt.html#package.path" class="l">package.path</a><a href="repeat.txt.html#." class="d">.</a>
+• <a href="lua.txt.html#vim.fs.rm%28%29" class="l">vim.fs.rm()</a> can delete files and directories.
+• <a href="lua.txt.html#vim.validate%28%29" class="l">vim.validate()</a> now has <a href="insert.txt.html#a" class="d">a</a> new signature which uses <a href="various.txt.html#less" class="d">less</a> tables,
+  <a href="motion.txt.html#is" class="d">is</a> more performant and easier to read.
+• <a href="lua.txt.html#vim.str_byteindex%28%29" class="l">vim.str_byteindex()</a> and <a href="lua.txt.html#vim.str_utfindex%28%29" class="l">vim.str_utfindex()</a> gained overload signatures
+  supporting two new parameters, <span class="e">encoding</span> and <span class="e">strict_indexing</span>.
+• <a href="lua.txt.html#vim.json.encode%28%29" class="l">vim.json.encode()</a> has an option to enable forward slash escaping
+• <a href="lua.txt.html#vim.fs.abspath%28%29" class="l">vim.fs.abspath()</a> converts paths to absolute paths.
+• <a href="lua.txt.html#vim.fs.relpath%28%29" class="l">vim.fs.relpath()</a> gets relative path compared to base path.
+• <a href="lua.txt.html#vim.fs.dir%28%29" class="l">vim.fs.dir()</a> and <a href="lua.txt.html#vim.fs.find%28%29" class="l">vim.fs.find()</a> can now follow symbolic links,
+  the behavior can be turn on using the new <span class="e">follow</span> option.
+• <a href="lua.txt.html#vim.hl.range%28%29" class="l">vim.hl.range()</a> now has <a href="insert.txt.html#a" class="d">a</a> optional <span class="e">timeout</span> field which allows <a href="luaref.txt.html#for" class="d">for</a> multiple
+  timed highlights.
+• <a href="lua.txt.html#vim.text.indent%28%29" class="l">vim.text.indent()</a> indents/dedents text.
+• <a href="lua.txt.html#vim.fs.root%28%29" class="l">vim.fs.root()</a> can define "equal priority" via nested lists.
+
+<span class="c">OPTIONS</span><span id="_options"></span>
+
+• <a href="options.txt.html#%27completeopt%27" class="o">'completeopt'</a> flag "fuzzy" enables <a href="pattern.txt.html#fuzzy-matching" class="l">fuzzy-matching</a> during <a href="insert.txt.html#ins-completion" class="l">ins-completion</a><a href="repeat.txt.html#." class="d">.</a>
+• <a href="options.txt.html#%27completeopt%27" class="o">'completeopt'</a> flag "preinsert" highlights text to be inserted.
+• <a href="options.txt.html#%27wildmode%27" class="o">'wildmode'</a> flag "noselect" shows <a href="options.txt.html#%27wildmenu%27" class="o">'wildmenu'</a> without selecting an entry.
+• <a href="options.txt.html#%27messagesopt%27" class="o">'messagesopt'</a> configures <a href="message.txt.html#%3Amessages" class="l">:messages</a> and <a href="message.txt.html#hit-enter" class="l">hit-enter</a> prompt.
+• <a href="options.txt.html#%27tabclose%27" class="o">'tabclose'</a> controls which <a href="intro.txt.html#tab" class="d">tab</a> page to focus when closing <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#tab" class="d">tab</a> page.
+• <a href="options.txt.html#%27eventignorewin%27" class="o">'eventignorewin'</a> to persistently ignore <a href="autocmd.txt.html#events" class="d">events</a> in <a href="insert.txt.html#a" class="d">a</a> window.
+• <a href="options.txt.html#%27winborder%27" class="o">'winborder'</a> sets the default border <a href="luaref.txt.html#for" class="d">for</a> <a href="api.txt.html#floating-windows" class="l">floating-windows</a><a href="repeat.txt.html#." class="d">.</a>
+• <a href="options.txt.html#%27winborder%27" class="o">'winborder'</a> "<a href="syntax.txt.html#bold" class="d">bold</a>" style.
+• <a href="provider.txt.html#g%3Aclipboard" class="l">g:clipboard</a> accepts <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> name to force any builtin <a href="provider.txt.html#clipboard" class="d">clipboard</a> tool.
+
+<span class="c">PERFORMANCE</span><span id="_performance"></span>
+
+• Significantly reduced redraw time <a href="luaref.txt.html#for" class="d">for</a> long lines with <a href="treesitter.txt.html#treesitter" class="d">treesitter</a>
+  highlighting.
+• <a href="lsp.txt.html#LSP" class="d">LSP</a> diagnostics and inlay hints are de-duplicated (new requests cancel
+  inflight requests). This greatly improves performance with slow <a href="lsp.txt.html#LSP" class="d">LSP</a> servers.
+• 10x speedup <a href="luaref.txt.html#for" class="d">for</a> <a href="treesitter.txt.html#vim.treesitter.foldexpr%28%29" class="l">vim.treesitter.foldexpr()</a> (when no parser exists <a href="luaref.txt.html#for" class="d">for</a> the
+  buffer).
+• Strong <a href="treesitter.txt.html#treesitter-query" class="l">treesitter-query</a> caching makes repeat  <a href="treesitter.txt.html#vim.treesitter.query.get%28%29" class="l">vim.treesitter.query.get()</a>
+  and <a href="treesitter.txt.html#vim.treesitter.query.parse%28%29" class="l">vim.treesitter.query.parse()</a> calls significantly faster <a href="luaref.txt.html#for" class="d">for</a> large
+  queries.
+• Treesitter highlighting <a href="motion.txt.html#is" class="d">is</a> now asynchronous. To force synchronous parsing,
+  use `vim.g._ts_force_sync_parsing <a href="change.txt.html#%3D" class="d">=</a> true`.
+• Treesitter <a href="fold.txt.html#folding" class="d">folding</a> <a href="motion.txt.html#is" class="d">is</a> now calculated asynchronously.
+• <a href="treesitter.txt.html#LanguageTree%3Aparse%28%29" class="l">LanguageTree:parse()</a> now only runs the injection query on the provided
+  range (as long <a href="motion.txt.html#as" class="d">as</a> the language does not have <a href="insert.txt.html#a" class="d">a</a> combined injection),
+  significantly improving <a href="treesitter.txt.html#treesitter-highlight" class="l">treesitter-highlight</a> performance.
+• Treesitter injection query iteration <a href="motion.txt.html#is" class="d">is</a> now asynchronous, making edits in
+  large <a href="windows.txt.html#buffers" class="d">buffers</a> with combined injections much quicker.
+• 10x reduction in blocking time when attaching an <a href="lsp.txt.html#LSP" class="d">LSP</a> to <a href="insert.txt.html#a" class="d">a</a> large buffer.
+
+<span class="c">PLUGINS</span><span id="_plugins"></span>
+
+• EditorConfig
+  • spelling_language property <a href="motion.txt.html#is" class="d">is</a> now supported.
+• <a href="options.txt.html#%27inccommand%27" class="o">'inccommand'</a> incremental preview can run on <a href="options.txt.html#%27nomodifiable%27" class="o">'nomodifiable'</a> <a href="windows.txt.html#buffers" class="d">buffers</a> and
+  restores their <a href="options.txt.html#%27modifiable%27" class="o">'modifiable'</a> state
+• Commenting
+  • <a href="options.txt.html#%27commentstring%27" class="o">'commentstring'</a> values can now be specified in <a href="insert.txt.html#a" class="d">a</a> Treesitter capture's
+    <span class="e">bo.commentstring</span> metadata field, providing finer grained <a href="support.txt.html#support" class="d">support</a> <a href="luaref.txt.html#for" class="d">for</a>
+    languages like <span class="e">JSX</span>.
+• Customize <a href="health.txt.html#%3Acheckhealth" class="d">:checkhealth</a> by handling <a href="insert.txt.html#a" class="d">a</a> `FileType checkhealth` event.
+  <a href="health.txt.html#health-usage" class="l">health-usage</a>
+
+• Simplify <a href="if_pyth.txt.html#Python" class="d">Python</a> <a href="provider.txt.html#provider" class="d">provider</a> setup to <a href="insert.txt.html#a" class="d">a</a> single step: `uv tool <a href="intro.txt.html#install" class="d">install</a> pynvim`
+  Nvim will detect the plugin's location without user configuration, even if
+  unrelated <a href="if_pyth.txt.html#Python" class="d">Python</a> virtual environments are activated.
+  <a href="provider.txt.html#provider-python" class="l">provider-python</a>
+
+<span class="c">STARTUP</span><span id="_startup"></span>
+
+• <a href="starting.txt.html#-es" class="l">-es</a> <a href="motion.txt.html#%28" class="d">(</a>"<a href="usr_41.txt.html#script" class="d">script</a> mode"<a href="motion.txt.html#%29" class="d">)</a> disables <a href="starting.txt.html#shada" class="d">shada</a> by default.
+• Nvim will fail if the <a href="starting.txt.html#--listen" class="l">--listen</a> or <a href="deprecated.txt.html#%24NVIM_LISTEN_ADDRESS" class="l">$NVIM_LISTEN_ADDRESS</a> address <a href="motion.txt.html#is" class="d">is</a>
+  invalid, instead of silently skipping an invalid address.
+
+<span class="c">TERMINAL</span><span id="_terminal"></span>
+
+• The <a href="terminal.txt.html#terminal" class="l">terminal</a> now understands the OSC 52 <a href="intro.txt.html#escape" class="d">escape</a> sequence to write to the
+  system <a href="provider.txt.html#clipboard" class="d">clipboard</a> (copy). Querying with OSC 52 (paste) <a href="motion.txt.html#is" class="d">is</a> not supported.
+• <a href="syntax.txt.html#hl-StatusLineTerm" class="l">hl-StatusLineTerm</a> and <a href="syntax.txt.html#hl-StatusLineTermNC" class="l">hl-StatusLineTermNC</a> define highlights <a href="luaref.txt.html#for" class="d">for</a> the
+  status line in <a href="terminal.txt.html#terminal" class="l">terminal</a> windows.
+• The <a href="terminal.txt.html#terminal" class="d">terminal</a> buffer now supports reflow (wrapped lines adapt when the buffer
+  <a href="motion.txt.html#is" class="d">is</a> resized horizontally). <span class="n">Note:</span> Lines that are not visible and kept in
+  <a href="options.txt.html#%27scrollback%27" class="o">'scrollback'</a> are not reflown.
+• The <a href="terminal.txt.html#terminal" class="l">terminal</a> now supports OSC 8 <a href="intro.txt.html#escape" class="d">escape</a> sequences and will display
+  hyperlinks in supporting host terminals.
+• The <a href="terminal.txt.html#terminal" class="l">terminal</a> now uses the actual cursor, rather than <a href="insert.txt.html#a" class="d">a</a> "virtual" cursor.
+  This means that <a href="intro.txt.html#escape" class="d">escape</a> codes sent by applications running in <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a>
+  buffer can change the cursor shape and visibility. However, <a href="motion.txt.html#it" class="d">it</a> also
+  means that the <a href="deprecated.txt.html#TermCursorNC" class="l">TermCursorNC</a> highlight group <a href="motion.txt.html#is" class="d">is</a> no longer supported: an
+  unfocused <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="windows.txt.html#window" class="d">window</a> will have no cursor <a href="motion.txt.html#at" class="d">at</a> all (so there <a href="motion.txt.html#is" class="d">is</a> nothing to
+  highlight).
+• <a href="vimfn.txt.html#jobstart%28%29" class="l">jobstart()</a> gained the "term" flag.
+• The <a href="terminal.txt.html#terminal" class="l">terminal</a> will send theme update notifications when <a href="options.txt.html#%27background%27" class="o">'background'</a> <a href="motion.txt.html#is" class="d">is</a>
+  changed and DEC mode 2031 <a href="motion.txt.html#is" class="d">is</a> enabled.
+• The <a href="terminal.txt.html#terminal" class="l">terminal</a> has experimental <a href="support.txt.html#support" class="d">support</a> <a href="luaref.txt.html#for" class="d">for</a> the Kitty keyboard protocol
+  (sometimes called "CSI <a href="undo.txt.html#u" class="d">u</a>" key encoding). Only the "Disambiguate <a href="intro.txt.html#escape" class="d">escape</a>
+  codes" mode <a href="motion.txt.html#is" class="d">is</a> currently supported.
+• The <a href="terminal.txt.html#terminal" class="l">terminal</a> emits <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#TermRequest" class="l">TermRequest</a> <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> event when the child process
+  emits an APC <a href="intro.txt.html#control" class="d">control</a> sequence.
+• <a href="autocmd.txt.html#TermRequest" class="l">TermRequest</a> has <a href="insert.txt.html#a" class="d">a</a> "cursor" field in its <a href="api.txt.html#event-data" class="l">event-data</a> indicating the
+  cursor position when the sequence was received.
+
+<span class="c">TREESITTER</span><span id="_treesitter"></span>
+
+• <a href="treesitter.txt.html#LanguageTree%3Anode_for_range%28%29" class="l">LanguageTree:node_for_range()</a> gets anonymous and named nodes <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> range
+• <a href="treesitter.txt.html#vim.treesitter.get_node%28%29" class="l">vim.treesitter.get_node()</a> now takes an option <span class="e">include_anonymous</span>, default
+  false, which allows <a href="motion.txt.html#it" class="d">it</a> to return anonymous nodes <a href="motion.txt.html#as" class="d">as</a> well <a href="motion.txt.html#as" class="d">as</a> named nodes.
+• <a href="treesitter.txt.html#treesitter-directive-trim%21" class="l">treesitter-directive-trim!</a> can trim all <a href="pattern.txt.html#whitespace" class="d">whitespace</a> (not just empty lines)
+  from both sides of <a href="insert.txt.html#a" class="d">a</a> node.
+• <a href="treesitter.txt.html#vim.treesitter.get_captures_at_pos%28%29" class="l">vim.treesitter.get_captures_at_pos()</a> now returns the <span class="e">id</span> of each capture
+• New <a href="treesitter.txt.html#TSNode%3Achild_with_descendant%28%29" class="l">TSNode:child_with_descendant()</a><a href="motion.txt.html#%2C" class="d">,</a> which efficiently gets the node's
+  child that contains <a href="insert.txt.html#a" class="d">a</a> given node <a href="motion.txt.html#as" class="d">as</a> descendant.
+• <a href="treesitter.txt.html#LanguageTree%3Aparse%28%29" class="l">LanguageTree:parse()</a> optionally supports asynchronous invocation, which <a href="motion.txt.html#is" class="d">is</a>
+  activated by passing the <span class="e">on_parse</span> callback parameter.
+• <a href="treesitter.txt.html#vim.treesitter.query.set%28%29" class="l">vim.treesitter.query.set()</a> can now inherit and/or extend runtime file
+  queries in addition to overriding.
+• <a href="treesitter.txt.html#LanguageTree%3Ais_valid%28%29" class="l">LanguageTree:is_valid()</a> now accepts <a href="insert.txt.html#a" class="d">a</a> range parameter to narrow the scope
+  of the validity check.
+• <a href="treesitter.txt.html#%3AInspectTree" class="l">:InspectTree</a> now shows which nodes are missing.
+• Bundled markdown highlight queries use <span class="e">conceal_lines</span> metadata to <a href="syntax.txt.html#conceal" class="d">conceal</a>
+  code block fence lines vertically.
+• <a href="treesitter.txt.html#vim.treesitter.language.inspect%28%29" class="l">vim.treesitter.language.inspect()</a> shows additional information, including
+  parser version <a href="luaref.txt.html#for" class="d">for</a> ABI 15 parsers.
+• <a href="treesitter.txt.html#TSQuery%3Adisable_pattern%28%29" class="l">TSQuery:disable_pattern()</a> and <a href="treesitter.txt.html#TSQuery%3Adisable_capture%28%29" class="l">TSQuery:disable_capture()</a> to turn off
+  <a href="insert.txt.html#a" class="d">a</a> specific <a href="pattern.txt.html#pattern" class="d">pattern</a> or capture in <a href="insert.txt.html#a" class="d">a</a> query.
+• <a href="treesitter.txt.html#vim.treesitter.get_captures_at_pos%28%29" class="l">vim.treesitter.get_captures_at_pos()</a> returns the <span class="e">pattern_id</span> of the
+  <a href="pattern.txt.html#pattern" class="d">pattern</a> used to match each capture.
+• <a href="treesitter.txt.html#Query%3Aiter_captures%28%29" class="l">Query:iter_captures()</a> now accepts an <span class="e">opts</span> parameter, similar to
+  <a href="treesitter.txt.html#Query%3Aiter_matches%28%29" class="l">Query:iter_matches()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="c">TUI</span><span id="_tui"></span>
+
+• The builtin <a href="ui.txt.html#UI" class="d">UI</a> declares info <a href="api.txt.html#nvim_set_client_info%28%29" class="l">nvim_set_client_info()</a> on its channel. See
+  <a href="tui.txt.html#startup-tui" class="l">startup-tui</a><a href="repeat.txt.html#." class="d">.</a> To see the current <a href="ui.txt.html#UI" class="d">UI</a> info, try this: 
+<span class="e">    :lua =vim.api.nvim_get_chan_info(vim.api.nvim_list_uis()[1].chan)</span>
+• <a href="starting.txt.html#log" class="l">log</a> <a href="message.txt.html#messages" class="d">messages</a> written by the builtin <a href="ui.txt.html#UI" class="d">UI</a> client (TUI, <a href="remote.txt.html#--remote-ui" class="l">--remote-ui</a><a href="motion.txt.html#%29" class="d">)</a> are
+  now prefixed with "<a href="ui.txt.html#ui" class="d">ui</a>" instead of "<a href="pattern.txt.html#%3F" class="d">?</a>"<a href="repeat.txt.html#." class="d">.</a>
+• The <a href="tui.txt.html#TUI" class="d">TUI</a> will re-query the terminal's background color when <a href="insert.txt.html#a" class="d">a</a> theme update
+  notification <a href="motion.txt.html#is" class="d">is</a> received and Nvim will update <a href="options.txt.html#%27background%27" class="o">'background'</a> accordingly.
+
+<span class="c">UI</span><span id="_ui"></span>
+
+• <a href="gui.txt.html#%3Adetach" class="l">:detach</a> the current UI, let the Nvim server continue running <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> background
+  process. Works with the builtin TUI, and all GUIs.
+• <a href="lua.txt.html#vim.ui.open%28%29" class="l">vim.ui.open()</a> (by default bound to <a href="various.txt.html#gx" class="l">gx</a><a href="motion.txt.html#%29" class="d">)</a> accepts an <span class="e">opt.cmd</span> parameter
+  which controls the tool used to open the given path or URL. If you want to
+  globally set this, you can override vim.ui.open using the same approach
+  described <a href="motion.txt.html#at" class="d">at</a> <a href="lua.txt.html#vim.paste%28%29" class="l">vim.paste()</a><a href="repeat.txt.html#." class="d">.</a>
+• <span class="e">vim.ui.open()</span> now supports
+  <span class="s">[lemonade]</span>(<a class="u" href="https://github.com/lemonade-command/lemonade">https://github.com/lemonade-command/lemonade</a>) <a href="motion.txt.html#as" class="d">as</a> an option <a href="luaref.txt.html#for" class="d">for</a>
+  opening urls/files. This <a href="motion.txt.html#is" class="d">is</a> handy if you are in an ssh connection and use
+  <span class="e">lemonade</span>.
+• The <a href="insert.txt.html#ins-completion-menu" class="l">ins-completion-menu</a> now supports cascading highlight styles.
+  <a href="syntax.txt.html#hl-PmenuSel" class="l">hl-PmenuSel</a> and <a href="syntax.txt.html#hl-PmenuMatch" class="l">hl-PmenuMatch</a> both inherit from <a href="syntax.txt.html#hl-Pmenu" class="l">hl-Pmenu</a><a href="motion.txt.html#%2C" class="d">,</a> and
+  <a href="syntax.txt.html#hl-PmenuMatchSel" class="l">hl-PmenuMatchSel</a> inherits highlights from both <a href="syntax.txt.html#hl-PmenuSel" class="l">hl-PmenuSel</a> and
+  <a href="syntax.txt.html#hl-PmenuMatch" class="l">hl-PmenuMatch</a><a href="repeat.txt.html#." class="d">.</a>
+• <a href="diagnostic.txt.html#vim.diagnostic.setqflist%28%29" class="l">vim.diagnostic.setqflist()</a> updates an existing <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> <a href="vimeval.txt.html#list" class="d">list</a> with the
+  given title if found
+• <a href="ui.txt.html#ui-messages" class="l">ui-messages</a> content chunks now also contain the highlight group ID.
+• <a href="health.txt.html#%3Acheckhealth" class="l">:checkhealth</a> can display in <a href="insert.txt.html#a" class="d">a</a> floating window, controlled by the
+  <a href="health.txt.html#g%3Ahealth" class="l">g:health</a> variable.
+• <a href="health.txt.html#%3Acheckhealth" class="l">:checkhealth</a> shows <a href="insert.txt.html#a" class="d">a</a> summary in the header <a href="luaref.txt.html#for" class="d">for</a> every healthcheck.
+
+<span class="c">VIMSCRIPT</span><span id="_vimscript"></span>
+
+• <a href="vimfn.txt.html#getchar%28%29" class="l">getchar()</a> and <a href="vimfn.txt.html#getcharstr%28%29" class="l">getcharstr()</a> have optional <span class="s">{opts}</span> <a href="vimeval.txt.html#Dict" class="l">Dict</a> argument to control:
+  cursor behavior, return type, and whether to simplify the returned key.
+
+<span class="h">==============================================================================</span>
+<span class="c">CHANGED FEATURES</span>                                                 <span id="news-changed" class="t">news-changed</span>
+
+These existing features changed their behavior.
+
+• <a href="options.txt.html#%27scrollbind%27" class="o">'scrollbind'</a> now works properly with <a href="windows.txt.html#buffers" class="d">buffers</a> that contain virtual lines.
+
+  Scrollbind works by aligning to <a href="insert.txt.html#a" class="d">a</a> target top line of each <a href="windows.txt.html#window" class="d">window</a> in <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#tab" class="d">tab</a>
+  page. Previously this was done by calculating the difference between the old
+  top line and the target top line, and <a href="scroll.txt.html#scrolling" class="d">scrolling</a> by that amount. Now the
+  top lines are calculated using screen line numbers which take virtual lines
+  into account.
+
+• The implementation of grapheme clusters (or combining chars <a href="mbyte.txt.html#mbyte-combining" class="l">mbyte-combining</a><a href="motion.txt.html#%29" class="d">)</a>
+  was upgraded to closely follow extended grapheme clusters <a href="motion.txt.html#as" class="d">as</a> defined by UAX#29
+  in the <a href="mbyte.txt.html#unicode" class="d">unicode</a> standard. Noteworthily, this enables proper display of many
+  more <a href="mbyte.txt.html#emoji" class="d">emoji</a> characters than before, including those encoded with multiple
+  <a href="mbyte.txt.html#emoji" class="d">emoji</a> codepoints combined with ZWJ (zero width joiner) codepoints.
+
+  This also applies to <a href="various.txt.html#%3Aterminal" class="d">:terminal</a> output, where width of cells will be calculated
+  using the upgraded implementation.
+
+• Custom highlights in <a href="options.txt.html#%27rulerformat%27" class="o">'rulerformat'</a>, <a href="options.txt.html#%27statuscolumn%27" class="o">'statuscolumn'</a>, <a href="options.txt.html#%27statusline%27" class="o">'statusline'</a>, <a href="options.txt.html#%27tabline%27" class="o">'tabline'</a>,
+  <a href="options.txt.html#%27winbar%27" class="o">'winbar'</a>, and the sign/number column are stacked with their respective
+  highlight groups, <a href="motion.txt.html#as" class="d">as</a> opposed to <a href="syntax.txt.html#hl-Normal" class="l">hl-Normal</a><a href="repeat.txt.html#." class="d">.</a>
+  This <a href="motion.txt.html#is" class="d">is</a> also reflected in the <span class="e">highlights</span> from <a href="api.txt.html#nvim_eval_statusline%28%29" class="l">nvim_eval_statusline()</a><a href="motion.txt.html#%2C" class="d">,</a>
+  with <a href="insert.txt.html#a" class="d">a</a> new <span class="e">groups</span> field containing an array of stacked highlight groups.
+
+• <a href="lua.txt.html#vim.on_key%28%29" class="l">vim.on_key()</a> callbacks won't be invoked recursively when <a href="insert.txt.html#a" class="d">a</a> callback itself
+  consumes input.
+
+• "<a href="repeat.txt.html#q" class="d">q</a>" in man pages now uses <a href="windows.txt.html#CTRL-W_q" class="l">CTRL-W_q</a> instead of <a href="windows.txt.html#CTRL-W_c" class="l">CTRL-W_c</a> to close the
+  current window, and <a href="motion.txt.html#it" class="d">it</a> no longer throws <a href="windows.txt.html#E444" class="l">E444</a> when there <a href="motion.txt.html#is" class="d">is</a> only one <a href="windows.txt.html#window" class="d">window</a>
+  on the screen. Global variable <span class="e">vim.g.pager</span> <a href="motion.txt.html#is" class="d">is</a> removed.
+
+• Default <a href="options.txt.html#%27titlestring%27" class="o">'titlestring'</a> <a href="motion.txt.html#is" class="d">is</a> now implemented with <a href="options.txt.html#%27statusline%27" class="o">'statusline'</a> "<a href="motion.txt.html#%25" class="d">%</a>" format items.
+  This means the default, empty value <a href="motion.txt.html#is" class="d">is</a> essentially an alias to:
+  `%t%(\ %M%)%(\ \(%{expand(\"%:~:h\")}\)%)%a\ -\ Nvim`. This <a href="motion.txt.html#is" class="d">is</a> only an
+  implementation simplification, not <a href="insert.txt.html#a" class="d">a</a> behavior change.
+
+<span class="h">==============================================================================</span>
+<span class="c">REMOVED FEATURES</span>                                                 <span id="news-removed" class="t">news-removed</span>
+
+These <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> features were removed.
+
+• option <span class="e">severity_limit</span> <a href="luaref.txt.html#for" class="d">for</a> <span class="e">vim.lsp.diagnostic</span> (use <span class="e">min=severity</span>
+  instead <a href="diagnostic.txt.html#vim.diagnostic.severity" class="l">vim.diagnostic.severity</a>).
+
+<span class="h">==============================================================================</span>
+<span class="c">DEPRECATIONS</span>                                                <span id="news-deprecations" class="t">news-deprecations</span>
+
+See <a href="deprecated.txt.html#deprecated-0.11" class="l">deprecated-0.11</a><a href="repeat.txt.html#." class="d">.</a>
+
+ vim:tw=78:ts=8:sw=2:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

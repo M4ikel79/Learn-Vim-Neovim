@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: develop.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="develop.txt.html#">↑Top↑</a></li>
+<li><a href="develop.txt.html#design-goals">Design goals</a></li>
+<li><a href="develop.txt.html#dev-guidelines">Developer guidelines</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="develop.txt" class="t">develop.txt</span>          Nvim
+
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Development of Nvim                                     <span id="development" class="t">development</span> <span id="dev" class="t">dev</span>
+
+This <a href="intro.txt.html#reference" class="d">reference</a> describes design constraints and guidelines, <a href="luaref.txt.html#for" class="d">for</a> developing
+Nvim applications or Nvim itself. See <a href="dev_arch.txt.html#dev-arch" class="l">dev-arch</a> <a href="luaref.txt.html#for" class="d">for</a> discussion of Nvim's
+architecture and internal concepts.
+
+Nvim <a href="motion.txt.html#is" class="d">is</a> free and open source.  Everybody <a href="motion.txt.html#is" class="d">is</a> encouraged to contribute.
+    <a class="u" href="https://github.com/neovim/neovim/blob/master/CONTRIBUTING.md">https://github.com/neovim/neovim/blob/master/CONTRIBUTING.md</a>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+Design goals                                            <span id="design-goals" class="t">design-goals</span>
+
+Most important things come first (roughly).  Some items conflict; this <a href="motion.txt.html#is" class="d">is</a>
+intentional.  <a href="insert.txt.html#A" class="d">A</a> balance must be found.
+
+
+<span class="c">NVIM IS... IMPROVED</span>                                     <span id="design-improved" class="t">design-improved</span>
+
+The Neo bits of Nvim should make <a href="motion.txt.html#it" class="d">it</a> <a href="insert.txt.html#a" class="d">a</a> better Vim, without becoming <a href="insert.txt.html#a" class="d">a</a>
+completely different editor.
+<a href="motion.txt.html#-" class="d">-</a> In matters of taste, prefer Vim/Unix tradition. If there <a href="motion.txt.html#is" class="d">is</a> no relevant
+  Vim/Unix tradition, consider the "common <a href="change.txt.html#case" class="d">case</a>"<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> There <a href="motion.txt.html#is" class="d">is</a> no limit to the features that can be added.  <a href="visual.txt.html#Select" class="d">Select</a> new features
+  based on (1) what users ask for, (2) how much effort <a href="motion.txt.html#it" class="d">it</a> takes to implement
+  and (3) someone actually implementing it.
+<a href="motion.txt.html#-" class="d">-</a> Backwards compatibility <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> feature.  The <a href="api.txt.html#RPC" class="d">RPC</a> <a href="api.txt.html#API" class="d">API</a> in particular should
+  never break.
+
+
+<span class="c">NVIM IS... WELL DOCUMENTED</span>                              <span id="design-documented" class="t">design-documented</span>
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> feature that isn't documented <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> useless feature.  <a href="insert.txt.html#A" class="d">A</a> patch <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> new
+  feature must include the documentation.
+<a href="motion.txt.html#-" class="d">-</a> Documentation should be comprehensive and understandable.  Use examples.
+<a href="motion.txt.html#-" class="d">-</a> Don't make the text unnecessarily long.  Less documentation means that an
+  item <a href="motion.txt.html#is" class="d">is</a> easier to find.
+
+
+<span class="c">NVIM IS... FAST AND SMALL</span>                               <span id="design-speed-size" class="t">design-speed-size</span>
+
+Keep Nvim small and fast. This directly affects versatility and usability.
+<a href="motion.txt.html#-" class="d">-</a> Computers are becoming faster and bigger each year.  Vim can grow too, but
+  no faster than computers are growing.  Keep Vim usable on older systems.
+<a href="motion.txt.html#-" class="d">-</a> Many users start Vim from <a href="insert.txt.html#a" class="d">a</a> shell very often.  Startup time must be short.
+<a href="motion.txt.html#-" class="d">-</a> Commands must work efficiently.  The time they consume must be <a href="motion.txt.html#as" class="d">as</a> small <a href="motion.txt.html#as" class="d">as</a>
+  possible.  Useful commands may take longer.
+<a href="motion.txt.html#-" class="d">-</a> Don't forget that some people use Vim over <a href="insert.txt.html#a" class="d">a</a> slow connection.  Minimize the
+  communication overhead.
+<a href="motion.txt.html#-" class="d">-</a> Vim <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> component among other components.  Don't turn <a href="motion.txt.html#it" class="d">it</a> into <a href="insert.txt.html#a" class="d">a</a> massive
+  application, but have <a href="motion.txt.html#it" class="d">it</a> work well together with other programs
+  <a href="motion.txt.html#%28" class="d">(</a>"composability").
+
+
+<span class="c">NVIM IS... MAINTAINABLE</span>                                 <span id="design-maintain" class="t">design-maintain</span>
+
+<a href="motion.txt.html#-" class="d">-</a> The source code should not become <a href="insert.txt.html#a" class="d">a</a> mess.  It should be reliable code.
+<a href="motion.txt.html#-" class="d">-</a> Use comments in <a href="insert.txt.html#a" class="d">a</a> useful way!  Quoting the function name and argument names
+  <a href="motion.txt.html#is" class="d">is</a> NOT useful.  Do explain what they are for.
+<a href="motion.txt.html#-" class="d">-</a> Porting to another platform should be made easy, without having to change
+  too much platform-independent code.
+<a href="motion.txt.html#-" class="d">-</a> Use the object-oriented spirit: Put data and code together.  Minimize the
+  knowledge spread to other parts of the code.
+
+
+<span class="c">NVIM IS... NOT</span>                                          <span id="design-not" class="t">design-not</span>
+
+Nvim <a href="motion.txt.html#is" class="d">is</a> not an operating system; instead <a href="motion.txt.html#it" class="d">it</a> should be composed with other
+tools or hosted <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> component. Marvim once said: "Unlike Emacs, Nvim does not
+include the kitchen sink... but it's good <a href="luaref.txt.html#for" class="d">for</a> plumbing."
+
+
+<span class="h">==============================================================================</span>
+Developer guidelines                                    <span id="dev-guidelines" class="t">dev-guidelines</span>
+
+
+<span class="c">PROVIDERS</span>                                               <span id="dev-provider" class="t">dev-provider</span>
+
+<a href="insert.txt.html#A" class="d">A</a> primary goal of Nvim <a href="motion.txt.html#is" class="d">is</a> to allow extension of the editor without special
+knowledge in the core.  Some core <a href="vimeval.txt.html#functions" class="d">functions</a> are delegated to "providers"
+implemented <a href="motion.txt.html#as" class="d">as</a> external scripts.
+
+Examples:
+
+1. In the Vim source code, <a href="provider.txt.html#clipboard" class="d">clipboard</a> logic accounts <a href="luaref.txt.html#for" class="d">for</a> more than 1k lines of
+   <a href="change.txt.html#C" class="d">C</a> source code (ui.c), to perform two tasks that are now accomplished with
+   shell commands such <a href="motion.txt.html#as" class="d">as</a> xclip or pbcopy/pbpaste.
+
+2. <a href="if_pyth.txt.html#Python" class="d">Python</a> scripting support: Vim has three files dedicated to embedding the
+   <a href="if_pyth.txt.html#Python" class="d">Python</a> interpreter: if_python.c, if_python3.c and if_py_both.h. Together
+   these files sum about 9.5k lines of <a href="change.txt.html#C" class="d">C</a> source code. In contrast, Nvim <a href="if_pyth.txt.html#Python" class="d">Python</a>
+   scripting <a href="motion.txt.html#is" class="d">is</a> performed by an external host process implemented in ~2k lines
+   of Python.
+
+The <a href="provider.txt.html#provider" class="d">provider</a> framework invokes Vimscript from C.  It <a href="motion.txt.html#is" class="d">is</a> composed of two
+<a href="vimeval.txt.html#functions" class="d">functions</a> in eval.c:
+
+<a href="motion.txt.html#-" class="d">-</a> eval_call_provider({name}, <span class="s">{method}</span>, <span class="s">{arguments}</span>, <span class="s">{discard}</span>): Calls
+  <span class="e">provider#{name}#Call</span> with <span class="s">{method}</span> and <span class="s">{arguments}</span>. If <span class="s">{discard}</span> <a href="motion.txt.html#is" class="d">is</a> true, any
+  value returned by the <a href="provider.txt.html#provider" class="d">provider</a> will be discarded and empty value will be
+  returned.
+<a href="motion.txt.html#-" class="d">-</a> eval_has_provider({name}): Checks the <span class="e">g:loaded_{name}_provider</span> variable
+  which must be set to 2 by the <a href="provider.txt.html#provider" class="d">provider</a> <a href="usr_41.txt.html#script" class="d">script</a> to indicate that <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+  "enabled and working"<a href="repeat.txt.html#." class="d">.</a> Called by <a href="vimfn.txt.html#has%28%29" class="l">has()</a> to check if features are available.
+
+For example, the <a href="if_pyth.txt.html#Python" class="d">Python</a> <a href="provider.txt.html#provider" class="d">provider</a> <a href="motion.txt.html#is" class="d">is</a> implemented by the
+"autoload/provider/python.vim" script, which sets <span class="e">g:loaded_python_provider</span>
+to 2 only if <a href="insert.txt.html#a" class="d">a</a> valid external <a href="if_pyth.txt.html#Python" class="d">Python</a> host <a href="motion.txt.html#is" class="d">is</a> found.  Then <span class="e">has("python")</span>
+reflects whether <a href="if_pyth.txt.html#Python" class="d">Python</a> <a href="support.txt.html#support" class="d">support</a> <a href="motion.txt.html#is" class="d">is</a> working.
+
+                                                        <span id="provider-reload" class="t">provider-reload</span>
+Sometimes <a href="insert.txt.html#a" class="d">a</a> <a href="gui.txt.html#GUI" class="d">GUI</a> or other application may want to force <a href="insert.txt.html#a" class="d">a</a> <a href="provider.txt.html#provider" class="d">provider</a> to
+"<a href="editing.txt.html#reload" class="d">reload</a>"<a href="repeat.txt.html#." class="d">.</a>  To <a href="editing.txt.html#reload" class="d">reload</a> <a href="insert.txt.html#a" class="d">a</a> provider, undefine its "loaded" flag, then use
+<a href="repeat.txt.html#%3Aruntime" class="l">:runtime</a> to <a href="editing.txt.html#reload" class="d">reload</a> it: 
+<span class="e"></span>
+<span class="e">    :unlet g:loaded_clipboard_provider</span>
+<span class="e">    :runtime autoload/provider/clipboard.vim</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">DOCUMENTATION</span>                                           <span id="dev-doc" class="t">dev-doc</span>
+
+<a href="motion.txt.html#-" class="d">-</a> "Just say <a href="motion.txt.html#it" class="d">it</a>"<a href="repeat.txt.html#." class="d">.</a> Avoid mushy, colloquial phrasing in all documentation
+  (docstrings, user manual, website materials, newsletters, …). Don't mince
+  words. Personality and flavor, used sparingly, are welcome--but in general,
+  optimize <a href="luaref.txt.html#for" class="d">for</a> the reader's time and energy: be "precise yet concise"<a href="repeat.txt.html#." class="d">.</a>
+    <a href="motion.txt.html#-" class="d">-</a> Prefer the active voice: "Foo does <a href="change.txt.html#X" class="d">X</a>"<a href="motion.txt.html#%2C" class="d">,</a> not "<a href="change.txt.html#X" class="d">X</a> <a href="motion.txt.html#is" class="d">is</a> done by Foo"<a href="repeat.txt.html#." class="d">.</a>
+    <a href="motion.txt.html#-" class="d">-</a> "The words you choose are an essential part of the user experience."
+      <a class="u" href="https://developer.apple.com/design/human-interface-guidelines/writing">https://developer.apple.com/design/human-interface-guidelines/writing</a>
+    <a href="motion.txt.html#-" class="d">-</a> "...without being overly colloquial or frivolous."
+      <a class="u" href="https://developers.google.com/style/tone">https://developers.google.com/style/tone</a>
+<a href="motion.txt.html#-" class="d">-</a> Write docstrings (as opposed to inline comments) with present tense <a href="motion.txt.html#%28" class="d">(</a>"Gets"),
+  not imperative <a href="motion.txt.html#%28" class="d">(</a>"Get"). This tends to reduce ambiguity and improve clarity
+  by describing "What" instead of "How"<a href="repeat.txt.html#." class="d">.</a> 
+<span class="e">    ✅ OK:</span>
+<span class="e">    /// Gets a highlight definition.</span>
+<span class="e">    ❌ NO:</span>
+<span class="e">    /// Get a highlight definition.</span>
+<a href="motion.txt.html#-" class="d">-</a> Avoid <a href="starting.txt.html#starting" class="d">starting</a> docstrings with "The" or "<a href="insert.txt.html#A" class="d">A</a>" unless needed to avoid
+  ambiguity. This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> visual aid and reduces noise. 
+<span class="e">    ✅ OK:</span>
+<span class="e">    /// @param dirname Path fragment before `pend`</span>
+<span class="e">    ❌ NO:</span>
+<span class="e">    /// @param dirname The path fragment before `pend`</span>
+<a href="motion.txt.html#-" class="d">-</a> Vim differences:
+    <a href="motion.txt.html#-" class="d">-</a> Do not prefix <a href="helphelp.txt.html#help" class="d">help</a> <a href="tagsrch.txt.html#tags" class="d">tags</a> with "nvim-"<a href="repeat.txt.html#." class="d">.</a> Use <a href="vim_diff.txt.html#vim_diff.txt" class="l">vim_diff.txt</a> to catalog
+      differences from Vim; no other distinction <a href="motion.txt.html#is" class="d">is</a> necessary.
+    <a href="motion.txt.html#-" class="d">-</a> If <a href="insert.txt.html#a" class="d">a</a> Vim feature <a href="motion.txt.html#is" class="d">is</a> removed, delete its <a href="helphelp.txt.html#help" class="d">help</a> <a href="motion.txt.html#section" class="d">section</a> and move its <a href="tagsrch.txt.html#tag" class="d">tag</a> to
+      <a href="vim_diff.txt.html#vim_diff.txt" class="l">vim_diff.txt</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> Mention <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> features in <a href="deprecated.txt.html#deprecated.txt" class="l">deprecated.txt</a> and delete their old doc.
+<a href="motion.txt.html#-" class="d">-</a> Use consistent language.
+    <a href="motion.txt.html#-" class="d">-</a> "<a href="terminal.txt.html#terminal" class="d">terminal</a>" in <a href="insert.txt.html#a" class="d">a</a> <a href="helphelp.txt.html#help" class="d">help</a> <a href="tagsrch.txt.html#tag" class="d">tag</a> always means "the embedded <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator"<a href="motion.txt.html#%2C" class="d">,</a>
+      not "the user host <a href="terminal.txt.html#terminal" class="d">terminal</a>"<a href="repeat.txt.html#." class="d">.</a>
+    <a href="motion.txt.html#-" class="d">-</a> Use "tui-" to prefix <a href="helphelp.txt.html#help" class="d">help</a> <a href="tagsrch.txt.html#tags" class="d">tags</a> related to the host terminal, and "<a href="tui.txt.html#TUI" class="d">TUI</a>"
+      in prose if possible.
+<a href="motion.txt.html#-" class="d">-</a> Rough guidelines on where <a href="lua.txt.html#Lua" class="d">Lua</a> documentation should <a href="intro.txt.html#end" class="d">end</a> up:
+    <a href="motion.txt.html#-" class="d">-</a> Nvim <a href="api.txt.html#API" class="d">API</a> <a href="vimeval.txt.html#functions" class="d">functions</a> <span class="e">vim.api.nvim_*</span> should be in <span class="e">api.txt</span>.
+    <a href="motion.txt.html#-" class="d">-</a> If the module <a href="motion.txt.html#is" class="d">is</a> big and not relevant to generic and lower-level <a href="lua.txt.html#Lua" class="d">Lua</a>
+      functionality, then it's <a href="insert.txt.html#a" class="d">a</a> strong candidate <a href="luaref.txt.html#for" class="d">for</a> separation. Example:
+      <span class="e">treesitter.txt</span>
+    <a href="motion.txt.html#-" class="d">-</a> Otherwise, add them to <span class="e">lua.txt</span>
+
+<span class="h">Documentation format </span>
+
+For Nvim-owned docs, use the following strict subset of "vimdoc" to ensure
+the <a href="helphelp.txt.html#help" class="d">help</a> doc renders nicely in other formats (such <a href="motion.txt.html#as" class="d">as</a> HTML:
+<a class="u" href="https://neovim.io/doc/user">https://neovim.io/doc/user</a> ).
+
+Strict "vimdoc" subset:
+
+<a href="motion.txt.html#-" class="d">-</a> Use lists (like this!) prefixed with "<a href="motion.txt.html#-" class="d">-</a>" or "•"<a href="motion.txt.html#%2C" class="d">,</a> <a href="luaref.txt.html#for" class="d">for</a> adjacent lines that you
+  don't want to auto-wrap. <a href="vimeval.txt.html#Lists" class="d">Lists</a> are always rendered with "flow" layout
+  (soft-wrapped) instead of preformatted (hard-wrapped) layout common in
+  legacy <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> docs.
+  <a href="motion.txt.html#-" class="d">-</a> Limitation: currently the parser <a class="u" href="https://github.com/neovim/tree-sitter-vimdoc">https://github.com/neovim/tree-sitter-vimdoc</a>
+    does not understand numbered listitems, so use <a href="insert.txt.html#a" class="d">a</a> bullet symbol (- or •<a href="motion.txt.html#%29" class="d">)</a>
+    before numbered items, e.g. "• 1." instead of "1."<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> Separate blocks (paragraphs) of content by <a href="insert.txt.html#a" class="d">a</a> blank line.
+<a href="motion.txt.html#-" class="d">-</a> Do not use indentation in random places—that prevents the page from using
+  "flow" layout. If you need <a href="insert.txt.html#a" class="d">a</a> preformatted section, <a href="change.txt.html#put" class="d">put</a> <a href="motion.txt.html#it" class="d">it</a> in
+  <a href="insert.txt.html#a" class="d">a</a> <a href="helphelp.txt.html#help-codeblock" class="l">help-codeblock</a> <a href="starting.txt.html#starting" class="d">starting</a> with "<a href="change.txt.html#%3E" class="d">&gt;</a>"<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> Parameters and fields are documented <a href="motion.txt.html#as" class="d">as</a> <span class="e">{foo}</span>.
+<a href="motion.txt.html#-" class="d">-</a> Optional parameters and fields are documented <a href="motion.txt.html#as" class="d">as</a> <span class="e">{foo}?</span>.
+
+<span class="h">C docstrings </span>
+
+Nvim <a href="api.txt.html#API" class="d">API</a> documentation lives in the source code, <a href="motion.txt.html#as" class="d">as</a> docstrings (doc
+comments) on the function definitions.  The <a href="api.txt.html#api" class="l">api</a> <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> <a href="motion.txt.html#is" class="d">is</a> generated
+from the docstrings defined in src/nvim/api/*.c.
+
+Docstring format:
+<a href="motion.txt.html#-" class="d">-</a> Lines start with <span class="e">///</span>
+<a href="motion.txt.html#-" class="d">-</a> Special tokens start with <span class="e">@</span> followed by the token name:
+  <span class="e">@note</span>, <span class="e">@param</span>, <span class="e">@return</span>
+<a href="motion.txt.html#-" class="d">-</a> Markdown <a href="motion.txt.html#is" class="d">is</a> supported.
+<a href="motion.txt.html#-" class="d">-</a> Tags are written <a href="motion.txt.html#as" class="d">as</a> <span class="e">[tag]()</span>.
+<a href="motion.txt.html#-" class="d">-</a> References are written <a href="motion.txt.html#as" class="d">as</a> <span class="e">[tag]</span>
+<a href="motion.txt.html#-" class="d">-</a> Use ``` <a href="luaref.txt.html#for" class="d">for</a> code samples.
+  Code samples can be annotated <a href="motion.txt.html#as" class="d">as</a> <span class="e">vim</span> or <span class="e">lua</span>
+
+Example: the <a href="helphelp.txt.html#help" class="d">help</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="api.txt.html#nvim_open_win%28%29" class="l">nvim_open_win()</a> <a href="motion.txt.html#is" class="d">is</a> generated from <a href="insert.txt.html#a" class="d">a</a> docstring defined
+in src/nvim/api/win_config.c like this: 
+<span class="e"></span>
+<span class="e">    /// Opens a new window.</span>
+<span class="e">    /// ...</span>
+<span class="e">    ///</span>
+<span class="e">    /// Example (Lua): window-relative float</span>
+<span class="e">    ///</span>
+<span class="e">    /// ```lua</span>
+<span class="e">    /// vim.api.nvim_open_win(0, false, {</span>
+<span class="e">    ///   relative='win',</span>
+<span class="e">    ///   row=3,</span>
+<span class="e">    ///   col=3,</span>
+<span class="e">    ///   width=12,</span>
+<span class="e">    ///   height=3,</span>
+<span class="e">    /// })</span>
+<span class="e">    /// ```</span>
+<span class="e">    ///</span>
+<span class="e">    /// @param buffer Buffer to display</span>
+<span class="e">    /// @param enter  Enter the window</span>
+<span class="e">    /// @param config Map defining the window configuration. Keys:</span>
+<span class="e">    ///   - relative: Sets the window layout, relative to:</span>
+<span class="e">    ///      - "editor" The global editor grid.</span>
+<span class="e">    ///      - "win"    Window given by the `win` field.</span>
+<span class="e">    ///      - "cursor" Cursor position in current window.</span>
+<span class="e">    /// ...</span>
+<span class="e">    /// @param[out] err Error details, if any</span>
+<span class="e">    ///</span>
+<span class="e">    /// @return Window handle, or 0 on error</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="h">Lua docstrings </span>
+                                                        <span id="dev-lua-doc" class="t">dev-lua-doc</span>
+<a href="lua.txt.html#Lua" class="d">Lua</a> documentation lives in the source code, <a href="motion.txt.html#as" class="d">as</a> docstrings on the function
+definitions.  The <a href="lua.txt.html#lua-vim" class="l">lua-vim</a> <a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> <a href="motion.txt.html#is" class="d">is</a> generated from the docstrings.
+
+Docstring format:
+<a href="motion.txt.html#-" class="d">-</a> Use LuaCATS annotations: <a class="u" href="https://luals.github.io/wiki/annotations/">https://luals.github.io/wiki/annotations/</a>
+<a href="motion.txt.html#-" class="d">-</a> Markdown <a href="motion.txt.html#is" class="d">is</a> supported.
+<a href="motion.txt.html#-" class="d">-</a> Tags are written <a href="motion.txt.html#as" class="d">as</a> <span class="e">[tag]()</span>.
+<a href="motion.txt.html#-" class="d">-</a> References are written <a href="motion.txt.html#as" class="d">as</a> <span class="e">[tag]</span>
+<a href="motion.txt.html#-" class="d">-</a> Use ``` <a href="luaref.txt.html#for" class="d">for</a> code samples.
+  Code samples can be annotated <a href="motion.txt.html#as" class="d">as</a> <span class="e">vim</span> or <span class="e">lua</span>
+<a href="motion.txt.html#-" class="d">-</a> Use `@since <span class="s">&lt;api-level&gt;</span>` to <span class="n">note</span> the <a href="api.txt.html#api-level" class="l">api-level</a> when the function became
+  "stable"<a href="repeat.txt.html#." class="d">.</a> If <span class="e">&lt;api-level&gt;</span> <a href="motion.txt.html#is" class="d">is</a> greater than the current stable release (or
+  0), <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> marked <a href="motion.txt.html#as" class="d">as</a> "experimental"<a href="repeat.txt.html#." class="d">.</a>
+  <a href="motion.txt.html#-" class="d">-</a> See scripts/util.lua <a href="luaref.txt.html#for" class="d">for</a> the <a href="map.txt.html#mapping" class="d">mapping</a> of <a href="api.txt.html#api-level" class="d">api-level</a> to Nvim version.
+<a href="motion.txt.html#-" class="d">-</a> Use <span class="e">@nodoc</span> to prevent documentation generation.
+<a href="motion.txt.html#-" class="d">-</a> Use <span class="e">@inlinedoc</span> to inline <span class="e">@class</span> blocks into <span class="e">@param</span> blocks.
+  E.g. 
+<span class="e">      --- Object with fields:</span>
+<span class="e">      --- @class myOpts</span>
+<span class="e">      --- @inlinedoc</span>
+<span class="e">      ---</span>
+<span class="e">      --- Documentation for some field</span>
+<span class="e">      --- @field somefield? integer</span>
+<span class="e"></span>
+<span class="e">      --- @param opts? myOpts</span>
+<span class="e">      function foo(opts)</span>
+<span class="e">      end</span>
+
+
+  Will be rendered as: &gt;vimdoc
+
+      foo({opts})
+
+          Parameters:
+            <a href="motion.txt.html#-" class="d">-</a> <span class="s">{opts}</span>? (table) Object with the fields:
+                      <a href="motion.txt.html#-" class="d">-</a> <span class="s">{somefield}</span>? (integer) Documentation
+                        <a href="luaref.txt.html#for" class="d">for</a> some field
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+<a href="motion.txt.html#-" class="d">-</a> Files declared <a href="motion.txt.html#as" class="d">as</a> <span class="e">@meta</span> are only used <a href="luaref.txt.html#for" class="d">for</a> typing and documentation (similar to "*.d.ts" typescript files).
+
+Example: the <a href="helphelp.txt.html#help" class="d">help</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="lua.txt.html#vim.paste%28%29" class="l">vim.paste()</a> <a href="motion.txt.html#is" class="d">is</a> generated from <a href="insert.txt.html#a" class="d">a</a> docstring decorating
+vim.paste in runtime/lua/vim/_editor.lua like this: 
+<span class="e"></span>
+<span class="e">    --- Paste handler, invoked by |nvim_paste()| when a conforming UI</span>
+<span class="e">    --- (such as the |TUI|) pastes text into the editor.</span>
+<span class="e">    ---</span>
+<span class="e">    --- Example: To remove ANSI color codes when pasting:</span>
+<span class="e">    ---</span>
+<span class="e">    --- ```lua</span>
+<span class="e">    --- vim.paste = (function()</span>
+<span class="e">    ---   local overridden = vim.paste</span>
+<span class="e">    ---   ...</span>
+<span class="e">    --- end)()</span>
+<span class="e">    --- ```</span>
+<span class="e">    ---</span>
+<span class="e">    --- @since 12</span>
+<span class="e">    --- @see |paste|</span>
+<span class="e">    ---</span>
+<span class="e">    --- @param lines  ...</span>
+<span class="e">    --- @param phase  ...</span>
+<span class="e">    --- @returns false if client should cancel the paste.</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">STDLIB DESIGN GUIDELINES</span>                                             <span id="dev-lua" class="t">dev-lua</span>
+
+See also <a href="develop.txt.html#dev-naming" class="l">dev-naming</a><a href="repeat.txt.html#." class="d">.</a>
+
+<a href="motion.txt.html#-" class="d">-</a> Keep the core <a href="lua.txt.html#Lua" class="d">Lua</a> modules <a href="lua.txt.html#lua-stdlib" class="l">lua-stdlib</a> simple. Avoid elaborate OOP or
+  pseudo-OOP designs. Plugin authors just want <a href="vimeval.txt.html#functions" class="d">functions</a> to call, not <a href="insert.txt.html#a" class="d">a</a> big,
+  fancy inheritance hierarchy.
+<a href="motion.txt.html#-" class="d">-</a> Avoid requiring or returning special <a href="index.txt.html#objects" class="d">objects</a> in the Nvim stdlib. Plain
+  tables or values are easier to serialize, easier to construct from literals,
+  easier to inspect and print, and inherently compatible with all <a href="lua.txt.html#Lua" class="d">Lua</a> plugins.
+  (This guideline doesn't apply to opaque, non-data <a href="index.txt.html#objects" class="d">objects</a> like <span class="e">vim.cmd</span>.)
+<a href="motion.txt.html#-" class="d">-</a> stdlib <a href="vimeval.txt.html#functions" class="d">functions</a> should follow these common patterns:
+  <a href="motion.txt.html#-" class="d">-</a> Return <a href="lua.txt.html#lua-result-or-message" class="l">lua-result-or-message</a> (`any<span class="l">nil,nil</span>string`) to communicate
+    failure, or choose from <a href="develop.txt.html#dev-error-patterns" class="l">dev-error-patterns</a> when appropriate.
+  <a href="motion.txt.html#-" class="d">-</a> Accept <a href="lua.txt.html#iterable" class="d">iterable</a> instead of only table.
+    <a href="motion.txt.html#-" class="d">-</a> <span class="n">Note:</span> in some cases <a href="lua.txt.html#iterable" class="d">iterable</a> doesn't make sense, e.g. spair() sorts the
+      input by definition, so there <a href="motion.txt.html#is" class="d">is</a> no reason <a href="luaref.txt.html#for" class="d">for</a> <a href="motion.txt.html#it" class="d">it</a> to accept an iterable,
+      because the input needs to be "reified"<a href="motion.txt.html#%3B" class="d">;</a> <a href="motion.txt.html#it" class="d">it</a> can't operate on <a href="insert.txt.html#a" class="d">a</a> "stream"<a href="repeat.txt.html#." class="d">.</a>
+  <a href="motion.txt.html#-" class="d">-</a> Return an <a href="lua.txt.html#iterable" class="d">iterable</a> (generator) instead of table, if possible.
+  <a href="motion.txt.html#-" class="d">-</a> Mimic the <a href="luaref.txt.html#pairs%28%29" class="d">pairs()</a> or <a href="luaref.txt.html#ipairs%28%29" class="d">ipairs()</a> interface if the function <a href="motion.txt.html#is" class="d">is</a> intended <a href="luaref.txt.html#for" class="d">for</a>
+    use in <a href="insert.txt.html#a" class="d">a</a> <a href="luaref.txt.html#for-in" class="l">for-in</a> loop.
+
+                                                          <span id="dev-error-patterns" class="t">dev-error-patterns</span>
+To communicate failure to <a href="insert.txt.html#a" class="d">a</a> consumer, choose from these patterns (in order of
+preference):
+1. `retval, errmsg`
+  <a href="motion.txt.html#-" class="d">-</a> When failure <a href="motion.txt.html#is" class="d">is</a> normal, or when <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> practical <a href="luaref.txt.html#for" class="d">for</a> the consumer to
+    continue (fallback) in some other way. See <a href="lua.txt.html#lua-result-or-message" class="l">lua-result-or-message</a><a href="repeat.txt.html#." class="d">.</a>
+2. optional result, no errormsg
+  <a href="motion.txt.html#-" class="d">-</a> Special <a href="change.txt.html#case" class="d">case</a> of 1. When there <a href="motion.txt.html#is" class="d">is</a> only <a href="insert.txt.html#a" class="d">a</a> single <a href="change.txt.html#case" class="d">case</a> of "doesn't exist"
+    (e.g. cache lookup, <a href="vimeval.txt.html#dict" class="d">dict</a> lookup).
+3. `error("no luck")`
+  <a href="motion.txt.html#-" class="d">-</a> For invalid state <a href="motion.txt.html#%28" class="d">(</a>"must not happen"), when failure <a href="motion.txt.html#is" class="d">is</a> exceptional, or <a href="motion.txt.html#at" class="d">at</a>
+    <a href="insert.txt.html#a" class="d">a</a> low level where the consumers are unlikely to handle <a href="motion.txt.html#it" class="d">it</a> in <a href="insert.txt.html#a" class="d">a</a> meaningful
+    way. Advantage <a href="motion.txt.html#is" class="d">is</a> that propagation happens <a href="luaref.txt.html#for" class="d">for</a> free and it's harder to
+    accidentally swallow errors. (E.g. using
+    <span class="e">uv_handle/pipe:write()</span> without checking return values <a href="motion.txt.html#is" class="d">is</a> common.)
+4. <span class="e">on_error</span> callback
+  <a href="motion.txt.html#-" class="d">-</a> For async and "visitors" traversing <a href="insert.txt.html#a" class="d">a</a> graph, where many <a href="message.txt.html#errors" class="d">errors</a> may be
+    collected while work continues.
+5. <span class="e">vim.notify</span> (sometimes with optional <span class="e">opts.silent</span> (async, visitors ^))
+  <a href="motion.txt.html#-" class="d">-</a> High-level <a href="pattern.txt.html#%2F" class="d">/</a> application-level messages. End-user invokes these directly.
+
+                                                        <span id="dev-patterns" class="t">dev-patterns</span>
+<span class="h">Interface conventions </span>
+
+Where possible, these patterns apply to _both_ <a href="lua.txt.html#Lua" class="d">Lua</a> and the API:
+
+<a href="motion.txt.html#-" class="d">-</a> When accepting <a href="insert.txt.html#a" class="d">a</a> buffer id, etc., <a href="motion.txt.html#0" class="d">0</a> means "current buffer"<a href="motion.txt.html#%2C" class="d">,</a> nil means "all
+  <a href="windows.txt.html#buffers" class="d">buffers</a>"<a href="repeat.txt.html#." class="d">.</a>  Likewise <a href="luaref.txt.html#for" class="d">for</a> <a href="windows.txt.html#window" class="d">window</a> id, <a href="tabpage.txt.html#tabpage" class="d">tabpage</a> id, etc.
+  <a href="motion.txt.html#-" class="d">-</a> Examples: <a href="lsp.txt.html#vim.lsp.codelens.clear%28%29" class="l">vim.lsp.codelens.clear()</a> <a href="diagnostic.txt.html#vim.diagnostic.enable%28%29" class="l">vim.diagnostic.enable()</a>
+<a href="motion.txt.html#-" class="d">-</a> Any function signature that accepts <a href="insert.txt.html#a" class="d">a</a> callback (example: <a href="luaref.txt.html#table.foreach%28%29" class="l">table.foreach()</a><a href="motion.txt.html#%29" class="d">)</a>
+  should place <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a> the LAST parameter (after opts), if possible (or ALWAYS
+  <a href="luaref.txt.html#for" class="d">for</a> "continuation callbacks"—<a href="vimeval.txt.html#functions" class="d">functions</a> called exactly once).
+  <a href="motion.txt.html#-" class="d">-</a> Improves readability by placing the <a href="various.txt.html#less" class="d">less</a> "noisy" arguments near the start.
+  <a href="motion.txt.html#-" class="d">-</a> Consistent with luv.
+  <a href="motion.txt.html#-" class="d">-</a> Useful <a href="luaref.txt.html#for" class="d">for</a> future async lib which transforms <a href="vimeval.txt.html#functions" class="d">functions</a> of the form
+    `function(&lt;args&gt;, cb(&lt;ret)&gt;))` =&gt; `function(&lt;args&gt;) <a href="vimeval.txt.html#-%3E" class="d">-&gt;</a> <span class="s">&lt;ret&gt;</span>`.
+  <a href="motion.txt.html#-" class="d">-</a> Example: 
+<span class="e">    -- ✅ OK:</span>
+<span class="e">    filter(…, opts, function() … end)</span>
+<span class="e">    -- ❌ NO:</span>
+<span class="e">    filter(function() … end, …, opts)</span>
+<span class="e">    -- ❌ NO:</span>
+<span class="e">    filter(…, function() … end, opts)</span>
+<a href="motion.txt.html#-" class="d">-</a> "Enable" <a href="motion.txt.html#%28" class="d">(</a>"<a href="options.txt.html#toggle" class="d">toggle</a>"<a href="motion.txt.html#%29" class="d">)</a> interface and behavior:
+  <a href="motion.txt.html#-" class="d">-</a> `enable(…<a href="motion.txt.html#%2C" class="d">,</a> nil)` and `enable(…<a href="motion.txt.html#%2C" class="d">,</a> <span class="s">{buf=nil}</span>)` are synonyms and <a href="intro.txt.html#control" class="d">control</a> the
+    the "global" enablement of <a href="insert.txt.html#a" class="d">a</a> feature.
+    <a href="motion.txt.html#-" class="d">-</a> <span class="e">is_enabled(nil)</span> and <span class="e">is_enabled({buf=nil})</span>, likewise, query the
+      global state of the feature.
+  <a href="motion.txt.html#-" class="d">-</a> `enable(…<a href="motion.txt.html#%2C" class="d">,</a> <span class="s">{buf: number}</span>)` sets <a href="insert.txt.html#a" class="d">a</a> buffer-local "enable" flag.
+    <a href="motion.txt.html#-" class="d">-</a> `is_enabled({buf: number})`, likewise, queries the buffer-local state of
+      the feature.
+  <a href="motion.txt.html#-" class="d">-</a> See <a href="lsp.txt.html#vim.lsp.inlay_hint.enable%28%29" class="l">vim.lsp.inlay_hint.enable()</a> and <a href="lsp.txt.html#vim.lsp.inlay_hint.is_enabled%28%29" class="l">vim.lsp.inlay_hint.is_enabled()</a>
+    <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#reference" class="d">reference</a> implementation of these "best practices"<a href="repeat.txt.html#." class="d">.</a>
+  <a href="motion.txt.html#-" class="d">-</a> <span class="n">NOTE:</span> open questions: <a class="u" href="https://github.com/neovim/neovim/issues/28603">https://github.com/neovim/neovim/issues/28603</a>
+<a href="motion.txt.html#-" class="d">-</a> Transformation <a href="vimeval.txt.html#functions" class="d">functions</a> should also have "<a href="change.txt.html#filter" class="d">filter</a>" functionality (when
+  appropriate): when the function returns <a href="insert.txt.html#a" class="d">a</a> nil value <a href="motion.txt.html#it" class="d">it</a> excludes (filters
+  out) its input, else the transformed value <a href="motion.txt.html#is" class="d">is</a> used.
+  <a href="motion.txt.html#-" class="d">-</a> Example: See the format() field of <a href="diagnostic.txt.html#vim.diagnostic.Opts.Float" class="l">vim.diagnostic.Opts.Float</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="c">API DESIGN GUIDELINES</span>                                   <span id="dev-api" class="t">dev-api</span>
+
+See also <a href="develop.txt.html#dev-naming" class="l">dev-naming</a><a href="repeat.txt.html#." class="d">.</a>
+
+<a href="motion.txt.html#-" class="d">-</a> When adding an API, check the following:
+  <a href="motion.txt.html#-" class="d">-</a> What precedents did you draw from? How does your solution compare to them?
+  <a href="motion.txt.html#-" class="d">-</a> Does your new <a href="api.txt.html#API" class="d">API</a> allow future expansion? How? Or why not?
+  <a href="motion.txt.html#-" class="d">-</a> Is the new <a href="api.txt.html#API" class="d">API</a> similar to existing APIs? Do we need to deprecate the old ones?
+  <a href="motion.txt.html#-" class="d">-</a> Did you cross-reference related concepts in the docs?
+<a href="motion.txt.html#-" class="d">-</a> Avoid "mutually <a href="motion.txt.html#exclusive" class="d">exclusive</a>" parameters--via constraints or limitations, if
+  necessary. For example <a href="api.txt.html#nvim_create_autocmd%28%29" class="d">nvim_create_autocmd()</a> has mutually <a href="motion.txt.html#exclusive" class="d">exclusive</a>
+  "callback" and "command" args; but the "command" arg could be eliminated by
+  simply not supporting Vimscript function names, and treating <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a>
+  "callback" arg <a href="motion.txt.html#as" class="d">as</a> an <a href="intro.txt.html#Ex" class="d">Ex</a> command (which can call Vimscript functions). The
+  "buffer" arg could also be eliminated by treating <a href="insert.txt.html#a" class="d">a</a> number "<a href="pattern.txt.html#pattern" class="d">pattern</a>" <a href="motion.txt.html#as" class="d">as</a>
+  <a href="insert.txt.html#a" class="d">a</a> buffer number.
+<a href="motion.txt.html#-" class="d">-</a> Avoid <a href="vimeval.txt.html#functions" class="d">functions</a> that depend on cursor position, current buffer, etc. Instead
+  the function should take <a href="insert.txt.html#a" class="d">a</a> position parameter, buffer parameter, etc.
+
+<span class="h">Where things go </span>
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="api.txt.html#API" class="d">API</a> (libnvim/RPC): exposes low-level internals, or fundamental things (such
+  <a href="motion.txt.html#as" class="d">as</a> <span class="e">nvim_exec_lua()</span>) needed by clients or <a href="change.txt.html#C" class="d">C</a> consumers.
+<a href="motion.txt.html#-" class="d">-</a> <a href="lua.txt.html#Lua" class="d">Lua</a> stdlib <a href="change.txt.html#%3D" class="d">=</a> high-level functionality that builds on top of the API.
+
+<span class="c">NAMING GUIDELINES</span>                                       <span id="dev-naming" class="t">dev-naming</span>
+
+Naming <a href="motion.txt.html#is" class="d">is</a> exceedingly important: the name of <a href="insert.txt.html#a" class="d">a</a> thing <a href="motion.txt.html#is" class="d">is</a> the primary interface
+<a href="luaref.txt.html#for" class="d">for</a> uses it, discusses it, searches <a href="luaref.txt.html#for" class="d">for</a> it, shares it... Consistent
+naming in the stdlib, API, and <a href="ui.txt.html#UI" class="d">UI</a> helps both users and developers discover and
+intuitively understand related concepts <a href="motion.txt.html#%28" class="d">(</a>"families"), and reduces cognitive
+burden. Discoverability encourages code re-use and likewise avoids redundant,
+overlapping mechanisms, which reduces code surface-area, and thereby minimizes
+bugs...
+
+<span class="h">Naming conventions </span>
+
+In general, look <a href="luaref.txt.html#for" class="d">for</a> precedent when choosing <a href="insert.txt.html#a" class="d">a</a> name, that is, look <a href="motion.txt.html#at" class="d">at</a> existing
+(non-deprecated) functions. In particular, see below...
+
+                                                        <span id="dev-name-common" class="t">dev-name-common</span>
+Use existing common <span class="s">{verb}</span> names (actions) if possible:
+    <a href="motion.txt.html#-" class="d">-</a> add:          Appends or inserts into <a href="insert.txt.html#a" class="d">a</a> collection
+    <a href="motion.txt.html#-" class="d">-</a> attach:       Listens to something to get <a href="autocmd.txt.html#events" class="d">events</a> from <a href="motion.txt.html#it" class="d">it</a> (TODO: rename to "on"?)
+    <a href="motion.txt.html#-" class="d">-</a> call:         Calls <a href="insert.txt.html#a" class="d">a</a> function
+    <a href="motion.txt.html#-" class="d">-</a> cancel:       Cancels or dismisses an event or interaction, typically
+                    user-initiated and without error. (Compare "abort"<a href="motion.txt.html#%2C" class="d">,</a> which
+                    cancels and signals error/failure.)
+    <a href="motion.txt.html#-" class="d">-</a> clear:        Clears state but does not destroy the container
+    <a href="motion.txt.html#-" class="d">-</a> create:       Creates <a href="insert.txt.html#a" class="d">a</a> new (non-trivial) thing (TODO: rename to "def"?)
+    <a href="motion.txt.html#-" class="d">-</a> del:          Deletes <a href="insert.txt.html#a" class="d">a</a> thing (or group of things)
+    <a href="motion.txt.html#-" class="d">-</a> detach:       Dispose attached listener (TODO: rename to "un"?)
+    <a href="motion.txt.html#-" class="d">-</a> enable:       Enables/disables functionality. Signature should be
+                    `enable(enable?:boolean, filter?:table)`.
+    <a href="motion.txt.html#-" class="d">-</a> eval:         Evaluates an <a href="vimeval.txt.html#expression" class="d">expression</a>
+    <a href="motion.txt.html#-" class="d">-</a> exec:         Executes code, may return <a href="insert.txt.html#a" class="d">a</a> result
+    <a href="motion.txt.html#-" class="d">-</a> fmt:          Formats
+    <a href="motion.txt.html#-" class="d">-</a> get:          Gets things. Two variants (overloads):
+                    1. `get&lt;T&gt;(id: int): T` returns one item.
+                    2. `get&lt;T&gt;(filter: dict): T[]` returns <a href="insert.txt.html#a" class="d">a</a> list.
+    <a href="motion.txt.html#-" class="d">-</a> has:          Checks <a href="luaref.txt.html#for" class="d">for</a> the presence of an item, feature, etc.
+    <a href="motion.txt.html#-" class="d">-</a> inspect:      Presents <a href="insert.txt.html#a" class="d">a</a> high-level, often interactive, view
+    <a href="motion.txt.html#-" class="d">-</a> is_enabled:   Checks if functionality <a href="motion.txt.html#is" class="d">is</a> enabled.
+    <a href="motion.txt.html#-" class="d">-</a> open:         Opens something (a buffer, window, …<a href="motion.txt.html#%29" class="d">)</a>
+    <a href="motion.txt.html#-" class="d">-</a> parse:        Parses something into <a href="insert.txt.html#a" class="d">a</a> structured form
+    <a href="motion.txt.html#-" class="d">-</a> request:      Calls <a href="insert.txt.html#a" class="d">a</a> remote (network, RPC) operation.
+    <a href="motion.txt.html#-" class="d">-</a> send:         Writes data or <a href="insert.txt.html#a" class="d">a</a> message to <a href="insert.txt.html#a" class="d">a</a> channel.
+    <a href="motion.txt.html#-" class="d">-</a> set:          Sets <a href="insert.txt.html#a" class="d">a</a> thing (or group of things)
+    <a href="motion.txt.html#-" class="d">-</a> start:        Spin up <a href="insert.txt.html#a" class="d">a</a> long-lived process. Prefer "enable" except when
+                    "start" <a href="motion.txt.html#is" class="d">is</a> obviously more appropriate.
+    <a href="motion.txt.html#-" class="d">-</a> stop:         Inverse of "start"<a href="repeat.txt.html#." class="d">.</a> Teardown <a href="insert.txt.html#a" class="d">a</a> long-lived process.
+    <a href="motion.txt.html#-" class="d">-</a> try_{verb}:   Best-effort operation, failure returns null or error obj
+
+Do NOT use these <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> verbs:
+    <a href="motion.txt.html#-" class="d">-</a> contains:     Prefer "has"<a href="repeat.txt.html#." class="d">.</a>
+    <a href="motion.txt.html#-" class="d">-</a> disable:      Prefer `enable(enable: boolean)`.
+    <a href="motion.txt.html#-" class="d">-</a> exit:         Prefer "cancel" (or "stop" if appropriate).
+    <a href="motion.txt.html#-" class="d">-</a> is_disabled:  Prefer <span class="e">!is_enabled()</span>.
+    <a href="motion.txt.html#-" class="d">-</a> list:         Redundant with "get"
+    <a href="motion.txt.html#-" class="d">-</a> notify:       Redundant with "print"<a href="motion.txt.html#%2C" class="d">,</a> "echo"
+    <a href="motion.txt.html#-" class="d">-</a> show:         Redundant with "print"<a href="motion.txt.html#%2C" class="d">,</a> "echo"
+    <a href="motion.txt.html#-" class="d">-</a> toggle:       Prefer `enable(not is_enabled())`.
+
+Use consistent names <a href="luaref.txt.html#for" class="d">for</a> <span class="s">{topic}</span> in <a href="api.txt.html#API" class="d">API</a> functions: buffer <a href="motion.txt.html#is" class="d">is</a> called "buf"
+everywhere, not "buffer" in some places and "buf" in others.
+    <a href="motion.txt.html#-" class="d">-</a> buf:          Buffer
+    <a href="motion.txt.html#-" class="d">-</a> chan:         <a href="channel.txt.html#channel" class="l">channel</a>
+    <a href="motion.txt.html#-" class="d">-</a> cmd:          Command
+    <a href="motion.txt.html#-" class="d">-</a> cmdline:      <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> <a href="ui.txt.html#UI" class="d">UI</a> or input
+    <a href="motion.txt.html#-" class="d">-</a> fn:           Function
+    <a href="motion.txt.html#-" class="d">-</a> hl:           Highlight
+    <a href="motion.txt.html#-" class="d">-</a> pos:          Position
+    <a href="motion.txt.html#-" class="d">-</a> proc:         System process
+    <a href="motion.txt.html#-" class="d">-</a> tabpage:      Tabpage
+    <a href="motion.txt.html#-" class="d">-</a> win:          Window
+
+Do NOT use these <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> nouns:
+    <a href="motion.txt.html#-" class="d">-</a> buffer        Use "buf" instead
+    <a href="motion.txt.html#-" class="d">-</a> callback      Use on_foo instead
+    <a href="motion.txt.html#-" class="d">-</a> command       Use "cmd" instead
+    <a href="motion.txt.html#-" class="d">-</a> <a href="windows.txt.html#window" class="d">window</a>        Use "win" instead
+
+                                                        <span id="dev-name-events" class="t">dev-name-events</span>
+Use the "on_" prefix to name event-handling callbacks and also the interface <a href="luaref.txt.html#for" class="d">for</a>
+"registering" such handlers (on_key). The dual nature <a href="motion.txt.html#is" class="d">is</a> acceptable to avoid
+<a href="insert.txt.html#a" class="d">a</a> confused collection of naming conventions <a href="luaref.txt.html#for" class="d">for</a> these related concepts.
+
+Editor <a href="autocmd.txt.html#events" class="l">events</a> (autocommands) are historically named like: 
+<span class="e">    {Noun}{Event}</span>
+<span class="e"></span>
+Use this format to name <a href="api.txt.html#API" class="d">API</a> (RPC) events: 
+<span class="e">    nvim_{noun}_{event-name}_event</span>
+<span class="e"></span>
+Example: 
+<span class="e">    nvim_buf_changedtick_event</span>
+
+                                                        <span id="dev-api-name" class="t">dev-api-name</span>
+Use this format to name new <a href="api.txt.html#RPC" class="d">RPC</a> <a href="api.txt.html#API" class="l">API</a> functions: 
+<span class="e">    nvim_{topic}_{verb}_{arbitrary-qualifiers}</span>
+<span class="e"></span>
+Do not add new nvim_buf/nvim_win/nvim_tabpage APIs, unless you are certain the
+concept will NEVER be applied to more than one "scope"<a href="repeat.txt.html#." class="d">.</a> That is, <span class="s">{topic}</span>
+should be the TOPIC <a href="motion.txt.html#%28" class="d">(</a>"ns"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="api.txt.html#extmark" class="d">extmark</a>"<a href="motion.txt.html#%2C" class="d">,</a> "option"<a href="motion.txt.html#%2C" class="d">,</a> …<a href="motion.txt.html#%29" class="d">)</a> that acts on the scope(s)
+(buf/win/tabpage/global), <a href="motion.txt.html#it" class="d">it</a> should NOT be the scope. Instead the scope should
+be <a href="insert.txt.html#a" class="d">a</a> parameter (typically manifest <a href="motion.txt.html#as" class="d">as</a> mutually-exclusive buf/win/… flags like
+<a href="api.txt.html#nvim_get_option_value%28%29" class="l">nvim_get_option_value()</a><a href="motion.txt.html#%2C" class="d">,</a> or <a href="various.txt.html#less" class="d">less</a> commonly <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> `scope: string` field like
+<a href="api.txt.html#nvim_get_option_info2%28%29" class="l">nvim_get_option_info2()</a>).
+
+<a href="motion.txt.html#-" class="d">-</a> Example: <span class="e">nvim_get_keymap('v')</span> operates in <a href="insert.txt.html#a" class="d">a</a> global <a href="repeat.txt.html#context" class="d">context</a> (first
+  parameter <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> Buffer). The "get" verb indicates that <a href="motion.txt.html#it" class="d">it</a> gets anything
+  matching the given <a href="change.txt.html#filter" class="d">filter</a> parameter. <a href="insert.txt.html#A" class="d">A</a> "<a href="vimeval.txt.html#list" class="d">list</a>" verb <a href="motion.txt.html#is" class="d">is</a> unnecessary because
+  <span class="e">nvim_get_keymap('')</span> (empty filter) returns all items.
+<a href="motion.txt.html#-" class="d">-</a> Example: <span class="e">nvim_buf_del_mark</span> acts on <a href="insert.txt.html#a" class="d">a</a> <span class="e">Buffer</span> object (the first parameter)
+  and uses the "del" <span class="s">{verb}</span>.
+
+                                                        <span id="dev-namespace-name" class="t">dev-namespace-name</span>
+Use <a href="api.txt.html#namespace" class="d">namespace</a> names like <span class="e">nvim.foo.bar</span>: 
+<span class="e">    vim.api.nvim_create_namespace('nvim.lsp.codelens')</span>
+
+
+                                                        <span id="dev-augroup-name" class="t">dev-augroup-name</span>
+Use <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> group names like <span class="e">nvim.foo.bar</span>: 
+<span class="e">    vim.api.nvim_create_augroup('nvim.treesitter.dev')</span>
+
+
+<span class="c">INTERFACE PATTERNS</span>                                      <span id="dev-api-patterns" class="t">dev-api-patterns</span>
+
+Prefer adding <a href="insert.txt.html#a" class="d">a</a> single <span class="e">nvim_{topic}_{verb}_…</span> interface <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> given topic.
+
+Example: 
+<span class="e"></span>
+<span class="e">    nvim_ns_add(</span>
+<span class="e">      ns_id: int,</span>
+<span class="e">      filter: {</span>
+<span class="e">        handle: integer (buf/win/tabpage id)</span>
+<span class="e">        scope: "global" | "win" | "buf" | "tabpage"</span>
+<span class="e">      }</span>
+<span class="e">    ): { ok: boolean }</span>
+<span class="e"></span>
+<span class="e">    nvim_ns_get(</span>
+<span class="e">      ns_id: int,</span>
+<span class="e">      filter: {</span>
+<span class="e">        handle: integer (buf/win/tabpage id)</span>
+<span class="e">        scope: "global" | "win" | "buf" | "tabpage"</span>
+<span class="e">      }</span>
+<span class="e">    ): { ids: int[] }</span>
+<span class="e"></span>
+<span class="e">    nvim_ns_del(</span>
+<span class="e">      ns_id: int,</span>
+<span class="e">      filter: {</span>
+<span class="e">        handle: integer (buf/win/tabpage id)</span>
+<span class="e">        scope: "global" | "win" | "buf" | "tabpage"</span>
+<span class="e">      }</span>
+<span class="e">    ): { ok: boolean }</span>
+<span class="e"></span>
+<span class="e"></span>
+Anti-Example:
+
+Creating separate <span class="e">nvim_xx</span>, <span class="e">nvim_buf_xx</span>, <span class="e">nvim_win_xx</span>, and
+<span class="e">nvim_tabpage_xx</span>, <a href="vimeval.txt.html#functions" class="d">functions</a> all <a href="luaref.txt.html#for" class="d">for</a> the same <span class="e">xx</span> topic, requires 4x the
+amount of documentation, tests, boilerplate, and interfaces, which users must
+comprehend, maintainers must maintain, etc. Thus the following <a href="motion.txt.html#is" class="d">is</a> NOT
+recommended (compare these 12(!) <a href="vimeval.txt.html#functions" class="d">functions</a> to the above 3 functions): 
+<span class="e"></span>
+<span class="e">    nvim_add_ns(…)</span>
+<span class="e">    nvim_buf_add_ns(…)</span>
+<span class="e">    nvim_win_add_ns(…)</span>
+<span class="e">    nvim_tabpage_add_ns(…)</span>
+<span class="e">    nvim_del_ns(…)</span>
+<span class="e">    nvim_buf_del_ns(…)</span>
+<span class="e">    nvim_win_del_ns(…)</span>
+<span class="e">    nvim_tabpage_del_ns(…)</span>
+<span class="e">    nvim_get_ns(…)</span>
+<span class="e">    nvim_buf_get_ns(…)</span>
+<span class="e">    nvim_win_get_ns(…)</span>
+<span class="e">    nvim_tabpage_get_ns(…)</span>
+<span class="e"></span>
+<span class="c">API-CLIENT</span>                                              <span id="dev-api-client" class="t">dev-api-client</span>
+
+                                                        <span id="api-client" class="t">api-client</span>
+<a href="api.txt.html#API" class="d">API</a> clients wrap the Nvim <a href="api.txt.html#API" class="l">API</a> to provide idiomatic "SDKs" <a href="luaref.txt.html#for" class="d">for</a> their
+respective platforms (see <a href="intro.txt.html#jargon" class="l">jargon</a>). You can build <a href="insert.txt.html#a" class="d">a</a> new <a href="api.txt.html#API" class="d">API</a> client <a href="luaref.txt.html#for" class="d">for</a> your
+favorite platform or programming language.
+
+<a href="vimeval.txt.html#List" class="d">List</a> of <a href="api.txt.html#API" class="d">API</a> clients:
+    <a class="u" href="https://github.com/neovim/neovim/wiki/Related-projects#api-clients">https://github.com/neovim/neovim/wiki/Related-projects#api-clients</a>
+
+                                                        <span id="node-client" class="t">node-client</span> <span id="pynvim" class="t">pynvim</span>
+These clients can be considered the "<a href="intro.txt.html#reference" class="d">reference</a> implementation" <a href="luaref.txt.html#for" class="d">for</a> <a href="api.txt.html#API" class="d">API</a> clients:
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/neovim/node-client">https://github.com/neovim/node-client</a>
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/neovim/pynvim">https://github.com/neovim/pynvim</a>
+
+<span class="h">Standard Features </span>
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="api.txt.html#API" class="d">API</a> clients exist to hide <a href="api.txt.html#msgpack-rpc" class="d">msgpack-rpc</a> details. The wrappers can be
+  automatically generated by reading the <a href="api.txt.html#api-metadata" class="l">api-metadata</a> from Nvim. <a href="api.txt.html#api-mapping" class="l">api-mapping</a>
+<a href="motion.txt.html#-" class="d">-</a> Clients should call <a href="api.txt.html#nvim_set_client_info%28%29" class="l">nvim_set_client_info()</a> after connecting, so users and
+  plugins can detect the client by handling the <a href="autocmd.txt.html#ChanInfo" class="l">ChanInfo</a> event. This avoids
+  the need <a href="luaref.txt.html#for" class="d">for</a> special <a href="vimeval.txt.html#variables" class="d">variables</a> or other client hints.
+<a href="motion.txt.html#-" class="d">-</a> Clients should handle <a href="api.txt.html#nvim_error_event" class="l">nvim_error_event</a> notifications, which will be sent
+  if an async request to <a href="nvim.txt.html#nvim" class="d">nvim</a> was rejected or caused an error.
+
+<span class="h">Package Naming </span>
+
+<a href="api.txt.html#API" class="d">API</a> client <a href="repeat.txt.html#packages" class="d">packages</a> should NOT be named something ambiguous like "<a href="nvim.txt.html#neovim" class="d">neovim</a>" or
+"python-client"<a href="repeat.txt.html#." class="d">.</a>  Use "<a href="nvim.txt.html#nvim" class="d">nvim</a>" <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> prefix/suffix to some other identifier
+following ecosystem conventions.
+
+For example, <a href="if_pyth.txt.html#Python" class="d">Python</a> <a href="repeat.txt.html#packages" class="d">packages</a> tend to have "py" in the name, so "<a href="develop.txt.html#pynvim" class="d">pynvim</a>" <a href="motion.txt.html#is" class="d">is</a>
+<a href="insert.txt.html#a" class="d">a</a> good name: it's idiomatic and unambiguous. If the package <a href="motion.txt.html#is" class="d">is</a> named "<a href="nvim.txt.html#neovim" class="d">neovim</a>"<a href="motion.txt.html#%2C" class="d">,</a>
+<a href="motion.txt.html#it" class="d">it</a> confuses users, and complicates documentation and discussions.
+
+Examples of API-client package names:
+<a href="motion.txt.html#-" class="d">-</a> ✅ OK: nvim-racket
+<a href="motion.txt.html#-" class="d">-</a> ✅ OK: <a href="develop.txt.html#pynvim" class="d">pynvim</a>
+<a href="motion.txt.html#-" class="d">-</a> ❌ NO: python-client
+<a href="motion.txt.html#-" class="d">-</a> ❌ NO: neovim_
+
+<span class="h">API client implementation guidelines </span>
+
+<a href="motion.txt.html#-" class="d">-</a> Separate the transport layer from the rest of the library. <a href="api.txt.html#rpc-connecting" class="l">rpc-connecting</a>
+<a href="motion.txt.html#-" class="d">-</a> Use <a href="insert.txt.html#a" class="d">a</a> MessagePack library that implements <a href="motion.txt.html#at" class="d">at</a> least version 5 of the
+  MessagePack spec, which supports the BIN and EXT types used by Nvim.
+<a href="motion.txt.html#-" class="d">-</a> Use <a href="insert.txt.html#a" class="d">a</a> single-threaded event loop library/pattern.
+<a href="motion.txt.html#-" class="d">-</a> Use <a href="insert.txt.html#a" class="d">a</a> fiber/coroutine library <a href="luaref.txt.html#for" class="d">for</a> the language being used <a href="luaref.txt.html#for" class="d">for</a> implementing
+  <a href="insert.txt.html#a" class="d">a</a> client. These greatly simplify concurrency and allow the library to
+  expose <a href="insert.txt.html#a" class="d">a</a> blocking <a href="api.txt.html#API" class="d">API</a> on top of <a href="insert.txt.html#a" class="d">a</a> non-blocking event loop without the
+  complexity that comes with preemptive multitasking.
+<a href="motion.txt.html#-" class="d">-</a> Don't assume anything about the order of responses to <a href="api.txt.html#RPC" class="d">RPC</a> requests.
+<a href="motion.txt.html#-" class="d">-</a> Clients should expect requests, which must be handled immediately because
+  Nvim <a href="motion.txt.html#is" class="d">is</a> blocked while waiting <a href="luaref.txt.html#for" class="d">for</a> the client response.
+<a href="motion.txt.html#-" class="d">-</a> Clients should expect notifications, but these can be handled "ASAP" (rather
+  than immediately) because they won't block Nvim.
+<a href="motion.txt.html#-" class="d">-</a> For C/C++ projects, consider libmpack instead of the msgpack.org library.
+    <a class="u" href="https://github.com/libmpack/libmpack/">https://github.com/libmpack/libmpack/</a>
+  libmpack <a href="motion.txt.html#is" class="d">is</a> small (no dependencies, can inline into your C/C++ project) and
+  efficient (no allocations). It also implements msgpack-RPC, the protocol
+  required by Nvim.
+    <a class="u" href="https://github.com/msgpack-rpc/msgpack-rpc">https://github.com/msgpack-rpc/msgpack-rpc</a>
+
+
+<span class="c">EXTERNAL UI</span>                                             <span id="dev-ui" class="t">dev-ui</span>
+
+External UIs should be aware of the <a href="api.txt.html#api-contract" class="l">api-contract</a><a href="repeat.txt.html#." class="d">.</a> In particular, future
+versions of Nvim may add new items to existing events. The <a href="api.txt.html#API" class="d">API</a> <a href="motion.txt.html#is" class="d">is</a> strongly
+backwards-compatible, but clients must not break if new (optional) fields are
+added to existing events.
+
+<span class="h">Standard Features </span>
+
+External UIs are expected to implement these common features:
+
+<a href="motion.txt.html#-" class="d">-</a> Call <a href="api.txt.html#nvim_set_client_info%28%29" class="l">nvim_set_client_info()</a> after connecting, so users and plugins can
+  detect the <a href="ui.txt.html#UI" class="d">UI</a> by handling the <a href="autocmd.txt.html#ChanInfo" class="l">ChanInfo</a> event. This avoids the need <a href="luaref.txt.html#for" class="d">for</a>
+  special <a href="vimeval.txt.html#variables" class="d">variables</a> and UI-specific <a href="starting.txt.html#config" class="d">config</a> files (gvimrc, macvimrc, …).
+<a href="motion.txt.html#-" class="d">-</a> Cursor style (shape, color) should conform to the <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a> properties
+  delivered with the mode_info_set <a href="ui.txt.html#UI" class="d">UI</a> event.
+<a href="motion.txt.html#-" class="d">-</a> Send the ALT/META <a href="motion.txt.html#%28" class="d">(</a>"Option" on macOS) key <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#%3CM-" class="l">&lt;M-</a> chord.
+<a href="motion.txt.html#-" class="d">-</a> Send the "super" key (Windows key, Apple key) <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#%3CD-" class="l">&lt;D-</a> chord.
+<a href="motion.txt.html#-" class="d">-</a> Avoid mappings that conflict with the Nvim keymap-space; GUIs have many new
+  chords (&lt;C-,&gt; <span class="s">&lt;C-Enter&gt;</span> <span class="s">&lt;C-S-x&gt;</span> <span class="s">&lt;D-x&gt;</span>) and patterns <a href="motion.txt.html#%28" class="d">(</a>"<a href="intro.txt.html#shift" class="d">shift</a> <a href="intro.txt.html#shift" class="d">shift</a>"<a href="motion.txt.html#%29" class="d">)</a> that <a href="diff.txt.html#do" class="d">do</a>
+  not potentially conflict with Nvim defaults, plugins, etc.
+<a href="motion.txt.html#-" class="d">-</a> Consider the "option_set" <a href="ui.txt.html#ui-global" class="l">ui-global</a> event <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> hint <a href="luaref.txt.html#for" class="d">for</a> other <a href="gui.txt.html#GUI" class="d">GUI</a>
+  behaviors. Various UI-related <a href="options.txt.html#options" class="d">options</a> ('guifont', <a href="options.txt.html#%27ambiwidth%27" class="o">'ambiwidth'</a>, …<a href="motion.txt.html#%29" class="d">)</a> are
+  published in this event. See also "mouse_on"<a href="motion.txt.html#%2C" class="d">,</a> "mouse_off"<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> UIs generally should NOT set <a href="starting.txt.html#%24NVIM_APPNAME" class="l">$NVIM_APPNAME</a> (unless explicitly requested by
+  the user).
+<a href="motion.txt.html#-" class="d">-</a> Support the text decorations/attributes given by <a href="ui.txt.html#ui-event-hl_attr_define" class="l">ui-event-hl_attr_define</a><a href="repeat.txt.html#." class="d">.</a>
+  The "url" attr should be presented <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> clickable hyperlink.
+
+
+ vim:tw=78:ts=8:sw=4:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: textprop.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="textprop.txt.html#">↑Top↑</a></li>
+<li><a href="textprop.txt.html#text-prop-intro">Introduction</a></li>
+<li><a href="textprop.txt.html#text-prop-functions">Functions</a></li>
+<li><a href="textprop.txt.html#text-prop-changes">When text changes</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="textprop.txt" class="t">textprop.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 09
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar</span>
+
+
+Displaying text with properties attached.	<span id="textprop" class="t">textprop</span> <span id="text-properties" class="t">text-properties</span>
+
+
+1. Introduction			<a href="textprop.txt.html#text-prop-intro" class="l">text-prop-intro</a>
+2. Functions			<a href="textprop.txt.html#text-prop-functions" class="l">text-prop-functions</a>
+3. When text changes		<a href="textprop.txt.html#text-prop-changes" class="l">text-prop-changes</a>
+
+
+{not able to use text properties when the <a href="various.txt.html#%2Btextprop" class="l">+textprop</a> feature was
+disabled <a href="motion.txt.html#at" class="d">at</a> compile time}
+
+<span class="h">==============================================================================</span>
+1. Introduction						<span id="text-prop-intro" class="t">text-prop-intro</span>
+
+Text properties can be attached to text in <a href="insert.txt.html#a" class="d">a</a> buffer.  They will move with the
+text: If lines are deleted or inserted the properties move with the text they
+are attached to.  Also when inserting/deleting text in the line before the
+text property.  And when inserting/deleting text inside the text property, <a href="motion.txt.html#it" class="d">it</a>
+will increase/decrease in size.
+
+The main use for text properties <a href="motion.txt.html#is" class="d">is</a> to highlight text.  This can be seen <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a>
+replacement for <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting.  Instead of defining patterns to match
+the text, the highlighting <a href="motion.txt.html#is" class="d">is</a> set by <a href="insert.txt.html#a" class="d">a</a> script, possibly using the output of an
+external parser.  This only needs to be done once, not every time when
+redrawing the screen, thus can be much faster, after the initial cost of
+attaching the text properties.
+
+Text properties can also be used for other purposes to identify text.  For
+example, add <a href="insert.txt.html#a" class="d">a</a> text property on <a href="insert.txt.html#a" class="d">a</a> function name, so that <a href="insert.txt.html#a" class="d">a</a> search can be
+defined to jump to the next/previous function.
+
+<a href="insert.txt.html#A" class="d">A</a> text property <a href="motion.txt.html#is" class="d">is</a> attached <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> specific line and column, and has <a href="insert.txt.html#a" class="d">a</a> specified
+length.  The property can span multiple lines.
+
+<a href="insert.txt.html#A" class="d">A</a> text property has these fields:
+	"id"		<a href="insert.txt.html#a" class="d">a</a> number to be used <a href="motion.txt.html#as" class="d">as</a> desired
+	"type"		the name of <a href="insert.txt.html#a" class="d">a</a> property type
+
+
+<span class="h">Property Types </span>
+							<span id="E971" class="t">E971</span>
+<a href="insert.txt.html#A" class="d">A</a> text property normally has the name of <a href="insert.txt.html#a" class="d">a</a> property type, which defines
+how to highlight the text.  The property type can have these entries:
+	"highlight"	name of the highlight group to use
+	"combine"	when omitted or <a href="eval.txt.html#TRUE" class="d">TRUE</a> the text property highlighting <a href="motion.txt.html#is" class="d">is</a>
+			combined with any <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting; when <a href="eval.txt.html#FALSE" class="d">FALSE</a> the
+			text property highlighting replaces the <a href="syntax.txt.html#syntax" class="d">syntax</a>
+			highlighting
+	"priority"	when properties overlap, the one with the highest
+			priority will be used.
+	"start_incl"	when <a href="eval.txt.html#TRUE" class="d">TRUE</a> inserts <a href="motion.txt.html#at" class="d">at</a> the start position will be
+			included in the text property
+	"end_incl"	when <a href="eval.txt.html#TRUE" class="d">TRUE</a> inserts <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> position will be
+			included in the text property
+
+
+<span class="h">Example </span>
+
+Suppose line 11 in <a href="insert.txt.html#a" class="d">a</a> buffer has this text (excluding the indent):
+
+	The number 123 <a href="motion.txt.html#is" class="d">is</a> smaller than 4567.
+
+To highlight the numbers in this text: 
+<span class="e">	call prop_type_add('number', {'highlight': 'Constant'})</span>
+<span class="e">	call prop_add(11, 12, {'length': 3, 'type': 'number'})</span>
+<span class="e">	call prop_add(11, 32, {'length': 4, 'type': 'number'})</span>
+<span class="e"></span>
+Try <a href="insert.txt.html#inserting" class="d">inserting</a> or <a href="change.txt.html#deleting" class="d">deleting</a> lines above the text, you will see that the text
+properties stick to the text, thus the line number <a href="motion.txt.html#is" class="d">is</a> adjusted <a href="motion.txt.html#as" class="d">as</a> needed.
+
+Setting "start_incl" and "end_incl" <a href="motion.txt.html#is" class="d">is</a> useful when white <a href="intro.txt.html#space" class="d">space</a> surrounds the
+text, e.g. for <a href="insert.txt.html#a" class="d">a</a> function name.  Using <a href="vim9.txt.html#false" class="d">false</a> <a href="motion.txt.html#is" class="d">is</a> useful when the text starts
+and/or ends with <a href="insert.txt.html#a" class="d">a</a> specific character, such <a href="motion.txt.html#as" class="d">as</a> the <a href="change.txt.html#quote" class="d">quote</a> surrounding <a href="insert.txt.html#a" class="d">a</a> string.
+
+<span class="h">	func FuncName(arg) </span>
+	     ^^^^^^^^        property with start_incl and end_incl set
+
+<span class="h">	var = "text"; </span>
+	      ^^^^^^	     property with start_incl and end_incl not set
+
+Nevertheless, when text <a href="motion.txt.html#is" class="d">is</a> inserted or deleted the text may need to be parsed
+and the text properties updated.  But this can be done asynchronously.
+
+
+Internal error <span id="E967" class="t">E967</span>
+
+If you see E967, please report the bug.  You can <a href="diff.txt.html#do" class="d">do</a> this <a href="motion.txt.html#at" class="d">at</a> Github:
+<a class="u" href="https://github.com/vim/vim/issues/new">https://github.com/vim/vim/issues/new</a>
+
+<span class="h">==============================================================================</span>
+2. Functions						<span id="text-prop-functions" class="t">text-prop-functions</span>
+
+Manipulating text property types:
+
+prop_type_add({name}, <span class="s">{props}</span>)		define <a href="insert.txt.html#a" class="d">a</a> new property type
+prop_type_change({name}, <span class="s">{props}</span>)	change an existing property type
+prop_type_delete({name} [, <span class="s">{props}</span>])	delete <a href="insert.txt.html#a" class="d">a</a> property type
+prop_type_get({name} [, <span class="s">{props}</span>])	get property type values
+prop_type_list([{props}])		get <a href="eval.txt.html#list" class="d">list</a> of property types
+
+
+Manipulating text properties:
+
+prop_add({lnum}, <span class="s">{col}</span>, <span class="s">{props}</span>)	add <a href="insert.txt.html#a" class="d">a</a> text property
+prop_add_list({props}, [{item}, ...])
+					add <a href="insert.txt.html#a" class="d">a</a> text property <a href="motion.txt.html#at" class="d">at</a> multiple
+					positions.
+prop_clear({lnum} [, <span class="s">{lnum-end}</span> [, <span class="s">{bufnr}</span>]])
+					remove all text properties
+prop_find({props} [, <span class="s">{direction}</span>])	search for <a href="insert.txt.html#a" class="d">a</a> text property
+prop_list({lnum} [, <span class="s">{props}</span>])		text properties in <span class="s">{lnum}</span>
+prop_remove({props} [, <span class="s">{lnum}</span> [, <span class="s">{lnum-end}</span>]])
+					remove <a href="insert.txt.html#a" class="d">a</a> text property
+
+						<span id="text-prop-functions-details" class="t">text-prop-functions-details</span>
+
+						<span id="prop_add%28%29" class="t">prop_add()</span> <span id="E965" class="t">E965</span>
+prop_add({lnum}, <span class="s">{col}</span>, <span class="s">{props}</span>)
+		Attach <a href="insert.txt.html#a" class="d">a</a> text property <a href="motion.txt.html#at" class="d">at</a> position <span class="s">{lnum}</span>, <span class="s">{col}</span>.  <span class="s">{col}</span> <a href="motion.txt.html#is" class="d">is</a>
+		counted in bytes, use one for the first column.
+		If <span class="s">{lnum}</span> <a href="motion.txt.html#is" class="d">is</a> invalid an error <a href="motion.txt.html#is" class="d">is</a> given. <span id="E966" class="t">E966</span>
+		If <span class="s">{col}</span> <a href="motion.txt.html#is" class="d">is</a> invalid an error <a href="motion.txt.html#is" class="d">is</a> given. <span id="E964" class="t">E964</span>
+
+		<span class="s">{props}</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> dictionary with these fields:
+		   type		name of the text property type
+		   length	length of text in bytes, can only be used
+				for <a href="insert.txt.html#a" class="d">a</a> property that does not continue in
+				another line; can be zero
+		   end_lnum	line number for the <a href="intro.txt.html#end" class="d">end</a> of text (inclusive)
+		   end_col	column just after the text; not used when
+				"length" <a href="motion.txt.html#is" class="d">is</a> present; when <span class="s">{col}</span> and "end_col"
+				are equal, and "end_lnum" <a href="motion.txt.html#is" class="d">is</a> omitted or equal
+				to <span class="s">{lnum}</span>, this <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> zero-width text property
+		   bufnr	buffer to add the property to; when omitted
+				the current buffer <a href="motion.txt.html#is" class="d">is</a> used
+		   id		user defined ID for the property; <a href="vim_faq.txt.html#must" class="d">must</a> be <a href="insert.txt.html#a" class="d">a</a>
+				number, should be positive <a href="change.txt.html#E1510" class="l">E1510</a><a href="motion.txt.html#%3B" class="d">;</a>
+				when using "text" then "id" <a href="vim_faq.txt.html#must" class="d">must</a> not be
+				present and will be set automatically to <a href="insert.txt.html#a" class="d">a</a>
+				negative number; otherwise zero <a href="motion.txt.html#is" class="d">is</a> used
+							<span id="E1305" class="t">E1305</span>
+		   text		text to be displayed before <span class="s">{col}</span>, or
+				above/below the line if <span class="s">{col}</span> <a href="motion.txt.html#is" class="d">is</a> zero; prepend
+				and/or append spaces for padding with
+				highlighting; cannot be used with "length"<a href="motion.txt.html#%2C" class="d">,</a>
+				"end_lnum" and "end_col"
+				See <a href="textprop.txt.html#virtual-text" class="l">virtual-text</a> for more information.
+							<span id="E1294" class="t">E1294</span>
+		   text_align	when "text" <a href="motion.txt.html#is" class="d">is</a> present and <span class="s">{col}</span> <a href="motion.txt.html#is" class="d">is</a> zero;
+				<a href="vim9class.txt.html#specifies" class="d">specifies</a> where to display the text:
+				   after   after the <a href="intro.txt.html#end" class="d">end</a> of the line
+				   right   right aligned in the <a href="windows.txt.html#window" class="d">window</a> (unless
+					   the text wraps to the next screen
+					   line)
+				   below   in the next screen line
+				   above   just above the line
+				When omitted "after" <a href="motion.txt.html#is" class="d">is</a> used.  Only one
+				"right" property can fit in each line, if
+				there are two or more these will <a href="motion.txt.html#go" class="d">go</a> in <a href="insert.txt.html#a" class="d">a</a>
+				separate line (still right aligned).
+		   text_padding_left				<span id="E1296" class="t">E1296</span>
+				used when "text" <a href="motion.txt.html#is" class="d">is</a> present and <span class="s">{col}</span> <a href="motion.txt.html#is" class="d">is</a> zero;
+				padding between the <a href="intro.txt.html#end" class="d">end</a> of the text line
+				(leftmost column for "above" and "below"<a href="motion.txt.html#%29" class="d">)</a> and
+				the virtual text, not highlighted
+		   text_wrap	when "text" <a href="motion.txt.html#is" class="d">is</a> present and <span class="s">{col}</span> <a href="motion.txt.html#is" class="d">is</a> zero,
+				<a href="vim9class.txt.html#specifies" class="d">specifies</a> what happens if the text doesn't
+				fit:
+				   wrap      wrap the text to the next line
+				   truncate  truncate the text to make <a href="motion.txt.html#it" class="d">it</a> fit
+				When omitted "truncate" <a href="motion.txt.html#is" class="d">is</a> used.
+				<span class="n">Note</span> that this applies to the individual text
+				property, the <a href="options.txt.html#%27wrap%27" class="o">'wrap'</a> option sets the overall
+				behavior
+		All fields except "type" are optional.
+
+		It <a href="motion.txt.html#is" class="d">is</a> an error when both "length" and "end_lnum" or "end_col"
+		are given.  Either use "length" or "end_col" for <a href="insert.txt.html#a" class="d">a</a> property
+		within one line, or use "end_lnum" and "end_col" for <a href="insert.txt.html#a" class="d">a</a>
+		property that spans more than one line.
+		When neither "length" nor "end_col" are given the property
+		will be zero-width.  That means <a href="motion.txt.html#it" class="d">it</a> will move with the text, <a href="motion.txt.html#as" class="d">as</a>
+		<a href="insert.txt.html#a" class="d">a</a> kind of mark.  One character will be highlighted, if the
+		type <a href="vim9class.txt.html#specifies" class="d">specifies</a> highlighting.
+		The property can <a href="intro.txt.html#end" class="d">end</a> exactly <a href="motion.txt.html#at" class="d">at</a> the last character of the
+		text, or just after it.  In the last case, if text <a href="motion.txt.html#is" class="d">is</a> appended
+		to the line, the text property size will increase, also when
+		the property type does not have "end_incl" set.
+
+		"type" will first be looked up in the buffer the property <a href="motion.txt.html#is" class="d">is</a>
+		added to.  When not found, the global property types are used.
+		If not found an error <a href="motion.txt.html#is" class="d">is</a> given.
+							<span id="virtual-text" class="t">virtual-text</span>
+		When "text" <a href="motion.txt.html#is" class="d">is</a> used and the column <a href="motion.txt.html#is" class="d">is</a> non-zero then this text
+		will be displayed <a href="motion.txt.html#at" class="d">at</a> the specified start location of the text
+		property.  The text of the buffer line will be shifted to make
+		room.  This <a href="motion.txt.html#is" class="d">is</a> called "virtual text"<a href="repeat.txt.html#." class="d">.</a>
+		When the column <a href="motion.txt.html#is" class="d">is</a> zero the virtual text will appear above,
+		after or below the buffer text.  The "text_align" and
+		"text_wrap" arguments determine how <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> displayed.
+		To separate the virtual text from the buffer text prepend
+		and/or append spaces to the "text" field or use the
+		"text_padding_left" value.
+
+		Make sure to use <a href="insert.txt.html#a" class="d">a</a> highlight that makes clear to the user that
+		this <a href="motion.txt.html#is" class="d">is</a> virtual text, otherwise <a href="motion.txt.html#it" class="d">it</a> will be very confusing that
+		the text cannot be edited.  When using "above" you need to
+		make clear this text belongs to the text line below it, when
+		using "below" you need to make sure <a href="motion.txt.html#it" class="d">it</a> belongs to the text
+		line above it.
+
+		The text will be displayed but <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not part of the actual
+		buffer line, the cursor cannot be placed on it.  <a href="insert.txt.html#A" class="d">A</a> mouse click
+		in the text will move the cursor to the first character after
+		the text, or the last character of the line.
+		Any <a href="intro.txt.html#Tab" class="d">Tab</a> and other <a href="intro.txt.html#control" class="d">control</a> character in the text will be
+		changed to <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#space" class="d">space</a> (Rationale: otherwise the size of the text
+		<a href="motion.txt.html#is" class="d">is</a> difficult to compute).
+		<a href="insert.txt.html#A" class="d">A</a> negative "id" will be chosen and <a href="motion.txt.html#is" class="d">is</a> returned.
+
+		Before text properties with text were supported <a href="motion.txt.html#it" class="d">it</a> was
+		possible to use <a href="insert.txt.html#a" class="d">a</a> negative "id"<a href="motion.txt.html#%2C" class="d">,</a> even though this was very
+		rare.  Now that negative "id"<a href="change.txt.html#s" class="d">s</a> are reserved for text
+		properties with text an error <a href="motion.txt.html#is" class="d">is</a> given when using <a href="insert.txt.html#a" class="d">a</a> negative
+		"id"<a href="repeat.txt.html#." class="d">.</a>  When <a href="insert.txt.html#a" class="d">a</a> text property with text already exists using <a href="insert.txt.html#a" class="d">a</a>
+		negative "id" results in <span id="E1293" class="t">E1293</span> <a href="repeat.txt.html#." class="d">.</a>  If <a href="insert.txt.html#a" class="d">a</a> negative "id" was
+		used and later <a href="insert.txt.html#a" class="d">a</a> text property with text <a href="motion.txt.html#is" class="d">is</a> added results in
+		<span id="E1339" class="t">E1339</span> <a href="repeat.txt.html#." class="d">.</a>
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetLnum()-&gt;prop_add(col, props)</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+prop_add_list({props}, [{item}, ...])			<span id="prop_add_list%28%29" class="t">prop_add_list()</span>
+		Similar to prop_add(), but attaches <a href="insert.txt.html#a" class="d">a</a> text property <a href="motion.txt.html#at" class="d">at</a>
+		multiple positions in <a href="insert.txt.html#a" class="d">a</a> buffer.
+
+		<span class="s">{props}</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> dictionary with these fields:
+		   bufnr	buffer to add the property to; when omitted
+				the current buffer <a href="motion.txt.html#is" class="d">is</a> used
+		   id		user defined ID for the property; <a href="vim_faq.txt.html#must" class="d">must</a> be <a href="insert.txt.html#a" class="d">a</a>
+				number; when omitted zero <a href="motion.txt.html#is" class="d">is</a> used
+		   type		name of the text property type
+		All fields except "type" are optional.
+
+		The second argument <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#List" class="d">List</a> of items, where each <span class="s">{item}</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+		<a href="eval.txt.html#list" class="d">list</a> that <a href="vim9class.txt.html#specifies" class="d">specifies</a> the <a href="starting.txt.html#starting" class="d">starting</a> and ending position of the
+		text: [{lnum}, <span class="s">{col}</span>, <span class="s">{end-lnum}</span>, <span class="s">{end-col}</span>]
+		or:   [{lnum}, <span class="s">{col}</span>, <span class="s">{end-lnum}</span>, <span class="s">{end-col}</span>, <span class="s">{id}</span>]
+
+		The first two items <span class="s">{lnum}</span> and <span class="s">{col}</span> specify the <a href="starting.txt.html#starting" class="d">starting</a>
+		position of the text where the property will be attached.
+		The next two items <span class="s">{end-lnum}</span> and <span class="s">{end-col}</span> specify the
+		position just after the text.
+		An optional fifth item <span class="s">{id}</span> can be used to give <a href="insert.txt.html#a" class="d">a</a> different ID
+		to <a href="insert.txt.html#a" class="d">a</a> property.  When omitted the ID from <span class="s">{props}</span> <a href="motion.txt.html#is" class="d">is</a> used,
+		falling back to zero if none are present.
+
+		It <a href="motion.txt.html#is" class="d">is</a> not possible to add <a href="insert.txt.html#a" class="d">a</a> text property with <a href="insert.txt.html#a" class="d">a</a> "text" field
+		here.
+
+		Example: 
+<span class="e">			call prop_add_list(#{type: 'MyProp', id: 2},</span>
+<span class="e">					\ [[1, 4, 1, 7],</span>
+<span class="e">					\  [1, 15, 1, 20],</span>
+<span class="e">					\  [2, 30, 3, 30]])</span>
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetProp()-&gt;prop_add_list([[1, 1, 1, 2], [1, 4, 1, 8]])</span>
+<span class="e"></span>
+<span class="e"></span>
+prop_clear({lnum} [, <span class="s">{lnum-end}</span> [, <span class="s">{props}</span>]])		<span id="prop_clear%28%29" class="t">prop_clear()</span>
+		Remove all text properties from line <span class="s">{lnum}</span>.
+		When <span class="s">{lnum-end}</span> <a href="motion.txt.html#is" class="d">is</a> given, remove all text properties from line
+		<span class="s">{lnum}</span> to <span class="s">{lnum-end}</span> (inclusive).
+
+		When <span class="s">{props}</span> contains <a href="insert.txt.html#a" class="d">a</a> "bufnr" item use this buffer,
+		otherwise use the current buffer.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetLnum()-&gt;prop_clear()</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+prop_find({props} [, <span class="s">{direction}</span>])			<span id="prop_find%28%29" class="t">prop_find()</span>
+		Search for <a href="insert.txt.html#a" class="d">a</a> text property <a href="motion.txt.html#as" class="d">as</a> specified with <span class="s">{props}</span>:
+		   id		property with this ID
+		   type		property with this type name
+		   both		"id" and "type" <a href="vim_faq.txt.html#must" class="d">must</a> both match
+		   bufnr	buffer to search in; when present <a href="insert.txt.html#a" class="d">a</a>
+				start position with "lnum" and "col"
+				<a href="vim_faq.txt.html#must" class="d">must</a> be given; when omitted the
+				current buffer <a href="motion.txt.html#is" class="d">is</a> used
+		   lnum		start in this line (when omitted start
+				<a href="motion.txt.html#at" class="d">at</a> the cursor)
+		   col		start <a href="motion.txt.html#at" class="d">at</a> this column (when omitted
+				and "lnum" <a href="motion.txt.html#is" class="d">is</a> given: use column 1,
+				otherwise start <a href="motion.txt.html#at" class="d">at</a> the cursor)
+		   skipstart	<a href="diff.txt.html#do" class="d">do</a> not look for <a href="insert.txt.html#a" class="d">a</a> match <a href="motion.txt.html#at" class="d">at</a> the start
+				position
+
+		<a href="insert.txt.html#A" class="d">A</a> property matches when either "id" or "type" matches.
+		<span class="s">{direction}</span> can be "<a href="motion.txt.html#f" class="d">f</a>" for forward and "<a href="motion.txt.html#b" class="d">b</a>" for backward.  When
+		omitted forward search <a href="motion.txt.html#is" class="d">is</a> performed.
+
+		If <a href="insert.txt.html#a" class="d">a</a> match <a href="motion.txt.html#is" class="d">is</a> found then <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#Dict" class="d">Dict</a> <a href="motion.txt.html#is" class="d">is</a> returned with the entries
+		<a href="motion.txt.html#as" class="d">as</a> with prop_list(), and additionally an "lnum" entry.
+		If no match <a href="motion.txt.html#is" class="d">is</a> found then an empty <a href="eval.txt.html#Dict" class="d">Dict</a> <a href="motion.txt.html#is" class="d">is</a> returned.
+
+		Return type: dict&lt;any&gt;
+
+
+prop_list({lnum} [, <span class="s">{props}</span>])				<span id="prop_list%28%29" class="t">prop_list()</span>
+		Returns <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#List" class="d">List</a> with all the text properties in line <span class="s">{lnum}</span>.
+
+		The following optional items are supported in <span class="s">{props}</span>:
+		   bufnr	use this buffer instead of the current buffer
+		   end_lnum	return text properties in all the lines
+				between <span class="s">{lnum}</span> and <span class="s">{end_lnum}</span> (inclusive).
+				<a href="insert.txt.html#A" class="d">A</a> negative value <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> an offset from the
+				last buffer line; -1 refers to the last buffer
+				line.
+		   types	<a href="eval.txt.html#List" class="d">List</a> of property type names.  Return only text
+				properties that match one of the type names.
+		   ids		<a href="eval.txt.html#List" class="d">List</a> of property identifiers.  Return only
+				text properties with one of these identifiers.
+
+		The properties are ordered by <a href="starting.txt.html#starting" class="d">starting</a> column and priority.
+		Each property <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#Dict" class="d">Dict</a> with these entries:
+		   lnum		<a href="starting.txt.html#starting" class="d">starting</a> line number.  Present only when
+				returning text properties between <span class="s">{lnum}</span> and
+				<span class="s">{end_lnum}</span>.
+		   col		<a href="starting.txt.html#starting" class="d">starting</a> column
+		   length	length in bytes, one more if line break <a href="motion.txt.html#is" class="d">is</a>
+				included
+		   id		property ID
+		   text		text to be displayed before <span class="s">{col}</span>.  Only
+				present for <a href="textprop.txt.html#virtual-text" class="l">virtual-text</a> properties.
+		   text_align	alignment property of <a href="textprop.txt.html#virtual-text" class="l">virtual-text</a><a href="repeat.txt.html#." class="d">.</a>
+		   text_padding_left
+				left padding used for virtual text.
+		   text_wrap	<a href="vim9class.txt.html#specifies" class="d">specifies</a> whether <a href="textprop.txt.html#virtual-text" class="l">virtual-text</a> <a href="motion.txt.html#is" class="d">is</a> wrapped.
+		   type		name of the property type, omitted if
+				the type was deleted
+		   type_bufnr	buffer number for which this type was defined;
+				<a href="motion.txt.html#0" class="d">0</a> if the type <a href="motion.txt.html#is" class="d">is</a> global
+		   start	when <a href="eval.txt.html#TRUE" class="d">TRUE</a> property starts in this line
+		   <a href="intro.txt.html#end" class="d">end</a>		when <a href="eval.txt.html#TRUE" class="d">TRUE</a> property ends in this line
+
+		When "start" <a href="motion.txt.html#is" class="d">is</a> zero the property started in <a href="insert.txt.html#a" class="d">a</a> previous line,
+		the current one <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> continuation.
+		When "<a href="intro.txt.html#end" class="d">end</a>" <a href="motion.txt.html#is" class="d">is</a> zero the property continues in the next line.
+		The line break after this line <a href="motion.txt.html#is" class="d">is</a> included.
+
+		Returns an empty <a href="eval.txt.html#list" class="d">list</a> on error.
+
+		Examples: 
+<span class="e">		   " get text properties placed in line 5</span>
+<span class="e">		   echo prop_list(5)</span>
+<span class="e">		   " get text properties placed in line 20 in buffer 4</span>
+<span class="e">		   echo prop_list(20, {'bufnr': 4})</span>
+<span class="e">		   " get all the text properties between line 1 and 20</span>
+<span class="e">		   echo prop_list(1, {'end_lnum': 20})</span>
+<span class="e">		   " get all the text properties of type 'myprop'</span>
+<span class="e">		   echo prop_list(1, {'types': ['myprop'],</span>
+<span class="e">						\ 'end_lnum': -1})</span>
+<span class="e">		   " get all the text properties of type 'prop1' or 'prop2'</span>
+<span class="e">		   echo prop_list(1, {'types': ['prop1', 'prop2'],</span>
+<span class="e">						\ 'end_lnum': -1})</span>
+<span class="e">		   " get all the text properties with ID 8</span>
+<span class="e">		   echo prop_list(1, {'ids': [8], 'end_lnum': line('$')})</span>
+<span class="e">		   " get all the text properties with ID 10 and 20</span>
+<span class="e">		   echo prop_list(1, {'ids': [10, 20], 'end_lnum': -1})</span>
+<span class="e">		   " get text properties with type 'myprop' and ID 100</span>
+<span class="e">		   " in buffer 4.</span>
+<span class="e">		   echo prop_list(1, {'bufnr': 4, 'types': ['myprop'],</span>
+<span class="e">					\ 'ids': [100], 'end_lnum': -1})</span>
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetLnum()-&gt;prop_list()</span>
+
+		Return type: list&lt;dict&lt;any&gt;&gt; or list&lt;any&gt;
+
+						<span id="prop_remove%28%29" class="t">prop_remove()</span> <span id="E968" class="t">E968</span> <span id="E860" class="t">E860</span>
+prop_remove({props} [, <span class="s">{lnum}</span> [, <span class="s">{lnum-end}</span>]])
+		Remove <a href="insert.txt.html#a" class="d">a</a> matching text property from line <span class="s">{lnum}</span>.  When
+		<span class="s">{lnum-end}</span> <a href="motion.txt.html#is" class="d">is</a> given, remove matching text properties from line
+		<span class="s">{lnum}</span> to <span class="s">{lnum-end}</span> (inclusive).
+		When <span class="s">{lnum}</span> <a href="motion.txt.html#is" class="d">is</a> omitted remove matching text properties from
+		all lines (this requires going over all lines, thus will be <a href="insert.txt.html#a" class="d">a</a>
+		bit slow for <a href="insert.txt.html#a" class="d">a</a> buffer with many lines).
+
+		<span class="s">{props}</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> dictionary with these fields:
+		   id		remove text properties with this ID
+		   type		remove text properties with this type name
+		   types	remove text properties with type names in this
+				<a href="eval.txt.html#List" class="d">List</a>
+		   both		"id" and "type"<a href="pattern.txt.html#%2F" class="d">/</a>"types" <a href="vim_faq.txt.html#must" class="d">must</a> both match
+		   bufnr	use this buffer instead of the current one
+		   all		when <a href="eval.txt.html#TRUE" class="d">TRUE</a> remove all matching text properties,
+				not just the first one
+		Only one of "type" and "types" may be supplied. <span id="E1295" class="t">E1295</span>
+
+		<a href="insert.txt.html#A" class="d">A</a> property matches when either "id" or one of the supplied
+		types matches.
+		If buffer "bufnr" does not exist you get an error message.
+		If buffer "bufnr" <a href="motion.txt.html#is" class="d">is</a> not loaded then nothing happens.
+
+		Returns the number of properties that were removed.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetProps()-&gt;prop_remove()</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+prop_type_add({name}, <span class="s">{props}</span>)		<span id="prop_type_add%28%29" class="t">prop_type_add()</span> <span id="E969" class="t">E969</span> <span id="E970" class="t">E970</span>
+		Add <a href="insert.txt.html#a" class="d">a</a> text property type <span class="s">{name}</span>.  If <a href="insert.txt.html#a" class="d">a</a> property type with this
+		name already exists an error <a href="motion.txt.html#is" class="d">is</a> given.  Nothing <a href="motion.txt.html#is" class="d">is</a> returned.
+		<span class="s">{props}</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> dictionary with these optional fields:
+		   bufnr	define the property only for this buffer; this
+				avoids name collisions and automatically
+				clears the property types when the buffer <a href="motion.txt.html#is" class="d">is</a>
+				deleted.
+		   highlight	name of highlight group to use
+		   priority	when <a href="insert.txt.html#a" class="d">a</a> character has multiple text
+				properties the one with the highest priority
+				will be used; negative values can be used, the
+				default priority <a href="motion.txt.html#is" class="d">is</a> zero
+		   combine	when omitted or <a href="eval.txt.html#TRUE" class="d">TRUE</a> combine the highlight
+				with any <a href="syntax.txt.html#syntax" class="d">syntax</a> highlight; when <a href="eval.txt.html#FALSE" class="d">FALSE</a> <a href="syntax.txt.html#syntax" class="d">syntax</a>
+				highlight will not be used
+		   override	when <a href="eval.txt.html#TRUE" class="d">TRUE</a> the highlight overrides any other,
+				including <a href="options.txt.html#%27cursorline%27" class="o">'cursorline'</a> and <a href="visual.txt.html#Visual" class="d">Visual</a>
+		   start_incl	when <a href="eval.txt.html#TRUE" class="d">TRUE</a> inserts <a href="motion.txt.html#at" class="d">at</a> the start position will
+				be included in the text property
+		   end_incl	when <a href="eval.txt.html#TRUE" class="d">TRUE</a> inserts <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> position will be
+				included in the text property
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPropName()-&gt;prop_type_add(props)</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+prop_type_change({name}, <span class="s">{props}</span>)			<span id="prop_type_change%28%29" class="t">prop_type_change()</span>
+		Change properties of an existing text property type.  If <a href="insert.txt.html#a" class="d">a</a>
+		property with this name does not exist an error <a href="motion.txt.html#is" class="d">is</a> given.
+		The <span class="s">{props}</span> argument <a href="motion.txt.html#is" class="d">is</a> just like <a href="textprop.txt.html#prop_type_add%28%29" class="l">prop_type_add()</a><a href="repeat.txt.html#." class="d">.</a>
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPropName()-&gt;prop_type_change(props)</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+prop_type_delete({name} [, <span class="s">{props}</span>])			<span id="prop_type_delete%28%29" class="t">prop_type_delete()</span>
+		Remove the text property type <span class="s">{name}</span>.  When text properties
+		using the type <span class="s">{name}</span> are still in place, they will not have
+		an effect and can no longer be removed by name.
+
+		<span class="s">{props}</span> can contain <a href="insert.txt.html#a" class="d">a</a> "bufnr" item.  When <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> given, delete
+		<a href="insert.txt.html#a" class="d">a</a> property type from this buffer instead of from the global
+		property types.
+
+		When text property type <span class="s">{name}</span> <a href="motion.txt.html#is" class="d">is</a> not found there <a href="motion.txt.html#is" class="d">is</a> no error.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPropName()-&gt;prop_type_delete()</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+prop_type_get({name} [, <span class="s">{props}</span>])			<span id="prop_type_get%28%29" class="t">prop_type_get()</span>
+		Returns the properties of property type <span class="s">{name}</span>.  This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+		dictionary with the same fields <a href="motion.txt.html#as" class="d">as</a> was given to
+		prop_type_add().
+		When the property type <span class="s">{name}</span> does not exist, an empty
+		dictionary <a href="motion.txt.html#is" class="d">is</a> returned.
+
+		<span class="s">{props}</span> can contain <a href="insert.txt.html#a" class="d">a</a> "bufnr" item.  When <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> given, use
+		this buffer instead of the global property types.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPropName()-&gt;prop_type_get()</span>
+
+		Return type: dict&lt;any&gt;
+
+
+prop_type_list([{props}])				<span id="prop_type_list%28%29" class="t">prop_type_list()</span>
+		Returns <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> with all property type names.
+
+		<span class="s">{props}</span> can contain <a href="insert.txt.html#a" class="d">a</a> "bufnr" item.  When <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> given, use
+		this buffer instead of the global property types.
+
+		Return type: list&lt;string&gt; or list&lt;any&gt;
+
+
+<span class="h">==============================================================================</span>
+3. When text changes				<span id="text-prop-changes" class="t">text-prop-changes</span>
+
+Vim will <a href="diff.txt.html#do" class="d">do</a> its best to keep the text properties on the text where <a href="motion.txt.html#it" class="d">it</a> was
+attached.  When <a href="insert.txt.html#inserting" class="d">inserting</a> or <a href="change.txt.html#deleting" class="d">deleting</a> text the properties after the change
+will move accordingly.
+
+When text <a href="motion.txt.html#is" class="d">is</a> deleted and <a href="insert.txt.html#a" class="d">a</a> text property no longer includes any text, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+deleted.  However, <a href="insert.txt.html#a" class="d">a</a> text property that was defined <a href="motion.txt.html#as" class="d">as</a> zero-width will remain,
+unless the whole line <a href="motion.txt.html#is" class="d">is</a> deleted.
+								<span id="E275" class="t">E275</span>
+When <a href="insert.txt.html#a" class="d">a</a> buffer <a href="motion.txt.html#is" class="d">is</a> unloaded, all the text properties are gone.  There <a href="motion.txt.html#is" class="d">is</a> no way
+to store the properties in <a href="insert.txt.html#a" class="d">a</a> file.  You can only re-create them.  When <a href="insert.txt.html#a" class="d">a</a>
+buffer <a href="motion.txt.html#is" class="d">is</a> hidden the text <a href="motion.txt.html#is" class="d">is</a> preserved and so are the text properties.  It <a href="motion.txt.html#is" class="d">is</a>
+not possible to add text properties to an unloaded buffer.
+
+When using replace mode, the text properties stay on the same character
+positions, even though the characters themselves change.
+
+To update text properties after the text was changed, <a href="usr_90.txt.html#install" class="d">install</a> <a href="insert.txt.html#a" class="d">a</a> callback with
+<span class="e">listener_add()</span>.  E.g, if your <a href="usr_05.txt.html#plugin" class="d">plugin</a> does <a href="spell.txt.html#spell" class="d">spell</a> checking, you can have the
+callback update spelling mistakes in the changed text.  Vim will move the
+properties below the changed text, so that they still highlight the same text,
+thus you don't need to update these.
+
+							<span id="text-prop-cleared" class="t">text-prop-cleared</span>
+<span class="h">Text property columns are not updated or copied: </span>
+
+<a href="motion.txt.html#-" class="d">-</a> When setting the line with <a href="builtin.txt.html#setline%28%29" class="l">setline()</a> or through an interface, such <a href="motion.txt.html#as" class="d">as</a> Lua,
+  <a href="if_tcl.txt.html#Tcl" class="d">Tcl</a> or Python.  Vim does not know what text got inserted or deleted.
+<a href="motion.txt.html#-" class="d">-</a> With <a href="insert.txt.html#a" class="d">a</a> command like <span class="e">:move</span>, which takes <a href="insert.txt.html#a" class="d">a</a> line of text out of context.
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

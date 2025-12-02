@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: popup.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="popup.txt.html#">↑Top↑</a></li>
+<li><a href="popup.txt.html#popup-intro">Introduction</a></li>
+<li><a href="popup.txt.html#popup-functions">Functions</a></li>
+<li><a href="popup.txt.html#popup-usage">Usage</a></li>
+<li><a href="popup.txt.html#popup-examples">Examples</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="popup.txt" class="t">popup.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 09
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar</span>
+
+
+Displaying text in <a href="insert.txt.html#a" class="d">a</a> floating window.	<span id="popup" class="t">popup</span> <span id="popup-window" class="t">popup-window</span> <span id="popupwin" class="t">popupwin</span>
+
+
+1. Introduction			<a href="popup.txt.html#popup-intro" class="l">popup-intro</a>
+   Window position and size	<a href="popup.txt.html#popup-position" class="l">popup-position</a>
+   Closing the <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a>	<a href="popup.txt.html#popup-close" class="l">popup-close</a>
+   Popup buffer and <a href="windows.txt.html#window" class="d">window</a>	<a href="popup.txt.html#popup-buffer" class="l">popup-buffer</a>
+   Terminal in <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a>	<a href="popup.txt.html#popup-terminal" class="l">popup-terminal</a>
+2. Functions			<a href="popup.txt.html#popup-functions" class="l">popup-functions</a>
+   Details			<a href="popup.txt.html#popup-function-details" class="l">popup-function-details</a>
+3. Usage			<a href="popup.txt.html#popup-usage" class="l">popup-usage</a>
+   <a href="popup.txt.html#popup_create%28%29" class="d">popup_create()</a> arguments	<a href="popup.txt.html#popup_create-arguments" class="l">popup_create-arguments</a>
+   Popup text properties	<a href="popup.txt.html#popup-props" class="l">popup-props</a>
+   Position <a href="popup.txt.html#popup" class="d">popup</a> with <a href="textprop.txt.html#textprop" class="d">textprop</a>	<a href="popup.txt.html#popup-textprop-pos" class="l">popup-textprop-pos</a>
+   Popup <a href="change.txt.html#filter" class="d">filter</a>			<a href="popup.txt.html#popup-filter" class="l">popup-filter</a>
+   Popup callback		<a href="popup.txt.html#popup-callback" class="l">popup-callback</a>
+   Popup scrollbar		<a href="popup.txt.html#popup-scrollbar" class="l">popup-scrollbar</a>
+   Popup mask			<a href="popup.txt.html#popup-mask" class="l">popup-mask</a>
+4. Examples			<a href="popup.txt.html#popup-examples" class="l">popup-examples</a>
+
+
+<span class="s">{not available if the |+popupwin| feature was disabled at compile time}</span>
+
+<span class="h">==============================================================================</span>
+1. Introduction						<span id="popup-intro" class="t">popup-intro</span>
+
+We are talking about <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#windows" class="d">windows</a> here, text that goes on top of the regular
+<a href="windows.txt.html#windows" class="d">windows</a> and <a href="motion.txt.html#is" class="d">is</a> under <a href="intro.txt.html#control" class="d">control</a> of <a href="insert.txt.html#a" class="d">a</a> plugin.  You cannot edit the text in the
+<a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> like with regular windows.
+
+<a href="insert.txt.html#A" class="d">A</a> <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> can be used for such things as:
+<a href="motion.txt.html#-" class="d">-</a> briefly show <a href="insert.txt.html#a" class="d">a</a> message without overwriting the command line
+<a href="motion.txt.html#-" class="d">-</a> prompt the user with <a href="insert.txt.html#a" class="d">a</a> <a href="gui_w32.txt.html#dialog" class="d">dialog</a>
+<a href="motion.txt.html#-" class="d">-</a> display contextual information while typing
+<a href="motion.txt.html#-" class="d">-</a> give extra information for auto-completion
+
+The text in the <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> can be colored with <a href="textprop.txt.html#text-properties" class="l">text-properties</a><a href="repeat.txt.html#." class="d">.</a>  It <a href="motion.txt.html#is" class="d">is</a>
+also possible to use <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting.
+
+The default color used <a href="motion.txt.html#is" class="d">is</a> "Pmenu"<a href="repeat.txt.html#." class="d">.</a>  If you prefer something else use the
+"highlight" argument or the <a href="options.txt.html#%27wincolor%27" class="o">'wincolor'</a> option, e.g.: 
+<span class="e">	hi MyPopupColor ctermbg=lightblue guibg=lightblue</span>
+<span class="e">	call setwinvar(winid, '&amp;wincolor', 'MyPopupColor')</span>
+<span class="e"></span>
+<a href="options.txt.html#%27hlsearch%27" class="o">'hlsearch'</a> highlighting <a href="motion.txt.html#is" class="d">is</a> not displayed in <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> window.
+
+<a href="insert.txt.html#A" class="d">A</a> <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> has <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window-ID" class="d">window-ID</a> like other windows, but behaves differently.
+The size can be up to the whole Vim <a href="windows.txt.html#window" class="d">window</a> and <a href="motion.txt.html#it" class="d">it</a> overlaps other windows.
+Popup <a href="windows.txt.html#windows" class="d">windows</a> can also overlap each other.  The "zindex" property <a href="vim9class.txt.html#specifies" class="d">specifies</a>
+what goes on top of what.
+							<span id="E366" class="t">E366</span>
+The <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> contains <a href="insert.txt.html#a" class="d">a</a> buffer, and that buffer <a href="motion.txt.html#is" class="d">is</a> always associated with
+the <a href="popup.txt.html#popup" class="d">popup</a> window.  The <a href="windows.txt.html#window" class="d">window</a> cannot be in Normal, <a href="visual.txt.html#Visual" class="d">Visual</a> or <a href="insert.txt.html#Insert" class="d">Insert</a> mode, <a href="motion.txt.html#it" class="d">it</a>
+does not get keyboard focus.  You can use <a href="eval.txt.html#functions" class="d">functions</a> like <span class="e">setbufline()</span> to
+change the text in the buffer.  There are more differences from how this
+<a href="windows.txt.html#window" class="d">window</a> and buffer behave compared to regular <a href="windows.txt.html#windows" class="d">windows</a> and buffers, see
+<a href="popup.txt.html#popup-buffer" class="l">popup-buffer</a><a href="repeat.txt.html#." class="d">.</a>
+
+If this <a href="motion.txt.html#is" class="d">is</a> not what you are looking for, check out other <a href="popup.txt.html#popup" class="d">popup</a> functionality:
+<a href="motion.txt.html#-" class="d">-</a> <a href="popup.txt.html#popup" class="d">popup</a> menu, see <a href="gui.txt.html#popup-menu" class="l">popup-menu</a>
+<a href="motion.txt.html#-" class="d">-</a> balloon, see <a href="debugger.txt.html#balloon-eval" class="l">balloon-eval</a>
+
+
+<span class="c">WINDOW POSITION AND SIZE</span>				<span id="popup-position" class="t">popup-position</span>
+
+The height of the <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> normally equal to the number of, possibly
+wrapping, lines in the buffer.  It can be limited with the "maxheight"
+property.  You can use empty lines to increase the height or the "minheight"
+property.
+
+The width of the <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> normally equal to the longest visible line in the
+buffer.  It can be limited with the "maxwidth" property.  You can use spaces
+to increase the width or use the "minwidth" property.
+
+By default the <a href="options.txt.html#%27wrap%27" class="o">'wrap'</a> option <a href="motion.txt.html#is" class="d">is</a> set, so that no text disappears.  Otherwise,
+if there <a href="motion.txt.html#is" class="d">is</a> not enough <a href="intro.txt.html#space" class="d">space</a> then the <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> shifted left in order to
+display more text.  When right-aligned the <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> shifted right to display
+more text.  The shifting can be disabled with the "fixed" property.
+
+Vim tries to show the <a href="popup.txt.html#popup" class="d">popup</a> in the location you specify.  In some cases, e.g.
+when the <a href="popup.txt.html#popup" class="d">popup</a> would <a href="motion.txt.html#go" class="d">go</a> outside of the Vim window, <a href="motion.txt.html#it" class="d">it</a> will show <a href="motion.txt.html#it" class="d">it</a> somewhere
+nearby.  E.g. if you use <span class="e">popup_atcursor()</span> the <a href="popup.txt.html#popup" class="d">popup</a> normally shows just above
+the current cursor position, but if the cursor <a href="motion.txt.html#is" class="d">is</a> close to the top of the Vim
+<a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#it" class="d">it</a> will be placed below the cursor position.
+
+When the screen scrolls up for output of an <a href="intro.txt.html#Ex" class="d">Ex</a> command, popups move too, so
+that they will not cover the output.
+
+The current cursor position <a href="motion.txt.html#is" class="d">is</a> displayed even when <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> under <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> window.
+That way you can still see where <a href="motion.txt.html#it" class="d">it</a> is, even though you cannot see the text
+that <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> in.
+
+
+<span class="c">CLOSING THE POPUP WINDOW</span>				<span id="popup-close" class="t">popup-close</span>
+
+Normally the <a href="usr_05.txt.html#plugin" class="d">plugin</a> that created the <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> also in charge of closing
+it.  If somehow <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> hangs around, you can close all of them with: 
+<span class="e">	call popup_clear(1)</span>
+Some popups, such <a href="motion.txt.html#as" class="d">as</a> notifications, close after <a href="insert.txt.html#a" class="d">a</a> specified time.  This can be
+set with the "time" property on <span class="e">popup_create()</span>.
+Otherwise, <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> can be closed by clicking on the <a href="change.txt.html#X" class="d">X</a> in the top-right corner
+or by clicking anywhere inside the popup.  This <a href="vim_faq.txt.html#must" class="d">must</a> be enabled with the
+"close" property.  It <a href="motion.txt.html#is" class="d">is</a> set by default for notifications.
+
+
+<span class="c">POPUP BUFFER AND WINDOW</span>					<span id="popup-buffer" class="t">popup-buffer</span>
+
+If <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> function <a href="motion.txt.html#is" class="d">is</a> called to create <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> from text, <a href="insert.txt.html#a" class="d">a</a> new buffer <a href="motion.txt.html#is" class="d">is</a>
+created to hold the text and text properties of the <a href="popup.txt.html#popup" class="d">popup</a> window.  The buffer
+<a href="motion.txt.html#is" class="d">is</a> always associated with the <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> and manipulation <a href="motion.txt.html#is" class="d">is</a> restricted:
+<a href="motion.txt.html#-" class="d">-</a> the buffer has no name
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27buftype%27" class="o">'buftype'</a> <a href="motion.txt.html#is" class="d">is</a> "<a href="popup.txt.html#popup" class="d">popup</a>"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27swapfile%27" class="o">'swapfile'</a> <a href="motion.txt.html#is" class="d">is</a> off
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27bufhidden%27" class="o">'bufhidden'</a> <a href="motion.txt.html#is" class="d">is</a> "hide"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27buflisted%27" class="o">'buflisted'</a> <a href="motion.txt.html#is" class="d">is</a> off
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27undolevels%27" class="o">'undolevels'</a> <a href="motion.txt.html#is" class="d">is</a> -1: no <a href="undo.txt.html#undo" class="d">undo</a> <a href="motion.txt.html#at" class="d">at</a> all
+<a href="motion.txt.html#-" class="d">-</a> all other buffer-local and window-local <a href="options.txt.html#options" class="d">options</a> are set to their Vim default
+  value.
+
+It <a href="motion.txt.html#is" class="d">is</a> possible to change the specifically mentioned options, but anything
+might break then, so better leave them alone.
+
+The <a href="windows.txt.html#window" class="d">window</a> does have <a href="insert.txt.html#a" class="d">a</a> cursor position, but the cursor <a href="motion.txt.html#is" class="d">is</a> not displayed.  In
+fact, the cursor in the underlying <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> displayed, <a href="motion.txt.html#as" class="d">as</a> if <a href="motion.txt.html#it" class="d">it</a> peeks through
+the popup, so you can see where <a href="motion.txt.html#it" class="d">it</a> is.
+
+To execute <a href="insert.txt.html#a" class="d">a</a> command in the context of the <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> and buffer use
+<span class="e">win_execute()</span>.  Example: 
+<span class="e">	call win_execute(winid, 'syntax enable')</span>
+<span class="e"></span>
+Options can be set on the <a href="windows.txt.html#window" class="d">window</a> with <span class="e">setwinvar()</span>, e.g.: 
+<span class="e">	call setwinvar(winid, '&amp;wrap', 0)</span>
+And <a href="options.txt.html#options" class="d">options</a> can be set on the buffer with <span class="e">setbufvar()</span>, e.g.: 
+<span class="e">	call setbufvar(winbufnr(winid), '&amp;filetype', 'java')</span>
+You can also use <span class="e">win_execute()</span> with <a href="insert.txt.html#a" class="d">a</a> "<a href="options.txt.html#%3Asetlocal" class="d">:setlocal</a>" command.
+
+
+<span class="c">TERMINAL IN POPUP WINDOW</span>				 <span id="popup-terminal" class="t">popup-terminal</span>
+
+<a href="insert.txt.html#A" class="d">A</a> special <a href="change.txt.html#case" class="d">case</a> <a href="motion.txt.html#is" class="d">is</a> running <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> in <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> window.  Many rules are then
+different:						<span id="E863" class="t">E863</span>
+<a href="motion.txt.html#-" class="d">-</a> The <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> always has focus, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not possible to switch to another
+  window.
+<a href="motion.txt.html#-" class="d">-</a> When the <a href="channel.txt.html#job" class="d">job</a> ends, the <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> shows the buffer in <a href="terminal.txt.html#Terminal-Normal" class="d">Terminal-Normal</a>
+  mode.  Use <span class="e">:q</span> to close <a href="motion.txt.html#it" class="d">it</a> or use "term_finish" value "close"<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> The <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> can be closed with <span class="e">popup_close()</span>, the <a href="terminal.txt.html#terminal" class="d">terminal</a> buffer
+  then becomes hidden.
+<a href="motion.txt.html#-" class="d">-</a> It <a href="motion.txt.html#is" class="d">is</a> not possible to open <a href="insert.txt.html#a" class="d">a</a> second <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> with <a href="insert.txt.html#a" class="d">a</a> terminal. <span id="E861" class="t">E861</span>
+<a href="motion.txt.html#-" class="d">-</a> The default Pmenu color <a href="motion.txt.html#is" class="d">is</a> only used for the border and padding.  To change
+  the color of the <a href="terminal.txt.html#terminal" class="d">terminal</a> itself set the Terminal highlight group before
+  creating the terminal.  Setting <a href="options.txt.html#%27wincolor%27" class="o">'wincolor'</a> later can work but requires the
+  program in the <a href="terminal.txt.html#terminal" class="d">terminal</a> to redraw everything.
+<a href="motion.txt.html#-" class="d">-</a> The default minimal size <a href="motion.txt.html#is" class="d">is</a> 5 lines of 20 characters; Use the "minwidth" and
+  "minheight" parameters to set <a href="insert.txt.html#a" class="d">a</a> different value.
+<a href="motion.txt.html#-" class="d">-</a> The <a href="terminal.txt.html#terminal" class="d">terminal</a> size will grow if the program running in the <a href="terminal.txt.html#terminal" class="d">terminal</a> writes
+  text.  Set "maxheight" and "maxwidth" to restrict the size.
+
+To run <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> in <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> window, first create the <a href="terminal.txt.html#terminal" class="d">terminal</a> hidden.  Then
+pass the buffer number to popup_create().  Example: 
+<span class="e">	hi link Terminal Search</span>
+<span class="e">	let buf = term_start(['picker', 'Something'], #{hidden: 1, term_finish: 'close'})</span>
+<span class="e">	let winid = popup_create(buf, #{minwidth: 50, minheight: 20})</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+2. Functions						<span id="popup-functions" class="t">popup-functions</span>
+
+Creating <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> window:
+	<a href="popup.txt.html#popup_create%28%29" class="l">popup_create()</a>  	centered in the screen
+	<a href="popup.txt.html#popup_atcursor%28%29" class="l">popup_atcursor()</a>  	just above the cursor position, closes when
+				the cursor moves away
+	<a href="popup.txt.html#popup_beval%28%29" class="l">popup_beval()</a>  		<a href="motion.txt.html#at" class="d">at</a> the position indicated by v:beval_
+				variables, closes when the mouse moves away
+	<a href="popup.txt.html#popup_notification%28%29" class="l">popup_notification()</a>  	show <a href="insert.txt.html#a" class="d">a</a> notification for three seconds
+	<a href="popup.txt.html#popup_dialog%28%29" class="l">popup_dialog()</a>  	centered with padding and border
+	<a href="popup.txt.html#popup_menu%28%29" class="l">popup_menu()</a>  		prompt for selecting an item from <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a>
+
+Manipulating <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> window:
+	<a href="popup.txt.html#popup_hide%28%29" class="l">popup_hide()</a>  		hide <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> temporarily
+	<a href="popup.txt.html#popup_show%28%29" class="l">popup_show()</a>  		show <a href="insert.txt.html#a" class="d">a</a> previously hidden <a href="popup.txt.html#popup" class="d">popup</a>
+	<a href="popup.txt.html#popup_move%28%29" class="l">popup_move()</a>  		change the position and size of <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a>
+	<a href="popup.txt.html#popup_setoptions%28%29" class="l">popup_setoptions()</a>  	override <a href="options.txt.html#options" class="d">options</a> of <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a>
+	<a href="popup.txt.html#popup_settext%28%29" class="l">popup_settext()</a>  	replace the <a href="popup.txt.html#popup" class="d">popup</a> buffer contents
+	<a href="popup.txt.html#popup_setbuf%28%29" class="l">popup_setbuf()</a>  	set the buffer for the <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a>
+
+Closing <a href="popup.txt.html#popup" class="d">popup</a> windows:
+	<a href="popup.txt.html#popup_close%28%29" class="l">popup_close()</a>  		close one <a href="popup.txt.html#popup" class="d">popup</a>
+	<a href="popup.txt.html#popup_clear%28%29" class="l">popup_clear()</a>  		close all popups
+
+Filter functions:
+	<a href="popup.txt.html#popup_filter_menu%28%29" class="l">popup_filter_menu()</a>  	select from <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of items
+	<a href="popup.txt.html#popup_filter_yesno%28%29" class="l">popup_filter_yesno()</a>  	blocks until 'y' or 'n' <a href="motion.txt.html#is" class="d">is</a> pressed
+
+Other:
+	<a href="popup.txt.html#popup_getoptions%28%29" class="l">popup_getoptions()</a>  	get current <a href="options.txt.html#options" class="d">options</a> for <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a>
+	<a href="popup.txt.html#popup_getpos%28%29" class="l">popup_getpos()</a>  	get actual position and size of <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a>
+	<a href="popup.txt.html#popup_locate%28%29" class="l">popup_locate()</a>  	find <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> screen position
+	<a href="popup.txt.html#popup_list%28%29" class="l">popup_list()</a>  		get <a href="eval.txt.html#list" class="d">list</a> of all popups
+
+
+<span class="c">DETAILS</span>						<span id="popup-function-details" class="t">popup-function-details</span>
+
+popup_atcursor({what}, <span class="s">{options}</span>)			<span id="popup_atcursor%28%29" class="t">popup_atcursor()</span>
+		Show the <span class="s">{what}</span> above the cursor, and close <a href="motion.txt.html#it" class="d">it</a> when the cursor
+		moves.  This works like: 
+<span class="e">			call popup_create({what}, #{</span>
+<span class="e">				\ pos: 'botleft',</span>
+<span class="e">				\ line: 'cursor-1',</span>
+<span class="e">				\ col: 'cursor',</span>
+<span class="e">				\ moved: 'WORD',</span>
+<span class="e">				\ })</span>
+		Use <span class="s">{options}</span> to change the properties.
+		If "pos" <a href="motion.txt.html#is" class="d">is</a> passed <a href="motion.txt.html#as" class="d">as</a> "topleft" then the default for "line"
+		becomes "cursor+1"<a href="repeat.txt.html#." class="d">.</a>
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetText()-&gt;popup_atcursor({})</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_beval({what}, <span class="s">{options}</span>)			<span id="popup_beval%28%29" class="t">popup_beval()</span>
+		Show the <span class="s">{what}</span> above the position from <a href="options.txt.html#%27ballooneval%27" class="o">'ballooneval'</a> and
+		close <a href="motion.txt.html#it" class="d">it</a> when the mouse moves.  This works like: 
+<span class="e">		  let pos = screenpos(v:beval_winnr, v:beval_lnum, v:beval_col)</span>
+<span class="e">		  call popup_create({what}, #{</span>
+<span class="e">			\ pos: 'botleft',</span>
+<span class="e">			\ line: pos.row - 1,</span>
+<span class="e">			\ col: pos.col,</span>
+<span class="e">			\ mousemoved: 'WORD',</span>
+<span class="e">			\ })</span>
+		Use <span class="s">{options}</span> to change the properties.
+		See <a href="popup.txt.html#popup_beval_example" class="l">popup_beval_example</a> for an example.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetText()-&gt;popup_beval({})</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+							<span id="popup_clear%28%29" class="t">popup_clear()</span>
+popup_clear([{force}])
+		Emergency solution to <a href="insert.txt.html#a" class="d">a</a> misbehaving plugin: close all <a href="popup.txt.html#popup" class="d">popup</a>
+		<a href="windows.txt.html#windows" class="d">windows</a> for the current <a href="intro.txt.html#tab" class="d">tab</a> and global popups.
+		Close callbacks are not invoked.
+		When <span class="s">{force}</span> <a href="motion.txt.html#is" class="d">is</a> not present this will fail if the current
+		<a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> popup.
+		When <span class="s">{force}</span> <a href="motion.txt.html#is" class="d">is</a> present and <a href="eval.txt.html#TRUE" class="l">TRUE</a> the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> also closed
+		when <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> the current window.  If <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a> running in <a href="insert.txt.html#a" class="d">a</a>
+		<a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> killed.
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_close({id} [, <span class="s">{result}</span>])				<span id="popup_close%28%29" class="t">popup_close()</span>
+		Close <a href="popup.txt.html#popup" class="d">popup</a> <span class="s">{id}</span>.  The <a href="windows.txt.html#window" class="d">window</a> will be deleted.  The associated
+		buffer will be deleted, if the <a href="popup.txt.html#popup" class="d">popup</a> created <a href="insert.txt.html#a" class="d">a</a> new buffer.
+
+		If the <a href="popup.txt.html#popup" class="d">popup</a> has <a href="insert.txt.html#a" class="d">a</a> callback <a href="motion.txt.html#it" class="d">it</a> will be called just before the
+		<a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> deleted.  If the optional <span class="s">{result}</span> <a href="motion.txt.html#is" class="d">is</a> present
+		<a href="motion.txt.html#it" class="d">it</a> will be passed <a href="motion.txt.html#as" class="d">as</a> the second argument of the callback.
+		Otherwise zero <a href="motion.txt.html#is" class="d">is</a> passed to the callback.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPopup()-&gt;popup_close()</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_create({what}, <span class="s">{options}</span>)				<span id="popup_create%28%29" class="t">popup_create()</span>
+		Open <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> showing <span class="s">{what}</span>, which <a href="motion.txt.html#is" class="d">is</a> either: <span id="E450" class="t">E450</span>
+		<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#a" class="d">a</a> buffer number
+		<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#string" class="d">string</a>
+		<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of strings
+		<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of text lines with text properties
+		When <span class="s">{what}</span> <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> buffer number, <a href="insert.txt.html#a" class="d">a</a> buffer <a href="motion.txt.html#is" class="d">is</a> created with
+		<a href="options.txt.html#%27buftype%27" class="o">'buftype'</a> set to "<a href="popup.txt.html#popup" class="d">popup</a>"<a href="repeat.txt.html#." class="d">.</a>  That buffer will be wiped out once
+		the <a href="popup.txt.html#popup" class="d">popup</a> closes.
+
+		if <span class="s">{what}</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> buffer number and loading the buffer runs into
+		an existing swap file, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> silently opened read-only, <a href="motion.txt.html#as" class="d">as</a> if
+		<a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#SwapExists" class="l">SwapExists</a> <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> had set <a href="eval.txt.html#v%3Aswapchoice" class="l">v:swapchoice</a> to 'o'.
+		This <a href="motion.txt.html#is" class="d">is</a> because we assume the buffer <a href="motion.txt.html#is" class="d">is</a> only used for viewing.
+		The buffer number cannot refer to <a href="insert.txt.html#a" class="d">a</a> closing buffer.	<span id="E1551" class="t">E1551</span>
+
+		<span class="s">{options}</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> dictionary with many possible entries.
+		See <a href="popup.txt.html#popup_create-arguments" class="l">popup_create-arguments</a> for details.
+
+		Returns <a href="insert.txt.html#a" class="d">a</a> window-ID, which can be used with other <a href="popup.txt.html#popup" class="d">popup</a>
+		functions.  Use <span class="e">winbufnr()</span> to get the number of the buffer
+		in the window: 
+<span class="e">			let winid = popup_create('hello', {})</span>
+<span class="e">			let bufnr = winbufnr(winid)</span>
+<span class="e">			call setbufline(bufnr, 2, 'second line')</span>
+		In <a href="change.txt.html#case" class="d">case</a> of failure zero <a href="motion.txt.html#is" class="d">is</a> returned.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetText()-&gt;popup_create({})</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_dialog({what}, <span class="s">{options}</span>)				<span id="popup_dialog%28%29" class="t">popup_dialog()</span>
+		Just like <a href="popup.txt.html#popup_create%28%29" class="l">popup_create()</a> but with these default options: 
+<span class="e">			call popup_create({what}, #{</span>
+<span class="e">				\ pos: 'center',</span>
+<span class="e">				\ zindex: 200,</span>
+<span class="e">				\ drag: 1,</span>
+<span class="e">				\ border: [],</span>
+<span class="e">				\ padding: [],</span>
+<span class="e">				\ mapping: 0,</span>
+<span class="e">				\})</span>
+		Use <span class="s">{options}</span> to change the properties.  E.g. add <a href="insert.txt.html#a" class="d">a</a> <span class="o">'filter'</span>
+		option with value 'popup_filter_yesno'.  Example: 
+<span class="e">			call popup_create('do you want to quit (Yes/no)?', #{</span>
+<span class="e">				\ filter: 'popup_filter_yesno',</span>
+<span class="e">				\ callback: 'QuitCallback',</span>
+<span class="e">				\ })</span>
+<span class="e"></span>
+		By default the <a href="gui_w32.txt.html#dialog" class="d">dialog</a> can be dragged, so that text below <a href="motion.txt.html#it" class="d">it</a>
+		can be read if needed.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetText()-&gt;popup_dialog({})</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_filter_menu({id}, <span class="s">{key}</span>)				<span id="popup_filter_menu%28%29" class="t">popup_filter_menu()</span>
+		Filter that can be used for <a href="insert.txt.html#a" class="d">a</a> popup.  These keys can be used:
+		    <a href="motion.txt.html#j" class="d">j</a> <a href="motion.txt.html#%3CDown%3E" class="s">&lt;Down&gt;</a> <span class="s">&lt;C-N&gt;</span>	select item below
+		    <a href="motion.txt.html#k" class="d">k</a> <a href="motion.txt.html#%3CUp%3E" class="s">&lt;Up&gt;</a> <span class="s">&lt;C-P&gt;</span>	select item above
+		    <a href="motion.txt.html#%3CSpace%3E" class="s">&lt;Space&gt;</a> <a href="intro.txt.html#%3CEnter%3E" class="s">&lt;Enter&gt;</a>	accept current selection
+		    <a href="change.txt.html#x" class="d">x</a> Esc <a href="pattern.txt.html#CTRL-C" class="k">CTRL-C</a>	cancel the menu
+		Other keys are ignored.
+		Always returns <a href="eval.txt.html#v%3Atrue" class="l">v:true</a><a href="repeat.txt.html#." class="d">.</a>
+
+		<a href="insert.txt.html#A" class="d">A</a> match <a href="motion.txt.html#is" class="d">is</a> set on that line to highlight it, see
+		<a href="popup.txt.html#popup_menu%28%29" class="l">popup_menu()</a><a href="repeat.txt.html#." class="d">.</a>
+
+		When the current selection <a href="motion.txt.html#is" class="d">is</a> accepted the "callback" of the
+		<a href="popup.txt.html#popup" class="d">popup</a> menu <a href="motion.txt.html#is" class="d">is</a> invoked with the <a href="index.txt.html#index" class="d">index</a> of the selected line <a href="motion.txt.html#as" class="d">as</a>
+		the second argument.  The first entry has <a href="index.txt.html#index" class="d">index</a> one.
+		Cancelling the menu invokes the callback with -1.
+
+		To add shortcut keys, see the example here:
+		<a href="popup.txt.html#popup_menu-shortcut-example" class="l">popup_menu-shortcut-example</a>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_filter_yesno({id}, <span class="s">{key}</span>)				<span id="popup_filter_yesno%28%29" class="t">popup_filter_yesno()</span>
+		Filter that can be used for <a href="insert.txt.html#a" class="d">a</a> popup.  It handles only the keys
+		'y', 'Y' and 'n' or 'N'.  Invokes the "callback" of the
+		<a href="popup.txt.html#popup" class="d">popup</a> menu with the 1 for 'y' or 'Y' and zero for 'n' or 'N'
+		<a href="motion.txt.html#as" class="d">as</a> the second argument.  Pressing Esc and 'x' works like
+		pressing 'n'.  <a href="pattern.txt.html#CTRL-C" class="k">CTRL-C</a> invokes the callback with -1.  Other
+		keys are ignored.
+		See the example here: <a href="popup.txt.html#popup_dialog-example" class="l">popup_dialog-example</a>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+<a href="popup.txt.html#popup_findecho%28%29" class="d">popup_findecho()</a>					<span id="popup_findecho%28%29" class="t">popup_findecho()</span>
+		Get the <a href="windows.txt.html#window-ID" class="l">window-ID</a> for the <a href="popup.txt.html#popup" class="d">popup</a> that shows <a href="message.txt.html#messages" class="d">messages</a> for the
+		<span class="e">:echowindow</span> command.  Return zero if there <a href="motion.txt.html#is" class="d">is</a> none.
+		Mainly useful to hide the popup.
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+<a href="popup.txt.html#popup_findinfo%28%29" class="d">popup_findinfo()</a>					<span id="popup_findinfo%28%29" class="t">popup_findinfo()</span>
+		Get the <a href="windows.txt.html#window-ID" class="l">window-ID</a> for the <a href="popup.txt.html#popup" class="d">popup</a> info window, <a href="motion.txt.html#as" class="d">as</a> <a href="motion.txt.html#it" class="d">it</a> used by
+		the <a href="popup.txt.html#popup" class="d">popup</a> menu.  See <a href="insert.txt.html#complete-popup" class="l">complete-popup</a><a href="repeat.txt.html#." class="d">.</a>  The info <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a>
+		hidden when not used, <a href="motion.txt.html#it" class="d">it</a> can be deleted with <a href="popup.txt.html#popup_clear%28%29" class="l">popup_clear()</a>
+		and <a href="popup.txt.html#popup_close%28%29" class="l">popup_close()</a><a href="repeat.txt.html#." class="d">.</a>  Use <a href="popup.txt.html#popup_show%28%29" class="l">popup_show()</a> to reposition <a href="motion.txt.html#it" class="d">it</a> to
+		the item in the <a href="popup.txt.html#popup" class="d">popup</a> menu.
+		Returns zero if there <a href="motion.txt.html#is" class="d">is</a> none.
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+<a href="popup.txt.html#popup_findpreview%28%29" class="d">popup_findpreview()</a>					<span id="popup_findpreview%28%29" class="t">popup_findpreview()</span>
+		Get the <a href="windows.txt.html#window-ID" class="l">window-ID</a> for the <a href="popup.txt.html#popup" class="d">popup</a> preview window.
+		Return zero if there <a href="motion.txt.html#is" class="d">is</a> none.
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_getoptions({id})					<span id="popup_getoptions%28%29" class="t">popup_getoptions()</span>
+		Return the <span class="s">{options}</span> for <a href="popup.txt.html#popup" class="d">popup</a> <span class="s">{id}</span> in <a href="insert.txt.html#a" class="d">a</a> Dict.
+		<a href="insert.txt.html#A" class="d">A</a> zero value means the option was not set.  For "zindex" the
+		default value <a href="motion.txt.html#is" class="d">is</a> returned, not zero.
+
+		The "moved" entry <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> with line number, minimum and
+		maximum column, [0, 0, 0] when not set.
+
+		The "mousemoved" entry <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> with screen row, minimum and
+		maximum screen column, [0, 0, 0] when not set.
+
+		"firstline" <a href="motion.txt.html#is" class="d">is</a> the property set on the popup, unlike the
+		"firstline" obtained with <a href="popup.txt.html#popup_getpos%28%29" class="l">popup_getpos()</a> which <a href="motion.txt.html#is" class="d">is</a> the actual
+		buffer line <a href="motion.txt.html#at" class="d">at</a> the top of the <a href="popup.txt.html#popup" class="d">popup</a> window.
+
+		"border" and "padding" are not included when all values are
+		zero.  When all values are one then an empty <a href="eval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> included.
+
+		"borderhighlight" <a href="motion.txt.html#is" class="d">is</a> not included when all values are empty.
+		"scrollbarhighlight" and "thumbhighlight" are only included
+		when set.
+
+		"<a href="tabpage.txt.html#tabpage" class="d">tabpage</a>" will be -1 for <a href="insert.txt.html#a" class="d">a</a> global popup, zero for <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> on
+		the current <a href="tabpage.txt.html#tabpage" class="d">tabpage</a> and <a href="insert.txt.html#a" class="d">a</a> positive number for <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> on
+		another tabpage.
+
+		"<a href="textprop.txt.html#textprop" class="d">textprop</a>"<a href="motion.txt.html#%2C" class="d">,</a> "textpropid" and "textpropwin" are only present
+		when "<a href="textprop.txt.html#textprop" class="d">textprop</a>" was set.
+
+		If <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> <span class="s">{id}</span> <a href="motion.txt.html#is" class="d">is</a> not found an empty <a href="eval.txt.html#Dict" class="d">Dict</a> <a href="motion.txt.html#is" class="d">is</a> returned.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPopup()-&gt;popup_getoptions()</span>
+
+		Return type: dict&lt;any&gt;
+
+
+popup_getpos({id})					<span id="popup_getpos%28%29" class="t">popup_getpos()</span>
+		Return the position and size of <a href="popup.txt.html#popup" class="d">popup</a> <span class="s">{id}</span>.  Returns <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#Dict" class="d">Dict</a>
+		with these entries:
+		    col		screen column of the popup, one-based
+		    line	screen line of the popup, one-based
+		    width	width of the whole <a href="popup.txt.html#popup" class="d">popup</a> in screen cells
+		    height	height of the whole <a href="popup.txt.html#popup" class="d">popup</a> in screen cells
+		    core_col	screen column of the text box
+		    core_line	screen line of the text box
+		    core_width	width of the text box in screen cells
+		    core_height	height of the text box in screen cells
+		    firstline	line of the buffer <a href="motion.txt.html#at" class="d">at</a> top (1 unless scrolled)
+				(not the value of the "firstline" property)
+		    lastline	line of the buffer <a href="motion.txt.html#at" class="d">at</a> the bottom (updated when
+				the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> redrawn)
+		    scrollbar	non-zero if <a href="insert.txt.html#a" class="d">a</a> scrollbar <a href="motion.txt.html#is" class="d">is</a> displayed
+		    visible	one if the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> displayed, zero if hidden
+		<span class="n">Note</span> that these are the actual screen positions.  They differ
+		from the values in <span class="e">popup_getoptions()</span> for the sizing and
+		positioning mechanism applied.
+
+		The "core_" values exclude the padding and border.
+
+		If <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> <span class="s">{id}</span> <a href="motion.txt.html#is" class="d">is</a> not found an empty <a href="eval.txt.html#Dict" class="d">Dict</a> <a href="motion.txt.html#is" class="d">is</a> returned.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPopup()-&gt;popup_getpos()</span>
+
+		Return type: dict&lt;number&gt; or dict&lt;any&gt;
+
+
+popup_hide({id})						<span id="popup_hide%28%29" class="t">popup_hide()</span>
+		If <span class="s">{id}</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> displayed popup, hide <a href="motion.txt.html#it" class="d">it</a> now.  If the <a href="popup.txt.html#popup" class="d">popup</a> has <a href="insert.txt.html#a" class="d">a</a>
+		<a href="change.txt.html#filter" class="d">filter</a> <a href="motion.txt.html#it" class="d">it</a> will not be invoked for so long <a href="motion.txt.html#as" class="d">as</a> the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a>
+		hidden.
+		If <a href="windows.txt.html#window" class="d">window</a> <span class="s">{id}</span> does not exist nothing happens.  If <a href="windows.txt.html#window" class="d">window</a> <span class="s">{id}</span>
+		exists but <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> an error <a href="motion.txt.html#is" class="d">is</a> given. <span id="E993" class="t">E993</span>
+		If <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> <span class="s">{id}</span> contains <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> an error <a href="motion.txt.html#is" class="d">is</a> given.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPopup()-&gt;popup_hide()</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+<a href="popup.txt.html#popup_list%28%29" class="d">popup_list()</a>						 <span id="popup_list%28%29" class="t">popup_list()</span>
+		Return <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#List" class="d">List</a> with the <a href="windows.txt.html#window-ID" class="l">window-ID</a> of all existing popups.
+
+		Return type: list&lt;number&gt; or list&lt;any&gt;
+
+
+popup_locate({row}, <span class="s">{col}</span>)				 <span id="popup_locate%28%29" class="t">popup_locate()</span>
+		Return the <a href="windows.txt.html#window-ID" class="l">window-ID</a> of the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#at" class="d">at</a> screen position <span class="s">{row}</span>
+		and <span class="s">{col}</span>.  If there are multiple popups the one with the
+		highest zindex <a href="motion.txt.html#is" class="d">is</a> returned.  If there are no popups <a href="motion.txt.html#at" class="d">at</a> this
+		position then zero <a href="motion.txt.html#is" class="d">is</a> returned.
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_menu({what}, <span class="s">{options}</span>)				 <span id="popup_menu%28%29" class="t">popup_menu()</span>
+		Show the <span class="s">{what}</span> near the cursor, handle selecting one of the
+		items with cursorkeys, and close <a href="motion.txt.html#it" class="d">it</a> an item <a href="motion.txt.html#is" class="d">is</a> selected with
+		Space or Enter.  <span class="s">{what}</span> should have multiple lines to make
+		this useful.  This works like: 
+<span class="e">			call popup_create({what}, #{</span>
+<span class="e">				\ pos: 'center',</span>
+<span class="e">				\ zindex: 200,</span>
+<span class="e">				\ drag: 1,</span>
+<span class="e">				\ wrap: 0,</span>
+<span class="e">				\ border: [],</span>
+<span class="e">				\ cursorline: 1,</span>
+<span class="e">				\ padding: [0,1,0,1],</span>
+<span class="e">				\ filter: 'popup_filter_menu',</span>
+<span class="e">				\ mapping: 0,</span>
+<span class="e">				\ })</span>
+		The current line <a href="motion.txt.html#is" class="d">is</a> highlighted with <a href="insert.txt.html#a" class="d">a</a> match using
+		<a href="syntax.txt.html#hl-PopupSelected" class="l">hl-PopupSelected</a> which <a href="motion.txt.html#is" class="d">is</a> linked to "PmenuSel" by default.
+
+		Use <span class="s">{options}</span> to change the properties.  Should <a href="motion.txt.html#at" class="d">at</a> least set
+		"callback" to <a href="insert.txt.html#a" class="d">a</a> function that handles the selected item.
+		Example: 
+<span class="e">			func ColorSelected(id, result)</span>
+<span class="e">			   " use a:result</span>
+<span class="e">			endfunc</span>
+<span class="e">			call popup_menu(['red', 'green', 'blue'], #{</span>
+<span class="e">				\ callback: 'ColorSelected',</span>
+<span class="e">				\ })</span>
+<span class="e"></span>
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetChoices()-&gt;popup_menu({})</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_move({id}, <span class="s">{options}</span>)					<span id="popup_move%28%29" class="t">popup_move()</span>
+		Move <a href="popup.txt.html#popup" class="d">popup</a> <span class="s">{id}</span> to the position specified with <span class="s">{options}</span>.
+		<span class="s">{options}</span> may contain the items from <a href="popup.txt.html#popup_create%28%29" class="l">popup_create()</a> that
+		specify the <a href="popup.txt.html#popup" class="d">popup</a> position:
+			line
+			col
+			pos
+			maxheight
+			minheight
+			maxwidth
+			minwidth
+			fixed
+		For <span class="s">{id}</span> see <span class="e">popup_hide()</span>.
+		For other <a href="options.txt.html#options" class="d">options</a> see <a href="popup.txt.html#popup_setoptions%28%29" class="l">popup_setoptions()</a><a href="repeat.txt.html#." class="d">.</a>
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPopup()-&gt;popup_move(options)</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_notification({what}, <span class="s">{options}</span>)			 <span id="popup_notification%28%29" class="t">popup_notification()</span>
+		Show the <span class="s">{what}</span> for 3 seconds <a href="motion.txt.html#at" class="d">at</a> the top of the Vim window.
+		This works like: 
+<span class="e">			call popup_create({what}, #{</span>
+<span class="e">				\ line: 1,</span>
+<span class="e">				\ col: 10,</span>
+<span class="e">				\ minwidth: 20,</span>
+<span class="e">				\ time: 3000,</span>
+<span class="e">				\ tabpage: -1,</span>
+<span class="e">				\ zindex: 300,</span>
+<span class="e">				\ drag: 1,</span>
+<span class="e">				\ highlight: 'WarningMsg',</span>
+<span class="e">				\ border: [],</span>
+<span class="e">				\ close: 'click',</span>
+<span class="e">				\ padding: [0,1,0,1],</span>
+<span class="e">				\ })</span>
+		The <a href="syntax.txt.html#hl-PopupNotification" class="l">hl-PopupNotification</a> highlight group <a href="motion.txt.html#is" class="d">is</a> used instead of
+		WarningMsg if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> defined.
+
+		Without the <a href="various.txt.html#%2Btimers" class="l">+timers</a> feature the <a href="popup.txt.html#popup" class="d">popup</a> will not disappear
+		automatically, the user has to click in it.
+
+		The position will be adjusted to avoid overlap with other
+		notifications.
+		Use <span class="s">{options}</span> to change the properties.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetText()-&gt;popup_notification({})</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_setbuf({id}, <span class="s">{buf}</span>)				<span id="popup_setbuf%28%29" class="t">popup_setbuf()</span>
+		Set buffer <span class="s">{buf}</span> to be displayed in <a href="popup.txt.html#popup" class="d">popup</a> win <span class="s">{id}</span>.  For the
+		use of <span class="s">{buf}</span>, see <a href="builtin.txt.html#bufname%28%29" class="l">bufname()</a> function.
+		May change <a href="windows.txt.html#window" class="d">window</a> size or position to adjust for the size
+		of the buffer text.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPopup()-&gt;popup_setbuf(bufnr('foobar'))</span>
+
+		Return type: <a href="vim9.txt.html#vim9-boolean" class="l">vim9-boolean</a>
+
+
+popup_setoptions({id}, <span class="s">{options}</span>)			<span id="popup_setoptions%28%29" class="t">popup_setoptions()</span>
+		Override <a href="options.txt.html#options" class="d">options</a> in <a href="popup.txt.html#popup" class="d">popup</a> <span class="s">{id}</span> with entries in <span class="s">{options}</span>.
+		These <a href="options.txt.html#options" class="d">options</a> can be set:
+			border
+			borderchars
+			borderhighlight
+			callback
+			close
+			cursorline
+			drag
+			<a href="change.txt.html#filter" class="d">filter</a>
+			firstline
+			flip
+			highlight
+			<a href="map.txt.html#mapping" class="d">mapping</a>
+			mask
+			moved
+			padding
+			resize
+			scrollbar
+			scrollbarhighlight
+			thumbhighlight
+			time
+			title
+			wrap
+			zindex
+		The <a href="options.txt.html#options" class="d">options</a> from <a href="popup.txt.html#popup_move%28%29" class="l">popup_move()</a> can also be used.
+		Generally, setting an option to zero or an empty <a href="eval.txt.html#string" class="d">string</a> resets
+		<a href="motion.txt.html#it" class="d">it</a> to the default value, but there are exceptions.
+		For "hidden" use <a href="popup.txt.html#popup_hide%28%29" class="l">popup_hide()</a> and <a href="popup.txt.html#popup_show%28%29" class="l">popup_show()</a><a href="repeat.txt.html#." class="d">.</a>
+		"<a href="tabpage.txt.html#tabpage" class="d">tabpage</a>" cannot be changed.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPopup()-&gt;popup_setoptions(options)</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_settext({id}, <span class="s">{text}</span>)				<span id="popup_settext%28%29" class="t">popup_settext()</span>
+		Set the text of the buffer in <a href="popup.txt.html#popup" class="d">popup</a> win <span class="s">{id}</span>.  <span class="s">{text}</span> <a href="motion.txt.html#is" class="d">is</a>
+		<a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#string" class="d">string</a> or <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of strings to be displayed in the popup.
+		Does not change the <a href="windows.txt.html#window" class="d">window</a> size or position, other than caused
+		by the different text.
+
+		Can also be used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#method" class="l">method</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">			GetPopup()-&gt;popup_settext('hello')</span>
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+popup_show({id})						<span id="popup_show%28%29" class="t">popup_show()</span>
+		Show <a href="insert.txt.html#a" class="d">a</a> hidden <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> identified by <span class="s">{id}</span>.
+		Use <span class="s">{id}</span> <a href="motion.txt.html#as" class="d">as</a> returned by <a href="popup.txt.html#popup_create%28%29" class="l">popup_create()</a><a href="repeat.txt.html#." class="d">.</a>
+
+		If the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> currently hidden, <a href="motion.txt.html#it" class="d">it</a> will be made visible.
+		See <a href="popup.txt.html#popup_hide%28%29" class="l">popup_hide()</a> to hide <a href="insert.txt.html#a" class="d">a</a> popup.
+
+		If <span class="s">{id}</span> refers to an info popup, <a href="motion.txt.html#it" class="d">it</a> will be positioned next to
+		the currently selected item in the <a href="popup.txt.html#popup" class="d">popup</a> menu.
+
+		Returns -1 if <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> with <span class="s">{id}</span> does not exist.
+		Returns <a href="motion.txt.html#0" class="d">0</a> on success.
+
+		Return type: <a href="eval.txt.html#Number" class="l">Number</a>
+
+
+<span class="h">==============================================================================</span>
+3. Usage						<span id="popup-usage" class="t">popup-usage</span>
+
+<span class="c">POPUP_CREATE() ARGUMENTS</span>			 <span id="popup_create-arguments" class="t">popup_create-arguments</span>
+
+The first argument of <a href="popup.txt.html#popup_create%28%29" class="l">popup_create()</a> (and the second argument to
+<a href="popup.txt.html#popup_settext%28%29" class="l">popup_settext()</a><a href="motion.txt.html#%29" class="d">)</a> <a href="vim9class.txt.html#specifies" class="d">specifies</a> the text to be displayed, and optionally text
+properties.  It <a href="motion.txt.html#is" class="d">is</a> in one of four forms:  <span id="E1284" class="t">E1284</span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#a" class="d">a</a> buffer number
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#string" class="d">string</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of strings
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of dictionaries, where each dictionary has these entries:
+	text		<a href="eval.txt.html#String" class="d">String</a> with the text to display.
+	props		<a href="insert.txt.html#A" class="d">A</a> <a href="eval.txt.html#list" class="d">list</a> of text properties.  Optional.
+			Each entry <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> dictionary, like the third argument of
+			<a href="textprop.txt.html#prop_add%28%29" class="l">prop_add()</a><a href="motion.txt.html#%2C" class="d">,</a> but specifying the column in the
+			dictionary with <a href="insert.txt.html#a" class="d">a</a> "col" entry, see below:
+			<a href="popup.txt.html#popup-props" class="l">popup-props</a><a href="repeat.txt.html#." class="d">.</a>
+
+If you want to create <a href="insert.txt.html#a" class="d">a</a> new buffer yourself use <a href="builtin.txt.html#bufadd%28%29" class="l">bufadd()</a> and pass the buffer
+number to popup_create().
+
+The second argument of <a href="popup.txt.html#popup_create%28%29" class="l">popup_create()</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> dictionary with options:
+	line		Screen line where to position the popup.  Can use <a href="insert.txt.html#a" class="d">a</a>
+			number or "cursor"<a href="motion.txt.html#%2C" class="d">,</a> "cursor+1" or "cursor-1" to use
+			the line of the cursor and add or subtract <a href="insert.txt.html#a" class="d">a</a> number of
+			lines.  If omitted or zero the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> vertically
+			centered.  The first line <a href="motion.txt.html#is" class="d">is</a> 1.
+			When using "<a href="textprop.txt.html#textprop" class="d">textprop</a>" the number <a href="motion.txt.html#is" class="d">is</a> relative to the
+			text property and can be negative.
+	col		Screen column where to position the popup.  Can use <a href="insert.txt.html#a" class="d">a</a>
+			number or "cursor" to use the column of the cursor,
+			"cursor+9" or "cursor-9" to add or subtract <a href="insert.txt.html#a" class="d">a</a> number
+			of columns.  If omitted or zero the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a>
+			horizontally centered.  The first column <a href="motion.txt.html#is" class="d">is</a> 1.
+			When using "<a href="textprop.txt.html#textprop" class="d">textprop</a>" the number <a href="motion.txt.html#is" class="d">is</a> relative to the
+			text property and can be negative.
+	pos		"topleft"<a href="motion.txt.html#%2C" class="d">,</a> "topright"<a href="motion.txt.html#%2C" class="d">,</a> "botleft" or "botright"<a href="cmdline.txt.html#%3A" class="d">:</a>
+			defines what corner of the <a href="popup.txt.html#popup" class="d">popup</a> "line" and "col" are
+			used for.  When not set "topleft" <a href="motion.txt.html#is" class="d">is</a> used.
+			Alternatively "center" can be used to position the
+			<a href="popup.txt.html#popup" class="d">popup</a> in the center of the Vim window, in which <a href="change.txt.html#case" class="d">case</a>
+			"line" and "col" are ignored.
+	posinvert	When <a href="eval.txt.html#FALSE" class="d">FALSE</a> the value of "pos" <a href="motion.txt.html#is" class="d">is</a> always used.  When
+			<a href="eval.txt.html#TRUE" class="d">TRUE</a> (the default) and the <a href="popup.txt.html#popup" class="d">popup</a> does not fit
+			vertically and there <a href="motion.txt.html#is" class="d">is</a> more <a href="intro.txt.html#space" class="d">space</a> on the other side
+			then the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> placed on the other side of the
+			position indicated by "line"<a href="repeat.txt.html#." class="d">.</a>
+	<a href="textprop.txt.html#textprop" class="d">textprop</a>	When present the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> positioned next to <a href="insert.txt.html#a" class="d">a</a> text
+			property with this name and will move when the text
+			property moves.  Use an empty <a href="eval.txt.html#string" class="d">string</a> to remove.  See
+			<a href="popup.txt.html#popup-textprop-pos" class="l">popup-textprop-pos</a><a href="repeat.txt.html#." class="d">.</a>
+	textpropwin	What <a href="windows.txt.html#window" class="d">window</a> to search for the text property.  When
+			omitted or invalid the current <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> used.  Used
+			when "<a href="textprop.txt.html#textprop" class="d">textprop</a>" <a href="motion.txt.html#is" class="d">is</a> present.
+	textpropid	Used to identify the text property when "<a href="textprop.txt.html#textprop" class="d">textprop</a>" <a href="motion.txt.html#is" class="d">is</a>
+			present.  Use zero to reset.
+	fixed		When <a href="eval.txt.html#FALSE" class="d">FALSE</a> (the default), and:
+			 <a href="motion.txt.html#-" class="d">-</a> "pos" <a href="motion.txt.html#is" class="d">is</a> "botleft" or "topleft"<a href="motion.txt.html#%2C" class="d">,</a> and
+			 <a href="motion.txt.html#-" class="d">-</a> the <a href="popup.txt.html#popup" class="d">popup</a> would be truncated <a href="motion.txt.html#at" class="d">at</a> the right edge of
+			   the screen, then
+			the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> moved to the left so <a href="motion.txt.html#as" class="d">as</a> to fit the
+			contents on the screen.  Set to <a href="eval.txt.html#TRUE" class="d">TRUE</a> to disable this.
+	flip		When <a href="eval.txt.html#TRUE" class="d">TRUE</a> (the default) and the position <a href="motion.txt.html#is" class="d">is</a> relative
+			to the cursor, flip to below or above the cursor to
+			avoid overlap with the <a href="insert.txt.html#popupmenu-completion" class="l">popupmenu-completion</a> or
+			another <a href="popup.txt.html#popup" class="d">popup</a> with <a href="insert.txt.html#a" class="d">a</a> higher "zindex"<a href="repeat.txt.html#." class="d">.</a>  When there <a href="motion.txt.html#is" class="d">is</a>
+			no <a href="intro.txt.html#space" class="d">space</a> above/below the cursor then show the <a href="popup.txt.html#popup" class="d">popup</a> to
+			the side of the <a href="popup.txt.html#popup" class="d">popup</a> or <a href="popup.txt.html#popup" class="d">popup</a> menu.
+			<span class="s">{not implemented yet}</span>
+	maxheight	Maximum height of the contents, excluding border and
+			padding.
+	minheight	Minimum height of the contents, excluding border and
+			padding.
+	maxwidth	Maximum width of the contents, excluding border,
+			padding and scrollbar.
+	minwidth	Minimum width of the contents, excluding border,
+			padding and scrollbar.
+	firstline	First buffer line to display.  When larger than one <a href="motion.txt.html#it" class="d">it</a>
+			looks like the text scrolled up.  When out of range
+			the last buffer line will <a href="motion.txt.html#at" class="d">at</a> the top of the window.
+			Set to zero to leave the position <a href="motion.txt.html#as" class="d">as</a> set by commands.
+			Also see "scrollbar"<a href="repeat.txt.html#." class="d">.</a>
+	hidden		When <a href="eval.txt.html#TRUE" class="d">TRUE</a> the <a href="popup.txt.html#popup" class="d">popup</a> exists but <a href="motion.txt.html#is" class="d">is</a> not displayed; use
+			<span class="e">popup_show()</span> to unhide it.
+	<a href="tabpage.txt.html#tabpage" class="d">tabpage</a>		When -1: display the <a href="popup.txt.html#popup" class="d">popup</a> on all <a href="intro.txt.html#tab" class="d">tab</a> pages.
+			When <a href="motion.txt.html#0" class="d">0</a> (the default): display the <a href="popup.txt.html#popup" class="d">popup</a> on the current
+			<a href="intro.txt.html#tab" class="d">tab</a> page.
+			Otherwise the number of the <a href="intro.txt.html#tab" class="d">tab</a> page the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a>
+			displayed on; when invalid the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> not created
+			and an error <a href="motion.txt.html#is" class="d">is</a> given. <span id="E997" class="t">E997</span>
+	title		Text to be displayed above the first item in the
+			popup, on top of any border.  If there <a href="motion.txt.html#is" class="d">is</a> no top
+			border one line of padding <a href="motion.txt.html#is" class="d">is</a> added to <a href="change.txt.html#put" class="d">put</a> the title
+			on.  You might want to add one or more spaces <a href="motion.txt.html#at" class="d">at</a> the
+			start and <a href="intro.txt.html#end" class="d">end</a> <a href="motion.txt.html#as" class="d">as</a> padding.
+	wrap		<a href="eval.txt.html#TRUE" class="d">TRUE</a> to make the lines wrap (default TRUE).
+	drag		<a href="eval.txt.html#TRUE" class="d">TRUE</a> to allow the <a href="popup.txt.html#popup" class="d">popup</a> to be dragged with the mouse
+			by grabbing <a href="motion.txt.html#at" class="d">at</a> the border.  Has no effect if the
+			<a href="popup.txt.html#popup" class="d">popup</a> does not have <a href="insert.txt.html#a" class="d">a</a> border.  As soon <a href="motion.txt.html#as" class="d">as</a> dragging
+			starts and "pos" <a href="motion.txt.html#is" class="d">is</a> "center" <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> changed to
+			"topleft"<a href="repeat.txt.html#." class="d">.</a>
+	dragall		<a href="eval.txt.html#TRUE" class="d">TRUE</a> to allow the <a href="popup.txt.html#popup" class="d">popup</a> to be dragged from every
+			position.  Makes <a href="motion.txt.html#it" class="d">it</a> very difficult to select text in
+			the popup.
+	resize		<a href="eval.txt.html#TRUE" class="d">TRUE</a> to allow the <a href="popup.txt.html#popup" class="d">popup</a> to be resized with the mouse
+			by grabbing <a href="motion.txt.html#at" class="d">at</a> the bottom right corner.  Has no effect
+			if the <a href="popup.txt.html#popup" class="d">popup</a> does not have <a href="insert.txt.html#a" class="d">a</a> border.
+	close		When "button" an <a href="change.txt.html#X" class="d">X</a> <a href="motion.txt.html#is" class="d">is</a> displayed in the top-right, on
+			top of any border, padding or text.  When clicked on
+			the <a href="change.txt.html#X" class="d">X</a> the <a href="popup.txt.html#popup" class="d">popup</a> will close.  Any callback <a href="motion.txt.html#is" class="d">is</a> invoked
+			with the value -2.
+			When "click" any mouse click in the <a href="popup.txt.html#popup" class="d">popup</a> will close
+			it.
+			When "none" (the default) mouse clicks <a href="diff.txt.html#do" class="d">do</a> not close
+			the <a href="popup.txt.html#popup" class="d">popup</a> window.
+	highlight	Highlight group name to use for the text, stored in
+			the <a href="options.txt.html#%27wincolor%27" class="o">'wincolor'</a> option.
+	padding		<a href="eval.txt.html#List" class="d">List</a> with numbers, defining the padding
+			above/right/below/left of the <a href="popup.txt.html#popup" class="d">popup</a> (similar to CSS).
+			An empty <a href="eval.txt.html#list" class="d">list</a> uses <a href="insert.txt.html#a" class="d">a</a> padding of 1 all around.  The
+			padding goes around the text, inside any border.
+			Padding uses the <a href="options.txt.html#%27wincolor%27" class="o">'wincolor'</a> highlight.
+			Example: [1, 2, 1, 3] has 1 line of padding above, 2
+			columns on the right, 1 line below and 3 columns on
+			the left.
+	border		<a href="eval.txt.html#List" class="d">List</a> with numbers, defining the border thickness
+			above/right/below/left of the <a href="popup.txt.html#popup" class="d">popup</a> (similar to CSS).
+			Only values of zero and non-zero are currently
+			recognized.  An empty <a href="eval.txt.html#list" class="d">list</a> uses <a href="insert.txt.html#a" class="d">a</a> border all around.
+	borderhighlight	<a href="eval.txt.html#List" class="d">List</a> of highlight group names to use for the border.
+			When one entry <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> used for all borders, otherwise
+			the highlight for the top/right/bottom/left border.
+			Example: ['TopColor', 'RightColor', 'BottomColor,
+			'LeftColor']
+	borderchars	<a href="eval.txt.html#List" class="d">List</a> with characters, defining the character to use
+			for the top/right/bottom/left border.  Optionally
+			followed by the character to use for the
+			topleft/topright/botright/botleft corner.
+			Example: ['-', <a href="motion.txt.html#%27" class="d">'</a>|', '-', <a href="motion.txt.html#%27" class="d">'</a>|', <a href="motion.txt.html#%27" class="d">'</a>┌', <a href="motion.txt.html#%27" class="d">'</a>┐', <a href="motion.txt.html#%27" class="d">'</a>┘', <a href="motion.txt.html#%27" class="d">'</a>└<a href="motion.txt.html#%27%5D" class="d">']</a>
+			When the <a href="eval.txt.html#list" class="d">list</a> has one character <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> used for all.
+			When the <a href="eval.txt.html#list" class="d">list</a> has two characters the first <a href="motion.txt.html#is" class="d">is</a> used for
+			the border lines, the second for the corners.
+			By default <a href="insert.txt.html#a" class="d">a</a> double line <a href="motion.txt.html#is" class="d">is</a> used all around when
+			<a href="options.txt.html#%27encoding%27" class="o">'encoding'</a> <a href="motion.txt.html#is" class="d">is</a> "<a href="mbyte.txt.html#utf-8" class="d">utf-8</a>" and <a href="options.txt.html#%27ambiwidth%27" class="o">'ambiwidth'</a> <a href="motion.txt.html#is" class="d">is</a> "single"<a href="motion.txt.html#%2C" class="d">,</a>
+			otherwise ASCII characters are used.
+	scrollbar	1 or true: show <a href="insert.txt.html#a" class="d">a</a> scrollbar when the text doesn't fit.
+			zero: <a href="diff.txt.html#do" class="d">do</a> not show <a href="insert.txt.html#a" class="d">a</a> scrollbar.  Default <a href="motion.txt.html#is" class="d">is</a> non-zero.
+			Also see <a href="popup.txt.html#popup-scrollbar" class="l">popup-scrollbar</a><a href="repeat.txt.html#." class="d">.</a>
+	scrollbarhighlight  Highlight group name for the scrollbar.  The
+			background color <a href="motion.txt.html#is" class="d">is</a> what matters.  When not given then
+			PmenuSbar <a href="motion.txt.html#is" class="d">is</a> used.
+	thumbhighlight  Highlight group name for the scrollbar thumb.  The
+			background color <a href="motion.txt.html#is" class="d">is</a> what matters.  When not given then
+			PmenuThumb <a href="motion.txt.html#is" class="d">is</a> used.
+	zindex		Priority for the popup, default 50.  Minimum value <a href="motion.txt.html#is" class="d">is</a>
+			1, maximum value <a href="motion.txt.html#is" class="d">is</a> 32000.
+	mask		<a href="insert.txt.html#A" class="d">A</a> <a href="eval.txt.html#list" class="d">list</a> of lists with coordinates, defining parts of
+			the <a href="popup.txt.html#popup" class="d">popup</a> that are transparent.  See <a href="popup.txt.html#popup-mask" class="l">popup-mask</a><a href="repeat.txt.html#." class="d">.</a>
+	time		Time in milliseconds after which the <a href="popup.txt.html#popup" class="d">popup</a> will close.
+			When omitted <a href="popup.txt.html#popup_close%28%29" class="l">popup_close()</a> <a href="vim_faq.txt.html#must" class="d">must</a> be used.
+	moved		Specifies to close the <a href="popup.txt.html#popup" class="d">popup</a> if the cursor moved:
+			<a href="motion.txt.html#-" class="d">-</a> "any"<a href="cmdline.txt.html#%3A" class="d">:</a> if the cursor moved <a href="motion.txt.html#at" class="d">at</a> all
+			<a href="motion.txt.html#-" class="d">-</a> "<a href="motion.txt.html#word" class="d">word</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> if the cursor moved outside <a href="cmdline.txt.html#%3Ccword%3E" class="l">&lt;cword&gt;</a>
+			<a href="motion.txt.html#-" class="d">-</a> "<a href="motion.txt.html#WORD" class="d">WORD</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> if the cursor moved outside <a href="cmdline.txt.html#%3CcWORD%3E" class="l">&lt;cWORD&gt;</a>
+			<a href="motion.txt.html#-" class="d">-</a> "<a href="eval.txt.html#expr" class="d">expr</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> if the cursor moved outside <a href="cmdline.txt.html#%3Ccexpr%3E" class="l">&lt;cexpr&gt;</a>
+			<a href="motion.txt.html#-" class="d">-</a> [{start}, <span class="s">{end}</span>]: if the cursor moved before column
+			  <span class="s">{start}</span> or after <span class="s">{end}</span>
+			<a href="motion.txt.html#-" class="d">-</a> [{lnum}, <span class="s">{start}</span>, <span class="s">{end}</span>]: if the cursor moved away
+			  from line <span class="s">{lnum}</span>, before column <span class="s">{start}</span> or after
+			  <span class="s">{end}</span>
+			<a href="motion.txt.html#-" class="d">-</a> [0, 0, 0] <a href="diff.txt.html#do" class="d">do</a> not close the <a href="popup.txt.html#popup" class="d">popup</a> when the cursor
+			  moves
+			The <a href="popup.txt.html#popup" class="d">popup</a> also closes if the cursor moves to another
+			line or to another window.
+	mousemoved	Like "moved" but referring to the mouse pointer
+			position
+	cursorline	TRUE:	 Highlight the cursor line.  Also scrolls the
+				 text to show this line (only works properly
+				 when <a href="options.txt.html#%27wrap%27" class="o">'wrap'</a> <a href="motion.txt.html#is" class="d">is</a> off).
+			zero:	 Do not highlight the cursor line.
+			Default <a href="motion.txt.html#is" class="d">is</a> zero, except for <a href="popup.txt.html#popup_menu%28%29" class="l">popup_menu()</a><a href="repeat.txt.html#." class="d">.</a>
+	<a href="change.txt.html#filter" class="d">filter</a>		<a href="insert.txt.html#A" class="d">A</a> callback that can <a href="change.txt.html#filter" class="d">filter</a> typed characters, see
+			<a href="popup.txt.html#popup-filter" class="l">popup-filter</a><a href="repeat.txt.html#." class="d">.</a>
+	<a href="map.txt.html#mapping" class="d">mapping</a>		Allow for key mapping.  When <a href="eval.txt.html#FALSE" class="d">FALSE</a> and the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a>
+			visible and has <a href="insert.txt.html#a" class="d">a</a> <a href="change.txt.html#filter" class="d">filter</a> callback key <a href="map.txt.html#mapping" class="d">mapping</a> <a href="motion.txt.html#is" class="d">is</a>
+			disabled.  Default value <a href="motion.txt.html#is" class="d">is</a> TRUE.
+	filtermode	In which modes the <a href="change.txt.html#filter" class="d">filter</a> <a href="motion.txt.html#is" class="d">is</a> used (same flags <a href="motion.txt.html#as" class="d">as</a> with
+			<a href="builtin.txt.html#hasmapto%28%29" class="l">hasmapto()</a> plus "<a href="insert.txt.html#a" class="d">a</a>"):
+				<a href="pattern.txt.html#n" class="d">n</a>	<a href="intro.txt.html#Normal" class="d">Normal</a> mode
+				<a href="visual.txt.html#v" class="d">v</a>	<a href="visual.txt.html#Visual" class="d">Visual</a> and <a href="visual.txt.html#Select" class="d">Select</a> mode
+				<a href="change.txt.html#x" class="d">x</a>	<a href="visual.txt.html#Visual" class="d">Visual</a> mode
+				<a href="change.txt.html#s" class="d">s</a>	<a href="visual.txt.html#Select" class="d">Select</a> mode
+				<a href="insert.txt.html#o" class="d">o</a>	<a href="intro.txt.html#Operator-pending" class="d">Operator-pending</a> mode
+				<a href="insert.txt.html#i" class="d">i</a>	<a href="insert.txt.html#Insert" class="d">Insert</a> mode
+				<a href="motion.txt.html#l" class="d">l</a>	Language-Argument <a href="motion.txt.html#%28" class="d">(</a>"<a href="change.txt.html#r" class="d">r</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="motion.txt.html#f" class="d">f</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="motion.txt.html#t" class="d">t</a>"<a href="motion.txt.html#%2C" class="d">,</a> etc.)
+				<a href="change.txt.html#c" class="d">c</a>	<a href="cmdline.txt.html#Command-line" class="d">Command-line</a> mode
+				<a href="insert.txt.html#a" class="d">a</a>	all modes
+			The default value <a href="motion.txt.html#is" class="d">is</a> "<a href="insert.txt.html#a" class="d">a</a>"<a href="repeat.txt.html#." class="d">.</a>
+	callback	<a href="insert.txt.html#A" class="d">A</a> callback that <a href="motion.txt.html#is" class="d">is</a> called when the <a href="popup.txt.html#popup" class="d">popup</a> closes, e.g.
+			when using <a href="popup.txt.html#popup_filter_menu%28%29" class="l">popup_filter_menu()</a><a href="motion.txt.html#%2C" class="d">,</a> see <a href="popup.txt.html#popup-callback" class="l">popup-callback</a><a href="repeat.txt.html#." class="d">.</a>
+
+Depending on the "zindex" the <a href="popup.txt.html#popup" class="d">popup</a> goes under or above other popups.  The
+completion menu <a href="motion.txt.html#%28" class="d">(</a><a href="gui.txt.html#popup-menu" class="l">popup-menu</a><a href="motion.txt.html#%29" class="d">)</a> has zindex 100.  For <a href="message.txt.html#messages" class="d">messages</a> that occur for <a href="insert.txt.html#a" class="d">a</a>
+short time the suggestion <a href="motion.txt.html#is" class="d">is</a> to use zindex 1000.
+
+By default text wraps, which causes <a href="insert.txt.html#a" class="d">a</a> line in <span class="s">{lines}</span> to occupy more than one
+screen line.  When "wrap" <a href="motion.txt.html#is" class="d">is</a> <a href="eval.txt.html#FALSE" class="d">FALSE</a> then the text outside of the <a href="popup.txt.html#popup" class="d">popup</a> or
+outside of the Vim <a href="windows.txt.html#window" class="d">window</a> will not be displayed, thus truncated.
+
+
+<span class="c">POPUP TEXT PROPERTIES</span>					<span id="popup-props" class="t">popup-props</span>
+
+These are similar to the third argument of <a href="textprop.txt.html#prop_add%28%29" class="l">prop_add()</a> except:
+<a href="motion.txt.html#-" class="d">-</a> "lnum" <a href="motion.txt.html#is" class="d">is</a> always the current line in the <a href="eval.txt.html#list" class="d">list</a>
+<a href="motion.txt.html#-" class="d">-</a> "bufnr" <a href="motion.txt.html#is" class="d">is</a> always the buffer of the <a href="popup.txt.html#popup" class="d">popup</a>
+<a href="motion.txt.html#-" class="d">-</a> "col" <a href="motion.txt.html#is" class="d">is</a> in the <a href="eval.txt.html#Dict" class="d">Dict</a> instead of <a href="insert.txt.html#a" class="d">a</a> separate argument
+So we get:
+	col		<a href="starting.txt.html#starting" class="d">starting</a> column, counted in bytes, use one for the
+			first column.
+	length		length of text in bytes; can be zero
+	end_lnum	line number for the <a href="intro.txt.html#end" class="d">end</a> of the text
+	end_col		column just after the text; not used when "length" <a href="motion.txt.html#is" class="d">is</a>
+			present; when <span class="s">{col}</span> and "end_col" are equal, this <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+			zero-width text property
+	id		user defined ID for the property; when omitted zero <a href="motion.txt.html#is" class="d">is</a>
+			used
+	type		name of the text property type, <a href="motion.txt.html#as" class="d">as</a> added with
+			<a href="textprop.txt.html#prop_type_add%28%29" class="l">prop_type_add()</a>
+
+
+<span class="c">POSITION POPUP WITH TEXTPROP</span>				<span id="popup-textprop-pos" class="t">popup-textprop-pos</span>
+
+Positioning <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> next to <a href="insert.txt.html#a" class="d">a</a> text property causes the <a href="popup.txt.html#popup" class="d">popup</a> to move when text
+<a href="motion.txt.html#is" class="d">is</a> inserted or deleted.  The <a href="popup.txt.html#popup" class="d">popup</a> <a href="eval.txt.html#functions" class="d">functions</a> like <a href="insert.txt.html#a" class="d">a</a> tooltip.
+
+These steps are needed to make this work:
+
+<a href="motion.txt.html#-" class="d">-</a> Define <a href="insert.txt.html#a" class="d">a</a> text property type, <a href="motion.txt.html#it" class="d">it</a> defines the name. 
+<span class="e">	call prop_type_add('popupMarker', {})</span>
+<span class="e"></span>
+<a href="motion.txt.html#-" class="d">-</a> Place <a href="insert.txt.html#a" class="d">a</a> text property <a href="motion.txt.html#at" class="d">at</a> the desired text: 
+<span class="e">	let lnum = {line of the text}</span>
+<span class="e">	let col = {start column of the text}</span>
+<span class="e">	let len = {length of the text}</span>
+<span class="e">	let propId = {arbitrary but unique number}</span>
+<span class="e">	call prop_add(lnum, col, #{</span>
+<span class="e">		\ length: len,</span>
+<span class="e">		\ type: 'popupMarker',</span>
+<span class="e">		\ id: propId,</span>
+<span class="e">		\ })</span>
+<span class="e"></span>
+<a href="motion.txt.html#-" class="d">-</a> Create <a href="insert.txt.html#a" class="d">a</a> popup: 
+<span class="e">	let winid = popup_create('the text', #{</span>
+<span class="e">		\ pos: 'botleft',</span>
+<span class="e">		\ textprop: 'popupMarker',</span>
+<span class="e">		\ textpropid: propId,</span>
+<span class="e">		\ border: [],</span>
+<span class="e">		\ padding: [0,1,0,1],</span>
+<span class="e">		\ close: 'click',</span>
+<span class="e">		\ })</span>
+<span class="e"></span>
+By default the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> positioned <a href="motion.txt.html#at" class="d">at</a> the corner of the text, opposite of the
+"pos" specified for the popup.  Thus when the <a href="popup.txt.html#popup" class="d">popup</a> uses "botleft"<a href="motion.txt.html#%2C" class="d">,</a> the
+bottom-left corner of the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> positioned next to the top-right corner of
+the text property:
+			  +----------+
+			  | the text |
+			  +----------+
+	just some PROPERTY <a href="motion.txt.html#as" class="d">as</a> an example
+
+Here the text property <a href="motion.txt.html#is" class="d">is</a> on "PROPERTY"<a href="repeat.txt.html#." class="d">.</a>  Move the <a href="popup.txt.html#popup" class="d">popup</a> to the left by
+passing <a href="insert.txt.html#a" class="d">a</a> negative "col" value to popup_create().  With "col: -5" you get:
+
+		     +----------+
+		     | the text |
+		     +----------+
+	just some PROPERTY <a href="motion.txt.html#as" class="d">as</a> an example
+
+If the text property moves out of <a href="starting.txt.html#view" class="d">view</a> then the <a href="popup.txt.html#popup" class="d">popup</a> will be hidden.
+If the <a href="windows.txt.html#window" class="d">window</a> for which the <a href="popup.txt.html#popup" class="d">popup</a> was defined <a href="motion.txt.html#is" class="d">is</a> closed, the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> closed.
+
+If the <a href="popup.txt.html#popup" class="d">popup</a> cannot fit in the desired position, <a href="motion.txt.html#it" class="d">it</a> may show <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> nearby
+position.
+
+Some hints:
+<a href="motion.txt.html#-" class="d">-</a> To avoid collision with other plugins the text property type name has to be
+  unique.  You can also use the "bufnr" item to make <a href="motion.txt.html#it" class="d">it</a> local to <a href="insert.txt.html#a" class="d">a</a> buffer.
+<a href="motion.txt.html#-" class="d">-</a> You can leave out the text property ID if there <a href="motion.txt.html#is" class="d">is</a> only ever one text
+  property visible.
+<a href="motion.txt.html#-" class="d">-</a> The <a href="popup.txt.html#popup" class="d">popup</a> may be in the way of what the user <a href="motion.txt.html#is" class="d">is</a> doing, making <a href="motion.txt.html#it" class="d">it</a> close with
+  <a href="insert.txt.html#a" class="d">a</a> click, <a href="motion.txt.html#as" class="d">as</a> in the example above, helps for that.
+<a href="motion.txt.html#-" class="d">-</a> If the text property <a href="motion.txt.html#is" class="d">is</a> removed the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> closed.  Use something like
+  this: 
+<span class="e">	call prop_remove(#{type: 'popupMarker', id: propId})</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">POPUP FILTER</span>						<span id="popup-filter" class="t">popup-filter</span>
+
+<a href="insert.txt.html#A" class="d">A</a> callback that gets any typed keys while <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> displayed.  The <a href="change.txt.html#filter" class="d">filter</a> <a href="motion.txt.html#is" class="d">is</a>
+not invoked when the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> hidden.
+
+The <a href="change.txt.html#filter" class="d">filter</a> can return <a href="eval.txt.html#TRUE" class="d">TRUE</a> to indicate the key has been handled and <a href="motion.txt.html#is" class="d">is</a> to be
+discarded, or <a href="eval.txt.html#FALSE" class="d">FALSE</a> to let Vim handle the key <a href="motion.txt.html#as" class="d">as</a> usual in the current state.
+In <a href="change.txt.html#case" class="d">case</a> <a href="motion.txt.html#it" class="d">it</a> returns <a href="eval.txt.html#FALSE" class="d">FALSE</a> and there <a href="motion.txt.html#is" class="d">is</a> another <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> visible, that
+<a href="change.txt.html#filter" class="d">filter</a> <a href="motion.txt.html#is" class="d">is</a> also called.  The <a href="change.txt.html#filter" class="d">filter</a> of the <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> with the highest zindex
+<a href="motion.txt.html#is" class="d">is</a> called first.
+
+The <a href="change.txt.html#filter" class="d">filter</a> function <a href="motion.txt.html#is" class="d">is</a> called with two arguments: the ID of the <a href="popup.txt.html#popup" class="d">popup</a> and the
+key <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> string, e.g.: 
+<span class="e">	func MyFilter(winid, key)</span>
+<span class="e">	  if a:key == "\&lt;F2&gt;"</span>
+<span class="e">	    " do something</span>
+<span class="e">	    return 1</span>
+<span class="e">	  endif</span>
+<span class="e">	  if a:key == 'x'</span>
+<span class="e">	    call popup_close(a:winid)</span>
+<span class="e">	    return 1</span>
+<span class="e">	  endif</span>
+<span class="e">	  return 0</span>
+<span class="e">	endfunc</span>
+							<span id="popup-filter-mode" class="t">popup-filter-mode</span>
+The "filtermode" property can be used to specify in what mode the <a href="change.txt.html#filter" class="d">filter</a> <a href="motion.txt.html#is" class="d">is</a>
+invoked.  The default <a href="motion.txt.html#is" class="d">is</a> "<a href="insert.txt.html#a" class="d">a</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> all modes.  When using "nvi" <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> mode
+<a href="motion.txt.html#is" class="d">is</a> not included, so that any command typed on the command line <a href="motion.txt.html#is" class="d">is</a> not
+filtered.  However, to get to <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> mode the <a href="change.txt.html#filter" class="d">filter</a> <a href="vim_faq.txt.html#must" class="d">must</a> not consume
+"<a href="cmdline.txt.html#%3A" class="d">:</a>"<a href="repeat.txt.html#." class="d">.</a>  Just like <a href="motion.txt.html#it" class="d">it</a> <a href="vim_faq.txt.html#must" class="d">must</a> not consume "<a href="visual.txt.html#v" class="d">v</a>" to allow for entering <a href="visual.txt.html#Visual" class="d">Visual</a> mode.
+
+							<span id="popup-mapping" class="t">popup-mapping</span>
+Normally the key <a href="motion.txt.html#is" class="d">is</a> what results after any mapping, since the keys pass on <a href="motion.txt.html#as" class="d">as</a>
+normal input if the <a href="change.txt.html#filter" class="d">filter</a> does not use it.  If the <a href="change.txt.html#filter" class="d">filter</a> consumes all the
+keys, set the "<a href="map.txt.html#mapping" class="d">mapping</a>" property to zero so that mappings <a href="diff.txt.html#do" class="d">do</a> not get in the
+way.  This <a href="motion.txt.html#is" class="d">is</a> default for <a href="popup.txt.html#popup_menu%28%29" class="l">popup_menu()</a> and <a href="popup.txt.html#popup_dialog%28%29" class="l">popup_dialog()</a><a href="repeat.txt.html#." class="d">.</a>
+
+Some recommended key actions:
+	<a href="change.txt.html#x" class="d">x</a>		close the <a href="popup.txt.html#popup" class="d">popup</a> (see <span class="n">note</span> below)
+	cursor keys	select another entry
+	<a href="intro.txt.html#Tab" class="d">Tab</a>		accept current suggestion
+
+When <a href="pattern.txt.html#CTRL-C" class="k">CTRL-C</a> <a href="motion.txt.html#is" class="d">is</a> pressed the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> closed, the <a href="change.txt.html#filter" class="d">filter</a> will not be invoked.
+
+<a href="insert.txt.html#A" class="d">A</a> mouse click arrives <a href="motion.txt.html#as" class="d">as</a> <a href="visual.txt.html#%3CLeftMouse%3E" class="s">&lt;LeftMouse&gt;</a>.  The coordinates can be obtained with
+<a href="builtin.txt.html#getmousepos%28%29" class="l">getmousepos()</a><a href="repeat.txt.html#." class="d">.</a>
+
+Vim provides standard filters <a href="popup.txt.html#popup_filter_menu%28%29" class="l">popup_filter_menu()</a> and
+<a href="popup.txt.html#popup_filter_yesno%28%29" class="l">popup_filter_yesno()</a><a href="repeat.txt.html#." class="d">.</a>
+
+Keys coming from <a href="insert.txt.html#a" class="d">a</a> <span class="e">:normal</span> command <a href="diff.txt.html#do" class="d">do</a> not pass through the filter.  This can
+be used to move the cursor in <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> where the "cursorline" option <a href="motion.txt.html#is" class="d">is</a> set: 
+<span class="e">	call win_execute(winid, 'normal! 10Gzz')</span>
+Keys coming from <span class="e">feedkeys()</span> are passed through the filter.
+
+<span class="n">Note</span> that "<a href="change.txt.html#x" class="d">x</a>" <a href="motion.txt.html#is" class="d">is</a> the normal way to close <a href="insert.txt.html#a" class="d">a</a> popup.  You may want to use Esc,
+but since many keys start with an Esc character, there may be <a href="insert.txt.html#a" class="d">a</a> delay before
+Vim recognizes the Esc key.  If you <a href="diff.txt.html#do" class="d">do</a> use Esc, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> recommended to set the
+<a href="options.txt.html#%27ttimeoutlen%27" class="o">'ttimeoutlen'</a> option to 100 and set <a href="options.txt.html#%27timeout%27" class="o">'timeout'</a> and/or <a href="options.txt.html#%27ttimeout%27" class="o">'ttimeout'</a>.
+
+							<span id="popup-filter-errors" class="t">popup-filter-errors</span>
+If the <a href="change.txt.html#filter" class="d">filter</a> function can't be called, e.g. because the name <a href="motion.txt.html#is" class="d">is</a> wrong, then
+the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> closed.  If the <a href="change.txt.html#filter" class="d">filter</a> causes an error then <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> assumed to
+return zero.  If this happens three times in <a href="insert.txt.html#a" class="d">a</a> row the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> closed.  If
+the <a href="popup.txt.html#popup" class="d">popup</a> gives <a href="message.txt.html#errors" class="d">errors</a> fewer than 10% of the calls then <a href="motion.txt.html#it" class="d">it</a> won't be closed.
+
+
+<span class="c">POPUP CALLBACK</span>						<span id="popup-callback" class="t">popup-callback</span>
+
+<a href="insert.txt.html#A" class="d">A</a> callback that <a href="motion.txt.html#is" class="d">is</a> invoked when the <a href="popup.txt.html#popup" class="d">popup</a> closes.
+
+The callback <a href="motion.txt.html#is" class="d">is</a> invoked with two arguments: the ID of the <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> and the
+result, which could be an <a href="index.txt.html#index" class="d">index</a> in the <a href="popup.txt.html#popup" class="d">popup</a> lines, or whatever was passed <a href="motion.txt.html#as" class="d">as</a>
+the second argument of <span class="e">popup_close()</span>.
+
+If the <a href="popup.txt.html#popup" class="d">popup</a> <a href="motion.txt.html#is" class="d">is</a> force-closed, e.g. because the cursor moved or <a href="pattern.txt.html#CTRL-C" class="k">CTRL-C</a> was
+pressed, the number -1 <a href="motion.txt.html#is" class="d">is</a> passed to the callback.
+
+Example: 
+<span class="e">	func SelectedColor(id, result)</span>
+<span class="e">	   echo 'choice made: ' .. a:result</span>
+<span class="e">	endfunc</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">POPUP SCROLLBAR</span>						<span id="popup-scrollbar" class="t">popup-scrollbar</span>
+
+If the text does not fit in the <a href="popup.txt.html#popup" class="d">popup</a> <a href="insert.txt.html#a" class="d">a</a> scrollbar <a href="motion.txt.html#is" class="d">is</a> displayed on the right of
+the window.  This can be disabled by setting the "scrollbar" option to zero.
+When the scrollbar <a href="motion.txt.html#is" class="d">is</a> displayed mouse scroll events, while the mouse pointer
+<a href="motion.txt.html#is" class="d">is</a> on the popup, will cause the text to scroll up or down <a href="motion.txt.html#as" class="d">as</a> you would expect.
+<a href="insert.txt.html#A" class="d">A</a> click in the upper half of the scrollbar will scroll the text down one line.
+<a href="insert.txt.html#A" class="d">A</a> click in the lower half will scroll the text up one line.  However, this <a href="motion.txt.html#is" class="d">is</a>
+limited so that the <a href="popup.txt.html#popup" class="d">popup</a> does not get smaller.
+
+
+<span class="c">POPUP MASK</span>						<span id="popup-mask" class="t">popup-mask</span>
+
+To minimize the text that the <a href="popup.txt.html#popup" class="d">popup</a> covers, parts of <a href="motion.txt.html#it" class="d">it</a> can be made
+transparent.  This <a href="motion.txt.html#is" class="d">is</a> defined by <a href="insert.txt.html#a" class="d">a</a> "mask" which <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of lists, where each
+<a href="eval.txt.html#list" class="d">list</a> has four numbers:
+    col		start column, positive for counting from the left, 1 for
+		leftmost, negative for counting from the right, -1 for
+		rightmost
+    endcol	last column, like "col"
+    line	start line, positive for counting from the top, 1 for top,
+		negative for counting from the bottom, -1 for bottom
+    endline	<a href="intro.txt.html#end" class="d">end</a> line, like "line"
+
+For example, to make the last 10 columns of the last line transparent:
+	[[-10, -1, -1, -1]]
+
+To make the four corners transparent:
+	[[1, 1, 1, 1], [-1, -1, 1, 1], [1, 1, -1, -1], [-1, -1, -1, -1]]
+
+<span class="h">==============================================================================</span>
+4. Examples						<span id="popup-examples" class="t">popup-examples</span>
+
+These examples use <a href="vim9.txt.html#Vim9" class="l">Vim9</a> script.
+
+					<span id="popup_dialog-example" class="t">popup_dialog-example</span>
+Prompt the user to press y/Y or n/N: 
+<span class="e"></span>
+<span class="e">	popup_dialog('Continue? y/n', {</span>
+<span class="e">		 filter: 'popup_filter_yesno',</span>
+<span class="e">		 callback: (id, result) =&gt; {</span>
+<span class="e">				if result == 1</span>
+<span class="e">				  echomsg "'y' or 'Y' was pressed"</span>
+<span class="e">				else</span>
+<span class="e">				  echomsg "'y' or 'Y' was NOT pressed"</span>
+<span class="e">				endif</span>
+<span class="e">			     },</span>
+<span class="e">		 padding: [2, 4, 2, 4],</span>
+<span class="e">		 })</span>
+
+					<span id="popup_menu-shortcut-example" class="t">popup_menu-shortcut-example</span>
+Extend <a href="popup.txt.html#popup_filter_menu%28%29" class="d">popup_filter_menu()</a> with shortcut keys: 
+<span class="e"></span>
+<span class="e">	popup_menu(['Save', 'Cancel', 'Discard'], {</span>
+<span class="e">	    callback: (_, result) =&gt; {</span>
+<span class="e">		echo 'dialog result is' result</span>
+<span class="e">	    },</span>
+<span class="e">	    filter: (id, key) =&gt; {</span>
+<span class="e">		# Handle shortcuts</span>
+<span class="e">		if key == 'S' || key == 's'</span>
+<span class="e">		    popup_close(id, 1)</span>
+<span class="e">		elseif key == 'C' || key == 'c'</span>
+<span class="e">		    popup_close(id, 2)</span>
+<span class="e">		elseif key == 'D' || key == 'd'</span>
+<span class="e">		    popup_close(id, 3)</span>
+<span class="e">		else</span>
+<span class="e">		    # No shortcut, pass to generic filter</span>
+<span class="e">		    return popup_filter_menu(id, key)</span>
+<span class="e">		endif</span>
+<span class="e">		return true</span>
+<span class="e">	    },</span>
+<span class="e">	})</span>
+
+					<span id="popup_beval_example" class="t">popup_beval_example</span>
+Example for using <a href="insert.txt.html#a" class="d">a</a> <a href="popup.txt.html#popup" class="d">popup</a> <a href="windows.txt.html#window" class="d">window</a> for <a href="options.txt.html#%27ballooneval%27" class="o">'ballooneval'</a>: 
+<span class="e"></span>
+<span class="e">	set ballooneval balloonevalterm</span>
+<span class="e">	set balloonexpr=BalloonExpr()</span>
+<span class="e">	var winid: number</span>
+<span class="e">	var last_text: string</span>
+<span class="e"></span>
+<span class="e">	def BalloonExpr(): string</span>
+<span class="e">	    # here you would use "v:beval_text" to lookup something interesting</span>
+<span class="e">	    var text = v:beval_text</span>
+<span class="e">	    if winid &gt; 0 &amp;&amp; popup_getpos(winid) != null_dict</span>
+<span class="e">		# previous popup window still shows</span>
+<span class="e">		if text == last_text</span>
+<span class="e">		    # still the same text, keep the existing popup</span>
+<span class="e">		    return null_string</span>
+<span class="e">		endif</span>
+<span class="e">		popup_close(winid)</span>
+<span class="e">	    endif</span>
+<span class="e"></span>
+<span class="e">	    winid = popup_beval(text, {})</span>
+<span class="e">	    last_text = text</span>
+<span class="e">	    return null_string</span>
+<span class="e">	enddef</span>
+<span class="e"></span>
+If the text has to be obtained asynchronously return an empty <a href="eval.txt.html#string" class="d">string</a> from the
+<a href="eval.txt.html#expression" class="d">expression</a> function and call <a href="popup.txt.html#popup_beval%28%29" class="d">popup_beval()</a> once the text <a href="motion.txt.html#is" class="d">is</a> available.  In
+this example simulated with <a href="insert.txt.html#a" class="d">a</a> <a href="builtin.txt.html#timer" class="d">timer</a> callback: 
+<span class="e"></span>
+<span class="e">	set ballooneval balloonevalterm</span>
+<span class="e">	set balloonexpr=BalloonExpr()</span>
+<span class="e">	var winid: number</span>
+<span class="e">	var last_text: string</span>
+<span class="e"></span>
+<span class="e">	def BalloonExpr(): string</span>
+<span class="e">	    var text = v:beval_text</span>
+<span class="e">	    if winid &gt; 0 &amp;&amp; popup_getpos(winid) != null_dict</span>
+<span class="e">		# previous popup window still shows</span>
+<span class="e">		if text == last_text</span>
+<span class="e">		    # still the same text, keep the existing popup</span>
+<span class="e">		    return null_string</span>
+<span class="e">		endif</span>
+<span class="e">		popup_close(winid)</span>
+<span class="e">	    endif</span>
+<span class="e"></span>
+<span class="e">	    # Simulate an asynchronous lookup that takes half a second for the</span>
+<span class="e">	    # text to display.</span>
+<span class="e">	    last_text = text</span>
+<span class="e">	    timer_start(500, 'ShowPopup')</span>
+<span class="e">	    return null_string</span>
+<span class="e">	enddef</span>
+<span class="e"></span>
+<span class="e">	def ShowPopup(timerid: number)</span>
+<span class="e">	    winid = popup_beval('Result: ' .. last_text, {})</span>
+<span class="e">	enddef</span>
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

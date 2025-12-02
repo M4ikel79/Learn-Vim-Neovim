@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: remote.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="remote.txt.html#">↑Top↑</a></li>
+<li><a href="remote.txt.html#clientserver">Common functionality</a></li>
+<li><a href="remote.txt.html#x11-clientserver">X11 specific items</a></li>
+<li><a href="remote.txt.html#w32-clientserver">Win32 specific items</a></li>
+<li><a href="remote.txt.html#socketserver-clientserver">Socket server specific items</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="remote.txt" class="t">remote.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 09
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar</span>
+
+
+Vim <a href="remote.txt.html#client-server" class="d">client-server</a> communication				<span id="client-server" class="t">client-server</span>
+
+1. Common functionality		<a href="remote.txt.html#clientserver" class="l">clientserver</a>
+2. <a href="options.txt.html#X11" class="d">X11</a> specific items		<a href="remote.txt.html#x11-clientserver" class="l">x11-clientserver</a>
+3. <a href="os_win32.txt.html#MS-Windows" class="d">MS-Windows</a> specific items	<a href="remote.txt.html#w32-clientserver" class="l">w32-clientserver</a>
+4. Socket server specific items	<a href="remote.txt.html#socketserver-clientserver" class="l">socketserver-clientserver</a>
+
+<span class="h">==============================================================================</span>
+1. Common functionality					<span id="clientserver" class="t">clientserver</span>
+
+When compiled with the <a href="various.txt.html#%2Bclientserver" class="l">+clientserver</a> option, Vim can act <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> command
+server.  It accepts <a href="message.txt.html#messages" class="d">messages</a> from <a href="insert.txt.html#a" class="d">a</a> client and executes them.  At the same
+time, Vim can function <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> client and send commands to <a href="insert.txt.html#a" class="d">a</a> Vim server.
+
+The following command line arguments are available:
+
+<span class="h">    argument			meaning	</span>
+
+   <a href="remote.txt.html#--remote" class="d">--remote</a> [+{cmd}] <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> <a href="userfunc.txt.html#..." class="d">...</a>					<span id="--remote" class="t">--remote</span>
+				Open the file <a href="eval.txt.html#list" class="d">list</a> in <a href="insert.txt.html#a" class="d">a</a> remote Vim.  When
+				there <a href="motion.txt.html#is" class="d">is</a> no Vim server, execute locally.
+				There <a href="motion.txt.html#is" class="d">is</a> one optional init command: +{cmd}.
+				This <a href="vim_faq.txt.html#must" class="d">must</a> be an <a href="intro.txt.html#Ex" class="d">Ex</a> command that can be
+				followed by "|"<a href="repeat.txt.html#." class="d">.</a>
+				The rest of the command line <a href="motion.txt.html#is" class="d">is</a> taken <a href="motion.txt.html#as" class="d">as</a> the
+				file list.  Thus any non-file arguments <a href="vim_faq.txt.html#must" class="d">must</a>
+				come before this.
+				You cannot edit stdin this way <a href="starting.txt.html#--" class="l">--</a><a href="repeat.txt.html#." class="d">.</a>
+				The remote Vim <a href="motion.txt.html#is" class="d">is</a> raised.  If you don't want
+				this use 
+<span class="e">				 vim --remote-send "&lt;C-\&gt;&lt;C-N&gt;:n filename&lt;CR&gt;"</span>
+
+   <a href="remote.txt.html#--remote-silent" class="d">--remote-silent</a> [+{cmd}] <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> <a href="userfunc.txt.html#..." class="d">...</a>			<span id="--remote-silent" class="t">--remote-silent</span>
+				As above, but don't complain if there <a href="motion.txt.html#is" class="d">is</a> no
+				server and the file <a href="motion.txt.html#is" class="d">is</a> edited locally.
+   <a href="remote.txt.html#--remote-wait" class="d">--remote-wait</a> [+{cmd}] <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> <a href="userfunc.txt.html#..." class="d">...</a>				<span id="--remote-wait" class="t">--remote-wait</span>
+				As --remote, but wait for files to complete
+				(unload) in remote Vim.
+   <a href="remote.txt.html#--remote-wait-silent" class="d">--remote-wait-silent</a> [+{cmd}] <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> <a href="userfunc.txt.html#..." class="d">...</a>		<span id="--remote-wait-silent" class="t">--remote-wait-silent</span>
+				As --remote-wait, but don't complain if there
+				<a href="motion.txt.html#is" class="d">is</a> no server.
+							<span id="--remote-tab" class="t">--remote-tab</span>
+   <a href="remote.txt.html#--remote-tab" class="d">--remote-tab</a>			Like <a href="remote.txt.html#--remote" class="d">--remote</a> but open each file in <a href="insert.txt.html#a" class="d">a</a> new
+				tabpage.
+							<span id="--remote-tab-silent" class="t">--remote-tab-silent</span>
+   <a href="remote.txt.html#--remote-tab-silent" class="d">--remote-tab-silent</a>		Like <a href="remote.txt.html#--remote-silent" class="d">--remote-silent</a> but open each file in <a href="insert.txt.html#a" class="d">a</a>
+				new tabpage.
+							<span id="--remote-tab-wait" class="t">--remote-tab-wait</span>
+   <a href="remote.txt.html#--remote-tab-wait" class="d">--remote-tab-wait</a>		Like <a href="remote.txt.html#--remote-wait" class="d">--remote-wait</a> but open each file in <a href="insert.txt.html#a" class="d">a</a> new
+				tabpage.
+
+						<span id="--remote-tab-wait-silent" class="t">--remote-tab-wait-silent</span>
+   <a href="remote.txt.html#--remote-tab-wait-silent" class="d">--remote-tab-wait-silent</a>	Like <a href="remote.txt.html#--remote-wait-silent" class="d">--remote-wait-silent</a> but open each file
+				in <a href="insert.txt.html#a" class="d">a</a> new tabpage.
+								<span id="--servername" class="t">--servername</span>
+   <a href="remote.txt.html#--servername" class="d">--servername</a> <span class="s">{name}</span>		Become the server <span class="s">{name}</span>.  When used together
+				with one of the <a href="remote.txt.html#--remote" class="d">--remote</a> commands: connect to
+				server <span class="s">{name}</span> instead of the default (see
+				below).  The name used will be uppercase.  If
+				using the socketserver, you can specify <a href="insert.txt.html#a" class="d">a</a>
+				path, see <a href="remote.txt.html#socketserver-name" class="l">socketserver-name</a> for more
+				details.
+								<span id="--remote-send" class="t">--remote-send</span>
+   <a href="remote.txt.html#--remote-send" class="d">--remote-send</a> <span class="s">{keys}</span>		Send <span class="s">{keys}</span> to server and exit.  The <span class="s">{keys}</span>
+				are not mapped.  <a href="eval.txt.html#Special" class="d">Special</a> key names are
+				recognized, e.g., "<a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a>" results in <a href="insert.txt.html#a" class="d">a</a> CR
+				character.
+								<span id="--remote-expr" class="t">--remote-expr</span>
+   <a href="remote.txt.html#--remote-expr" class="d">--remote-expr</a> <span class="s">{expr}</span>		Evaluate <span class="s">{expr}</span> in server and print the result
+				on stdout.
+								<span id="--serverlist" class="t">--serverlist</span>
+   <a href="remote.txt.html#--serverlist" class="d">--serverlist</a>			Output <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of server names.
+								<span id="--clientserver" class="t">--clientserver</span>
+   <a href="remote.txt.html#--clientserver" class="d">--clientserver</a> <span class="s">{method}</span>	Use the specified <a href="eval.txt.html#method" class="d">method</a> <span class="s">{method}</span> <a href="motion.txt.html#as" class="d">as</a> the
+				backend for <a href="remote.txt.html#clientserver" class="d">clientserver</a> functionality.  Can
+				either be "socket" or "x11"<a href="repeat.txt.html#." class="d">.</a>
+				{only available when compiled with both <a href="various.txt.html#%2BX11" class="l">+X11</a>
+				and <a href="various.txt.html#%2Bsocketserver" class="l">+socketserver</a> features}
+
+
+<span class="h">Examples </span>
+
+Edit "file.txt" in an already running GVIM server: 
+<span class="e">    gvim --remote file.txt</span>
+<span class="e"></span>
+Edit "file.txt" in an already running server called FOOBAR: 
+<span class="e">    gvim --servername FOOBAR --remote file.txt</span>
+<span class="e"></span>
+Edit "file.txt" in server "FILES" if <a href="motion.txt.html#it" class="d">it</a> exists, become server "FILES"
+otherwise: 
+<span class="e">    gvim --servername FILES --remote-silent file.txt</span>
+<span class="e"></span>
+This doesn't work, all arguments after <a href="remote.txt.html#--remote" class="d">--remote</a> will be used <a href="motion.txt.html#as" class="d">as</a> file names: 
+<span class="e">    gvim --remote --servername FOOBAR file.txt</span>
+<span class="e"></span>
+Edit file "+foo" in <a href="insert.txt.html#a" class="d">a</a> remote server (note the use of "./" to avoid the special
+meaning of the leading plus): 
+<span class="e">    vim --remote ./+foo</span>
+<span class="e"></span>
+Tell the remote server "BLA" to write all files and exit: 
+<span class="e">    vim --servername BLA --remote-send '&lt;C-\&gt;&lt;C-N&gt;:wqa&lt;CR&gt;'</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">SERVER NAME</span>						<span id="client-server-name" class="t">client-server-name</span>
+
+By default Vim will try to register the name under which <a href="motion.txt.html#it" class="d">it</a> was invoked (gvim,
+egvim ...).  This can be overridden with the <a href="remote.txt.html#--servername" class="d">--servername</a> argument.  If the
+specified name <a href="motion.txt.html#is" class="d">is</a> not available, <a href="insert.txt.html#a" class="d">a</a> postfix <a href="motion.txt.html#is" class="d">is</a> applied until <a href="insert.txt.html#a" class="d">a</a> free name <a href="motion.txt.html#is" class="d">is</a>
+encountered, i.e. "gvim1" for the second invocation of <a href="starting.txt.html#gvim" class="d">gvim</a> on <a href="insert.txt.html#a" class="d">a</a> particular
+X-server.  The resulting name <a href="motion.txt.html#is" class="d">is</a> available in the servername builtin variable
+<a href="eval.txt.html#v%3Aservername" class="l">v:servername</a><a href="repeat.txt.html#." class="d">.</a>  The <a href="change.txt.html#case" class="d">case</a> of the server name <a href="motion.txt.html#is" class="d">is</a> ignored, thus "<a href="starting.txt.html#gvim" class="d">gvim</a>" and
+"GVIM" are considered equal.  <span class="n">Note</span> if <a href="insert.txt.html#a" class="d">a</a> socket server <a href="motion.txt.html#is" class="d">is</a> being used, there are
+some differences, see <a href="remote.txt.html#socketserver-differences" class="l">socketserver-differences</a><a href="repeat.txt.html#." class="d">.</a>
+
+When Vim <a href="motion.txt.html#is" class="d">is</a> invoked with --remote, <a href="remote.txt.html#--remote-wait" class="d">--remote-wait</a> or <a href="remote.txt.html#--remote-send" class="d">--remote-send</a> <a href="motion.txt.html#it" class="d">it</a> will try
+to locate the server name determined by the invocation name and <a href="remote.txt.html#--servername" class="d">--servername</a>
+argument <a href="motion.txt.html#as" class="d">as</a> described above.  If an exact match <a href="motion.txt.html#is" class="d">is</a> not available, the first
+server with the number postfix will be used.  If <a href="insert.txt.html#a" class="d">a</a> name with the number
+postfix <a href="motion.txt.html#is" class="d">is</a> specified with the <a href="remote.txt.html#--servername" class="d">--servername</a> argument, <a href="motion.txt.html#it" class="d">it</a> <a href="vim_faq.txt.html#must" class="d">must</a> match exactly.
+
+If no server can be located and <a href="remote.txt.html#--remote" class="d">--remote</a> or <a href="remote.txt.html#--remote-wait" class="d">--remote-wait</a> was used, Vim will
+start up according to the rest of the command line and <a href="diff.txt.html#do" class="d">do</a> the editing by
+itself.  This way <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not necessary to know whether <a href="starting.txt.html#gvim" class="d">gvim</a> <a href="motion.txt.html#is" class="d">is</a> already started
+when sending command to it.
+
+The <a href="remote.txt.html#--serverlist" class="d">--serverlist</a> argument will cause Vim to print <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of registered command
+servers on the standard output (stdout) and exit.  If <a href="insert.txt.html#a" class="d">a</a> socket server <a href="motion.txt.html#is" class="d">is</a> being
+used, there are caveats, see <a href="remote.txt.html#socketserver-differences" class="l">socketserver-differences</a><a href="repeat.txt.html#." class="d">.</a>
+							<span id="%7Bserver%7D" class="t">{server}</span>
+The <a href="remote.txt.html#%7Bserver%7D" class="s">{server}</a> argument <a href="motion.txt.html#is" class="d">is</a> used by several functions.  When this <a href="motion.txt.html#is" class="d">is</a> an empty
+<a href="eval.txt.html#string" class="d">string</a> then on <a href="os_unix.txt.html#Unix" class="d">Unix</a> the default server name <a href="motion.txt.html#is" class="d">is</a> used, which <a href="motion.txt.html#is" class="d">is</a> "GVIM"<a href="repeat.txt.html#." class="d">.</a>  On
+<a href="os_win32.txt.html#MS-Windows" class="d">MS-Windows</a> an empty <a href="eval.txt.html#string" class="d">string</a> does not work.
+
+<a href="os_win32.txt.html#Win32" class="d">Win32</a> <span class="n">Note:</span> Making the Vim server <a href="motion.txt.html#go" class="d">go</a> to the foreground doesn't always work,
+because <a href="os_win32.txt.html#MS-Windows" class="d">MS-Windows</a> doesn't allow it.  The client will move the server to the
+foreground when using the <a href="remote.txt.html#--remote" class="d">--remote</a> or <a href="remote.txt.html#--remote-wait" class="d">--remote-wait</a> argument and the server
+name starts with "<a href="index.txt.html#g" class="d">g</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">REMOTE EDITING</span>
+
+The <a href="remote.txt.html#--remote" class="d">--remote</a> argument will cause <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#%3Adrop" class="l">:drop</a> command to be constructed from the
+rest of the command line and sent <a href="motion.txt.html#as" class="d">as</a> described above.
+The <a href="remote.txt.html#--remote-wait" class="d">--remote-wait</a> argument does the same thing and additionally sets up to
+wait for each of the files to have been edited.  This uses the <a href="autocmd.txt.html#BufUnload" class="d">BufUnload</a>
+event, thus <a href="motion.txt.html#as" class="d">as</a> soon <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> file has been unloaded, Vim assumes you are done
+editing it.
+<span class="n">Note</span> that the <a href="remote.txt.html#--remote" class="d">--remote</a> and <a href="remote.txt.html#--remote-wait" class="d">--remote-wait</a> arguments will consume the rest of
+the command line.  I.e. all remaining arguments will be regarded <a href="motion.txt.html#as" class="d">as</a> filenames.
+You can not <a href="change.txt.html#put" class="d">put</a> <a href="options.txt.html#options" class="d">options</a> there!
+
+
+<span class="c">FUNCTIONS</span>
+								<span id="E240" class="t">E240</span> <span id="E573" class="t">E573</span>
+There are <a href="insert.txt.html#a" class="d">a</a> number of Vim <a href="eval.txt.html#functions" class="d">functions</a> for scripting the command server.  See
+the description in <a href="builtin.txt.html#builtin.txt" class="l">builtin.txt</a> or use <a href="tagsrch.txt.html#CTRL-%5D" class="k">CTRL-]</a> on the function name to jump to
+the full explanation.
+
+<span class="h">    synopsis				     explanation </span>
+    remote_startserver( name)		     run <a href="insert.txt.html#a" class="d">a</a> server
+    remote_expr( server, string, idvar)      send <a href="eval.txt.html#expression" class="d">expression</a>
+    remote_send( server, string, idvar)      send key sequence
+    <a href="builtin.txt.html#serverlist%28%29" class="d">serverlist()</a>			     get <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of available servers
+    remote_peek( serverid, retvar)	     check for reply <a href="eval.txt.html#string" class="d">string</a>
+    remote_read( serverid)		     read reply <a href="eval.txt.html#string" class="d">string</a>
+    server2client( serverid, string)	     send reply <a href="eval.txt.html#string" class="d">string</a>
+    remote_foreground( server)		     bring server to the front
+
+See also the explanation of <a href="intro.txt.html#CTRL-%5C_CTRL-N" class="l">CTRL-\_CTRL-N</a><a href="repeat.txt.html#." class="d">.</a>  Very useful <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> leading key
+sequence.
+The <span class="s">{serverid}</span> for <a href="builtin.txt.html#server2client%28%29" class="d">server2client()</a> can be obtained with expand("<a href="cmdline.txt.html#%3Cclient%3E" class="s">&lt;client&gt;</a>"<a href="motion.txt.html#%29" class="d">)</a>
+
+<span class="h">==============================================================================</span>
+2. <a href="options.txt.html#X11" class="d">X11</a> specific items					<span id="x11-clientserver" class="t">x11-clientserver</span>
+				    <span id="E247" class="t">E247</span> <span id="E248" class="t">E248</span> <span id="E251" class="t">E251</span> <span id="E258" class="t">E258</span> <span id="E277" class="t">E277</span>
+
+The communication between client and server goes through the <a href="change.txt.html#X" class="d">X</a> server.  The
+display of the Vim server <a href="vim_faq.txt.html#must" class="d">must</a> be specified.  The usual protection of the <a href="change.txt.html#X" class="d">X</a>
+server <a href="motion.txt.html#is" class="d">is</a> used, you <a href="vim_faq.txt.html#must" class="d">must</a> be able to open <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#window" class="d">window</a> on the <a href="change.txt.html#X" class="d">X</a> server for the
+communication to work.  It <a href="motion.txt.html#is" class="d">is</a> possible to communicate between different
+systems.
+
+By default, <a href="insert.txt.html#a" class="d">a</a> <a href="gui.txt.html#GUI" class="d">GUI</a> Vim will register <a href="insert.txt.html#a" class="d">a</a> name on the X-server by which <a href="motion.txt.html#it" class="d">it</a> can be
+addressed for subsequent execution of injected strings.  Vim can also act <a href="motion.txt.html#as" class="d">as</a>
+<a href="insert.txt.html#a" class="d">a</a> client and send strings to other instances of Vim on the same <a href="options.txt.html#X11" class="d">X11</a> display.
+
+When an <a href="options.txt.html#X11" class="d">X11</a> <a href="gui.txt.html#GUI" class="d">GUI</a> Vim (gvim) <a href="motion.txt.html#is" class="d">is</a> started, <a href="motion.txt.html#it" class="d">it</a> will try to register <a href="insert.txt.html#a" class="d">a</a> send-server
+name on the 'VimRegistry' property on the root window.
+
+<a href="insert.txt.html#A" class="d">A</a> non <a href="gui.txt.html#GUI" class="d">GUI</a> Vim with access to the <a href="options.txt.html#X11" class="d">X11</a> display <a href="motion.txt.html#%28" class="d">(</a><a href="term.txt.html#xterm-clipboard" class="l">xterm-clipboard</a> enabled), can
+also act <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> command server if <a href="insert.txt.html#a" class="d">a</a> server name <a href="motion.txt.html#is" class="d">is</a> explicitly given with the
+<a href="remote.txt.html#--servername" class="d">--servername</a> argument, or when Vim was built with the <a href="various.txt.html#%2Bautoservername" class="l">+autoservername</a>
+feature.
+
+An empty <a href="remote.txt.html#--servername" class="d">--servername</a> argument will cause the command server to be disabled.
+
+To send commands to <a href="insert.txt.html#a" class="d">a</a> Vim server from another application, read the source
+file src/if_xcmdsrv.c, <a href="motion.txt.html#it" class="d">it</a> contains some hints about the protocol used.
+
+<span class="h">==============================================================================</span>
+3. <a href="os_win32.txt.html#Win32" class="d">Win32</a> specific items					<span id="w32-clientserver" class="t">w32-clientserver</span>
+
+Every <a href="os_win32.txt.html#Win32" class="d">Win32</a> Vim can work <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> server, also in the console.  You <a href="diff.txt.html#do" class="d">do</a> not need <a href="insert.txt.html#a" class="d">a</a>
+version compiled with OLE.  Windows <a href="message.txt.html#messages" class="d">messages</a> are used, this works on any
+version of MS-Windows.  But only communication within one system <a href="motion.txt.html#is" class="d">is</a> possible.
+
+Since <a href="os_win32.txt.html#MS-Windows" class="d">MS-Windows</a> <a href="message.txt.html#messages" class="d">messages</a> are used, any other application should be able to
+communicate with <a href="insert.txt.html#a" class="d">a</a> Vim server.  An alternative <a href="motion.txt.html#is" class="d">is</a> using the OLE functionality
+<a href="if_ole.txt.html#ole-interface" class="l">ole-interface</a><a href="repeat.txt.html#." class="d">.</a>
+
+When using gvim, the <a href="remote.txt.html#--remote-wait" class="d">--remote-wait</a> only works properly this way: 
+<span class="e"></span>
+<span class="e">	start /w gvim --remote-wait file.txt</span>
+
+<span class="h">==============================================================================</span>
+4. Socket server specific items			    <span id="socketserver-clientserver" class="t">socketserver-clientserver</span>
+				    <span id="E1563" class="t">E1563</span> <span id="E1564" class="t">E1564</span> <span id="E1565" class="t">E1565</span> <span id="E1566" class="t">E1566</span> <span id="E1567" class="t">E1567</span>
+
+The communication between client and server <a href="motion.txt.html#is" class="d">is</a> done using <a href="os_unix.txt.html#Unix" class="d">Unix</a> domain sockets.
+These sockets are either placed in these directories in the following order of
+availability:
+    1. "$XDG_RUTIME_DIR/vim" if $XDG_RUNTIME_DIR <a href="motion.txt.html#is" class="d">is</a> set in the environment.
+    2. "$TMPDIR/vim-[uid]"<a href="motion.txt.html#%2C" class="d">,</a> where "[uid]" <a href="motion.txt.html#is" class="d">is</a> the uid of the user.  This
+       directory will have the access permissions set to 700 so only the user
+       can read or write from/to it.  If $TMPDIR <a href="motion.txt.html#is" class="d">is</a> not set, "/tmp" <a href="motion.txt.html#is" class="d">is</a> used.
+
+						    <span id="socketserver-name" class="t">socketserver-name</span>
+When specifying the server id/name, <a href="motion.txt.html#it" class="d">it</a> can be taken <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> generic name or an
+absolute or relative path.  If the server id starts with either <a href="insert.txt.html#a" class="d">a</a> "<a href="pattern.txt.html#%2F" class="d">/</a>"
+(absolute) or "./" | "../" (relative), then <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> taken <a href="motion.txt.html#as" class="d">as</a> path to the socket.
+Otherwise the server id will be the filename of the socket which will be
+placed in the above common directories.  <span class="n">Note</span> that <a href="insert.txt.html#a" class="d">a</a> server id/name can only
+contain slashes "<a href="pattern.txt.html#%2F" class="d">/</a>" if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> taken <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> path, so names such <a href="motion.txt.html#as" class="d">as</a> "abc/dir" will
+be invalid.
+
+Socket server functionality <a href="motion.txt.html#is" class="d">is</a> available in both <a href="gui_x11.txt.html#GTK" class="d">GTK</a> <a href="gui.txt.html#GUI" class="d">GUI</a> and <a href="terminal.txt.html#terminal" class="d">terminal</a> versions
+of Vim.  Unless Vim <a href="motion.txt.html#is" class="d">is</a> compiled with <a href="various.txt.html#%2Bautoservername" class="l">+autoservername</a> feature, the socket
+server will have to started explicitly, just like X11, even in the GUI.
+
+If Vim crashes or does not exit cleanly, the socket server will not remove the
+socket file and <a href="motion.txt.html#it" class="d">it</a> will be left around.  This <a href="motion.txt.html#is" class="d">is</a> generally not <a href="insert.txt.html#a" class="d">a</a> problem,
+because if <a href="insert.txt.html#a" class="d">a</a> socket name <a href="motion.txt.html#is" class="d">is</a> taken, Vim checks if the socket in its place <a href="motion.txt.html#is" class="d">is</a>
+dead (not attached to any process), and can replace <a href="motion.txt.html#it" class="d">it</a> instead of finding <a href="insert.txt.html#a" class="d">a</a>
+new name.
+
+To send commands to <a href="insert.txt.html#a" class="d">a</a> Vim socket server from another application, read the
+source file src/os_unix.c, there <a href="motion.txt.html#is" class="d">is</a> detailed description of the protocol used.
+
+						    <span id="socketserver-differences" class="t">socketserver-differences</span>
+Most of the functionality <a href="motion.txt.html#is" class="d">is</a> the same <a href="motion.txt.html#as" class="d">as</a> X11, however unlike X11, where the
+client does not need to be <a href="insert.txt.html#a" class="d">a</a> server in order to communicate with another
+server, the socket server requires the server to be running even <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> client.
+The exception <a href="motion.txt.html#is" class="d">is</a> <a href="builtin.txt.html#serverlist%28%29" class="l">serverlist()</a> or the <a href="remote.txt.html#--serverlist" class="l">--serverlist</a> argument, which does not
+require the server to be running.
+
+Additionally, the server id or client id will not be <a href="insert.txt.html#a" class="d">a</a> number like <a href="options.txt.html#X11" class="d">X11</a> or
+<a href="os_win32.txt.html#MS-Windows" class="d">MS-Windows</a> (shown in hex representation), instead <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> the absolute path to
+the socket.  This can be seen via the <a href="eval.txt.html#v%3Aservername" class="l">v:servername</a> variable.
+
+The <a href="remote.txt.html#--serverlist" class="l">--serverlist</a> argument will act just like X11, however <a href="motion.txt.html#it" class="d">it</a> only checks the
+given common directories above.  If <a href="insert.txt.html#a" class="d">a</a> custom path <a href="motion.txt.html#is" class="d">is</a> used for <a href="insert.txt.html#a" class="d">a</a> socket, <a href="motion.txt.html#it" class="d">it</a>
+will not be detected, such <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> path either not in $XDG_RUNTIME_DIR or
+&lt;$TMPDIR or /tmp&gt;/vim of the <a href="remote.txt.html#--serverlist" class="l">--serverlist</a> Vim process.
+
+If you have both <a href="various.txt.html#%2Bsocketserver" class="l">+socketserver</a> and <a href="various.txt.html#%2BX11" class="l">+X11</a> compiled, you will need to add
+<a href="remote.txt.html#--clientserver" class="l">--clientserver</a> set to "socket" in combination with <a href="remote.txt.html#--serverlist" class="l">--serverlist</a> to <a href="eval.txt.html#list" class="d">list</a>
+the available servers.  You cannot <a href="eval.txt.html#list" class="d">list</a> both types of backends in one command.
+
+						    <span id="socketserver-x11" class="t">socketserver-x11</span>
+If Vim <a href="motion.txt.html#is" class="d">is</a> compiled with both <a href="various.txt.html#%2BX11" class="l">+X11</a> and <a href="various.txt.html#%2Bsocketserver" class="l">+socketserver</a><a href="motion.txt.html#%2C" class="d">,</a> then deciding which
+backend to use <a href="motion.txt.html#is" class="d">is</a> done <a href="motion.txt.html#at" class="d">at</a> <a href="starting.txt.html#startup" class="d">startup</a> time, via the <a href="remote.txt.html#--clientserver" class="l">--clientserver</a> argument.  By
+default if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not specified, then <a href="options.txt.html#X11" class="d">X11</a> will be used.  <a href="insert.txt.html#A" class="d">A</a> Vim instance using <a href="insert.txt.html#a" class="d">a</a>
+socket server cannot communicate with one using X11.
+
+ vim:tw=78:sw=4:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

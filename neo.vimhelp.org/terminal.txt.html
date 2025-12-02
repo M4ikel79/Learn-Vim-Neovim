@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: terminal.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="terminal.txt.html#">↑Top↑</a></li>
+<li><a href="terminal.txt.html#terminal-start">Start</a></li>
+<li><a href="terminal.txt.html#terminal-input">Input</a></li>
+<li><a href="terminal.txt.html#terminal-config">Configuration</a></li>
+<li><a href="terminal.txt.html#terminal-status">Status Variables</a></li>
+<li><a href="terminal.txt.html#terminal-debug">:Termdebug plugin</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="terminal.txt" class="t">terminal.txt</span>   Nvim
+
+
+		 <span class="i">NVIM REFERENCE MANUAL    by Thiago de Arruda</span>
+
+
+Terminal emulator				<span id="terminal" class="t">terminal</span> <span id="terminal-emulator" class="t">terminal-emulator</span>
+
+Nvim embeds <a href="insert.txt.html#a" class="d">a</a> VT220/xterm <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator based on libvterm. The <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a>
+presented <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> special <a href="options.txt.html#%27buftype%27" class="o">'buftype'</a>, asynchronously updated <a href="motion.txt.html#as" class="d">as</a> data <a href="motion.txt.html#is" class="d">is</a> received
+from the connected program.
+
+Terminal <a href="windows.txt.html#buffers" class="d">buffers</a> behave like normal buffers, except:
+<a href="motion.txt.html#-" class="d">-</a> With <a href="options.txt.html#%27modifiable%27" class="o">'modifiable'</a>, lines can be edited but not deleted.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27scrollback%27" class="o">'scrollback'</a> controls how many lines are kept.
+<a href="motion.txt.html#-" class="d">-</a> Output <a href="motion.txt.html#is" class="d">is</a> followed <a href="motion.txt.html#%28" class="d">(</a>"tailed"<a href="motion.txt.html#%29" class="d">)</a> if cursor <a href="motion.txt.html#is" class="d">is</a> on the last line.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27modified%27" class="o">'modified'</a> <a href="motion.txt.html#is" class="d">is</a> the default. You can set <a href="options.txt.html#%27nomodified%27" class="o">'nomodified'</a> to avoid <a href="insert.txt.html#a" class="d">a</a> warning when
+  closing the <a href="terminal.txt.html#terminal" class="d">terminal</a> buffer.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27bufhidden%27" class="o">'bufhidden'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "hide"<a href="repeat.txt.html#." class="d">.</a>
+
+				      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+Start						<span id="terminal-start" class="t">terminal-start</span>
+
+There are several ways to create <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> buffer:
+
+<a href="motion.txt.html#-" class="d">-</a> Run the <a href="various.txt.html#%3Aterminal" class="l">:terminal</a> command.
+<a href="motion.txt.html#-" class="d">-</a> Call <a href="api.txt.html#nvim_open_term%28%29" class="l">nvim_open_term()</a> or `jobstart(…<a href="motion.txt.html#%2C" class="d">,</a> <span class="s">{'term': v:true}</span>)`.
+<a href="motion.txt.html#-" class="d">-</a> Edit <a href="insert.txt.html#a" class="d">a</a> "term://" buffer. Examples: 
+<span class="e">    :edit term://bash</span>
+<span class="e">    :vsplit term://top</span>
+<span class="e"></span>
+    <span class="n">Note:</span> To open <a href="insert.txt.html#a" class="d">a</a> "term://" buffer from an autocmd, the <a href="autocmd.txt.html#autocmd-nested" class="l">autocmd-nested</a>
+    modifier <a href="motion.txt.html#is" class="d">is</a> required. 
+<span class="e">        autocmd VimEnter * ++nested split term://sh</span>
+    (This <a href="motion.txt.html#is" class="d">is</a> only mentioned <a href="luaref.txt.html#for" class="d">for</a> reference; use <a href="various.txt.html#%3Aterminal" class="l">:terminal</a> instead.)
+
+When the <a href="terminal.txt.html#terminal" class="d">terminal</a> starts, the buffer contents are updated and the buffer <a href="motion.txt.html#is" class="d">is</a>
+named in the form of <span class="e">term://{cwd}//{pid}:{cmd}</span>. This naming scheme <a href="motion.txt.html#is" class="d">is</a> used
+by <a href="starting.txt.html#%3Amksession" class="l">:mksession</a> to restore <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> buffer (by restarting the <span class="s">{cmd}</span>).
+
+The <a href="terminal.txt.html#terminal" class="d">terminal</a> environment <a href="motion.txt.html#is" class="d">is</a> initialized <a href="motion.txt.html#as" class="d">as</a> in <a href="vimfn.txt.html#jobstart-env" class="l">jobstart-env</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+Input						<span id="terminal-input" class="t">terminal-input</span>
+
+To send input, enter <a href="intro.txt.html#Terminal-mode" class="l">Terminal-mode</a> with <a href="insert.txt.html#i" class="l">i</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="insert.txt.html#I" class="l">I</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="insert.txt.html#a" class="l">a</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="insert.txt.html#A" class="l">A</a> or
+<a href="insert.txt.html#%3Astartinsert" class="l">:startinsert</a><a href="repeat.txt.html#." class="d">.</a> In this mode all keys except <span class="s">&lt;C-\&gt;</span> are sent to the underlying
+program. If <span class="s">&lt;C-\&gt;</span> <a href="motion.txt.html#is" class="d">is</a> pressed, the next key <a href="motion.txt.html#is" class="d">is</a> sent unless <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> <span class="s">&lt;C-N&gt;</span> or <span class="s">&lt;C-O&gt;</span>.
+Use <span class="s">&lt;C-\&gt;</span><span class="s">&lt;C-N&gt;</span> to return to normal mode. <a href="intro.txt.html#CTRL-%5C_CTRL-N" class="l">CTRL-\_CTRL-N</a>
+Use <span class="s">&lt;C-\&gt;</span><span class="s">&lt;C-O&gt;</span> to execute one normal mode command and then return to <a href="terminal.txt.html#terminal" class="d">terminal</a>
+mode. <span id="t_CTRL-%5C_CTRL-O" class="t">t_CTRL-\_CTRL-O</span>
+
+<a href="intro.txt.html#Terminal-mode" class="d">Terminal-mode</a> forces these local options:
+
+    <a href="options.txt.html#%27cursorlineopt%27" class="o">'cursorlineopt'</a> <a href="change.txt.html#%3D" class="d">=</a> number
+    <a href="options.txt.html#%27nocursorcolumn%27" class="o">'nocursorcolumn'</a>
+    <a href="options.txt.html#%27scrolloff%27" class="o">'scrolloff'</a> <a href="change.txt.html#%3D" class="d">=</a> <a href="motion.txt.html#0" class="d">0</a>
+    <a href="options.txt.html#%27sidescrolloff%27" class="o">'sidescrolloff'</a> <a href="change.txt.html#%3D" class="d">=</a> <a href="motion.txt.html#0" class="d">0</a>
+
+<a href="intro.txt.html#Terminal-mode" class="d">Terminal-mode</a> has its own <a href="map.txt.html#%3Atnoremap" class="l">:tnoremap</a> <a href="api.txt.html#namespace" class="d">namespace</a> <a href="luaref.txt.html#for" class="d">for</a> mappings, this can be used
+to automate any <a href="terminal.txt.html#terminal" class="d">terminal</a> interaction.
+
+To map <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> to exit terminal-mode: 
+<span class="e">    :tnoremap &lt;Esc&gt; &lt;C-\&gt;&lt;C-n&gt;</span>
+<span class="e"></span>
+To simulate <a href="insert.txt.html#i_CTRL-R" class="l">i_CTRL-R</a> in terminal-mode: 
+<span class="e">    :tnoremap &lt;expr&gt; &lt;C-R&gt; '&lt;C-\&gt;&lt;C-N&gt;"'.nr2char(getchar()).'pi'</span>
+<span class="e"></span>
+To use <span class="e">ALT+{h,j,k,l}</span> to navigate <a href="windows.txt.html#windows" class="d">windows</a> from any mode: 
+<span class="e">    :tnoremap &lt;A-h&gt; &lt;C-\&gt;&lt;C-N&gt;&lt;C-w&gt;h</span>
+<span class="e">    :tnoremap &lt;A-j&gt; &lt;C-\&gt;&lt;C-N&gt;&lt;C-w&gt;j</span>
+<span class="e">    :tnoremap &lt;A-k&gt; &lt;C-\&gt;&lt;C-N&gt;&lt;C-w&gt;k</span>
+<span class="e">    :tnoremap &lt;A-l&gt; &lt;C-\&gt;&lt;C-N&gt;&lt;C-w&gt;l</span>
+<span class="e">    :inoremap &lt;A-h&gt; &lt;C-\&gt;&lt;C-N&gt;&lt;C-w&gt;h</span>
+<span class="e">    :inoremap &lt;A-j&gt; &lt;C-\&gt;&lt;C-N&gt;&lt;C-w&gt;j</span>
+<span class="e">    :inoremap &lt;A-k&gt; &lt;C-\&gt;&lt;C-N&gt;&lt;C-w&gt;k</span>
+<span class="e">    :inoremap &lt;A-l&gt; &lt;C-\&gt;&lt;C-N&gt;&lt;C-w&gt;l</span>
+<span class="e">    :nnoremap &lt;A-h&gt; &lt;C-w&gt;h</span>
+<span class="e">    :nnoremap &lt;A-j&gt; &lt;C-w&gt;j</span>
+<span class="e">    :nnoremap &lt;A-k&gt; &lt;C-w&gt;k</span>
+<span class="e">    :nnoremap &lt;A-l&gt; &lt;C-w&gt;l</span>
+<span class="e"></span>
+You can also create <a href="gui.txt.html#menus" class="d">menus</a> similar to <a href="terminal.txt.html#terminal" class="d">terminal</a> mode mappings, but you have to
+use <a href="gui.txt.html#%3Atlmenu" class="l">:tlmenu</a> instead of <a href="gui.txt.html#%3Atmenu" class="l">:tmenu</a><a href="repeat.txt.html#." class="d">.</a>
+
+Mouse input has the following behavior:
+
+<a href="motion.txt.html#-" class="d">-</a> If the program has enabled mouse events, the corresponding <a href="autocmd.txt.html#events" class="d">events</a> will be
+  forwarded to the program.
+<a href="motion.txt.html#-" class="d">-</a> If mouse <a href="autocmd.txt.html#events" class="d">events</a> are disabled (the default), <a href="terminal.txt.html#terminal" class="d">terminal</a> focus will be lost and
+  the event will be processed <a href="motion.txt.html#as" class="d">as</a> in <a href="insert.txt.html#a" class="d">a</a> normal buffer.
+<a href="motion.txt.html#-" class="d">-</a> If another <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> clicked, <a href="terminal.txt.html#terminal" class="d">terminal</a> focus will be lost and <a href="nvim.txt.html#nvim" class="d">nvim</a> will jump
+  to the clicked <a href="windows.txt.html#window" class="d">window</a>
+<a href="motion.txt.html#-" class="d">-</a> If the mouse wheel <a href="motion.txt.html#is" class="d">is</a> used while the mouse <a href="motion.txt.html#is" class="d">is</a> positioned in another window,
+  the <a href="terminal.txt.html#terminal" class="d">terminal</a> won't lose focus and the hovered <a href="windows.txt.html#window" class="d">window</a> will be scrolled.
+
+<span class="h">==============================================================================</span>
+Configuration					<span id="terminal-config" class="t">terminal-config</span>
+
+Options:		<a href="options.txt.html#%27modified%27" class="o">'modified'</a>, <a href="options.txt.html#%27scrollback%27" class="o">'scrollback'</a>
+Events:			<a href="autocmd.txt.html#TermOpen" class="l">TermOpen</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="autocmd.txt.html#TermEnter" class="l">TermEnter</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="autocmd.txt.html#TermLeave" class="l">TermLeave</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="autocmd.txt.html#TermClose" class="l">TermClose</a>
+Highlight groups:	<a href="syntax.txt.html#hl-TermCursor" class="l">hl-TermCursor</a>
+
+Terminal sets local <a href="vim_diff.txt.html#defaults" class="d">defaults</a> <a href="luaref.txt.html#for" class="d">for</a> some options, which may differ from your
+global configuration.
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27list%27" class="o">'list'</a> <a href="motion.txt.html#is" class="d">is</a> disabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27wrap%27" class="o">'wrap'</a> <a href="motion.txt.html#is" class="d">is</a> disabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27number%27" class="o">'number'</a> <a href="motion.txt.html#is" class="d">is</a> disabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27relativenumber%27" class="o">'relativenumber'</a> <a href="motion.txt.html#is" class="d">is</a> disabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27signcolumn%27" class="o">'signcolumn'</a> <a href="motion.txt.html#is" class="d">is</a> set to "no"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27foldcolumn%27" class="o">'foldcolumn'</a> <a href="motion.txt.html#is" class="d">is</a> set to "<a href="motion.txt.html#0" class="d">0</a>"
+
+You can change the <a href="vim_diff.txt.html#defaults" class="d">defaults</a> with <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#TermOpen" class="d">TermOpen</a> autocommand: 
+<span class="e">    au TermOpen * setlocal list</span>
+<span class="e"></span>
+<span class="h">TERMINAL COLORS </span>
+
+The <span class="e">{g,b}:terminal_color_x</span> <a href="vimeval.txt.html#variables" class="d">variables</a> <a href="intro.txt.html#control" class="d">control</a> the <a href="terminal.txt.html#terminal" class="d">terminal</a> color palette,
+where <span class="e">x</span> <a href="motion.txt.html#is" class="d">is</a> the color <a href="index.txt.html#index" class="d">index</a> between <a href="motion.txt.html#0" class="d">0</a> and 15 inclusive.  The <a href="vimeval.txt.html#variables" class="d">variables</a> are
+read during <a href="autocmd.txt.html#TermOpen" class="l">TermOpen</a><a href="repeat.txt.html#." class="d">.</a> The value must be <a href="insert.txt.html#a" class="d">a</a> color name or hexadecimal string.
+Example: 
+<span class="e">    let g:terminal_color_4 = '#ff0000'</span>
+<span class="e">    let g:terminal_color_5 = 'green'</span>
+Only works <a href="luaref.txt.html#for" class="d">for</a> RGB UIs (see <a href="options.txt.html#%27termguicolors%27" class="o">'termguicolors'</a>); <a href="luaref.txt.html#for" class="d">for</a> 256-color terminals the
+color <a href="index.txt.html#index" class="d">index</a> <a href="motion.txt.html#is" class="d">is</a> just forwarded.
+
+Editor highlighting <a href="motion.txt.html#%28" class="d">(</a><a href="syntax.txt.html#syntax-highlighting" class="l">syntax-highlighting</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="syntax.txt.html#highlight-groups" class="l">highlight-groups</a><a href="motion.txt.html#%2C" class="d">,</a> etc.) has
+higher precedence: <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> applied after <a href="terminal.txt.html#terminal" class="d">terminal</a> colors are resolved.
+
+<span class="h">------------------------------------------------------------------------------</span>
+<span class="c">EVENTS</span>						<span id="terminal-events" class="t">terminal-events</span>
+
+Applications running in <a href="insert.txt.html#a" class="d">a</a> <a href="various.txt.html#%3Aterminal" class="d">:terminal</a> buffer can send requests, which Nvim
+exposes via the <a href="autocmd.txt.html#TermRequest" class="l">TermRequest</a> event.
+
+OSC 7: change working directory			<span id="terminal-osc7" class="t">terminal-osc7</span>
+
+To handle OSC 7 emitted from <a href="various.txt.html#%3Aterminal" class="d">:terminal</a> processes, this code will <a href="editing.txt.html#%3Acd" class="d">:cd</a> to the
+directory indicated in the request. 
+<span class="e"></span>
+<span class="e">  vim.api.nvim_create_autocmd({ 'TermRequest' }, {</span>
+<span class="e">    desc = 'Handles OSC 7 dir change requests',</span>
+<span class="e">    callback = function(ev)</span>
+<span class="e">      if string.sub(ev.data.sequence, 1, 4) == '\x1b]7;' then</span>
+<span class="e">        local dir = string.gsub(ev.data.sequence, '\x1b]7;file://[^/]*', '')</span>
+<span class="e">        if vim.fn.isdirectory(dir) == 0 then</span>
+<span class="e">          vim.notify('invalid dir: '..dir)</span>
+<span class="e">          return</span>
+<span class="e">        end</span>
+<span class="e">        vim.api.nvim_buf_set_var(ev.buf, 'osc7_dir', dir)</span>
+<span class="e">        if vim.o.autochdir and vim.api.nvim_get_current_buf() == ev.buf then</span>
+<span class="e">          vim.cmd.cd(dir)</span>
+<span class="e">        end</span>
+<span class="e">      end</span>
+<span class="e">    end</span>
+<span class="e">  })</span>
+<span class="e">  vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter', 'DirChanged' }, {</span>
+<span class="e">    callback = function(ev)</span>
+<span class="e">      if vim.b.osc7_dir and vim.fn.isdirectory(vim.b.osc7_dir) == 1 then</span>
+<span class="e">        vim.cmd.cd(vim.b.osc7_dir)</span>
+<span class="e">      end</span>
+<span class="e">    end</span>
+<span class="e">  })</span>
+<span class="e"></span>
+To try <a href="motion.txt.html#it" class="d">it</a> out, select the above code and source <a href="motion.txt.html#it" class="d">it</a> with <span class="e">:'&lt;,'&gt;lua</span> (or
+<span class="e">g==</span>), then run this command in <a href="insert.txt.html#a" class="d">a</a> <a href="various.txt.html#%3Aterminal" class="d">:terminal</a> buffer: 
+<span class="e"></span>
+<span class="e">    printf "\033]7;file://./foo/bar\033\\"</span>
+<span class="e"></span>
+OSC 52: write to system <a href="provider.txt.html#clipboard" class="d">clipboard</a>		<span id="terminal-osc52" class="t">terminal-osc52</span>
+
+Applications in the <a href="various.txt.html#%3Aterminal" class="d">:terminal</a> buffer can write to the system <a href="provider.txt.html#clipboard" class="d">clipboard</a> by
+emitting an OSC 52 sequence. Example: 
+<span class="e"></span>
+<span class="e">    printf '\033]52;;%s\033\\' "$(echo -n 'Hello world' | base64)"</span>
+<span class="e"></span>
+Nvim uses the configured <a href="provider.txt.html#clipboard" class="l">clipboard</a> <a href="provider.txt.html#provider" class="d">provider</a> to write to the system
+clipboard. Reading from the system <a href="provider.txt.html#clipboard" class="d">clipboard</a> with OSC 52 <a href="motion.txt.html#is" class="d">is</a> not supported, <a href="motion.txt.html#as" class="d">as</a>
+this would allow any arbitrary program in the <a href="various.txt.html#%3Aterminal" class="d">:terminal</a> to read the user's
+clipboard.
+
+OSC 52 sequences sent from the <a href="various.txt.html#%3Aterminal" class="d">:terminal</a> buffer <a href="diff.txt.html#do" class="d">do</a> not emit <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#TermRequest" class="l">TermRequest</a>
+event. The event <a href="motion.txt.html#is" class="d">is</a> handled directly by Nvim and <a href="motion.txt.html#is" class="d">is</a> not forwarded to plugins.
+
+OSC 133: shell integration			<span id="terminal-osc133" class="t">terminal-osc133</span> <span id="shell-prompt" class="t">shell-prompt</span>
+
+Shells can emit semantic <a href="intro.txt.html#escape" class="d">escape</a> sequences (OSC 133) to <a href="motion.txt.html#mark" class="d">mark</a> where each prompt
+starts and ends. The start of <a href="insert.txt.html#a" class="d">a</a> prompt <a href="motion.txt.html#is" class="d">is</a> marked by sequence `OSC 133 <a href="motion.txt.html#%3B" class="d">;</a> <a href="insert.txt.html#A" class="d">A</a> ST`,
+and the <a href="intro.txt.html#end" class="d">end</a> by `OSC 133 <a href="motion.txt.html#%3B" class="d">;</a> <a href="motion.txt.html#B" class="d">B</a> ST`.
+
+You can configure your shell "rc" (e.g. ~/.bashrc) to emit OSC 133 sequences,
+or your <a href="terminal.txt.html#terminal" class="d">terminal</a> may attempt to <a href="diff.txt.html#do" class="d">do</a> <a href="motion.txt.html#it" class="d">it</a> <a href="luaref.txt.html#for" class="d">for</a> you (assuming your shell <a href="starting.txt.html#config" class="d">config</a>
+doesn't interfere).
+
+<a href="motion.txt.html#-" class="d">-</a> fish: <a class="u" href="https://fishshell.com/docs/current/relnotes.html#improved-terminal-support">https://fishshell.com/docs/current/relnotes.html#improved-terminal-support</a>
+<a href="motion.txt.html#-" class="d">-</a> kitty: <a class="u" href="https://sw.kovidgoyal.net/kitty/shell-integration/">https://sw.kovidgoyal.net/kitty/shell-integration/</a>
+<a href="motion.txt.html#-" class="d">-</a> powershell: <a class="u" href="https://learn.microsoft.com/en-us/windows/terminal/tutorials/shell-integration#powershell-pwshexe">https://learn.microsoft.com/en-us/windows/terminal/tutorials/shell-integration#powershell-pwshexe</a>
+<a href="motion.txt.html#-" class="d">-</a> vscode: <a class="u" href="https://code.visualstudio.com/docs/terminal/shell-integration">https://code.visualstudio.com/docs/terminal/shell-integration</a>
+
+To configure bash to <a href="motion.txt.html#mark" class="d">mark</a> the start of each prompt, set $PROMPT_COMMAND: &gt;bash
+
+    <a href="pattern.txt.html#%23" class="d">#</a> Prompt start:
+    PROMPT_COMMAND='printf "\033]133;A\007"<a href="motion.txt.html#%27" class="d">'</a>
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+                                                <span id="terminal_%5D%5D" class="t">terminal_]]</span> <span id="terminal_%5B%5B" class="t">terminal_[[</span>
+The <a href="motion.txt.html#%5D%5D" class="l">]]</a> and <a href="motion.txt.html#%5B%5B" class="l">[[</a> motions jump to the next/previous prompts, if your shell
+emits OSC 133 <a href="motion.txt.html#as" class="d">as</a> described above.
+
+						<span id="shell-prompt-signs" class="t">shell-prompt-signs</span>
+To annotate each <a href="terminal.txt.html#terminal" class="d">terminal</a> prompt with <a href="insert.txt.html#a" class="d">a</a> sign, call <a href="api.txt.html#nvim_buf_set_extmark%28%29" class="l">nvim_buf_set_extmark()</a>
+from <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#TermRequest" class="l">TermRequest</a> handler: 
+<span class="e"></span>
+<span class="e">    vim.api.nvim_create_autocmd('TermOpen', {</span>
+<span class="e">      command = 'setlocal signcolumn=auto',</span>
+<span class="e">    })</span>
+<span class="e">    local ns = vim.api.nvim_create_namespace('my.terminal.prompt')</span>
+<span class="e">    vim.api.nvim_create_autocmd('TermRequest', {</span>
+<span class="e">      callback = function(args)</span>
+<span class="e">        if string.match(args.data.sequence, '^\027]133;A') then</span>
+<span class="e">          local lnum = args.data.cursor[1]</span>
+<span class="e">          vim.api.nvim_buf_set_extmark(args.buf, ns, lnum - 1, 0, {</span>
+<span class="e">            sign_text = '▶',</span>
+<span class="e">            sign_hl_group = 'SpecialChar',</span>
+<span class="e">          })</span>
+<span class="e">        end</span>
+<span class="e">      end,</span>
+<span class="e">    })</span>
+
+<span class="h">==============================================================================</span>
+Status Variables				<span id="terminal-status" class="t">terminal-status</span>
+
+Terminal <a href="windows.txt.html#buffers" class="d">buffers</a> maintain some buffer-local <a href="vimeval.txt.html#variables" class="d">variables</a> and options. The values
+are initialized before TermOpen, so you can use them in <a href="insert.txt.html#a" class="d">a</a> local <a href="options.txt.html#%27statusline%27" class="o">'statusline'</a>.
+Example: 
+<span class="e">    :autocmd TermOpen * setlocal statusline=%{b:term_title}</span>
+<span class="e"></span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="b%3Aterm_title" class="t">b:term_title</span>  Terminal title (user-writable), typically displayed in the
+  <a href="windows.txt.html#window" class="d">window</a> title or <a href="intro.txt.html#tab" class="d">tab</a> title of <a href="insert.txt.html#a" class="d">a</a> graphical <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator. Terminal
+  programs can set this by emitting an <a href="intro.txt.html#escape" class="d">escape</a> sequence.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27channel%27" class="l">'channel'</a>  Terminal PTY <a href="job_control.txt.html#job-id" class="l">job-id</a><a href="repeat.txt.html#." class="d">.</a>  Can be used with <a href="vimfn.txt.html#chansend%28%29" class="l">chansend()</a> to send
+  input to the terminal.
+<a href="motion.txt.html#-" class="d">-</a> The <a href="autocmd.txt.html#TermClose" class="l">TermClose</a> event gives the <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="job_control.txt.html#job" class="d">job</a> exit code in the <a href="vvars.txt.html#v%3Aevent" class="l">v:event</a>
+  "status" field. For example, this <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> outputs the terminal's exit
+  code to <a href="message.txt.html#%3Amessages" class="l">:messages</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">    autocmd TermClose * echom 'Terminal exited with status '..v:event.status</span>
+<span class="e"></span>
+Use <a href="vimfn.txt.html#jobwait%28%29" class="l">jobwait()</a> to check if the <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="job_control.txt.html#job" class="d">job</a> has finished: 
+<span class="e">    let running = jobwait([&amp;channel], 0)[0] == -1</span>
+
+<span class="h">==============================================================================</span>
+<a href="terminal.txt.html#%3ATermdebug" class="d">:Termdebug</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a>	<span id="terminal-debug" class="t">terminal-debug</span> <span id="terminal-debugger" class="t">terminal-debugger</span> <span id="package-termdebug" class="t">package-termdebug</span>
+
+The Terminal debugging <a href="usr_05.txt.html#plugin" class="d">plugin</a> can be used to debug <a href="insert.txt.html#a" class="d">a</a> program with <a href="debug.txt.html#gdb" class="d">gdb</a> and view
+the source code in <a href="insert.txt.html#a" class="d">a</a> Vim window.  Since this <a href="motion.txt.html#is" class="d">is</a> completely contained inside
+Vim this also works remotely over an ssh connection.
+
+<span class="h">Starting </span>
+							<span id="termdebug-starting" class="t">termdebug-starting</span>
+Load the <a href="usr_05.txt.html#plugin" class="d">plugin</a> with this command: 
+<span class="e">	packadd termdebug</span>
+When loading the <a href="usr_05.txt.html#plugin" class="d">plugin</a> from the <a href="starting.txt.html#vimrc" class="l">vimrc</a> file, add the "<a href="change.txt.html#%21" class="d">!</a>" attribute: 
+<span class="e">	packadd! termdebug</span>
+							<span id="%3ATermdebug" class="t">:Termdebug</span>
+To start debugging use <span class="e">:Termdebug</span> or <span class="e">:TermdebugCommand</span> followed by the
+command name, <a href="luaref.txt.html#for" class="d">for</a> example: 
+<span class="e">	:Termdebug vim</span>
+<span class="e"></span>
+This opens two windows:
+
+<a href="debug.txt.html#gdb" class="d">gdb</a> <a href="windows.txt.html#window" class="d">window</a>	<a href="insert.txt.html#A" class="d">A</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="windows.txt.html#window" class="d">window</a> in which "<a href="debug.txt.html#gdb" class="d">gdb</a> vim" <a href="motion.txt.html#is" class="d">is</a> executed.  Here you
+		can directly interact with gdb.
+
+program <a href="windows.txt.html#window" class="d">window</a>	<a href="insert.txt.html#A" class="d">A</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="windows.txt.html#window" class="d">window</a> <a href="luaref.txt.html#for" class="d">for</a> the executed program.  When "run" <a href="motion.txt.html#is" class="d">is</a>
+		used in <a href="debug.txt.html#gdb" class="d">gdb</a> the program I/O will happen in this window, so
+		that <a href="motion.txt.html#it" class="d">it</a> does not interfere with controlling gdb.
+
+The current <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> used to show the source code.  When <a href="debug.txt.html#gdb" class="d">gdb</a> pauses the
+source file location will be displayed, if possible.  <a href="insert.txt.html#A" class="d">A</a> sign <a href="motion.txt.html#is" class="d">is</a> used to
+highlight the current position, using highlight group debugPC.
+
+If the buffer in the current <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#is" class="d">is</a> modified, another <a href="windows.txt.html#window" class="d">window</a> will be opened
+to display the current <a href="debug.txt.html#gdb" class="d">gdb</a> position.
+
+Focus the <a href="terminal.txt.html#terminal" class="d">terminal</a> of the executed program to interact with it.  This works
+the same <a href="motion.txt.html#as" class="d">as</a> any command running in <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> window.
+
+When the debugger ends, typically by typing "quit" in the <a href="debug.txt.html#gdb" class="d">gdb</a> window, the two
+opened <a href="windows.txt.html#windows" class="d">windows</a> are closed.
+
+Only one debugger can be active <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> time.
+							<span id="%3ATermdebugCommand" class="t">:TermdebugCommand</span>
+If you want to give specific commands to the command being debugged, you can
+use the <span class="e">:TermdebugCommand</span> command followed by the command name and
+additional parameters. 
+<span class="e">	:TermdebugCommand vim --clean -c ':set nu'</span>
+<span class="e"></span>
+Both the <span class="e">:Termdebug</span> and <span class="e">:TermdebugCommand</span> <a href="support.txt.html#support" class="d">support</a> an optional "<a href="change.txt.html#%21" class="d">!</a>" bang
+argument to start the command right away, without pausing <a href="motion.txt.html#at" class="d">at</a> the <a href="debug.txt.html#gdb" class="d">gdb</a> <a href="windows.txt.html#window" class="d">window</a>
+(and cursor will be in the debugged window).  For example: 
+<span class="e">	:TermdebugCommand! vim --clean</span>
+<span class="e"></span>
+To attach <a href="debug.txt.html#gdb" class="d">gdb</a> to an already running executable or use <a href="insert.txt.html#a" class="d">a</a> core file, pass extra
+arguments.  E.g.: 
+<span class="e">	:Termdebug vim core</span>
+<span class="e">	:Termdebug vim 98343</span>
+<span class="e"></span>
+If no argument <a href="motion.txt.html#is" class="d">is</a> given, you'll <a href="intro.txt.html#end" class="d">end</a> up in <a href="insert.txt.html#a" class="d">a</a> <a href="debug.txt.html#gdb" class="d">gdb</a> window, in which you need to
+specify which command to run using e.g. the <a href="debug.txt.html#gdb" class="d">gdb</a> <span class="e">file</span> command.
+
+
+<span class="h">Example session </span>
+							<span id="termdebug-example" class="t">termdebug-example</span>
+Start in the Vim "src" directory and build Vim: 
+<span class="e">	% make</span>
+Start Vim: 
+<span class="e">	% ./vim</span>
+Load the termdebug <a href="usr_05.txt.html#plugin" class="d">plugin</a> and start debugging Vim: 
+<span class="e">	:packadd termdebug</span>
+<span class="e">	:Termdebug vim</span>
+You should now have three windows:
+    source  <a href="motion.txt.html#-" class="d">-</a> where you started
+    <a href="debug.txt.html#gdb" class="d">gdb</a>	    <a href="motion.txt.html#-" class="d">-</a> you can type <a href="debug.txt.html#gdb" class="d">gdb</a> commands here
+    program <a href="motion.txt.html#-" class="d">-</a> the executed program will use this <a href="windows.txt.html#window" class="d">window</a>
+
+Put focus on the <a href="debug.txt.html#gdb" class="d">gdb</a> <a href="windows.txt.html#window" class="d">window</a> and type: 
+<span class="e">	break ex_help</span>
+<span class="e">	run</span>
+Vim will start running in the program window. Put focus there and type: 
+<span class="e">	:help gui</span>
+Gdb will run into the ex_help breakpoint.  The source <a href="windows.txt.html#window" class="d">window</a> now shows the
+ex_cmds.c file.  <a href="insert.txt.html#A" class="d">A</a> red "1 " marker will appear in the signcolumn where the
+breakpoint was set.  The line where the debugger stopped <a href="motion.txt.html#is" class="d">is</a> highlighted.  You
+can now step through the program.  You will see the highlighting move <a href="motion.txt.html#as" class="d">as</a> the
+debugger executes <a href="insert.txt.html#a" class="d">a</a> line of source code.
+
+Run "<a href="editing.txt.html#%3ANext" class="d">:Next</a>" <a href="insert.txt.html#a" class="d">a</a> few times until the <a href="luaref.txt.html#for" class="d">for</a> loop <a href="motion.txt.html#is" class="d">is</a> highlighted.  Put the cursor on
+the <a href="intro.txt.html#end" class="d">end</a> of "eap-&gt;arg"<a href="motion.txt.html#%2C" class="d">,</a> then call ":Eval"<a href="repeat.txt.html#." class="d">.</a>  You will see this displayed:
+<span class="h">	"eap-&gt;arg": 0x555555e68855 "gui" </span>
+This way you can inspect the value of local variables.  You can also focus the
+<a href="debug.txt.html#gdb" class="d">gdb</a> <a href="windows.txt.html#window" class="d">window</a> and use <a href="insert.txt.html#a" class="d">a</a> "print" command, e.g.: 
+<span class="e">	print *eap</span>
+If mouse pointer movements are working, Vim will also show <a href="insert.txt.html#a" class="d">a</a> balloon when the
+mouse rests on text that can be evaluated by gdb.
+You can also use the "<a href="various.txt.html#K" class="d">K</a>" <a href="map.txt.html#mapping" class="d">mapping</a> that will either use Nvim floating <a href="windows.txt.html#windows" class="d">windows</a>
+to show the results.
+
+Now <a href="motion.txt.html#go" class="d">go</a> back to the source <a href="windows.txt.html#window" class="d">window</a> and <a href="change.txt.html#put" class="d">put</a> the cursor on the first line after
+the <a href="luaref.txt.html#for" class="d">for</a> loop, then type: 
+<span class="e">	:Break</span>
+You will see <a href="insert.txt.html#a" class="d">a</a> "1" marker appear, this indicates the new breakpoint.  Now
+run ":Cont" command and the code until the breakpoint will be executed.
+
+You can type more advanced commands in the <a href="debug.txt.html#gdb" class="d">gdb</a> window.  For example, type: 
+<span class="e">	watch curbuf</span>
+Now run ":Cont" (or type "cont" in the <a href="debug.txt.html#gdb" class="d">gdb</a> window). Execution
+will now continue until the value of "curbuf" changes, which <a href="motion.txt.html#is" class="d">is</a> in do_ecmd().
+To remove this watchpoint again type in the <a href="debug.txt.html#gdb" class="d">gdb</a> window: 
+<span class="e">	delete 3</span>
+<span class="e"></span>
+You can see the stack by typing in the <a href="debug.txt.html#gdb" class="d">gdb</a> window: 
+<span class="e">	where</span>
+Move through the stack frames, e.g. with: 
+<span class="e">	frame 3</span>
+The source <a href="windows.txt.html#window" class="d">window</a> will show the code, <a href="motion.txt.html#at" class="d">at</a> the point where the call was made to
+<a href="insert.txt.html#a" class="d">a</a> deeper level.
+
+
+<span class="h">Stepping through code </span>
+							<span id="termdebug-stepping" class="t">termdebug-stepping</span>
+Put focus on the <a href="debug.txt.html#gdb" class="d">gdb</a> <a href="windows.txt.html#window" class="d">window</a> to type commands there.  Some common ones are:
+<a href="motion.txt.html#-" class="d">-</a> <a href="pattern.txt.html#CTRL-C" class="k">CTRL-C</a>	interrupt the program
+<a href="motion.txt.html#-" class="d">-</a> next		execute the current line and stop <a href="motion.txt.html#at" class="d">at</a> the next line
+<a href="motion.txt.html#-" class="d">-</a> step		execute the current line and stop <a href="motion.txt.html#at" class="d">at</a> the next statement,
+		entering <a href="vimeval.txt.html#functions" class="d">functions</a>
+<a href="motion.txt.html#-" class="d">-</a> until		execute until past the current cursor line or past <a href="insert.txt.html#a" class="d">a</a> specified
+		position or the current stack frame returns
+<a href="motion.txt.html#-" class="d">-</a> finish	execute until leaving the current function
+<a href="motion.txt.html#-" class="d">-</a> where		show the stack
+<a href="motion.txt.html#-" class="d">-</a> frame <a href="pattern.txt.html#N" class="d">N</a>	<a href="motion.txt.html#go" class="d">go</a> to the Nth stack frame
+<a href="motion.txt.html#-" class="d">-</a> continue	continue execution
+
+						<span id="%3ARun" class="t">:Run</span> <span id="%3AArguments" class="t">:Arguments</span>
+In the <a href="windows.txt.html#window" class="d">window</a> showing the source code these commands can be used to <a href="intro.txt.html#control" class="d">control</a>
+gdb:
+ <span class="e">:Run</span> <span class="s">[args]</span>  	    run the program with <span class="s">[args]</span> or the previous arguments
+ <span class="e">:Arguments</span> <span class="s">{args}</span>  set arguments <a href="luaref.txt.html#for" class="d">for</a> the next <span class="e">:Run</span>
+
+ <span id="%3ABreak" class="t">:Break</span>  	set <a href="insert.txt.html#a" class="d">a</a> breakpoint <a href="motion.txt.html#at" class="d">at</a> the cursor position
+ <a href="terminal.txt.html#%3ABreak" class="d">:Break</a> <span class="s">{position}</span>
+		set <a href="insert.txt.html#a" class="d">a</a> breakpoint <a href="motion.txt.html#at" class="d">at</a> the specified position
+ <span id="%3ATbreak" class="t">:Tbreak</span>  	set <a href="insert.txt.html#a" class="d">a</a> temporary breakpoint <a href="motion.txt.html#at" class="d">at</a> the cursor position
+ <a href="terminal.txt.html#%3ATbreak" class="d">:Tbreak</a> <span class="s">{position}</span>
+		set <a href="insert.txt.html#a" class="d">a</a> temporary breakpoint <a href="motion.txt.html#at" class="d">at</a> the specified position
+ <span id="%3AClear" class="t">:Clear</span>  	delete the breakpoint <a href="motion.txt.html#at" class="d">at</a> the cursor position
+
+ <span id="%3AStep" class="t">:Step</span>  	execute the <a href="debug.txt.html#gdb" class="d">gdb</a> "step" command
+ <span id="%3AOver" class="t">:Over</span>  	execute the <a href="debug.txt.html#gdb" class="d">gdb</a> "next" command (`:Next` <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> Vim command)
+ <span id="%3AUntil" class="t">:Until</span>  	execute the <a href="debug.txt.html#gdb" class="d">gdb</a> "until" command
+ <span id="%3AFinish" class="t">:Finish</span>  	execute the <a href="debug.txt.html#gdb" class="d">gdb</a> "finish" command
+ <span id="%3AContinue" class="t">:Continue</span>  	execute the <a href="debug.txt.html#gdb" class="d">gdb</a> "continue" command
+ <span id="%3AStop" class="t">:Stop</span>  	interrupt the program
+
+If <a href="debug.txt.html#gdb" class="d">gdb</a> stops <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> source line and there <a href="motion.txt.html#is" class="d">is</a> no <a href="windows.txt.html#window" class="d">window</a> currently showing the
+source code, <a href="insert.txt.html#a" class="d">a</a> new <a href="windows.txt.html#window" class="d">window</a> will be created <a href="luaref.txt.html#for" class="d">for</a> the source code.  This also
+happens if the buffer in the source code <a href="windows.txt.html#window" class="d">window</a> has been modified and can't be
+abandoned.
+
+Gdb gives each breakpoint <a href="insert.txt.html#a" class="d">a</a> number.  In Vim the number shows up in the sign
+column, with <a href="insert.txt.html#a" class="d">a</a> red background.  You can use these <a href="debug.txt.html#gdb" class="d">gdb</a> commands:
+<a href="motion.txt.html#-" class="d">-</a> info break	<a href="vimeval.txt.html#list" class="d">list</a> breakpoints
+<a href="motion.txt.html#-" class="d">-</a> delete <a href="pattern.txt.html#N" class="d">N</a>	delete breakpoint <a href="pattern.txt.html#N" class="d">N</a>
+You can also use the <span class="e">:Clear</span> command if the cursor <a href="motion.txt.html#is" class="d">is</a> in the line with the
+breakpoint, or use the "Clear breakpoint" right-click menu entry.
+
+
+<span class="h">Inspecting variables </span>
+					<span id="termdebug-variables" class="t">termdebug-variables</span> <span id="%3AEvaluate" class="t">:Evaluate</span>
+ <span class="e">:Evaluate</span>  	    evaluate the <a href="vimeval.txt.html#expression" class="d">expression</a> under the cursor
+ <span class="e">K</span>  		    same (see <a href="terminal.txt.html#termdebug_map_K" class="l">termdebug_map_K</a> to disable)
+ <span class="e">:Evaluate</span> <span class="s">{expr}</span>   evaluate <span class="s">{expr}</span>
+ <span class="e">:'&lt;,'&gt;Evaluate</span>     evaluate the Visually selected text
+
+This <a href="motion.txt.html#is" class="d">is</a> similar to using "print" in the <a href="debug.txt.html#gdb" class="d">gdb</a> window.
+You can usually shorten <span class="e">:Evaluate</span> to <span class="e">:Ev</span>.
+The result <a href="motion.txt.html#is" class="d">is</a> displayed in <a href="insert.txt.html#a" class="d">a</a> floating window.
+You can move the cursor to this <a href="windows.txt.html#window" class="d">window</a> by running <span class="e">:Evaluate</span> (or <span class="e">K</span>) again.
+
+
+<span class="h">Navigating stack frames </span>
+				<span id="termdebug-frames" class="t">termdebug-frames</span> <span id="%3AFrame" class="t">:Frame</span> <span id="%3AUp" class="t">:Up</span> <span id="%3ADown" class="t">:Down</span>
+ <span class="e">:Frame</span> <span class="s">[frame]</span>  	select frame <span class="s">[frame]</span>, which <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> frame number,
+			address, or function name (default: current frame)
+ <span class="e">:Up</span> <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a>  		<a href="motion.txt.html#go" class="d">go</a> up <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> frames (default: 1; the frame that
+			called the current)
+ <span class="e">+</span>  			same (see <a href="terminal.txt.html#termdebug_map_plus" class="l">termdebug_map_plus</a> to disable)
+ <span class="e">:Down</span> <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a>  	<a href="motion.txt.html#go" class="d">go</a> down <a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> frames (default: 1; the frame called
+			by the current)
+ <span class="e">-</span>  			same (see <a href="terminal.txt.html#termdebug_map_minus" class="l">termdebug_map_minus</a> to disable)
+
+
+<span class="h">Other commands </span>
+							<span id="termdebug-commands" class="t">termdebug-commands</span>
+ <span id="%3AGdb" class="t">:Gdb</span>  	     jump to the <a href="debug.txt.html#gdb" class="d">gdb</a> <a href="windows.txt.html#window" class="d">window</a>
+ <span id="%3AProgram" class="t">:Program</span>    jump to the <a href="windows.txt.html#window" class="d">window</a> with the running program
+ <span id="%3ASource" class="t">:Source</span>     jump to the <a href="windows.txt.html#window" class="d">window</a> with the source code, create <a href="motion.txt.html#it" class="d">it</a> if there
+	     isn't one
+ <span id="%3AAsm" class="t">:Asm</span>  	     jump to the <a href="windows.txt.html#window" class="d">window</a> with the disassembly, create <a href="motion.txt.html#it" class="d">it</a> if there
+	     isn't one
+ <span id="%3AVar" class="t">:Var</span>  	     jump to the <a href="windows.txt.html#window" class="d">window</a> with the local and argument variables,
+	     create <a href="motion.txt.html#it" class="d">it</a> if there isn't one. This <a href="windows.txt.html#window" class="d">window</a> updates whenever the
+	     program <a href="motion.txt.html#is" class="d">is</a> stopped
+
+<span class="h">Events </span>
+							<span id="termdebug-events" class="t">termdebug-events</span>
+Four autocommands can be used: 
+<span class="e">	au User TermdebugStartPre  echomsg 'debugging starting'</span>
+<span class="e">	au User TermdebugStartPost echomsg 'debugging started'</span>
+<span class="e">	au User TermdebugStopPre   echomsg 'debugging stopping'</span>
+<span class="e">	au User TermdebugStopPost  echomsg 'debugging stopped'</span>
+
+						<span id="TermdebugStartPre" class="t">TermdebugStartPre</span>
+<a href="terminal.txt.html#TermdebugStartPre" class="d">TermdebugStartPre</a>		Before <a href="starting.txt.html#starting" class="d">starting</a> debugging.
+				Not triggered if the debugger <a href="motion.txt.html#is" class="d">is</a> already
+				running or the debugger command cannot be
+				executed.
+						<span id="TermdebugStartPost" class="t">TermdebugStartPost</span>
+<a href="terminal.txt.html#TermdebugStartPost" class="d">TermdebugStartPost</a>		After debugging has initialized.
+				If <a href="insert.txt.html#a" class="d">a</a> "<a href="change.txt.html#%21" class="d">!</a>" bang <a href="motion.txt.html#is" class="d">is</a> passed to <span class="e">:Termdebug</span> or
+				<span class="e">:TermdebugCommand</span> the event <a href="motion.txt.html#is" class="d">is</a> triggered
+				before running the provided command in gdb.
+						<span id="TermdebugStopPre" class="t">TermdebugStopPre</span>
+<a href="terminal.txt.html#TermdebugStopPre" class="d">TermdebugStopPre</a>		Before debugging ends, when <a href="debug.txt.html#gdb" class="d">gdb</a> <a href="motion.txt.html#is" class="d">is</a> terminated,
+				most likely after issuing <a href="insert.txt.html#a" class="d">a</a> "quit" command in
+				the <a href="debug.txt.html#gdb" class="d">gdb</a> window.
+						<span id="TermdebugStopPost" class="t">TermdebugStopPost</span>
+<a href="terminal.txt.html#TermdebugStopPost" class="d">TermdebugStopPost</a>		After debugging has ended, gdb-related <a href="windows.txt.html#windows" class="d">windows</a>
+				are closed, debug <a href="windows.txt.html#buffers" class="d">buffers</a> wiped out and
+				the state before the debugging was restored.
+
+
+<span class="h">Customizing </span>
+				<span id="termdebug-customizing" class="t">termdebug-customizing</span> <span id="g%3Atermdebug_config" class="t">g:termdebug_config</span>
+In the past several global <a href="vimeval.txt.html#variables" class="d">variables</a> were used <a href="luaref.txt.html#for" class="d">for</a> configuration.  These are
+<a href="deprecated.txt.html#deprecated" class="d">deprecated</a> and using the <a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> dictionary <a href="motion.txt.html#is" class="d">is</a> preferred.  When
+<a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> exists the other global <a href="vimeval.txt.html#variables" class="d">variables</a> will NOT be used.
+The recommended way <a href="motion.txt.html#is" class="d">is</a> to start with an empty dictionary: 
+<span class="e">	let g:termdebug_config = {}</span>
+<span class="e"></span>
+Then you can add entries to the dictionary <a href="motion.txt.html#as" class="d">as</a> mentioned below.  The
+<a href="deprecated.txt.html#deprecated" class="d">deprecated</a> global variable names are mentioned <a href="luaref.txt.html#for" class="d">for</a> completeness.  If you are
+switching over to using <a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> you can find the old variable name
+and take over the value, then delete the <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> variable.
+
+
+<span class="h">Prompt mode </span>
+						<span id="termdebug-prompt" class="t">termdebug-prompt</span>
+When on MS-Windows, <a href="debug.txt.html#gdb" class="d">gdb</a> will run in <a href="insert.txt.html#a" class="d">a</a> buffer with <a href="options.txt.html#%27buftype%27" class="o">'buftype'</a> set to "prompt"<a href="repeat.txt.html#." class="d">.</a>
+This works slightly differently:
+<a href="motion.txt.html#-" class="d">-</a> The <a href="debug.txt.html#gdb" class="d">gdb</a> <a href="windows.txt.html#window" class="d">window</a> will be in <a href="insert.txt.html#Insert" class="d">Insert</a> mode while typing commands.  Go to <a href="intro.txt.html#Normal" class="d">Normal</a>
+  mode with <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>, then you can move around in the buffer, copy/paste, etc.
+  Go back to editing the <a href="debug.txt.html#gdb" class="d">gdb</a> command with any command that starts <a href="insert.txt.html#Insert" class="d">Insert</a> mode,
+  such <a href="motion.txt.html#as" class="d">as</a> <span class="e">a</span> or <span class="e">i</span>.
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> separate <a href="various.txt.html#%3Aterminal" class="d">:terminal</a> <a href="windows.txt.html#window" class="d">window</a> will be opened to run the debugged program in.
+
+						<span id="termdebug_use_prompt" class="t">termdebug_use_prompt</span>
+Prompt mode can be used with: 
+<span class="e">	let g:termdebug_config['use_prompt'] = 1</span>
+If there <a href="motion.txt.html#is" class="d">is</a> no <a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> you can use: 
+<span class="e">	let g:termdebug_use_prompt = 1</span>
+
+<span class="h">Mappings </span>
+The termdebug <a href="usr_05.txt.html#plugin" class="d">plugin</a> enables <a href="insert.txt.html#a" class="d">a</a> few default mappings.  All those mappings
+are reset to their original values once the termdebug session concludes.
+
+					<span id="termdebug_map_K" class="t">termdebug_map_K</span> <span id="termdebug-mappings" class="t">termdebug-mappings</span>
+The <a href="various.txt.html#K" class="d">K</a> key <a href="motion.txt.html#is" class="d">is</a> normally mapped to <a href="terminal.txt.html#%3AEvaluate" class="l">:Evaluate</a> unless <a href="insert.txt.html#a" class="d">a</a> buffer local <a href="motion.txt.html#%28" class="d">(</a><a href="map.txt.html#%3Amap-local" class="l">:map-local</a><a href="motion.txt.html#%29" class="d">)</a>
+<a href="map.txt.html#mapping" class="d">mapping</a> to <a href="various.txt.html#K" class="d">K</a> already exists.  If you <a href="diff.txt.html#do" class="d">do</a> not want this use: 
+<span class="e">	let g:termdebug_config['map_K'] = 0</span>
+If there <a href="motion.txt.html#is" class="d">is</a> no <a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> you can use: 
+<span class="e">	let g:termdebug_map_K = 0</span>
+
+						<span id="termdebug_map_minus" class="t">termdebug_map_minus</span>
+The <a href="motion.txt.html#-" class="d">-</a> key <a href="motion.txt.html#is" class="d">is</a> normally mapped to <a href="terminal.txt.html#%3ADown" class="l">:Down</a> unless <a href="insert.txt.html#a" class="d">a</a> buffer local <a href="map.txt.html#mapping" class="d">mapping</a> to the <a href="motion.txt.html#-" class="d">-</a>
+key already exists.  If you <a href="diff.txt.html#do" class="d">do</a> not want this use: 
+<span class="e">	let g:termdebug_config['map_minus'] = 0</span>
+
+						<span id="termdebug_map_plus" class="t">termdebug_map_plus</span>
+The <a href="motion.txt.html#%2B" class="d">+</a> key <a href="motion.txt.html#is" class="d">is</a> normally mapped to <a href="terminal.txt.html#%3AUp" class="l">:Up</a> unless <a href="insert.txt.html#a" class="d">a</a> buffer local <a href="map.txt.html#mapping" class="d">mapping</a> to the <a href="motion.txt.html#%2B" class="d">+</a>
+key already exists.  If you <a href="diff.txt.html#do" class="d">do</a> not want this use: 
+<span class="e">	let g:termdebug_config['map_plus'] = 0</span>
+
+						<span id="termdebug_disasm_window" class="t">termdebug_disasm_window</span>
+If you want the Asm <a href="windows.txt.html#window" class="d">window</a> shown by default, set the "disasm_window" flag to
+1.  The "disasm_window_height" entry can be used to set the <a href="windows.txt.html#window" class="d">window</a> height: 
+<span class="e">	let g:termdebug_config['disasm_window'] = 1</span>
+<span class="e">	let g:termdebug_config['disasm_window_height'] = 15</span>
+If there <a href="motion.txt.html#is" class="d">is</a> no <a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> you can use: 
+<span class="e">	let g:termdebug_disasm_window = 15</span>
+Any value greater than 1 will set the Asm <a href="windows.txt.html#window" class="d">window</a> height to that value.
+If the current <a href="windows.txt.html#window" class="d">window</a> has enough horizontal space, <a href="motion.txt.html#it" class="d">it</a> will be vertically split
+and the Asm <a href="windows.txt.html#window" class="d">window</a> will be shown side by side with the source code <a href="windows.txt.html#window" class="d">window</a> (and
+the height option won't be used).
+
+						<span id="termdebug_variables_window" class="t">termdebug_variables_window</span>
+If you want the Var <a href="windows.txt.html#window" class="d">window</a> shown by default, set the "variables_window" flag
+to 1.  The "variables_window_height" entry can be used to set the <a href="windows.txt.html#window" class="d">window</a>
+height: 
+<span class="e">	let g:termdebug_config['variables_window'] = 1</span>
+<span class="e">	let g:termdebug_config['variables_window_height'] = 15</span>
+If there <a href="motion.txt.html#is" class="d">is</a> no <a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> you can use: 
+<span class="e">	let g:termdebug_variables_window = 15</span>
+Any value greater than 1 will set the Var <a href="windows.txt.html#window" class="d">window</a> height to that value.
+If the current <a href="windows.txt.html#window" class="d">window</a> has enough horizontal space, <a href="motion.txt.html#it" class="d">it</a> will be vertically split
+and the Var <a href="windows.txt.html#window" class="d">window</a> will be shown side by side with the source code <a href="windows.txt.html#window" class="d">window</a> (and
+the height <a href="options.txt.html#options" class="d">options</a> won't be used).
+
+
+<span class="h">Communication </span>
+						<span id="termdebug-communication" class="t">termdebug-communication</span>
+There <a href="motion.txt.html#is" class="d">is</a> another, hidden, buffer, which <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> Vim to communicate with
+gdb.  The buffer name <a href="motion.txt.html#is" class="d">is</a> "<a href="debug.txt.html#gdb" class="d">gdb</a> communication"<a href="repeat.txt.html#." class="d">.</a>  Do not delete this buffer, <a href="motion.txt.html#it" class="d">it</a>
+will break the debugger.
+
+Gdb has some weird behavior, the <a href="usr_05.txt.html#plugin" class="d">plugin</a> does its best to work around that.
+For example, after typing "continue" in the <a href="debug.txt.html#gdb" class="d">gdb</a> <a href="windows.txt.html#window" class="d">window</a> <a href="insert.txt.html#a" class="d">a</a> <a href="pattern.txt.html#CTRL-C" class="k">CTRL-C</a> can be used to
+interrupt the running program.  But after using the MI command
+"-exec-continue"  pressing <a href="pattern.txt.html#CTRL-C" class="k">CTRL-C</a> does not interrupt.  Therefore you will see
+"continue" being used <a href="luaref.txt.html#for" class="d">for</a> the <span class="e">:Continue</span> command, instead of using the
+communication channel.
+
+
+<span class="h">GDB command </span>
+							<span id="g%3Atermdebugger" class="t">g:termdebugger</span>
+To change the name of the <a href="debug.txt.html#gdb" class="d">gdb</a> command, set "debugger" entry in
+<a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> or the "<a href="terminal.txt.html#g%3Atermdebugger" class="d">g:termdebugger</a>" variable before invoking
+<span class="e">:Termdebug</span>: 
+<span class="e">	let g:termdebug_config['command'] = "mygdb"</span>
+If there <a href="motion.txt.html#is" class="d">is</a> no <a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> you can use: 
+<span class="e">	let g:termdebugger = "mygdb"</span>
+<span class="e"></span>
+If the command needs an argument use <a href="insert.txt.html#a" class="d">a</a> List: 
+<span class="e">	let g:termdebug_config['command'] = ['rr', 'replay', '--']</span>
+If there <a href="motion.txt.html#is" class="d">is</a> no <a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> you can use: 
+<span class="e">	let g:termdebugger = ['rr', 'replay', '--']</span>
+<span class="e"></span>
+If you are <a href="insert.txt.html#a" class="d">a</a> mouse person, you can also define <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> using your right
+click to one of the <a href="terminal.txt.html#terminal" class="d">terminal</a> command like evaluate the variable under the
+cursor: 
+<span class="e">	nnoremap &lt;RightMouse&gt; :Evaluate&lt;CR&gt;</span>
+or set/unset <a href="insert.txt.html#a" class="d">a</a> breakpoint: 
+<span class="e">	nnoremap &lt;RightMouse&gt; :Break&lt;CR&gt;</span>
+<span class="e"></span>
+<span class="e"></span>
+Several arguments will be added to make <a href="debug.txt.html#gdb" class="d">gdb</a> work well <a href="luaref.txt.html#for" class="d">for</a> the debugger.
+If you want to modify them, add <a href="insert.txt.html#a" class="d">a</a> function to <a href="change.txt.html#filter" class="d">filter</a> the argument list: 
+<span class="e">	let g:termdebug_config['command_filter'] = MyDebugFilter</span>
+<span class="e"></span>
+If you <a href="diff.txt.html#do" class="d">do</a> not want the arguments to be added, but you <a href="diff.txt.html#do" class="d">do</a> need to set the
+"pty"<a href="motion.txt.html#%2C" class="d">,</a> use <a href="insert.txt.html#a" class="d">a</a> function to add the necessary arguments: 
+<span class="e">	let g:termdebug_config['command_add_args'] = MyAddArguments</span>
+The function will be called with the <a href="vimeval.txt.html#list" class="d">list</a> of arguments so far, and <a href="insert.txt.html#a" class="d">a</a> second
+argument that <a href="motion.txt.html#is" class="d">is</a> the name of the pty.
+							<span id="gdb-version" class="t">gdb-version</span>
+Only debuggers fully compatible with <a href="debug.txt.html#gdb" class="d">gdb</a> will work.  Vim uses the GDB/MI
+interface.  The "new-ui" command requires <a href="debug.txt.html#gdb" class="d">gdb</a> version 7.12 or later.  If you
+get this error:
+<span class="h">	Undefined command: "new-ui". Try "help".</span>
+Then your <a href="debug.txt.html#gdb" class="d">gdb</a> <a href="motion.txt.html#is" class="d">is</a> too old.
+
+
+<span class="h">Colors </span>
+					<span id="hl-debugPC" class="t">hl-debugPC</span> <span id="hl-debugBreakpoint" class="t">hl-debugBreakpoint</span>
+The color of the <a href="sign.txt.html#signs" class="d">signs</a> can be adjusted with these highlight groups:
+<a href="motion.txt.html#-" class="d">-</a> debugPC		the current position
+<a href="motion.txt.html#-" class="d">-</a> debugBreakpoint	<a href="insert.txt.html#a" class="d">a</a> breakpoint
+
+The <a href="vim_diff.txt.html#defaults" class="d">defaults</a> are, when <a href="options.txt.html#%27background%27" class="o">'background'</a> <a href="motion.txt.html#is" class="d">is</a> "light"<a href="cmdline.txt.html#%3A" class="d">:</a>
+  hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
+  hi debugBreakpoint term=reverse ctermbg=red guibg=red
+
+When <a href="options.txt.html#%27background%27" class="o">'background'</a> <a href="motion.txt.html#is" class="d">is</a> "dark"<a href="cmdline.txt.html#%3A" class="d">:</a>
+  hi debugPC term=reverse ctermbg=darkblue guibg=darkblue
+  hi debugBreakpoint term=reverse ctermbg=red guibg=red
+
+
+<span class="h">Shortcuts </span>
+							<span id="termdebug_shortcuts" class="t">termdebug_shortcuts</span>
+You can define your own shortcuts (mappings) to <a href="intro.txt.html#control" class="d">control</a> gdb, that can work in
+any window, using the TermDebugSendCommand() function.  Example: 
+<span class="e">	map ,w :call TermDebugSendCommand('where')&lt;CR&gt;</span>
+The argument <a href="motion.txt.html#is" class="d">is</a> the <a href="debug.txt.html#gdb" class="d">gdb</a> command.
+
+
+<span class="h">Popup menu </span>
+							<span id="termdebug_popup" class="t">termdebug_popup</span>
+By default the Termdebug <a href="usr_05.txt.html#plugin" class="d">plugin</a> sets <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a> to "popup_setpos" and adds
+these entries to the popup menu:
+	Set breakpoint		<span class="e">:Break</span>
+	Clear breakpoint	<span class="e">:Clear</span>
+	Evaluate		<span class="e">:Evaluate</span>
+If you don't want this then disable <a href="motion.txt.html#it" class="d">it</a> with: 
+<span class="e">	let g:termdebug_config['popup'] = 0</span>
+If there <a href="motion.txt.html#is" class="d">is</a> no <a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> you can use: 
+<span class="e">	let g:termdebug_popup = 0</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="h">Change default signs </span>
+							<span id="termdebug_signs" class="t">termdebug_signs</span>
+Termdebug uses the hex number of the breakpoint ID in the signcolumn to
+represent breakpoints. If <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> greater than "0xFF"<a href="motion.txt.html#%2C" class="d">,</a> then <a href="motion.txt.html#it" class="d">it</a> will be displayed
+<a href="motion.txt.html#as" class="d">as</a> "F+"<a href="motion.txt.html#%2C" class="d">,</a> due to we really only have two screen cells <a href="luaref.txt.html#for" class="d">for</a> the sign.
+You may also use decimal breakpoint <a href="sign.txt.html#signs" class="d">signs</a> instead, in which <a href="change.txt.html#case" class="d">case</a> IDs greater
+than 99 will be displayed <a href="motion.txt.html#as" class="d">as</a> "9+"<a href="repeat.txt.html#." class="d">.</a>
+
+If you want to customize the breakpoint <a href="sign.txt.html#signs" class="d">signs</a> to show <span class="e">&gt;&gt;</span> in the signcolumn: 
+<span class="e">	let g:termdebug_config['sign'] = '&gt;&gt;'</span>
+If you would like to use decimal (base 10) breakpoint signs: 
+<span class="e">	let g:termdebug_config['sign_decimal'] = 1</span>
+If the variable <a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> does not yet exist, you can use: 
+<span class="e">	let g:termdebug_config = {'sign': '&gt;&gt;'}</span>
+Likewise, to enable decimal signs: 
+<span class="e">	let g:termdebug_config = {'sign_decimal': 1}</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="h">Vim window width </span>
+							<span id="termdebug_wide" class="t">termdebug_wide</span>
+To change the width of the Vim <a href="windows.txt.html#window" class="d">window</a> when debugging starts and use <a href="insert.txt.html#a" class="d">a</a> vertical
+split: 
+<span class="e">	let g:termdebug_config['wide'] = 163</span>
+If there <a href="motion.txt.html#is" class="d">is</a> no <a href="terminal.txt.html#g%3Atermdebug_config" class="d">g:termdebug_config</a> you can use: 
+<span class="e">	let g:termdebug_wide = 163</span>
+<span class="e"></span>
+This will set <a href="options.txt.html#%27columns%27" class="o">'columns'</a> to 163 when <span class="e">:Termdebug</span> <a href="motion.txt.html#is" class="d">is</a> used.  The value <a href="motion.txt.html#is" class="d">is</a>
+restored when quitting the debugger.
+
+If the wide value <a href="motion.txt.html#is" class="d">is</a> set and <a href="options.txt.html#%27columns%27" class="o">'columns'</a> <a href="motion.txt.html#is" class="d">is</a> already <a href="insert.txt.html#a" class="d">a</a> greater value, then <a href="insert.txt.html#a" class="d">a</a>
+vertical split will be used without modifying <a href="options.txt.html#%27columns%27" class="o">'columns'</a>.
+
+Set the wide value to 1 to use <a href="insert.txt.html#a" class="d">a</a> vertical split without ever <a href="change.txt.html#changing" class="d">changing</a>
+<a href="options.txt.html#%27columns%27" class="o">'columns'</a>.  This <a href="motion.txt.html#is" class="d">is</a> useful when the <a href="terminal.txt.html#terminal" class="d">terminal</a> can't be resized by Vim.
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

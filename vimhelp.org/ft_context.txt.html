@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: ft_context.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/6GFVgWe7mZKS0irS/tom-select.min.css">
+<script defer src="s/RYIr7-eUV9L7hwPw/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="ft_context.txt.html#">↑Top↑</a></li>
+<li><a href="ft_context.txt.html#ft-context-intro">ft-context-intro</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="ft_context.txt" class="t">ft_context.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2024 Jan 01
+
+This <a href="motion.txt.html#is" class="d">is</a> the documentation for the ConTeXt <a href="filetype.txt.html#filetype" class="d">filetype</a> plugin.
+
+<span class="n">NOTE:</span> the <a href="usr_05.txt.html#plugin" class="d">plugin</a> requires +vim9script.
+
+<span class="h">==============================================================================</span>
+<span class="c">CONTENTS</span>						<span id="context.vim" class="t">context.vim</span> <span id="ft-context" class="t">ft-context</span>
+
+1. Introduction				<a href="ft_context.txt.html#ft-context-intro" class="l">ft-context-intro</a>
+2. Commands				<a href="ft_context.txt.html#ft-context-commands" class="l">ft-context-commands</a>
+3. Settings				<a href="ft_context.txt.html#ft-context-settings" class="l">ft-context-settings</a>
+4. Mappings				<a href="ft_context.txt.html#ft-context-mappings" class="l">ft-context-mappings</a>
+
+<span class="h">==============================================================================</span>
+							<span id="ft-context-intro" class="t">ft-context-intro</span>
+<span class="h">Introduction </span>
+
+ConTeXt, similarly to LaTeX, <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> macro-based typesetting system built on TeX:
+
+<span class="e">	https://wiki.contextgarden.net</span>
+<span class="e">	https://wiki.contextgarden.net/Vim</span>
+
+The ConTeXt <a href="usr_05.txt.html#plugin" class="d">plugin</a> provides <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting, completion and support for
+typesetting ConTeXt documents. The recommended way to typeset <a href="insert.txt.html#a" class="d">a</a> document <a href="motion.txt.html#is" class="d">is</a> to
+use <a href="ft_context.txt.html#%3AConTeXt" class="l">:ConTeXt</a><a href="repeat.txt.html#." class="d">.</a> This will invoke the <span class="e">mtxrun</span> <a href="usr_41.txt.html#script" class="d">script</a> that <a href="motion.txt.html#is" class="d">is</a> found in <span class="e">$PATH</span>.
+
+For more fine grained <a href="intro.txt.html#control" class="d">control</a> over the command and its environment,
+<span class="e">context.Typeset()</span> can be used directly (or <span class="e">context#Typeset()</span> from legacy
+Vim script). For instance, if <a href="insert.txt.html#a" class="d">a</a> version of ConTeXt <a href="motion.txt.html#is" class="d">is</a> installed in
+<span class="e">~/context</span>, you may define <a href="insert.txt.html#a" class="d">a</a> function to use <a href="motion.txt.html#it" class="d">it</a> similar to the following:
+
+<span class="e">	import autoload 'context.vim'</span>
+<span class="e"></span>
+<span class="e">	def MyConTeXt()</span>
+<span class="e">	    const env = {'PATH':</span>
+<span class="e">	      printf("%s/context/tex/texmf-&lt;os&gt;-&lt;arch&gt;/bin:%s", $HOME, $PATH)}</span>
+<span class="e">	    context.Typeset("%", env)</span>
+<span class="e">	enddef</span>
+<span class="e"></span>
+This code may <a href="motion.txt.html#go" class="d">go</a> in <span class="e">~/.vim/after/ftplugin/context.vim</span>. <a href="insert.txt.html#A" class="d">A</a> <a href="map.txt.html#mapping" class="d">mapping</a> can then be
+defined to invoke the custom command:
+
+<span class="e">	nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;leader&gt;t &lt;scriptcmd&gt;MyConTeXt()&lt;cr&gt;</span>
+
+<span class="e">context.Typeset()</span> accepts <a href="insert.txt.html#a" class="d">a</a> third optional argument to specify <a href="insert.txt.html#a" class="d">a</a> custom
+typesetting command. That <a href="vim_faq.txt.html#must" class="d">must</a> be <a href="insert.txt.html#a" class="d">a</a> function that takes <a href="insert.txt.html#a" class="d">a</a> path and returns the
+command <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> List. For example:
+
+<span class="e">	def ConTeXtCustomCommand(path: string): list&lt;string&gt;</span>
+<span class="e">	  return ['mtxrun', '--script', 'context', '--nonstopmode', path]</span>
+<span class="e">	enddef</span>
+<span class="e"></span>
+<span class="e">	context.ConTeXtTypeset("%", v:none, ConTeXtCustomCommand)</span>
+
+Large projects are often organized <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> root document and <a href="various.txt.html#various" class="d">various</a> chapter
+files. When editing <a href="insert.txt.html#a" class="d">a</a> chapter file, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> convenient to invoke <a href="ft_context.txt.html#%3AConTeXt" class="l">:ConTeXt</a>
+directly on it, rather than having to switch to the root file. <a href="insert.txt.html#A" class="d">A</a> "magic line"
+can be added <a href="motion.txt.html#at" class="d">at</a> the beginning of each chapter file, which <a href="vim9class.txt.html#specifies" class="d">specifies</a> the
+relative path to the root file. For instance:
+
+<span class="e">	% !TEX root = ../MyRoot.tex</span>
+
+Vim searches for the magic line in the first ten lines of the current buffer:
+if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> found, the document specified by that line <a href="motion.txt.html#is" class="d">is</a> typeset rather than the
+one in the current buffer. The root document does not have to be opened in
+Vim.
+
+To extend completion and <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting, you may generate supporting
+files using ConTeXt and add them to your configuration. If you configuration
+resides in <span class="e">~/.vim</span>, you may use these commands:
+
+<span class="e">	mkdir -p ~/.vim/syntax/shared</span>
+<span class="e">	cd ~/.vim/syntax/shared</span>
+<span class="e">	mtxrun --script interface --vim</span>
+
+The last command will create the following <a href="syntax.txt.html#syntax" class="d">syntax</a> files:
+
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">context-data-context.vim</span>;
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">context-data-interfaces.vim</span>;
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">context-data-metafun.vim</span>;
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">context-data-tex.vim</span>.
+
+The same command can be used to update those <a href="syntax.txt.html#syntax" class="d">syntax</a> files.
+
+							<span id="ft-context-commands" class="t">ft-context-commands</span>
+<span class="h">Commands </span>
+					<span id="%3AConTeXt" class="t">:ConTeXt</span>
+Start <a href="insert.txt.html#a" class="d">a</a> background <a href="channel.txt.html#job" class="l">job</a> to typeset the document in the current buffer. The
+command accepts an optional buffer's name, if you want to typeset <a href="insert.txt.html#a" class="d">a</a> document
+that <a href="motion.txt.html#is" class="d">is</a> in <a href="insert.txt.html#a" class="d">a</a> different buffer.
+
+					<span id="%3AConTeXtLog" class="t">:ConTeXtLog</span>
+Edit the log file corresponding to the source in the current buffer.
+
+					<span id="%3AConTeXtJobsStatus" class="t">:ConTeXtJobsStatus</span>
+Echo the number of jobs currently running in the background.
+
+					<span id="%3AConTeXtStopJobs" class="t">:ConTeXtStopJobs</span>
+Stop all the ConTeXt jobs currently running in the background.
+
+							<span id="ft-context-settings" class="t">ft-context-settings</span>
+<span class="h">Settings </span>
+					<span id="%27b%3Acontext_ignore_makefile%27" class="t">'b:context_ignore_makefile'</span>
+					<span id="%27g%3Acontext_ignore_makefile%27" class="t">'g:context_ignore_makefile'</span>
+<a href="quickfix.txt.html#%3Amake" class="l">:make</a> can be used to (synchronously) typeset <a href="insert.txt.html#a" class="d">a</a> document. If <a href="insert.txt.html#a" class="d">a</a> Makefile exists
+and this option <a href="motion.txt.html#is" class="d">is</a> not set, standard <span class="e">make</span> <a href="motion.txt.html#is" class="d">is</a> used. If this option <a href="motion.txt.html#is" class="d">is</a> set,
+<span class="e">mtxrun</span> <a href="motion.txt.html#is" class="d">is</a> invoked instead, even if <a href="insert.txt.html#a" class="d">a</a> Makefile exists.
+
+<span class="e">	g:context_ignore_makefile = 0</span>
+
+<span class="n">NOTE:</span> before using <a href="quickfix.txt.html#%3Amake" class="l">:make</a><a href="motion.txt.html#%2C" class="d">,</a> set the working directory of the buffer to the
+directory of the file to be typeset.
+
+					<span id="%27g%3Acontext_extra_options%27" class="t">'g:context_extra_options'</span>
+<a href="insert.txt.html#A" class="d">A</a> <a href="eval.txt.html#list" class="d">list</a> of additional <a href="options.txt.html#options" class="d">options</a> to pass to <span class="e">mtxrun</span>.
+
+<span class="e">	g:context_extra_options = []</span>
+
+					<span id="%27b%3Acontext_include%27" class="t">'b:context_include'</span>
+					<span id="%27g%3Acontext_include%27" class="t">'g:context_include'</span>
+<a href="eval.txt.html#Dictionary" class="d">Dictionary</a> of filetype/GROUP pairs for which <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting should be
+activated between \startGROUP and \stopGROUP. The default <a href="motion.txt.html#is" class="d">is</a> to highlight XML
+between <span class="e">\startXML</span> and <span class="e">\stopXML</span>.
+
+<span class="e">	g:context_include = {'xml': 'XML'}</span>
+<span class="e"></span>
+<span class="n">NOTE:</span> <a href="if_lua.txt.html#Lua" class="d">Lua</a> and MetaPost are always highlighted within the respective blocks.
+
+					<span id="%27g%3Ano_context_maps%27" class="t">'g:no_context_maps'</span>
+When set, <a href="diff.txt.html#do" class="d">do</a> not define any mappings.
+
+<span class="e">	g:no_context_maps = 0</span>
+
+							<span id="ft-context-mappings" class="t">ft-context-mappings</span>
+<span class="h">Mappings </span>
+
+tp			"reflow TeX <a href="motion.txt.html#paragraph" class="d">paragraph</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+i$			"inside inline math block"<a href="repeat.txt.html#." class="d">.</a>
+
+a$			"around inline math block"<a href="repeat.txt.html#." class="d">.</a>
+
+<a href="motion.txt.html#%5D%5D" class="d">]]</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> start of sections forward.
+
+<a href="motion.txt.html#%5B%5B" class="d">[[</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> start of sections backward.
+
+<a href="motion.txt.html#%5D%5B" class="d">][</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="intro.txt.html#end" class="d">end</a> sections forward.
+
+<a href="motion.txt.html#%5B%5D" class="d">[]</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="intro.txt.html#end" class="d">end</a> of sections backward.
+
+<a href="motion.txt.html#%5D%7D" class="d">]}</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> <a href="intro.txt.html#end" class="d">end</a> of blocks (\stop..., \setup...,
+			\define...) forward.
+
+<a href="motion.txt.html#%5B%7B" class="d">[{</a>			<a href="intro.txt.html#%5Bcount%5D" class="s">[count]</a> begin of blocks (\start..., \setup...,
+			\define...) backward.
+
+ vim:tw=78:sw=4:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

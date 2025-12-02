@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: vim_diff.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="vim_diff.txt.html#">↑Top↑</a></li>
+<li><a href="vim_diff.txt.html#nvim-config">Configuration</a></li>
+<li><a href="vim_diff.txt.html#defaults">Defaults</a></li>
+<li><a href="vim_diff.txt.html#nvim-features">New Features</a></li>
+<li><a href="vim_diff.txt.html#nvim-upstreamed">Upstreamed features</a></li>
+<li><a href="vim_diff.txt.html#nvim-changed">Other changes</a></li>
+<li><a href="vim_diff.txt.html#nvim-missing">Missing features</a></li>
+<li><a href="vim_diff.txt.html#nvim-removed">Removed legacy features</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="vim_diff.txt" class="t">vim_diff.txt</span>    Nvim
+
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Differences between Nvim and Vim                               <span id="vim-differences" class="t">vim-differences</span>
+
+Nvim differs from Vim in many ways, although editor and Vimscript (not
+Vim9script) features are mostly identical.  This document <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> complete and
+centralized <a href="intro.txt.html#reference" class="d">reference</a> of the differences.
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+Configuration                                               <span id="nvim-config" class="t">nvim-config</span>
+
+<a href="autocmd.txt.html#User" class="d">User</a> configuration and data files are found in standard <a href="starting.txt.html#base-directories" class="l">base-directories</a>
+(see also <a href="starting.txt.html#%24NVIM_APPNAME" class="l">$NVIM_APPNAME</a>).  <span class="n">Note</span> in particular:
+
+<a href="motion.txt.html#-" class="d">-</a> Use <span class="e">$XDG_CONFIG_HOME/nvim/init.vim</span> instead of <span class="e">.vimrc</span> <a href="luaref.txt.html#for" class="d">for</a> your <a href="starting.txt.html#config" class="l">config</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> Use <span class="e">$XDG_CONFIG_HOME/nvim</span> instead of <span class="e">.vim</span> to store configuration files.
+<a href="motion.txt.html#-" class="d">-</a> Use <span class="e">$XDG_STATE_HOME/nvim/shada/main.shada</span> instead of <span class="e">.viminfo</span> <a href="luaref.txt.html#for" class="d">for</a> persistent
+  session information.  <a href="starting.txt.html#shada" class="l">shada</a>
+
+<span class="h">==============================================================================</span>
+Defaults                                            <span id="defaults" class="t">defaults</span> <span id="nvim-defaults" class="t">nvim-defaults</span>
+
+<a href="motion.txt.html#-" class="d">-</a> Filetype detection <a href="motion.txt.html#is" class="d">is</a> enabled by default. This can be disabled by adding
+  "<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a> off" to <a href="starting.txt.html#init.vim" class="l">init.vim</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#Syntax" class="d">Syntax</a> highlighting <a href="motion.txt.html#is" class="d">is</a> enabled by default. This can be disabled by adding
+  "<a href="syntax.txt.html#%3Asyntax" class="d">:syntax</a> off" to <a href="starting.txt.html#init.vim" class="l">init.vim</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> Default color scheme has been updated. This can result in color schemes
+  looking differently due to them relying on how highlight groups are defined
+  by default. Add "<a href="syntax.txt.html#%3Acolorscheme" class="d">:colorscheme</a> vim" to <a href="starting.txt.html#init.vim" class="l">init.vim</a> or
+  "<a href="repeat.txt.html#%3Asource" class="d">:source</a> $VIMRUNTIME/colors/vim.lua" to your color scheme file to restore
+  the old default links and colors. See <a href="syntax.txt.html#%3Ahighlight" class="l">:highlight</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of highlight
+  groups colorschemes should set.
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27autoindent%27" class="o">'autoindent'</a> <a href="motion.txt.html#is" class="d">is</a> enabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27autoread%27" class="o">'autoread'</a> <a href="motion.txt.html#is" class="d">is</a> enabled (works in all UIs, including terminal)
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27background%27" class="o">'background'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "dark" (unless set automatically by the terminal/UI)
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27backupdir%27" class="o">'backupdir'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to .,~/.local/state/nvim/backup// <a href="motion.txt.html#%28" class="d">(</a><a href="starting.txt.html#xdg" class="l">xdg</a>), auto-created
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27belloff%27" class="o">'belloff'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "all"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27comments%27" class="o">'comments'</a> includes "fb:•"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27commentstring%27" class="o">'commentstring'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to ""
+<a href="motion.txt.html#-" class="d">-</a> <a href="vim_diff.txt.html#%27compatible%27" class="o">'compatible'</a> <a href="motion.txt.html#is" class="d">is</a> always disabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27complete%27" class="o">'complete'</a> excludes "<a href="insert.txt.html#i" class="d">i</a>"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27completeopt%27" class="o">'completeopt'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "menu,popup"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27define%27" class="o">'define'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to ""<a href="repeat.txt.html#." class="d">.</a> The <a href="change.txt.html#C" class="d">C</a> <a href="usr_41.txt.html#ftplugin" class="d">ftplugin</a> sets <a href="motion.txt.html#it" class="d">it</a> to "^\\s*#\\s*define"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27diffopt%27" class="o">'diffopt'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "internal,filler,closeoff,linematch:40"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27directory%27" class="o">'directory'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to ~/.local/state/nvim/swap// <a href="motion.txt.html#%28" class="d">(</a><a href="starting.txt.html#xdg" class="l">xdg</a>), auto-created
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27display%27" class="o">'display'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "lastline"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27encoding%27" class="o">'encoding'</a> <a href="motion.txt.html#is" class="d">is</a> <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> (cf. <a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a> <a href="luaref.txt.html#for" class="d">for</a> file-content encoding)
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27fillchars%27" class="o">'fillchars'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> (in effect) to "vert:│,fold:·,foldsep:│"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27formatoptions%27" class="o">'formatoptions'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "tcqj"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27grepprg%27" class="o">'grepprg'</a> uses the <a href="starting.txt.html#-H" class="d">-H</a> and -I flags <a href="luaref.txt.html#for" class="d">for</a> regular grep,
+  and <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to using ripgrep if available
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27hidden%27" class="o">'hidden'</a> <a href="motion.txt.html#is" class="d">is</a> enabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27history%27" class="o">'history'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to 10000 (the maximum)
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27hlsearch%27" class="o">'hlsearch'</a> <a href="motion.txt.html#is" class="d">is</a> enabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27include%27" class="o">'include'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to ""<a href="repeat.txt.html#." class="d">.</a> The <a href="change.txt.html#C" class="d">C</a> <a href="usr_41.txt.html#ftplugin" class="d">ftplugin</a> sets <a href="motion.txt.html#it" class="d">it</a> to "^\\s*#\\s*include"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27incsearch%27" class="o">'incsearch'</a> <a href="motion.txt.html#is" class="d">is</a> enabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27isfname%27" class="o">'isfname'</a> does not include "<a href="cmdline.txt.html#%3A" class="d">:</a>" (on Windows). Drive letters are handled
+  correctly without it. (Use <a href="editing.txt.html#gF" class="l">gF</a> <a href="luaref.txt.html#for" class="d">for</a> filepaths suffixed with ":line:col").
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27joinspaces%27" class="o">'joinspaces'</a> <a href="motion.txt.html#is" class="d">is</a> disabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27jumpoptions%27" class="o">'jumpoptions'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "clean"
+<a href="motion.txt.html#-" class="d">-</a> <a href="deprecated.txt.html#%27langnoremap%27" class="o">'langnoremap'</a> <a href="motion.txt.html#is" class="d">is</a> enabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27langremap%27" class="o">'langremap'</a> <a href="motion.txt.html#is" class="d">is</a> disabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27laststatus%27" class="o">'laststatus'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to 2 (statusline <a href="motion.txt.html#is" class="d">is</a> always shown)
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27listchars%27" class="o">'listchars'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "tab:&gt; ,trail:-,nbsp:+"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27mouse%27" class="o">'mouse'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "nvi"<a href="motion.txt.html#%2C" class="d">,</a> see <a href="vim_diff.txt.html#default-mouse" class="l">default-mouse</a> <a href="luaref.txt.html#for" class="d">for</a> details
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "popup_setpos"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27nrformats%27" class="o">'nrformats'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "bin,hex"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27path%27" class="o">'path'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to ".,,"<a href="repeat.txt.html#." class="d">.</a> The <a href="change.txt.html#C" class="d">C</a> <a href="usr_41.txt.html#ftplugin" class="d">ftplugin</a> adds "/usr/include" if <a href="motion.txt.html#it" class="d">it</a> exists.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27ruler%27" class="o">'ruler'</a> <a href="motion.txt.html#is" class="d">is</a> enabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27sessionoptions%27" class="o">'sessionoptions'</a> includes "unix,slash"<a href="motion.txt.html#%2C" class="d">,</a> excludes "<a href="options.txt.html#options" class="d">options</a>"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27shortmess%27" class="o">'shortmess'</a> includes "CF"<a href="motion.txt.html#%2C" class="d">,</a> excludes "<a href="change.txt.html#S" class="d">S</a>"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27showcmd%27" class="o">'showcmd'</a> <a href="motion.txt.html#is" class="d">is</a> enabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27sidescroll%27" class="o">'sidescroll'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to 1
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27smarttab%27" class="o">'smarttab'</a> <a href="motion.txt.html#is" class="d">is</a> enabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27startofline%27" class="o">'startofline'</a> <a href="motion.txt.html#is" class="d">is</a> disabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27switchbuf%27" class="o">'switchbuf'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "uselast"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27tabpagemax%27" class="o">'tabpagemax'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to 50
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27tags%27" class="o">'tags'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "./tags;,tags"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27termguicolors%27" class="o">'termguicolors'</a> <a href="motion.txt.html#is" class="d">is</a> enabled by default if Nvim can detect <a href="support.txt.html#support" class="d">support</a> from the
+  host <a href="terminal.txt.html#terminal" class="d">terminal</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27ttimeout%27" class="o">'ttimeout'</a> <a href="motion.txt.html#is" class="d">is</a> enabled
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27ttimeoutlen%27" class="o">'ttimeoutlen'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to 50
+<a href="motion.txt.html#-" class="d">-</a> <a href="vim_diff.txt.html#%27ttyfast%27" class="o">'ttyfast'</a> <a href="motion.txt.html#is" class="d">is</a> always set
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27undodir%27" class="o">'undodir'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to ~/.local/state/nvim/undo// <a href="motion.txt.html#%28" class="d">(</a><a href="starting.txt.html#xdg" class="l">xdg</a>), auto-created
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27viewoptions%27" class="o">'viewoptions'</a> includes "unix,slash"<a href="motion.txt.html#%2C" class="d">,</a> excludes "<a href="options.txt.html#options" class="d">options</a>"
+<a href="motion.txt.html#-" class="d">-</a> <a href="deprecated.txt.html#%27viminfo%27" class="o">'viminfo'</a> includes "<a href="change.txt.html#%21" class="d">!</a>"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27wildoptions%27" class="o">'wildoptions'</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "pum,tagfile"
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="editorconfig.txt.html#editorconfig" class="l">editorconfig</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> enabled, .editorconfig settings are applied.
+<a href="motion.txt.html#-" class="d">-</a> <a href="filetype.txt.html#man.lua" class="l">man.lua</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> enabled, so <a href="filetype.txt.html#%3AMan" class="l">:Man</a> <a href="motion.txt.html#is" class="d">is</a> available by default.
+<a href="motion.txt.html#-" class="d">-</a> <a href="matchit.txt.html#matchit" class="l">matchit</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> enabled. To disable <a href="motion.txt.html#it" class="d">it</a> in your config: 
+<span class="e">    :let loaded_matchit = 1</span>
+<span class="e"></span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#g%3Avimsyn_embed" class="l">g:vimsyn_embed</a> <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to "<a href="motion.txt.html#l" class="d">l</a>" to enable <a href="lua.txt.html#Lua" class="d">Lua</a> highlighting
+
+<span class="c">DEFAULT MOUSE</span>
+                                                <span id="default-mouse" class="t">default-mouse</span> <span id="disable-mouse" class="t">disable-mouse</span>
+By default the mouse <a href="motion.txt.html#is" class="d">is</a> enabled. This means <a href="scroll.txt.html#scroll-mouse-wheel" class="l">scroll-mouse-wheel</a> will scroll
+the <a href="windows.txt.html#window" class="d">window</a> instead of moving the cursor; <a href="visual.txt.html#%3CLeftMouse%3E" class="s">&lt;LeftMouse&gt;</a> click places the cursor;
+and <a href="visual.txt.html#%3CRightMouse%3E" class="s">&lt;RightMouse&gt;</a> click opens the default <a href="gui.txt.html#popup-menu" class="l">popup-menu</a> with standard actions.
+
+Mouse <a href="motion.txt.html#is" class="d">is</a> NOT enabled in <a href="cmdline.txt.html#Cmdline-mode" class="l">Cmdline-mode</a> or the <a href="message.txt.html#more-prompt" class="l">more-prompt</a><a href="motion.txt.html#%2C" class="d">,</a> so you can
+temporarily disable <a href="motion.txt.html#it" class="d">it</a> just by typing "<a href="cmdline.txt.html#%3A" class="d">:</a>"<a href="repeat.txt.html#." class="d">.</a> Or if you want to partially or
+fully disable the mouse or popup-menu, <a href="diff.txt.html#do" class="d">do</a> any of the following:
+
+<a href="motion.txt.html#-" class="d">-</a> Disable mouse completely by unsetting the <a href="options.txt.html#%27mouse%27" class="o">'mouse'</a> option: 
+<span class="e">  set mouse=</span>
+<a href="motion.txt.html#-" class="d">-</a> Change the <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a>, so <a href="visual.txt.html#%3CRightMouse%3E" class="s">&lt;RightMouse&gt;</a> extends selection instead of
+  showing the popup-menu: 
+<span class="e">  set mousemodel=extend</span>
+<a href="motion.txt.html#-" class="d">-</a> Map <a href="gui.txt.html#%3CA-LeftMouse%3E" class="s">&lt;A-LeftMouse&gt;</a> so that <a href="motion.txt.html#it" class="d">it</a> temporarily disables mouse until the cursor
+  moves:  
+<span class="e">  nnoremap &lt;A-LeftMouse&gt; &lt;Cmd&gt;</span>
+<span class="e">    \ set mouse=&lt;Bar&gt;</span>
+<span class="e">    \ echo 'mouse OFF until next cursor-move'&lt;Bar&gt;</span>
+<span class="e">    \ autocmd CursorMoved * ++once set mouse&amp;&lt;Bar&gt;</span>
+<span class="e">    \ echo 'mouse ON'&lt;CR&gt;</span>
+
+To remove the default <a href="gui.txt.html#popup-menu" class="d">popup-menu</a> without disabling mouse: 
+<span class="e">  aunmenu PopUp</span>
+<span class="e">  autocmd! nvim.popupmenu</span>
+<span class="e"></span>
+To remove only the "How-to disable mouse" menu item (and its separator): 
+<span class="e">  aunmenu PopUp.How-to\ disable\ mouse</span>
+<span class="e">  aunmenu PopUp.-2-</span>
+<span class="e"></span>
+<span class="c">DEFAULT MAPPINGS</span>
+                                                        <span id="default-mappings" class="t">default-mappings</span>
+Nvim creates the following default mappings <a href="motion.txt.html#at" class="d">at</a> <a href="starting.txt.html#startup" class="l">startup</a><a href="repeat.txt.html#." class="d">.</a> You can disable any
+of these in your <a href="starting.txt.html#config" class="d">config</a> by simply removing the mapping, e.g. "<a href="map.txt.html#%3Aunmap" class="d">:unmap</a> <a href="change.txt.html#Y" class="d">Y</a>"<a href="repeat.txt.html#." class="d">.</a> If
+you never want any default mappings, call <a href="map.txt.html#%3Amapclear" class="l">:mapclear</a> early in your config.
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="change.txt.html#Y" class="d">Y</a> <a href="change.txt.html#Y-default" class="l">Y-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="s">&lt;C-U&gt;</span> <a href="insert.txt.html#i_CTRL-U-default" class="l">i_CTRL-U-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="s">&lt;C-W&gt;</span> <a href="insert.txt.html#i_CTRL-W-default" class="l">i_CTRL-W-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="s">&lt;C-L&gt;</span> <a href="various.txt.html#CTRL-L-default" class="l">CTRL-L-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="change.txt.html#%26" class="d">&amp;</a> <a href="change.txt.html#%26-default" class="l">&amp;-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="repeat.txt.html#Q" class="d">Q</a> <a href="repeat.txt.html#v_Q-default" class="l">v_Q-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="repeat.txt.html#%40" class="d">@</a> <a href="repeat.txt.html#v_%40-default" class="l">v_@-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="pattern.txt.html#%23" class="d">#</a> <a href="pattern.txt.html#v_%23-default" class="l">v_#-default</a>
+<a href="motion.txt.html#-" class="d">-</a> * <a href="pattern.txt.html#v_star-default" class="l">v_star-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="various.txt.html#gc" class="d">gc</a> <a href="various.txt.html#gc-default" class="l">gc-default</a> <a href="various.txt.html#v_gc-default" class="l">v_gc-default</a> <a href="various.txt.html#o_gc-default" class="l">o_gc-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="various.txt.html#gcc" class="d">gcc</a> <a href="various.txt.html#gcc-default" class="l">gcc-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="change.txt.html#gr" class="d">gr</a> prefix <a href="change.txt.html#gr-default" class="l">gr-default</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="lsp.txt.html#grn" class="l">grn</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="lsp.txt.html#grr" class="l">grr</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="lsp.txt.html#gra" class="l">gra</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="lsp.txt.html#gri" class="l">gri</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="lsp.txt.html#grt" class="l">grt</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="various.txt.html#gO" class="l">gO</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="s">&lt;C-S&gt;</span> <a href="lsp.txt.html#i_CTRL-S" class="l">i_CTRL-S</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="tagsrch.txt.html#%5Dd" class="d">]d</a> <a href="tagsrch.txt.html#%5Dd-default" class="l">]d-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="tagsrch.txt.html#%5Bd" class="d">[d</a> <a href="tagsrch.txt.html#%5Bd-default" class="l">[d-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="tagsrch.txt.html#%5BD" class="d">[D</a> <a href="tagsrch.txt.html#%5BD-default" class="l">[D-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="tagsrch.txt.html#%5DD" class="d">]D</a> <a href="tagsrch.txt.html#%5DD-default" class="l">]D-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="s">&lt;C-W&gt;</span>d <a href="tagsrch.txt.html#CTRL-W_d-default" class="l">CTRL-W_d-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="quickfix.txt.html#%5Bq" class="l">[q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5Dq" class="l">]q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5BQ" class="l">[Q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5DQ" class="l">]Q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5BCTRL-Q" class="l">[CTRL-Q</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5DCTRL-Q" class="l">]CTRL-Q</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="quickfix.txt.html#%5Bl" class="l">[l</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5Dl" class="l">]l</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5BL" class="l">[L</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5DL" class="l">]L</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5BCTRL-L" class="l">[CTRL-L</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%5DCTRL-L" class="l">]CTRL-L</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="tagsrch.txt.html#%5Bt" class="l">[t</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tagsrch.txt.html#%5Dt" class="l">]t</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tagsrch.txt.html#%5BT" class="l">[T</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tagsrch.txt.html#%5DT" class="l">]T</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tagsrch.txt.html#%5BCTRL-T" class="l">[CTRL-T</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="tagsrch.txt.html#%5DCTRL-T" class="l">]CTRL-T</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="editing.txt.html#%5Ba" class="l">[a</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%5Da" class="l">]a</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%5BA" class="l">[A</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#%5DA" class="l">]A</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="windows.txt.html#%5Bb" class="l">[b</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%5Db" class="l">]b</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%5BB" class="l">[B</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="windows.txt.html#%5DB" class="l">]B</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#%5B%3CSpace%3E" class="l">[&lt;Space&gt;</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="insert.txt.html#%5D%3CSpace%3E" class="l">]&lt;Space&gt;</a>
+<a href="motion.txt.html#-" class="d">-</a> Nvim <a href="lsp.txt.html#LSP" class="d">LSP</a> client <a href="vim_diff.txt.html#defaults" class="d">defaults</a> <a href="lsp.txt.html#lsp-defaults" class="l">lsp-defaults</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="various.txt.html#K" class="d">K</a> <a href="various.txt.html#K-lsp-default" class="l">K-lsp-default</a>
+
+<span class="c">DEFAULT AUTOCOMMANDS</span>
+                                                        <span id="default-autocmds" class="t">default-autocmds</span>
+Default autocommands exist in the following groups. Use ":autocmd! <span class="s">{group}</span>" to
+remove them and "<a href="autocmd.txt.html#%3Aautocmd" class="d">:autocmd</a> <span class="s">{group}</span>" to see how they're defined.
+
+nvim.terminal:
+<a href="motion.txt.html#-" class="d">-</a> BufReadCmd: Treats "term://" <a href="windows.txt.html#buffers" class="d">buffers</a> <a href="motion.txt.html#as" class="d">as</a> <a href="terminal.txt.html#terminal" class="l">terminal</a> buffers. <a href="terminal.txt.html#terminal-start" class="l">terminal-start</a>
+<a href="motion.txt.html#-" class="d">-</a> TermClose: <a href="insert.txt.html#A" class="d">A</a> <a href="terminal.txt.html#terminal" class="l">terminal</a> buffer started with no arguments (which thus uses
+  <a href="options.txt.html#%27shell%27" class="o">'shell'</a>) and which exits with no error <a href="motion.txt.html#is" class="d">is</a> closed automatically.
+<a href="motion.txt.html#-" class="d">-</a> TermRequest: The <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator responds to OSC background and foreground
+  requests, indicating (1) <a href="insert.txt.html#a" class="d">a</a> black background and white foreground when Nvim
+  option <a href="options.txt.html#%27background%27" class="o">'background'</a> <a href="motion.txt.html#is" class="d">is</a> "dark" or (2) <a href="insert.txt.html#a" class="d">a</a> white background and black foreground
+  when <a href="options.txt.html#%27background%27" class="o">'background'</a> <a href="motion.txt.html#is" class="d">is</a> "light"<a href="repeat.txt.html#." class="d">.</a> While this may not reflect the actual
+  foreground/background color, <a href="motion.txt.html#it" class="d">it</a> permits <a href="options.txt.html#%27background%27" class="o">'background'</a> to be retained <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a>
+  nested Nvim instance running in the <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator.
+<a href="motion.txt.html#-" class="d">-</a> TermRequest: Nvim will create <a href="api.txt.html#extmarks" class="d">extmarks</a> <a href="luaref.txt.html#for" class="d">for</a> shells which
+  annotate their prompts with OSC 133 <a href="intro.txt.html#escape" class="d">escape</a> sequences, enabling users to
+  quickly navigate between prompts using <a href="motion.txt.html#%5B%5B" class="l">[[</a> and <a href="motion.txt.html#%5D%5D" class="l">]]</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> TermOpen: Sets default <a href="options.txt.html#options" class="d">options</a> and mappings <a href="luaref.txt.html#for" class="d">for</a> <a href="terminal.txt.html#terminal" class="l">terminal</a> buffers:
+    <a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27nomodifiable%27" class="o">'nomodifiable'</a>
+    <a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27undolevels%27" class="o">'undolevels'</a> set to -1
+    <a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27textwidth%27" class="o">'textwidth'</a> set to <a href="motion.txt.html#0" class="d">0</a>
+    <a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27nowrap%27" class="o">'nowrap'</a>
+    <a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27nolist%27" class="o">'nolist'</a>
+    <a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27nonumber%27" class="o">'nonumber'</a>
+    <a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27norelativenumber%27" class="o">'norelativenumber'</a>
+    <a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27signcolumn%27" class="o">'signcolumn'</a> set to "no"
+    <a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27foldcolumn%27" class="o">'foldcolumn'</a> set to "<a href="motion.txt.html#0" class="d">0</a>"
+    <a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27winhighlight%27" class="o">'winhighlight'</a> uses <a href="syntax.txt.html#hl-StatusLineTerm" class="l">hl-StatusLineTerm</a> and <a href="syntax.txt.html#hl-StatusLineTermNC" class="l">hl-StatusLineTermNC</a> in
+      place of <a href="syntax.txt.html#hl-StatusLine" class="l">hl-StatusLine</a> and <a href="syntax.txt.html#hl-StatusLineNC" class="l">hl-StatusLineNC</a>
+    <a href="motion.txt.html#-" class="d">-</a> <a href="motion.txt.html#%5B%5B" class="l">[[</a> and <a href="motion.txt.html#%5D%5D" class="l">]]</a> to navigate between shell prompts
+
+nvim.cmdwin:
+<a href="motion.txt.html#-" class="d">-</a> CmdwinEnter: Limits <a href="syntax.txt.html#syntax" class="d">syntax</a> sync to maxlines=1 in the <a href="cmdline.txt.html#cmdwin" class="l">cmdwin</a><a href="repeat.txt.html#." class="d">.</a>
+
+nvim.swapfile:
+<a href="motion.txt.html#-" class="d">-</a> SwapExists: Skips the swapfile prompt (sets <a href="vvars.txt.html#v%3Aswapchoice" class="l">v:swapchoice</a> to "<a href="motion.txt.html#e" class="d">e</a>"<a href="motion.txt.html#%29" class="d">)</a> when the
+  swapfile <a href="motion.txt.html#is" class="d">is</a> owned by <a href="insert.txt.html#a" class="d">a</a> running Nvim process. Shows <a href="recover.txt.html#W325" class="l">W325</a> "Ignoring
+  swapfile…" message.
+
+<span class="h">==============================================================================</span>
+New Features                                                   <span id="nvim-features" class="t">nvim-features</span>
+
+<span class="c">MAJOR COMPONENTS</span>
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="api.txt.html#API" class="d">API</a>                             <a href="api.txt.html#API" class="l">API</a>
+<a href="motion.txt.html#-" class="d">-</a> Job <a href="intro.txt.html#control" class="d">control</a>                     <a href="job_control.txt.html#job-control" class="l">job-control</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="lsp.txt.html#LSP" class="d">LSP</a> framework                   <a href="lsp.txt.html#lsp" class="l">lsp</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="lua.txt.html#Lua" class="d">Lua</a> scripting                   <a href="lua.txt.html#lua" class="l">lua</a>
+<a href="motion.txt.html#-" class="d">-</a> Parsing engine                  <a href="treesitter.txt.html#treesitter" class="l">treesitter</a>
+<a href="motion.txt.html#-" class="d">-</a> Providers
+  <a href="motion.txt.html#-" class="d">-</a> Clipboard                     <a href="provider.txt.html#provider-clipboard" class="l">provider-clipboard</a>
+  <a href="motion.txt.html#-" class="d">-</a> Node.js plugins               <a href="provider.txt.html#provider-nodejs" class="l">provider-nodejs</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="if_pyth.txt.html#Python" class="d">Python</a> plugins                <a href="provider.txt.html#provider-python" class="l">provider-python</a>
+  <a href="motion.txt.html#-" class="d">-</a> <a href="if_ruby.txt.html#Ruby" class="d">Ruby</a> plugins                  <a href="provider.txt.html#provider-ruby" class="l">provider-ruby</a>
+<a href="motion.txt.html#-" class="d">-</a> Remote plugins                  <a href="remote_plugin.txt.html#remote-plugin" class="l">remote-plugin</a>
+<a href="motion.txt.html#-" class="d">-</a> Shared data                     <a href="starting.txt.html#shada" class="l">shada</a>
+<a href="motion.txt.html#-" class="d">-</a> Terminal emulator               <a href="terminal.txt.html#terminal" class="l">terminal</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="ui.txt.html#UI" class="d">UI</a>                              <a href="ui.txt.html#ui" class="l">ui</a> <a href="starting.txt.html#--listen" class="l">--listen</a> <a href="remote.txt.html#--server" class="l">--server</a>
+<a href="motion.txt.html#-" class="d">-</a> Vimscript parser                <a href="api.txt.html#nvim_parse_expression%28%29" class="l">nvim_parse_expression()</a>
+<a href="motion.txt.html#-" class="d">-</a> XDG base directories            <a href="starting.txt.html#xdg" class="l">xdg</a>
+
+<span class="c">USER EXPERIENCE</span>
+
+Working intuitively and consistently <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> major goal of Nvim.
+
+                                                        <span id="feature-compile" class="t">feature-compile</span>
+<a href="motion.txt.html#-" class="d">-</a> Nvim always includes ALL features, in contrast to Vim (which ships <a href="various.txt.html#various" class="d">various</a>
+  combinations of 100+ optional features).  <a href="vim_diff.txt.html#feature-compile" class="l">feature-compile</a> Think of <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a>
+  <a href="insert.txt.html#a" class="d">a</a> leaner version of Vim's "HUGE" build. This reduces surface area <a href="luaref.txt.html#for" class="d">for</a> bugs,
+  and removes <a href="insert.txt.html#a" class="d">a</a> common source of confusion and friction <a href="luaref.txt.html#for" class="d">for</a> users.
+
+<a href="motion.txt.html#-" class="d">-</a> Nvim avoids features that cannot be provided on all platforms; instead that
+  <a href="motion.txt.html#is" class="d">is</a> delegated to external plugins/extensions. E.g. the <span class="e">-X</span> platform-specific
+  option <a href="motion.txt.html#is" class="d">is</a> "sometimes" available in Vim (with potential surprises:
+  <a class="u" href="https://stackoverflow.com/q/14635295">https://stackoverflow.com/q/14635295</a>).
+
+<a href="motion.txt.html#-" class="d">-</a> Vim's internal test <a href="vimeval.txt.html#functions" class="d">functions</a> (test_autochdir(), test_settime(), etc.) are
+  not exposed (nor implemented); instead Nvim has <a href="insert.txt.html#a" class="d">a</a> robust API.
+
+<a href="motion.txt.html#-" class="d">-</a> Behaviors, options, documentation are removed if they cost users more time
+  than they save.
+
+Usability details have been improved where the benefit outweighs any
+backwards-compatibility cost. Some examples:
+
+<a href="motion.txt.html#-" class="d">-</a> Directories <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#%27directory%27" class="o">'directory'</a> and <a href="options.txt.html#%27undodir%27" class="o">'undodir'</a> are auto-created.
+<a href="motion.txt.html#-" class="d">-</a> Terminal features such <a href="motion.txt.html#as" class="d">as</a> <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a> are enabled where possible.
+<a href="motion.txt.html#-" class="d">-</a> Various "<a href="nvim.txt.html#nvim" class="d">nvim</a>" <a href="starting.txt.html#cli-arguments" class="l">cli-arguments</a> were redesigned.
+
+Some features are built in that otherwise required external plugins:
+
+<a href="motion.txt.html#-" class="d">-</a> Highlighting the yanked region, see <a href="lua.txt.html#vim.hl" class="l">vim.hl</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="c">ARCHITECTURE</span>
+
+The Nvim <a href="ui.txt.html#UI" class="d">UI</a> <a href="motion.txt.html#is" class="d">is</a> "decoupled" from the core editor: all UIs, including the
+builtin <a href="tui.txt.html#TUI" class="l">TUI</a> are just plugins that connect to <a href="insert.txt.html#a" class="d">a</a> Nvim server (via <a href="remote.txt.html#--server" class="l">--server</a>
+or <a href="starting.txt.html#--embed" class="l">--embed</a>). Multiple Nvim <a href="ui.txt.html#UI" class="d">UI</a> clients can connect to the same Nvim editor
+server.
+
+External plugins run in separate processes. <a href="remote_plugin.txt.html#remote-plugin" class="l">remote-plugin</a> This improves
+stability and allows those plugins to work without blocking the editor. Even
+"legacy" <a href="if_pyth.txt.html#Python" class="d">Python</a> and <a href="if_ruby.txt.html#Ruby" class="d">Ruby</a> plugins which use the old Vim interfaces <a href="motion.txt.html#%28" class="d">(</a><a href="if_pyth.txt.html#if_pyth" class="l">if_pyth</a><a href="motion.txt.html#%2C" class="d">,</a>
+<a href="if_ruby.txt.html#if_ruby" class="l">if_ruby</a><a href="motion.txt.html#%29" class="d">)</a> run out-of-process, so they cannot crash Nvim.
+
+Platform and I/O facilities are built upon libuv. Nvim benefits from libuv
+features and bug fixes, and other projects benefit from improvements to libuv
+by Nvim developers.
+
+<span class="c">FEATURES</span>
+
+Command-line:
+<a href="motion.txt.html#-" class="d">-</a> The <a href="vimeval.txt.html#expression" class="d">expression</a> prompt <a href="motion.txt.html#%28" class="d">(</a><a href="change.txt.html#%40%3D" class="l">@=</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="cmdline.txt.html#c_CTRL-R_%3D" class="l">c_CTRL-R_=</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="insert.txt.html#i_CTRL-R_%3D" class="l">i_CTRL-R_=</a><a href="motion.txt.html#%29" class="d">)</a> <a href="motion.txt.html#is" class="d">is</a> highlighted
+  using <a href="insert.txt.html#a" class="d">a</a> built-in Vimscript <a href="vimeval.txt.html#expression" class="d">expression</a> parser. <a href="vimeval.txt.html#expr-highlight" class="l">expr-highlight</a>
+<a href="motion.txt.html#-" class="d">-</a> <span id="E5408" class="t">E5408</span> <span id="E5409" class="t">E5409</span> <a href="vimfn.txt.html#input%28%29" class="l">input()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="deprecated.txt.html#inputdialog%28%29" class="l">inputdialog()</a> <a href="support.txt.html#support" class="d">support</a> custom highlighting.
+  <a href="vimfn.txt.html#input%28%29-highlight" class="l">input()-highlight</a>
+<a href="motion.txt.html#-" class="d">-</a> (Experimental) <span id="g%3ANvim_color_cmdline" class="t">g:Nvim_color_cmdline</span> <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> <a href="motion.txt.html#%28" class="d">(</a><a href="cmdline.txt.html#%3A" class="l">:</a><a href="motion.txt.html#%29" class="d">)</a> <a href="motion.txt.html#is" class="d">is</a> colored by
+  callback defined in <span class="e">g:Nvim_color_cmdline</span> (this callback <a href="motion.txt.html#is" class="d">is</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="testing.txt.html#testing" class="d">testing</a>
+  only, and will be removed in the future).
+
+Commands:
+<a href="motion.txt.html#-" class="d">-</a> <a href="health.txt.html#%3Acheckhealth" class="l">:checkhealth</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="windows.txt.html#%3Adrop" class="l">:drop</a> <a href="motion.txt.html#is" class="d">is</a> always available
+<a href="motion.txt.html#-" class="d">-</a> <a href="filetype.txt.html#%3AMan" class="l">:Man</a> <a href="motion.txt.html#is" class="d">is</a> available by default, with many improvements such <a href="motion.txt.html#as" class="d">as</a> completion
+<a href="motion.txt.html#-" class="d">-</a> <a href="pattern.txt.html#%3Amatch" class="l">:match</a> can be invoked before highlight group <a href="motion.txt.html#is" class="d">is</a> defined
+<a href="motion.txt.html#-" class="d">-</a> <a href="repeat.txt.html#%3Asource" class="l">:source</a> works with <a href="lua.txt.html#Lua" class="d">Lua</a>
+  <a href="autocmd.txt.html#User" class="d">User</a> commands can <a href="support.txt.html#support" class="d">support</a> <a href="map.txt.html#%3Acommand-preview" class="l">:command-preview</a> to show results <a href="motion.txt.html#as" class="d">as</a> you type
+<a href="motion.txt.html#-" class="d">-</a> <a href="editing.txt.html#%3Awrite" class="l">:write</a> with "<a href="editing.txt.html#%2B%2Bp" class="d">++p</a>" flag creates parent directories.
+
+Events (autocommands):
+<a href="motion.txt.html#-" class="d">-</a> Fixed inconsistent behavior in execution of nested autocommands #23368
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#RecordingEnter" class="l">RecordingEnter</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#RecordingLeave" class="l">RecordingLeave</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#SearchWrapped" class="l">SearchWrapped</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#Signal" class="l">Signal</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#TabNewEntered" class="l">TabNewEntered</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#TermClose" class="l">TermClose</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#TermOpen" class="l">TermOpen</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#TermResponse" class="l">TermResponse</a> <a href="motion.txt.html#is" class="d">is</a> fired <a href="luaref.txt.html#for" class="d">for</a> any OSC sequence received from the terminal,
+  instead of the Primary Device Attributes response. <a href="vvars.txt.html#v%3Atermresponse" class="l">v:termresponse</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#UIEnter" class="l">UIEnter</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#UILeave" class="l">UILeave</a>
+
+Functions:
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#dictwatcheradd%28%29" class="l">dictwatcheradd()</a> notifies <a href="insert.txt.html#a" class="d">a</a> callback whenever <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#Dict" class="l">Dict</a> <a href="motion.txt.html#is" class="d">is</a> modified
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#dictwatcherdel%28%29" class="l">dictwatcherdel()</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#menu_get%28%29" class="l">menu_get()</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#msgpackdump%28%29" class="l">msgpackdump()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vimfn.txt.html#msgpackparse%28%29" class="l">msgpackparse()</a> provide msgpack de/serialization
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#stdpath%28%29" class="l">stdpath()</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#system%28%29" class="l">system()</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vimfn.txt.html#systemlist%28%29" class="l">systemlist()</a> can run <span class="s">{cmd}</span> directly (without <a href="options.txt.html#%27shell%27" class="o">'shell'</a>)
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#matchadd%28%29" class="l">matchadd()</a> can be called before highlight group <a href="motion.txt.html#is" class="d">is</a> defined
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#tempname%28%29" class="l">tempname()</a> tries to recover if the Nvim <a href="change.txt.html#tempdir" class="l">tempdir</a> disappears.
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#writefile%28%29" class="l">writefile()</a> with "<a href="change.txt.html#p" class="d">p</a>" flag creates parent directories.
+
+Highlight groups:
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#highlight-blend" class="l">highlight-blend</a> controls blend level <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> highlight group
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimeval.txt.html#expr-highlight" class="l">expr-highlight</a> highlight groups (prefixed with "Nvim"<a href="motion.txt.html#%29" class="d">)</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-NormalFloat" class="l">hl-NormalFloat</a> highlights floating <a href="windows.txt.html#window" class="d">window</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-FloatBorder" class="l">hl-FloatBorder</a> highlights border of <a href="insert.txt.html#a" class="d">a</a> floating <a href="windows.txt.html#window" class="d">window</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-FloatTitle" class="l">hl-FloatTitle</a> highlights title of <a href="insert.txt.html#a" class="d">a</a> floating <a href="windows.txt.html#window" class="d">window</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-FloatFooter" class="l">hl-FloatFooter</a> highlights footer of <a href="insert.txt.html#a" class="d">a</a> floating <a href="windows.txt.html#window" class="d">window</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-NormalNC" class="l">hl-NormalNC</a> highlights non-current <a href="windows.txt.html#windows" class="d">windows</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-MsgArea" class="l">hl-MsgArea</a> highlights messages/cmdline area
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-MsgSeparator" class="l">hl-MsgSeparator</a> highlights separator <a href="luaref.txt.html#for" class="d">for</a> scrolled <a href="message.txt.html#messages" class="d">messages</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-Substitute" class="l">hl-Substitute</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-TermCursor" class="l">hl-TermCursor</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-WinSeparator" class="l">hl-WinSeparator</a> highlights <a href="windows.txt.html#window" class="d">window</a> separators
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-Whitespace" class="l">hl-Whitespace</a> highlights <a href="options.txt.html#%27listchars%27" class="o">'listchars'</a> <a href="pattern.txt.html#whitespace" class="d">whitespace</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-WinBar" class="l">hl-WinBar</a> highlights <a href="options.txt.html#%27winbar%27" class="o">'winbar'</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-WinBarNC" class="l">hl-WinBarNC</a> highlights non-current <a href="windows.txt.html#window" class="d">window</a> <a href="options.txt.html#%27winbar%27" class="o">'winbar'</a>
+
+Input/Mappings:
+<a href="motion.txt.html#-" class="d">-</a> <a href="intro.txt.html#ALT" class="d">ALT</a> <a href="motion.txt.html#%28" class="d">(</a><a href="intro.txt.html#META" class="l">META</a><a href="motion.txt.html#%29" class="d">)</a> chords always work (even in the <a href="tui.txt.html#TUI" class="l">TUI</a>). Map <a href="intro.txt.html#%3CM-" class="l">&lt;M-</a> with any key:
+  <span class="s">&lt;M-1&gt;</span>, <span class="s">&lt;M-BS&gt;</span>, <span class="s">&lt;M-Del&gt;</span>, <span class="s">&lt;M-Ins&gt;</span>, <span class="s">&lt;M-/&gt;</span>, <span class="s">&lt;M-\&gt;</span>, <span class="s">&lt;M-Space&gt;</span>, <span class="s">&lt;M-Enter&gt;</span>, etc.
+  <a href="motion.txt.html#-" class="d">-</a> Case-sensitive: <span class="s">&lt;M-a&gt;</span> and <span class="s">&lt;M-A&gt;</span> are two different keycodes.
+<a href="motion.txt.html#-" class="d">-</a> <a href="intro.txt.html#ALT" class="d">ALT</a> may behave like <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> if not mapped. <a href="insert.txt.html#i_ALT" class="l">i_ALT</a> <a href="visual.txt.html#v_ALT" class="l">v_ALT</a> <a href="cmdline.txt.html#c_ALT" class="l">c_ALT</a>
+
+<a href="intro.txt.html#Normal" class="d">Normal</a> commands:
+<a href="motion.txt.html#-" class="d">-</a> <a href="various.txt.html#gO" class="l">gO</a> shows <a href="insert.txt.html#a" class="d">a</a> filetype-defined "outline" of the current buffer.
+<a href="motion.txt.html#-" class="d">-</a> <a href="repeat.txt.html#Q" class="l">Q</a> replays the last recorded <a href="repeat.txt.html#macro" class="d">macro</a> instead of switching to <a href="intro.txt.html#Ex" class="d">Ex</a> mode <a href="motion.txt.html#%28" class="d">(</a><a href="intro.txt.html#gQ" class="l">gQ</a>).
+
+Options:
+
+<a href="motion.txt.html#-" class="d">-</a> `:set <span class="s">{option}</span>&lt;` removes local value <a href="luaref.txt.html#for" class="d">for</a> all <a href="options.txt.html#global-local" class="l">global-local</a> options.
+<a href="motion.txt.html#-" class="d">-</a> `:setlocal <span class="s">{option}</span>&lt;` copies global value to local value <a href="luaref.txt.html#for" class="d">for</a> all options.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27ambiwidth%27" class="o">'ambiwidth'</a>   cannot be set to empty.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27autoread%27" class="o">'autoread'</a>    works in the <a href="terminal.txt.html#terminal" class="d">terminal</a> (if <a href="motion.txt.html#it" class="d">it</a> supports "focus" events)
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27background%27" class="o">'background'</a>  cannot be set to empty.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27cpoptions%27" class="o">'cpoptions'</a>   flags: <a href="options.txt.html#cpo-_" class="l">cpo-_</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27eadirection%27" class="o">'eadirection'</a> cannot be set to empty.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27exrc%27" class="o">'exrc'</a>        searches <a href="luaref.txt.html#for" class="d">for</a> ".nvim.lua"<a href="motion.txt.html#%2C" class="d">,</a> ".nvimrc"<a href="motion.txt.html#%2C" class="d">,</a> or ".exrc" files. The
+                user <a href="motion.txt.html#is" class="d">is</a> prompted whether to <a href="editing.txt.html#trust" class="d">trust</a> the file.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27fileformat%27" class="o">'fileformat'</a>  cannot be set to empty.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27fillchars%27" class="o">'fillchars'</a>   flags: "<a href="vim_diff.txt.html#msgsep" class="d">msgsep</a>"<a href="motion.txt.html#%2C" class="d">,</a> "horiz"<a href="motion.txt.html#%2C" class="d">,</a> "horizup"<a href="motion.txt.html#%2C" class="d">,</a> "horizdown"<a href="motion.txt.html#%2C" class="d">,</a>
+                "vertleft"<a href="motion.txt.html#%2C" class="d">,</a> "vertright"<a href="motion.txt.html#%2C" class="d">,</a> "verthoriz"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27foldcolumn%27" class="o">'foldcolumn'</a>  supports up to 9 dynamic/fixed columns
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a>   works in the <a href="terminal.txt.html#terminal" class="d">terminal</a> (TUI)
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27inccommand%27" class="o">'inccommand'</a>  shows interactive results <a href="luaref.txt.html#for" class="d">for</a> <a href="change.txt.html#%3Asubstitute" class="l">:substitute</a>-like commands
+                and <a href="map.txt.html#%3Acommand-preview" class="l">:command-preview</a> commands
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27jumpoptions%27" class="o">'jumpoptions'</a>
+    <a href="motion.txt.html#-" class="d">-</a> "view" tries to restore <a href="motion.txt.html#mark-view" class="l">mark-view</a> when moving through the jumplist.
+    <a href="motion.txt.html#-" class="d">-</a> "clean" removes unloaded <a href="windows.txt.html#buffers" class="d">buffers</a> from the jumplist.
+<a href="motion.txt.html#-" class="d">-</a> the <a href="motion.txt.html#jumplist" class="l">jumplist</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#changelist" class="l">changelist</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="editing.txt.html#alternate-file" class="l">alternate-file</a> or using <a href="motion.txt.html#mark-motions" class="l">mark-motions</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27laststatus%27" class="o">'laststatus'</a>  global statusline <a href="support.txt.html#support" class="d">support</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27mousemodel%27" class="o">'mousemodel'</a>  cannot be set to empty.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27mousescroll%27" class="o">'mousescroll'</a> amount to scroll by when <a href="scroll.txt.html#scrolling" class="d">scrolling</a> with <a href="insert.txt.html#a" class="d">a</a> mouse
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27pumblend%27" class="o">'pumblend'</a>    pseudo-transparent popupmenu
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27scrollback%27" class="o">'scrollback'</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27shortmess%27" class="o">'shortmess'</a>
+    <a href="motion.txt.html#-" class="d">-</a> "<a href="motion.txt.html#F" class="d">F</a>" flag does not affect output from autocommands.
+    <a href="motion.txt.html#-" class="d">-</a> "<a href="repeat.txt.html#q" class="d">q</a>" flag fully hides <a href="repeat.txt.html#macro" class="d">macro</a> <a href="repeat.txt.html#recording" class="d">recording</a> message.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27showcmdloc%27" class="o">'showcmdloc'</a>  cannot be set to empty.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27signcolumn%27" class="o">'signcolumn'</a>  can show multiple <a href="sign.txt.html#signs" class="d">signs</a> (dynamic or fixed columns)
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27statuscolumn%27" class="o">'statuscolumn'</a> full <a href="intro.txt.html#control" class="d">control</a> of columns using <a href="options.txt.html#%27statusline%27" class="o">'statusline'</a> format
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27statusline%27" class="o">'statusline'</a> default <a href="motion.txt.html#is" class="d">is</a> exposed <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> statusline expression.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27splitkeep%27" class="o">'splitkeep'</a>   cannot be set to empty.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27tabline%27" class="o">'tabline'</a>     middle-click on <a href="tabpage.txt.html#tabpage" class="d">tabpage</a> label closes tabpage,
+                and %@Func@foo%X can call any function on mouse-click
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27termpastefilter%27" class="o">'termpastefilter'</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27ttimeout%27" class="o">'ttimeout'</a>, <a href="options.txt.html#%27ttimeoutlen%27" class="o">'ttimeoutlen'</a> behavior was simplified
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27winblend%27" class="o">'winblend'</a>    pseudo-transparency in floating <a href="windows.txt.html#windows" class="d">windows</a> <a href="api.txt.html#api-floatwin" class="l">api-floatwin</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27winhighlight%27" class="o">'winhighlight'</a> window-local highlights
+
+Performance:
+<a href="motion.txt.html#-" class="d">-</a> Signs are implemented using Nvim's internal "marktree" (btree) structure.
+<a href="motion.txt.html#-" class="d">-</a> Folds are not updated during insert-mode.
+
+Providers:
+<a href="motion.txt.html#-" class="d">-</a> If <a href="insert.txt.html#a" class="d">a</a> <a href="if_pyth.txt.html#Python" class="d">Python</a> interpreter <a href="motion.txt.html#is" class="d">is</a> available on your <span class="e">$PATH</span>, <a href="if_pyth.txt.html#%3Apython" class="l">:python</a> and
+  <a href="if_pyth.txt.html#%3Apython3" class="l">:python3</a> are always available. See <a href="provider.txt.html#provider-python" class="l">provider-python</a><a href="repeat.txt.html#." class="d">.</a>
+
+Shell:
+<a href="motion.txt.html#-" class="d">-</a> Shell output <a href="motion.txt.html#%28" class="d">(</a><a href="various.txt.html#%3A%21" class="l">:!</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%3Amake" class="l">:make</a><a href="motion.txt.html#%2C" class="d">,</a> …<a href="motion.txt.html#%29" class="d">)</a> <a href="motion.txt.html#is" class="d">is</a> always routed through the UI, so <a href="motion.txt.html#it" class="d">it</a>
+  cannot "mess up" the screen. (You can still use "chansend(v:stderr,…<a href="motion.txt.html#%29" class="d">)</a>" if
+  you want to mess up the screen :)
+<a href="motion.txt.html#-" class="d">-</a> Nvim throttles (skips) <a href="message.txt.html#messages" class="d">messages</a> from shell commands <a href="motion.txt.html#%28" class="d">(</a><a href="various.txt.html#%3A%21" class="l">:!</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%3Agrep" class="l">:grep</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="quickfix.txt.html#%3Amake" class="l">:make</a><a href="motion.txt.html#%29" class="d">)</a>
+  if there <a href="motion.txt.html#is" class="d">is</a> too much output. No data <a href="motion.txt.html#is" class="d">is</a> lost, this only affects display and
+  improves performance. <a href="various.txt.html#%3Aterminal" class="l">:terminal</a> output <a href="motion.txt.html#is" class="d">is</a> never throttled.
+<a href="motion.txt.html#-" class="d">-</a> <a href="various.txt.html#%3A%21" class="l">:!</a> does not <a href="support.txt.html#support" class="d">support</a> "interactive" commands. Use <a href="various.txt.html#%3Aterminal" class="l">:terminal</a> instead.
+  (GUI Vim has <a href="insert.txt.html#a" class="d">a</a> similar limitation, see "<a href="helphelp.txt.html#%3Ahelp" class="d">:help</a> gui-pty" in Vim.)
+<a href="motion.txt.html#-" class="d">-</a> :!start <a href="motion.txt.html#is" class="d">is</a> not special-cased on Windows.
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#system%28%29" class="l">system()</a> does not <a href="support.txt.html#support" class="d">support</a> writing/reading "backgrounded" commands. <a href="vimfn.txt.html#E5677" class="l">E5677</a>
+
+Signs:
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27signcolumn%27" class="o">'signcolumn'</a> can show multiple signs.
+<a href="motion.txt.html#-" class="d">-</a> Signs are removed if the associated line <a href="motion.txt.html#is" class="d">is</a> deleted.
+<a href="motion.txt.html#-" class="d">-</a> Signs placed twice with the same identifier in the same group are moved.
+
+Startup:
+<a href="motion.txt.html#-" class="d">-</a> <a href="starting.txt.html#-e" class="l">-e</a> and <a href="starting.txt.html#-es" class="l">-es</a> invoke the same "improved <a href="intro.txt.html#Ex" class="d">Ex</a> mode" <a href="motion.txt.html#as" class="d">as</a> <a href="starting.txt.html#-E" class="d">-E</a> and -Es.
+<a href="motion.txt.html#-" class="d">-</a> <a href="starting.txt.html#-E" class="l">-E</a> and <a href="starting.txt.html#-Es" class="l">-Es</a> read stdin <a href="motion.txt.html#as" class="d">as</a> text (into buffer 1).
+<a href="motion.txt.html#-" class="d">-</a> <a href="starting.txt.html#-es" class="l">-es</a> and <a href="starting.txt.html#-Es" class="l">-Es</a> have improved behavior:
+    <a href="motion.txt.html#-" class="d">-</a> Quits automatically, don't need "<a href="starting.txt.html#-c" class="d">-c</a> qa!"<a href="repeat.txt.html#." class="d">.</a>
+    <a href="motion.txt.html#-" class="d">-</a> Skips <a href="recover.txt.html#swap-file" class="d">swap-file</a> dialog.
+    <a href="motion.txt.html#-" class="d">-</a> Optimized <a href="luaref.txt.html#for" class="d">for</a> non-interactive scripts: disables swapfile, shada.
+<a href="motion.txt.html#-" class="d">-</a> <a href="starting.txt.html#-l" class="l">-l</a> Executes <a href="lua.txt.html#Lua" class="d">Lua</a> scripts non-interactively.
+<a href="motion.txt.html#-" class="d">-</a> <a href="starting.txt.html#-s" class="l">-s</a> reads <a href="intro.txt.html#Normal" class="d">Normal</a> commands from stdin if the <a href="usr_41.txt.html#script" class="d">script</a> name <a href="motion.txt.html#is" class="d">is</a> "<a href="motion.txt.html#-" class="d">-</a>"<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> Reading text (instead of commands) from stdin <a href="starting.txt.html#--" class="l">--</a><a href="cmdline.txt.html#%3A" class="d">:</a>
+    <a href="motion.txt.html#-" class="d">-</a> works by default: "<a href="motion.txt.html#-" class="d">-</a>" file <a href="motion.txt.html#is" class="d">is</a> optional
+    <a href="motion.txt.html#-" class="d">-</a> works in more cases: <a href="starting.txt.html#-Es" class="l">-Es</a><a href="motion.txt.html#%2C" class="d">,</a> file args
+
+TUI:
+                        <span id="%3Aset-termcap" class="t">:set-termcap</span>
+<a href="motion.txt.html#-" class="d">-</a> Start Nvim with <a href="options.txt.html#%27verbose%27" class="o">'verbose'</a> level 3 to show <a href="terminal.txt.html#terminal" class="d">terminal</a> capabilities: 
+<span class="e">        nvim -V3</span>
+
+                        <span id="%27term%27" class="t">'term'</span> <span id="E529" class="t">E529</span> <span id="E530" class="t">E530</span> <span id="E531" class="t">E531</span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="vim_diff.txt.html#%27term%27" class="o">'term'</a> reflects the <a href="terminal.txt.html#terminal" class="d">terminal</a> type derived from <a href="tui.txt.html#%24TERM" class="l">$TERM</a> and other environment
+  checks.  Use `:echo &amp;term` to get its value. For debugging only; not
+  reliable during startup.
+  <a href="motion.txt.html#-" class="d">-</a> <span class="n">Note:</span> If you want to detect when Nvim <a href="motion.txt.html#is" class="d">is</a> running in <a href="insert.txt.html#a" class="d">a</a> terminal, use
+    <span class="e">has('gui_running')</span> <a href="vimfn.txt.html#has%28%29" class="l">has()</a> or see <a href="api.txt.html#nvim_list_uis%28%29" class="l">nvim_list_uis()</a> <a href="luaref.txt.html#for" class="d">for</a> an example of
+    how to inspect the <a href="ui.txt.html#UI" class="d">UI</a> channel.
+<a href="motion.txt.html#-" class="d">-</a> "builtin_x" means one of the <a href="tui.txt.html#builtin-terms" class="l">builtin-terms</a> was chosen, because the expected
+  <a href="tui.txt.html#terminfo" class="d">terminfo</a> file was not found on the system.
+<a href="motion.txt.html#-" class="d">-</a> Nvim will use 256-colour capability on Linux virtual terminals.  Vim uses
+  only 8 colours plus bright foreground on Linux VTs.
+<a href="motion.txt.html#-" class="d">-</a> Vim combines what <a href="motion.txt.html#is" class="d">is</a> in its <a href="tui.txt.html#builtin-terms" class="l">builtin-terms</a> with what <a href="motion.txt.html#it" class="d">it</a> reads from terminfo,
+  and has <a href="insert.txt.html#a" class="d">a</a> <a href="vim_diff.txt.html#%27ttybuiltin%27" class="o">'ttybuiltin'</a> setting to <a href="intro.txt.html#control" class="d">control</a> how that combination works.  Nvim
+  uses one or the other, <a href="motion.txt.html#it" class="d">it</a> does not attempt to <a href="diff.txt.html#merge" class="d">merge</a> the two.
+
+UI/Display:
+<a href="motion.txt.html#-" class="d">-</a> <a href="visual.txt.html#Visual" class="l">Visual</a> selection highlights the character <a href="motion.txt.html#at" class="d">at</a> cursor. <a href="visual.txt.html#visual-use" class="l">visual-use</a>
+<a href="motion.txt.html#-" class="d">-</a> messages: When showing <a href="message.txt.html#messages" class="d">messages</a> longer than <a href="options.txt.html#%27cmdheight%27" class="o">'cmdheight'</a>, only
+  scroll the message lines, not the entire screen. The
+  separator line <a href="motion.txt.html#is" class="d">is</a> decorated by <a href="syntax.txt.html#hl-MsgSeparator" class="l">hl-MsgSeparator</a> and
+  the "<a href="vim_diff.txt.html#msgsep" class="d">msgsep</a>" flag of <a href="options.txt.html#%27fillchars%27" class="o">'fillchars'</a>. <span id="msgsep" class="t">msgsep</span>
+
+Variables:
+<a href="motion.txt.html#-" class="d">-</a> <a href="vvars.txt.html#v%3Aprogpath" class="l">v:progpath</a> <a href="motion.txt.html#is" class="d">is</a> always absolute <a href="motion.txt.html#%28" class="d">(</a>"full"<a href="motion.txt.html#%29" class="d">)</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="vvars.txt.html#v%3Awindowid" class="l">v:windowid</a> <a href="motion.txt.html#is" class="d">is</a> always available (for use by external UIs)
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#OptionSet" class="l">OptionSet</a> <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> args <a href="vvars.txt.html#v%3Aoption_new" class="l">v:option_new</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vvars.txt.html#v%3Aoption_old" class="l">v:option_old</a><a href="motion.txt.html#%2C" class="d">,</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="vvars.txt.html#v%3Aoption_oldlocal" class="l">v:option_oldlocal</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="vvars.txt.html#v%3Aoption_oldglobal" class="l">v:option_oldglobal</a> have the type of the option
+  instead of always being strings. <a href="vvars.txt.html#v%3Aoption_old" class="l">v:option_old</a> <a href="motion.txt.html#is" class="d">is</a> now the old global value
+  <a href="luaref.txt.html#for" class="d">for</a> all <a href="options.txt.html#global-local" class="d">global-local</a> options, instead of just <a href="vimeval.txt.html#string" class="d">string</a> <a href="options.txt.html#global-local" class="d">global-local</a> options.
+
+Vimscript:
+<a href="motion.txt.html#-" class="d">-</a> <a href="various.txt.html#%3Aredir" class="l">:redir</a> nested in <a href="vimfn.txt.html#execute%28%29" class="l">execute()</a> works.
+
+<span class="h">==============================================================================</span>
+Upstreamed features                                      <span id="nvim-upstreamed" class="t">nvim-upstreamed</span>
+
+These Nvim features were later integrated into Vim.
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27diffopt%27" class="o">'diffopt'</a> "linematch" feature
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27fillchars%27" class="o">'fillchars'</a> flags: "eob"
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27jumpoptions%27" class="o">'jumpoptions'</a> "stack" behavior
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27wildoptions%27" class="o">'wildoptions'</a> flags: "pum" enables popupmenu <a href="luaref.txt.html#for" class="d">for</a> wildmode completion
+<a href="motion.txt.html#-" class="d">-</a> <a href="map.txt.html#%3CCmd%3E" class="l">&lt;Cmd&gt;</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#WinClosed" class="l">WinClosed</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#WinScrolled" class="l">WinScrolled</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="sign.txt.html#%3Asign-define" class="l">:sign-define</a> "numhl" argument
+<a href="motion.txt.html#-" class="d">-</a> <a href="repeat.txt.html#%3Asource" class="l">:source</a> works with anonymous (no file) scripts
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27statusline%27" class="o">'statusline'</a> supports unlimited alignment sections
+
+<span class="h">==============================================================================</span>
+Other changes                                            <span id="nvim-changed" class="t">nvim-changed</span>
+
+This <a href="motion.txt.html#section" class="d">section</a> documents <a href="various.txt.html#various" class="d">various</a> low-level behavior changes.
+
+<a href="vimfn.txt.html#mkdir%28%29" class="l">mkdir()</a> behaviour changed:
+<a href="motion.txt.html#-" class="d">-</a> 1. Assuming /tmp/foo does not exist and /tmp can be written to
+     mkdir('/tmp/foo/bar', 'p', 0700) will create both /tmp/foo and
+     /tmp/foo/bar with 0700 permissions. Vim mkdir will create /tmp/foo with
+     0755.
+<a href="motion.txt.html#-" class="d">-</a> 2. If you try to create an existing directory with <span class="e">'p'</span> (e.g. mkdir('/',
+     'p')) <a href="vimfn.txt.html#mkdir%28%29" class="d">mkdir()</a> will silently exit. In Vim this was an error.
+<a href="motion.txt.html#-" class="d">-</a> 3. <a href="vimfn.txt.html#mkdir%28%29" class="d">mkdir()</a> error <a href="message.txt.html#messages" class="d">messages</a> now include strerror() text when mkdir fails.
+
+<a href="vimfn.txt.html#string%28%29" class="l">string()</a> and <a href="vimeval.txt.html#%3Aecho" class="l">:echo</a> behaviour changed:
+<a href="motion.txt.html#-" class="d">-</a> 1. No maximum recursion depth limit <a href="motion.txt.html#is" class="d">is</a> applied to nested container
+     structures.
+<a href="motion.txt.html#-" class="d">-</a> 2. <a href="vimfn.txt.html#string%28%29" class="l">string()</a> fails immediately on nested containers, not when recursion
+     limit was exceeded.
+<a href="motion.txt.html#-" class="d">-</a> 3. When <a href="vimeval.txt.html#%3Aecho" class="l">:echo</a> encounters duplicate containers like 
+<span class="e">       let l = []</span>
+<span class="e">       echo [l, l]</span>
+     <a href="motion.txt.html#it" class="d">it</a> does not use "[...]" (was: "[[], [...]]"<a href="motion.txt.html#%2C" class="d">,</a> now: "[[], []]"). "<a href="userfunc.txt.html#..." class="d">...</a>" <a href="motion.txt.html#is" class="d">is</a>
+     only used <a href="luaref.txt.html#for" class="d">for</a> recursive containers.
+<a href="motion.txt.html#-" class="d">-</a> 4. <a href="vimeval.txt.html#%3Aecho" class="l">:echo</a> printing nested containers adds "@level" after "<a href="userfunc.txt.html#..." class="d">...</a>" designating
+     the level <a href="motion.txt.html#at" class="d">at</a> which recursive container was printed: <a href="vimeval.txt.html#%3Aecho-self-refer" class="l">:echo-self-refer</a><a href="repeat.txt.html#." class="d">.</a>
+     Same thing applies to <a href="vimfn.txt.html#string%28%29" class="l">string()</a> (though <a href="motion.txt.html#it" class="d">it</a> uses construct like
+     "<span class="s">{E724@level}</span>"), but this <a href="motion.txt.html#is" class="d">is</a> not reliable because <a href="vimfn.txt.html#string%28%29" class="l">string()</a> continues to
+     error out.
+<a href="motion.txt.html#-" class="d">-</a> 5. Stringifyed infinite and NaN values now use <a href="vimfn.txt.html#str2float%28%29" class="l">str2float()</a> and can be
+     evaled back.
+<a href="motion.txt.html#-" class="d">-</a> 6. (internal) Trying to print or stringify VAR_UNKNOWN in Vim results in
+     nothing, E908, in Nvim <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> internal error.
+
+<a href="vimfn.txt.html#json_decode%28%29" class="l">json_decode()</a> behaviour changed:
+<a href="motion.txt.html#-" class="d">-</a> 1. It may output <a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> 2. <a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a> <a href="motion.txt.html#is" class="d">is</a> emitted also in <a href="change.txt.html#case" class="d">case</a> of duplicate keys, while
+     in Vim <a href="motion.txt.html#it" class="d">it</a> <a href="message.txt.html#errors" class="d">errors</a> out.
+<a href="motion.txt.html#-" class="d">-</a> 3. It accepts only valid JSON.  Trailing commas are not accepted.
+
+<a href="vimfn.txt.html#json_encode%28%29" class="l">json_encode()</a> behaviour slightly changed: now <a href="vimfn.txt.html#msgpack-special-dict" class="l">msgpack-special-dict</a> values
+are accepted, but <a href="vim_diff.txt.html#v%3Anone" class="l">v:none</a> <a href="motion.txt.html#is" class="d">is</a> not.
+
+Viminfo text files were replaced with binary (messagepack) <a href="starting.txt.html#shada" class="l">shada</a> files.
+Additional differences:
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#shada-c" class="l">shada-c</a> has no effect.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#shada-s" class="l">shada-s</a> now <a href="vi_diff.txt.html#limits" class="d">limits</a> size of every item and not just registers.
+<a href="motion.txt.html#-" class="d">-</a> <a href="deprecated.txt.html#%27viminfo%27" class="o">'viminfo'</a> option got renamed to <a href="options.txt.html#%27shada%27" class="o">'shada'</a>. Old option <a href="motion.txt.html#is" class="d">is</a> kept <a href="motion.txt.html#as" class="d">as</a> an alias <a href="luaref.txt.html#for" class="d">for</a>
+  compatibility reasons.
+<a href="motion.txt.html#-" class="d">-</a> <a href="deprecated.txt.html#%3Awviminfo" class="l">:wviminfo</a> was renamed to <a href="starting.txt.html#%3Awshada" class="l">:wshada</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="deprecated.txt.html#%3Arviminfo" class="l">:rviminfo</a> to <a href="starting.txt.html#%3Arshada" class="l">:rshada</a><a href="repeat.txt.html#." class="d">.</a>  Old
+  commands are still kept.
+<a href="motion.txt.html#-" class="d">-</a> ShaDa file format was designed with forward and backward compatibility in
+  mind. <a href="starting.txt.html#shada-compatibility" class="l">shada-compatibility</a>
+<a href="motion.txt.html#-" class="d">-</a> Some <a href="message.txt.html#errors" class="d">errors</a> make ShaDa code keep temporary file in-place <a href="luaref.txt.html#for" class="d">for</a> user to decide
+  what to <a href="diff.txt.html#do" class="d">do</a> with it.  Vim deletes temporary file in these cases.
+  <a href="starting.txt.html#shada-error-handling" class="l">shada-error-handling</a>
+<a href="motion.txt.html#-" class="d">-</a> ShaDa file keeps search direction <a href="motion.txt.html#%28" class="d">(</a><a href="vvars.txt.html#v%3Asearchforward" class="l">v:searchforward</a>), viminfo does not.
+
+<a href="vimfn.txt.html#printf%28%29" class="l">printf()</a> returns something meaningful when used with <span class="e">%p</span> argument: in Vim
+<a href="motion.txt.html#it" class="d">it</a> used to return useless address of the <a href="vimeval.txt.html#string" class="d">string</a> (strings are copied to the
+newly allocated memory all over the place) and fail on types which cannot be
+coerced to strings. See <a href="vimfn.txt.html#id%28%29" class="l">id()</a> <a href="luaref.txt.html#for" class="d">for</a> more details, currently <a href="motion.txt.html#it" class="d">it</a> uses
+`printf("%p"<a href="motion.txt.html#%2C" class="d">,</a> <span class="s">{expr}</span>)` internally.
+
+<a href="cmdline.txt.html#c_CTRL-R" class="l">c_CTRL-R</a> pasting <a href="insert.txt.html#a" class="d">a</a> non-special <a href="intro.txt.html#register" class="d">register</a> into <a href="cmdline.txt.html#cmdline" class="l">cmdline</a> omits the last <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a>.
+
+<a href="autocmd.txt.html#CursorMoved" class="l">CursorMoved</a> triggers when moving between windows.
+
+<a href="lua.txt.html#Lua" class="d">Lua</a> interface <a href="motion.txt.html#%28" class="d">(</a><a href="lua.txt.html#lua.txt" class="l">lua.txt</a>):
+
+<a href="motion.txt.html#-" class="d">-</a> `:lua print("a\0b")` will print <span class="e">a^@b</span>, like with `:echomsg "a\nb"<a href="motion.txt.html#%60" class="d">`</a> <a href="repeat.txt.html#." class="d">.</a> In Vim
+  that prints <span class="e">a</span> and <span class="e">b</span> on separate lines, exactly like
+  `:lua print("a\nb")` <a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> `:lua error('TEST')` emits the error: 
+<span class="e">  E5108: Error executing lua: [string "&lt;Vimscript compiled string&gt;"]:1: TEST</span>
+  whereas Vim emits only "TEST"<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="lua.txt.html#Lua" class="d">Lua</a> has direct access to Nvim <a href="api.txt.html#API" class="l">API</a> via <span class="e">vim.api</span>.
+<a href="motion.txt.html#-" class="d">-</a> <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="luaref.txt.html#package.path" class="d">package.path</a> and <a href="luaref.txt.html#package.cpath" class="d">package.cpath</a> are automatically updated according to
+  <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>. <a href="lua.txt.html#lua-module-load" class="l">lua-module-load</a>
+
+Commands:
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#%3Adoautocmd" class="l">:doautocmd</a> does not warn about "No matching autocommands"<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> <a href="windows.txt.html#%3Awincmd" class="l">:wincmd</a> accepts <a href="insert.txt.html#a" class="d">a</a> count.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">:write!</span> does not show <a href="insert.txt.html#a" class="d">a</a> prompt if the file was updated externally.
+<a href="motion.txt.html#-" class="d">-</a> <a href="various.txt.html#%3A%3D" class="l">:=</a> does not accept <a href="cmdline.txt.html#ex-flags" class="l">ex-flags</a><a href="repeat.txt.html#." class="d">.</a> With an arg <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> equivalent to <a href="lua.txt.html#%3Alua%3D" class="l">:lua=</a>
+
+Command-line:
+<a href="motion.txt.html#-" class="d">-</a> The meanings of arrow keys <a href="diff.txt.html#do" class="d">do</a> not change depending on <a href="options.txt.html#%27wildoptions%27" class="o">'wildoptions'</a>.
+
+Functions:
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#input%28%29" class="l">input()</a> and <a href="deprecated.txt.html#inputdialog%28%29" class="l">inputdialog()</a> <a href="support.txt.html#support" class="d">support</a> <a href="luaref.txt.html#for" class="d">for</a> each other’<a href="change.txt.html#s" class="d">s</a> features (return on
+  cancel and completion respectively) via dictionary argument (replaces all
+  other arguments if used), and "cancelreturn" can have any type if passed in
+  <a href="insert.txt.html#a" class="d">a</a> dictionary.
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#input%28%29" class="l">input()</a> and <a href="deprecated.txt.html#inputdialog%28%29" class="l">inputdialog()</a> <a href="support.txt.html#support" class="d">support</a> user-defined <a href="cmdline.txt.html#cmdline" class="d">cmdline</a> highlighting.
+
+Highlight groups:
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-ColorColumn" class="l">hl-ColorColumn</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="syntax.txt.html#hl-CursorColumn" class="l">hl-CursorColumn</a> are lower priority than most other
+  groups
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-CursorLine" class="l">hl-CursorLine</a> <a href="motion.txt.html#is" class="d">is</a> low-priority unless foreground color <a href="motion.txt.html#is" class="d">is</a> set
+<a href="motion.txt.html#-" class="d">-</a> <a href="deprecated.txt.html#hl-VertSplit" class="l">hl-VertSplit</a> superseded by <a href="syntax.txt.html#hl-WinSeparator" class="l">hl-WinSeparator</a>
+<a href="motion.txt.html#-" class="d">-</a> Highlight groups names are allowed to contain <span class="e">@</span> characters.
+  <a href="motion.txt.html#-" class="d">-</a> It <a href="motion.txt.html#is" class="d">is</a> an error to define <a href="insert.txt.html#a" class="d">a</a> highlight group with <a href="insert.txt.html#a" class="d">a</a> name that doesn't match
+    the <a href="pattern.txt.html#regexp" class="d">regexp</a> <span class="e">[a-zA-Z0-9_.@-]*</span> (see <a href="syntax.txt.html#group-name" class="l">group-name</a>).
+<a href="motion.txt.html#-" class="d">-</a> <a href="syntax.txt.html#hl-StatusLineTerm" class="l">hl-StatusLineTerm</a> <a href="syntax.txt.html#hl-StatusLineTermNC" class="l">hl-StatusLineTermNC</a> are implemented <a href="motion.txt.html#as" class="d">as</a> <a href="options.txt.html#%27winhighlight%27" class="o">'winhighlight'</a>
+  window-local highlights which are set by the default <a href="autocmd.txt.html#TermOpen" class="l">TermOpen</a> handler.
+<a href="motion.txt.html#-" class="d">-</a> The <a href="insert.txt.html#ins-completion-menu" class="l">ins-completion-menu</a> has cascading highlight styles. <a href="syntax.txt.html#hl-PmenuSel" class="l">hl-PmenuSel</a> and
+  <a href="syntax.txt.html#hl-PmenuMatch" class="l">hl-PmenuMatch</a> both inherit from <a href="syntax.txt.html#hl-Pmenu" class="l">hl-Pmenu</a><a href="motion.txt.html#%2C" class="d">,</a> and <a href="syntax.txt.html#hl-PmenuMatchSel" class="l">hl-PmenuMatchSel</a>
+  inherits highlights from both <a href="syntax.txt.html#hl-PmenuSel" class="l">hl-PmenuSel</a> and <a href="syntax.txt.html#hl-PmenuMatch" class="l">hl-PmenuMatch</a><a href="repeat.txt.html#." class="d">.</a>
+
+Macro <a href="motion.txt.html#%28" class="d">(</a><a href="repeat.txt.html#recording" class="l">recording</a><a href="motion.txt.html#%29" class="d">)</a> behavior:
+<a href="motion.txt.html#-" class="d">-</a> Replay of <a href="insert.txt.html#a" class="d">a</a> <a href="repeat.txt.html#macro" class="d">macro</a> recorded during <a href="map.txt.html#%3Almap" class="d">:lmap</a> produces the same actions <a href="motion.txt.html#as" class="d">as</a> when <a href="motion.txt.html#it" class="d">it</a>
+  was recorded. In Vim if <a href="insert.txt.html#a" class="d">a</a> <a href="repeat.txt.html#macro" class="d">macro</a> <a href="motion.txt.html#is" class="d">is</a> recorded while using :lmap'ped keys then
+  the behaviour during record and replay differs.
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27keymap%27" class="o">'keymap'</a> <a href="motion.txt.html#is" class="d">is</a> implemented via <a href="map.txt.html#%3Almap" class="d">:lmap</a> instead of <a href="map.txt.html#%3Alnoremap" class="d">:lnoremap</a> so that you can use
+  macros and <a href="options.txt.html#%27keymap%27" class="o">'keymap'</a> <a href="motion.txt.html#at" class="d">at</a> the same time. This also means you can use <a href="map.txt.html#%3Aimap" class="l">:imap</a> on
+  the results of keys from <a href="options.txt.html#%27keymap%27" class="o">'keymap'</a>.
+
+Mappings:
+<a href="motion.txt.html#-" class="d">-</a> Creating <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> simplifiable key (e.g. <span class="s">&lt;C-I&gt;</span>) doesn't replace an
+  existing <a href="map.txt.html#mapping" class="d">mapping</a> <a href="luaref.txt.html#for" class="d">for</a> its simplified form (e.g. <a href="motion.txt.html#%3CTab%3E" class="s">&lt;Tab&gt;</a>).
+<a href="motion.txt.html#-" class="d">-</a> "<a href="pattern.txt.html#%23" class="d">#</a>" followed by <a href="insert.txt.html#a" class="d">a</a> digit doesn't stand <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> function key <a href="motion.txt.html#at" class="d">at</a> the start of the
+  lhs of <a href="insert.txt.html#a" class="d">a</a> mapping.
+
+Motion:
+<a href="motion.txt.html#-" class="d">-</a> The <a href="motion.txt.html#jumplist" class="l">jumplist</a> avoids useless/phantom jumps.
+
+<a href="autocmd.txt.html#Syntax" class="d">Syntax</a> highlighting:
+<a href="motion.txt.html#-" class="d">-</a> syncolor.vim has been removed. Nvim now sets up default highlighting groups
+  automatically <a href="luaref.txt.html#for" class="d">for</a> both light and dark backgrounds, regardless of whether or
+  not <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting <a href="motion.txt.html#is" class="d">is</a> enabled. This means that <a href="syntax.txt.html#%3Asyntax-on" class="l">:syntax-on</a> and
+  <a href="syntax.txt.html#%3Asyntax-enable" class="l">:syntax-enable</a> are now identical. Users who previously used an
+  after/syntax/syncolor.vim file should transition that file into <a href="insert.txt.html#a" class="d">a</a>
+  colorscheme. <a href="syntax.txt.html#%3Acolorscheme" class="l">:colorscheme</a>
+
+Vimscript compatibility:
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">count</span> does not alias to <a href="vvars.txt.html#v%3Acount" class="l">v:count</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">errmsg</span> does not alias to <a href="vvars.txt.html#v%3Aerrmsg" class="l">v:errmsg</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">shell_error</span> does not alias to <a href="vvars.txt.html#v%3Ashell_error" class="l">v:shell_error</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">this_session</span> does not alias to <a href="vvars.txt.html#v%3Athis_session" class="l">v:this_session</a>
+
+Working directory (Vim implemented some of these after Nvim):
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#DirChanged" class="l">DirChanged</a> and <a href="autocmd.txt.html#DirChangedPre" class="l">DirChangedPre</a> can be triggered when switching to another
+  <a href="windows.txt.html#window" class="d">window</a> or tab.
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#getcwd%28%29" class="l">getcwd()</a> and <a href="vimfn.txt.html#haslocaldir%28%29" class="l">haslocaldir()</a> may throw <a href="message.txt.html#errors" class="d">errors</a> if the <a href="intro.txt.html#tab" class="d">tab</a> page or <a href="windows.txt.html#window" class="d">window</a>
+  cannot be found.  <span id="E5000" class="t">E5000</span> <span id="E5001" class="t">E5001</span> <span id="E5002" class="t">E5002</span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="vimfn.txt.html#haslocaldir%28%29" class="l">haslocaldir()</a> checks <a href="luaref.txt.html#for" class="d">for</a> tab-local directory if and only if -1 <a href="motion.txt.html#is" class="d">is</a> passed <a href="motion.txt.html#as" class="d">as</a>
+  <a href="windows.txt.html#window" class="d">window</a> number, and its only possible returns values are <a href="motion.txt.html#0" class="d">0</a> and 1.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">getcwd(-1)</span> <a href="motion.txt.html#is" class="d">is</a> equivalent to `getcwd(-1, 0)` instead of returning the global
+  working directory. Use `getcwd(-1, -1)` to get the global working directory.
+
+Options:
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27titlestring%27" class="o">'titlestring'</a> uses printf-style '%' items (see: <a href="options.txt.html#%27statusline%27" class="o">'statusline'</a>) to implement
+  the default behaviour. The implementation <a href="motion.txt.html#is" class="d">is</a> equivalent to setting
+  <a href="options.txt.html#%27titlestring%27" class="o">'titlestring'</a> to `%t%(\ %M%)%(\ \(%{expand(\"%:~:h\")}\)%)%a\ -\ Nvim`.
+
+<span class="h">==============================================================================</span>
+Missing features                                         <span id="nvim-missing" class="t">nvim-missing</span>
+
+These legacy Vim features are not yet implemented:
+
+<a href="motion.txt.html#-" class="d">-</a> <span id="%3Agui" class="t">:gui</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%3Agvim" class="t">:gvim</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27browsedir%27" class="t">'browsedir'</span> <span id="%27bsdir%27" class="t">'bsdir'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27completepopup%27" class="t">'completepopup'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27guioptions%27" class="t">'guioptions'</span> <span id="%27go%27" class="t">'go'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27guitablabel%27" class="t">'guitablabel'</span> <span id="%27gtl%27" class="t">'gtl'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27guitabtooltip%27" class="t">'guitabtooltip'</span> <span id="%27gtt%27" class="t">'gtt'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27mouseshape%27" class="t">'mouseshape'</span> <span id="%27mouses%27" class="t">'mouses'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27previewpopup%27" class="t">'previewpopup'</span>
+
+<span class="h">==============================================================================</span>
+Removed legacy features                                  <span id="nvim-removed" class="t">nvim-removed</span>
+
+These Vim features were intentionally removed from Nvim.
+
+Aliases:
+<a href="motion.txt.html#-" class="d">-</a> ex        (alias <a href="luaref.txt.html#for" class="d">for</a> "<a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#-e" class="d">-e</a>"<a href="motion.txt.html#%29" class="d">)</a>
+<a href="motion.txt.html#-" class="d">-</a> exim      (alias <a href="luaref.txt.html#for" class="d">for</a> "<a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#-E" class="d">-E</a>"<a href="motion.txt.html#%29" class="d">)</a>
+<a href="motion.txt.html#-" class="d">-</a> gex       (GUI)
+<a href="motion.txt.html#-" class="d">-</a> gview     (GUI)
+<a href="motion.txt.html#-" class="d">-</a> gvim      (GUI)
+<a href="motion.txt.html#-" class="d">-</a> gvimdiff  (GUI)
+<a href="motion.txt.html#-" class="d">-</a> rgview    (GUI)
+<a href="motion.txt.html#-" class="d">-</a> rgvim     (GUI)
+<a href="motion.txt.html#-" class="d">-</a> rview
+<a href="motion.txt.html#-" class="d">-</a> rvim
+<a href="motion.txt.html#-" class="d">-</a> view      (alias <a href="luaref.txt.html#for" class="d">for</a> "<a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#-R" class="d">-R</a>"<a href="motion.txt.html#%29" class="d">)</a>
+<a href="motion.txt.html#-" class="d">-</a> vimdiff   (alias <a href="luaref.txt.html#for" class="d">for</a> "<a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#-d" class="d">-d</a>" <a href="diff.txt.html#diff-mode" class="l">diff-mode</a><a href="motion.txt.html#%29" class="d">)</a>
+
+Commands:
+<a href="motion.txt.html#-" class="d">-</a> :behave
+<a href="motion.txt.html#-" class="d">-</a> :fixdel
+<a href="motion.txt.html#-" class="d">-</a> <span id="hardcopy" class="t">hardcopy</span> <span class="e">:hardcopy</span> was removed. Instead, use <span class="e">:TOhtml</span> and print the
+  resulting HTML using <a href="insert.txt.html#a" class="d">a</a> web browser or other HTML viewer.
+<a href="motion.txt.html#-" class="d">-</a> :helpfind
+<a href="motion.txt.html#-" class="d">-</a> <a href="various.txt.html#%3Amode" class="d">:mode</a> (no longer accepts an argument)
+<a href="motion.txt.html#-" class="d">-</a> :open
+<a href="motion.txt.html#-" class="d">-</a> :Print
+<a href="motion.txt.html#-" class="d">-</a> :promptfind
+<a href="motion.txt.html#-" class="d">-</a> :promptrepl
+<a href="motion.txt.html#-" class="d">-</a> :scriptversion (always version 1)
+<a href="motion.txt.html#-" class="d">-</a> <a href="various.txt.html#%3Ashell" class="d">:shell</a>
+<a href="motion.txt.html#-" class="d">-</a> :smile
+<a href="motion.txt.html#-" class="d">-</a> :tearoff
+<a href="motion.txt.html#-" class="d">-</a> :cstag
+<a href="motion.txt.html#-" class="d">-</a> :cscope
+<a href="motion.txt.html#-" class="d">-</a> :lcscope
+<a href="motion.txt.html#-" class="d">-</a> :scscope
+<a href="motion.txt.html#-" class="d">-</a> :Vimuntar
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">:TOhtml</span> was replaced by <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> version (with <a href="various.txt.html#various" class="d">various</a> differences)
+
+Compile-time features:
+<a href="motion.txt.html#-" class="d">-</a> Emacs <a href="tagsrch.txt.html#tags" class="d">tags</a> <a href="support.txt.html#support" class="d">support</a>
+<a href="motion.txt.html#-" class="d">-</a> X11 integration (see <a href="provider.txt.html#x11-selection" class="l">x11-selection</a><a href="motion.txt.html#%29" class="d">)</a>
+
+Cscope:
+                                                                      <span id="cscope" class="t">cscope</span>
+<a href="motion.txt.html#-" class="d">-</a> Cscope <a href="support.txt.html#support" class="d">support</a> was removed in favour of plugin-based solutions such as:
+  <a class="u" href="https://github.com/dhananjaylatkar/cscope_maps.nvim">https://github.com/dhananjaylatkar/cscope_maps.nvim</a>
+
+Eval:
+<a href="motion.txt.html#-" class="d">-</a> <span id="Vim9script" class="t">Vim9script</span> (the Vim 9+ flavor of Vimscript) <a href="motion.txt.html#is" class="d">is</a> not supported.
+<a href="motion.txt.html#-" class="d">-</a> <span id="cscope_connection%28%29" class="t">cscope_connection()</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="err_teapot%28%29" class="t">err_teapot()</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="js_encode%28%29" class="t">js_encode()</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="js_decode%28%29" class="t">js_decode()</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="v%3Anone" class="t">v:none</span> (used by Vim to represent JavaScript "undefined"); use <a href="vvars.txt.html#v%3Anull" class="l">v:null</a> instead.
+<a href="motion.txt.html#-" class="d">-</a> <span id="v%3Asizeofint" class="t">v:sizeofint</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="v%3Asizeoflong" class="t">v:sizeoflong</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="v%3Asizeofpointer" class="t">v:sizeofpointer</span>
+
+Events:
+<a href="motion.txt.html#-" class="d">-</a> <span id="SafeStateAgain" class="t">SafeStateAgain</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="SigUSR1" class="t">SigUSR1</span> Use <a href="autocmd.txt.html#Signal" class="l">Signal</a> to detect <span class="e">SIGUSR1</span> signal instead.
+
+Options:
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27aleph%27" class="t">'aleph'</span> <span id="%27al%27" class="t">'al'</span>
+<a href="motion.txt.html#-" class="d">-</a> antialias
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27backspace%27" class="o">'backspace'</a> no longer supports number values. Instead:
+    <a href="motion.txt.html#-" class="d">-</a> <a href="luaref.txt.html#for" class="d">for</a> <span class="e">backspace=0</span> set <span class="e">backspace=</span> (empty)
+    <a href="motion.txt.html#-" class="d">-</a> <a href="luaref.txt.html#for" class="d">for</a> <span class="e">backspace=1</span> set <span class="e">backspace=indent,eol</span>
+    <a href="motion.txt.html#-" class="d">-</a> <a href="luaref.txt.html#for" class="d">for</a> <span class="e">backspace=2</span> set <span class="e">backspace=indent,eol,start</span> (default behavior in Nvim)
+    <a href="motion.txt.html#-" class="d">-</a> <a href="luaref.txt.html#for" class="d">for</a> <span class="e">backspace=3</span> set <span class="e">backspace=indent,eol,nostop</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27balloondelay%27" class="t">'balloondelay'</span> <span id="%27bdlay%27" class="t">'bdlay'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27ballooneval%27" class="t">'ballooneval'</span> <span id="%27beval%27" class="t">'beval'</span> <span id="%27noballooneval%27" class="t">'noballooneval'</span> <span id="%27nobeval%27" class="t">'nobeval'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27balloonexpr%27" class="t">'balloonexpr'</span> <span id="%27bexpr%27" class="t">'bexpr'</span>
+<a href="motion.txt.html#-" class="d">-</a> bioskey (MS-DOS)
+<a href="motion.txt.html#-" class="d">-</a> conskey (MS-DOS)
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27cp%27" class="t">'cp'</span> <span id="%27nocompatible%27" class="t">'nocompatible'</span> <span id="%27nocp%27" class="t">'nocp'</span> <span id="%27compatible%27" class="t">'compatible'</span> (Nvim <a href="motion.txt.html#is" class="d">is</a> always "nocompatible".)
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27cpoptions%27" class="o">'cpoptions'</a> (gjpkHw&lt;*<a href="motion.txt.html#-" class="d">-</a> and all POSIX flags were removed)
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27cryptmethod%27" class="t">'cryptmethod'</span> <span id="%27cm%27" class="t">'cm'</span> <span id="%27key%27" class="t">'key'</span> (Vim <a href="editing.txt.html#encryption" class="d">encryption</a> implementation)
+<a href="motion.txt.html#-" class="d">-</a> cscopepathcomp
+<a href="motion.txt.html#-" class="d">-</a> cscopeprg
+<a href="motion.txt.html#-" class="d">-</a> cscopequickfix
+<a href="motion.txt.html#-" class="d">-</a> cscoperelative
+<a href="motion.txt.html#-" class="d">-</a> cscopetag
+<a href="motion.txt.html#-" class="d">-</a> cscopetagorder
+<a href="motion.txt.html#-" class="d">-</a> cscopeverbose
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27ed%27" class="t">'ed'</span> <span id="%27edcompatible%27" class="t">'edcompatible'</span> <span id="%27noed%27" class="t">'noed'</span> <span id="%27noedcompatible%27" class="t">'noedcompatible'</span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27encoding%27" class="o">'encoding'</a> <a href="motion.txt.html#%28" class="d">(</a>"<a href="mbyte.txt.html#utf-8" class="d">utf-8</a>" <a href="motion.txt.html#is" class="d">is</a> always used)
+<a href="motion.txt.html#-" class="d">-</a> esckeys
+<a href="motion.txt.html#-" class="d">-</a> <a href="vim_diff.txt.html#%27guioptions%27" class="o">'guioptions'</a> "<a href="motion.txt.html#t" class="d">t</a>" flag was removed
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27guifontset%27" class="t">'guifontset'</span> <span id="%27gfs%27" class="t">'gfs'</span> (Use <a href="options.txt.html#%27guifont%27" class="o">'guifont'</a> instead.)
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27guipty%27" class="t">'guipty'</span> (Nvim uses pipes and PTYs consistently on all platforms.)
+<a href="motion.txt.html#-" class="d">-</a> <a href="deprecated.txt.html#%27highlight%27" class="o">'highlight'</a> (Names of builtin <a href="syntax.txt.html#highlight-groups" class="l">highlight-groups</a> cannot be changed.)
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27hkmap%27" class="t">'hkmap'</span> <span id="%27hk%27" class="t">'hk'</span> use `set keymap=hebrew` instead.
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27hkmapp%27" class="t">'hkmapp'</span> <span id="%27hkp%27" class="t">'hkp'</span> use `set keymap=hebrewp` instead.
+<a href="motion.txt.html#-" class="d">-</a> keyprotocol
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27pastetoggle%27" class="t">'pastetoggle'</span> <span id="%27pt%27" class="t">'pt'</span> Just Paste It.™ <a href="provider.txt.html#paste" class="l">paste</a> <a href="motion.txt.html#is" class="d">is</a> handled automatically when
+  you <a href="provider.txt.html#paste" class="d">paste</a> text using your terminal's or GUI's <a href="provider.txt.html#paste" class="d">paste</a> feature (CTRL-SHIFT-v,
+  CMD-v (macOS), middle-click, …).
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27imactivatefunc%27" class="t">'imactivatefunc'</span> <span id="%27imaf%27" class="t">'imaf'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27imactivatekey%27" class="t">'imactivatekey'</span> <span id="%27imak%27" class="t">'imak'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27imcmdline%27" class="t">'imcmdline'</span> <span id="%27imc%27" class="t">'imc'</span> <span id="%27noimcmdline%27" class="t">'noimcmdline'</span> <span id="%27noimc%27" class="t">'noimc'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27imdisable%27" class="t">'imdisable'</span> <span id="%27imd%27" class="t">'imd'</span> <span id="%27noimdisable%27" class="t">'noimdisable'</span> <span id="%27noimd%27" class="t">'noimd'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27imstatusfunc%27" class="t">'imstatusfunc'</span> <span id="%27imsf%27" class="t">'imsf'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27insertmode%27" class="t">'insertmode'</span> <span id="%27im%27" class="t">'im'</span> Use the following <a href="usr_41.txt.html#script" class="d">script</a> to emulate <a href="vim_diff.txt.html#%27insertmode%27" class="o">'insertmode'</a>: 
+<span class="e">    autocmd BufWinEnter * startinsert</span>
+<span class="e">    inoremap &lt;Esc&gt; &lt;C-X&gt;&lt;C-Z&gt;&lt;C-]&gt;</span>
+<span class="e">    inoremap &lt;C-C&gt; &lt;C-X&gt;&lt;C-Z&gt;</span>
+<span class="e">    inoremap &lt;C-L&gt; &lt;C-X&gt;&lt;C-Z&gt;&lt;C-]&gt;&lt;Esc&gt;</span>
+<span class="e">    inoremap &lt;C-Z&gt; &lt;C-X&gt;&lt;C-Z&gt;&lt;Cmd&gt;suspend&lt;CR&gt;</span>
+<span class="e">    noremap &lt;C-C&gt; &lt;Esc&gt;</span>
+<span class="e">    snoremap &lt;C-C&gt; &lt;Esc&gt;</span>
+<span class="e">    noremap &lt;C-\&gt;&lt;C-G&gt; &lt;C-\&gt;&lt;C-N&gt;&lt;Cmd&gt;startinsert&lt;CR&gt;</span>
+<span class="e">    cnoremap &lt;C-\&gt;&lt;C-G&gt; &lt;C-\&gt;&lt;C-N&gt;&lt;Cmd&gt;startinsert&lt;CR&gt;</span>
+<span class="e">    inoremap &lt;C-\&gt;&lt;C-G&gt; &lt;C-X&gt;&lt;C-Z&gt;</span>
+<span class="e">    autocmd CmdwinEnter * noremap &lt;buffer&gt; &lt;C-C&gt; &lt;C-C&gt;</span>
+<span class="e">    autocmd CmdwinEnter * inoremap &lt;buffer&gt; &lt;C-C&gt; &lt;C-C&gt;</span>
+<span class="e"></span>
+<span class="e">    lua &lt;&lt; EOF</span>
+<span class="e">      vim.on_key(function(c)</span>
+<span class="e">        if c == '\27' then</span>
+<span class="e">          local mode = vim.api.nvim_get_mode().mode</span>
+<span class="e">          if mode:find('^[nvV\22sS\19]') and vim.fn.getcmdtype() == '' then</span>
+<span class="e">            vim.schedule(function()</span>
+<span class="e">              vim.cmd('startinsert')</span>
+<span class="e">            end)</span>
+<span class="e">          end</span>
+<span class="e">        end</span>
+<span class="e">      end)</span>
+<span class="e">    EOF</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27macatsui%27" class="t">'macatsui'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27maxcombine%27" class="t">'maxcombine'</span> <span id="%27mco%27" class="t">'mco'</span> <a href="cmdline.txt.html#%3A" class="d">:</a> Nvim counts maximum character sizes in bytes, not
+  codepoints. This <a href="motion.txt.html#is" class="d">is</a> guaranteed to be big enough to always fit all chars
+  properly displayed in vim with <a href="vim_diff.txt.html#%27maxcombine%27" class="o">'maxcombine'</a> set to 6.
+  <a href="motion.txt.html#-" class="d">-</a> You can still edit text with larger characters than fits in the screen
+    buffer, you just can't see them. Use <a href="various.txt.html#g8" class="l">g8</a> or <a href="various.txt.html#ga" class="l">ga</a><a href="repeat.txt.html#." class="d">.</a> See <a href="mbyte.txt.html#mbyte-combining" class="l">mbyte-combining</a><a href="repeat.txt.html#." class="d">.</a>
+  <a href="motion.txt.html#-" class="d">-</a> <span class="n">NOTE:</span> the rexexp engine still has <a href="insert.txt.html#a" class="d">a</a> hard-coded limit of considering
+    6 composing chars only.
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27maxmem%27" class="t">'maxmem'</span> Nvim delegates memory-management to the OS.
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27maxmemtot%27" class="t">'maxmemtot'</span> Nvim delegates memory-management to the OS.
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27opendevice%27" class="t">'opendevice'</span> <span id="%27odev%27" class="t">'odev'</span> <span id="%27noopendevice%27" class="t">'noopendevice'</span> <span id="%27noodev%27" class="t">'noodev'</span>
+<a href="motion.txt.html#-" class="d">-</a> printoptions
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27printdevice%27" class="t">'printdevice'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27printencoding%27" class="t">'printencoding'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27printexpr%27" class="t">'printexpr'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27printfont%27" class="t">'printfont'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27printheader%27" class="t">'printheader'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27printmbcharset%27" class="t">'printmbcharset'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27prompt%27" class="t">'prompt'</span> <span id="%27noprompt%27" class="t">'noprompt'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27remap%27" class="t">'remap'</span> <span id="%27noremap%27" class="t">'noremap'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27restorescreen%27" class="t">'restorescreen'</span> <span id="%27rs%27" class="t">'rs'</span> <span id="%27norestorescreen%27" class="t">'norestorescreen'</span> <span id="%27nors%27" class="t">'nors'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27secure%27" class="t">'secure'</span> <a href="cmdline.txt.html#%3A" class="d">:</a> Everything <a href="motion.txt.html#is" class="d">is</a> allowed in <a href="options.txt.html#%27exrc%27" class="o">'exrc'</a> files, because they must be
+  explicitly marked <a href="motion.txt.html#as" class="d">as</a> "trusted"<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27shelltype%27" class="t">'shelltype'</span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27shortmess%27" class="o">'shortmess'</a> flags: <span id="shm-f" class="t">shm-f</span> <span id="shm-n" class="t">shm-n</span> <span id="shm-x" class="t">shm-x</span> <span id="shm-i" class="t">shm-i</span> (behave like always on)
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27shortname%27" class="t">'shortname'</span> <span id="%27sn%27" class="t">'sn'</span> <span id="%27noshortname%27" class="t">'noshortname'</span> <span id="%27nosn%27" class="t">'nosn'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27swapsync%27" class="t">'swapsync'</span> <span id="%27sws%27" class="t">'sws'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27termencoding%27" class="t">'termencoding'</span> <span id="%27tenc%27" class="t">'tenc'</span> (Vim 7.4.852 also removed this <a href="luaref.txt.html#for" class="d">for</a> Windows)
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27terse%27" class="t">'terse'</span> <span id="%27noterse%27" class="t">'noterse'</span> (Add "<a href="change.txt.html#s" class="d">s</a>" to <a href="options.txt.html#%27shortmess%27" class="o">'shortmess'</a> instead)
+<a href="motion.txt.html#-" class="d">-</a> textauto
+<a href="motion.txt.html#-" class="d">-</a> textmode
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27toolbar%27" class="t">'toolbar'</span> <span id="%27tb%27" class="t">'tb'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27toolbariconsize%27" class="t">'toolbariconsize'</span> <span id="%27tbis%27" class="t">'tbis'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27ttybuiltin%27" class="t">'ttybuiltin'</span> <span id="%27tbi%27" class="t">'tbi'</span> <span id="%27nottybuiltin%27" class="t">'nottybuiltin'</span> <span id="%27notbi%27" class="t">'notbi'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27ttyfast%27" class="t">'ttyfast'</span> <span id="%27tf%27" class="t">'tf'</span> <span id="%27nottyfast%27" class="t">'nottyfast'</span> <span id="%27notf%27" class="t">'notf'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27ttymouse%27" class="t">'ttymouse'</span> <span id="%27ttym%27" class="t">'ttym'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27ttyscroll%27" class="t">'ttyscroll'</span> <span id="%27tsl%27" class="t">'tsl'</span>
+<a href="motion.txt.html#-" class="d">-</a> <span id="%27ttytype%27" class="t">'ttytype'</span> <span id="%27tty%27" class="t">'tty'</span>
+<a href="motion.txt.html#-" class="d">-</a> weirdinvert
+
+Plugins:
+
+<a href="motion.txt.html#-" class="d">-</a> logiPat
+<a href="motion.txt.html#-" class="d">-</a> rrhelper
+<a href="motion.txt.html#-" class="d">-</a> <span id="vimball" class="t">vimball</span>
+<a href="motion.txt.html#-" class="d">-</a> macmap.vim
+<a href="motion.txt.html#-" class="d">-</a> tools/check_colors.vim
+<a href="motion.txt.html#-" class="d">-</a> macros/{justify,matchit,shellmenu,swapmous}.vim: use `packadd! justify` etc.
+  directly
+
+Providers:
+
+<a href="motion.txt.html#-" class="d">-</a> <span id="if_lua" class="t">if_lua</span> <a href="cmdline.txt.html#%3A" class="d">:</a> Nvim <a href="lua.txt.html#Lua" class="l">Lua</a> <a href="api.txt.html#API" class="d">API</a> <a href="motion.txt.html#is" class="d">is</a> not compatible with Vim's "<a href="vim_diff.txt.html#if_lua" class="d">if_lua</a>"<a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> <span id="if_mzscheme" class="t">if_mzscheme</span>
+<a href="motion.txt.html#-" class="d">-</a> <a href="if_pyth.txt.html#if_pyth" class="l">if_pyth</a><a href="cmdline.txt.html#%3A" class="d">:</a> <span id="python-bindeval" class="t">python-bindeval</span> <span id="python-Function" class="t">python-Function</span> are not supported.
+<a href="motion.txt.html#-" class="d">-</a> <span id="if_tcl" class="t">if_tcl</span>
+
+Startup:
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">--literal</span>: File args are always literal; to expand <a href="editing.txt.html#wildcards" class="d">wildcards</a> on Windows,
+  use <a href="editing.txt.html#%3An" class="l">:n</a> e.g. `nvim <a href="motion.txt.html#%2B" class="d">+</a>"<a href="pattern.txt.html#n" class="d">n</a> *"<a href="motion.txt.html#%60" class="d">`</a>
+<a href="motion.txt.html#-" class="d">-</a> Easy mode: eview, evim, <a href="nvim.txt.html#nvim" class="d">nvim</a> -y
+<a href="motion.txt.html#-" class="d">-</a> Restricted mode: rview, rvim, <a href="nvim.txt.html#nvim" class="d">nvim</a> -Z
+<a href="motion.txt.html#-" class="d">-</a> <a href="credits.txt.html#Vi" class="d">Vi</a> mode: <a href="nvim.txt.html#nvim" class="d">nvim</a> <a href="starting.txt.html#-v" class="d">-v</a>
+
+Test functions:
+<a href="motion.txt.html#-" class="d">-</a> test_alloc_fail()
+<a href="motion.txt.html#-" class="d">-</a> test_autochdir()
+<a href="motion.txt.html#-" class="d">-</a> test_feedinput()
+<a href="motion.txt.html#-" class="d">-</a> test_garbagecollect_soon()
+<a href="motion.txt.html#-" class="d">-</a> test_getvalue()
+<a href="motion.txt.html#-" class="d">-</a> test_ignore_error()
+<a href="motion.txt.html#-" class="d">-</a> test_null_blob()
+<a href="motion.txt.html#-" class="d">-</a> test_null_channel()
+<a href="motion.txt.html#-" class="d">-</a> test_null_dict()
+<a href="motion.txt.html#-" class="d">-</a> test_null_function()
+<a href="motion.txt.html#-" class="d">-</a> test_null_job()
+<a href="motion.txt.html#-" class="d">-</a> test_null_list()
+<a href="motion.txt.html#-" class="d">-</a> test_null_partial()
+<a href="motion.txt.html#-" class="d">-</a> test_null_string()
+<a href="motion.txt.html#-" class="d">-</a> test_option_not_set()
+<a href="motion.txt.html#-" class="d">-</a> test_override()
+<a href="motion.txt.html#-" class="d">-</a> test_refcount()
+<a href="motion.txt.html#-" class="d">-</a> test_scrollbar()
+<a href="motion.txt.html#-" class="d">-</a> test_setmouse()
+<a href="motion.txt.html#-" class="d">-</a> test_settime()
+<a href="motion.txt.html#-" class="d">-</a> test_srand_seed()
+<a href="motion.txt.html#-" class="d">-</a> test_unknown()
+<a href="motion.txt.html#-" class="d">-</a> test_void()
+
+TUI:
+                          <span id="t_xx" class="t">t_xx</span> <span id="termcap-options" class="t">termcap-options</span> <span id="t_AB" class="t">t_AB</span> <span id="t_Sb" class="t">t_Sb</span> <span id="t_vb" class="t">t_vb</span> <span id="t_SI" class="t">t_SI</span>
+<a href="motion.txt.html#-" class="d">-</a> Nvim does not have special <span class="e">t_XX</span> <a href="options.txt.html#options" class="d">options</a> nor <span class="s">&lt;t_XX&gt;</span> <a href="intro.txt.html#keycodes" class="d">keycodes</a> to configure
+  <a href="terminal.txt.html#terminal" class="d">terminal</a> capabilities. Instead Nvim treats the <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#as" class="d">as</a> any other UI,
+  e.g. <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a> sets the <a href="terminal.txt.html#terminal" class="d">terminal</a> cursor style if possible.
+
+                          <span id="termcap" class="t">termcap</span>
+<a href="motion.txt.html#-" class="d">-</a> Nvim never uses the <a href="vim_diff.txt.html#termcap" class="d">termcap</a> database, only <a href="tui.txt.html#terminfo" class="l">terminfo</a> and <a href="tui.txt.html#builtin-terms" class="l">builtin-terms</a><a href="repeat.txt.html#." class="d">.</a>
+
+                          <span id="xterm-8bit" class="t">xterm-8bit</span> <span id="xterm-8-bit" class="t">xterm-8-bit</span>
+<a href="motion.txt.html#-" class="d">-</a> Xterm can be run in <a href="insert.txt.html#a" class="d">a</a> mode where <a href="motion.txt.html#it" class="d">it</a> uses true 8-bit CSI.  Supporting this
+  requires autodetection of whether the <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a> in <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> mode or non-UTF-8
+  mode, <a href="motion.txt.html#as" class="d">as</a> the 8-bit CSI character has to be written differently in each case.
+  Vim issues <a href="insert.txt.html#a" class="d">a</a> "request version" sequence to the <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#at" class="d">at</a> <a href="starting.txt.html#startup" class="d">startup</a> and looks
+  <a href="motion.txt.html#at" class="d">at</a> how the <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a> sending CSI.  Nvim does not issue such <a href="insert.txt.html#a" class="d">a</a> sequence and
+  always uses 7-bit <a href="intro.txt.html#control" class="d">control</a> sequences.
+
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=8:sw=2:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

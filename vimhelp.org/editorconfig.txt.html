@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: editorconfig.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+</div>
+<div id="vh-content">
+<pre>
+<span id="editorconfig.txt" class="t">editorconfig.txt</span>            EditorConfig <a href="usr_05.txt.html#plugin" class="d">plugin</a> for vim.
+
+File: <a href="editorconfig.txt.html#editorconfig.txt" class="d">editorconfig.txt</a>
+Version: 1.1.1
+Maintainer: EditorConfig Team &lt;http://editorconfig.org&gt;
+Description: EditorConfig vim <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+
+<span class="h">CONTENTS</span>
+                                            <span id="editorconfig-contents" class="t">editorconfig-contents</span>
+<span class="h">----------------------------------------------------------------------------</span>
+1.  Overview                                 <a href="editorconfig.txt.html#editorconfig-overview" class="l">editorconfig-overview</a>
+2.  Installation                             <a href="editorconfig.txt.html#editorconfig-installation" class="l">editorconfig-installation</a>
+3.  Commands                                 <a href="editorconfig.txt.html#editorconfig-commands" class="l">editorconfig-commands</a>
+4.  Settings                                 <a href="editorconfig.txt.html#editorconfig-settings" class="l">editorconfig-settings</a>
+5.  Advanced                                 <a href="editorconfig.txt.html#editorconfig-advanced" class="l">editorconfig-advanced</a>
+6.  License                                  <a href="editorconfig.txt.html#editorconfig-license" class="l">editorconfig-license</a>
+
+
+<span class="h">OVERVIEW</span>
+                                            <span id="editorconfig-overview" class="t">editorconfig-overview</span>
+<span class="h">----------------------------------------------------------------------------</span>
+This <a href="motion.txt.html#is" class="d">is</a> the EditorConfig <a href="usr_05.txt.html#plugin" class="d">plugin</a> for vim.
+
+
+<span class="h">INSTALLATION</span>
+                                            <span id="editorconfig-installation" class="t">editorconfig-installation</span>
+<span class="h">----------------------------------------------------------------------------</span>
+Follow the instructions in the README.md file to <a href="usr_90.txt.html#install" class="d">install</a> this plugin.
+
+<span class="h">COMMANDS</span>
+                                            <span id="editorconfig-commands" class="t">editorconfig-commands</span>
+<span class="h">----------------------------------------------------------------------------</span>
+
+                                            <span id="%3AEditorConfigReload" class="t">:EditorConfigReload</span>
+Command:
+    <a href="editorconfig.txt.html#%3AEditorConfigReload" class="d">:EditorConfigReload</a>
+
+Reload the EditorConfig conf files. When <span class="e">.editorconfig</span> files are modified,
+this command could prevent you to <a href="editing.txt.html#reload" class="d">reload</a> the current edited file to load the
+new configuration.
+
+<span class="h">SETTINGS</span>
+                                            <span id="editorconfig-settings" class="t">editorconfig-settings</span>
+<span class="h">----------------------------------------------------------------------------</span>
+                                            <span id="g%3AEditorConfig_core_mode" class="t">g:EditorConfig_core_mode</span>
+Specify the mode of EditorConfig core. Generally <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> OK to leave this option
+empty. Currently, the supported modes are "vim_core" (default) and
+"external_command"<a href="repeat.txt.html#." class="d">.</a>
+
+    vim_core:           Use the included Vim <a href="usr_41.txt.html#script" class="d">script</a> EditorConfig Core.
+    external_command:   Run external EditorConfig Core.
+
+If "<a href="editorconfig.txt.html#g%3AEditorConfig_core_mode" class="d">g:EditorConfig_core_mode</a>" <a href="motion.txt.html#is" class="d">is</a> not specified, this <a href="usr_05.txt.html#plugin" class="d">plugin</a> will automatically
+choose "vim_core"<a href="repeat.txt.html#." class="d">.</a>
+
+If you choose "external_command" mode, you <a href="vim_faq.txt.html#must" class="d">must</a> also set
+<a href="editorconfig.txt.html#g%3AEditorConfig_exec_path" class="l">g:EditorConfig_exec_path</a><a href="repeat.txt.html#." class="d">.</a>
+
+Changes to "<a href="editorconfig.txt.html#g%3AEditorConfig_core_mode" class="d">g:EditorConfig_core_mode</a>" will not take effect until Vim
+<a href="motion.txt.html#is" class="d">is</a> restarted.
+
+                                            <span id="b%3AEditorConfig_disable" class="t">b:EditorConfig_disable</span>
+This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> buffer-local variable that disables the EditorConfig <a href="usr_05.txt.html#plugin" class="d">plugin</a> for <a href="insert.txt.html#a" class="d">a</a>
+single buffer.
+
+Example: Disable EditorConfig for the current buffer:
+
+<span class="e"> let b:EditorConfig_disable = 1</span>
+
+Example: Disable EditorConfig for all git commit messages:
+
+<span class="e"> au FileType gitcommit let b:EditorConfig_disable = 1</span>
+
+
+                                            <span id="g%3AEditorConfig_exclude_patterns" class="t">g:EditorConfig_exclude_patterns</span>
+This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> contains file path patterns which will be ignored by
+EditorConfig plugin. When the path of the opened buffer (i.e.
+"expand('%:p')"<a href="motion.txt.html#%29" class="d">)</a> matches any of the patterns in the list, EditorConfig will
+not load for this file. The default <a href="motion.txt.html#is" class="d">is</a> an empty list.
+
+Example: Avoid loading EditorConfig for any remote files over ssh
+
+<span class="e"> let g:EditorConfig_exclude_patterns = ['scp://.*']</span>
+
+
+                                            <span id="g%3AEditorConfig_exec_path" class="t">g:EditorConfig_exec_path</span>
+The file path to the EditorConfig core executable. You can set this value in
+your <a href="starting.txt.html#vimrc" class="l">vimrc</a> like this:
+
+<span class="e"> let g:EditorConfig_exec_path = 'Path to your EditorConfig Core executable'</span>
+
+The default value <a href="motion.txt.html#is" class="d">is</a> empty.
+
+If "<a href="editorconfig.txt.html#g%3AEditorConfig_exec_path" class="d">g:EditorConfig_exec_path</a>" <a href="motion.txt.html#is" class="d">is</a> not set, the <a href="usr_05.txt.html#plugin" class="d">plugin</a> will use the "vim_core"
+mode regardless of the setting of <a href="editorconfig.txt.html#g%3AEditorConfig_core_mode" class="l">g:EditorConfig_core_mode</a><a href="repeat.txt.html#." class="d">.</a>
+
+Changes to "<a href="editorconfig.txt.html#g%3AEditorConfig_exec_path" class="d">g:EditorConfig_exec_path</a>" will not take effect until Vim
+<a href="motion.txt.html#is" class="d">is</a> restarted.
+
+                                            <span id="g%3AEditorConfig_max_line_indicator" class="t">g:EditorConfig_max_line_indicator</span>
+The way to show the line where the maximal length <a href="motion.txt.html#is" class="d">is</a> reached. Accepted values
+are "line"<a href="motion.txt.html#%2C" class="d">,</a> "fill"<a href="motion.txt.html#%2C" class="d">,</a> "exceeding" and "fillexceeding"<a href="motion.txt.html#%2C" class="d">,</a> otherwise there will be
+no max line indicator.
+
+    "line"<a href="cmdline.txt.html#%3A" class="d">:</a>          the right column of the max line length column will be
+                     highlighted on all lines, by adding +1 to <a href="options.txt.html#%27colorcolumn%27" class="o">'colorcolumn'</a>.
+
+    "fill"<a href="cmdline.txt.html#%3A" class="d">:</a>          all the columns to the right of the max line length
+                     column will be highlighted on all lines, by setting
+                     <a href="options.txt.html#%27colorcolumn%27" class="o">'colorcolumn'</a> to <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> <a href="starting.txt.html#starting" class="d">starting</a> from "max_line_length <a href="motion.txt.html#%2B" class="d">+</a>
+                     1" to the number of columns on the screen.
+
+    "exceeding"<a href="cmdline.txt.html#%3A" class="d">:</a>     the right column of the max line length column will be
+                     highlighted on lines that exceed the max line length, by
+                     adding <a href="insert.txt.html#a" class="d">a</a> match for the ColorColumn group.
+
+    "fillexceeding"<a href="cmdline.txt.html#%3A" class="d">:</a> all the columns to the right of the max line length
+                     column will be highlighted on lines that exceed the max
+                     line length, by adding <a href="insert.txt.html#a" class="d">a</a> match for the ColorColumn group.
+
+    "none"<a href="cmdline.txt.html#%3A" class="d">:</a>          no max line length indicator will be shown. Recommended
+                     when you <a href="diff.txt.html#do" class="d">do</a> not want any indicator to be shown, but any
+                     value other than those listed above also work <a href="motion.txt.html#as" class="d">as</a> "none"<a href="repeat.txt.html#." class="d">.</a>
+
+To set this option, add any of the following lines to your <a href="starting.txt.html#vimrc" class="l">vimrc</a> file:
+
+<span class="e"> let g:EditorConfig_max_line_indicator = "line"</span>
+<span class="e"> let g:EditorConfig_max_line_indicator = "fill"</span>
+<span class="e"> let g:EditorConfig_max_line_indicator = "exceeding"</span>
+<span class="e"> let g:EditorConfig_max_line_indicator = "fillexceeding"</span>
+<span class="e"> let g:EditorConfig_max_line_indicator = "none"</span>
+
+The default value <a href="motion.txt.html#is" class="d">is</a> "line"<a href="repeat.txt.html#." class="d">.</a>
+
+                                            <span id="g%3AEditorConfig_enable_for_new_buf" class="t">g:EditorConfig_enable_for_new_buf</span>
+Set this to 1 if you want EditorConfig <a href="usr_05.txt.html#plugin" class="d">plugin</a> to set <a href="options.txt.html#options" class="d">options</a>
+for new empty <a href="windows.txt.html#buffers" class="d">buffers</a> too.
+Path to .editorconfig will be determined based on CWD (see <a href="builtin.txt.html#getcwd%28%29" class="l">getcwd()</a><a href="motion.txt.html#%29" class="d">)</a>
+
+<span class="e"> let g:EditorConfig_enable_for_new_buf = 1</span>
+
+This option defaults to 0.
+
+                                            <span id="g%3AEditorConfig_preserve_formatoptions" class="t">g:EditorConfig_preserve_formatoptions</span>
+Set this to 1 if you don't want your formatoptions modified when
+max_line_length <a href="motion.txt.html#is" class="d">is</a> set:
+
+<span class="e"> let g:EditorConfig_preserve_formatoptions = 1</span>
+
+This option defaults to 0.
+
+                                            <span id="g%3AEditorConfig_softtabstop_space" class="t">g:EditorConfig_softtabstop_space</span>
+When spaces are used for indent, Vim's <a href="options.txt.html#%27softtabstop%27" class="o">'softtabstop'</a> feature will make the
+<a href="intro.txt.html#backspace" class="d">backspace</a> key delete one indent level. If you turn off that feature (by
+setting the option to 0), only <a href="insert.txt.html#a" class="d">a</a> single <a href="intro.txt.html#space" class="d">space</a> will be deleted.
+This option defaults to 1, which enables <a href="options.txt.html#%27softtabstop%27" class="o">'softtabstop'</a> and uses the
+<a href="options.txt.html#%27shiftwidth%27" class="o">'shiftwidth'</a> value for it. You can also set this to -1 to automatically follow
+the current <a href="options.txt.html#%27shiftwidth%27" class="o">'shiftwidth'</a> value (since Vim 7.3.693). Or set this to <a href="motion.txt.html#%5B%5D" class="d">[]</a> if
+EditorConfig should not touch <a href="options.txt.html#%27softtabstop%27" class="o">'softtabstop'</a> <a href="motion.txt.html#at" class="d">at</a> all.
+
+                                            <span id="g%3AEditorConfig_softtabstop_tab" class="t">g:EditorConfig_softtabstop_tab</span>
+When tabs are used for indent, Vim's <a href="options.txt.html#%27softtabstop%27" class="o">'softtabstop'</a> feature only applies to
+backspacing over existing runs of spaces.
+This option defaults to 1, so <a href="intro.txt.html#backspace" class="d">backspace</a> will delete one indent level worth of
+spaces; -1 does the same but automatically follows the current <a href="options.txt.html#%27shiftwidth%27" class="o">'shiftwidth'</a>
+value. Set this to <a href="motion.txt.html#0" class="d">0</a> to have <a href="intro.txt.html#backspace" class="d">backspace</a> delete just <a href="insert.txt.html#a" class="d">a</a> single <a href="intro.txt.html#space" class="d">space</a> character.
+Or set this to <a href="motion.txt.html#%5B%5D" class="d">[]</a> if EditorConfig should not touch <a href="options.txt.html#%27softtabstop%27" class="o">'softtabstop'</a> <a href="motion.txt.html#at" class="d">at</a> all.
+
+                                            <span id="g%3AEditorConfig_verbose" class="t">g:EditorConfig_verbose</span>
+Set this to 1 if you want debug info printed:
+
+<span class="e"> let g:EditorConfig_verbose = 1</span>
+
+
+<span class="h">ADVANCED</span>
+                                            <span id="editorconfig-advanced" class="t">editorconfig-advanced</span>
+<span class="h">----------------------------------------------------------------------------</span>
+                                            <span id="editorconfig-hook" class="t">editorconfig-hook</span>
+                                            <span id="EditorConfig%23AddNewHook%28%29" class="t">EditorConfig#AddNewHook()</span>
+While this <a href="usr_05.txt.html#plugin" class="d">plugin</a> offers several builtin supported properties (as mentioned
+here: <a class="u" href="https://github.com/editorconfig/editorconfig-vim#supported-properties">https://github.com/editorconfig/editorconfig-vim#supported-properties</a>),
+we are also able to add our own hooks to support additional EditorConfig
+properties, including those not in the EditorConfig standard. For example, we
+are working on an Objective-C project, and all our "*.m" files should be
+Objective-C source files. However, vim sometimes detect "*.m" files <a href="motion.txt.html#as" class="d">as</a> MATLAB
+source files, which causes incorrect <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting, code indentation,
+etc. To solve the case, we could write the following code into the <a href="starting.txt.html#vimrc" class="l">vimrc</a>
+file:
+
+<span class="e"> function! FiletypeHook(config)</span>
+<span class="e">     if has_key(a:config, 'vim_filetype')</span>
+<span class="e">         let &amp;filetype = a:config['vim_filetype']</span>
+<span class="e">     endif</span>
+<span class="e"></span>
+<span class="e">     return 0   " Return 0 to show no error happened</span>
+<span class="e"> endfunction</span>
+<span class="e"></span>
+<span class="e"> call editorconfig#AddNewHook(function('FiletypeHook'))</span>
+
+And add the following code to your .editorconfig file:
+
+<span class="e"> [*.m]</span>
+<span class="e"> vim_filetype = objc</span>
+
+Then try to open an Objective-C file, you will find the <a href="filetype.txt.html#filetype" class="l">filetype</a> <a href="motion.txt.html#is" class="d">is</a> set to
+"objc"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">License</span>
+                                               <span id="editorconfig-license" class="t">editorconfig-license</span>
+<span class="h">----------------------------------------------------------------------------</span>
+
+License:
+   Copyright (c) 2011-2019 EditorConfig Team
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are met:
+
+   1. Redistributions of source code <a href="vim_faq.txt.html#must" class="d">must</a> retain the above <a href="uganda.txt.html#copyright" class="d">copyright</a> notice,
+      this <a href="eval.txt.html#list" class="d">list</a> of conditions and the following disclaimer.
+   2. Redistributions in binary form <a href="vim_faq.txt.html#must" class="d">must</a> reproduce the above <a href="uganda.txt.html#copyright" class="d">copyright</a> notice,
+      this <a href="eval.txt.html#list" class="d">list</a> of conditions and the following disclaimer in the documentation
+      and/or other materials provided with the distribution.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR <a href="insert.txt.html#A" class="d">A</a> PARTICULAR PURPOSE
+   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+   POSSIBILITY OF SUCH DAMAGE.
+
+
+vim:ft=help:tw=78:cc=
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: faq.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="faq.txt.html#">↑Top↑</a></li>
+<li><a href="faq.txt.html#faq-general">General Questions</a></li>
+<li><a href="faq.txt.html#faq-runtime">Runtime issues</a></li>
+<li><a href="faq.txt.html#faq-build">Build issues</a></li>
+<li><a href="faq.txt.html#faq-design">Design</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="faq.txt" class="t">faq.txt</span>  		 Nvim
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Frequently asked Questions                                        <span id="faq" class="t">faq</span>
+
+                                  Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+General Questions                                                 <span id="faq-general" class="t">faq-general</span>
+
+
+<span class="h">WHERE SHOULD I PUT MY CONFIG (VIMRC)? </span>
+
+See <a href="starting.txt.html#config" class="l">config</a><a href="motion.txt.html#%3B" class="d">;</a> you can copy (or symlink) your existing vimrc. <a href="nvim.txt.html#nvim-from-vim" class="l">nvim-from-vim</a>
+
+
+<span class="h">HOW STABLE IS THE DEVELOPMENT (PRE-RELEASE) VERSION? </span>
+
+The unstable (pre-release)
+<a class="u" href="https://github.com/neovim/neovim/releases/tag/nightly">https://github.com/neovim/neovim/releases/tag/nightly</a> version of Nvim
+<a href="motion.txt.html#%28" class="d">(</a>"HEAD"<a href="motion.txt.html#%2C" class="d">,</a> i.e. the <span class="e">master</span> branch) <a href="motion.txt.html#is" class="d">is</a> used to aggressively stage new features
+and changes. It's usually stable, but will occasionally break your workflow.
+We depend on HEAD users to report "blind spots" that were not caught by
+automated tests.
+
+Use the stable (release) <a class="u" href="https://github.com/neovim/neovim/releases/latest">https://github.com/neovim/neovim/releases/latest</a>
+version <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> more predictable experience.
+
+
+<span class="h">CAN I USE LUA-BASED VIM PLUGINS (E.G. NEOCOMPLETE)? </span>
+
+No. Starting with Nvim 0.2 PR #4411
+<a class="u" href="https://github.com/neovim/neovim/pull/4411">https://github.com/neovim/neovim/pull/4411</a> <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="motion.txt.html#is" class="d">is</a> built-in, but the legacy
+Vim <span class="e">if_lua</span> interface <a href="motion.txt.html#is" class="d">is</a> not supported.
+
+
+<span class="h">HOW CAN I USE "TRUE COLOR" IN THE TERMINAL? </span>
+
+Truecolor (24bit colors) are enabled by default if <a href="insert.txt.html#a" class="d">a</a> supporting <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a>
+detected. If your <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a> not detected but you are sure <a href="motion.txt.html#it" class="d">it</a> supports
+truecolor, add this to your <a href="starting.txt.html#init.vim" class="l">init.vim</a><a href="cmdline.txt.html#%3A" class="d">:</a>
+
+<span class="e">    set termguicolors</span>
+
+
+<span class="h">NVIM SHOWS WEIRD SYMBOLS (`�[2 q`) WHEN CHANGING MODES </span>
+
+This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> bug in your <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator. It happens because Nvim sends
+cursor-shape termcodes by default, if the <a href="terminal.txt.html#terminal" class="d">terminal</a> appears to be
+xterm-compatible (`TERM=xterm-256color`).
+
+To workaround the issue, you can:
+
+<a href="motion.txt.html#-" class="d">-</a> Use <a href="insert.txt.html#a" class="d">a</a> different <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator
+<a href="motion.txt.html#-" class="d">-</a> Disable <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a> in your Nvim config: 
+<span class="e"></span>
+<span class="e">    :set guicursor=</span>
+<span class="e">    " Workaround some broken plugins which set guicursor indiscriminately.</span>
+<span class="e">    :autocmd OptionSet guicursor noautocmd set guicursor=</span>
+
+See also <a href="tui.txt.html#%24TERM" class="l">$TERM</a> <a href="luaref.txt.html#for" class="d">for</a> recommended values of <span class="e">$TERM</span>.
+
+
+<span class="h">HOW TO CHANGE CURSOR SHAPE IN THE TERMINAL? </span>
+
+<a href="motion.txt.html#-" class="d">-</a> For Nvim 0.1.7 or older: see the <span class="n">note</span> about <span class="e">NVIM_TUI_ENABLE_CURSOR_SHAPE</span> in `man nvim`.
+<a href="motion.txt.html#-" class="d">-</a> For Nvim 0.2 or newer: cursor styling <a href="motion.txt.html#is" class="d">is</a> controlled by the <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a> option.
+    <a href="motion.txt.html#-" class="d">-</a> To _disable_ cursor-styling, set <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a> to empty: 
+<span class="e"></span>
+<span class="e">            :set guicursor=</span>
+<span class="e">            " Workaround some broken plugins which set guicursor indiscriminately.</span>
+<span class="e">            :autocmd OptionSet guicursor noautocmd set guicursor=</span>
+
+    <a href="motion.txt.html#-" class="d">-</a> If you want <a href="insert.txt.html#a" class="d">a</a> non-blinking cursor, use <span class="e">blinkon0</span>. See <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a>.
+    <a href="motion.txt.html#-" class="d">-</a> <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a> <a href="motion.txt.html#is" class="d">is</a> enabled by default, unless Nvim thinks your <a href="terminal.txt.html#terminal" class="d">terminal</a> doesn't
+        <a href="support.txt.html#support" class="d">support</a> it. If you're sure that your <a href="terminal.txt.html#terminal" class="d">terminal</a> supports cursor-shaping, set
+        <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a> in your <a href="starting.txt.html#init.vim" class="l">init.vim</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#as" class="d">as</a> described in <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a>.
+<a href="motion.txt.html#-" class="d">-</a> The Vim <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="options.txt.html#options" class="d">options</a> <a href="vim_diff.txt.html#t_SI" class="l">t_SI</a> and <span class="e">t_EI</span> are ignored, like all other <a href="vim_diff.txt.html#t_xx" class="l">t_xx</a> options.
+<a href="motion.txt.html#-" class="d">-</a> Old versions of libvte (gnome-terminal, roxterm, terminator, ...) <a href="diff.txt.html#do" class="d">do</a> not
+  <a href="support.txt.html#support" class="d">support</a> cursor style <a href="intro.txt.html#control" class="d">control</a> codes. #2537
+  <a class="u" href="https://github.com/neovim/neovim/issues/2537">https://github.com/neovim/neovim/issues/2537</a>
+
+
+<span class="h">HOW TO CHANGE CURSOR COLOR IN THE TERMINAL? </span>
+
+Cursor styling (shape, color, behavior) <a href="motion.txt.html#is" class="d">is</a> controlled by <a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a>, even in
+the terminal. Cursor color (as opposed to shape) only works if
+<a href="options.txt.html#%27termguicolors%27" class="o">'termguicolors'</a> <a href="motion.txt.html#is" class="d">is</a> set.
+
+<a href="options.txt.html#%27guicursor%27" class="o">'guicursor'</a> gives an example, but here's <a href="insert.txt.html#a" class="d">a</a> more complicated example
+which sets different colors in insert-mode and normal-mode:
+
+<span class="e">    :set termguicolors</span>
+<span class="e">    :hi Cursor guifg=green guibg=green</span>
+<span class="e">    :hi Cursor2 guifg=red guibg=red</span>
+<span class="e">    :set guicursor=n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50</span>
+
+
+<span class="h">CURSOR STYLE ISN'T RESTORED AFTER EXITING OR SUSPENDING AND RESUMING NVIM </span>
+
+Terminals <a href="diff.txt.html#do" class="d">do</a> not provide <a href="insert.txt.html#a" class="d">a</a> way to query the cursor style. Use autocommands to
+manage the cursor style:
+
+<span class="e">    au VimEnter,VimResume * set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50</span>
+<span class="e">      \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor</span>
+<span class="e">      \,sm:block-blinkwait175-blinkoff150-blinkon175</span>
+<span class="e"></span>
+<span class="e">    au VimLeave,VimSuspend * set guicursor=a:block-blinkon0</span>
+
+
+<span class="h">CURSOR SHAPE DOESN'T CHANGE IN TMUX </span>
+
+tmux decides that, not Nvim. See <a href="tui.txt.html#tui-cursor-shape" class="l">tui-cursor-shape</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> fix.
+
+See #3165 <a class="u" href="https://github.com/neovim/neovim/pull/3165">https://github.com/neovim/neovim/pull/3165</a> <a href="luaref.txt.html#for" class="d">for</a> discussion.
+
+
+<span class="h">CURSOR FLICKER IN TMUX? </span>
+
+If cursor <span class="e">_</span> appears and disappears very quickly when opening <a href="nvim.txt.html#nvim" class="d">nvim</a> without <a href="insert.txt.html#a" class="d">a</a>
+document under tmux, and you set <a href="syntax.txt.html#ctermbg" class="l">ctermbg</a> in <span class="e">EndOfBuffer</span> and <span class="e">Normal</span>, try
+setting these to <span class="e">NONE</span>:
+
+<span class="e">    hi EndOfBuffer ctermbg=NONE ctermfg=200 cterm=NONE</span>
+<span class="e">    hi Normal ctermbg=NONE ctermfg=200 cterm=NONE</span>
+
+
+<span class="h">WHAT HAPPENED TO --remote AND FRIENDS? </span>
+
+<a href="remote.txt.html#--remote" class="l">--remote</a> <a href="motion.txt.html#is" class="d">is</a> partly supported. <a href="remote.txt.html#clientserver" class="l">clientserver</a>
+
+If you require flags from Vim that are missing in Nvim, you can use
+<a class="u" href="https://github.com/mhinz/neovim-remote">https://github.com/mhinz/neovim-remote</a> instead.
+
+<span class="h">==============================================================================</span>
+Runtime issues                                                <span id="faq-runtime" class="t">faq-runtime</span>
+
+
+<span class="h">COPYING TO X11 PRIMARY SELECTION WITH THE MOUSE DOESN'T WORK </span>
+
+<span class="e">clipboard=autoselect</span> <a href="motion.txt.html#is" class="d">is</a> not implemented yet
+<a class="u" href="https://github.com/neovim/neovim/issues/2325">https://github.com/neovim/neovim/issues/2325</a>. You may find this workaround to
+be useful:
+
+<span class="e">    vnoremap &lt;LeftRelease&gt; "*ygv</span>
+<span class="e">    vnoremap &lt;2-LeftRelease&gt; "*ygv</span>
+
+
+<span class="h">MY CTRL-H MAPPING DOESN'T WORK </span>
+
+This was fixed in Nvim 0.2. If you are running Nvim 0.1.7 or older,
+adjust your terminal's "kbs" (key_backspace) <a href="tui.txt.html#terminfo" class="d">terminfo</a> entry:
+
+<span class="e">    infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' &gt; $TERM.ti</span>
+<span class="e">    tic $TERM.ti</span>
+
+(Feel free to delete the temporary <span class="e">*.ti</span> file created after running the above
+commands).
+
+
+<span class="h">&lt;HOME&gt; OR SOME OTHER "SPECIAL" KEY DOESN'T WORK </span>
+
+Make sure <a href="tui.txt.html#%24TERM" class="l">$TERM</a> <a href="motion.txt.html#is" class="d">is</a> set correctly.
+
+<a href="motion.txt.html#-" class="d">-</a> For screen or tmux, <span class="e">$TERM</span> should be <span class="e">screen-256color</span> (not <span class="e">xterm-256color</span>!)
+<a href="motion.txt.html#-" class="d">-</a> In other cases if "256" does not appear in the <a href="vimeval.txt.html#string" class="d">string</a> it's probably wrong.
+  Try <span class="e">TERM=xterm-256color</span>.
+
+
+<span class="h">:! AND SYSTEM() DO WEIRD THINGS WITH INTERACTIVE PROCESSES </span>
+
+Interactive commands are supported by <a href="various.txt.html#%3Aterminal" class="l">:terminal</a> in Nvim. But <a href="various.txt.html#%3A%21" class="l">:!</a> and
+<a href="vimfn.txt.html#system%28%29" class="l">system()</a> <a href="diff.txt.html#do" class="d">do</a> not <a href="support.txt.html#support" class="d">support</a> interactive commands, primarily because Nvim UIs use
+stdio <a href="luaref.txt.html#for" class="d">for</a> msgpack communication, but also <a href="luaref.txt.html#for" class="d">for</a> performance, reliability, and
+consistency across platforms (see
+<a class="u" href="https://vimhelp.org/gui_x11.txt.html#gui-pty">https://vimhelp.org/gui_x11.txt.html#gui-pty</a>).
+
+See also #1496 <a class="u" href="https://github.com/neovim/neovim/issues/1496">https://github.com/neovim/neovim/issues/1496</a> and #8217
+<a class="u" href="https://github.com/neovim/neovim/issues/8217#issuecomment-402152307">https://github.com/neovim/neovim/issues/8217#issuecomment-402152307</a>.
+
+
+<span class="h">PYTHON SUPPORT ISN'T WORKING </span>
+
+Run <a href="health.txt.html#%3Acheckhealth" class="l">:checkhealth</a> in Nvim <a href="luaref.txt.html#for" class="d">for</a> automatic diagnosis.
+
+Other hints:
+
+<a href="motion.txt.html#-" class="d">-</a> Read <a href="provider.txt.html#provider-python" class="l">provider-python</a> to learn how to <a href="intro.txt.html#install" class="d">install</a> <span class="e">pynvim</span>.
+<a href="motion.txt.html#-" class="d">-</a> Be sure you have the latest version of the <span class="e">pynvim</span> <a href="if_pyth.txt.html#Python" class="d">Python</a> module: &gt;bash
+
+    <a href="luvref.txt.html#uv" class="d">uv</a> tool <a href="intro.txt.html#install" class="d">install</a> --upgrade <a href="develop.txt.html#pynvim" class="d">pynvim</a>
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+  See <a href="provider.txt.html#provider-python" class="l">provider-python</a> <a href="luaref.txt.html#for" class="d">for</a> other installation options.
+<a href="motion.txt.html#-" class="d">-</a> If you're manually creating <a href="insert.txt.html#a" class="d">a</a> <a href="if_pyth.txt.html#Python" class="d">Python</a> virtual environment <a href="luaref.txt.html#for" class="d">for</a> the <span class="e">pynvim</span> module
+    <a class="u" href="https://pypi.org/project/pynvim/">https://pypi.org/project/pynvim/</a>, you must set <span class="e">g:python3_host_prog</span> to
+    the virtualenv's interpreter path.
+<a href="motion.txt.html#-" class="d">-</a> Try with `nvim <a href="starting.txt.html#-u" class="d">-u</a> NORC` to make sure your <a href="starting.txt.html#config" class="d">config</a> <a href="motion.txt.html#%28" class="d">(</a><a href="starting.txt.html#init.vim" class="l">init.vim</a><a href="motion.txt.html#%29" class="d">)</a> isn't causing <a href="insert.txt.html#a" class="d">a</a>
+    problem. If you get `E117: Unknown function`, that means there's <a href="insert.txt.html#a" class="d">a</a> runtime
+    issue: <a href="faq.txt.html#faq-runtime" class="l">faq-runtime</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> The <a href="if_pyth.txt.html#python" class="d">python</a> <span class="e">neovim</span> module was renamed to <span class="e">pynvim</span> (long ago).
+
+
+<span class="h">:CHECKHEALTH REPORTS E5009: INVALID $VIMRUNTIME </span>
+
+This means <a href="starting.txt.html#%24VIMRUNTIME" class="l">$VIMRUNTIME</a> or <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> <a href="motion.txt.html#is" class="d">is</a> broken.
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="starting.txt.html#%24VIMRUNTIME" class="l">$VIMRUNTIME</a> must point to Nvim's runtime files, not Vim's.
+<a href="motion.txt.html#-" class="d">-</a> The <a href="starting.txt.html#%24VIMRUNTIME" class="l">$VIMRUNTIME</a> directory contents should be readable by the current user.
+<a href="motion.txt.html#-" class="d">-</a> Verify that `:echo &amp;runtimepath` contains the <a href="starting.txt.html#%24VIMRUNTIME" class="d">$VIMRUNTIME</a> path.
+
+<span class="h">NEOVIM CAN'T FIND ITS RUNTIME </span>
+
+This <a href="motion.txt.html#is" class="d">is</a> the <a href="change.txt.html#case" class="d">case</a> if `:help nvim` shows `E149: Sorry, no <a href="helphelp.txt.html#help" class="d">help</a> <a href="luaref.txt.html#for" class="d">for</a> nvim`.
+
+Make sure that <a href="starting.txt.html#%24VIM" class="l">$VIM</a> and <a href="starting.txt.html#%24VIMRUNTIME" class="l">$VIMRUNTIME</a> point to Nvim's (as opposed to
+Vim's) runtime by checking `:echo $VIM` and `:echo $VIMRUNTIME`. This should
+give something like <span class="e">/usr/share/nvim</span> resp. <span class="e">/usr/share/nvim/runtime</span>.
+
+Also make sure that you don't accidentally overwrite your runtimepath
+(`:set runtimepath?`), which includes the above <a href="starting.txt.html#%24VIMRUNTIME" class="l">$VIMRUNTIME</a> by default (see
+<a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>).
+
+
+<span class="h">NEOVIM IS SLOW </span>
+
+
+Use <a href="insert.txt.html#a" class="d">a</a> fast <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator:
+
+<a href="motion.txt.html#-" class="d">-</a> kitty <a class="u" href="https://github.com/kovidgoyal/kitty">https://github.com/kovidgoyal/kitty</a>
+<a href="motion.txt.html#-" class="d">-</a> alacritty <a class="u" href="https://github.com/jwilm/alacritty">https://github.com/jwilm/alacritty</a>
+
+
+Use an optimized build:
+
+`:checkhealth nvim` should report one of these "build types"<a href="cmdline.txt.html#%3A" class="d">:</a>
+
+<span class="e">    Build type: RelWithDebInfo</span>
+<span class="e">    Build type: MinSizeRel</span>
+<span class="e">    Build type: Release</span>
+
+If <a href="motion.txt.html#it" class="d">it</a> reports `Build type: Debug` and you're building Nvim from source, see
+<a class="u" href="https://github.com/neovim/neovim/blob/master/BUILD.md">https://github.com/neovim/neovim/blob/master/BUILD.md</a>.
+
+
+<span class="h">COLORS AREN'T DISPLAYED CORRECTLY </span>
+
+Ensure that <a href="tui.txt.html#%24TERM" class="l">$TERM</a> <a href="motion.txt.html#is" class="d">is</a> set correctly.
+
+From <a href="insert.txt.html#a" class="d">a</a> shell, run `TERM=xterm-256color nvim`. If colors are displayed
+correctly, then export that value of <span class="e">TERM</span> in your user <a href="repeat.txt.html#profile" class="d">profile</a> (usually
+<span class="e">~/.profile</span>):
+&gt;bash
+    export TERM=xterm-256color
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+If you're using <span class="e">tmux</span>, instead add this to your <span class="e">tmux.conf</span>:
+&gt;bash
+    set -g default-terminal "tmux-256color"
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+For GNU <span class="e">screen</span>, configure your <span class="e">.screenrc</span>
+&lt;https://wiki.archlinux.org/index.php/GNU_Screen#Use_256_colors&gt;:
+
+<span class="e">    term screen-256color</span>
+
+
+<span class="n">NOTE:</span> Nvim ignores <span class="e">t_Co</span> and other <a href="vim_diff.txt.html#t_xx" class="l">t_xx</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> codes.
+
+
+<span class="h">NEOVIM CAN'T READ UTF-8 CHARACTERS </span>
+
+Run the following from the command line:
+&gt;bash
+    <a href="mbyte.txt.html#locale" class="d">locale</a> | <a href="quickfix.txt.html#grep" class="d">grep</a> <a href="starting.txt.html#-E" class="d">-E</a> '(LANG<span class="l">LC_CTYPE</span>LC_ALL)=(.*\.)?(UTF|utf)-?8'
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+If there's no results, you might not be using <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> locale. See these issues:
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/neovim/neovim/issues/1601">https://github.com/neovim/neovim/issues/1601</a>
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/neovim/neovim/issues/1858">https://github.com/neovim/neovim/issues/1858</a>
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/neovim/neovim/issues/2386">https://github.com/neovim/neovim/issues/2386</a>
+
+
+<span class="h">ESC IN TMUX OR GNU SCREEN IS DELAYED </span>
+
+This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> common problem
+<a class="u" href="https://www.google.com/?q=tmux%20vim%20escape%20delay">https://www.google.com/?q=tmux%20vim%20escape%20delay</a> in <span class="e">tmux</span> <a href="pattern.txt.html#%2F" class="d">/</a> <span class="e">screen</span>
+(see also <a class="u" href="https://github.com/tmux/tmux/issues/131#issuecomment-145853211">https://github.com/tmux/tmux/issues/131#issuecomment-145853211</a>). The
+corresponding timeout needs to be tweaked to <a href="insert.txt.html#a" class="d">a</a> low value (10-20ms).
+
+<span class="e">.tmux.conf</span>:
+
+<span class="e">    set -g escape-time 10</span>
+<span class="e">    # Or for tmux &gt;= 2.6</span>
+<span class="e">    set -sg escape-time 10</span>
+
+<span class="e">.screenrc</span>:
+
+<span class="e">    maptimeout 10</span>
+
+
+"WHY DOESN'T THIS HAPPEN IN VIM?"
+
+It does happen (try `vim -N <a href="starting.txt.html#-u" class="d">-u</a> NONE`), but if you hit <a href="insert.txt.html#a" class="d">a</a> key quickly after
+ESC then Vim interprets the ESC <a href="motion.txt.html#as" class="d">as</a> ESC instead of <a href="intro.txt.html#ALT" class="d">ALT</a> (META). You won't
+notice the delay unless you closely observe the cursor. The tradeoff <a href="motion.txt.html#is" class="d">is</a> that
+Vim won't understand <a href="intro.txt.html#ALT" class="d">ALT</a> (META) key-chords, so <a href="luaref.txt.html#for" class="d">for</a> example `nnoremap <span class="s">&lt;M-a&gt;</span>`
+won't work. <a href="intro.txt.html#ALT" class="d">ALT</a> (META) key-chords always work in Nvim.
+See also `:help xterm-cursor-keys` in Vim.
+
+Nvim 0.3 mimics the Vim behavior while still fully supporting <a href="intro.txt.html#ALT" class="d">ALT</a> mappings. See
+<a href="insert.txt.html#i_ALT" class="l">i_ALT</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="h">ESC IN GNU SCREEN IS LOST WHEN MOUSE MODE IS ENABLED </span>
+
+This happens because of <a href="insert.txt.html#a" class="d">a</a> bug in screen <a class="u" href="https://savannah.gnu.org/bugs/?60196">https://savannah.gnu.org/bugs/?60196</a> <a href="cmdline.txt.html#%3A" class="d">:</a>
+in mouse mode, screen assumes that <span class="e">ESC</span> <a href="motion.txt.html#is" class="d">is</a> part of <a href="insert.txt.html#a" class="d">a</a> mouse sequence and will
+wait an unlimited time <a href="luaref.txt.html#for" class="d">for</a> the rest of the sequence, regardless of
+<span class="e">maptimeout</span>. Until it's fixed in screen, there's no known workaround <a href="luaref.txt.html#for" class="d">for</a>
+this other than double-pressing escape, which causes <a href="insert.txt.html#a" class="d">a</a> single <a href="intro.txt.html#escape" class="d">escape</a> to be
+passed through to Nvim.
+
+
+<span class="h">CALLING INPUTLIST(), ECHOMSG, ... IN FILETYPE PLUGINS AND AUTOCMD DOES NOT WORK </span>
+
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/neovim/neovim/issues/10008">https://github.com/neovim/neovim/issues/10008</a>
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/neovim/neovim/issues/10116">https://github.com/neovim/neovim/issues/10116</a>
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/neovim/neovim/issues/12288">https://github.com/neovim/neovim/issues/12288</a>
+<a href="motion.txt.html#-" class="d">-</a> <a class="u" href="https://github.com/vim/vim/issues/4379">https://github.com/vim/vim/issues/4379</a>
+
+This <a href="motion.txt.html#is" class="d">is</a> because Nvim sets <span class="e">shortmess+=F</span> by default. Vim behaves the same way
+with `set shortmes+=F`. There are plans to improve this, but meanwhile <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a>
+workaround, use `set shortmess-=F` or use <span class="e">unsilent</span> <a href="motion.txt.html#as" class="d">as</a> follows.
+
+<span class="e">    unsilent let var = inputlist(['1. item1', '2. item2'])</span>
+<span class="e">    autocmd BufNewFile * unsilent echomsg 'The autocmd has been fired.'</span>
+
+
+<span class="h">G:CLIPBOARD SETTINGS ARE NOT USED. </span>
+
+If the <a href="provider.txt.html#clipboard" class="d">clipboard</a> <a href="provider.txt.html#provider" class="d">provider</a> <a href="motion.txt.html#is" class="d">is</a> already loaded, you will need to <a href="editing.txt.html#reload" class="d">reload</a> <a href="motion.txt.html#it" class="d">it</a> after
+configuration. Use the following configuration.
+
+<span class="e">    let g:clipboard = { 'name' : ... }</span>
+<span class="e">    if exists('g:loaded_clipboard_provider')</span>
+<span class="e">      unlet g:loaded_clipboard_provider</span>
+<span class="e">      runtime autoload/provider/clipboard.vim</span>
+<span class="e">    endif</span>
+
+
+Or, if you want automatic reloading when assigning to <a href="provider.txt.html#g%3Aclipboard" class="l">g:clipboard</a><a href="motion.txt.html#%2C" class="d">,</a> set
+<a href="starting.txt.html#init.vim" class="l">init.vim</a> <a href="motion.txt.html#as" class="d">as</a> follows.
+
+<span class="e">    function! s:clipboard_changed(...) abort</span>
+<span class="e">      if exists('g:loaded_clipboard_provider')</span>
+<span class="e">        unlet g:loaded_clipboard_provider</span>
+<span class="e">      endif</span>
+<span class="e">      runtime autoload/provider/clipboard.vim</span>
+<span class="e">    endfunction</span>
+<span class="e"></span>
+<span class="e">    if !exists('s:loaded")</span>
+<span class="e">      call dictwatcheradd(g:, 'clipboard', function('s:clipboard_changed'))</span>
+<span class="e">    endif</span>
+<span class="e">    let s:loaded = v:true</span>
+
+
+<span class="h">==============================================================================</span>
+Build issues                                                    <span id="faq-build" class="t">faq-build</span>
+
+
+<span class="h">GENERAL BUILD ISSUES </span>
+
+Run `make distclean &amp;&amp; make` to rule out <a href="insert.txt.html#a" class="d">a</a> stale build environment causing the
+failure.
+
+
+<span class="h">SETTINGS IN LOCAL.MK DON'T TAKE EFFECT </span>
+
+CMake caches build settings, so you might need to run `rm <a href="starting.txt.html#-r" class="d">-r</a> build &amp;&amp; make`
+after modifying <span class="e">local.mk</span>.
+
+
+<span class="h">CMAKE ERRORS </span>
+
+`configure_file Problem configuring file`
+
+This <a href="motion.txt.html#is" class="d">is</a> probably <a href="insert.txt.html#a" class="d">a</a> permissions issue, which can happen if you run <span class="e">make</span> <a href="motion.txt.html#as" class="d">as</a> the
+root user, then later run an unprivileged <span class="e">make</span>. To fix this, run
+`rm -rf build` and try again.
+
+
+<span class="h">GENERATING HELPTAGS FAILED </span>
+
+If re-installation fails with "Generating helptags failed"<a href="motion.txt.html#%2C" class="d">,</a> try removing the
+previously installed runtime directory (if <span class="e">CMAKE_INSTALL_PREFIX</span> <a href="motion.txt.html#is" class="d">is</a> not set
+during building, the default <a href="motion.txt.html#is" class="d">is</a> <span class="e">/usr/local/share/nvim</span>):
+&gt;bash
+    rm <a href="starting.txt.html#-r" class="d">-r</a> /usr/local/share/nvim
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+<span class="h">==============================================================================</span>
+Design                                                         <span id="faq-design" class="t">faq-design</span>
+
+
+<span class="h">WHY NOT USE JSON FOR RPC? </span>
+
+<a href="motion.txt.html#-" class="d">-</a> JSON cannot easily/efficiently handle binary data
+<a href="motion.txt.html#-" class="d">-</a> JSON specification <a href="motion.txt.html#is" class="d">is</a> ambiguous: <a class="u" href="https://seriot.ch/parsing_json.php">https://seriot.ch/parsing_json.php</a>
+
+
+<span class="h">WHY EMBED LUA INSTEAD OF X? </span>
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> very small language, ideal <a href="luaref.txt.html#for" class="d">for</a> embedding. The biggest advantage of
+  Python/Ruby/etc <a href="motion.txt.html#is" class="d">is</a> their huge collection of libraries, but that isn't
+  relevant <a href="luaref.txt.html#for" class="d">for</a> Nvim, where Nvim <a href="motion.txt.html#is" class="d">is</a> the "batteries included" library:
+  introducing another stdlib would be redundant.
+<a href="motion.txt.html#-" class="d">-</a> <a href="lua.txt.html#Lua" class="d">Lua</a> 5.1 <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> complete language: the <a href="syntax.txt.html#syntax" class="d">syntax</a> <a href="motion.txt.html#is" class="d">is</a> frozen. This <a href="motion.txt.html#is" class="d">is</a> great <a href="luaref.txt.html#for" class="d">for</a>
+  backwards compatibility.
+<a href="motion.txt.html#-" class="d">-</a> Nvim also uses <a href="lua.txt.html#Lua" class="d">Lua</a> internally <a href="motion.txt.html#as" class="d">as</a> an alternative to C. Extra performance <a href="motion.txt.html#is" class="d">is</a>
+  useful there, <a href="motion.txt.html#as" class="d">as</a> opposed to <a href="insert.txt.html#a" class="d">a</a> slow language like <a href="if_pyth.txt.html#Python" class="d">Python</a> or Vim9script.
+<a href="motion.txt.html#-" class="d">-</a> LuaJIT <a href="motion.txt.html#is" class="d">is</a> one of the fastest runtimes on the planet, 10x faster than <a href="if_pyth.txt.html#Python" class="d">Python</a>
+  and "<a href="vim_diff.txt.html#Vim9script" class="d">Vim9script</a>" <a class="u" href="https://vimhelp.org/vim9.txt.html">https://vimhelp.org/vim9.txt.html</a> <a href="motion.txt.html#%2C" class="d">,</a> 100x faster than
+  Vimscript.
+<a href="motion.txt.html#-" class="d">-</a> Python/JS cost more than <a href="lua.txt.html#Lua" class="d">Lua</a> in terms of size and portability, and there are
+  already numerous Python/JS-based editors. So Python/JS would make Nvim
+  bigger and <a href="various.txt.html#less" class="d">less</a> portable, in exchange <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> non-differentiating feature.
+
+See also:
+
+<a href="motion.txt.html#-" class="d">-</a> Why <a href="lua.txt.html#Lua" class="d">Lua</a> <a class="u" href="https://web.archive.org/web/20150219224654/https://blog.datamules.com/blog/2012/01/30/why-lua/">https://web.archive.org/web/20150219224654/https://blog.datamules.com/blog/2012/01/30/why-lua/</a>
+<a href="motion.txt.html#-" class="d">-</a> The Design of <a href="lua.txt.html#Lua" class="d">Lua</a> <a class="u" href="https://cacm.acm.org/magazines/2018/11/232214-a-look-at-the-design-of-lua/fulltext">https://cacm.acm.org/magazines/2018/11/232214-a-look-at-the-design-of-lua/fulltext</a>
+<a href="motion.txt.html#-" class="d">-</a> Scripting architecture considerations <a class="u" href="http://oldblog.antirez.com/post/redis-and-scripting.html">http://oldblog.antirez.com/post/redis-and-scripting.html</a>
+<a href="motion.txt.html#-" class="d">-</a> LuaJIT performance <a class="u" href="https://julialang.org/benchmarks/">https://julialang.org/benchmarks/</a>
+<a href="motion.txt.html#-" class="d">-</a> Discussion of JavaScript vs <a href="lua.txt.html#Lua" class="d">Lua</a> <a class="u" href="https://github.com/vim/vim/pull/5198#issuecomment-554693754">https://github.com/vim/vim/pull/5198#issuecomment-554693754</a>
+<a href="motion.txt.html#-" class="d">-</a> Discussion <a href="if_pyth.txt.html#Python" class="d">Python</a> embedding <a class="u" href="https://lobste.rs/s/pnuak4/mercurial_s_journey_reflections_on#c_zshdwy">https://lobste.rs/s/pnuak4/mercurial_s_journey_reflections_on#c_zshdwy</a>
+
+
+<span class="h">WHY LUA 5.1 INSTEAD OF LUA 5.3+? </span>
+
+<a href="lua.txt.html#Lua" class="d">Lua</a> 5.1 <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> different language than 5.3. The <a href="lua.txt.html#Lua" class="d">Lua</a> org makes breaking changes
+with every new version, so even if we switched (not upgraded, but switched) to
+5.3 we gain nothing when they create the next new language in 5.4, 5.5, etc.
+And we would lose LuaJIT, which <a href="motion.txt.html#is" class="d">is</a> far more valuable than <a href="lua.txt.html#Lua" class="d">Lua</a> 5.3+.
+
+<a href="lua.txt.html#Lua" class="d">Lua</a> 5.1 <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> complete language. To "<a href="intro.txt.html#upgrade" class="d">upgrade</a>" it, add libraries, not syntax.
+Nvim itself already <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> pretty good "stdlib" <a href="luaref.txt.html#for" class="d">for</a> Lua, and we will continue to
+grow and enhance it. Changing the rules of <a href="lua.txt.html#Lua" class="d">Lua</a> gains nothing in this context.
+
+
+<span class="h">WILL NEOVIM TRANSLATE VIMSCRIPT TO LUA, INSTEAD OF EXECUTING VIMSCRIPT DIRECTLY? </span>
+
+<a href="motion.txt.html#-" class="d">-</a> We are experimenting with vim9jit <a class="u" href="https://github.com/tjdevries/vim9jit">https://github.com/tjdevries/vim9jit</a> to
+  transpile <a href="vim_diff.txt.html#Vim9script" class="d">Vim9script</a> (Vim9's Vimscript variant) to <a href="lua.txt.html#Lua" class="d">Lua</a> and have used this to
+  port Vim9 plugins <a class="u" href="https://github.com/neovim/neovim/pull/21662">https://github.com/neovim/neovim/pull/21662</a> to Nvim Lua.
+<a href="motion.txt.html#-" class="d">-</a> We have no plans <a href="luaref.txt.html#for" class="d">for</a> transpiling legacy Vimscript.
+
+
+<span class="h">ARE PLUGIN AUTHORS ENCOURAGED TO PORT THEIR PLUGINS FROM VIMSCRIPT TO LUA? DO YOU PLAN ON SUPPORTING VIMSCRIPT INDEFINITELY? (#1152) </span>
+
+We don't anticipate any reason to deprecate Vimscript, which <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> valuable DSL
+<a class="u" href="https://en.wikipedia.org/wiki/Domain-specific_language">https://en.wikipedia.org/wiki/Domain-specific_language</a> <a href="luaref.txt.html#for" class="d">for</a> text-editing tasks.
+Maintaining Vimscript compatibility <a href="motion.txt.html#is" class="d">is</a> <a href="various.txt.html#less" class="d">less</a> costly than <a href="insert.txt.html#a" class="d">a</a> mass migration of
+existing Vim plugins.
+
+Porting from Vimscript to <a href="lua.txt.html#Lua" class="d">Lua</a> just <a href="luaref.txt.html#for" class="d">for</a> the heck of <a href="motion.txt.html#it" class="d">it</a> gains nothing. Nvim <a href="motion.txt.html#is" class="d">is</a>
+emphatically <a href="insert.txt.html#a" class="d">a</a> fork of Vim in order to leverage the work already spent on
+thousands of Vim plugins, while enabling new types of plugins and
+integrations.
+
+vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

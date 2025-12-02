@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: russian.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="russian.txt.html#">↑Top↑</a></li>
+<li><a href="russian.txt.html#russian-intro">Introduction</a></li>
+<li><a href="russian.txt.html#russian-keymap">Russian keymaps</a></li>
+<li><a href="russian.txt.html#russian-l18n">Localization</a></li>
+<li><a href="russian.txt.html#russian-issues">Known issues</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="russian.txt" class="t">russian.txt</span>   Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL    by Vassily Ragosin</span>
+
+
+<a href="russian.txt.html#Russian" class="d">Russian</a> language localization and <a href="support.txt.html#support" class="d">support</a> in Vim	   <span id="russian" class="t">russian</span> <span id="Russian" class="t">Russian</span>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">===============================================================================</span>
+1. Introduction							<span id="russian-intro" class="t">russian-intro</span>
+
+<a href="russian.txt.html#Russian" class="d">Russian</a> language <a href="motion.txt.html#is" class="d">is</a> supported perfectly well in Vim.  You can type and view
+<a href="russian.txt.html#Russian" class="d">Russian</a> text just <a href="motion.txt.html#as" class="d">as</a> any other, without the need to tweak the settings.
+
+<span class="h">===============================================================================</span>
+2. <a href="russian.txt.html#Russian" class="d">Russian</a> keymaps					       <span id="russian-keymap" class="t">russian-keymap</span>
+
+To switch between languages you can use your system native keyboard switcher,
+or use one of the <a href="russian.txt.html#Russian" class="d">Russian</a> keymaps, included in the Vim distribution.  For
+example,
+
+<span class="e">    :set keymap=russian-jcukenwin</span>
+
+In the latter case, you can switch between languages even if you <a href="diff.txt.html#do" class="d">do</a> not have
+system <a href="russian.txt.html#Russian" class="d">Russian</a> keyboard or independently from <a href="insert.txt.html#a" class="d">a</a> system-wide keyboard settings.
+See <a href="options.txt.html#%27keymap%27" class="o">'keymap'</a>.  You can also map <a href="insert.txt.html#a" class="d">a</a> key to switch between keyboards, if you
+choose the latter option.  See <a href="map.txt.html#%3Amap" class="l">:map</a><a href="repeat.txt.html#." class="d">.</a>
+
+For your convenience, to avoid switching between keyboards, when you need to
+enter <a href="intro.txt.html#Normal" class="d">Normal</a> mode command, you can also set <a href="options.txt.html#%27langmap%27" class="o">'langmap'</a> option:
+
+<span class="e">    :set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,</span>
+<span class="e">    фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz</span>
+<span class="e"></span>
+You have to type this command in one line, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> wrapped <a href="luaref.txt.html#for" class="d">for</a> the sake of
+readability.
+
+<span class="h">===============================================================================</span>
+3. Localization							 <span id="russian-l18n" class="t">russian-l18n</span>
+
+If you wish to use messages, <a href="helphelp.txt.html#help" class="d">help</a> files, <a href="gui.txt.html#menus" class="d">menus</a> and other items translated to
+Russian, you will need to <a href="intro.txt.html#install" class="d">install</a> the RuVim Language Pack, available in
+different codepages from
+
+    <a class="u" href="https://www.sourceforge.net/projects/ruvim/">https://www.sourceforge.net/projects/ruvim/</a>
+
+After downloading an archive from RuVim project, unpack <a href="motion.txt.html#it" class="d">it</a> into your
+<a href="starting.txt.html#%24VIMRUNTIME" class="d">$VIMRUNTIME</a> directory.  We recommend using <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> archive.
+
+In order to use the <a href="russian.txt.html#Russian" class="d">Russian</a> documentation, make sure you have set the
+<a href="options.txt.html#%27helplang%27" class="o">'helplang'</a> option to "ru"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">===============================================================================</span>
+4. Known issues						       <span id="russian-issues" class="t">russian-issues</span>
+
+<a href="starting.txt.html#--" class="d">--</a> If you are using <a href="russian.txt.html#Russian" class="d">Russian</a> message translations in Win32 console, then
+   you may see the output produced by "vim <a href="starting.txt.html#--help" class="d">--help</a>"<a href="motion.txt.html#%2C" class="d">,</a> "vim <a href="starting.txt.html#--version" class="d">--version</a>" commands
+   and Win32 console <a href="windows.txt.html#window" class="d">window</a> title appearing in <a href="insert.txt.html#a" class="d">a</a> wrong codepage.  This problem
+   <a href="motion.txt.html#is" class="d">is</a> related to <a href="insert.txt.html#a" class="d">a</a> bug in GNU gettext library and may be fixed in the future
+   releases of gettext.
+
+<span class="h">===============================================================================</span>
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

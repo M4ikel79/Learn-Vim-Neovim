@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: userfunc.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="userfunc.txt.html#">↑Top↑</a></li>
+<li><a href="userfunc.txt.html#_defining-a-function">Defining a function</a></li>
+<li><a href="userfunc.txt.html#_calling-a-function">Calling a function</a></li>
+<li><a href="userfunc.txt.html#_cleaning-up-in-a-function">Cleaning up in a function</a></li>
+<li><a href="userfunc.txt.html#_automatically-loading-fun">Automatically loading functions</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="userfunc.txt" class="t">userfunc.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Oct 28
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar</span>
+
+
+Defining and using functions.
+
+This <a href="motion.txt.html#is" class="d">is</a> introduced in <a href="motion.txt.html#section" class="d">section</a> <a href="usr_41.txt.html#41.7" class="l">41.7</a> of the user manual.
+
+1. Defining <a href="insert.txt.html#a" class="d">a</a> function			<a href="userfunc.txt.html#define-function" class="l">define-function</a>
+2. Calling <a href="insert.txt.html#a" class="d">a</a> function			<a href="userfunc.txt.html#%3Acall" class="l">:call</a>
+3. Cleaning up in <a href="insert.txt.html#a" class="d">a</a> function		<a href="userfunc.txt.html#%3Adefer" class="l">:defer</a>
+4. Automatically loading <a href="eval.txt.html#functions" class="d">functions</a>	<a href="userfunc.txt.html#autoload-functions" class="l">autoload-functions</a>
+
+<span class="h">==============================================================================</span>
+
+<span id="_defining-a-function"><span class="h">1. Defining a function </span></span>
+						<span id="define-function" class="t">define-function</span>
+New <a href="eval.txt.html#functions" class="d">functions</a> can be defined.  These can be called just like builtin
+functions.  The function executes <a href="insert.txt.html#a" class="d">a</a> sequence of <a href="intro.txt.html#Ex" class="d">Ex</a> commands.  <a href="intro.txt.html#Normal" class="d">Normal</a> mode
+commands can be executed with the <a href="various.txt.html#%3Anormal" class="l">:normal</a> command.
+
+The function name <a href="vim_faq.txt.html#must" class="d">must</a> start with an <a href="change.txt.html#uppercase" class="d">uppercase</a> letter, to avoid confusion with
+builtin functions.  To prevent from using the same name in different scripts
+make them script-local.  If you <a href="diff.txt.html#do" class="d">do</a> use <a href="insert.txt.html#a" class="d">a</a> global function then avoid obvious,
+short names.  <a href="insert.txt.html#A" class="d">A</a> good habit <a href="motion.txt.html#is" class="d">is</a> to start the function name with the name of the
+script, e.g., "HTMLcolor()"<a href="repeat.txt.html#." class="d">.</a>
+
+In legacy <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> also possible to use curly braces, see
+<a href="eval.txt.html#curly-braces-names" class="l">curly-braces-names</a><a href="repeat.txt.html#." class="d">.</a>
+
+The <a href="userfunc.txt.html#autoload" class="l">autoload</a> facility <a href="motion.txt.html#is" class="d">is</a> useful to define <a href="insert.txt.html#a" class="d">a</a> function only when it's called.
+
+							<span id="local-function" class="t">local-function</span>
+<a href="insert.txt.html#A" class="d">A</a> function local to <a href="insert.txt.html#a" class="d">a</a> legacy <a href="usr_41.txt.html#script" class="d">script</a> <a href="vim_faq.txt.html#must" class="d">must</a> start with "s:"<a href="repeat.txt.html#." class="d">.</a>  <a href="insert.txt.html#A" class="d">A</a> local <a href="usr_41.txt.html#script" class="d">script</a>
+function can only be called from within the <a href="usr_41.txt.html#script" class="d">script</a> and from functions, user
+commands and <a href="autocmd.txt.html#autocommands" class="d">autocommands</a> defined in the script.  It <a href="motion.txt.html#is" class="d">is</a> also possible to call
+the function from <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> defined in the script, but then <a href="map.txt.html#%3CSID%3E" class="l">&lt;SID&gt;</a> <a href="vim_faq.txt.html#must" class="d">must</a> be
+used instead of "s:" when the <a href="map.txt.html#mapping" class="d">mapping</a> <a href="motion.txt.html#is" class="d">is</a> expanded outside of the script.
+There are only <a href="map.txt.html#script-local" class="d">script-local</a> functions, no buffer-local or window-local
+functions.
+
+In <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> <a href="eval.txt.html#functions" class="d">functions</a> are local to the <a href="usr_41.txt.html#script" class="d">script</a> by default, prefix "<a href="eval.txt.html#g%3A" class="d">g:</a>" to
+define <a href="insert.txt.html#a" class="d">a</a> global function.
+
+				<span id="%3Afu" class="t">:fu</span> <span id="%3Afunction" class="t">:function</span> <span id="E128" class="t">E128</span> <span id="E129" class="t">E129</span> <span id="E123" class="t">E123</span> <span id="E454" class="t">E454</span>
+:fu[nction]		<a href="eval.txt.html#List" class="d">List</a> all <a href="eval.txt.html#functions" class="d">functions</a> and their arguments.
+
+:fu[nction] <span class="s">{name}</span>	<a href="eval.txt.html#List" class="d">List</a> function <span class="s">{name}</span>.
+			<span class="s">{name}</span> can also be <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#Dictionary" class="l">Dictionary</a> entry that <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+			<a href="eval.txt.html#Funcref" class="l">Funcref</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">				:function dict.init</span>
+			<span class="n">Note</span> that <span class="s">{name}</span> <a href="motion.txt.html#is" class="d">is</a> not an expression, you cannot use
+			<a href="insert.txt.html#a" class="d">a</a> variable that <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> function reference.  You can use
+			this dirty trick to <a href="eval.txt.html#list" class="d">list</a> the function referred to with
+			variable "<a href="eval.txt.html#Funcref" class="d">Funcref</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">				let g:MyFuncref = Funcref</span>
+<span class="e">				func g:MyFuncref</span>
+<span class="e">				unlet g:MyFuncref</span>
+<span class="e"></span>
+:fu[nction] /{pattern}	<a href="eval.txt.html#List" class="d">List</a> <a href="eval.txt.html#functions" class="d">functions</a> with <a href="insert.txt.html#a" class="d">a</a> name matching <span class="s">{pattern}</span>.
+			Example that lists all <a href="eval.txt.html#functions" class="d">functions</a> ending with "File"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">				:function /File$</span>
+
+							<span id="%3Afunction-verbose" class="t">:function-verbose</span>
+When <a href="options.txt.html#%27verbose%27" class="o">'verbose'</a> <a href="motion.txt.html#is" class="d">is</a> non-zero, listing <a href="insert.txt.html#a" class="d">a</a> function will also display where <a href="motion.txt.html#it" class="d">it</a> was
+last defined.  Example: 
+<span class="e"></span>
+<span class="e">    :verbose function SetFileTypeSH</span>
+<span class="e">	function SetFileTypeSH(name)</span>
+<span class="e">	    Last set from /usr/share/vim/vim-7.0/filetype.vim</span>
+
+See <a href="various.txt.html#%3Averbose-cmd" class="l">:verbose-cmd</a> for more information.
+
+						<span id="E124" class="t">E124</span> <span id="E125" class="t">E125</span> <span id="E853" class="t">E853</span> <span id="E884" class="t">E884</span>
+:fu[nction][!] <span class="s">{name}</span>(<span class="s">[arguments]</span>) <a href="cmdline.txt.html#%5Brange%5D" class="s">[range]</a> <span class="s">[abort]</span> <span class="s">[dict]</span> <span class="s">[closure]</span>
+			Define <a href="insert.txt.html#a" class="d">a</a> new function by the name <span class="s">{name}</span>.  The body of
+			the function follows in the next lines, until the
+			matching <a href="userfunc.txt.html#%3Aendfunction" class="l">:endfunction</a><a href="repeat.txt.html#." class="d">.</a>
+								<span id="E1267" class="t">E1267</span>
+			The name <a href="vim_faq.txt.html#must" class="d">must</a> be made of alphanumeric characters and
+			'_', and <a href="vim_faq.txt.html#must" class="d">must</a> start with <a href="insert.txt.html#a" class="d">a</a> capital or "s:" (see
+			above).  <span class="n">Note</span> that using "<a href="eval.txt.html#b%3A" class="d">b:</a>" or "<a href="eval.txt.html#g%3A" class="d">g:</a>" <a href="motion.txt.html#is" class="d">is</a> not allowed.
+			(since patch 7.4.260 <a href="userfunc.txt.html#E884" class="d">E884</a> <a href="motion.txt.html#is" class="d">is</a> given if the function
+			name has <a href="insert.txt.html#a" class="d">a</a> colon in the name, e.g. for "foo:bar()"<a href="repeat.txt.html#." class="d">.</a>
+			Before that patch no error was given).
+
+			<span class="s">{name}</span> can also be <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#Dictionary" class="l">Dictionary</a> entry that <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+			<a href="eval.txt.html#Funcref" class="l">Funcref</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">				:function dict.init(arg)</span>
+			"<a href="eval.txt.html#dict" class="d">dict</a>" <a href="vim_faq.txt.html#must" class="d">must</a> be an existing dictionary.  The entry
+			"init" <a href="motion.txt.html#is" class="d">is</a> added if <a href="motion.txt.html#it" class="d">it</a> didn't exist yet.  Otherwise [!]
+			<a href="motion.txt.html#is" class="d">is</a> required to overwrite an existing function.  The
+			result <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#Funcref" class="l">Funcref</a> to <a href="insert.txt.html#a" class="d">a</a> numbered function.  The
+			function can only be used with <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#Funcref" class="l">Funcref</a> and will be
+			deleted if there are no more references to it.
+								<span id="E127" class="t">E127</span> <span id="E122" class="t">E122</span>
+			When <a href="insert.txt.html#a" class="d">a</a> function by this name already exists and [!] <a href="motion.txt.html#is" class="d">is</a>
+			not used an error message <a href="motion.txt.html#is" class="d">is</a> given.  There <a href="motion.txt.html#is" class="d">is</a> one
+			exception: When sourcing <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> again, <a href="insert.txt.html#a" class="d">a</a> function
+			that was previously defined in that <a href="usr_41.txt.html#script" class="d">script</a> will be
+			silently replaced.
+			When [!] <a href="motion.txt.html#is" class="d">is</a> used, an existing function <a href="motion.txt.html#is" class="d">is</a> silently
+			replaced.  Unless <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> currently being executed, that
+			<a href="motion.txt.html#is" class="d">is</a> an error.
+			<span class="n">NOTE:</span> Use <a href="change.txt.html#%21" class="d">!</a> wisely.  If used without care <a href="motion.txt.html#it" class="d">it</a> can cause
+			an existing function to be replaced unexpectedly,
+			which <a href="motion.txt.html#is" class="d">is</a> hard to debug.
+			<span class="n">NOTE:</span> In <a href="vim9.txt.html#Vim9" class="d">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> <a href="map.txt.html#script-local" class="d">script-local</a> <a href="eval.txt.html#functions" class="d">functions</a> cannot be
+			deleted or redefined.
+
+			For the <span class="s">{arguments}</span> see <a href="userfunc.txt.html#function-argument" class="l">function-argument</a><a href="repeat.txt.html#." class="d">.</a>
+
+					<span id="%3Afunc-range" class="t">:func-range</span> <span id="a%3Afirstline" class="t">a:firstline</span> <span id="a%3Alastline" class="t">a:lastline</span>
+			When the <a href="cmdline.txt.html#%5Brange%5D" class="s">[range]</a> argument <a href="motion.txt.html#is" class="d">is</a> added, the function <a href="motion.txt.html#is" class="d">is</a>
+			expected to take care of <a href="insert.txt.html#a" class="d">a</a> range itself.  The range <a href="motion.txt.html#is" class="d">is</a>
+			passed <a href="motion.txt.html#as" class="d">as</a> "<a href="userfunc.txt.html#a%3Afirstline" class="d">a:firstline</a>" and "<a href="userfunc.txt.html#a%3Alastline" class="d">a:lastline</a>"<a href="repeat.txt.html#." class="d">.</a>  If <a href="cmdline.txt.html#%5Brange%5D" class="s">[range]</a>
+			<a href="motion.txt.html#is" class="d">is</a> excluded, ":{range}call" will call the function for
+			each line in the range, with the cursor on the start
+			of each line.  See <a href="userfunc.txt.html#function-range-example" class="l">function-range-example</a><a href="repeat.txt.html#." class="d">.</a>
+			The cursor <a href="motion.txt.html#is" class="d">is</a> still moved to the first line of the
+			range, <a href="motion.txt.html#as" class="d">as</a> <a href="motion.txt.html#is" class="d">is</a> the <a href="change.txt.html#case" class="d">case</a> with all <a href="intro.txt.html#Ex" class="d">Ex</a> commands.
+								<span id="%3Afunc-abort" class="t">:func-abort</span>
+			When the <span class="s">[abort]</span> argument <a href="motion.txt.html#is" class="d">is</a> added, the function will
+			abort <a href="motion.txt.html#as" class="d">as</a> soon <a href="motion.txt.html#as" class="d">as</a> an error <a href="motion.txt.html#is" class="d">is</a> detected.
+								<span id="%3Afunc-dict" class="t">:func-dict</span>
+			When the <span class="s">[dict]</span> argument <a href="motion.txt.html#is" class="d">is</a> added, the function <a href="vim_faq.txt.html#must" class="d">must</a>
+			be invoked through an entry in <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#Dictionary" class="l">Dictionary</a><a href="repeat.txt.html#." class="d">.</a>  The
+			local variable "<a href="eval.txt.html#self" class="d">self</a>" will then be set to the
+			dictionary.  See <a href="eval.txt.html#Dictionary-function" class="l">Dictionary-function</a><a href="repeat.txt.html#." class="d">.</a>
+						<span id="%3Afunc-closure" class="t">:func-closure</span> <span id="E932" class="t">E932</span>
+			When the <span class="s">[closure]</span> argument <a href="motion.txt.html#is" class="d">is</a> added, the function
+			can access <a href="eval.txt.html#variables" class="d">variables</a> and arguments from the outer
+			scope.  This <a href="motion.txt.html#is" class="d">is</a> usually called <a href="insert.txt.html#a" class="d">a</a> closure.  In this
+			example Bar() uses "<a href="change.txt.html#x" class="d">x</a>" from the scope of Foo().  It
+			remains referenced even after Foo() returns: 
+<span class="e">				:function! Foo()</span>
+<span class="e">				:  let x = 0</span>
+<span class="e">				:  function! Bar() closure</span>
+<span class="e">				:    let x += 1</span>
+<span class="e">				:    return x</span>
+<span class="e">				:  endfunction</span>
+<span class="e">				:  return funcref('Bar')</span>
+<span class="e">				:endfunction</span>
+<span class="e"></span>
+<span class="e">				:let F = Foo()</span>
+<span class="e">				:echo F()</span>
+				1 
+<span class="e">				:echo F()</span>
+				2 
+<span class="e">				:echo F()</span>
+				3
+
+						<span id="function-search-undo" class="t">function-search-undo</span>
+			The last used search <a href="pattern.txt.html#pattern" class="d">pattern</a> and the <a href="undo.txt.html#redo" class="d">redo</a> command "<a href="repeat.txt.html#." class="d">.</a>"
+			will not be changed by the function.  This also
+			implies that the effect of <a href="pattern.txt.html#%3Anohlsearch" class="l">:nohlsearch</a> <a href="motion.txt.html#is" class="d">is</a> undone
+			when the function returns.
+
+			<span id="%3Aendf" class="t">:endf</span> <span id="%3Aendfunction" class="t">:endfunction</span> <span id="E126" class="t">E126</span> <span id="E193" class="t">E193</span> <span id="W22" class="t">W22</span> <span id="E1151" class="t">E1151</span>
+:endf[unction] <span class="s">[argument]</span>
+			The <a href="intro.txt.html#end" class="d">end</a> of <a href="insert.txt.html#a" class="d">a</a> function definition.  Best <a href="motion.txt.html#is" class="d">is</a> to <a href="change.txt.html#put" class="d">put</a> <a href="motion.txt.html#it" class="d">it</a>
+			on <a href="insert.txt.html#a" class="d">a</a> line by its own, without <span class="s">[argument]</span>.
+
+			<span class="s">[argument]</span> can be:
+				| command	command to execute next
+				\n command	command to execute next
+				" comment	always ignored
+				anything else	ignored, warning given when
+						<a href="options.txt.html#%27verbose%27" class="o">'verbose'</a> <a href="motion.txt.html#is" class="d">is</a> non-zero
+			The support for <a href="insert.txt.html#a" class="d">a</a> following command was added in Vim
+			8.0.0654, before that any argument was silently
+			ignored.
+
+			To be able to define <a href="insert.txt.html#a" class="d">a</a> function inside an <span class="e">:execute</span>
+			command, use line breaks instead of <a href="cmdline.txt.html#%3Abar" class="l">:bar</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">				:exe "func Foo()\necho 'foo'\nendfunc"</span>
+
+				<span id="%3Adelf" class="t">:delf</span> <span id="%3Adelfunction" class="t">:delfunction</span> <span id="E131" class="t">E131</span> <span id="E933" class="t">E933</span> <span id="E1084" class="t">E1084</span>
+:delf[unction][!] <span class="s">{name}</span>
+			Delete function <span class="s">{name}</span>.
+			<span class="s">{name}</span> can also be <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#Dictionary" class="l">Dictionary</a> entry that <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a>
+			<a href="eval.txt.html#Funcref" class="l">Funcref</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">				:delfunc dict.init</span>
+			This will remove the "init" entry from "<a href="eval.txt.html#dict" class="d">dict</a>"<a href="repeat.txt.html#." class="d">.</a>  The
+			function <a href="motion.txt.html#is" class="d">is</a> deleted if there are no more references to
+			it.
+			With the <a href="change.txt.html#%21" class="d">!</a> there <a href="motion.txt.html#is" class="d">is</a> no error if the function does not
+			exist.
+							<span id="%3Aretu" class="t">:retu</span> <span id="%3Areturn" class="t">:return</span> <span id="E133" class="t">E133</span>
+:retu[rn] <span class="s">[expr]</span>	Return from <a href="insert.txt.html#a" class="d">a</a> function.  When <span class="s">[expr]</span> <a href="motion.txt.html#is" class="d">is</a> given, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+			evaluated and returned <a href="motion.txt.html#as" class="d">as</a> the result of the function.
+			If <span class="s">[expr]</span> <a href="motion.txt.html#is" class="d">is</a> not given, the number <a href="motion.txt.html#0" class="d">0</a> <a href="motion.txt.html#is" class="d">is</a> returned.
+			When <a href="insert.txt.html#a" class="d">a</a> function ends without an explicit "<a href="userfunc.txt.html#%3Areturn" class="d">:return</a>"<a href="motion.txt.html#%2C" class="d">,</a>
+			the number <a href="motion.txt.html#0" class="d">0</a> <a href="motion.txt.html#is" class="d">is</a> returned.
+
+			In <a href="insert.txt.html#a" class="d">a</a> <a href="vim9.txt.html#%3Adef" class="d">:def</a> function <span id="E1095" class="t">E1095</span> <a href="motion.txt.html#is" class="d">is</a> given if unreachable
+			code follows after the <span class="e">:return</span>.
+			In legacy <a href="usr_41.txt.html#script" class="d">script</a> there <a href="motion.txt.html#is" class="d">is</a> no check for unreachable
+			lines, thus there <a href="motion.txt.html#is" class="d">is</a> no warning if commands follow
+			<span class="e">:return</span>.  Also, there <a href="motion.txt.html#is" class="d">is</a> no check if the following
+			line contains <a href="insert.txt.html#a" class="d">a</a> valid command.  Forgetting the line
+			continuation <a href="intro.txt.html#backslash" class="d">backslash</a> may <a href="motion.txt.html#go" class="d">go</a> unnoticed: 
+<span class="e">				return 'some text'</span>
+<span class="e">				       .. ' some more text'</span>
+			Will happily return "some text" without an error.  It
+			should have been: 
+<span class="e">				return 'some text'</span>
+<span class="e">				       \ .. ' some more text'</span>
+
+			If the "<a href="userfunc.txt.html#%3Areturn" class="d">:return</a>" <a href="motion.txt.html#is" class="d">is</a> used after <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#%3Atry" class="l">:try</a> but before the
+			matching <a href="eval.txt.html#%3Afinally" class="l">:finally</a> (if present), the commands
+			following the "<a href="eval.txt.html#%3Afinally" class="d">:finally</a>" up to the matching <a href="eval.txt.html#%3Aendtry" class="l">:endtry</a>
+			are executed first.  This process applies to all
+			nested "<a href="eval.txt.html#%3Atry" class="d">:try</a>"<a href="change.txt.html#s" class="d">s</a> inside the function.  The function
+			returns <a href="motion.txt.html#at" class="d">at</a> the outermost "<a href="eval.txt.html#%3Aendtry" class="d">:endtry</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+						<span id="function-argument" class="t">function-argument</span> <span id="a%3Avar" class="t">a:var</span>
+An argument can be defined by giving its name.  In the function this can then
+be used <a href="motion.txt.html#as" class="d">as</a> "a:name" <a href="motion.txt.html#%28" class="d">(</a>"a:" for argument) (in <a href="insert.txt.html#a" class="d">a</a> <span class="e">:def</span> function "a:" <a href="motion.txt.html#is" class="d">is</a> not
+used).
+					<span id="a%3A0" class="t">a:0</span> <span id="a%3A1" class="t">a:1</span> <span id="a%3A000" class="t">a:000</span> <span id="E740" class="t">E740</span> <span id="..." class="t">...</span>
+Up to 20 arguments can be given, separated by commas.  After the named
+arguments an argument "<a href="userfunc.txt.html#..." class="d">...</a>" can be specified, which means that more arguments
+may optionally be following.  In the function the extra arguments can be used
+<a href="motion.txt.html#as" class="d">as</a> "<a href="userfunc.txt.html#a%3A1" class="d">a:1</a>"<a href="motion.txt.html#%2C" class="d">,</a> "a:2"<a href="motion.txt.html#%2C" class="d">,</a> etc.  "<a href="userfunc.txt.html#a%3A0" class="d">a:0</a>" <a href="motion.txt.html#is" class="d">is</a> set to the number of extra arguments (which
+can be 0).  "<a href="userfunc.txt.html#a%3A000" class="d">a:000</a>" <a href="motion.txt.html#is" class="d">is</a> set to <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#List" class="l">List</a> that contains these arguments.  <span class="n">Note</span>
+that "<a href="userfunc.txt.html#a%3A1" class="d">a:1</a>" <a href="motion.txt.html#is" class="d">is</a> the same <a href="motion.txt.html#as" class="d">as</a> "a:000[0]"<a href="repeat.txt.html#." class="d">.</a>
+							<span id="E742" class="t">E742</span> <span id="E1090" class="t">E1090</span>
+The a: scope and the <a href="eval.txt.html#variables" class="d">variables</a> in <a href="motion.txt.html#it" class="d">it</a> cannot be changed, they are fixed.
+However, if <a href="insert.txt.html#a" class="d">a</a> composite type <a href="motion.txt.html#is" class="d">is</a> used, such <a href="motion.txt.html#as" class="d">as</a> <a href="eval.txt.html#List" class="l">List</a> or <a href="eval.txt.html#Dictionary" class="l">Dictionary</a> <a href="motion.txt.html#%2C" class="d">,</a> you can
+change their contents.  Thus you can pass <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#List" class="l">List</a> to <a href="insert.txt.html#a" class="d">a</a> function and have the
+function add an item to it.  If you want to make sure the function cannot
+change <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#List" class="l">List</a> or <a href="eval.txt.html#Dictionary" class="l">Dictionary</a> use <a href="eval.txt.html#%3Alockvar" class="l">:lockvar</a><a href="repeat.txt.html#." class="d">.</a>
+
+It <a href="motion.txt.html#is" class="d">is</a> also possible to define <a href="insert.txt.html#a" class="d">a</a> function without any arguments.  You <a href="vim_faq.txt.html#must" class="d">must</a>
+still supply the () then.
+
+It <a href="motion.txt.html#is" class="d">is</a> allowed to define another function inside <a href="insert.txt.html#a" class="d">a</a> function body.
+
+						<span id="optional-function-argument" class="t">optional-function-argument</span>
+You can provide default values for positional named arguments.  This makes
+them optional for function calls.  When <a href="insert.txt.html#a" class="d">a</a> positional argument <a href="motion.txt.html#is" class="d">is</a> not
+specified <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> call, the default <a href="eval.txt.html#expression" class="d">expression</a> <a href="motion.txt.html#is" class="d">is</a> used to initialize it.
+This only works for <a href="eval.txt.html#functions" class="d">functions</a> declared with <span class="e">:function</span> or <span class="e">:def</span>, not for
+<a href="eval.txt.html#lambda" class="d">lambda</a> expressions <a href="eval.txt.html#expr-lambda" class="l">expr-lambda</a><a href="repeat.txt.html#." class="d">.</a>
+
+Example: 
+<span class="e">  function Something(key, value = 10)</span>
+<span class="e">     echo a:key .. ": " .. a:value</span>
+<span class="e">  endfunction</span>
+<span class="e">  call Something('empty')	"empty: 10"</span>
+<span class="e">  call Something('key', 20)	"key: 20"</span>
+<span class="e"></span>
+The argument default expressions are evaluated <a href="motion.txt.html#at" class="d">at</a> the time of the function
+call, not when the function <a href="motion.txt.html#is" class="d">is</a> defined.  Thus <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> possible to use an
+<a href="eval.txt.html#expression" class="d">expression</a> which <a href="motion.txt.html#is" class="d">is</a> invalid the moment the function <a href="motion.txt.html#is" class="d">is</a> defined.  The
+expressions are also only evaluated when arguments are not specified during <a href="insert.txt.html#a" class="d">a</a>
+call.
+						<span id="none-function_argument" class="t">none-function_argument</span>
+You can pass <a href="eval.txt.html#v%3Anone" class="l">v:none</a> to use the default expression.  <span class="n">Note</span> that this means you
+cannot pass <a href="eval.txt.html#v%3Anone" class="d">v:none</a> <a href="motion.txt.html#as" class="d">as</a> an ordinary value when an argument has <a href="insert.txt.html#a" class="d">a</a> default
+expression.
+
+Example: 
+<span class="e">  function Something(a = 10, b = 20, c = 30)</span>
+<span class="e">  endfunction</span>
+<span class="e">  call Something(1, v:none, 3)	    " b = 20</span>
+
+								<span id="E989" class="t">E989</span>
+Optional arguments with default expressions <a href="vim_faq.txt.html#must" class="d">must</a> occur after any mandatory
+arguments.  You can use "<a href="userfunc.txt.html#..." class="d">...</a>" after all optional named arguments.
+
+It <a href="motion.txt.html#is" class="d">is</a> possible for later argument defaults to refer to prior arguments,
+but not the other way around.  They <a href="vim_faq.txt.html#must" class="d">must</a> be prefixed with "a:"<a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#as" class="d">as</a> with all
+arguments.
+
+Example that works: 
+<span class="e">  :function Okay(mandatory, optional = a:mandatory)</span>
+<span class="e">  :endfunction</span>
+Example that does NOT work: 
+<span class="e">  :function NoGood(first = a:second, second = 10)</span>
+<span class="e">  :endfunction</span>
+
+When not using "<a href="userfunc.txt.html#..." class="d">...</a>"<a href="motion.txt.html#%2C" class="d">,</a> the number of arguments in <a href="insert.txt.html#a" class="d">a</a> function call <a href="vim_faq.txt.html#must" class="d">must</a> be <a href="motion.txt.html#at" class="d">at</a>
+least equal to the number of mandatory named arguments.  When using "<a href="userfunc.txt.html#..." class="d">...</a>"<a href="motion.txt.html#%2C" class="d">,</a> the
+number of arguments may be larger than the total of mandatory and optional
+arguments.
+
+							<span id="local-variables" class="t">local-variables</span>
+Inside <a href="insert.txt.html#a" class="d">a</a> function local <a href="eval.txt.html#variables" class="d">variables</a> can be used.  These will disappear when the
+function returns.  Global <a href="eval.txt.html#variables" class="d">variables</a> need to be accessed with "<a href="eval.txt.html#g%3A" class="d">g:</a>"<a href="repeat.txt.html#." class="d">.</a>
+Inside <a href="eval.txt.html#functions" class="d">functions</a> local <a href="eval.txt.html#variables" class="d">variables</a> are accessed without prepending anything.
+But you can also prepend "<a href="eval.txt.html#l%3A" class="d">l:</a>" if you like.  This <a href="motion.txt.html#is" class="d">is</a> required for some reserved
+names, such <a href="motion.txt.html#as" class="d">as</a> "<a href="intro.txt.html#count" class="d">count</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+Example: 
+<span class="e">  :function Table(title, ...)</span>
+<span class="e">  :  echohl Title</span>
+<span class="e">  :  echo a:title</span>
+<span class="e">  :  echohl None</span>
+<span class="e">  :  echo a:0 .. " items:"</span>
+<span class="e">  :  for s in a:000</span>
+<span class="e">  :    echon ' ' .. s</span>
+<span class="e">  :  endfor</span>
+<span class="e">  :endfunction</span>
+<span class="e"></span>
+This function can then be called with: 
+<span class="e">  call Table("Table", "line1", "line2")</span>
+<span class="e">  call Table("Empty Table")</span>
+<span class="e"></span>
+To return more than one value, return <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#List" class="l">List</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e">  :function Compute(n1, n2)</span>
+<span class="e">  :  if a:n2 == 0</span>
+<span class="e">  :    return ["fail", 0]</span>
+<span class="e">  :  endif</span>
+<span class="e">  :  return ["ok", a:n1 / a:n2]</span>
+<span class="e">  :endfunction</span>
+<span class="e"></span>
+This function can then be called with: 
+<span class="e">  :let [success, div] = Compute(102, 6)</span>
+<span class="e">  :if success == "ok"</span>
+<span class="e">  :  echo div</span>
+<span class="e">  :endif</span>
+
+<span class="h">==============================================================================</span>
+
+<span id="_calling-a-function"><span class="h">2. Calling a function </span></span>
+						<span id="%3Acal" class="t">:cal</span> <span id="%3Acall" class="t">:call</span> <span id="E107" class="t">E107</span>
+:[range]cal[l] <span class="s">{name}</span>(<span class="s">[arguments]</span>)
+		Call <a href="insert.txt.html#a" class="d">a</a> function.  The name of the function and its arguments
+		are <a href="motion.txt.html#as" class="d">as</a> specified with <span class="e">:function</span>.  Up to 20 arguments can be
+		used.  The returned value <a href="motion.txt.html#is" class="d">is</a> discarded.
+		In <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> using <span class="e">:call</span> <a href="motion.txt.html#is" class="d">is</a> optional, these two lines <a href="diff.txt.html#do" class="d">do</a>
+		the same thing: 
+<span class="e">			call SomeFunc(arg)</span>
+<span class="e">			SomeFunc(arg)</span>
+		Without <a href="insert.txt.html#a" class="d">a</a> range and for <a href="eval.txt.html#functions" class="d">functions</a> that accept <a href="insert.txt.html#a" class="d">a</a> range, the
+		function <a href="motion.txt.html#is" class="d">is</a> called once.  When <a href="insert.txt.html#a" class="d">a</a> range <a href="motion.txt.html#is" class="d">is</a> given the cursor <a href="motion.txt.html#is" class="d">is</a>
+		positioned <a href="motion.txt.html#at" class="d">at</a> the start of the first line before executing the
+		function.
+		When <a href="insert.txt.html#a" class="d">a</a> range <a href="motion.txt.html#is" class="d">is</a> given and the function doesn't handle <a href="motion.txt.html#it" class="d">it</a>
+		itself, the function <a href="motion.txt.html#is" class="d">is</a> executed for each line in the range,
+		with the cursor in the first column of that line.  The cursor
+		<a href="motion.txt.html#is" class="d">is</a> left <a href="motion.txt.html#at" class="d">at</a> the last line (possibly moved by the last function
+		call).  The arguments are re-evaluated for each line.  Thus
+		this works:
+						<span id="function-range-example" class="t">function-range-example</span>  
+<span class="e">	:function Mynumber(arg)</span>
+<span class="e">	:  echo line(".") .. " " .. a:arg</span>
+<span class="e">	:endfunction</span>
+<span class="e">	:1,5call Mynumber(getline("."))</span>
+
+		The "<a href="userfunc.txt.html#a%3Afirstline" class="d">a:firstline</a>" and "<a href="userfunc.txt.html#a%3Alastline" class="d">a:lastline</a>" are defined anyway, they
+		can be used to <a href="diff.txt.html#do" class="d">do</a> something different <a href="motion.txt.html#at" class="d">at</a> the start or <a href="intro.txt.html#end" class="d">end</a> of
+		the range.
+
+		Example of <a href="insert.txt.html#a" class="d">a</a> function that handles the range itself: 
+<span class="e"></span>
+<span class="e">	:function Cont() range</span>
+<span class="e">	:  execute (a:firstline + 1) .. "," .. a:lastline .. 's/^/\t\\ '</span>
+<span class="e">	:endfunction</span>
+<span class="e">	:4,8call Cont()</span>
+
+		This function inserts the continuation character "\" in front
+		of all the lines in the range, except the first one.
+
+		When the function returns <a href="insert.txt.html#a" class="d">a</a> composite value <a href="motion.txt.html#it" class="d">it</a> can be further
+		dereferenced, but the range will not be used then.  Example: 
+<span class="e">	:4,8call GetDict().method()</span>
+		Here GetDict() gets the range but method() does not.
+
+								<span id="E117" class="t">E117</span>
+When <a href="insert.txt.html#a" class="d">a</a> function cannot be found the error "E117: Unknown function" will be
+given.  If the function was using an <a href="userfunc.txt.html#autoload" class="d">autoload</a> path or an <a href="userfunc.txt.html#autoload" class="d">autoload</a> import and
+the <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="vim9.txt.html#Vim9" class="l">Vim9</a> script, this may also be caused by the function not
+being exported.
+
+								<span id="E132" class="t">E132</span>
+The recursiveness of user <a href="eval.txt.html#functions" class="d">functions</a> <a href="motion.txt.html#is" class="d">is</a> restricted with the <a href="options.txt.html#%27maxfuncdepth%27" class="o">'maxfuncdepth'</a>
+option.
+
+It <a href="motion.txt.html#is" class="d">is</a> also possible to use <span class="e">:eval</span>.  It does not support <a href="insert.txt.html#a" class="d">a</a> range, but does
+allow for <a href="eval.txt.html#method" class="d">method</a> chaining, e.g.: 
+<span class="e">	eval GetList()-&gt;Filter()-&gt;append('$')</span>
+<span class="e"></span>
+<a href="insert.txt.html#A" class="d">A</a> function can also be called <a href="motion.txt.html#as" class="d">as</a> part of evaluating an <a href="eval.txt.html#expression" class="d">expression</a> or when <a href="motion.txt.html#it" class="d">it</a>
+<a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> method: 
+<span class="e">	let x = GetList()</span>
+<span class="e">	let y = GetList()-&gt;Filter()</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+
+<span id="_cleaning-up-in-a-function"><span class="h">3. Cleaning up in a function </span></span>
+							<span id="%3Adefe" class="t">:defe</span> <span id="%3Adefer" class="t">:defer</span>
+:defe[r] <span class="s">{func}</span>(<span class="s">{args}</span>)	Call <span class="s">{func}</span> when the current function <a href="motion.txt.html#is" class="d">is</a> done.
+			<span class="s">{args}</span> are evaluated here.
+
+Quite often <a href="insert.txt.html#a" class="d">a</a> command in <a href="insert.txt.html#a" class="d">a</a> function has <a href="insert.txt.html#a" class="d">a</a> global effect, which <a href="vim_faq.txt.html#must" class="d">must</a> be undone
+when the function finishes.  Handling this in all kinds of situations can be <a href="insert.txt.html#a" class="d">a</a>
+hassle.  Especially when an unexpected error <a href="motion.txt.html#is" class="d">is</a> encountered.  This can be done
+with <span class="e">try</span> <a href="pattern.txt.html#%2F" class="d">/</a> <span class="e">finally</span> blocks, but this gets complicated when there <a href="motion.txt.html#is" class="d">is</a> more
+than one.
+
+<a href="insert.txt.html#A" class="d">A</a> much simpler solution <a href="motion.txt.html#is" class="d">is</a> using <span class="e">defer</span>.  It schedules <a href="insert.txt.html#a" class="d">a</a> function call when
+the function <a href="motion.txt.html#is" class="d">is</a> returning, no matter if there <a href="motion.txt.html#is" class="d">is</a> an error.  Example: 
+<span class="e">	func Filter(text) abort</span>
+<span class="e">	  call writefile(a:text, 'Tempfile')</span>
+<span class="e">	  call system('filter &lt; Tempfile &gt; Outfile')</span>
+<span class="e">	  call Handle('Outfile')</span>
+<span class="e">	  call delete('Tempfile')</span>
+<span class="e">	  call delete('Outfile')</span>
+<span class="e">	endfunc</span>
+<span class="e"></span>
+Here 'Tempfile' and 'Outfile' will not be deleted if something causes the
+function to abort.  <span class="e">:defer</span> can be used to avoid that: 
+<span class="e">	func Filter(text) abort</span>
+<span class="e">	  call writefile(a:text, 'Tempfile')</span>
+<span class="e">	  defer delete('Tempfile')</span>
+<span class="e">	  defer delete('Outfile')</span>
+<span class="e">	  call system('filter &lt; Tempfile &gt; Outfile')</span>
+<span class="e">	  call Handle('Outfile')</span>
+<span class="e">	endfunc</span>
+<span class="e"></span>
+<span class="n">Note</span> that <a href="change.txt.html#deleting" class="d">deleting</a> "Outfile" <a href="motion.txt.html#is" class="d">is</a> scheduled before calling <span class="e">system()</span>, since <a href="motion.txt.html#it" class="d">it</a>
+can be created even when <span class="e">system()</span> fails.
+
+The deferred <a href="eval.txt.html#functions" class="d">functions</a> are called in reverse order, the last one added <a href="motion.txt.html#is" class="d">is</a>
+executed first.  <a href="insert.txt.html#A" class="d">A</a> useless example: 
+<span class="e">	func Useless() abort</span>
+<span class="e">	  for s in range(3)</span>
+<span class="e">	    defer execute('echomsg "number ' .. s .. '"')</span>
+<span class="e">	  endfor</span>
+<span class="e">	endfunc</span>
+<span class="e"></span>
+Now <span class="e">:messages</span> shows:
+	number 2
+	number 1
+	number <a href="motion.txt.html#0" class="d">0</a>
+
+Any return value of the deferred function <a href="motion.txt.html#is" class="d">is</a> discarded.  The function cannot
+be followed by anything, such <a href="motion.txt.html#as" class="d">as</a> "-&gt;func" or ".member"<a href="repeat.txt.html#." class="d">.</a>  Currently `:defer
+GetArg()-&gt;TheFunc()` does not work, <a href="motion.txt.html#it" class="d">it</a> may work in <a href="insert.txt.html#a" class="d">a</a> later version.
+
+Errors are reported but <a href="diff.txt.html#do" class="d">do</a> not cause aborting execution of deferred <a href="eval.txt.html#functions" class="d">functions</a>
+or altering execution outside of deferred functions.
+
+No range <a href="motion.txt.html#is" class="d">is</a> accepted.  The function can be <a href="insert.txt.html#a" class="d">a</a> <a href="builtin.txt.html#partial" class="d">partial</a> with extra arguments, but
+not with <a href="insert.txt.html#a" class="d">a</a> dictionary. <span id="E1300" class="t">E1300</span>
+
+In <a href="insert.txt.html#a" class="d">a</a> <a href="vim9.txt.html#%3Adef" class="l">:def</a> function, <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#lambda" class="d">lambda</a> can be used with <a href="userfunc.txt.html#%3Adefer" class="l">:defer</a><a href="repeat.txt.html#." class="d">.</a>  Example: 
+<span class="e"></span>
+<span class="e">    def Fn()</span>
+<span class="e">      set lazyredraw</span>
+<span class="e">      defer () =&gt; {</span>
+<span class="e">        set lazyredraw&amp;</span>
+<span class="e">      }()</span>
+<span class="e">    enddef</span>
+
+<span class="h">==============================================================================</span>
+
+<span id="_automatically-loading-fun"><span class="h">4. Automatically loading functions </span></span>
+							<span id="autoload-functions" class="t">autoload-functions</span>
+When using many or large functions, it's possible to automatically define them
+only when they are used.  There are two methods: with an <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> and with
+the "<a href="userfunc.txt.html#autoload" class="d">autoload</a>" directory in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.
+
+In <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> there <a href="motion.txt.html#is" class="d">is</a> also an <a href="userfunc.txt.html#autoload" class="d">autoload</a> mechanism for imported scripts, see
+<a href="vim9.txt.html#import-autoload" class="l">import-autoload</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="h">Using an autocommand </span>
+
+This <a href="motion.txt.html#is" class="d">is</a> introduced in the user manual, <a href="motion.txt.html#section" class="d">section</a> <a href="usr_51.txt.html#51.4" class="l">51.4</a><a href="repeat.txt.html#." class="d">.</a>
+
+The <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> <a href="motion.txt.html#is" class="d">is</a> useful if you have <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> that <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> long Vim <a href="usr_41.txt.html#script" class="d">script</a> file.
+You can define the <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> and quickly quit the <a href="usr_41.txt.html#script" class="d">script</a> with <span class="e">:finish</span>.
+That makes Vim <a href="starting.txt.html#startup" class="d">startup</a> faster.  The <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> should then load the same file
+again, setting <a href="insert.txt.html#a" class="d">a</a> variable to skip the <span class="e">:finish</span> command.
+
+Use the <a href="autocmd.txt.html#FuncUndefined" class="d">FuncUndefined</a> <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> event with <a href="insert.txt.html#a" class="d">a</a> <a href="pattern.txt.html#pattern" class="d">pattern</a> that matches the
+function(s) to be defined.  Example: 
+<span class="e"></span>
+<span class="e">	:au FuncUndefined BufNet* source ~/vim/bufnetfuncs.vim</span>
+<span class="e"></span>
+The file "~/vim/bufnetfuncs.vim" should then define <a href="eval.txt.html#functions" class="d">functions</a> that start with
+"BufNet"<a href="repeat.txt.html#." class="d">.</a>  Also see <a href="autocmd.txt.html#FuncUndefined" class="l">FuncUndefined</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="h">Using an autoload script </span>
+							<span id="autoload" class="t">autoload</span> <span id="E746" class="t">E746</span>
+This <a href="motion.txt.html#is" class="d">is</a> introduced in the user manual, <a href="motion.txt.html#section" class="d">section</a> <a href="usr_52.txt.html#52.2" class="l">52.2</a><a href="repeat.txt.html#." class="d">.</a>
+
+Using <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> in the "<a href="userfunc.txt.html#autoload" class="d">autoload</a>" directory <a href="motion.txt.html#is" class="d">is</a> simpler, but requires using
+exactly the right file name.  <a href="insert.txt.html#A" class="d">A</a> function that can be autoloaded has <a href="insert.txt.html#a" class="d">a</a> name
+like this: 
+<span class="e"></span>
+<span class="e">	:call filename#funcname()</span>
+<span class="e"></span>
+These <a href="eval.txt.html#functions" class="d">functions</a> are always global, in <a href="vim9.txt.html#Vim9" class="d">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> "<a href="eval.txt.html#g%3A" class="d">g:</a>" needs to be used: 
+<span class="e">	:call g:filename#funcname()</span>
+<span class="e"></span>
+When such <a href="insert.txt.html#a" class="d">a</a> function <a href="motion.txt.html#is" class="d">is</a> called, and <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not defined yet, Vim will search the
+"<a href="userfunc.txt.html#autoload" class="d">autoload</a>" directories in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> for <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> file called
+"filename.vim"<a href="repeat.txt.html#." class="d">.</a>  For example "~/.vim/autoload/filename.vim"<a href="repeat.txt.html#." class="d">.</a>  That file should
+then define the function like this: 
+<span class="e"></span>
+<span class="e">	function filename#funcname()</span>
+<span class="e">	   echo "Done!"</span>
+<span class="e">	endfunction</span>
+<span class="e"></span>
+If the file doesn't exist, Vim will also search in <a href="options.txt.html#%27packpath%27" class="o">'packpath'</a> (under "start"<a href="motion.txt.html#%29" class="d">)</a>
+to allow calling packages' <a href="eval.txt.html#functions" class="d">functions</a> from your <a href="starting.txt.html#.vimrc" class="d">.vimrc</a> when the <a href="repeat.txt.html#packages" class="d">packages</a> have
+not been added to <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> yet (see <a href="repeat.txt.html#packages" class="l">packages</a>).
+
+The file name and the name used before the <a href="pattern.txt.html#%23" class="d">#</a> in the function <a href="vim_faq.txt.html#must" class="d">must</a> match
+exactly, and the defined function <a href="vim_faq.txt.html#must" class="d">must</a> have the name exactly <a href="motion.txt.html#as" class="d">as</a> <a href="motion.txt.html#it" class="d">it</a> will be
+called.  In <a href="vim9.txt.html#Vim9" class="d">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> the "<a href="eval.txt.html#g%3A" class="d">g:</a>" prefix <a href="vim_faq.txt.html#must" class="d">must</a> be used: 
+<span class="e">	function g:filename#funcname()</span>
+<span class="e"></span>
+or for <a href="insert.txt.html#a" class="d">a</a> compiled function: 
+<span class="e">	def g:filename#funcname()</span>
+<span class="e"></span>
+It <a href="motion.txt.html#is" class="d">is</a> possible to use subdirectories.  Every <a href="pattern.txt.html#%23" class="d">#</a> in the function name works like
+<a href="insert.txt.html#a" class="d">a</a> path separator.  Thus when calling <a href="insert.txt.html#a" class="d">a</a> function: 
+<span class="e"></span>
+<span class="e">	:call foo#bar#func()</span>
+<span class="e"></span>
+Vim will look for the file "autoload/foo/bar.vim" in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.
+
+This also works when reading <a href="insert.txt.html#a" class="d">a</a> variable that has not been set yet: 
+<span class="e"></span>
+<span class="e">	:let l = foo#bar#lvar</span>
+<span class="e"></span>
+However, when the <a href="userfunc.txt.html#autoload" class="d">autoload</a> <a href="usr_41.txt.html#script" class="d">script</a> was already loaded <a href="motion.txt.html#it" class="d">it</a> won't be loaded again
+for an unknown variable.
+
+When assigning <a href="insert.txt.html#a" class="d">a</a> value to such <a href="insert.txt.html#a" class="d">a</a> variable nothing special happens.  This can
+be used to pass settings to the <a href="userfunc.txt.html#autoload" class="d">autoload</a> <a href="usr_41.txt.html#script" class="d">script</a> before it's loaded: 
+<span class="e"></span>
+<span class="e">	:let foo#bar#toggle = 1</span>
+<span class="e">	:call foo#bar#func()</span>
+<span class="e"></span>
+<span class="n">Note</span> that when you make <a href="insert.txt.html#a" class="d">a</a> mistake and call <a href="insert.txt.html#a" class="d">a</a> function that <a href="motion.txt.html#is" class="d">is</a> supposed to be
+defined in an <a href="userfunc.txt.html#autoload" class="d">autoload</a> script, but the <a href="usr_41.txt.html#script" class="d">script</a> doesn't actually define the
+function, you will get an error message for the missing function.  If you fix
+the <a href="userfunc.txt.html#autoload" class="d">autoload</a> <a href="usr_41.txt.html#script" class="d">script</a> <a href="motion.txt.html#it" class="d">it</a> won't be automatically loaded again.  Either restart
+Vim or manually source the script.
+
+Also <span class="n">note</span> that if you have two <a href="usr_41.txt.html#script" class="d">script</a> files, and one calls <a href="insert.txt.html#a" class="d">a</a> function in the
+other and vice versa, before the used function <a href="motion.txt.html#is" class="d">is</a> defined, <a href="motion.txt.html#it" class="d">it</a> won't work.
+Avoid using the <a href="userfunc.txt.html#autoload" class="d">autoload</a> functionality <a href="motion.txt.html#at" class="d">at</a> the toplevel.
+
+In <a href="vim9.txt.html#Vim9" class="l">Vim9</a> <a href="usr_41.txt.html#script" class="d">script</a> you will get error <span id="E1263" class="t">E1263</span> if you define <a href="insert.txt.html#a" class="d">a</a> function with
+<a href="insert.txt.html#a" class="d">a</a> "<a href="pattern.txt.html#%23" class="d">#</a>" character in the name.  You should use <a href="insert.txt.html#a" class="d">a</a> name without "<a href="pattern.txt.html#%23" class="d">#</a>" and use
+<span class="e">:export</span>.
+
+Hint: If you distribute <a href="insert.txt.html#a" class="d">a</a> bunch of scripts you can pack them together with the
+<a href="pi_vimball.txt.html#vimball" class="l">vimball</a> utility.  Also read the user manual <a href="usr_51.txt.html#distribute-script" class="l">distribute-script</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

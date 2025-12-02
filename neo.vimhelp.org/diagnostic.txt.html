@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: diagnostic.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="diagnostic.txt.html#">↑Top↑</a></li>
+<li><a href="diagnostic.txt.html#diagnostic-api">Lua module: vim.diagnostic</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="diagnostic.txt" class="t">diagnostic.txt</span>   Diagnostics
+
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Diagnostic framework                                     <span id="vim.diagnostic" class="t">vim.diagnostic</span>
+
+Nvim provides <a href="insert.txt.html#a" class="d">a</a> framework <a href="luaref.txt.html#for" class="d">for</a> displaying <a href="message.txt.html#errors" class="d">errors</a> or warnings from external
+tools, otherwise known <a href="motion.txt.html#as" class="d">as</a> "diagnostics"<a href="repeat.txt.html#." class="d">.</a> These diagnostics can come from <a href="insert.txt.html#a" class="d">a</a>
+variety of sources, such <a href="motion.txt.html#as" class="d">as</a> linters or <a href="lsp.txt.html#LSP" class="d">LSP</a> servers. The diagnostic framework
+<a href="motion.txt.html#is" class="d">is</a> an extension to existing error handling functionality such <a href="motion.txt.html#as" class="d">as</a> the
+<a href="quickfix.txt.html#quickfix" class="l">quickfix</a> list.
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+<span class="c">QUICKSTART</span>                                              <span id="diagnostic-quickstart" class="t">diagnostic-quickstart</span>
+
+Anything that reports diagnostics <a href="motion.txt.html#is" class="d">is</a> referred to below <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> "diagnostic
+producer"<a href="repeat.txt.html#." class="d">.</a> Diagnostic producers need only follow <a href="insert.txt.html#a" class="d">a</a> few simple steps to
+report diagnostics:
+
+1. Create <a href="insert.txt.html#a" class="d">a</a> <a href="api.txt.html#namespace" class="d">namespace</a> <a href="api.txt.html#nvim_create_namespace%28%29" class="l">nvim_create_namespace()</a><a href="repeat.txt.html#." class="d">.</a> <span class="n">Note</span> that the <a href="api.txt.html#namespace" class="d">namespace</a> must
+   have <a href="insert.txt.html#a" class="d">a</a> name. Anonymous namespaces WILL NOT WORK.
+2. (Optional) Configure <a href="options.txt.html#options" class="d">options</a> <a href="luaref.txt.html#for" class="d">for</a> the diagnostic <a href="api.txt.html#namespace" class="d">namespace</a>
+   <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="repeat.txt.html#." class="d">.</a>
+3. Generate diagnostics.
+4. Set the diagnostics <a href="luaref.txt.html#for" class="d">for</a> the buffer <a href="diagnostic.txt.html#vim.diagnostic.set%28%29" class="l">vim.diagnostic.set()</a><a href="repeat.txt.html#." class="d">.</a>
+5. Repeat from step 3.
+
+Generally speaking, the <a href="api.txt.html#API" class="d">API</a> <a href="motion.txt.html#is" class="d">is</a> split between <a href="vimeval.txt.html#functions" class="d">functions</a> meant to be used by
+diagnostic producers and those meant <a href="luaref.txt.html#for" class="d">for</a> diagnostic consumers (i.e. <a href="intro.txt.html#end" class="d">end</a> users
+who want to read and view the diagnostics <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> buffer).  The APIs <a href="luaref.txt.html#for" class="d">for</a>
+producers require <a href="insert.txt.html#a" class="d">a</a> <span class="s">{namespace}</span> <a href="motion.txt.html#as" class="d">as</a> their first argument, while those <a href="luaref.txt.html#for" class="d">for</a>
+consumers generally <a href="diff.txt.html#do" class="d">do</a> not require <a href="insert.txt.html#a" class="d">a</a> <a href="api.txt.html#namespace" class="d">namespace</a> (though often one may be
+optionally supplied).  <a href="insert.txt.html#A" class="d">A</a> good rule of thumb <a href="motion.txt.html#is" class="d">is</a> that if <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#method" class="d">method</a> <a href="motion.txt.html#is" class="d">is</a> meant to
+modify the diagnostics <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> buffer (e.g. <a href="diagnostic.txt.html#vim.diagnostic.set%28%29" class="l">vim.diagnostic.set()</a><a href="motion.txt.html#%29" class="d">)</a> then <a href="motion.txt.html#it" class="d">it</a>
+requires <a href="insert.txt.html#a" class="d">a</a> namespace.
+
+                                <span id="vim.diagnostic.severity" class="t">vim.diagnostic.severity</span> <span id="diagnostic-severity" class="t">diagnostic-severity</span>
+The "severity" key in <a href="insert.txt.html#a" class="d">a</a> diagnostic <a href="motion.txt.html#is" class="d">is</a> one of the values defined in
+<span class="e">vim.diagnostic.severity</span>:
+
+    vim.diagnostic.severity.ERROR
+    vim.diagnostic.severity.WARN
+    vim.diagnostic.severity.INFO
+    vim.diagnostic.severity.HINT
+
+Functions that take <a href="insert.txt.html#a" class="d">a</a> severity <a href="motion.txt.html#as" class="d">as</a> an optional parameter (e.g.
+<a href="diagnostic.txt.html#vim.diagnostic.get%28%29" class="l">vim.diagnostic.get()</a><a href="motion.txt.html#%29" class="d">)</a> accept one of three forms:
+
+1. <a href="insert.txt.html#A" class="d">A</a> single <a href="diagnostic.txt.html#vim.diagnostic.severity" class="l">vim.diagnostic.severity</a> value: 
+<span class="e"></span>
+<span class="e">    vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })</span>
+<span class="e"></span>
+2. <a href="insert.txt.html#A" class="d">A</a> table with <a href="insert.txt.html#a" class="d">a</a> "min" or "max" key (or both): 
+<span class="e"></span>
+<span class="e">    vim.diagnostic.get(0, { severity = { min = vim.diagnostic.severity.WARN } })</span>
+
+    This form allows users to specify <a href="insert.txt.html#a" class="d">a</a> range of severities.
+
+3. <a href="insert.txt.html#A" class="d">A</a> list-like table: 
+<span class="e"></span>
+<span class="e">    vim.diagnostic.get(0, { severity = {</span>
+<span class="e">        vim.diagnostic.severity.WARN,</span>
+<span class="e">        vim.diagnostic.severity.INFO,</span>
+<span class="e">    } })</span>
+
+    This form allows users to <a href="change.txt.html#filter" class="d">filter</a> <a href="luaref.txt.html#for" class="d">for</a> specific severities
+
+<span class="h">==============================================================================</span>
+<span class="c">DEFAULTS</span>                                              <span id="diagnostic-defaults" class="t">diagnostic-defaults</span>
+
+These diagnostic keymaps are created unconditionally when Nvim starts:
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">]d</span> jumps to the next diagnostic in the buffer. <a href="tagsrch.txt.html#%5Dd-default" class="l">]d-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">[d</span> jumps to the previous diagnostic in the buffer. <a href="tagsrch.txt.html#%5Bd-default" class="l">[d-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">]D</span> jumps to the last diagnostic in the buffer. <a href="tagsrch.txt.html#%5DD-default" class="l">]D-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">[D</span> jumps to the first diagnostic in the buffer. <a href="tagsrch.txt.html#%5BD-default" class="l">[D-default</a>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">&lt;C-w&gt;d</span> shows diagnostic <a href="motion.txt.html#at" class="d">at</a> cursor in <a href="insert.txt.html#a" class="d">a</a> floating window. <a href="tagsrch.txt.html#CTRL-W_d-default" class="l">CTRL-W_d-default</a>
+
+<span class="h">==============================================================================</span>
+<span class="c">HANDLERS</span>                                                <span id="diagnostic-handlers" class="t">diagnostic-handlers</span>
+
+Diagnostics are shown to the user with <a href="diagnostic.txt.html#vim.diagnostic.show%28%29" class="l">vim.diagnostic.show()</a><a href="repeat.txt.html#." class="d">.</a> The display of
+diagnostics <a href="motion.txt.html#is" class="d">is</a> managed through handlers. <a href="insert.txt.html#A" class="d">A</a> handler <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> table with <a href="insert.txt.html#a" class="d">a</a> "show"
+and (optionally) <a href="insert.txt.html#a" class="d">a</a> "hide" function. The "show" function has the signature
+
+<span class="e">    function(namespace, bufnr, diagnostics, opts)</span>
+
+and <a href="motion.txt.html#is" class="d">is</a> responsible <a href="luaref.txt.html#for" class="d">for</a> displaying or otherwise handling the given
+diagnostics. The "hide" function takes care of "cleaning up" any actions taken
+by the "show" function and has the signature
+
+<span class="e">    function(namespace, bufnr)</span>
+
+Handlers can be configured with <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a> and added by
+creating <a href="insert.txt.html#a" class="d">a</a> new key in <span class="e">vim.diagnostic.handlers</span> (see
+<a href="diagnostic.txt.html#diagnostic-handlers-example" class="l">diagnostic-handlers-example</a>).
+
+The <span class="s">{opts}</span> table passed to <a href="insert.txt.html#a" class="d">a</a> handler <a href="motion.txt.html#is" class="d">is</a> the full set of configuration <a href="options.txt.html#options" class="d">options</a>
+(that is, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> not limited to just the <a href="options.txt.html#options" class="d">options</a> <a href="luaref.txt.html#for" class="d">for</a> the handler itself). The
+values in the table are already resolved (i.e. if <a href="insert.txt.html#a" class="d">a</a> user specifies <a href="insert.txt.html#a" class="d">a</a>
+function <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#config" class="d">config</a> option, the function has already been evaluated).
+
+If <a href="insert.txt.html#a" class="d">a</a> diagnostic handler <a href="motion.txt.html#is" class="d">is</a> configured with <a href="insert.txt.html#a" class="d">a</a> "severity" key then the <a href="vimeval.txt.html#list" class="d">list</a> of
+diagnostics passed to that handler will be filtered using the value of that
+key (see example below).
+
+Nvim provides these handlers by default: "virtual_text"<a href="motion.txt.html#%2C" class="d">,</a> "virtual_lines"<a href="motion.txt.html#%2C" class="d">,</a>
+"<a href="sign.txt.html#signs" class="d">signs</a>"<a href="motion.txt.html#%2C" class="d">,</a> and "<a href="syntax.txt.html#underline" class="d">underline</a>"<a href="repeat.txt.html#." class="d">.</a>
+
+                                                <span id="diagnostic-handlers-example" class="t">diagnostic-handlers-example</span>
+The example below creates <a href="insert.txt.html#a" class="d">a</a> new handler that notifies the user of diagnostics
+with <a href="lua.txt.html#vim.notify%28%29" class="l">vim.notify()</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"></span>
+<span class="e">    -- It's good practice to namespace custom handlers to avoid collisions</span>
+<span class="e">    vim.diagnostic.handlers["my/notify"] = {</span>
+<span class="e">      show = function(namespace, bufnr, diagnostics, opts)</span>
+<span class="e">        -- In our example, the opts table has a "log_level" option</span>
+<span class="e">        local level = opts["my/notify"].log_level</span>
+<span class="e"></span>
+<span class="e">        local name = vim.diagnostic.get_namespace(namespace).name</span>
+<span class="e">        local msg = string.format("%d diagnostics in buffer %d from %s",</span>
+<span class="e">                                  #diagnostics,</span>
+<span class="e">                                  bufnr,</span>
+<span class="e">                                  name)</span>
+<span class="e">        vim.notify(msg, level)</span>
+<span class="e">      end,</span>
+<span class="e">    }</span>
+<span class="e"></span>
+<span class="e">    -- Users can configure the handler</span>
+<span class="e">    vim.diagnostic.config({</span>
+<span class="e">      ["my/notify"] = {</span>
+<span class="e">        log_level = vim.log.levels.INFO,</span>
+<span class="e"></span>
+<span class="e">        -- This handler will only receive "error" diagnostics.</span>
+<span class="e">        severity = vim.diagnostic.severity.ERROR,</span>
+<span class="e">      }</span>
+<span class="e">    })</span>
+
+In this example, there <a href="motion.txt.html#is" class="d">is</a> nothing to <a href="diff.txt.html#do" class="d">do</a> when diagnostics are hidden, so we
+omit the "hide" function.
+
+Existing handlers can be overridden. For example, use the following to only
+show <a href="insert.txt.html#a" class="d">a</a> sign <a href="luaref.txt.html#for" class="d">for</a> the highest severity diagnostic on <a href="insert.txt.html#a" class="d">a</a> given line: 
+<span class="e"></span>
+<span class="e">    -- Create a custom namespace. This will aggregate signs from all other</span>
+<span class="e">    -- namespaces and only show the one with the highest severity on a</span>
+<span class="e">    -- given line</span>
+<span class="e">    local ns = vim.api.nvim_create_namespace("my_namespace")</span>
+<span class="e"></span>
+<span class="e">    -- Get a reference to the original signs handler</span>
+<span class="e">    local orig_signs_handler = vim.diagnostic.handlers.signs</span>
+<span class="e"></span>
+<span class="e">    -- Override the built-in signs handler</span>
+<span class="e">    vim.diagnostic.handlers.signs = {</span>
+<span class="e">      show = function(_, bufnr, _, opts)</span>
+<span class="e">        -- Get all diagnostics from the whole buffer rather than just the</span>
+<span class="e">        -- diagnostics passed to the handler</span>
+<span class="e">        local diagnostics = vim.diagnostic.get(bufnr)</span>
+<span class="e"></span>
+<span class="e">        -- Find the "worst" diagnostic per line</span>
+<span class="e">        local max_severity_per_line = {}</span>
+<span class="e">        for _, d in pairs(diagnostics) do</span>
+<span class="e">          local m = max_severity_per_line[d.lnum]</span>
+<span class="e">          if not m or d.severity &lt; m.severity then</span>
+<span class="e">            max_severity_per_line[d.lnum] = d</span>
+<span class="e">          end</span>
+<span class="e">        end</span>
+<span class="e"></span>
+<span class="e">        -- Pass the filtered diagnostics (with our custom namespace) to</span>
+<span class="e">        -- the original handler</span>
+<span class="e">        local filtered_diagnostics = vim.tbl_values(max_severity_per_line)</span>
+<span class="e">        orig_signs_handler.show(ns, bufnr, filtered_diagnostics, opts)</span>
+<span class="e">      end,</span>
+<span class="e">      hide = function(_, bufnr)</span>
+<span class="e">        orig_signs_handler.hide(ns, bufnr)</span>
+<span class="e">      end,</span>
+<span class="e">    }</span>
+
+
+                                          <span id="diagnostic-toggle-virtual-lines-example" class="t">diagnostic-toggle-virtual-lines-example</span>
+Diagnostic handlers can also be toggled. For example, you might want to <a href="options.txt.html#toggle" class="d">toggle</a>
+the <span class="e">virtual_lines</span> handler with the following keymap: 
+<span class="e"></span>
+<span class="e">    vim.keymap.set('n', 'gK', function()</span>
+<span class="e">      local new_config = not vim.diagnostic.config().virtual_lines</span>
+<span class="e">      vim.diagnostic.config({ virtual_lines = new_config })</span>
+<span class="e">    end, { desc = 'Toggle diagnostic virtual_lines' })</span>
+
+
+                                          <span id="diagnostic-loclist-example" class="t">diagnostic-loclist-example</span>
+Whenever the <a href="quickfix.txt.html#location-list" class="l">location-list</a> <a href="motion.txt.html#is" class="d">is</a> opened, the following <span class="e">show</span> handler will show
+the most recent diagnostics: 
+<span class="e"></span>
+<span class="e">  vim.diagnostic.handlers.loclist = {</span>
+<span class="e">    show = function(_, _, _, opts)</span>
+<span class="e">      -- Generally don't want it to open on every update</span>
+<span class="e">      opts.loclist.open = opts.loclist.open or false</span>
+<span class="e">      local winid = vim.api.nvim_get_current_win()</span>
+<span class="e">      vim.diagnostic.setloclist(opts.loclist)</span>
+<span class="e">      vim.api.nvim_set_current_win(winid)</span>
+<span class="e">    end</span>
+<span class="e">  }</span>
+
+
+The handler accepts the same <a href="options.txt.html#options" class="d">options</a> <a href="motion.txt.html#as" class="d">as</a> <a href="diagnostic.txt.html#vim.diagnostic.setloclist%28%29" class="l">vim.diagnostic.setloclist()</a> and can be
+configured using <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"></span>
+<span class="e">  -- Open the location list on every diagnostic change (warnings/errors only).</span>
+<span class="e">  vim.diagnostic.config({</span>
+<span class="e">    loclist = {</span>
+<span class="e">      open = true,</span>
+<span class="e">      severity = { min = vim.diagnostic.severity.WARN },</span>
+<span class="e">    }</span>
+<span class="e">  })</span>
+
+
+<span class="h">==============================================================================</span>
+<span class="c">HIGHLIGHTS</span>                                              <span id="diagnostic-highlights" class="t">diagnostic-highlights</span>
+
+All highlights defined <a href="luaref.txt.html#for" class="d">for</a> diagnostics begin with <span class="e">Diagnostic</span> followed by
+the type of highlight (e.g., <span class="e">Sign</span>, <span class="e">Underline</span>, etc.) and the severity (e.g.
+<span class="e">Error</span>, <span class="e">Warn</span>, etc.)
+
+By default, highlights <a href="luaref.txt.html#for" class="d">for</a> signs, floating windows, and virtual text are linked to the
+corresponding default highlight. Underline highlights are not linked and use their
+own default highlight groups.
+
+For example, the default highlighting <a href="luaref.txt.html#for" class="d">for</a> <a href="diagnostic.txt.html#hl-DiagnosticSignError" class="l">hl-DiagnosticSignError</a> <a href="motion.txt.html#is" class="d">is</a> linked
+to <a href="diagnostic.txt.html#hl-DiagnosticError" class="l">hl-DiagnosticError</a><a href="repeat.txt.html#." class="d">.</a> To change the default (and therefore the linked
+highlights), use the <a href="syntax.txt.html#%3Ahighlight" class="l">:highlight</a> command: 
+<span class="e"></span>
+<span class="e">    highlight DiagnosticError guifg="BrightRed"</span>
+
+                                                        <span id="hl-DiagnosticError" class="t">hl-DiagnosticError</span>
+DiagnosticError
+    Used <a href="motion.txt.html#as" class="d">as</a> the base highlight group.
+    Other Diagnostic highlights link to this by default (except Underline)
+
+                                                        <span id="hl-DiagnosticWarn" class="t">hl-DiagnosticWarn</span>
+DiagnosticWarn
+    Used <a href="motion.txt.html#as" class="d">as</a> the base highlight group.
+    Other Diagnostic highlights link to this by default (except Underline)
+
+                                                        <span id="hl-DiagnosticInfo" class="t">hl-DiagnosticInfo</span>
+DiagnosticInfo
+    Used <a href="motion.txt.html#as" class="d">as</a> the base highlight group.
+    Other Diagnostic highlights link to this by default (except Underline)
+
+                                                        <span id="hl-DiagnosticHint" class="t">hl-DiagnosticHint</span>
+DiagnosticHint
+    Used <a href="motion.txt.html#as" class="d">as</a> the base highlight group.
+    Other Diagnostic highlights link to this by default (except Underline)
+
+                                                        <span id="hl-DiagnosticOk" class="t">hl-DiagnosticOk</span>
+DiagnosticOk
+    Used <a href="motion.txt.html#as" class="d">as</a> the base highlight group.
+    Other Diagnostic highlights link to this by default (except Underline)
+
+                                        <span id="hl-DiagnosticVirtualTextError" class="t">hl-DiagnosticVirtualTextError</span>
+DiagnosticVirtualTextError
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Error" diagnostic virtual text.
+
+                                        <span id="hl-DiagnosticVirtualTextWarn" class="t">hl-DiagnosticVirtualTextWarn</span>
+DiagnosticVirtualTextWarn
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Warn" diagnostic virtual text.
+
+                                                <span id="hl-DiagnosticVirtualTextInfo" class="t">hl-DiagnosticVirtualTextInfo</span>
+DiagnosticVirtualTextInfo
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Info" diagnostic virtual text.
+
+                                                <span id="hl-DiagnosticVirtualTextHint" class="t">hl-DiagnosticVirtualTextHint</span>
+DiagnosticVirtualTextHint
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Hint" diagnostic virtual text.
+
+                                                <span id="hl-DiagnosticVirtualTextOk" class="t">hl-DiagnosticVirtualTextOk</span>
+DiagnosticVirtualTextOk
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Ok" diagnostic virtual text.
+
+                                            <span id="hl-DiagnosticVirtualLinesError" class="t">hl-DiagnosticVirtualLinesError</span>
+DiagnosticVirtualLinesError
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Error" diagnostic virtual lines.
+
+                                            <span id="hl-DiagnosticVirtualLinesWarn" class="t">hl-DiagnosticVirtualLinesWarn</span>
+DiagnosticVirtualLinesWarn
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Warn" diagnostic virtual lines.
+
+                                            <span id="hl-DiagnosticVirtualLinesInfo" class="t">hl-DiagnosticVirtualLinesInfo</span>
+DiagnosticVirtualLinesInfo
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Info" diagnostic virtual lines.
+
+                                            <span id="hl-DiagnosticVirtualLinesHint" class="t">hl-DiagnosticVirtualLinesHint</span>
+DiagnosticVirtualLinesHint
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Hint" diagnostic virtual lines.
+
+                                                <span id="hl-DiagnosticVirtualLinesOk" class="t">hl-DiagnosticVirtualLinesOk</span>
+DiagnosticVirtualLinesOk
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Ok" diagnostic virtual lines.
+
+                                                <span id="hl-DiagnosticUnderlineError" class="t">hl-DiagnosticUnderlineError</span>
+DiagnosticUnderlineError
+    Used to <a href="syntax.txt.html#underline" class="d">underline</a> "Error" diagnostics.
+
+                                                <span id="hl-DiagnosticUnderlineWarn" class="t">hl-DiagnosticUnderlineWarn</span>
+DiagnosticUnderlineWarn
+    Used to <a href="syntax.txt.html#underline" class="d">underline</a> "Warn" diagnostics.
+
+                                                <span id="hl-DiagnosticUnderlineInfo" class="t">hl-DiagnosticUnderlineInfo</span>
+DiagnosticUnderlineInfo
+    Used to <a href="syntax.txt.html#underline" class="d">underline</a> "Info" diagnostics.
+
+                                                <span id="hl-DiagnosticUnderlineHint" class="t">hl-DiagnosticUnderlineHint</span>
+DiagnosticUnderlineHint
+    Used to <a href="syntax.txt.html#underline" class="d">underline</a> "Hint" diagnostics.
+
+                                                <span id="hl-DiagnosticUnderlineOk" class="t">hl-DiagnosticUnderlineOk</span>
+DiagnosticUnderlineOk
+    Used to <a href="syntax.txt.html#underline" class="d">underline</a> "Ok" diagnostics.
+
+                                                <span id="hl-DiagnosticFloatingError" class="t">hl-DiagnosticFloatingError</span>
+DiagnosticFloatingError
+    Used to color "Error" diagnostic <a href="message.txt.html#messages" class="d">messages</a> in diagnostics float.
+    See <a href="diagnostic.txt.html#vim.diagnostic.open_float%28%29" class="l">vim.diagnostic.open_float()</a>
+
+                                                <span id="hl-DiagnosticFloatingWarn" class="t">hl-DiagnosticFloatingWarn</span>
+DiagnosticFloatingWarn
+    Used to color "Warn" diagnostic <a href="message.txt.html#messages" class="d">messages</a> in diagnostics float.
+
+                                                <span id="hl-DiagnosticFloatingInfo" class="t">hl-DiagnosticFloatingInfo</span>
+DiagnosticFloatingInfo
+    Used to color "Info" diagnostic <a href="message.txt.html#messages" class="d">messages</a> in diagnostics float.
+
+                                                <span id="hl-DiagnosticFloatingHint" class="t">hl-DiagnosticFloatingHint</span>
+DiagnosticFloatingHint
+    Used to color "Hint" diagnostic <a href="message.txt.html#messages" class="d">messages</a> in diagnostics float.
+
+                                                <span id="hl-DiagnosticFloatingOk" class="t">hl-DiagnosticFloatingOk</span>
+DiagnosticFloatingOk
+    Used to color "Ok" diagnostic <a href="message.txt.html#messages" class="d">messages</a> in diagnostics float.
+
+                                                <span id="hl-DiagnosticSignError" class="t">hl-DiagnosticSignError</span>
+DiagnosticSignError
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Error" <a href="sign.txt.html#signs" class="d">signs</a> in sign column.
+
+                                                <span id="hl-DiagnosticSignWarn" class="t">hl-DiagnosticSignWarn</span>
+DiagnosticSignWarn
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Warn" <a href="sign.txt.html#signs" class="d">signs</a> in sign column.
+
+                                                <span id="hl-DiagnosticSignInfo" class="t">hl-DiagnosticSignInfo</span>
+DiagnosticSignInfo
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Info" <a href="sign.txt.html#signs" class="d">signs</a> in sign column.
+
+                                                <span id="hl-DiagnosticSignHint" class="t">hl-DiagnosticSignHint</span>
+DiagnosticSignHint
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Hint" <a href="sign.txt.html#signs" class="d">signs</a> in sign column.
+
+                                                <span id="hl-DiagnosticSignOk" class="t">hl-DiagnosticSignOk</span>
+DiagnosticSignOk
+    Used <a href="luaref.txt.html#for" class="d">for</a> "Ok" <a href="sign.txt.html#signs" class="d">signs</a> in sign column.
+
+                                                <span id="hl-DiagnosticDeprecated" class="t">hl-DiagnosticDeprecated</span>
+DiagnosticDeprecated
+    Used <a href="luaref.txt.html#for" class="d">for</a> <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> or obsolete code.
+
+                                                <span id="hl-DiagnosticUnnecessary" class="t">hl-DiagnosticUnnecessary</span>
+DiagnosticUnnecessary
+    Used <a href="luaref.txt.html#for" class="d">for</a> unnecessary or unused code.
+
+<span class="h">==============================================================================</span>
+<span class="c">SIGNS</span>                                                   <span id="diagnostic-signs" class="t">diagnostic-signs</span>
+
+Signs are defined <a href="luaref.txt.html#for" class="d">for</a> each diagnostic severity. The default text <a href="luaref.txt.html#for" class="d">for</a> each sign
+<a href="motion.txt.html#is" class="d">is</a> the first letter of the severity name (for example, "<a href="motion.txt.html#E" class="d">E</a>" <a href="luaref.txt.html#for" class="d">for</a> ERROR). Signs
+can be customized with <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="repeat.txt.html#." class="d">.</a> Example: 
+<span class="e"></span>
+<span class="e">    -- Highlight entire line for errors</span>
+<span class="e">    -- Highlight the line number for warnings</span>
+<span class="e">    vim.diagnostic.config({</span>
+<span class="e">        signs = {</span>
+<span class="e">            text = {</span>
+<span class="e">                [vim.diagnostic.severity.ERROR] = '',</span>
+<span class="e">                [vim.diagnostic.severity.WARN] = '',</span>
+<span class="e">            },</span>
+<span class="e">            linehl = {</span>
+<span class="e">                [vim.diagnostic.severity.ERROR] = 'ErrorMsg',</span>
+<span class="e">            },</span>
+<span class="e">            numhl = {</span>
+<span class="e">                [vim.diagnostic.severity.WARN] = 'WarningMsg',</span>
+<span class="e">            },</span>
+<span class="e">        },</span>
+<span class="e">    })</span>
+<span class="e"></span>
+When the "severity_sort" option <a href="motion.txt.html#is" class="d">is</a> set (see <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="motion.txt.html#%29" class="d">)</a> the
+priority of each sign depends on the severity of the associated diagnostic.
+Otherwise, all <a href="sign.txt.html#signs" class="d">signs</a> have the same priority (the value of the "priority"
+option in the "<a href="sign.txt.html#signs" class="d">signs</a>" table of <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a> or 10 if unset).
+
+<span class="h">==============================================================================</span>
+<span class="c">EVENTS</span>                                                  <span id="diagnostic-events" class="t">diagnostic-events</span>
+
+                                                        <span id="DiagnosticChanged" class="t">DiagnosticChanged</span>
+<a href="diagnostic.txt.html#DiagnosticChanged" class="d">DiagnosticChanged</a>       After diagnostics have changed. When used from Lua,
+                        the new diagnostics are passed to the <a href="autocmd.txt.html#autocmd" class="d">autocmd</a>
+                        callback in the "data" table. Triggered per buffer.
+
+Example: 
+<span class="e"></span>
+<span class="e">    vim.api.nvim_create_autocmd('DiagnosticChanged', {</span>
+<span class="e">      callback = function(args)</span>
+<span class="e">        local diagnostics = args.data.diagnostics</span>
+<span class="e">        vim.print(diagnostics)</span>
+<span class="e">      end,</span>
+<span class="e">    })</span>
+
+<span class="h">==============================================================================</span>
+<a href="lua.txt.html#Lua" class="d">Lua</a> module: <a href="diagnostic.txt.html#vim.diagnostic" class="d">vim.diagnostic</a>                                    <span id="diagnostic-api" class="t">diagnostic-api</span>
+
+<span id="vim.Diagnostic" class="t">vim.Diagnostic</span>
+                                                        <span id="diagnostic-structure" class="t">diagnostic-structure</span>
+
+    Diagnostics use the same indexing <a href="motion.txt.html#as" class="d">as</a> the rest of the Nvim <a href="api.txt.html#API" class="d">API</a> (i.e.
+    0-based rows and columns). <a href="api.txt.html#api-indexing" class="l">api-indexing</a>
+
+<span class="h">    Fields: </span>
+      • <span class="s">{bufnr}</span>?      (`integer`) Buffer number
+      • <span class="s">{lnum}</span>        (`integer`) The <a href="starting.txt.html#starting" class="d">starting</a> line of the diagnostic
+                      (0-indexed)
+      • <span class="s">{end_lnum}</span>?   (`integer`) The final line of the diagnostic (0-indexed)
+      • <span class="s">{col}</span>         (`integer`) The <a href="starting.txt.html#starting" class="d">starting</a> column of the diagnostic
+                      (0-indexed)
+      • <span class="s">{end_col}</span>?    (`integer`) The final column of the diagnostic
+                      (0-indexed)
+      • <span class="s">{severity}</span>?   (`vim.diagnostic.Severity`) The severity of the
+                      diagnostic <a href="diagnostic.txt.html#vim.diagnostic.severity" class="l">vim.diagnostic.severity</a>
+      • <span class="s">{message}</span>     (`string`) The diagnostic text
+      • <span class="s">{source}</span>?     (`string`) The source of the diagnostic
+      • <span class="s">{code}</span>?       (`string|integer`) The diagnostic code
+      • <span class="s">{user_data}</span>?  (`any`) arbitrary data plugins can add
+      • <span class="s">{namespace}</span>?  (`integer`)
+
+<span id="vim.diagnostic.GetOpts" class="t">vim.diagnostic.GetOpts</span>
+    <a href="insert.txt.html#A" class="d">A</a> table with the following keys:
+
+<span class="h">    Fields: </span>
+      • <span class="s">{namespace}</span>?  (`integer[]|integer`) Limit diagnostics to one or more
+                      namespaces.
+      • <span class="s">{lnum}</span>?       (`integer`) Limit diagnostics to those spanning the
+                      specified line number.
+      • <span class="s">{severity}</span>?   (`vim.diagnostic.SeverityFilter`) See
+                      <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span id="vim.diagnostic.JumpOpts" class="t">vim.diagnostic.JumpOpts</span>
+    Extends: <a href="diagnostic.txt.html#vim.diagnostic.GetOpts" class="l">vim.diagnostic.GetOpts</a>
+
+    Configuration table with the keys listed below. Some parameters can have
+    their default values changed with <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Fields: </span>
+      • <span class="s">{diagnostic}</span>?  (`vim.Diagnostic`) The diagnostic to jump to. Mutually
+                       <a href="motion.txt.html#exclusive" class="d">exclusive</a> with <span class="s">{count}</span>, <span class="s">{namespace}</span>, and <span class="s">{severity}</span>.
+                       See <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{count}</span>?       (`integer`) The number of diagnostics to move by,
+                       <a href="starting.txt.html#starting" class="d">starting</a> from <span class="s">{pos}</span>. <a href="insert.txt.html#A" class="d">A</a> positive integer moves forward
+                       by <span class="s">{count}</span> diagnostics, while <a href="insert.txt.html#a" class="d">a</a> negative integer moves
+                       backward by <span class="s">{count}</span> diagnostics. Mutually <a href="motion.txt.html#exclusive" class="d">exclusive</a>
+                       with <span class="s">{diagnostic}</span>.
+      • <span class="s">{pos}</span>?         (`[integer,integer]`) Cursor position <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> `(row, col)`
+                       tuple. See <a href="api.txt.html#nvim_win_get_cursor%28%29" class="l">nvim_win_get_cursor()</a><a href="repeat.txt.html#." class="d">.</a> Used to find the
+                       nearest diagnostic when <span class="s">{count}</span> <a href="motion.txt.html#is" class="d">is</a> used. Only used when
+                       <span class="s">{count}</span> <a href="motion.txt.html#is" class="d">is</a> non-nil. Default <a href="motion.txt.html#is" class="d">is</a> the current cursor
+                       position.
+      • <span class="s">{wrap}</span>?        (`boolean`, default: <span class="e">true</span>) Whether to loop around
+                       file or not. Similar to <a href="options.txt.html#%27wrapscan%27" class="o">'wrapscan'</a>.
+      • <span class="s">{severity}</span>?    (`vim.diagnostic.SeverityFilter`) See
+                       <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{float}</span>?       (`boolean|vim.diagnostic.Opts.Float`, default: <span class="e">false</span>)
+                       If <span class="e">true</span>, call <a href="diagnostic.txt.html#vim.diagnostic.open_float%28%29" class="l">vim.diagnostic.open_float()</a> after
+                       moving. If <a href="insert.txt.html#a" class="d">a</a> table, pass the table <a href="motion.txt.html#as" class="d">as</a> the <span class="s">{opts}</span>
+                       parameter to <a href="diagnostic.txt.html#vim.diagnostic.open_float%28%29" class="l">vim.diagnostic.open_float()</a><a href="repeat.txt.html#." class="d">.</a> Unless
+                       overridden, the float will show diagnostics <a href="motion.txt.html#at" class="d">at</a> the new
+                       cursor position (as if "cursor" were passed to the
+                       "scope" option).
+      • <span class="s">{winid}</span>?       (`integer`, default: <span class="e">0</span>) Window ID
+
+<span id="vim.diagnostic.NS" class="t">vim.diagnostic.NS</span>
+
+<span class="h">    Fields: </span>
+      • <span class="s">{name}</span>       (`string`)
+      • <span class="s">{opts}</span>       (`vim.diagnostic.Opts`) See <a href="diagnostic.txt.html#vim.diagnostic.Opts" class="l">vim.diagnostic.Opts</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{user_data}</span>  (`table`)
+      • <span class="s">{disabled}</span>?  (`boolean`)
+
+<span id="vim.diagnostic.Opts" class="t">vim.diagnostic.Opts</span>
+    Many of the configuration <a href="options.txt.html#options" class="d">options</a> below accept one of the following:
+    • <span class="e">false</span>: Disable this feature
+    • <span class="e">true</span>: Enable this feature, use default settings.
+    • <span class="e">table</span>: Enable this feature with overrides. Use an empty table to use
+      default values.
+    • <span class="e">function</span>: Function with signature (namespace, bufnr) that returns any
+      of the above.
+
+<span class="h">    Fields: </span>
+      • <span class="s">{underline}</span>?         (`boolean<a href="diagnostic.txt.html#vim.diagnostic.Opts.Underline" class="l">vim.diagnostic.Opts.Underline</a>fun(namespace: integer, bufnr:integer): vim.diagnostic.Opts.Underline`, default: <span class="e">true</span>)
+                             Use <a href="syntax.txt.html#underline" class="d">underline</a> <a href="luaref.txt.html#for" class="d">for</a> diagnostics.
+      • <span class="s">{virtual_text}</span>?      (`boolean<a href="diagnostic.txt.html#vim.diagnostic.Opts.VirtualText" class="l">vim.diagnostic.Opts.VirtualText</a>fun(namespace: integer, bufnr:integer): vim.diagnostic.Opts.VirtualText`, default: <span class="e">false</span>)
+                             Use virtual text <a href="luaref.txt.html#for" class="d">for</a> diagnostics. If multiple
+                             diagnostics are set <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> namespace, one prefix
+                             per diagnostic <a href="motion.txt.html#%2B" class="d">+</a> the last diagnostic message are
+                             shown.
+      • <span class="s">{virtual_lines}</span>?     (`boolean<a href="diagnostic.txt.html#vim.diagnostic.Opts.VirtualLines" class="l">vim.diagnostic.Opts.VirtualLines</a>fun(namespace: integer, bufnr:integer): vim.diagnostic.Opts.VirtualLines`, default: <span class="e">false</span>)
+                             Use virtual lines <a href="luaref.txt.html#for" class="d">for</a> diagnostics.
+      • <span class="s">{signs}</span>?             (`boolean<a href="diagnostic.txt.html#vim.diagnostic.Opts.Signs" class="l">vim.diagnostic.Opts.Signs</a>fun(namespace: integer, bufnr:integer): vim.diagnostic.Opts.Signs`, default: <span class="e">true</span>)
+                             Use <a href="sign.txt.html#signs" class="d">signs</a> <a href="luaref.txt.html#for" class="d">for</a> diagnostics <a href="diagnostic.txt.html#diagnostic-signs" class="l">diagnostic-signs</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{float}</span>?             (`boolean<a href="diagnostic.txt.html#vim.diagnostic.Opts.Float" class="l">vim.diagnostic.Opts.Float</a>fun(namespace: integer, bufnr:integer): vim.diagnostic.Opts.Float`)
+                             Options <a href="luaref.txt.html#for" class="d">for</a> floating windows. See
+                             <a href="diagnostic.txt.html#vim.diagnostic.Opts.Float" class="l">vim.diagnostic.Opts.Float</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{update_in_insert}</span>?  (`boolean`, default: <span class="e">false</span>) Update diagnostics
+                             in <a href="insert.txt.html#Insert" class="d">Insert</a> mode (if <span class="e">false</span>, diagnostics are
+                             updated on <a href="autocmd.txt.html#InsertLeave" class="l">InsertLeave</a><a href="motion.txt.html#%29" class="d">)</a>
+      • <span class="s">{severity_sort}</span>?     (`boolean|<span class="s">{reverse?:boolean}</span>`, default: <span class="e">false</span>)
+                             Sort diagnostics by severity. This affects the
+                             order in which signs, virtual text, and
+                             highlights are displayed. When true, higher
+                             severities are displayed before lower severities
+                             (e.g. ERROR <a href="motion.txt.html#is" class="d">is</a> displayed before WARN). Options:
+                             • <span class="s">{reverse}</span>? (boolean) Reverse sort order
+      • <span class="s">{jump}</span>?              (`vim.diagnostic.Opts.Jump`) Default values <a href="luaref.txt.html#for" class="d">for</a>
+                             <a href="diagnostic.txt.html#vim.diagnostic.jump%28%29" class="l">vim.diagnostic.jump()</a><a href="repeat.txt.html#." class="d">.</a> See
+                             <a href="diagnostic.txt.html#vim.diagnostic.Opts.Jump" class="l">vim.diagnostic.Opts.Jump</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span id="vim.diagnostic.Opts.Float" class="t">vim.diagnostic.Opts.Float</span>
+
+<span class="h">    Fields: </span>
+      • <span class="s">{bufnr}</span>?          (`integer`, default: current buffer) Buffer number
+                          to show diagnostics from.
+      • <span class="s">{namespace}</span>?      (`integer`) Limit diagnostics to the given <a href="api.txt.html#namespace" class="d">namespace</a>
+      • <span class="s">{scope}</span>?          (`'line'<span class="l">'buffer'</span><span class="o">'cursor'</span><span class="l">'c'</span>'l'|'b'`, default:
+                          <span class="e">line</span>) Show diagnostics from the whole buffer
+                          (`buffer"`, the current cursor line (`line`), or the
+                          current cursor position (`cursor`). Shorthand
+                          versions are also accepted (`c` <a href="luaref.txt.html#for" class="d">for</a> <span class="e">cursor</span>, <span class="e">l</span>
+                          <a href="luaref.txt.html#for" class="d">for</a> <span class="e">line</span>, <span class="e">b</span> <a href="luaref.txt.html#for" class="d">for</a> <span class="e">buffer</span>).
+      • <span class="s">{pos}</span>?            (`integer|[integer,integer]`) If <span class="s">{scope}</span> <a href="motion.txt.html#is" class="d">is</a> "line"
+                          or "cursor"<a href="motion.txt.html#%2C" class="d">,</a> use this position rather than the
+                          cursor position. If <a href="insert.txt.html#a" class="d">a</a> number, interpreted <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> line
+                          number; otherwise, <a href="insert.txt.html#a" class="d">a</a> (row, col) tuple.
+      • <span class="s">{severity_sort}</span>?  (`boolean|<span class="s">{reverse?:boolean}</span>`, default: <span class="e">false</span>)
+                          Sort diagnostics by severity. Overrides the setting
+                          from <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{severity}</span>?       (`vim.diagnostic.SeverityFilter`) See
+                          <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a><a href="repeat.txt.html#." class="d">.</a> Overrides the setting from
+                          <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{header}</span>?         (`string|[string,any]`) <a href="vimeval.txt.html#String" class="d">String</a> to use <a href="motion.txt.html#as" class="d">as</a> the header
+                          <a href="luaref.txt.html#for" class="d">for</a> the floating window. If <a href="insert.txt.html#a" class="d">a</a> table, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+                          interpreted <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> `[text, hl_group]` tuple. Overrides
+                          the setting from <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{source}</span>?         (`boolean|'if_many'`) Include the diagnostic source
+                          in the message. Use "if_many" to only show sources
+                          if there <a href="motion.txt.html#is" class="d">is</a> more than one source of diagnostics in
+                          the buffer. Otherwise, any <a href="vimeval.txt.html#truthy" class="d">truthy</a> value means to
+                          always show the diagnostic source. Overrides the
+                          setting from <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{format}</span>?         (`fun(diagnostic:vim.Diagnostic): string?`) <a href="insert.txt.html#A" class="d">A</a>
+                          function that takes <a href="insert.txt.html#a" class="d">a</a> diagnostic <a href="motion.txt.html#as" class="d">as</a> input and
+                          returns <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> or nil. If the return value <a href="motion.txt.html#is" class="d">is</a> nil,
+                          the diagnostic <a href="motion.txt.html#is" class="d">is</a> not displayed by the handler. Else
+                          the output text <a href="motion.txt.html#is" class="d">is</a> used to display the diagnostic.
+                          Overrides the setting from
+                          <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{prefix}</span>?         (`string<span class="l">table</span>(fun(diagnostic:vim.Diagnostic,i:integer,total:integer): string, string)`)
+                          Prefix each diagnostic in the floating window:
+                          • If <a href="insert.txt.html#a" class="d">a</a> <span class="e">function</span>, <span class="s">{i}</span> <a href="motion.txt.html#is" class="d">is</a> the <a href="index.txt.html#index" class="d">index</a> of the
+                            diagnostic being evaluated and <span class="s">{total}</span> <a href="motion.txt.html#is" class="d">is</a> the
+                            total number of diagnostics displayed in the
+                            window. The function should return <a href="insert.txt.html#a" class="d">a</a> <span class="e">string</span>
+                            which <a href="motion.txt.html#is" class="d">is</a> prepended to each diagnostic in the
+                            <a href="windows.txt.html#window" class="d">window</a> <a href="motion.txt.html#as" class="d">as</a> well <a href="motion.txt.html#as" class="d">as</a> an (optional) highlight group
+                            which will be used to highlight the prefix.
+                          • If <a href="insert.txt.html#a" class="d">a</a> <span class="e">table</span>, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> interpreted <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a>
+                            `[text, hl_group]` tuple <a href="motion.txt.html#as" class="d">as</a> in <a href="api.txt.html#nvim_echo%28%29" class="l">nvim_echo()</a>
+                          • If <a href="insert.txt.html#a" class="d">a</a> <span class="e">string</span>, <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> prepended to each diagnostic
+                            in the <a href="windows.txt.html#window" class="d">window</a> with no highlight. Overrides the
+                            setting from <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{suffix}</span>?         (`string<span class="l">table</span>(fun(diagnostic:vim.Diagnostic,i:integer,total:integer): string, string)`)
+                          Same <a href="motion.txt.html#as" class="d">as</a> <span class="s">{prefix}</span>, but appends the text to the
+                          diagnostic instead of prepending it. Overrides the
+                          setting from <a href="diagnostic.txt.html#vim.diagnostic.config%28%29" class="l">vim.diagnostic.config()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{focus_id}</span>?       (`string`)
+      • <span class="s">{border}</span>?         (`string`) see <a href="api.txt.html#nvim_open_win%28%29" class="l">nvim_open_win()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span id="vim.diagnostic.Opts.Jump" class="t">vim.diagnostic.Opts.Jump</span>
+
+<span class="h">    Fields: </span>
+      • <span class="s">{float}</span>?     (`boolean|vim.diagnostic.Opts.Float`, default: false)
+                     Default value of the <span class="s">{float}</span> parameter of
+                     <a href="diagnostic.txt.html#vim.diagnostic.jump%28%29" class="l">vim.diagnostic.jump()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{wrap}</span>?      (`boolean`, default: true) Default value of the <span class="s">{wrap}</span>
+                     parameter of <a href="diagnostic.txt.html#vim.diagnostic.jump%28%29" class="l">vim.diagnostic.jump()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{severity}</span>?  (`vim.diagnostic.SeverityFilter`) Default value of the
+                     <span class="s">{severity}</span> parameter of <a href="diagnostic.txt.html#vim.diagnostic.jump%28%29" class="l">vim.diagnostic.jump()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span id="vim.diagnostic.Opts.Signs" class="t">vim.diagnostic.Opts.Signs</span>
+
+<span class="h">    Fields: </span>
+      • <span class="s">{severity}</span>?  (`vim.diagnostic.SeverityFilter`) Only show <a href="sign.txt.html#signs" class="d">signs</a> <a href="luaref.txt.html#for" class="d">for</a>
+                     diagnostics matching the given severity
+                     <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a>
+      • <span class="s">{priority}</span>?  (`integer`, default: <span class="e">10</span>) Base priority to use <a href="luaref.txt.html#for" class="d">for</a>
+                     signs. When <span class="s">{severity_sort}</span> <a href="motion.txt.html#is" class="d">is</a> used, the priority of <a href="insert.txt.html#a" class="d">a</a>
+                     sign <a href="motion.txt.html#is" class="d">is</a> adjusted based on its severity. Otherwise, all
+                     <a href="sign.txt.html#signs" class="d">signs</a> use the same priority.
+      • <span class="s">{text}</span>?      (`table&lt;vim.diagnostic.Severity,string&gt;`) <a href="insert.txt.html#A" class="d">A</a> table <a href="map.txt.html#mapping" class="d">mapping</a>
+                     <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a> to the sign text to display in the
+                     sign column. The default <a href="motion.txt.html#is" class="d">is</a> to use <span class="e">"E"</span>, <span class="e">"W"</span>, <span class="e">"I"</span>,
+                     and <span class="e">"H"</span> <a href="luaref.txt.html#for" class="d">for</a> errors, warnings, information, and hints,
+                     respectively. Example: 
+<span class="e">                         vim.diagnostic.config({</span>
+<span class="e">                           signs = { text = { [vim.diagnostic.severity.ERROR] = 'E', ... } }</span>
+<span class="e">                         })</span>
+
+      • <span class="s">{numhl}</span>?     (`table&lt;vim.diagnostic.Severity,string&gt;`) <a href="insert.txt.html#A" class="d">A</a> table <a href="map.txt.html#mapping" class="d">mapping</a>
+                     <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a> to the highlight group used <a href="luaref.txt.html#for" class="d">for</a> the
+                     line number where the sign <a href="motion.txt.html#is" class="d">is</a> placed.
+      • <span class="s">{linehl}</span>?    (`table&lt;vim.diagnostic.Severity,string&gt;`) <a href="insert.txt.html#A" class="d">A</a> table <a href="map.txt.html#mapping" class="d">mapping</a>
+                     <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a> to the highlight group used <a href="luaref.txt.html#for" class="d">for</a> the
+                     whole line the sign <a href="motion.txt.html#is" class="d">is</a> placed in.
+
+<span id="vim.diagnostic.Opts.Underline" class="t">vim.diagnostic.Opts.Underline</span>
+
+<span class="h">    Fields: </span>
+      • <span class="s">{severity}</span>?  (`vim.diagnostic.SeverityFilter`) Only <a href="syntax.txt.html#underline" class="d">underline</a>
+                     diagnostics matching the given severity
+                     <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span id="vim.diagnostic.Opts.VirtualLines" class="t">vim.diagnostic.Opts.VirtualLines</span>
+
+<span class="h">    Fields: </span>
+      • <span class="s">{severity}</span>?      (`vim.diagnostic.SeverityFilter`) Only show virtual
+                         lines <a href="luaref.txt.html#for" class="d">for</a> diagnostics matching the given severity
+                         <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a>
+      • <span class="s">{current_line}</span>?  (`boolean`, default: <span class="e">false</span>) Only show diagnostics
+                         <a href="luaref.txt.html#for" class="d">for</a> the current line.
+      • <span class="s">{format}</span>?        (`fun(diagnostic:vim.Diagnostic): string?`) <a href="insert.txt.html#A" class="d">A</a>
+                         function that takes <a href="insert.txt.html#a" class="d">a</a> diagnostic <a href="motion.txt.html#as" class="d">as</a> input and returns
+                         <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> or nil. If the return value <a href="motion.txt.html#is" class="d">is</a> nil, the
+                         diagnostic <a href="motion.txt.html#is" class="d">is</a> not displayed by the handler. Else the
+                         output text <a href="motion.txt.html#is" class="d">is</a> used to display the diagnostic.
+
+<span id="vim.diagnostic.Opts.VirtualText" class="t">vim.diagnostic.Opts.VirtualText</span>
+
+<span class="h">    Fields: </span>
+      • <span class="s">{severity}</span>?           (`vim.diagnostic.SeverityFilter`) Only show
+                              virtual text <a href="luaref.txt.html#for" class="d">for</a> diagnostics matching the given
+                              severity <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a>
+      • <span class="s">{current_line}</span>?       (`boolean`) Only show diagnostics <a href="luaref.txt.html#for" class="d">for</a> the
+                              current line. (default <span class="e">false</span>)
+      • <span class="s">{source}</span>?             (`boolean|"if_many"<a href="motion.txt.html#%60%29" class="d">`)</a> Include the diagnostic
+                              source in virtual text. Use <span class="e">'if_many'</span> to only
+                              show sources if there <a href="motion.txt.html#is" class="d">is</a> more than one
+                              diagnostic source in the buffer. Otherwise, any
+                              <a href="vimeval.txt.html#truthy" class="d">truthy</a> value means to always show the diagnostic
+                              source.
+      • <span class="s">{spacing}</span>?            (`integer`) Amount of empty spaces inserted <a href="motion.txt.html#at" class="d">at</a>
+                              the beginning of the virtual text.
+      • <span class="s">{prefix}</span>?             (`string|(fun(diagnostic:vim.Diagnostic,i:integer,total:integer): string)`)
+                              Prepend diagnostic message with prefix. If <a href="insert.txt.html#a" class="d">a</a>
+                              <span class="e">function</span>, <span class="s">{i}</span> <a href="motion.txt.html#is" class="d">is</a> the <a href="index.txt.html#index" class="d">index</a> of the diagnostic
+                              being evaluated, and <span class="s">{total}</span> <a href="motion.txt.html#is" class="d">is</a> the total number
+                              of diagnostics <a href="luaref.txt.html#for" class="d">for</a> the line. This can be used to
+                              render diagnostic symbols or error codes.
+      • <span class="s">{suffix}</span>?             (`string|(fun(diagnostic:vim.Diagnostic): string)`)
+                              Append diagnostic message with suffix. This can
+                              be used to render an <a href="lsp.txt.html#LSP" class="d">LSP</a> diagnostic error code.
+      • <span class="s">{format}</span>?             (`fun(diagnostic:vim.Diagnostic): string?`) If
+                              not nil, the return value <a href="motion.txt.html#is" class="d">is</a> the text used to
+                              display the diagnostic. Example: 
+<span class="e">                                  function(diagnostic)</span>
+<span class="e">                                    if diagnostic.severity == vim.diagnostic.severity.ERROR then</span>
+<span class="e">                                      return string.format("E: %s", diagnostic.message)</span>
+<span class="e">                                    end</span>
+<span class="e">                                    return diagnostic.message</span>
+<span class="e">                                  end</span>
+
+
+                              If the return value <a href="motion.txt.html#is" class="d">is</a> nil, the diagnostic <a href="motion.txt.html#is" class="d">is</a>
+                              not displayed by the handler.
+      • <span class="s">{hl_mode}</span>?            (`'replace'<span class="l">'combine'</span><span class="o">'blend'</span>`) See
+                              <a href="api.txt.html#nvim_buf_set_extmark%28%29" class="l">nvim_buf_set_extmark()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{virt_text}</span>?          (`[string,any][]`) See <a href="api.txt.html#nvim_buf_set_extmark%28%29" class="l">nvim_buf_set_extmark()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{virt_text_pos}</span>?      (`'eol'<span class="l">'eol_right_align'</span><span class="o">'inline'</span><span class="l">'overlay'</span>'right_align'`)
+                              See <a href="api.txt.html#nvim_buf_set_extmark%28%29" class="l">nvim_buf_set_extmark()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{virt_text_win_col}</span>?  (`integer`) See <a href="api.txt.html#nvim_buf_set_extmark%28%29" class="l">nvim_buf_set_extmark()</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{virt_text_hide}</span>?     (`boolean`) See <a href="api.txt.html#nvim_buf_set_extmark%28%29" class="l">nvim_buf_set_extmark()</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+config({opts}, <span class="s">{namespace}</span>)                          <span id="vim.diagnostic.config%28%29" class="t">vim.diagnostic.config()</span>
+    Configure diagnostic <a href="options.txt.html#options" class="d">options</a> globally or <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> specific diagnostic
+    namespace.
+
+    Configuration can be specified globally, per-namespace, or ephemerally
+    (i.e. only <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> single call to <a href="diagnostic.txt.html#vim.diagnostic.set%28%29" class="l">vim.diagnostic.set()</a> or
+    <a href="diagnostic.txt.html#vim.diagnostic.show%28%29" class="l">vim.diagnostic.show()</a>). Ephemeral configuration has highest priority,
+    followed by <a href="api.txt.html#namespace" class="d">namespace</a> configuration, and finally global configuration.
+
+    For example, if <a href="insert.txt.html#a" class="d">a</a> user enables virtual text globally with 
+<span class="e">        vim.diagnostic.config({ virtual_text = true })</span>
+
+
+    and <a href="insert.txt.html#a" class="d">a</a> diagnostic producer sets diagnostics with 
+<span class="e">        vim.diagnostic.set(ns, 0, diagnostics, { virtual_text = false })</span>
+
+
+    then virtual text will not be enabled <a href="luaref.txt.html#for" class="d">for</a> those diagnostics.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{opts}</span>       (`vim.diagnostic.Opts?`) When omitted or <span class="e">nil</span>, retrieve
+                     the current configuration. Otherwise, <a href="insert.txt.html#a" class="d">a</a> configuration
+                     table (see <a href="diagnostic.txt.html#vim.diagnostic.Opts" class="l">vim.diagnostic.Opts</a>).
+      • <span class="s">{namespace}</span>  (`integer?`) Update the <a href="options.txt.html#options" class="d">options</a> <a href="luaref.txt.html#for" class="d">for</a> the given namespace.
+                     When omitted, update the global diagnostic options.
+
+<span class="h">    Return: </span>
+        (`vim.diagnostic.Opts?`) Current diagnostic <a href="starting.txt.html#config" class="d">config</a> if <span class="s">{opts}</span> <a href="motion.txt.html#is" class="d">is</a>
+        omitted. See <a href="diagnostic.txt.html#vim.diagnostic.Opts" class="l">vim.diagnostic.Opts</a><a href="repeat.txt.html#." class="d">.</a>
+
+count({bufnr}, <span class="s">{opts}</span>)                                <span id="vim.diagnostic.count%28%29" class="t">vim.diagnostic.count()</span>
+    Get current diagnostics count.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{bufnr}</span>  (`integer?`) Buffer number to get diagnostics from. Use <a href="motion.txt.html#0" class="d">0</a> <a href="luaref.txt.html#for" class="d">for</a>
+                 current buffer or nil <a href="luaref.txt.html#for" class="d">for</a> all buffers.
+      • <span class="s">{opts}</span>   (`vim.diagnostic.GetOpts?`) See <a href="diagnostic.txt.html#vim.diagnostic.GetOpts" class="l">vim.diagnostic.GetOpts</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Return: </span>
+        (`table`) Table with actually present severity values <a href="motion.txt.html#as" class="d">as</a> keys (see
+        <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a><a href="motion.txt.html#%29" class="d">)</a> and integer counts <a href="motion.txt.html#as" class="d">as</a> values.
+
+enable({enable}, <span class="s">{filter}</span>)                           <span id="vim.diagnostic.enable%28%29" class="t">vim.diagnostic.enable()</span>
+    Enables or disables diagnostics.
+
+    To "<a href="options.txt.html#toggle" class="d">toggle</a>"<a href="motion.txt.html#%2C" class="d">,</a> pass the <a href="syntax.txt.html#inverse" class="d">inverse</a> of <span class="e">is_enabled()</span>: 
+<span class="e">        vim.diagnostic.enable(not vim.diagnostic.is_enabled())</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{enable}</span>  (`boolean?`) true/nil to enable, false to disable
+      • <span class="s">{filter}</span>  (`table?`) Optional filters <a href="lua.txt.html#kwargs" class="l">kwargs</a><a href="motion.txt.html#%2C" class="d">,</a> or <span class="e">nil</span> <a href="luaref.txt.html#for" class="d">for</a> all.
+                  • <span class="s">{ns_id}</span>? (`integer`) Diagnostic namespace, or <span class="e">nil</span> <a href="luaref.txt.html#for" class="d">for</a>
+                    all.
+                  • <span class="s">{bufnr}</span>? (`integer`) Buffer number, or <a href="motion.txt.html#0" class="d">0</a> <a href="luaref.txt.html#for" class="d">for</a> current
+                    buffer, or <span class="e">nil</span> <a href="luaref.txt.html#for" class="d">for</a> all buffers.
+
+fromqflist({list})                               <span id="vim.diagnostic.fromqflist%28%29" class="t">vim.diagnostic.fromqflist()</span>
+    Convert <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> items to <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of diagnostics.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{list}</span>  (`table[]`) <a href="vimeval.txt.html#List" class="d">List</a> of <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> items from <a href="vimfn.txt.html#getqflist%28%29" class="l">getqflist()</a> or
+                <a href="vimfn.txt.html#getloclist%28%29" class="l">getloclist()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Return: </span>
+        (`vim.Diagnostic[]`) See <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a><a href="repeat.txt.html#." class="d">.</a>
+
+get({bufnr}, <span class="s">{opts}</span>)                                    <span id="vim.diagnostic.get%28%29" class="t">vim.diagnostic.get()</span>
+    Get current diagnostics.
+
+    Modifying diagnostics in the returned table has no effect. To set
+    diagnostics in <a href="insert.txt.html#a" class="d">a</a> buffer, use <a href="diagnostic.txt.html#vim.diagnostic.set%28%29" class="l">vim.diagnostic.set()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{bufnr}</span>  (`integer?`) Buffer number to get diagnostics from. Use <a href="motion.txt.html#0" class="d">0</a> <a href="luaref.txt.html#for" class="d">for</a>
+                 current buffer or nil <a href="luaref.txt.html#for" class="d">for</a> all buffers.
+      • <span class="s">{opts}</span>   (`vim.diagnostic.GetOpts?`) See <a href="diagnostic.txt.html#vim.diagnostic.GetOpts" class="l">vim.diagnostic.GetOpts</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Return: </span>
+        (`vim.Diagnostic[]`) Fields <span class="e">bufnr</span>, <span class="e">end_lnum</span>, <span class="e">end_col</span>, and
+        <span class="e">severity</span> are guaranteed to be present. See <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a><a href="repeat.txt.html#." class="d">.</a>
+
+get_namespace({namespace})                    <span id="vim.diagnostic.get_namespace%28%29" class="t">vim.diagnostic.get_namespace()</span>
+    Get <a href="api.txt.html#namespace" class="d">namespace</a> metadata.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{namespace}</span>  (`integer`) Diagnostic <a href="api.txt.html#namespace" class="d">namespace</a>
+
+<span class="h">    Return: </span>
+        (`vim.diagnostic.NS`) Namespace metadata. See <a href="diagnostic.txt.html#vim.diagnostic.NS" class="l">vim.diagnostic.NS</a><a href="repeat.txt.html#." class="d">.</a>
+
+get_namespaces()                             <span id="vim.diagnostic.get_namespaces%28%29" class="t">vim.diagnostic.get_namespaces()</span>
+    Get current diagnostic namespaces.
+
+<span class="h">    Return: </span>
+        (`table&lt;integer,vim.diagnostic.NS&gt;`) <a href="vimeval.txt.html#List" class="d">List</a> of active diagnostic
+        namespaces <a href="diagnostic.txt.html#vim.diagnostic" class="l">vim.diagnostic</a><a href="repeat.txt.html#." class="d">.</a>
+
+get_next({opts})                                   <span id="vim.diagnostic.get_next%28%29" class="t">vim.diagnostic.get_next()</span>
+    Get the next diagnostic closest to the cursor position.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{opts}</span>  (`vim.diagnostic.JumpOpts?`) See <a href="diagnostic.txt.html#vim.diagnostic.JumpOpts" class="l">vim.diagnostic.JumpOpts</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Return: </span>
+        (`vim.Diagnostic?`) Next diagnostic. See <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a><a href="repeat.txt.html#." class="d">.</a>
+
+get_prev({opts})                                   <span id="vim.diagnostic.get_prev%28%29" class="t">vim.diagnostic.get_prev()</span>
+    Get the previous diagnostic closest to the cursor position.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{opts}</span>  (`vim.diagnostic.JumpOpts?`) See <a href="diagnostic.txt.html#vim.diagnostic.JumpOpts" class="l">vim.diagnostic.JumpOpts</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Return: </span>
+        (`vim.Diagnostic?`) Previous diagnostic. See <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a><a href="repeat.txt.html#." class="d">.</a>
+
+hide({namespace}, <span class="s">{bufnr}</span>)                             <span id="vim.diagnostic.hide%28%29" class="t">vim.diagnostic.hide()</span>
+    Hide currently displayed diagnostics.
+
+    This only clears the decorations displayed in the buffer. Diagnostics can
+    be redisplayed with <a href="diagnostic.txt.html#vim.diagnostic.show%28%29" class="l">vim.diagnostic.show()</a><a href="repeat.txt.html#." class="d">.</a> To completely remove
+    diagnostics, use <a href="diagnostic.txt.html#vim.diagnostic.reset%28%29" class="l">vim.diagnostic.reset()</a><a href="repeat.txt.html#." class="d">.</a>
+
+    To hide diagnostics and prevent them from re-displaying, use
+    <a href="diagnostic.txt.html#vim.diagnostic.enable%28%29" class="l">vim.diagnostic.enable()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{namespace}</span>  (`integer?`) Diagnostic namespace. When omitted, hide
+                     diagnostics from all namespaces.
+      • <span class="s">{bufnr}</span>      (`integer?`) Buffer number, or <a href="motion.txt.html#0" class="d">0</a> <a href="luaref.txt.html#for" class="d">for</a> current buffer. When
+                     omitted, hide diagnostics in all buffers.
+
+is_enabled({filter})                             <span id="vim.diagnostic.is_enabled%28%29" class="t">vim.diagnostic.is_enabled()</span>
+    Check whether diagnostics are enabled.
+
+<span class="h">    Attributes: </span>
+        Since: 0.10.0
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{filter}</span>  (`table?`) Optional filters <a href="lua.txt.html#kwargs" class="l">kwargs</a><a href="motion.txt.html#%2C" class="d">,</a> or <span class="e">nil</span> <a href="luaref.txt.html#for" class="d">for</a> all.
+                  • <span class="s">{ns_id}</span>? (`integer`) Diagnostic namespace, or <span class="e">nil</span> <a href="luaref.txt.html#for" class="d">for</a>
+                    all.
+                  • <span class="s">{bufnr}</span>? (`integer`) Buffer number, or <a href="motion.txt.html#0" class="d">0</a> <a href="luaref.txt.html#for" class="d">for</a> current
+                    buffer, or <span class="e">nil</span> <a href="luaref.txt.html#for" class="d">for</a> all buffers.
+
+<span class="h">    Return: </span>
+        (`boolean`)
+
+jump({opts})                                           <span id="vim.diagnostic.jump%28%29" class="t">vim.diagnostic.jump()</span>
+    Move to <a href="insert.txt.html#a" class="d">a</a> diagnostic.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{opts}</span>  (`vim.diagnostic.JumpOpts`) See <a href="diagnostic.txt.html#vim.diagnostic.JumpOpts" class="l">vim.diagnostic.JumpOpts</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Return: </span>
+        (`vim.Diagnostic?`) The diagnostic that was moved to. See
+        <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a><a href="repeat.txt.html#." class="d">.</a>
+
+                                                      <span id="vim.diagnostic.match%28%29" class="t">vim.diagnostic.match()</span>
+match({str}, <span class="s">{pat}</span>, <span class="s">{groups}</span>, <span class="s">{severity_map}</span>, <span class="s">{defaults}</span>)
+    Parse <a href="insert.txt.html#a" class="d">a</a> diagnostic from <a href="insert.txt.html#a" class="d">a</a> string.
+
+    For example, consider <a href="insert.txt.html#a" class="d">a</a> line of output from <a href="insert.txt.html#a" class="d">a</a> linter: 
+<span class="e">        WARNING filename:27:3: Variable 'foo' does not exist</span>
+
+
+    This can be parsed into <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a> structure with: 
+<span class="e">        local s = "WARNING filename:27:3: Variable 'foo' does not exist"</span>
+<span class="e">        local pattern = "^(%w+) %w+:(%d+):(%d+): (.+)$"</span>
+<span class="e">        local groups = { "severity", "lnum", "col", "message" }</span>
+<span class="e">        vim.diagnostic.match(s, pattern, groups, { WARNING = vim.diagnostic.WARN })</span>
+
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{str}</span>           (`string`) <a href="vimeval.txt.html#String" class="d">String</a> to parse diagnostics from.
+      • <span class="s">{pat}</span>           (`string`) <a href="lua.txt.html#Lua" class="d">Lua</a> <a href="pattern.txt.html#pattern" class="d">pattern</a> with capture groups.
+      • <span class="s">{groups}</span>        (`string[]`) <a href="vimeval.txt.html#List" class="d">List</a> of fields in <a href="insert.txt.html#a" class="d">a</a> <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a>
+                        structure to associate with captures from <span class="s">{pat}</span>.
+      • <span class="s">{severity_map}</span>  (`table`) <a href="insert.txt.html#A" class="d">A</a> table <a href="map.txt.html#mapping" class="d">mapping</a> the severity field from
+                        <span class="s">{groups}</span> with an item from <a href="diagnostic.txt.html#vim.diagnostic.severity" class="l">vim.diagnostic.severity</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{defaults}</span>      (`table?`) Table of default values <a href="luaref.txt.html#for" class="d">for</a> any fields not
+                        listed in <span class="s">{groups}</span>. When omitted, numeric values
+                        default to <a href="motion.txt.html#0" class="d">0</a> and "severity" <a href="vim_diff.txt.html#defaults" class="d">defaults</a> to ERROR.
+
+<span class="h">    Return: </span>
+        (`vim.Diagnostic?`) <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a> structure or <span class="e">nil</span> if <span class="s">{pat}</span> fails
+        to match <span class="s">{str}</span>.
+
+open_float({opts})                               <span id="vim.diagnostic.open_float%28%29" class="t">vim.diagnostic.open_float()</span>
+    Show diagnostics in <a href="insert.txt.html#a" class="d">a</a> floating window.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{opts}</span>  (`vim.diagnostic.Opts.Float?`) See
+                <a href="diagnostic.txt.html#vim.diagnostic.Opts.Float" class="l">vim.diagnostic.Opts.Float</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Return (multiple): </span>
+        (`integer?`) float_bufnr
+        (`integer?`) <a href="windows.txt.html#winid" class="d">winid</a>
+
+reset({namespace}, <span class="s">{bufnr}</span>)                           <span id="vim.diagnostic.reset%28%29" class="t">vim.diagnostic.reset()</span>
+    Remove all diagnostics from the given namespace.
+
+    Unlike <a href="diagnostic.txt.html#vim.diagnostic.hide%28%29" class="l">vim.diagnostic.hide()</a><a href="motion.txt.html#%2C" class="d">,</a> this function removes all saved
+    diagnostics. They cannot be redisplayed using <a href="diagnostic.txt.html#vim.diagnostic.show%28%29" class="l">vim.diagnostic.show()</a><a href="repeat.txt.html#." class="d">.</a> To
+    simply remove diagnostic decorations in <a href="insert.txt.html#a" class="d">a</a> way that they can be
+    re-displayed, use <a href="diagnostic.txt.html#vim.diagnostic.hide%28%29" class="l">vim.diagnostic.hide()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{namespace}</span>  (`integer?`) Diagnostic namespace. When omitted, remove
+                     diagnostics from all namespaces.
+      • <span class="s">{bufnr}</span>      (`integer?`) Remove diagnostics <a href="luaref.txt.html#for" class="d">for</a> the given buffer.
+                     When omitted, diagnostics are removed <a href="luaref.txt.html#for" class="d">for</a> all buffers.
+
+set({namespace}, <span class="s">{bufnr}</span>, <span class="s">{diagnostics}</span>, <span class="s">{opts}</span>)        <span id="vim.diagnostic.set%28%29" class="t">vim.diagnostic.set()</span>
+    Set diagnostics <a href="luaref.txt.html#for" class="d">for</a> the given <a href="api.txt.html#namespace" class="d">namespace</a> and buffer.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{namespace}</span>    (`integer`) The diagnostic <a href="api.txt.html#namespace" class="d">namespace</a>
+      • <span class="s">{bufnr}</span>        (`integer`) Buffer number
+      • <span class="s">{diagnostics}</span>  (`vim.Diagnostic[]`) See <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{opts}</span>         (`vim.diagnostic.Opts?`) Display <a href="options.txt.html#options" class="d">options</a> to pass to
+                       <a href="diagnostic.txt.html#vim.diagnostic.show%28%29" class="l">vim.diagnostic.show()</a><a href="repeat.txt.html#." class="d">.</a> See <a href="diagnostic.txt.html#vim.diagnostic.Opts" class="l">vim.diagnostic.Opts</a><a href="repeat.txt.html#." class="d">.</a>
+
+setloclist({opts})                               <span id="vim.diagnostic.setloclist%28%29" class="t">vim.diagnostic.setloclist()</span>
+    Add buffer diagnostics to the location list.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{opts}</span>  (`table?`) Configuration table with the following keys:
+                • <span class="s">{namespace}</span>? (`integer`) Only add diagnostics from the given
+                  namespace.
+                • <span class="s">{winnr}</span>? (`integer`, default: <span class="e">0</span>) Window number to set
+                  location <a href="vimeval.txt.html#list" class="d">list</a> for.
+                • <span class="s">{open}</span>? (`boolean`, default: <span class="e">true</span>) Open the location <a href="vimeval.txt.html#list" class="d">list</a>
+                  after setting.
+                • <span class="s">{title}</span>? (`string`) Title of the location list. Defaults to
+                  "Diagnostics"<a href="repeat.txt.html#." class="d">.</a>
+                • <span class="s">{severity}</span>? (`vim.diagnostic.SeverityFilter`) See
+                  <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a><a href="repeat.txt.html#." class="d">.</a>
+
+setqflist({opts})                                 <span id="vim.diagnostic.setqflist%28%29" class="t">vim.diagnostic.setqflist()</span>
+    Add all diagnostics to the <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> list.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{opts}</span>  (`table?`) Configuration table with the following keys:
+                • <span class="s">{namespace}</span>? (`integer`) Only add diagnostics from the given
+                  namespace.
+                • <span class="s">{open}</span>? (`boolean`, default: <span class="e">true</span>) Open <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> <a href="vimeval.txt.html#list" class="d">list</a>
+                  after setting.
+                • <span class="s">{title}</span>? (`string`) Title of <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> list. Defaults to
+                  "Diagnostics"<a href="repeat.txt.html#." class="d">.</a> If there's already <a href="insert.txt.html#a" class="d">a</a> <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> <a href="vimeval.txt.html#list" class="d">list</a> with this
+                  title, it's updated. If not, <a href="insert.txt.html#a" class="d">a</a> new <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> <a href="vimeval.txt.html#list" class="d">list</a> <a href="motion.txt.html#is" class="d">is</a> created.
+                • <span class="s">{severity}</span>? (`vim.diagnostic.SeverityFilter`) See
+                  <a href="diagnostic.txt.html#diagnostic-severity" class="l">diagnostic-severity</a><a href="repeat.txt.html#." class="d">.</a>
+
+                                                       <span id="vim.diagnostic.show%28%29" class="t">vim.diagnostic.show()</span>
+show({namespace}, <span class="s">{bufnr}</span>, <span class="s">{diagnostics}</span>, <span class="s">{opts}</span>)
+    Display diagnostics <a href="luaref.txt.html#for" class="d">for</a> the given <a href="api.txt.html#namespace" class="d">namespace</a> and buffer.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{namespace}</span>    (`integer?`) Diagnostic namespace. When omitted, show
+                       diagnostics from all namespaces.
+      • <span class="s">{bufnr}</span>        (`integer?`) Buffer number, or <a href="motion.txt.html#0" class="d">0</a> <a href="luaref.txt.html#for" class="d">for</a> current buffer.
+                       When omitted, show diagnostics in all buffers.
+      • <span class="s">{diagnostics}</span>  (`vim.Diagnostic[]?`) The diagnostics to display. When
+                       omitted, use the saved diagnostics <a href="luaref.txt.html#for" class="d">for</a> the given
+                       <a href="api.txt.html#namespace" class="d">namespace</a> and buffer. This can be used to display <a href="insert.txt.html#a" class="d">a</a>
+                       <a href="vimeval.txt.html#list" class="d">list</a> of diagnostics without saving them or to display
+                       only <a href="insert.txt.html#a" class="d">a</a> subset of diagnostics. May not be used when
+                       <span class="s">{namespace}</span> or <span class="s">{bufnr}</span> <a href="motion.txt.html#is" class="d">is</a> nil. See <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a><a href="repeat.txt.html#." class="d">.</a>
+      • <span class="s">{opts}</span>         (`vim.diagnostic.Opts?`) Display options. See
+                       <a href="diagnostic.txt.html#vim.diagnostic.Opts" class="l">vim.diagnostic.Opts</a><a href="repeat.txt.html#." class="d">.</a>
+
+toqflist({diagnostics})                            <span id="vim.diagnostic.toqflist%28%29" class="t">vim.diagnostic.toqflist()</span>
+    Convert <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of diagnostics to <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> items that can be
+    passed to <a href="vimfn.txt.html#setqflist%28%29" class="l">setqflist()</a> or <a href="vimfn.txt.html#setloclist%28%29" class="l">setloclist()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{diagnostics}</span>  (`vim.Diagnostic[]`) See <a href="diagnostic.txt.html#vim.Diagnostic" class="l">vim.Diagnostic</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">    Return: </span>
+        (`table[]`) <a href="quickfix.txt.html#Quickfix" class="d">Quickfix</a> <a href="vimeval.txt.html#list" class="d">list</a> items <a href="vimfn.txt.html#setqflist-what" class="l">setqflist-what</a>
+
+
+ vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

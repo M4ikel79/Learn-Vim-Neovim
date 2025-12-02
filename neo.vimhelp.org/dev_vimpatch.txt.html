@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: dev_vimpatch.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="dev_vimpatch.txt.html#">↑Top↑</a></li>
+<li><a href="dev_vimpatch.txt.html#dev-vimpatch-quickstart">QUICKSTART</a></li>
+<li><a href="dev_vimpatch.txt.html#dev-vimpatch-pull-requests">PULL REQUESTS</a></li>
+<li><a href="dev_vimpatch.txt.html#dev-vimpatch-not-applicable">NA (NOT APPLICABLE) PATCHES</a></li>
+<li><a href="dev_vimpatch.txt.html#dev-vimpatch-version.c">VERSION.C</a></li>
+<li><a href="dev_vimpatch.txt.html#dev-vimpatch-code-differences">CODE DIFFERENCES</a></li>
+<li><a href="dev_vimpatch.txt.html#dev-vimpatch-list-management">LIST MANAGEMENT</a></li>
+<li><a href="dev_vimpatch.txt.html#dev-vimpatch-documentation">DOCUMENTATION DIFFERENCES</a></li>
+<li><a href="dev_vimpatch.txt.html#dev-vimpatch-filetype">FILETYPE DETECTION</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="dev_vimpatch.txt" class="t">dev_vimpatch.txt</span>          Nvim
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+Merging patches from Vim                                    <span id="dev-vimpatch" class="t">dev-vimpatch</span>
+
+
+Nvim was forked from Vim 7.4.160; <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> kept up-to-date with relevant Vim
+patches in order to avoid duplicate work. Run <span class="e">vim-patch.sh</span>
+<a class="u" href="https://github.com/neovim/neovim/blob/master/scripts/vim-patch.sh">https://github.com/neovim/neovim/blob/master/scripts/vim-patch.sh</a> to see the
+status of Vim patches:
+&gt;bash
+    ./scripts/vim-patch.sh <a href="starting.txt.html#-l" class="d">-l</a>
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+Everyone <a href="motion.txt.html#is" class="d">is</a> welcome to <a href="dev_vimpatch.txt.html#dev-vimpatch-pull-requests" class="l">dev-vimpatch-pull-requests</a> <a href="luaref.txt.html#for" class="d">for</a> relevant Vim
+patches, but some types of patches are <a href="dev_vimpatch.txt.html#dev-vimpatch-not-applicable" class="l">dev-vimpatch-not-applicable</a><a href="repeat.txt.html#." class="d">.</a>
+See <a href="dev_vimpatch.txt.html#dev-vimpatch-quickstart" class="l">dev-vimpatch-quickstart</a> to get started immediately.
+
+
+                                         Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+<span class="c">QUICKSTART</span>                                        <span id="dev-vimpatch-quickstart" class="t">dev-vimpatch-quickstart</span>
+
+1. Pull the Nvim source:
+&gt;bash
+    git clone <a class="u" href="https://github.com/neovim/neovim.git">https://github.com/neovim/neovim.git</a>
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+2. Run `./scripts/vim-patch.sh -l` to see the <a href="vimeval.txt.html#list" class="d">list</a> of missing Vim patches.
+
+3. Choose <a href="insert.txt.html#a" class="d">a</a> patch from the <a href="vimeval.txt.html#list" class="d">list</a> (usually the oldest one), e.g. <span class="e">8.0.0123</span>.
+
+   <a href="motion.txt.html#-" class="d">-</a> Check <a href="luaref.txt.html#for" class="d">for</a> open vim-patch PRs
+     <a class="u" href="https://github.com/neovim/neovim/pulls?q=is%3Apr+is%3Aopen+label%3Avim-patch">https://github.com/neovim/neovim/pulls?q=is%3Apr+is%3Aopen+label%3Avim-patch</a>.
+
+4. Run `./scripts/vim-patch.sh <a href="starting.txt.html#-p" class="d">-p</a> 8.0.0123`
+
+5. Follow the instructions given by the script.
+
+<span class="h">NOTES </span>
+
+<a href="motion.txt.html#-" class="d">-</a> It's strongly recommended to work on the oldest missing patch, because
+  later patches might depend on the changes.
+<a href="motion.txt.html#-" class="d">-</a> Use `git <a href="starting.txt.html#log" class="d">log</a> --grep` or `git <a href="starting.txt.html#log" class="d">log</a> -G` to search the Nvim/Vim source <a href="cmdline.txt.html#history" class="d">history</a>
+  (even deleted code). E.g. to find <span class="e">reset_option_was_set</span>: &gt;bash
+
+    git <a href="starting.txt.html#log" class="d">log</a> <a href="starting.txt.html#-p" class="d">-p</a> -G reset_option_was_set
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+<a href="motion.txt.html#-" class="d">-</a> Pass `git log` <a href="options.txt.html#options" class="d">options</a> like <span class="e">--grep</span> and <span class="e">-G</span> to `./scripts/vim-patch.sh -L`
+  to <a href="change.txt.html#filter" class="d">filter</a> unmerged Vim patches E.g. to find <span class="e">+quickfix</span> patches: &gt;bash
+
+    ./scripts/vim-patch.sh <a href="starting.txt.html#-L" class="d">-L</a> --grep <a href="quickfix.txt.html#quickfix" class="d">quickfix</a> <a href="starting.txt.html#--" class="d">--</a> src
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+<span class="h">==============================================================================</span>
+<span class="c">PULL REQUESTS</span>                                  <span id="dev-vimpatch-pull-requests" class="t">dev-vimpatch-pull-requests</span>
+
+<span class="n">Note:</span> vim-patch.sh automates these steps <a href="luaref.txt.html#for" class="d">for</a> you. Use it!
+
+<a href="motion.txt.html#-" class="d">-</a> Install <span class="e">gh</span> (https://cli.github.com/) if you want to use <span class="e">vim-patch.sh</span> to
+  create PRs automatically
+<a href="motion.txt.html#-" class="d">-</a> The pull request title should include <span class="e">vim-patch:8.x.xxxx</span> (no whitespace)
+<a href="motion.txt.html#-" class="d">-</a> The commit message
+  <a class="u" href="https://github.com/neovim/neovim/commit/4ccf1125ff569eccfc34abc4ad794044c5ab7455">https://github.com/neovim/neovim/commit/4ccf1125ff569eccfc34abc4ad794044c5ab7455</a>
+  should include:
+    <a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> token indicating the Vim patch number, formatted <a href="motion.txt.html#as" class="d">as</a> follows:
+      <span class="e">vim-patch:8.0.0123</span> (no whitespace)
+    <a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> URL pointing to the Vim commit:
+      <a class="u" href="https://github.com/vim/vim/commit/c8020ee825b9d9196b1329c0e097424576fc9b3a">https://github.com/vim/vim/commit/c8020ee825b9d9196b1329c0e097424576fc9b3a</a>
+    <a href="motion.txt.html#-" class="d">-</a> The original Vim commit message, including author
+
+Reviewers: hint <a href="luaref.txt.html#for" class="d">for</a> reviewing <span class="e">runtime/</span> patches
+<a class="u" href="https://github.com/neovim/neovim/pull/1744#issuecomment-68202876">https://github.com/neovim/neovim/pull/1744#issuecomment-68202876</a>
+
+<span class="h">==============================================================================</span>
+<span class="c">NA (NOT APPLICABLE) PATCHES</span>                    <span id="dev-vimpatch-not-applicable" class="t">dev-vimpatch-not-applicable</span>
+
+Many Vim patches are not applicable to Nvim. If you find NA patches, visit an
+open "version.c: update" pull request
+<a class="u" href="https://github.com/neovim/neovim/pulls?q=is%3Apr+author%3Aapp%2Fgithub-actions+version.c+is%3Aopen">https://github.com/neovim/neovim/pulls?q=is%3Apr+author%3Aapp%2Fgithub-actions+version.c+is%3Aopen</a>
+and mention the NA patches in <a href="insert.txt.html#a" class="d">a</a> comment (please edit/update one comment,
+rather than adding <a href="insert.txt.html#a" class="d">a</a> new comment <a href="luaref.txt.html#for" class="d">for</a> each patch).
+
+If there are no open `version.c: update` pull requests, include NA patches in
+<a href="insert.txt.html#a" class="d">a</a> commit message in the following format:
+
+<span class="e">    vim-patch:&lt;version-or-commit&gt;</span>
+<span class="e">    vim-patch:&lt;version-or-commit&gt;</span>
+<span class="e">    ...</span>
+
+where <span class="e">&lt;version-or-commit&gt;</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> valid Vim version (like <span class="e">8.0.0123</span>) or
+commit-id (SHA). Each patch <a href="motion.txt.html#is" class="d">is</a> on <a href="insert.txt.html#a" class="d">a</a> separate line.
+
+It <a href="motion.txt.html#is" class="d">is</a> preferred to include NA patches by squashing <a href="motion.txt.html#it" class="d">it</a> in applicable Vim
+patches, especially if the Vim patches are related. First line of the commit
+message should be from the applicable Vim patch.
+
+<span class="e">    ./scripts/vim-patch -p &lt;na-patch&gt;</span>
+<span class="e">    ./scripts/vim-patch -p &lt;na-patch&gt;</span>
+<span class="e">    ...</span>
+<span class="e">    ./scripts/vim-patch -P &lt;patch&gt;</span>
+<span class="e">    git rebase -i master</span>
+
+Example:
+<a class="u" href="https://github.com/neovim/neovim/commit/00f60c2ce78fc1280e93d5a36bc7b2267d5f4ac6">https://github.com/neovim/neovim/commit/00f60c2ce78fc1280e93d5a36bc7b2267d5f4ac6</a>
+
+<span class="h">TYPES OF "NOT APPLICABLE" VIM PATCHES </span>
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="vim_diff.txt.html#Vim9script" class="d">Vim9script</a> features, and anything related to <span class="e">:scriptversion</span>. (Nvim
+  supports Vimscript version 1 only.) Be aware that patches labelled <span class="e">Vim9:</span>
+  may still contain applicable fixes to other parts of the codebase, so these
+  patch need to be checked individually.
+<a href="motion.txt.html#-" class="d">-</a> Updates to <span class="e">testdir/Makefile</span> are usually NA because the Makefile implicitly
+  finds
+  <a class="u" href="https://github.com/neovim/neovim/commit/8a677f8a4bff6005fa39f090c14e970c3dfdbe6e#diff-b3c6ad6680a25a1b42095879e3a87104R52">https://github.com/neovim/neovim/commit/8a677f8a4bff6005fa39f090c14e970c3dfdbe6e#diff-b3c6ad6680a25a1b42095879e3a87104R52</a>
+  all <span class="e">test_*.vim</span> files.
+<a href="motion.txt.html#-" class="d">-</a> Compiler warning fixes: Nvim strives to have no warnings <a href="motion.txt.html#at" class="d">at</a> all, and has <a href="insert.txt.html#a" class="d">a</a>
+  very different build system from Vim.
+    <a href="motion.txt.html#-" class="d">-</a> <span class="n">Note:</span> Coverity fixes in Vim are relevant to Nvim.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">*.proto</span> changes: Nvim autogenerates function prototypes
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">#ifdef</span> tweaking: For example, Vim decided to enable <span class="e">FEAT_VISUAL</span> <a href="luaref.txt.html#for" class="d">for</a> all
+  platforms <a href="motion.txt.html#-" class="d">-</a> but Nvim already does that. Adding new <span class="e">FEAT_</span> guards also isn't
+  relevant to Nvim.
+<a href="motion.txt.html#-" class="d">-</a> Legacy system support: Fixes <a href="luaref.txt.html#for" class="d">for</a> legacy systems such <a href="motion.txt.html#as" class="d">as</a> Amiga, OS/2 Xenix,
+  Mac OS 9, Windows older than XP SP2, are not needed because they are not
+  supported by Nvim.
+    <a href="motion.txt.html#-" class="d">-</a> NA files: <span class="e">src/Make_*</span>, <span class="e">src/testdir/Make__*</span>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">if_*.c</span> changes: <span class="e">if_python.c</span> et. al. were removed.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">term.c</span> changes: the Nvim <a href="tui.txt.html#TUI" class="d">TUI</a> uses <span class="e">libtermkey</span> to read <a href="terminal.txt.html#terminal" class="d">terminal</a> sequences;
+  Vim's <span class="e">term.c</span> was removed.
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">job</span> patches: incompatible <a href="api.txt.html#API" class="d">API</a> and implementation
+    <a href="motion.txt.html#-" class="d">-</a> NA files: <span class="e">src/channel_*</span>, <span class="e">src/job_*</span>, <span class="e">src/testdir/test_channel_*</span>,
+      <span class="e">src/testdir/test_job_*</span>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">:terminal</span> patches that modify NA files: incompatible <a href="api.txt.html#API" class="d">API</a> and
+  implementation
+    <a href="motion.txt.html#-" class="d">-</a> NA files: <span class="e">src/terminal_*</span>, <span class="e">src/testdir/test_terminal_*</span>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">defaults.vim</span> patches
+<a href="motion.txt.html#-" class="d">-</a> Most GUI-related changes: Nvim GUIs are implemented external to the core <a href="change.txt.html#C" class="d">C</a>
+  codebase.
+    <a href="motion.txt.html#-" class="d">-</a> NA files: <span class="e">src/gui_*</span>, <span class="e">src/gvim_*</span>, <span class="e">src/GvimExt/*</span>, <span class="e">src/testdir/test_gui*</span>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">balloon</span> changes: Nvim does not <a href="support.txt.html#support" class="d">support</a> balloon feature
+    <a href="motion.txt.html#-" class="d">-</a> NA files: <span class="e">src/beval_*</span>, <span class="e">src/testdir/test_balloon_*</span>
+<a href="motion.txt.html#-" class="d">-</a> Screendump tests from <span class="e">test_popupwin.vim</span>, <span class="e">test_popupwin_textprop.vim</span>:
+  <a class="u" href="https://github.com/neovim/neovim/pull/12741#issuecomment-704677141">https://github.com/neovim/neovim/pull/12741#issuecomment-704677141</a>
+<a href="motion.txt.html#-" class="d">-</a> json changes: incompatible <a href="api.txt.html#API" class="d">API</a> <a class="u" href="https://github.com/neovim/neovim/pull/4131">https://github.com/neovim/neovim/pull/4131</a>
+    <a href="motion.txt.html#-" class="d">-</a> NA files: <span class="e">src/json*</span>, <span class="e">src/testdir/test_json.vim</span>
+<a href="motion.txt.html#-" class="d">-</a> <span class="e">test_restricted.vim</span> restricted mode <a href="motion.txt.html#is" class="d">is</a> removed in
+  <a class="u" href="https://github.com/neovim/neovim/pull/11996">https://github.com/neovim/neovim/pull/11996</a>
+<a href="motion.txt.html#-" class="d">-</a> Many tests in <span class="e">test_prompt_buffer.vim</span> require incompatible Vim features
+  such <a href="motion.txt.html#as" class="d">as</a> <span class="e">channel</span>; they should still be included, but skipped
+<a href="motion.txt.html#-" class="d">-</a> non-runtime documentation: Moved to <a class="u" href="https://neovim.io/doc/">https://neovim.io/doc/</a>,
+    <a href="motion.txt.html#-" class="d">-</a> NA files: <span class="e">Filelist</span>, <span class="e">README</span>, <span class="e">INSTALL</span>,
+<a href="motion.txt.html#-" class="d">-</a> Anything else might be relevant; err on the side of caution, and post an
+  issue if you aren't sure.
+
+<span class="h">==============================================================================</span>
+<span class="c">VERSION.C</span>                                          <span id="dev-vimpatch-version.c" class="t">dev-vimpatch-version.c</span>
+
+The <a href="vimeval.txt.html#list" class="d">list</a> of Vim patches in <span class="e">src/nvim/version.c</span> <a href="motion.txt.html#is" class="d">is</a> automatically updated
+<a class="u" href="https://github.com/neovim/neovim/pull/7780">https://github.com/neovim/neovim/pull/7780</a> based on the presence of
+<span class="e">vim-patch:xxx</span> tokens in the Nvim git log.
+
+<a href="motion.txt.html#-" class="d">-</a> Don't update <span class="e">src/nvim/version.c</span> yourself.
+    <a href="motion.txt.html#-" class="d">-</a> `scripts/vim-patch.sh -p` intentionally omits <span class="e">version.c</span> to avoid <a href="diff.txt.html#merge" class="d">merge</a>
+      conflicts and save time when porting <a href="insert.txt.html#a" class="d">a</a> patch.
+<a href="motion.txt.html#-" class="d">-</a> The automation <a href="usr_41.txt.html#script" class="d">script</a> (`scripts/vimpatch.lua`) only recognizes tokens like
+  <span class="e">vim-patch:8.0.1206</span>, not <span class="e">vim-patch:&lt;hash&gt;</span>.
+
+<span class="h">==============================================================================</span>
+<span class="c">CODE DIFFERENCES</span>                            <span id="dev-vimpatch-code-differences" class="t">dev-vimpatch-code-differences</span>
+
+The following <a href="vimeval.txt.html#functions" class="d">functions</a> have been removed or <a href="deprecated.txt.html#deprecated" class="d">deprecated</a> in favor of newer
+alternatives. See <span class="e">memory.c</span>
+<a class="u" href="https://github.com/neovim/neovim/blob/master/src/nvim/memory.c">https://github.com/neovim/neovim/blob/master/src/nvim/memory.c</a> <a href="luaref.txt.html#for" class="d">for</a> more
+information.
+
+<span class="e">  -----------------------------------------------------------------------</span>
+<span class="e">  Deprecated or removed                                 Replacement</span>
+<span class="e">  -----------------------------------------------------------------------</span>
+<span class="e">  vim_free                                                 xfree</span>
+<span class="e">  VIM_CLEAR(&amp;foo)                                    XFREE_CLEAR(foo)</span>
+<span class="e">  malloc alloc lalloc lalloc_id ALLOC_ONE                 xmalloc</span>
+<span class="e">  calloc lalloc_clear                                     xcalloc</span>
+<span class="e">  realloc vim_realloc                                    xrealloc</span>
+<span class="e">  mch_memmove                                             memmove</span>
+<span class="e">  vim_memset copy_chars copy_spaces                       memset</span>
+<span class="e">  vim_strbyte                                             strchr</span>
+<span class="e">  vim_strncpy strncpy                               xstrlcpy/xmemcpyz</span>
+<span class="e">  vim_strcat strncat                                     xstrlcat</span>
+<span class="e">  VIM_ISWHITE                                          ascii_iswhite</span>
+<span class="e">  IS_WHITE_OR_NUL                                  ascii_iswhite_or_nul</span>
+<span class="e">  IS_WHITE_NL_OR_NUL                              ascii_iswhite_nl_or_nul</span>
+<span class="e">  vim_isalpha                                           mb_isalpha</span>
+<span class="e">  vim_isNormalIDc                                      ascii_isident</span>
+<span class="e">  vim_islower vim_isupper                          mb_islower mb_isupper</span>
+<span class="e">  vim_tolower vim_toupper                          mb_tolower mb_toupper</span>
+<span class="e">  mb_ptr2len                                           utfc_ptr2len</span>
+<span class="e">  mb_ptr2len_len                                     utfc_ptr2len_len</span>
+<span class="e">  mb_char2len                                          utf_char2len</span>
+<span class="e">  mb_char2bytes                                       utf_char2bytes</span>
+<span class="e">  mb_ptr2cells                                         utf_ptr2cells</span>
+<span class="e">  mb_ptr2cells_len                                   utf_ptr2cells_len</span>
+<span class="e">  mb_char2cells                                       utf_char2cells</span>
+<span class="e">  mb_off2cells                                         utf_off2cells</span>
+<span class="e">  mb_ptr2char                                          utf_ptr2char</span>
+<span class="e">  mb_head_off                                          utf_head_off</span>
+<span class="e">  mb_tail_off                                          utf_cp_bounds</span>
+<span class="e">  mb_strnicmp2                                         utf_strnicmp</span>
+<span class="e">  MB_STRNICMP2                                         utf_strnicmp</span>
+<span class="e">  mb_lefthalve                                        grid_lefthalve</span>
+<span class="e">  mb_fix_col                                           grid_fix_col</span>
+<span class="e">  utf_off2cells                                       grid_off2cells</span>
+<span class="e">  ml_get_curline                                    get_cursor_line_ptr</span>
+<span class="e">  ml_get_cursor                                     get_cursor_pos_ptr</span>
+<span class="e">  ml_get_curline_len                                get_cursor_line_len</span>
+<span class="e">  ml_get_cursor_len                                 get_cursor_pos_len</span>
+<span class="e">  screen_char                                             ui_line</span>
+<span class="e">  screen_line                                        grid_put_linebuf</span>
+<span class="e">  screen_* (most functions)                               grid_*</span>
+<span class="e">  update_prepare, update_finish #9484                  removed; use update_screen only</span>
+<span class="e">  ARRAY_LENGTH                                          ARRAY_SIZE</span>
+<span class="e">  vim_strsave_escape_csi                           vim_strsave_escape_ks</span>
+<span class="e">  vim_unescape_csi                                    vim_unescape_ks</span>
+<span class="e">  gettail                                                path_tail</span>
+<span class="e">  mch_isFullName                                     path_is_absolute</span>
+<span class="e">  script_do_profile                                    profile_init</span>
+<span class="e"></span>
+<span class="e">  -----------------------------------------------------------------------</span>
+
+Make sure to <span class="n">note</span> the difference between <span class="e">utf_</span> and <span class="e">utfc_</span> when <a href="change.txt.html#replacing" class="d">replacing</a>
+<span class="e">mb_</span> functions. Also indirect call <a href="syntax.txt.html#syntax" class="d">syntax</a> <span class="e">(*mb_ptr2len)(...)</span> should be
+replaced with an ordinary function call <span class="e">utfc_ptr2len(...)</span>.
+
+<span class="e">  -----------------------------------------------------------------------</span>
+<span class="e">  Data type    Format (Vim source)     Portable format (Nvim source)</span>
+<span class="e">  ------------ ----------------------- ----------------------------------</span>
+<span class="e">  long long    "%lld"                  "%" PRId64</span>
+<span class="e">  size_t       "%ld"                   "%zu"</span>
+<span class="e">  linenr_T     "%ld"                   "%" PRIdLINENR</span>
+<span class="e">  -----------------------------------------------------------------------</span>
+
+<a href="motion.txt.html#-" class="d">-</a> See also: <a class="u" href="https://github.com/neovim/neovim/pull/1729#discussion_r22423779">https://github.com/neovim/neovim/pull/1729#discussion_r22423779</a>
+<a href="motion.txt.html#-" class="d">-</a> Vim's <span class="e">ga_init2</span> was renamed to <span class="e">ga_init</span> and the original <span class="e">ga_init</span> <a href="motion.txt.html#is" class="d">is</a>
+  gone.
+<a href="motion.txt.html#-" class="d">-</a> "Old style" Vim tests (`src/testdir/*.in`) should be converted to <a href="lua.txt.html#Lua" class="d">Lua</a> tests
+  (see #1286 <a class="u" href="https://github.com/neovim/neovim/issues/1286">https://github.com/neovim/neovim/issues/1286</a> and #1328
+  <a class="u" href="https://github.com/neovim/neovim/pull/1328">https://github.com/neovim/neovim/pull/1328</a>). See Checklist <a href="luaref.txt.html#for" class="d">for</a> migrating
+  legacy tests
+  <a class="u" href="https://github.com/neovim/neovim/blob/master/test/README.md#checklist-for-migrating-legacy-tests">https://github.com/neovim/neovim/blob/master/test/README.md#checklist-for-migrating-legacy-tests</a>.
+    <a href="motion.txt.html#-" class="d">-</a> However, please <a href="diff.txt.html#do" class="d">do</a> not convert "new style" Vim tests
+      (`src/testdir/*.vim`) to Lua. The "new style" Vim tests are faster than
+      the old ones, and converting them takes time and effort better spent
+      elsewhere. Just copy them to <span class="e">test/old/testdir/*.vim</span>.
+<a href="motion.txt.html#-" class="d">-</a> Conditions that check <span class="e">enc_utf8</span> or <span class="e">has_mbyte</span> are obsolete (only the
+  "true" <a href="change.txt.html#case" class="d">case</a> <a href="motion.txt.html#is" class="d">is</a> applicable).
+    <a href="motion.txt.html#-" class="d">-</a> <span class="e">enc_utf8</span> and <span class="e">has_mbyte</span> macros were removed in
+      <a class="u" href="https://github.com/neovim/neovim/pull/13293">https://github.com/neovim/neovim/pull/13293</a>
+<a href="motion.txt.html#-" class="d">-</a> Check <a href="luaref.txt.html#for" class="d">for</a> <span class="e">CSI</span> in typeahead buffer <a href="motion.txt.html#is" class="d">is</a> only necessary in Vim with
+  <span class="e">FEAT_GUI</span>. <span class="e">CSI</span> does not have <a href="insert.txt.html#a" class="d">a</a> special meaning in typeahead buffer in
+  Nvim. (also see <a class="u" href="https://github.com/neovim/neovim/pull/16936">https://github.com/neovim/neovim/pull/16936</a>)
+
+<span class="h">==============================================================================</span>
+<span class="c">LIST MANAGEMENT</span>                              <span id="dev-vimpatch-list-management" class="t">dev-vimpatch-list-management</span>
+
+Management of lists (types <span class="e">list_T</span> and <span class="e">listitem_T</span> from vim) was changed in
+<a class="u" href="https://github.com/neovim/neovim/pull/7708/">https://github.com/neovim/neovim/pull/7708/</a>. There <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> lint against the "old"
+usage, but here are the most important changes.
+
+Declarations <a href="luaref.txt.html#for" class="d">for</a> the table
+
+<a href="motion.txt.html#-" class="d">-</a> `list_T list`: <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a>
+<a href="motion.txt.html#-" class="d">-</a> `listitem_T li`: an item of <span class="e">list</span>
+<a href="motion.txt.html#-" class="d">-</a> `int val` <a href="insert.txt.html#a" class="d">a</a> value <a href="luaref.txt.html#for" class="d">for</a> <span class="e">lv_copyID</span>
+
+
+<span class="e">  --------------------------------------------------------------------------------------</span>
+<span class="e">  Old                             New                                  Comment</span>
+<span class="e">  ------------------------------- ------------------------------------------------------</span>
+<span class="e">  list-&gt;lv_first                  tv_list_first(list)</span>
+<span class="e">  list-&gt;lv_last                   tv_list_last(list)</span>
+<span class="e">  li-&gt;li_next                     TV_LIST_ITEM_NEXT(list, li)          To be avoided if possible, must use list which li belongs to.</span>
+<span class="e">  li-&gt;li_prev                     TV_LIST_ITEM_PREV(list, li)          To be avoided if possible, must use list which li belongs to.</span>
+<span class="e">                                  Suggestion by @ZyX-l:                Use TV_LIST_ITER or indexing instead of the previous two calls.</span>
+<span class="e">  list-&gt;lv_len                    tv_list_len(list)</span>
+<span class="e">  list-&gt;lv_lock                   tv_list_locked(list)</span>
+<span class="e">  &amp;li-&gt;li_tv                      TV_LIST_ITEM_TV(li)</span>
+<span class="e">  list-&gt;lv_refcount++             tv_list_ref(list)</span>
+<span class="e">  val = list-&gt;lv_copyID           val = tv_list_copyid(list)</span>
+<span class="e">  list-&gt;lv_copyID = val           tv_list_set_copyid(list, val)</span>
+<span class="e"></span>
+<span class="e">  for (li = list-&gt;lv_first;       TV_LIST_ITER_CONST(list, li,         Use TV_LIST_ITER(...) if you need to</span>
+<span class="e">  li != NULL &amp;&amp; another_cond;     { if (another_cond) {break;} code})  modify list items (note: assigning copyID is also modification and this happens</span>
+<span class="e">  li = li-&gt;li_next) code                                               always when recursively traversing a list).</span>
+<span class="e"></span>
+<span class="e">  --------------------------------------------------------------------------------------</span>
+
+For more details and some more advanced usage, see <span class="e">typval.h</span> and <span class="e">typval.c</span>.
+
+<span class="h">==============================================================================</span>
+<span class="c">DOCUMENTATION DIFFERENCES</span>          <span id="dev-vimpatch-documentation" class="t">dev-vimpatch-documentation</span>
+
+The following should be removed from all imported documentation, and not be
+used in new documentation:
+
+<a href="motion.txt.html#-" class="d">-</a> `{Only when compiled with ...}`: the vast majority of features have been
+  made non-optional (see <a class="u" href="https://github.com/neovim/neovim/wiki/Introduction">https://github.com/neovim/neovim/wiki/Introduction</a>)
+
+<span class="h">==============================================================================</span>
+<span class="c">FILETYPE DETECTION</span>                 <span id="dev-vimpatch-filetype" class="t">dev-vimpatch-filetype</span>
+
+Nvim's <a href="filetype.txt.html#filetype" class="d">filetype</a> detection behavior matches Vim, but <a href="motion.txt.html#is" class="d">is</a> implemented <a href="motion.txt.html#as" class="d">as</a> part of
+<a href="lua.txt.html#vim.filetype" class="l">vim.filetype</a> (see <span class="e">$VIMRUNTIME/lua/vim/filetype.lua</span>). The logic <a href="motion.txt.html#is" class="d">is</a> encoded in
+three tables, listed in order of precedence (the first match <a href="motion.txt.html#is" class="d">is</a> returned):
+1. <span class="e">filename</span> <a href="luaref.txt.html#for" class="d">for</a> literal full path or basename lookup;
+2. <span class="e">pattern</span> <a href="luaref.txt.html#for" class="d">for</a> matching filenames or paths against <a href="luaref.txt.html#lua-pattern" class="l">lua-pattern</a>s, optimized
+   <a href="luaref.txt.html#for" class="d">for</a> fast lookup;
+3. <span class="e">extension</span> <a href="luaref.txt.html#for" class="d">for</a> literal extension lookup.
+
+Logic that requires checking file contents or buffer <a href="vimeval.txt.html#variables" class="d">variables</a> <a href="motion.txt.html#is" class="d">is</a> implemented
+in <span class="e">$VIMRUNTIME/lua/vim/filetype/detect.lua</span>.
+
+When porting <a href="filetype.txt.html#filetype" class="d">filetype</a> patches from Vim, keep the following in mind:
+
+Prefer explicit filenames or extensions over patterns, especially <a href="luaref.txt.html#for" class="d">for</a> <a href="change.txt.html#case" class="d">case</a>
+insensitive matches (see <a class="u" href="https://github.com/neovim/neovim/pull/29800">https://github.com/neovim/neovim/pull/29800</a>): 
+<span class="e">    "*[mM]akefile" regex -&gt; "makefile", "Makefile" filenames</span>
+<span class="e">    "*.js\c"       regex -&gt; "js", "jS", "Js", "jS" extensions</span>
+<span class="e"></span>
+<a href="pattern.txt.html#Pattern" class="d">Pattern</a> matching has several differences:
+<a href="motion.txt.html#-" class="d">-</a> It <a href="motion.txt.html#is" class="d">is</a> done using explicit <a href="lua.txt.html#Lua" class="d">Lua</a> patterns without implicit anchoring instead
+  of Vim regexes: 
+<span class="e">    "*/debian/changelog" -&gt; "/debian/changelog$"</span>
+<span class="e">    "*/bind/db.*"        -&gt; "/bind/db%."</span>
+
+<a href="motion.txt.html#-" class="d">-</a> Filetype patterns are grouped by their parent <a href="pattern.txt.html#pattern" class="d">pattern</a> to improve matching
+  performance: If the parent <a href="pattern.txt.html#pattern" class="d">pattern</a> does not match, skip <a href="testing.txt.html#testing" class="d">testing</a> all child
+  patterns. <span class="n">Note</span> that unlike leaf patterns, parent patterns <a href="diff.txt.html#do" class="d">do</a> not have
+  special matching behaviour if they contain <a href="insert.txt.html#a" class="d">a</a> <span class="e">/</span>.
+
+  When adding <a href="insert.txt.html#a" class="d">a</a> new <a href="filetype.txt.html#filetype" class="d">filetype</a> with <a href="pattern.txt.html#pattern" class="d">pattern</a> matching, consider the following:
+  <a href="motion.txt.html#-" class="d">-</a> If there <a href="motion.txt.html#is" class="d">is</a> already <a href="insert.txt.html#a" class="d">a</a> group with appropriate parent pattern, use it.
+  <a href="motion.txt.html#-" class="d">-</a> If there can be <a href="insert.txt.html#a" class="d">a</a> fast and specific enough <a href="pattern.txt.html#pattern" class="d">pattern</a> to group <a href="motion.txt.html#at" class="d">at</a> least 3
+    <a href="filetype.txt.html#filetype" class="d">filetype</a> patterns, add <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> separate grouped entry.
+
+  New parent patterns should be
+  <a href="motion.txt.html#-" class="d">-</a> fast: rule of thumb <a href="motion.txt.html#is" class="d">is</a> that <a href="motion.txt.html#it" class="d">it</a> should be <a href="insert.txt.html#a" class="d">a</a> short explicit <a href="vimeval.txt.html#string" class="d">string</a>
+  (i.e. no quantifiers or character sets);
+  <a href="motion.txt.html#-" class="d">-</a> specific: rules of thumb, in order:
+    <a href="motion.txt.html#-" class="d">-</a> full directory name (e.g., <span class="e">"/etc/"</span>, <span class="e">"/log/"</span>);
+    <a href="motion.txt.html#-" class="d">-</a> part of <a href="insert.txt.html#a" class="d">a</a> rare enough directory name (e.g., <span class="e">"/conf"</span>, <span class="e">"git/"</span>);
+    <a href="motion.txt.html#-" class="d">-</a> <a href="vimeval.txt.html#string" class="d">string</a> rarely used in real full paths (e.g., <span class="e">"nginx"</span>).
+
+  Example:
+  <a href="motion.txt.html#-" class="d">-</a> Filetype pattern: <span class="e">".*/etc/a2ps/.*%.cfg"</span>
+  <a href="motion.txt.html#-" class="d">-</a> Good parents: <span class="e">"/etc/"</span> or <span class="e">"%.cfg$"</span>
+  <a href="motion.txt.html#-" class="d">-</a> Bad parents: <span class="e">"%."</span> (fast but not specific) or <span class="e">"/a2ps/.*%."</span> (specific
+    but slow)
+
+  When modifying an existing regular pattern, make sure that <a href="motion.txt.html#it" class="d">it</a> still fits its
+  group.
+
+vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

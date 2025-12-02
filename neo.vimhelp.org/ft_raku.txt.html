@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: ft_raku.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="ft_raku.txt.html#">↑Top↑</a></li>
+<li><a href="ft_raku.txt.html#raku-unicode">Using Unicode in your Raku files</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="ft_raku.txt" class="t">ft_raku.txt</span>  	The Raku programming language <a href="filetype.txt.html#filetype" class="d">filetype</a>
+
+                                                      <span id="vim-raku" class="t">vim-raku</span>
+
+Vim-raku provides <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting, indentation, and other <a href="support.txt.html#support" class="d">support</a> <a href="luaref.txt.html#for" class="d">for</a>
+editing Raku programs.
+
+1. Using <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> in your Raku files	<a href="ft_raku.txt.html#raku-unicode" class="l">raku-unicode</a>
+
+<span class="h">==============================================================================</span>
+1. Using <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> in your Raku files                           <span id="raku-unicode" class="t">raku-unicode</span>
+
+Defining new operators using <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> symbols <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> good way to make your
+Raku program easy to read. See:
+<a class="u" href="https://perl6advent.wordpress.com/2012/12/18/day-18-formulas-resistance-is-futile/">https://perl6advent.wordpress.com/2012/12/18/day-18-formulas-resistance-is-futile/</a>
+
+While Raku does define ASCII alternatives <a href="luaref.txt.html#for" class="d">for</a> some common operators (see
+<a class="u" href="https://docs.raku.org/language/unicode_ascii">https://docs.raku.org/language/unicode_ascii</a>), using the full range of
+<a href="mbyte.txt.html#Unicode" class="d">Unicode</a> operators <a href="motion.txt.html#is" class="d">is</a> highly desirable. Your operating system provides input
+facilities, but using the features built in to Vim may be preferable.
+
+The natural way to produce these symbols in Vim <a href="motion.txt.html#is" class="d">is</a> to use <a href="digraph.txt.html#digraph" class="d">digraph</a> shortcuts
+(:help <a href="digraph.txt.html#digraphs-use" class="l">digraphs-use</a>). Many of them are defined; type <span class="e">:digraphs</span> to get
+the list. <a href="insert.txt.html#A" class="d">A</a> convenient way to read the <a href="vimeval.txt.html#list" class="d">list</a> of <a href="digraph.txt.html#digraphs" class="d">digraphs</a> <a href="motion.txt.html#is" class="d">is</a> to save them in <a href="insert.txt.html#a" class="d">a</a>
+file. From the shell: 
+<span class="e">        vim +'redir &gt;/tmp/vim-digraphs-listing.txt' +digraphs +'redir END' +q</span>
+<span class="e"></span>
+Some of them are available with standard Vim digraphs:
+<span class="h">	&lt;&lt; «    /0 ∅    !&lt; ≮  </span>
+<span class="h">	&gt;&gt; »    Ob ∘    !&gt; ≯  </span>
+<span class="h">	., …    00 ∞    (C ⊂  </span>
+<span class="h">	(U ∩    -: ÷    )C ⊃  </span>
+<span class="h">	)U ∪    (_ ⊆    &gt;= ≥  </span>
+<span class="h">	?= ≅    )_ ⊇    =&lt; ≤  </span>
+<span class="h">	(- ∈    ?= ≅    != ≠  </span>
+<span class="h">	-) ∋    ?- ≃  </span>
+
+The Greek alphabet <a href="motion.txt.html#is" class="d">is</a> available with "*" followed by <a href="insert.txt.html#a" class="d">a</a> similar Latin symbol: 
+<span class="e">	*p π</span>
+<span class="e">	*t τ</span>
+<span class="e">	*X ×</span>
+<span class="e"></span>
+Numbers, subscripts and superscripts are available with 's' and 'S':
+<span class="h">	0s ₀    0S ⁰  </span>
+<span class="h">	1s ₁    1S ¹  </span>
+<span class="h">	2s ₂    9S ⁹  </span>
+
+But some don't come defined by default. Those are <a href="digraph.txt.html#digraph" class="d">digraph</a> <a href="intro.txt.html#definitions" class="d">definitions</a> you can
+add in your ~/.vimrc file. 
+<span class="e">	exec 'digraph \\ ' .. char2nr('∖')</span>
+<span class="e">	exec 'digraph \&lt; ' .. char2nr('≼')</span>
+<span class="e">	exec 'digraph \&gt; ' .. char2nr('≽')</span>
+<span class="e">	exec 'digraph (L ' .. char2nr('⊈')</span>
+<span class="e">	exec 'digraph )L ' .. char2nr('⊉')</span>
+<span class="e">	exec 'digraph (/ ' .. char2nr('⊄')</span>
+<span class="e">	exec 'digraph )/ ' .. char2nr('⊅')</span>
+<span class="e">	exec 'digraph )/ ' .. char2nr('⊅')</span>
+<span class="e">	exec 'digraph U+ ' .. char2nr('⊎')</span>
+<span class="e">	exec 'digraph 0- ' .. char2nr('⊖')</span>
+<span class="e">	" Euler's constant</span>
+<span class="e">	exec 'digraph ne ' .. char2nr('𝑒')</span>
+<span class="e">	" Raku's atomic operations marker</span>
+<span class="e">	exec 'digraph @@ ' .. char2nr('⚛')</span>
+<span class="e"></span>
+Alternatively, you can write <a href="insert.txt.html#Insert" class="d">Insert</a> mode <a href="map.txt.html#abbreviations" class="d">abbreviations</a> that convert ASCII-
+based operators into their single-character <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> equivalent. 
+<span class="e">	iabbrev &lt;buffer&gt; !(&lt;) ⊄</span>
+<span class="e">	iabbrev &lt;buffer&gt; !(&lt;=) ⊈</span>
+<span class="e">	iabbrev &lt;buffer&gt; !(&gt;) ⊅</span>
+<span class="e">	iabbrev &lt;buffer&gt; !(&gt;=) ⊉</span>
+<span class="e">	iabbrev &lt;buffer&gt; !(cont) ∌</span>
+<span class="e">	iabbrev &lt;buffer&gt; !(elem) ∉</span>
+<span class="e">	iabbrev &lt;buffer&gt; != ≠</span>
+<span class="e">	iabbrev &lt;buffer&gt; (&amp;) ∩</span>
+<span class="e">	iabbrev &lt;buffer&gt; (+) ⊎</span>
+<span class="e">	iabbrev &lt;buffer&gt; (-) ∖</span>
+<span class="e">	iabbrev &lt;buffer&gt; (.) ⊍</span>
+<span class="e">	iabbrev &lt;buffer&gt; (&lt;) ⊂</span>
+<span class="e">	iabbrev &lt;buffer&gt; (&lt;+) ≼</span>
+<span class="e">	iabbrev &lt;buffer&gt; (&lt;=) ⊆</span>
+<span class="e">	iabbrev &lt;buffer&gt; (&gt;) ⊃</span>
+<span class="e">	iabbrev &lt;buffer&gt; (&gt;+) ≽</span>
+<span class="e">	iabbrev &lt;buffer&gt; (&gt;=) ⊇</span>
+<span class="e">	iabbrev &lt;buffer&gt; (\|) ∪</span>
+<span class="e">	iabbrev &lt;buffer&gt; (^) ⊖</span>
+<span class="e">	iabbrev &lt;buffer&gt; (atomic) ⚛</span>
+<span class="e">	iabbrev &lt;buffer&gt; (cont) ∋</span>
+<span class="e">	iabbrev &lt;buffer&gt; (elem) ∈</span>
+<span class="e">	iabbrev &lt;buffer&gt; * ×</span>
+<span class="e">	iabbrev &lt;buffer&gt; **0 ⁰</span>
+<span class="e">	iabbrev &lt;buffer&gt; **1 ¹</span>
+<span class="e">	iabbrev &lt;buffer&gt; **2 ²</span>
+<span class="e">	iabbrev &lt;buffer&gt; **3 ³</span>
+<span class="e">	iabbrev &lt;buffer&gt; **4 ⁴</span>
+<span class="e">	iabbrev &lt;buffer&gt; **5 ⁵</span>
+<span class="e">	iabbrev &lt;buffer&gt; **6 ⁶</span>
+<span class="e">	iabbrev &lt;buffer&gt; **7 ⁷</span>
+<span class="e">	iabbrev &lt;buffer&gt; **8 ⁸</span>
+<span class="e">	iabbrev &lt;buffer&gt; **9 ⁹</span>
+<span class="e">	iabbrev &lt;buffer&gt; ... …</span>
+<span class="e">	iabbrev &lt;buffer&gt; / ÷</span>
+<span class="e">	iabbrev &lt;buffer&gt; &lt;&lt; «</span>
+<span class="e">	iabbrev &lt;buffer&gt; &lt;&lt;[=]&lt;&lt; «=«</span>
+<span class="e">	iabbrev &lt;buffer&gt; &lt;&lt;[=]&gt;&gt; «=»</span>
+<span class="e">	iabbrev &lt;buffer&gt; &lt;= ≤</span>
+<span class="e">	iabbrev &lt;buffer&gt; =~= ≅</span>
+<span class="e">	iabbrev &lt;buffer&gt; &gt;= ≥</span>
+<span class="e">	iabbrev &lt;buffer&gt; &gt;&gt; »</span>
+<span class="e">	iabbrev &lt;buffer&gt; &gt;&gt;[=]&lt;&lt; »=«</span>
+<span class="e">	iabbrev &lt;buffer&gt; &gt;&gt;[=]&gt;&gt; »=»</span>
+<span class="e">	iabbrev &lt;buffer&gt; Inf ∞</span>
+<span class="e">	iabbrev &lt;buffer&gt; atomic-add-fetch ⚛+=</span>
+<span class="e">	iabbrev &lt;buffer&gt; atomic-assign ⚛=</span>
+<span class="e">	iabbrev &lt;buffer&gt; atomic-fetch ⚛</span>
+<span class="e">	iabbrev &lt;buffer&gt; atomic-dec-fetch --⚛</span>
+<span class="e">	iabbrev &lt;buffer&gt; atomic-fetch-dec ⚛--</span>
+<span class="e">	iabbrev &lt;buffer&gt; atomic-fetch-inc ⚛++</span>
+<span class="e">	iabbrev &lt;buffer&gt; atomic-inc-fetch ++⚛</span>
+<span class="e">	iabbrev &lt;buffer&gt; atomic-sub-fetch ⚛−=</span>
+<span class="e">	iabbrev &lt;buffer&gt; e 𝑒</span>
+<span class="e">	iabbrev &lt;buffer&gt; o ∘</span>
+<span class="e">	iabbrev &lt;buffer&gt; pi π</span>
+<span class="e">	iabbrev &lt;buffer&gt; set() ∅</span>
+<span class="e">	iabbrev &lt;buffer&gt; tau τ</span>
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

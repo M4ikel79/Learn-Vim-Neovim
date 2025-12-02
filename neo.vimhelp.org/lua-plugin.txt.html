@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: lua-plugin.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="lua-plugin.txt.html#">↑Top↑</a></li>
+<li><a href="lua-plugin.txt.html#lua-plugin">Introduction</a></li>
+<li><a href="lua-plugin.txt.html#lua-plugin-new">Creating your first plugin</a></li>
+<li><a href="lua-plugin.txt.html#lua-plugin-type-safety">Type safety</a></li>
+<li><a href="lua-plugin.txt.html#lua-plugin-keymaps">Keymaps</a></li>
+<li><a href="lua-plugin.txt.html#lua-plugin-init">Initialization</a></li>
+<li><a href="lua-plugin.txt.html#lua-plugin-lazy">Lazy loading</a></li>
+<li><a href="lua-plugin.txt.html#lua-plugin-config">Configuration</a></li>
+<li><a href="lua-plugin.txt.html#lua-plugin-troubleshooting">Troubleshooting</a></li>
+<li><a href="lua-plugin.txt.html#lua-plugin-versioning">Versioning and releases</a></li>
+<li><a href="lua-plugin.txt.html#lua-plugin-doc">Documentation</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="lua-plugin.txt" class="t">lua-plugin.txt</span>                     Nvim
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+                   Guide to developing <a href="lua.txt.html#Lua" class="d">Lua</a> plugins <a href="luaref.txt.html#for" class="d">for</a> Nvim
+
+
+                                       Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+Introduction                                                       <span id="lua-plugin" class="t">lua-plugin</span>
+
+This document provides guidance <a href="luaref.txt.html#for" class="d">for</a> developing Nvim <a href="lua.txt.html#Lua" class="d">Lua</a> plugins.
+
+See <a href="lua-guide.txt.html#lua-guide" class="l">lua-guide</a> <a href="luaref.txt.html#for" class="d">for</a> guidance on using <a href="lua.txt.html#Lua" class="d">Lua</a> to configure and operate Nvim.
+See <a href="luaref.txt.html#luaref" class="l">luaref</a> and <a href="lua.txt.html#lua-concepts" class="l">lua-concepts</a> <a href="luaref.txt.html#for" class="d">for</a> details on the <a href="lua.txt.html#Lua" class="d">Lua</a> programming language.
+
+<span class="h">==============================================================================</span>
+Creating your first <a href="usr_05.txt.html#plugin" class="d">plugin</a>                                    <span id="lua-plugin-new" class="t">lua-plugin-new</span>
+
+Any Vimscript or <a href="lua.txt.html#Lua" class="d">Lua</a> code file that lives in the right directory,
+automatically <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> "<a href="usr_05.txt.html#plugin" class="d">plugin</a>"<a href="repeat.txt.html#." class="d">.</a> There's no manifest or "registration" step.
+
+You can try <a href="motion.txt.html#it" class="d">it</a> right now:
+
+1. Visit your <a href="starting.txt.html#config" class="d">config</a> directory: 
+<span class="e">    :exe 'edit' stdpath('config')</span>
+
+2. Create <a href="insert.txt.html#a" class="d">a</a> <span class="e">plugin/foo.lua</span> file in there.
+3. Add something to it, like: 
+<span class="e">    vim.print('Hello World')</span>
+
+4. Start <span class="e">nvim</span> and notice that <a href="motion.txt.html#it" class="d">it</a> prints "Hello World" in the <a href="message.txt.html#messages" class="d">messages</a> area.
+   Check <span class="e">:messages</span> if you don't see it.
+
+Besides <span class="e">plugin/foo.lua</span>, which <a href="motion.txt.html#is" class="d">is</a> always run <a href="motion.txt.html#at" class="d">at</a> startup, you can define <a href="lua.txt.html#Lua" class="d">Lua</a>
+modules in the <span class="e">lua/</span> directory. Those modules aren't loaded until your
+<span class="e">plugin/foo.lua</span>, or the user, calls <span class="e">require(…)</span>.
+
+<span class="h">==============================================================================</span>
+Type safety                                            <span id="lua-plugin-type-safety" class="t">lua-plugin-type-safety</span>
+
+Lua, <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> dynamically typed language, <a href="motion.txt.html#is" class="d">is</a> great <a href="luaref.txt.html#for" class="d">for</a> configuration. It provides
+virtually immediate feedback.
+But <a href="luaref.txt.html#for" class="d">for</a> larger projects, this can be <a href="insert.txt.html#a" class="d">a</a> double-edged sword, leaving your <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+susceptible to unexpected <a href="intro.txt.html#bugs" class="d">bugs</a> <a href="motion.txt.html#at" class="d">at</a> the wrong time.
+
+You can leverage LuaCATS or "emmylua" annotations <a class="u" href="https://luals.github.io/wiki/annotations/">https://luals.github.io/wiki/annotations/</a>
+along with lua-language-server <a href="motion.txt.html#%28" class="d">(</a>"LuaLS"<a href="motion.txt.html#%29" class="d">)</a> <a class="u" href="https://luals.github.io/">https://luals.github.io/</a> to catch
+potential <a href="intro.txt.html#bugs" class="d">bugs</a> in your CI before your plugin's users do. The Nvim codebase
+uses these annotations extensively.
+
+<span class="c">TOOLS</span>
+
+<a href="motion.txt.html#-" class="d">-</a> lua-typecheck-action <a class="u" href="https://github.com/marketplace/actions/lua-typecheck-action">https://github.com/marketplace/actions/lua-typecheck-action</a>
+<a href="motion.txt.html#-" class="d">-</a> lua-language-server <a class="u" href="https://luals.github.io">https://luals.github.io</a>
+
+<span class="h">==============================================================================</span>
+Keymaps                                                   <span id="lua-plugin-keymaps" class="t">lua-plugin-keymaps</span>
+
+Avoid creating excessive keymaps automatically. Doing so can conflict with
+user <a href="map.txt.html#mapping" class="l">mapping</a>s.
+
+<span class="n">NOTE:</span> An example <a href="luaref.txt.html#for" class="d">for</a> uncontroversial keymaps are buffer-local <a href="map.txt.html#mapping" class="l">mapping</a><a href="change.txt.html#s" class="d">s</a> <a href="luaref.txt.html#for" class="d">for</a>
+      specific file types or floating windows, or <a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a> mappings.
+
+<a href="insert.txt.html#A" class="d">A</a> common approach to allow keymap configuration <a href="motion.txt.html#is" class="d">is</a> to define <a href="insert.txt.html#a" class="d">a</a> declarative DSL
+<a class="u" href="https://en.wikipedia.org/wiki/Domain-specific_language">https://en.wikipedia.org/wiki/Domain-specific_language</a> via <a href="insert.txt.html#a" class="d">a</a> <span class="e">setup</span> function.
+
+However, doing so means that
+
+<a href="motion.txt.html#-" class="d">-</a> You will have to implement and document <a href="motion.txt.html#it" class="d">it</a> yourself.
+<a href="motion.txt.html#-" class="d">-</a> Users will likely face inconsistencies if another <a href="usr_05.txt.html#plugin" class="d">plugin</a> has <a href="insert.txt.html#a" class="d">a</a> slightly
+  different DSL.
+<a href="motion.txt.html#-" class="d">-</a> <a href="starting.txt.html#init.lua" class="l">init.lua</a> scripts that call such <a href="insert.txt.html#a" class="d">a</a> <span class="e">setup</span> function may throw an error if
+  the <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> not installed or disabled.
+
+As an alternative, you can provide <a href="map.txt.html#%3CPlug%3E" class="l">&lt;Plug&gt;</a> mappings to allow users to define
+their own keymaps with <a href="lua.txt.html#vim.keymap.set%28%29" class="l">vim.keymap.set()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<a href="motion.txt.html#-" class="d">-</a> This requires one line of code in user configs.
+<a href="motion.txt.html#-" class="d">-</a> Even if your <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> not installed or disabled, creating the keymap won't
+  throw an error.
+
+Another option <a href="motion.txt.html#is" class="d">is</a> to simply expose <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> function or <a href="map.txt.html#user-commands" class="l">user-commands</a><a href="repeat.txt.html#." class="d">.</a>
+
+Some benefits of <a href="map.txt.html#%3CPlug%3E" class="l">&lt;Plug&gt;</a> mappings are that you can
+
+<a href="motion.txt.html#-" class="d">-</a> Enforce <a href="options.txt.html#options" class="d">options</a> like `expr <a href="change.txt.html#%3D" class="d">=</a> true`.
+<a href="motion.txt.html#-" class="d">-</a> Use <a href="lua.txt.html#vim.keymap" class="l">vim.keymap</a>'s built-in mode handling to expose functionality only <a href="luaref.txt.html#for" class="d">for</a>
+  specific <a href="map.txt.html#map-modes" class="l">map-modes</a><a href="repeat.txt.html#." class="d">.</a>
+<a href="motion.txt.html#-" class="d">-</a> Handle different <a href="map.txt.html#map-modes" class="l">map-modes</a> differently with <a href="insert.txt.html#a" class="d">a</a> single mapping, without
+  adding mode checks to the underlying implementation.
+<a href="motion.txt.html#-" class="d">-</a> Detect user-defined mappings through <a href="vimfn.txt.html#hasmapto%28%29" class="l">hasmapto()</a> before creating defaults.
+
+Some benefits of exposing <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> function are:
+
+<a href="motion.txt.html#-" class="d">-</a> Extensibility, if the function takes an <a href="options.txt.html#options" class="d">options</a> table <a href="motion.txt.html#as" class="d">as</a> an argument.
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> cleaner UX, if there are many <a href="options.txt.html#options" class="d">options</a> and enumerating all combinations
+  of <a href="options.txt.html#options" class="d">options</a> would result in <a href="insert.txt.html#a" class="d">a</a> lot of <a href="map.txt.html#%3CPlug%3E" class="l">&lt;Plug&gt;</a> mappings.
+
+<span class="n">NOTE:</span> If your function takes an <a href="options.txt.html#options" class="d">options</a> table, users may still benefit
+      from <a href="map.txt.html#%3CPlug%3E" class="l">&lt;Plug&gt;</a> mappings <a href="luaref.txt.html#for" class="d">for</a> the most common combinations.
+
+<span class="c">KEYMAP EXAMPLE</span>
+
+In your plugin:
+
+<span class="e">    vim.keymap.set('n', '&lt;Plug&gt;(SayHello)', function()</span>
+<span class="e">        print('Hello from normal mode')</span>
+<span class="e">    end)</span>
+<span class="e"></span>
+<span class="e">    vim.keymap.set('v', '&lt;Plug&gt;(SayHello)', function()</span>
+<span class="e">        print('Hello from visual mode')</span>
+<span class="e">    end)</span>
+
+In the user's config:
+
+<span class="e">    vim.keymap.set({'n', 'v'}, '&lt;leader&gt;h', '&lt;Plug&gt;(SayHello)')</span>
+
+<span class="h">==============================================================================</span>
+Initialization                                               <span id="lua-plugin-init" class="t">lua-plugin-init</span>
+
+Strictly separated configuration and smart <a href="starting.txt.html#initialization" class="d">initialization</a> allow your <a href="usr_05.txt.html#plugin" class="d">plugin</a> to
+work out of the box. Common approaches are:
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> <a href="lua.txt.html#Lua" class="d">Lua</a> function, e.g. <span class="e">setup(opts)</span> or <span class="e">configure(opts)</span>, which only overrides the
+  default configuration and does not contain any <a href="starting.txt.html#initialization" class="d">initialization</a> logic.
+<a href="motion.txt.html#-" class="d">-</a> <a href="insert.txt.html#A" class="d">A</a> Vimscript compatible table (e.g. in the <a href="lua.txt.html#vim.g" class="l">vim.g</a> or <a href="lua.txt.html#vim.b" class="l">vim.b</a> namespace) that your
+  <a href="usr_05.txt.html#plugin" class="d">plugin</a> reads from and validates <a href="motion.txt.html#at" class="d">at</a> <a href="starting.txt.html#initialization" class="d">initialization</a> time.
+  See also <a href="lua.txt.html#lua-vim-variables" class="l">lua-vim-variables</a><a href="repeat.txt.html#." class="d">.</a>
+
+Typically, automatic <a href="starting.txt.html#initialization" class="d">initialization</a> logic <a href="motion.txt.html#is" class="d">is</a> done in <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="l">plugin</a> or <a href="usr_41.txt.html#ftplugin" class="l">ftplugin</a>
+script. See also <a href="options.txt.html#%27runtimepath%27" class="l">'runtimepath'</a><a href="repeat.txt.html#." class="d">.</a>
+
+On the other hand, <a href="insert.txt.html#a" class="d">a</a> single <span class="e">setup(opts)</span> that combines configuration and
+<a href="starting.txt.html#initialization" class="d">initialization</a> may be useful in specific cases:
+
+<a href="motion.txt.html#-" class="d">-</a> Customizing complex initialization, where there <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> significant risk of
+  misconfiguration.
+<a href="motion.txt.html#-" class="d">-</a> Requiring users to opt in <a href="luaref.txt.html#for" class="d">for</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> functionality that should not be
+  initialized automatically.
+
+Keep in mind that this approach requires users to call <span class="e">setup</span> in order to
+use your plugin, even if the default configuration <a href="motion.txt.html#is" class="d">is</a> enough <a href="luaref.txt.html#for" class="d">for</a> them.
+Consider carefully whether your <a href="usr_05.txt.html#plugin" class="d">plugin</a> benefits from combined <span class="e">setup()</span> <a href="pattern.txt.html#pattern" class="d">pattern</a>
+before adopting it.
+
+<span class="n">NOTE:</span> <a href="insert.txt.html#A" class="d">A</a> well designed <a href="usr_05.txt.html#plugin" class="d">plugin</a> has minimal impact on <a href="starting.txt.html#startup" class="d">startup</a> time. See also
+<a href="lua-plugin.txt.html#lua-plugin-lazy" class="l">lua-plugin-lazy</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+Lazy loading                                                 <span id="lua-plugin-lazy" class="t">lua-plugin-lazy</span>
+
+Some users like to micro-manage "lazy loading" of plugins by explicitly
+configuring which commands and key mappings load the plugin.
+
+Your <a href="usr_05.txt.html#plugin" class="d">plugin</a> should not depend on every user micro-managing their configuration
+in such <a href="insert.txt.html#a" class="d">a</a> way. Nvim has <a href="insert.txt.html#a" class="d">a</a> mechanism <a href="luaref.txt.html#for" class="d">for</a> every <a href="usr_05.txt.html#plugin" class="d">plugin</a> to <a href="diff.txt.html#do" class="d">do</a> its own implicit
+lazy-loading (in Vimscript it's called <a href="userfunc.txt.html#autoload" class="l">autoload</a>), via <span class="e">autoload/</span>
+(Vimscript) and <span class="e">lua/</span> (Lua). Plugin authors can provide "lazy loading" by
+providing <a href="insert.txt.html#a" class="d">a</a> <span class="e">plugin/&lt;name&gt;.lua</span> file which defines their commands and
+keymappings. This file should be small, and should not eagerly <span class="e">require()</span> the
+rest of your plugin. Commands and mappings should <a href="diff.txt.html#do" class="d">do</a> the <span class="e">require()</span>.
+
+Guidance:
+
+<a href="motion.txt.html#-" class="d">-</a> Plugins should arrange their "lazy" behavior once, instead of expecting every user to micromanage it.
+<a href="motion.txt.html#-" class="d">-</a> Keep <span class="e">plugin/&lt;name&gt;.lua</span> small, avoid eagerly calling <span class="e">require()</span> on modules
+  until <a href="insert.txt.html#a" class="d">a</a> command or <a href="map.txt.html#mapping" class="d">mapping</a> <a href="motion.txt.html#is" class="d">is</a> actually used.
+
+<span class="h">------------------------------------------------------------------------------</span>
+Defer <a href="luaref.txt.html#require%28%29" class="d">require()</a> calls                               <span id="lua-plugin-defer-require" class="t">lua-plugin-defer-require</span>
+
+<span class="e">plugin/&lt;name&gt;.lua</span> scripts <a href="motion.txt.html#%28" class="d">(</a><a href="usr_05.txt.html#plugin" class="l">plugin</a><a href="motion.txt.html#%29" class="d">)</a> are eagerly run <a href="motion.txt.html#at" class="d">at</a> startup; this <a href="motion.txt.html#is" class="d">is</a>
+intentional, so that plugins can setup the (minimal) commands and keymappings
+that users will use to invoke the plugin. This also means these "plugin/"
+files should NOT eagerly <span class="e">require</span> <a href="lua.txt.html#Lua" class="d">Lua</a> modules.
+
+For example, instead of:
+
+<span class="e">    local foo = require('foo')</span>
+<span class="e">    vim.api.nvim_create_user_command('MyCommand', function()</span>
+<span class="e">        foo.do_something()</span>
+<span class="e">    end, {</span>
+<span class="e">      -- ...</span>
+<span class="e">    })</span>
+
+which calls <span class="e">require('foo')</span> <a href="motion.txt.html#as" class="d">as</a> soon <a href="motion.txt.html#as" class="d">as</a> the module <a href="motion.txt.html#is" class="d">is</a> loaded, you can
+lazy-load <a href="motion.txt.html#it" class="d">it</a> by moving the <span class="e">require</span> into the command's implementation:
+
+<span class="e">    vim.api.nvim_create_user_command('MyCommand', function()</span>
+<span class="e">        local foo = require('foo')</span>
+<span class="e">        foo.do_something()</span>
+<span class="e">    end, {</span>
+<span class="e">      -- ...</span>
+<span class="e">    })</span>
+
+Likewise, if <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> uses <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> module <a href="motion.txt.html#as" class="d">as</a> an entrypoint, <a href="motion.txt.html#it" class="d">it</a> should
+defer <span class="e">require</span> calls too.
+
+<span class="n">NOTE:</span> For <a href="insert.txt.html#a" class="d">a</a> Vimscript alternative to <span class="e">require</span>, see <a href="userfunc.txt.html#autoload" class="l">autoload</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="n">NOTE:</span> If you are worried about eagerly creating user commands, autocommands or
+keymaps <a href="motion.txt.html#at" class="d">at</a> startup: Plugin managers that provide abstractions <a href="luaref.txt.html#for" class="d">for</a> lazy-loading
+plugins on such <a href="autocmd.txt.html#events" class="d">events</a> <a href="diff.txt.html#do" class="d">do</a> the same amount of work. There <a href="motion.txt.html#is" class="d">is</a> no performance
+benefit <a href="luaref.txt.html#for" class="d">for</a> users to define lazy-loading entrypoints in their configuration
+instead of plugins defining <a href="motion.txt.html#it" class="d">it</a> in <span class="e">plugin/&lt;name&gt;.lua</span>.
+
+<span class="n">NOTE:</span> You can use <a href="starting.txt.html#--startuptime" class="l">--startuptime</a> to <a href="repeat.txt.html#profile" class="l">profile</a> the impact <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> has on
+<a href="starting.txt.html#startup" class="d">startup</a> time.
+
+<span class="h">------------------------------------------------------------------------------</span>
+Filetype-specific functionality                          <span id="lua-plugin-filetype" class="t">lua-plugin-filetype</span>
+
+Consider making use of <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> <a href="luaref.txt.html#for" class="d">for</a> any functionality that <a href="motion.txt.html#is" class="d">is</a> specific to
+<a href="insert.txt.html#a" class="d">a</a> filetype, by putting the <a href="starting.txt.html#initialization" class="d">initialization</a> logic in <a href="insert.txt.html#a" class="d">a</a> <span class="e">ftplugin/{filetype}.lua</span>
+script.
+
+<span class="c">FILETYPE EXAMPLE</span>
+
+<a href="insert.txt.html#A" class="d">A</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> tailored to Rust <a href="develop.txt.html#development" class="d">development</a> might have <a href="starting.txt.html#initialization" class="d">initialization</a> in
+<span class="e">ftplugin/rust.lua</span>:
+
+<span class="e">    if not vim.g.loaded_my_rust_plugin then</span>
+<span class="e">        -- Initialize</span>
+<span class="e">    end</span>
+<span class="e">    -- NOTE: Using `vim.g.loaded_` prevents the plugin from initializing twice</span>
+<span class="e">    -- and allows users to prevent plugins from loading</span>
+<span class="e">    -- (in both Lua and Vimscript).</span>
+<span class="e">    vim.g.loaded_my_rust_plugin = true</span>
+<span class="e"></span>
+<span class="e">    local bufnr = vim.api.nvim_get_current_buf()</span>
+<span class="e">    -- do something specific to this buffer,</span>
+<span class="e">    -- e.g. add a |&lt;Plug&gt;| mapping or create a command</span>
+<span class="e">    vim.keymap.set('n', '&lt;Plug&gt;(MyPluginBufferAction)', function()</span>
+<span class="e">        print('Hello')</span>
+<span class="e">    end, { buffer = bufnr, })</span>
+
+<span class="h">==============================================================================</span>
+Configuration                                              <span id="lua-plugin-config" class="t">lua-plugin-config</span>
+
+Once you have merged the default configuration with the user's config, you
+should validate configs.
+
+Validations could include:
+
+<a href="motion.txt.html#-" class="d">-</a> Correct types, see <a href="lua.txt.html#vim.validate%28%29" class="l">vim.validate()</a>
+<a href="motion.txt.html#-" class="d">-</a> Unknown fields in the user <a href="starting.txt.html#config" class="d">config</a> (e.g. due to typos).
+  This can be tricky to implement, and may be better suited <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="health.txt.html#health" class="l">health</a>
+  check, to reduce overhead.
+
+<span class="h">==============================================================================</span>
+Troubleshooting                                   <span id="lua-plugin-troubleshooting" class="t">lua-plugin-troubleshooting</span>
+
+<span class="c">HEALTH</span>
+
+Nvim's "<a href="health.txt.html#health" class="d">health</a>" framework gives plugins <a href="insert.txt.html#a" class="d">a</a> simple way to report status checks
+to users. See <a href="health.txt.html#health-dev" class="l">health-dev</a> <a href="luaref.txt.html#for" class="d">for</a> an example.
+
+Basically, this just means your <a href="usr_05.txt.html#plugin" class="d">plugin</a> will have <a href="insert.txt.html#a" class="d">a</a> <span class="e">lua/{plugin}/health.lua</span>
+file. <a href="health.txt.html#%3Acheckhealth" class="l">:checkhealth</a> will automatically find this file when <a href="motion.txt.html#it" class="d">it</a> runs.
+
+Some things to validate:
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="autocmd.txt.html#User" class="d">User</a> configuration
+<a href="motion.txt.html#-" class="d">-</a> Proper <a href="starting.txt.html#initialization" class="d">initialization</a>
+<a href="motion.txt.html#-" class="d">-</a> Presence of <a href="lua.txt.html#Lua" class="d">Lua</a> dependencies (e.g. other plugins)
+<a href="motion.txt.html#-" class="d">-</a> Presence of external dependencies
+
+<span class="c">MINIMAL CONFIG TEMPLATE</span>
+
+It can be useful to provide <a href="insert.txt.html#a" class="d">a</a> <a href="autocmd.txt.html#template" class="d">template</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> minimal configuration, along with
+<a href="insert.txt.html#a" class="d">a</a> guide on how to use <a href="motion.txt.html#it" class="d">it</a> to reproduce issues.
+
+<span class="h">==============================================================================</span>
+Versioning and releases                                <span id="lua-plugin-versioning" class="t">lua-plugin-versioning</span>
+
+Consider:
+
+<a href="motion.txt.html#-" class="d">-</a> Use <a href="lua.txt.html#vim.deprecate%28%29" class="l">vim.deprecate()</a> or <a href="insert.txt.html#a" class="d">a</a> <span class="e">---@deprecate</span> annotation when you need to
+  communicate <a href="insert.txt.html#a" class="d">a</a> (future) breaking change or discouraged practice.
+<a href="motion.txt.html#-" class="d">-</a> Using SemVer <a class="u" href="https://semver.org/">https://semver.org/</a> <a href="tagsrch.txt.html#tags" class="d">tags</a> and releases to properly communicate
+  bug fixes, new features, and breaking changes.
+<a href="motion.txt.html#-" class="d">-</a> Automating versioning and releases in CI.
+<a href="motion.txt.html#-" class="d">-</a> Publishing to luarocks <a class="u" href="https://luarocks.org">https://luarocks.org</a>, especially if your <a href="usr_05.txt.html#plugin" class="d">plugin</a>
+  has dependencies or components that need to be built; or if <a href="motion.txt.html#it" class="d">it</a> could be <a href="insert.txt.html#a" class="d">a</a>
+  dependency <a href="luaref.txt.html#for" class="d">for</a> another plugin.
+
+<span class="c">FURTHER READING</span>
+
+<a href="motion.txt.html#-" class="d">-</a> Luarocks ❤️ Nvim <a class="u" href="https://github.com/nvim-neorocks/sample-luarocks-plugin">https://github.com/nvim-neorocks/sample-luarocks-plugin</a>
+
+<span class="c">VERSIONING TOOLS</span>
+
+<a href="motion.txt.html#-" class="d">-</a> luarocks-tag-release
+  <a class="u" href="https://github.com/marketplace/actions/luarocks-tag-release">https://github.com/marketplace/actions/luarocks-tag-release</a>
+<a href="motion.txt.html#-" class="d">-</a> release-please-action
+  <a class="u" href="https://github.com/marketplace/actions/release-please-action">https://github.com/marketplace/actions/release-please-action</a>
+<a href="motion.txt.html#-" class="d">-</a> semantic-release
+  <a class="u" href="https://github.com/semantic-release/semantic-release">https://github.com/semantic-release/semantic-release</a>
+
+<span class="h">==============================================================================</span>
+Documentation                                                 <span id="lua-plugin-doc" class="t">lua-plugin-doc</span>
+
+Provide vimdoc (see <a href="helphelp.txt.html#help-writing" class="l">help-writing</a>), so that users can read your plugin's
+documentation in Nvim, by entering `:h <span class="s">{plugin}</span>` in <a href="intro.txt.html#command-mode" class="l">command-mode</a><a href="repeat.txt.html#." class="d">.</a> The
+help-tags (the right-aligned "search keywords" in the <a href="helphelp.txt.html#help" class="d">help</a> documents) are
+regenerated using the <a href="helphelp.txt.html#%3Ahelptags" class="l">:helptags</a> command.
+
+<span class="c">DOCUMENTATION TOOLS</span>
+
+<a href="motion.txt.html#-" class="d">-</a> panvimdoc <a class="u" href="https://github.com/kdheepak/panvimdoc">https://github.com/kdheepak/panvimdoc</a>
+
+
+vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

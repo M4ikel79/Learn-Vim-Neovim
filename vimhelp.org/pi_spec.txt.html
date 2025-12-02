@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: pi_spec.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/6GFVgWe7mZKS0irS/tom-select.min.css">
+<script defer src="s/RYIr7-eUV9L7hwPw/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="pi_spec.txt.html#">↑Top↑</a></li>
+<li><a href="pi_spec.txt.html#spec-how-to-use-it">How to use it</a></li>
+<li><a href="pi_spec.txt.html#spec-customizing">Customizing</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="pi_spec.txt" class="t">pi_spec.txt</span>   For <span class="i">Vim version 9.1.</span>  Last change: 2006 Apr 24
+
+<span class="h">by Gustavo Niemeyer </span>
+
+This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> to work with rpm spec files.
+
+Currently, this Vim <a href="usr_05.txt.html#plugin" class="d">plugin</a> allows you to easily update the %changelog
+<a href="motion.txt.html#section" class="d">section</a> in RPM spec files.  It will even create <a href="insert.txt.html#a" class="d">a</a> <a href="motion.txt.html#section" class="d">section</a> for you if <a href="motion.txt.html#it" class="d">it</a>
+doesn't exist yet.  If you've already inserted an entry today, <a href="motion.txt.html#it" class="d">it</a> will
+give you the opportunity to just add <a href="insert.txt.html#a" class="d">a</a> new item in today's entry.  If you
+don't provide <a href="insert.txt.html#a" class="d">a</a> format <a href="eval.txt.html#string" class="d">string</a> <a href="motion.txt.html#%28" class="d">(</a><a href="pi_spec.txt.html#spec_chglog_format" class="l">spec_chglog_format</a>), it'll ask you an
+email address and build <a href="insert.txt.html#a" class="d">a</a> format <a href="eval.txt.html#string" class="d">string</a> by itself.
+
+1. How to use <a href="motion.txt.html#it" class="d">it</a>	<a href="pi_spec.txt.html#spec-how-to-use-it" class="l">spec-how-to-use-it</a>
+2. Customizing		<a href="pi_spec.txt.html#spec-customizing" class="l">spec-customizing</a>
+
+<span class="h">==============================================================================</span>
+1. How to use <a href="motion.txt.html#it" class="d">it</a>				<span id="spec-how-to-use-it" class="t">spec-how-to-use-it</span>
+
+The spec_chglog <a href="usr_05.txt.html#plugin" class="d">plugin</a> provides <a href="insert.txt.html#a" class="d">a</a> map like the following:
+
+	<a href="map.txt.html#%3Amap" class="d">:map</a> <span class="s">&lt;buffer&gt;</span> <a href="map.txt.html#%3CLocalLeader%3E" class="s">&lt;LocalLeader&gt;</a>c <a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a>SpecChangelog
+
+It means that you may run the <a href="usr_05.txt.html#plugin" class="d">plugin</a> inside <a href="insert.txt.html#a" class="d">a</a> spec file by pressing
+your <a href="map.txt.html#maplocalleader" class="d">maplocalleader</a> key (default <a href="motion.txt.html#is" class="d">is</a> '\') plus 'c'.  If you <a href="diff.txt.html#do" class="d">do</a> not have
+<a href="pi_spec.txt.html#spec_chglog_format" class="l">spec_chglog_format</a> set, the <a href="usr_05.txt.html#plugin" class="d">plugin</a> will ask you for an email address
+to use in this edit session.
+
+Every time you run the plugin, <a href="motion.txt.html#it" class="d">it</a> will check to see if the last entry in the
+changelog has been written today and by you.  If the entry matches, <a href="motion.txt.html#it" class="d">it</a> will
+just <a href="insert.txt.html#insert" class="d">insert</a> <a href="insert.txt.html#a" class="d">a</a> new changelog item, otherwise <a href="motion.txt.html#it" class="d">it</a> will create <a href="insert.txt.html#a" class="d">a</a> new changelog
+entry.  If you are running with <a href="pi_spec.txt.html#spec_chglog_release_info" class="l">spec_chglog_release_info</a> enabled, <a href="motion.txt.html#it" class="d">it</a> will
+also check if the name, version and release matches.  The <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> smart
+enough to ask you if <a href="motion.txt.html#it" class="d">it</a> should update the package release, if you have not
+done so.
+
+Setting <a href="insert.txt.html#a" class="d">a</a> map					<span id="spec-setting-a-map" class="t">spec-setting-a-map</span>
+<span class="h">-------------</span>
+
+As you should know, you can easily set <a href="insert.txt.html#a" class="d">a</a> map to access any Vim command (or
+anything, for that matter).  If you don't like the default map of
+<a href="map.txt.html#%3CLocalLeader%3E" class="s">&lt;LocalLeader&gt;</a>c, you may just set up your own key.  The following line
+shows you how you could <a href="diff.txt.html#do" class="d">do</a> this in your <a href="starting.txt.html#.vimrc" class="d">.vimrc</a> file, <a href="map.txt.html#mapping" class="d">mapping</a> the <a href="usr_05.txt.html#plugin" class="d">plugin</a> to
+the <a href="term.txt.html#%3CF5%3E" class="s">&lt;F5&gt;</a> key:
+
+	au <a href="autocmd.txt.html#FileType" class="d">FileType</a> spec map <span class="s">&lt;buffer&gt;</span> <a href="term.txt.html#%3CF5%3E" class="s">&lt;F5&gt;</a> <a href="map.txt.html#%3CPlug%3E" class="s">&lt;Plug&gt;</a>SpecChangelog
+
+<span class="n">Note:</span> the <a href="usr_05.txt.html#plugin" class="d">plugin</a> will respect your desire to change the default <a href="map.txt.html#mapping" class="d">mapping</a>
+      and won't set it.
+
+This command will add <a href="insert.txt.html#a" class="d">a</a> map only in the spec file buffers.
+
+
+<span class="h">==============================================================================</span>
+2. Customizing					<span id="spec-customizing" class="t">spec-customizing</span>
+
+The format <a href="eval.txt.html#string" class="d">string</a>				<span id="spec_chglog_format" class="t">spec_chglog_format</span>
+<span class="h">-----------------</span>
+
+You can easily customize how your spec file entry will look like.  To <a href="diff.txt.html#do" class="d">do</a>
+this just set the variable "<a href="pi_spec.txt.html#spec_chglog_format" class="d">spec_chglog_format</a>" in your <a href="starting.txt.html#.vimrc" class="d">.vimrc</a> file like
+this: 
+<span class="e"></span>
+<span class="e">	let spec_chglog_format = "%a %b %d %Y My Name &lt;my@email.com&gt;"</span>
+<span class="e"></span>
+<span class="n">Note</span> that "%a %b %d %Y" <a href="motion.txt.html#is" class="d">is</a> the most used time format.  If you don't provide
+<a href="insert.txt.html#a" class="d">a</a> format string, when you run the SpecChangelog command for the first
+time, <a href="motion.txt.html#it" class="d">it</a> will ask you an email address and build the <a href="pi_spec.txt.html#spec_chglog_format" class="l">spec_chglog_format</a>
+variable for you.  This way, you will only need to provide your email
+address once.
+
+To discover which format <a href="options.txt.html#options" class="d">options</a> you can use, take <a href="insert.txt.html#a" class="d">a</a> look <a href="motion.txt.html#at" class="d">at</a> the <a href="builtin.txt.html#strftime%28%29" class="d">strftime()</a>
+function man page.
+
+Where to <a href="insert.txt.html#insert" class="d">insert</a> new items			<span id="spec_chglog_prepend" class="t">spec_chglog_prepend</span>
+<span class="h">-------------------------</span>
+
+The <a href="usr_05.txt.html#plugin" class="d">plugin</a> will usually <a href="insert.txt.html#insert" class="d">insert</a> new %changelog entry items (note that it's
+not the entry itself) after the existing ones.  If you set the
+<a href="pi_spec.txt.html#spec_chglog_prepend" class="d">spec_chglog_prepend</a> variable 
+<span class="e"></span>
+<span class="e">	let spec_chglog_prepend = 1</span>
+<span class="e"></span>
+<a href="motion.txt.html#it" class="d">it</a> will <a href="insert.txt.html#insert" class="d">insert</a> new items before the existing ones.
+
+Inserting release info				<span id="spec_chglog_release_info" class="t">spec_chglog_release_info</span>
+<span class="h">----------------------</span>
+
+If you want, the <a href="usr_05.txt.html#plugin" class="d">plugin</a> may automatically <a href="insert.txt.html#insert" class="d">insert</a> release information
+on each changelog entry.  One advantage of turning this feature on <a href="motion.txt.html#is" class="d">is</a>
+that <a href="motion.txt.html#it" class="d">it</a> may <a href="intro.txt.html#control" class="d">control</a> if the release has been updated after the last
+change in the package or not.  If you have not updated the package
+version or release, <a href="motion.txt.html#it" class="d">it</a> will ask you if <a href="motion.txt.html#it" class="d">it</a> should update the package
+release for you.  To turn this feature on, just <a href="insert.txt.html#insert" class="d">insert</a> the following
+code in your .vimrc: 
+<span class="e"></span>
+<span class="e">	let spec_chglog_release_info = 1</span>
+<span class="e"></span>
+Then, the first item in your changelog entry will be something like: 
+<span class="e"></span>
+<span class="e">	+ name-1.0-1cl</span>
+<span class="e"></span>
+If you don't like the release updating feature and don't want to answer
+"No" each time <a href="motion.txt.html#it" class="d">it</a> detects an old release, you may disable <a href="motion.txt.html#it" class="d">it</a> with 
+<span class="e"></span>
+<span class="e">	let spec_chglog_never_increase_release = 1</span>
+<span class="e"></span>
+<span class="e"></span>
+Good luck!!
+
+vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

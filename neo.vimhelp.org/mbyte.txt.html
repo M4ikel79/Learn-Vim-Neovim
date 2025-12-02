@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: mbyte.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="mbyte.txt.html#">↑Top↑</a></li>
+<li><a href="mbyte.txt.html#mbyte-first">Getting started</a></li>
+<li><a href="mbyte.txt.html#mbyte-locale">Locale</a></li>
+<li><a href="mbyte.txt.html#mbyte-encoding">Encoding</a></li>
+<li><a href="mbyte.txt.html#mbyte-keymap">Input with a keymap</a></li>
+<li><a href="mbyte.txt.html#mbyte-utf8">Using UTF-8</a></li>
+<li><a href="mbyte.txt.html#mbyte-options">Overview of options</a></li>
+<li><a href="mbyte.txt.html#_contributions-specificall">Contributions specifically for the multibyte features by:</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="mbyte.txt" class="t">mbyte.txt</span>     Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Bram Moolenaar et al.</span>
+
+
+Multi-byte <a href="support.txt.html#support" class="d">support</a>				<span id="multibyte" class="t">multibyte</span> <span id="multi-byte" class="t">multi-byte</span>
+						<span id="Chinese" class="t">Chinese</span> <span id="Japanese" class="t">Japanese</span> <span id="Korean" class="t">Korean</span>
+This <a href="motion.txt.html#is" class="d">is</a> about editing text in languages which have many characters that can
+not be represented using one byte (one octet).  Examples are Chinese, <a href="mbyte.txt.html#Japanese" class="d">Japanese</a>
+and Korean.  <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> <a href="motion.txt.html#is" class="d">is</a> also covered here.
+
+For an introduction to the most common features, see <a href="usr_45.txt.html#usr_45.txt" class="l">usr_45.txt</a> in the user
+manual.
+For <a href="change.txt.html#changing" class="d">changing</a> the language of <a href="message.txt.html#messages" class="d">messages</a> and <a href="gui.txt.html#menus" class="d">menus</a> see <a href="mlang.txt.html#mlang.txt" class="l">mlang.txt</a><a href="repeat.txt.html#." class="d">.</a>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+Getting started						<span id="mbyte-first" class="t">mbyte-first</span>
+
+This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> summary of the <a href="mbyte.txt.html#multibyte" class="d">multibyte</a> features in Nvim.
+
+
+<span class="c">LOCALE</span>
+
+First of all, you must make sure your current <a href="mbyte.txt.html#locale" class="d">locale</a> <a href="motion.txt.html#is" class="d">is</a> set correctly.  If
+your system has been installed to use the language, <a href="motion.txt.html#it" class="d">it</a> probably works right
+away.  If not, you can often make <a href="motion.txt.html#it" class="d">it</a> work by setting the $LANG environment
+variable in your shell: 
+<span class="e"></span>
+<span class="e">	setenv LANG ja_JP.EUC</span>
+<span class="e"></span>
+Unfortunately, the name of the <a href="mbyte.txt.html#locale" class="d">locale</a> depends on your system.  <a href="mbyte.txt.html#Japanese" class="d">Japanese</a> might
+also be called "ja_JP.EUCjp" or just "ja"<a href="repeat.txt.html#." class="d">.</a>  To see what <a href="motion.txt.html#is" class="d">is</a> currently used: 
+<span class="e"></span>
+<span class="e">	:language</span>
+<span class="e"></span>
+To change the <a href="mbyte.txt.html#locale" class="d">locale</a> inside Vim use: 
+<span class="e"></span>
+<span class="e">	:language ja_JP.EUC</span>
+<span class="e"></span>
+Vim will give an error message if this doesn't work.  This <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> good way to
+experiment and find the <a href="mbyte.txt.html#locale" class="d">locale</a> name you want to use.  But it's always better
+to set the <a href="mbyte.txt.html#locale" class="d">locale</a> in the shell, so that <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> used right from the start.
+
+See <a href="mbyte.txt.html#mbyte-locale" class="l">mbyte-locale</a> <a href="luaref.txt.html#for" class="d">for</a> details.
+
+
+<span class="c">ENCODING</span>
+
+Nvim always uses <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> internally. Thus <a href="options.txt.html#%27encoding%27" class="o">'encoding'</a> <a href="motion.txt.html#is" class="d">is</a> always set to "<a href="mbyte.txt.html#utf-8" class="d">utf-8</a>"
+and cannot be changed.
+
+All the text that <a href="motion.txt.html#is" class="d">is</a> used inside Vim will be in UTF-8. Not only the text in
+the buffers, but also in registers, variables, etc.
+
+You can edit files in different encodings than UTF-8.  Nvim will convert the
+file when you read <a href="motion.txt.html#it" class="d">it</a> and convert <a href="motion.txt.html#it" class="d">it</a> back when you write it.
+See <a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a>, <a href="options.txt.html#%27fileencodings%27" class="o">'fileencodings'</a> and <a href="editing.txt.html#%2B%2Benc" class="l">++enc</a><a href="repeat.txt.html#." class="d">.</a>
+
+
+<span class="c">DISPLAY AND FONTS</span>
+
+If you are working in <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> (emulator) you must make sure <a href="motion.txt.html#it" class="d">it</a> accepts
+UTF-8, the encoding which Vim <a href="motion.txt.html#is" class="d">is</a> working with. Otherwise only ASCII can
+be displayed and edited correctly.
+
+For the <a href="gui.txt.html#GUI" class="d">GUI</a> you must select fonts that work with UTF-8.  You can set <a href="options.txt.html#%27guifont%27" class="o">'guifont'</a>
+and <a href="options.txt.html#%27guifontwide%27" class="o">'guifontwide'</a>.  <a href="options.txt.html#%27guifont%27" class="o">'guifont'</a> <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> the single-width characters,
+<a href="options.txt.html#%27guifontwide%27" class="o">'guifontwide'</a> <a href="luaref.txt.html#for" class="d">for</a> the double-width characters. Thus the <a href="options.txt.html#%27guifontwide%27" class="o">'guifontwide'</a> font
+must be exactly twice <a href="motion.txt.html#as" class="d">as</a> wide <a href="motion.txt.html#as" class="d">as</a> <a href="options.txt.html#%27guifont%27" class="o">'guifont'</a>. Example <a href="luaref.txt.html#for" class="d">for</a> UTF-8: 
+<span class="e"></span>
+<span class="e">	:set guifont=-misc-fixed-medium-r-normal-*-18-120-100-100-c-90-iso10646-1</span>
+<span class="e">	:set guifontwide=-misc-fixed-medium-r-normal-*-18-120-100-100-c-180-iso10646-1</span>
+<span class="e"></span>
+You can also set <a href="options.txt.html#%27guifont%27" class="o">'guifont'</a> alone, the Nvim <a href="gui.txt.html#GUI" class="d">GUI</a> will try to find <a href="insert.txt.html#a" class="d">a</a> matching
+<a href="options.txt.html#%27guifontwide%27" class="o">'guifontwide'</a> <a href="luaref.txt.html#for" class="d">for</a> you.
+
+
+<span class="c">INPUT</span>
+
+There are several ways to enter <a href="mbyte.txt.html#multibyte" class="d">multibyte</a> characters:
+<a href="motion.txt.html#-" class="d">-</a> Your system IME can be used.
+<a href="motion.txt.html#-" class="d">-</a> Keymaps can be used.  See <a href="mbyte.txt.html#mbyte-keymap" class="l">mbyte-keymap</a><a href="repeat.txt.html#." class="d">.</a>
+
+The <a href="options.txt.html#options" class="d">options</a> <a href="options.txt.html#%27iminsert%27" class="o">'iminsert'</a>, <a href="options.txt.html#%27imsearch%27" class="o">'imsearch'</a> and <a href="vim_diff.txt.html#%27imcmdline%27" class="o">'imcmdline'</a> can be used to choose
+the different input methods or disable them temporarily.
+
+<span class="h">==============================================================================</span>
+Locale							<span id="mbyte-locale" class="t">mbyte-locale</span>
+
+The easiest setup <a href="motion.txt.html#is" class="d">is</a> when your whole system uses the <a href="mbyte.txt.html#locale" class="d">locale</a> you want to work
+in.  But it's also possible to set the <a href="mbyte.txt.html#locale" class="d">locale</a> <a href="luaref.txt.html#for" class="d">for</a> one shell you are working
+in, or just use <a href="insert.txt.html#a" class="d">a</a> certain <a href="mbyte.txt.html#locale" class="d">locale</a> inside Vim.
+
+
+<span class="c">WHAT IS A LOCALE?</span>					<span id="locale" class="t">locale</span>
+
+There are many languages in the world.  And there are different cultures and
+environments <a href="motion.txt.html#at" class="d">at</a> least <a href="motion.txt.html#as" class="d">as</a> many <a href="motion.txt.html#as" class="d">as</a> the number of languages.  <a href="insert.txt.html#A" class="d">A</a> linguistic
+environment corresponding to an area <a href="motion.txt.html#is" class="d">is</a> called "<a href="mbyte.txt.html#locale" class="d">locale</a>"<a href="repeat.txt.html#." class="d">.</a>  This includes
+information about the used language, the charset, collating order <a href="luaref.txt.html#for" class="d">for</a> sorting,
+date format, currency format and so on.  For Vim only the language and <a href="mbyte.txt.html#charset" class="d">charset</a>
+really matter.
+
+You can only use <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#locale" class="d">locale</a> if your system has <a href="support.txt.html#support" class="d">support</a> <a href="luaref.txt.html#for" class="d">for</a> it.  Some systems
+have only <a href="insert.txt.html#a" class="d">a</a> few locales, especially in the USA.  The language which you want
+to use may not be on your system.  In that <a href="change.txt.html#case" class="d">case</a> you might be able to <a href="intro.txt.html#install" class="d">install</a>
+<a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#as" class="d">as</a> an extra package.  Check your system documentation <a href="luaref.txt.html#for" class="d">for</a> how to <a href="diff.txt.html#do" class="d">do</a> that.
+
+The location in which the locales are installed varies from system to system.
+For example, "/usr/share/locale" or "/usr/lib/locale"<a href="repeat.txt.html#." class="d">.</a>  See your system's
+setlocale() man page.
+
+Looking in these directories will show you the exact name of each locale.
+Mostly upper/lowercase matters, thus "ja_JP.EUC" and "ja_jp.euc" are
+different.  Some systems have <a href="insert.txt.html#a" class="d">a</a> locale.alias file, which allows translation
+from <a href="insert.txt.html#a" class="d">a</a> short name like "nl" to the full name "nl_NL.ISO_8859-1"<a href="repeat.txt.html#." class="d">.</a>
+
+<span class="n">Note</span> that X-windows has its own <a href="mbyte.txt.html#locale" class="d">locale</a> stuff.  And unfortunately uses <a href="mbyte.txt.html#locale" class="d">locale</a>
+names different from what <a href="motion.txt.html#is" class="d">is</a> used elsewhere.  This <a href="motion.txt.html#is" class="d">is</a> confusing!  For Vim <a href="motion.txt.html#it" class="d">it</a>
+matters what the setlocale() function uses, which <a href="motion.txt.html#is" class="d">is</a> generally NOT the
+X-windows stuff.  You might have to <a href="diff.txt.html#do" class="d">do</a> some experiments to find out what
+really works.
+
+							<span id="locale-name" class="t">locale-name</span>
+The (simplified) format of <a href="mbyte.txt.html#locale" class="l">locale</a> name is:
+
+	language
+or	language_territory
+or	language_territory.codeset
+
+Territory means the country (or part of it), <a href="mbyte.txt.html#codeset" class="d">codeset</a> means the <a href="mbyte.txt.html#charset" class="l">charset</a><a href="repeat.txt.html#." class="d">.</a>  For
+example, the <a href="mbyte.txt.html#locale" class="d">locale</a> name "ja_JP.eucJP" means:
+	ja	the language <a href="motion.txt.html#is" class="d">is</a> <a href="mbyte.txt.html#Japanese" class="d">Japanese</a>
+	JP	the country <a href="motion.txt.html#is" class="d">is</a> Japan
+	eucJP	the <a href="mbyte.txt.html#codeset" class="d">codeset</a> <a href="motion.txt.html#is" class="d">is</a> EUC-JP
+But <a href="motion.txt.html#it" class="d">it</a> also could be "ja"<a href="motion.txt.html#%2C" class="d">,</a> "ja_JP.EUC"<a href="motion.txt.html#%2C" class="d">,</a> "ja_JP.ujis"<a href="motion.txt.html#%2C" class="d">,</a> etc.  And unfortunately,
+the <a href="mbyte.txt.html#locale" class="d">locale</a> name <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> specific language, territory and <a href="mbyte.txt.html#codeset" class="d">codeset</a> <a href="motion.txt.html#is" class="d">is</a> not unified
+and depends on your system.
+
+Examples of <a href="mbyte.txt.html#locale" class="d">locale</a> name:
+<span class="h">    charset	    language		  locale name </span>
+    GB2312	    <a href="mbyte.txt.html#Chinese" class="d">Chinese</a> (simplified)  zh_CN.EUC, zh_CN.GB2312
+    Big5	    <a href="mbyte.txt.html#Chinese" class="d">Chinese</a> (traditional) zh_TW.BIG5, zh_TW.Big5
+    CNS-11643	    <a href="mbyte.txt.html#Chinese" class="d">Chinese</a> (traditional) zh_TW
+    EUC-JP	    <a href="mbyte.txt.html#Japanese" class="d">Japanese</a>		  ja, ja_JP.EUC, ja_JP.ujis, ja_JP.eucJP
+    Shift_JIS	    <a href="mbyte.txt.html#Japanese" class="d">Japanese</a>		  ja_JP.SJIS, ja_JP.Shift_JIS
+    EUC-KR	    <a href="mbyte.txt.html#Korean" class="d">Korean</a>		  ko, ko_KR.EUC
+
+
+<span class="c">USING A LOCALE</span>
+
+To start using <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#locale" class="d">locale</a> <a href="luaref.txt.html#for" class="d">for</a> the whole system, see the documentation of your
+system.  Mostly you need to set <a href="motion.txt.html#it" class="d">it</a> in <a href="insert.txt.html#a" class="d">a</a> configuration file in "/etc"<a href="repeat.txt.html#." class="d">.</a>
+
+To use <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#locale" class="d">locale</a> in <a href="insert.txt.html#a" class="d">a</a> shell, set the $LANG environment value.  When you want to
+use <a href="mbyte.txt.html#Korean" class="d">Korean</a> and the <a href="mbyte.txt.html#locale" class="l">locale</a> name <a href="motion.txt.html#is" class="d">is</a> "ko"<a href="motion.txt.html#%2C" class="d">,</a> <a href="diff.txt.html#do" class="d">do</a> this:
+
+    sh:    export LANG=ko
+    csh:   setenv LANG ko
+
+You can <a href="change.txt.html#put" class="d">put</a> this in your ~/.profile or ~/.cshrc file to always use it.
+
+To use <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#locale" class="d">locale</a> in Vim only, use the <a href="mlang.txt.html#%3Alanguage" class="l">:language</a> command: 
+<span class="e"></span>
+<span class="e">	:language ko</span>
+<span class="e"></span>
+Put this in your <a href="starting.txt.html#init.vim" class="l">init.vim</a> file to use <a href="motion.txt.html#it" class="d">it</a> always.
+
+Or specify $LANG when <a href="starting.txt.html#starting" class="d">starting</a> Vim:
+
+   sh:    LANG=ko vim <span class="s">{vim-arguments}</span>
+   csh:	  env LANG=ko vim <span class="s">{vim-arguments}</span>
+
+You could make <a href="insert.txt.html#a" class="d">a</a> small shell <a href="usr_41.txt.html#script" class="d">script</a> <a href="luaref.txt.html#for" class="d">for</a> this.
+
+<span class="h">==============================================================================</span>
+Encoding				<span id="mbyte-encoding" class="t">mbyte-encoding</span>
+
+<a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> <a href="motion.txt.html#is" class="d">is</a> always used internally to encode characters. This applies to all the
+places where text <a href="motion.txt.html#is" class="d">is</a> used, including <a href="windows.txt.html#buffers" class="d">buffers</a> (files loaded into memory),
+<a href="change.txt.html#registers" class="d">registers</a> and variables.
+
+							<span id="charset" class="t">charset</span> <span id="codeset" class="t">codeset</span>
+Charset <a href="motion.txt.html#is" class="d">is</a> another name <a href="luaref.txt.html#for" class="d">for</a> encoding.  There are subtle differences, but these
+don't matter when using Vim.  "<a href="mbyte.txt.html#codeset" class="d">codeset</a>" <a href="motion.txt.html#is" class="d">is</a> another similar name.
+
+Each character <a href="motion.txt.html#is" class="d">is</a> encoded <a href="motion.txt.html#as" class="d">as</a> one or more bytes.  When all characters are
+encoded with one byte, we call this <a href="insert.txt.html#a" class="d">a</a> single-byte encoding.  The most often
+used one <a href="motion.txt.html#is" class="d">is</a> called "latin1"<a href="repeat.txt.html#." class="d">.</a>  This <a href="vi_diff.txt.html#limits" class="d">limits</a> the number of characters to 256.
+Some of these are <a href="intro.txt.html#control" class="d">control</a> characters, thus even fewer can be used <a href="luaref.txt.html#for" class="d">for</a> text.
+
+When some characters use two or more bytes, we call this <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#multibyte" class="d">multibyte</a>
+encoding.  This allows using much more than 256 characters, which <a href="motion.txt.html#is" class="d">is</a> required
+<a href="luaref.txt.html#for" class="d">for</a> most East Asian languages.
+
+Most <a href="mbyte.txt.html#multibyte" class="d">multibyte</a> encodings use one byte <a href="luaref.txt.html#for" class="d">for</a> the first 127 characters.  These
+are equal to ASCII, which makes <a href="motion.txt.html#it" class="d">it</a> easy to exchange plain-ASCII text, no
+matter what language <a href="motion.txt.html#is" class="d">is</a> used.  Thus you might see the right text even when the
+encoding was set wrong.
+
+							<span id="encoding-names" class="t">encoding-names</span>
+Vim can edit files in different character encodings.  There are three major groups:
+
+1   8bit	Single-byte encodings, 256 different characters.  Mostly used
+		in USA and Europe.  Example: ISO-8859-1 (Latin1).  All
+		characters occupy one screen cell only.
+
+2   2byte	Double-byte encodings, over 10000 different characters.
+		Mostly used in Asian countries.  Example: euc-kr (Korean)
+		The number of screen cells <a href="motion.txt.html#is" class="d">is</a> equal to the number of bytes
+		(except <a href="luaref.txt.html#for" class="d">for</a> euc-jp when the first byte <a href="motion.txt.html#is" class="d">is</a> 0x8e).
+
+<a href="undo.txt.html#u" class="d">u</a>   <a href="mbyte.txt.html#Unicode" class="d">Unicode</a>	Universal encoding, can replace all others.  ISO 10646.
+		Millions of different characters.  Example: UTF-8.  The
+		relation between bytes and screen cells <a href="motion.txt.html#is" class="d">is</a> complex.
+
+Only <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> <a href="motion.txt.html#is" class="d">is</a> used by Vim internally.  But files in other
+encodings can be edited by using conversion, see <a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a>.
+
+Recognized <a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a> values include:		<span id="encoding-values" class="t">encoding-values</span>
+1   latin1	8-bit characters (ISO 8859-1, also used <a href="luaref.txt.html#for" class="d">for</a> cp1252)
+1   iso-8859-n	ISO_8859 variant (n <a href="change.txt.html#%3D" class="d">=</a> 2 to 15)
+1   koi8-r	<a href="russian.txt.html#Russian" class="d">Russian</a>
+1   koi8-u	Ukrainian
+1   macroman    MacRoman (Macintosh encoding)
+1   8bit-{name} any 8-bit encoding (Vim specific name)
+1   cp437	similar to iso-8859-1
+1   cp737	similar to iso-8859-7
+1   cp775	Baltic
+1   cp850	similar to iso-8859-4
+1   cp852	similar to iso-8859-1
+1   cp855	similar to iso-8859-2
+1   cp857	similar to iso-8859-5
+1   cp860	similar to iso-8859-9
+1   cp861	similar to iso-8859-1
+1   cp862	similar to iso-8859-1
+1   cp863	similar to iso-8859-8
+1   cp865	similar to iso-8859-1
+1   cp866	similar to iso-8859-5
+1   cp869	similar to iso-8859-7
+1   cp874	Thai
+1   cp1250	Czech, Polish, etc.
+1   cp1251	Cyrillic
+1   cp1253	Greek
+1   cp1254	Turkish
+1   cp1255	Hebrew
+1   cp1256	<a href="arabic.txt.html#Arabic" class="d">Arabic</a>
+1   cp1257	Baltic
+1   cp1258	Vietnamese
+1   cp{number}	MS-Windows: any installed single-byte codepage
+2   cp932	<a href="mbyte.txt.html#Japanese" class="d">Japanese</a> (Windows only)
+2   euc-jp	<a href="mbyte.txt.html#Japanese" class="d">Japanese</a>
+2   sjis	<a href="mbyte.txt.html#Japanese" class="d">Japanese</a>
+2   cp949	<a href="mbyte.txt.html#Korean" class="d">Korean</a>
+2   euc-kr	<a href="mbyte.txt.html#Korean" class="d">Korean</a>
+2   cp936	simplified <a href="mbyte.txt.html#Chinese" class="d">Chinese</a> (Windows only)
+2   euc-cn	simplified <a href="mbyte.txt.html#Chinese" class="d">Chinese</a>
+2   cp950	traditional <a href="mbyte.txt.html#Chinese" class="d">Chinese</a> (alias <a href="luaref.txt.html#for" class="d">for</a> big5)
+2   big5	traditional <a href="mbyte.txt.html#Chinese" class="d">Chinese</a> (alias <a href="luaref.txt.html#for" class="d">for</a> cp950)
+2   euc-tw	traditional <a href="mbyte.txt.html#Chinese" class="d">Chinese</a>
+2   2byte-{name} any double-byte encoding (Vim-specific name)
+2   cp{number}	MS-Windows: any installed double-byte codepage
+<a href="undo.txt.html#u" class="d">u</a>   <a href="mbyte.txt.html#utf-8" class="d">utf-8</a>	32 bit <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> encoded <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> (ISO/IEC 10646-1)
+<a href="undo.txt.html#u" class="d">u</a>   ucs-2	16 bit UCS-2 encoded <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> (ISO/IEC 10646-1)
+<a href="undo.txt.html#u" class="d">u</a>   ucs-2le	like ucs-2, little endian
+<a href="undo.txt.html#u" class="d">u</a>   utf-16	ucs-2 extended with double-words <a href="luaref.txt.html#for" class="d">for</a> more characters
+<a href="undo.txt.html#u" class="d">u</a>   utf-16le	like utf-16, little endian
+<a href="undo.txt.html#u" class="d">u</a>   ucs-4	32 bit UCS-4 encoded <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> (ISO/IEC 10646-1)
+<a href="undo.txt.html#u" class="d">u</a>   ucs-4le	like ucs-4, little endian
+
+The <span class="s">{name}</span> can be any encoding name that your system supports.  It <a href="motion.txt.html#is" class="d">is</a> passed
+to <a href="vimfn.txt.html#iconv%28%29" class="d">iconv()</a> to convert between <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> and the encoding of the file.
+For MS-Windows "cp{number}" means using codepage <span class="s">{number}</span>.
+Examples: 
+<span class="e">		:set fileencoding=8bit-cp1252</span>
+<span class="e">		:set fileencoding=2byte-cp932</span>
+<span class="e"></span>
+The MS-Windows codepage 1252 <a href="motion.txt.html#is" class="d">is</a> very similar to latin1.  For practical reasons
+the same encoding <a href="motion.txt.html#is" class="d">is</a> used and it's called latin1.  <a href="options.txt.html#%27isprint%27" class="o">'isprint'</a> can be used to
+display the characters 0x80 <a href="motion.txt.html#-" class="d">-</a> 0xA0 or not.
+
+Several aliases can be used, they are translated to one of the names above.
+Incomplete list:
+
+1   ansi	same <a href="motion.txt.html#as" class="d">as</a> latin1 (obsolete, <a href="luaref.txt.html#for" class="d">for</a> backward compatibility)
+2   japan	Japanese: "euc-jp"
+2   korea	Korean: "euc-kr"
+2   prc		simplified Chinese: "euc-cn"
+2   chinese     same <a href="motion.txt.html#as" class="d">as</a> "prc"
+2   taiwan	traditional Chinese: "euc-tw"
+<a href="undo.txt.html#u" class="d">u</a>   <a href="mbyte.txt.html#utf8" class="d">utf8</a>	same <a href="motion.txt.html#as" class="d">as</a> <a href="mbyte.txt.html#utf-8" class="d">utf-8</a>
+<a href="undo.txt.html#u" class="d">u</a>   <a href="mbyte.txt.html#unicode" class="d">unicode</a>	same <a href="motion.txt.html#as" class="d">as</a> ucs-2
+<a href="undo.txt.html#u" class="d">u</a>   ucs2be	same <a href="motion.txt.html#as" class="d">as</a> ucs-2 (big endian)
+<a href="undo.txt.html#u" class="d">u</a>   ucs-2be	same <a href="motion.txt.html#as" class="d">as</a> ucs-2 (big endian)
+<a href="undo.txt.html#u" class="d">u</a>   ucs-4be	same <a href="motion.txt.html#as" class="d">as</a> ucs-4 (big endian)
+<a href="undo.txt.html#u" class="d">u</a>   utf-32	same <a href="motion.txt.html#as" class="d">as</a> ucs-4
+<a href="undo.txt.html#u" class="d">u</a>   utf-32le	same <a href="motion.txt.html#as" class="d">as</a> ucs-4le
+    default     the encoding of the current locale.
+
+For the UCS codes the byte order matters.  This <a href="motion.txt.html#is" class="d">is</a> tricky, use <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> whenever
+you can.  The default <a href="motion.txt.html#is" class="d">is</a> to use big-endian (most significant byte comes
+first):
+<span class="h">	    name	bytes		char </span>
+	    ucs-2	      11 22	    1122
+	    ucs-2le	      22 11	    1122
+	    ucs-4	11 22 33 44	11223344
+	    ucs-4le	44 33 22 11	11223344
+
+On MS-Windows systems you often want to use "ucs-2le"<a href="motion.txt.html#%2C" class="d">,</a> because <a href="motion.txt.html#it" class="d">it</a> uses little
+endian UCS-2.
+
+There are <a href="insert.txt.html#a" class="d">a</a> few encodings which are similar, but not exactly the same.  Vim
+treats them <a href="motion.txt.html#as" class="d">as</a> if they were different encodings, so that conversion will be
+done when needed.  You might want to use the similar name to avoid conversion
+or when conversion <a href="motion.txt.html#is" class="d">is</a> not possible:
+
+	cp932, shift-jis, sjis
+	cp936, euc-cn
+
+<span class="c">CONVERSION</span>						<span id="charset-conversion" class="t">charset-conversion</span>
+
+Vim will automatically convert from one to another encoding in several places:
+<a href="motion.txt.html#-" class="d">-</a> When reading <a href="insert.txt.html#a" class="d">a</a> file and <a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a> <a href="motion.txt.html#is" class="d">is</a> different from "<a href="mbyte.txt.html#utf-8" class="d">utf-8</a>"
+<a href="motion.txt.html#-" class="d">-</a> When <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> file and <a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a> <a href="motion.txt.html#is" class="d">is</a> different from "<a href="mbyte.txt.html#utf-8" class="d">utf-8</a>"
+<a href="motion.txt.html#-" class="d">-</a> When displaying <a href="message.txt.html#messages" class="d">messages</a> and the encoding used <a href="luaref.txt.html#for" class="d">for</a> LC_MESSAGES differs from
+  "<a href="mbyte.txt.html#utf-8" class="d">utf-8</a>" (requires <a href="insert.txt.html#a" class="d">a</a> gettext version that supports this).
+<a href="motion.txt.html#-" class="d">-</a> When reading <a href="insert.txt.html#a" class="d">a</a> Vim <a href="usr_41.txt.html#script" class="d">script</a> where <a href="repeat.txt.html#%3Ascriptencoding" class="l">:scriptencoding</a> <a href="motion.txt.html#is" class="d">is</a> different from
+  "<a href="mbyte.txt.html#utf-8" class="d">utf-8</a>"<a href="repeat.txt.html#." class="d">.</a>
+Most of these require iconv.  Conversion <a href="luaref.txt.html#for" class="d">for</a> reading and <a href="editing.txt.html#writing" class="d">writing</a> files may
+also be specified with the <a href="options.txt.html#%27charconvert%27" class="o">'charconvert'</a> option.
+
+Useful utilities <a href="luaref.txt.html#for" class="d">for</a> converting the charset:
+    All:	    iconv
+	GNU iconv can convert most encodings.  <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> <a href="motion.txt.html#is" class="d">is</a> used <a href="motion.txt.html#as" class="d">as</a> the
+	intermediate encoding, which allows conversion from and to all other
+	encodings.  See <a class="u" href="https://directory.fsf.org/wiki/Libiconv">https://directory.fsf.org/wiki/Libiconv</a>.
+
+
+							<span id="mbyte-conversion" class="t">mbyte-conversion</span>
+When reading and <a href="editing.txt.html#writing" class="d">writing</a> files in an encoding different from "<a href="mbyte.txt.html#utf-8" class="d">utf-8</a>"<a href="motion.txt.html#%2C" class="d">,</a>
+conversion needs to be done.  These conversions are supported:
+<a href="motion.txt.html#-" class="d">-</a> All conversions between Latin-1 (ISO-8859-1), UTF-8, UCS-2 and UCS-4 are
+  handled internally.
+<a href="motion.txt.html#-" class="d">-</a> For MS-Windows, conversion from and
+  to any codepage should work.
+<a href="motion.txt.html#-" class="d">-</a> Conversion specified with <a href="options.txt.html#%27charconvert%27" class="o">'charconvert'</a>
+<a href="motion.txt.html#-" class="d">-</a> Conversion with the iconv library, if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> available.
+	Old versions of GNU <a href="vimfn.txt.html#iconv%28%29" class="d">iconv()</a> may cause the conversion to fail (they
+	request <a href="insert.txt.html#a" class="d">a</a> very large buffer, more than Vim <a href="motion.txt.html#is" class="d">is</a> willing to provide).
+	Try getting another <a href="vimfn.txt.html#iconv%28%29" class="d">iconv()</a> implementation.
+
+<span class="h">==============================================================================</span>
+Input with <a href="insert.txt.html#a" class="d">a</a> keymap					<span id="mbyte-keymap" class="t">mbyte-keymap</span>
+
+When the keyboard doesn't produce the characters you want to enter in your
+text, you can use the <a href="options.txt.html#%27keymap%27" class="o">'keymap'</a> option.  This will translate one or more
+(English) characters to another (non-English) character.  This only happens
+when typing text, not when typing Vim commands.  This avoids having to switch
+between two keyboard settings.
+
+The value of the <a href="options.txt.html#%27keymap%27" class="o">'keymap'</a> option specifies <a href="insert.txt.html#a" class="d">a</a> keymap file to use.  The name of
+this file <a href="motion.txt.html#is" class="d">is</a> one of these two:
+
+	keymap/{keymap}_utf-8.vim
+	keymap/{keymap}.vim
+
+Here <span class="s">{keymap}</span> <a href="motion.txt.html#is" class="d">is</a> the value of the <a href="options.txt.html#%27keymap%27" class="o">'keymap'</a> option.
+The file name with "<a href="mbyte.txt.html#utf-8" class="d">utf-8</a>" included <a href="motion.txt.html#is" class="d">is</a> tried first.
+
+<a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> <a href="motion.txt.html#is" class="d">is</a> used to find these files.  To see an overview of all
+available keymap files, use this: 
+<span class="e">	:echo globpath(&amp;rtp, "keymap/*.vim")</span>
+<span class="e"></span>
+In <a href="insert.txt.html#Insert" class="d">Insert</a> and <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> mode you can use <a href="editing.txt.html#CTRL-%5E" class="k">CTRL-^</a> to <a href="options.txt.html#toggle" class="d">toggle</a> between using the
+keyboard map or not. <a href="insert.txt.html#i_CTRL-%5E" class="l">i_CTRL-^</a> <a href="cmdline.txt.html#c_CTRL-%5E" class="l">c_CTRL-^</a>
+This flag <a href="motion.txt.html#is" class="d">is</a> remembered <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#Insert" class="d">Insert</a> mode with the <a href="options.txt.html#%27iminsert%27" class="o">'iminsert'</a> option.  When
+leaving and entering <a href="insert.txt.html#Insert" class="d">Insert</a> mode the previous value <a href="motion.txt.html#is" class="d">is</a> used.  The same value
+<a href="motion.txt.html#is" class="d">is</a> also used <a href="luaref.txt.html#for" class="d">for</a> commands that take <a href="insert.txt.html#a" class="d">a</a> single character argument, like <a href="motion.txt.html#f" class="l">f</a> and
+<a href="change.txt.html#r" class="l">r</a><a href="repeat.txt.html#." class="d">.</a>
+For <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> mode the flag <a href="motion.txt.html#is" class="d">is</a> NOT remembered.  You are expected to type an
+<a href="intro.txt.html#Ex" class="d">Ex</a> command first, which <a href="motion.txt.html#is" class="d">is</a> ASCII.
+For typing search patterns the <a href="options.txt.html#%27imsearch%27" class="o">'imsearch'</a> option <a href="motion.txt.html#is" class="d">is</a> used.  It can be set to
+use the same value <a href="motion.txt.html#as" class="d">as</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#%27iminsert%27" class="o">'iminsert'</a>.
+								<span id="lCursor" class="t">lCursor</span>
+It <a href="motion.txt.html#is" class="d">is</a> possible to give the <a href="gui.txt.html#GUI" class="d">GUI</a> cursor another color when the language mappings
+are being used.  This <a href="motion.txt.html#is" class="d">is</a> disabled by default, to avoid that the cursor becomes
+invisible when you use <a href="insert.txt.html#a" class="d">a</a> non-standard background color.  Here <a href="motion.txt.html#is" class="d">is</a> an example to
+use <a href="insert.txt.html#a" class="d">a</a> brightly colored cursor: 
+<span class="e">	:highlight Cursor guifg=NONE guibg=Green</span>
+<span class="e">	:highlight lCursor guifg=NONE guibg=Cyan</span>
+
+		<span id="keymap-file-format" class="t">keymap-file-format</span> <span id="%3Aloadk" class="t">:loadk</span> <span id="%3Aloadkeymap" class="t">:loadkeymap</span> <span id="E105" class="t">E105</span> <span id="E791" class="t">E791</span>
+The keymap file looks something like this: 
+<span class="e"></span>
+<span class="e">	" Maintainer:	name &lt;email@address&gt;</span>
+<span class="e">	" Last Changed:	2001 Jan 1</span>
+<span class="e"></span>
+<span class="e">	let b:keymap_name = "short"</span>
+<span class="e"></span>
+<span class="e">	loadkeymap</span>
+<span class="e">	a	A</span>
+<span class="e">	b	B	comment</span>
+<span class="e"></span>
+The lines <a href="starting.txt.html#starting" class="d">starting</a> with <a href="insert.txt.html#a" class="d">a</a> " are comments and will be ignored.  Blank lines are
+also ignored.  The lines with the mappings may have <a href="insert.txt.html#a" class="d">a</a> comment after the useful
+text.
+
+The "b:keymap_name" can be set to <a href="insert.txt.html#a" class="d">a</a> short name, which will be shown in the
+status line.  The idea <a href="motion.txt.html#is" class="d">is</a> that this takes <a href="various.txt.html#less" class="d">less</a> room than the value of
+<a href="options.txt.html#%27keymap%27" class="o">'keymap'</a>, which might be long to distinguish between different languages,
+keyboards and encodings.
+
+The actual mappings are in the lines below "loadkeymap"<a href="repeat.txt.html#." class="d">.</a>  In the example "<a href="insert.txt.html#a" class="d">a</a>"
+<a href="motion.txt.html#is" class="d">is</a> mapped to "<a href="insert.txt.html#A" class="d">A</a>" and "<a href="motion.txt.html#b" class="d">b</a>" to "<a href="motion.txt.html#B" class="d">B</a>"<a href="repeat.txt.html#." class="d">.</a>  Thus the first item <a href="motion.txt.html#is" class="d">is</a> mapped to the second
+item.  This <a href="motion.txt.html#is" class="d">is</a> done <a href="luaref.txt.html#for" class="d">for</a> each line, until the <a href="intro.txt.html#end" class="d">end</a> of the file.
+These items are exactly the same <a href="motion.txt.html#as" class="d">as</a> what can be used in <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#%3Almap" class="l">:lmap</a> command,
+using "<a href="autocmd.txt.html#%3Cbuffer%3E" class="s">&lt;buffer&gt;</a>" to make the mappings local to the buffer.
+You can check the result with this command: 
+<span class="e">	:lmap</span>
+The two items must be separated by white space.  You cannot include white
+<a href="intro.txt.html#space" class="d">space</a> inside an item, use the special names "<a href="motion.txt.html#%3CTab%3E" class="s">&lt;Tab&gt;</a>" and "<a href="motion.txt.html#%3CSpace%3E" class="s">&lt;Space&gt;</a>" instead.
+The length of the two items together must not exceed 200 bytes.
+
+It's possible to have more than one character in the first column.  This works
+like <a href="insert.txt.html#a" class="d">a</a> dead key.  Example: 
+<span class="e">	'a	á</span>
+Since Vim doesn't know if the next character after <a href="insert.txt.html#a" class="d">a</a> <a href="change.txt.html#quote" class="d">quote</a> <a href="motion.txt.html#is" class="d">is</a> really an "<a href="insert.txt.html#a" class="d">a</a>"<a href="motion.txt.html#%2C" class="d">,</a>
+<a href="motion.txt.html#it" class="d">it</a> will wait <a href="luaref.txt.html#for" class="d">for</a> the next character.  To be able to <a href="insert.txt.html#insert" class="d">insert</a> <a href="insert.txt.html#a" class="d">a</a> single quote,
+also add this line: 
+<span class="e">	''	'</span>
+Since the <a href="map.txt.html#mapping" class="d">mapping</a> <a href="motion.txt.html#is" class="d">is</a> defined with <a href="map.txt.html#%3Almap" class="l">:lmap</a> the resulting <a href="change.txt.html#quote" class="d">quote</a> will not be
+used <a href="luaref.txt.html#for" class="d">for</a> the start of another character defined in the <a href="options.txt.html#%27keymap%27" class="o">'keymap'</a>.
+It can be used in <a href="insert.txt.html#a" class="d">a</a> standard <a href="map.txt.html#%3Aimap" class="l">:imap</a> mapping.
+The "accents" keymap uses this.				<span id="keymap-accents" class="t">keymap-accents</span>
+
+The first column can also be in <a href="intro.txt.html#%3C%3E" class="l">&lt;&gt;</a> form:
+	<span class="s">&lt;C-c&gt;</span>		Ctrl-C
+	<span class="s">&lt;A-c&gt;</span>		Alt-c
+	<span class="s">&lt;A-C&gt;</span>		Alt-C
+<span class="n">Note</span> that the Alt mappings may not work, depending on your keyboard and
+terminal.
+
+Although it's possible to have more than one character in the second column,
+this <a href="motion.txt.html#is" class="d">is</a> unusual.  But you can use <a href="various.txt.html#various" class="d">various</a> ways to specify the character: 
+<span class="e">	A	a		literal character</span>
+<span class="e">	A	&lt;char-97&gt;	decimal value</span>
+<span class="e">	A	&lt;char-0x61&gt;	hexadecimal value</span>
+<span class="e">	A	&lt;char-0141&gt;	octal value</span>
+<span class="e">	x	&lt;Space&gt;		special key name</span>
+<span class="e"></span>
+The characters are assumed to be encoded in UTF-8.
+It's possible to use "<a href="repeat.txt.html#%3Ascriptencoding" class="d">:scriptencoding</a>" when all characters are given
+literally.  That doesn't work when using the <span class="s">&lt;char-&gt;</span> construct, because the
+conversion <a href="motion.txt.html#is" class="d">is</a> done on the keymap file, not on the resulting character.
+
+The lines after "loadkeymap" are interpreted with <a href="options.txt.html#%27cpoptions%27" class="o">'cpoptions'</a> set to "<a href="change.txt.html#C" class="d">C</a>"<a href="repeat.txt.html#." class="d">.</a>
+This means that continuation lines are not used and <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#backslash" class="d">backslash</a> has <a href="insert.txt.html#a" class="d">a</a> special
+meaning in the mappings.  Examples: 
+<span class="e"></span>
+<span class="e">	" a comment line</span>
+<span class="e">	\"	x	maps " to x</span>
+<span class="e">	\\	y	maps \ to y</span>
+<span class="e"></span>
+If you write <a href="insert.txt.html#a" class="d">a</a> keymap file that will be useful <a href="luaref.txt.html#for" class="d">for</a> others, consider submitting
+<a href="motion.txt.html#it" class="d">it</a> to the Vim maintainer <a href="luaref.txt.html#for" class="d">for</a> inclusion in the distribution:
+&lt;maintainer@vim.org&gt;
+
+
+<span class="c">HEBREW KEYMAP</span>						<span id="keymap-hebrew" class="t">keymap-hebrew</span>
+
+This file explains what characters are available in <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> and CP1255 encodings,
+and what the keymaps are to get those characters:
+
+<span class="h">glyph   encoding	   keymap </span>
+<span class="h">Char UTF-8 cp1255  hebrew  hebrewp  name </span>
+א    0x5d0  0xe0     <a href="motion.txt.html#t" class="d">t</a>	      <a href="insert.txt.html#a" class="d">a</a>     ´alef
+ב    0x5d1  0xe1     <a href="change.txt.html#c" class="d">c</a>	      <a href="motion.txt.html#b" class="d">b</a>     bet
+ג    0x5d2  0xe2     <a href="change.txt.html#d" class="d">d</a>	      <a href="index.txt.html#g" class="d">g</a>     gimel
+ד    0x5d3  0xe3     <a href="change.txt.html#s" class="d">s</a>	      <a href="change.txt.html#d" class="d">d</a>     dalet
+ה    0x5d4  0xe4     <a href="visual.txt.html#v" class="d">v</a>	      <a href="motion.txt.html#h" class="d">h</a>     he
+ו    0x5d5  0xe5     <a href="undo.txt.html#u" class="d">u</a>	      <a href="visual.txt.html#v" class="d">v</a>     vav
+ז    0x5d6  0xe6     <a href="index.txt.html#z" class="d">z</a>	      <a href="index.txt.html#z" class="d">z</a>     zayin
+ח    0x5d7  0xe7     <a href="motion.txt.html#j" class="d">j</a>	      <a href="motion.txt.html#j" class="d">j</a>     het
+ט    0x5d8  0xe8     <a href="change.txt.html#y" class="d">y</a>	      <a href="motion.txt.html#T" class="d">T</a>     tet
+י    0x5d9  0xe9     <a href="motion.txt.html#h" class="d">h</a>	      <a href="change.txt.html#y" class="d">y</a>     yod
+ך    0x5da  0xea     <a href="motion.txt.html#l" class="d">l</a>	      <a href="various.txt.html#K" class="d">K</a>     kaf sofit
+כ    0x5db  0xeb     <a href="motion.txt.html#f" class="d">f</a>	      <a href="motion.txt.html#k" class="d">k</a>     kaf
+ל    0x5dc  0xec     <a href="motion.txt.html#k" class="d">k</a>	      <a href="motion.txt.html#l" class="d">l</a>     lamed
+ם    0x5dd  0xed     <a href="insert.txt.html#o" class="d">o</a>	      <a href="motion.txt.html#M" class="d">M</a>     mem sofit
+מ    0x5de  0xee     <a href="pattern.txt.html#n" class="d">n</a>	      <a href="motion.txt.html#m" class="d">m</a>     mem
+ן    0x5df  0xef     <a href="insert.txt.html#i" class="d">i</a>	      <a href="pattern.txt.html#N" class="d">N</a>     nun sofit
+נ    0x5e0  0xf0     <a href="motion.txt.html#b" class="d">b</a>	      <a href="pattern.txt.html#n" class="d">n</a>     nun
+ס    0x5e1  0xf1     <a href="change.txt.html#x" class="d">x</a>	      <a href="change.txt.html#s" class="d">s</a>     samech
+ע    0x5e2  0xf2     <a href="index.txt.html#g" class="d">g</a>	      <a href="undo.txt.html#u" class="d">u</a>     `ayin
+ף    0x5e3  0xf3     <a href="motion.txt.html#%3B" class="d">;</a>	      <a href="change.txt.html#P" class="d">P</a>     pe sofit
+פ    0x5e4  0xf4     <a href="change.txt.html#p" class="d">p</a>	      <a href="change.txt.html#p" class="d">p</a>     pe
+ץ    0x5e5  0xf5     <a href="repeat.txt.html#." class="d">.</a>	      <a href="change.txt.html#X" class="d">X</a>     tsadi sofit
+צ    0x5e6  0xf6     <a href="motion.txt.html#m" class="d">m</a>	      <a href="change.txt.html#x" class="d">x</a>     tsadi
+ק    0x5e7  0xf7     <a href="motion.txt.html#e" class="d">e</a>	      <a href="repeat.txt.html#q" class="d">q</a>     qof
+ר    0x5e8  0xf8     <a href="change.txt.html#r" class="d">r</a>	      <a href="change.txt.html#r" class="d">r</a>     resh
+ש    0x5e9  0xf9     <a href="insert.txt.html#a" class="d">a</a>	      <a href="motion.txt.html#w" class="d">w</a>     shin
+ת    0x5ea  0xfa     <a href="motion.txt.html#%2C" class="d">,</a>	      <a href="motion.txt.html#t" class="d">t</a>     tav
+
+Vowel marks and special punctuation:
+הְ    0x5b0  0xc0     A:      A:   sheva
+הֱ    0x5b1  0xc1     HE      HE   hataf segol
+הֲ    0x5b2  0xc2     HA      HA   hataf patah
+הֳ    0x5b3  0xc3     HO      HO   hataf qamats
+הִ    0x5b4  0xc4     <a href="insert.txt.html#I" class="d">I</a>       <a href="insert.txt.html#I" class="d">I</a>    hiriq
+הֵ    0x5b5  0xc5     AY      AY   tsere
+הֶ    0x5b6  0xc6     <a href="motion.txt.html#E" class="d">E</a>       <a href="motion.txt.html#E" class="d">E</a>    segol
+הַ    0x5b7  0xc7     AA      AA   patah
+הָ    0x5b8  0xc8     AO      AO   qamats
+הֹ    0x5b9  0xc9     <a href="insert.txt.html#O" class="d">O</a>       <a href="insert.txt.html#O" class="d">O</a>    holam
+הֻ    0x5bb  0xcb     <a href="undo.txt.html#U" class="d">U</a>       <a href="undo.txt.html#U" class="d">U</a>    qubuts
+כּ    0x5bc  0xcc     <a href="change.txt.html#D" class="d">D</a>       <a href="change.txt.html#D" class="d">D</a>    dagesh
+הֽ    0x5bd  0xcd     <a href="tagsrch.txt.html#%5DT" class="d">]T</a>      <a href="tagsrch.txt.html#%5DT" class="d">]T</a>   meteg
+ה־   0x5be  0xce     <a href="quickfix.txt.html#%5DQ" class="d">]Q</a>      <a href="quickfix.txt.html#%5DQ" class="d">]Q</a>   maqaf
+בֿ    0x5bf  0xcf     ]R      ]R   rafe
+ב׀   0x5c0  0xd0     <a href="change.txt.html#%5Dp" class="d">]p</a>      <a href="change.txt.html#%5Dp" class="d">]p</a>   paseq
+שׁ    0x5c1  0xd1     SR      SR   shin-dot
+שׂ    0x5c2  0xd2     SL      SL   sin-dot
+׃    0x5c3  0xd3     <a href="change.txt.html#%5DP" class="d">]P</a>      <a href="change.txt.html#%5DP" class="d">]P</a>   sof-pasuq
+װ    0x5f0  0xd4     VV      VV   double-vav
+ױ    0x5f1  0xd5     VY      VY   vav-yod
+ײ    0x5f2  0xd6     YY      YY   yod-yod
+
+The following are only available in <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a>
+
+Cantillation marks:
+glyph
+Char <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> <a href="hebrew.txt.html#hebrew" class="d">hebrew</a> name
+ב֑    0x591   C:   etnahta
+ב֒    0x592   Cs   segol
+ב֓    0x593   CS   shalshelet
+ב֔    0x594   Cz   zaqef qatan
+ב֕    0x595   CZ   zaqef gadol
+ב֖    0x596   Ct   tipeha
+ב֗    0x597   Cr   revia
+ב֘    0x598   Cq   zarqa
+ב֙    0x599   Cp   pashta
+ב֚    0x59a   C!   yetiv
+ב֛    0x59b   Cv   tevir
+ב֜    0x59c   Cg   geresh
+ב֝    0x59d   <a href="change.txt.html#C" class="d">C</a>*   geresh qadim
+ב֞    0x59e   CG   gershayim
+ב֟    0x59f   CP   qarnei-parah
+ב֪    0x5aa   Cy   yerach-ben-yomo
+ב֫    0x5ab   Co   ole
+ב֬    0x5ac   Ci   iluy
+ב֭    0x5ad   Cd   dehi
+ב֮    0x5ae   Cn   zinor
+ב֯    0x5af   CC   masora circle
+
+Combining forms:
+ﬠ    0xfb20  X`   Alternative `ayin
+ﬡ    0xfb21  X'   Alternative ´alef
+ﬢ    0xfb22  X-d  Alternative dalet
+ﬣ    0xfb23  X-h  Alternative he
+ﬤ    0xfb24  X-k  Alternative kaf
+ﬥ    0xfb25  X-l  Alternative lamed
+ﬦ    0xfb26  X-m  Alternative mem-sofit
+ﬧ    0xfb27  X-r  Alternative resh
+ﬨ    0xfb28  X-t  Alternative tav
+﬩    0xfb29  X-+  Alternative plus
+שׁ    0xfb2a  XW   shin+shin-dot
+שׂ    0xfb2b  Xw   shin+sin-dot
+שּׁ    0xfb2c  X..W  shin+shin-dot+dagesh
+שּׂ    0xfb2d  X..w  shin+sin-dot+dagesh
+אַ    0xfb2e  XA   alef+patah
+אָ    0xfb2f  XO   alef+qamats
+אּ    0xfb30  XI   alef+hiriq (mapiq)
+בּ    0xfb31  X.b  bet+dagesh
+גּ    0xfb32  X.g  gimel+dagesh
+דּ    0xfb33  X.d  dalet+dagesh
+הּ    0xfb34  X.h  he+dagesh
+וּ    0xfb35  Xu  vav+dagesh
+זּ    0xfb36  X.z  zayin+dagesh
+טּ    0xfb38  X.T  tet+dagesh
+יּ    0xfb39  X.y  yud+dagesh
+ךּ    0xfb3a  X.K  kaf sofit+dagesh
+כּ    0xfb3b  X.k  kaf+dagesh
+לּ    0xfb3c  X.l  lamed+dagesh
+מּ    0xfb3e  X.m  mem+dagesh
+נּ    0xfb40  X.n  nun+dagesh
+סּ    0xfb41  X.s  samech+dagesh
+ףּ    0xfb43  X.P  pe sofit+dagesh
+פּ    0xfb44  X.p  pe+dagesh
+צּ    0xfb46  X.x  tsadi+dagesh
+קּ    0xfb47  X.q  qof+dagesh
+רּ    0xfb48  X.r  resh+dagesh
+שּ    0xfb49  X.w  shin+dagesh
+תּ    0xfb4a  X.t  tav+dagesh
+וֹ    0xfb4b  Xo   vav+holam
+בֿ    0xfb4c  XRb  bet+rafe
+כֿ    0xfb4d  XRk  kaf+rafe
+פֿ    0xfb4e  XRp  pe+rafe
+ﭏ    0xfb4f  Xal  alef-lamed
+
+<span class="h">==============================================================================</span>
+Using <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a>				<span id="mbyte-utf8" class="t">mbyte-utf8</span> <span id="UTF-8" class="t">UTF-8</span> <span id="utf-8" class="t">utf-8</span> <span id="utf8" class="t">utf8</span>
+							<span id="Unicode" class="t">Unicode</span> <span id="unicode" class="t">unicode</span>
+The <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> character set was designed to include all characters from other
+character sets.  Therefore <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> possible to write text in (almost) any
+language using Unicode.  And it's mostly possible to mix these languages in
+one file, which <a href="motion.txt.html#is" class="d">is</a> impossible with other encodings.
+
+<a href="mbyte.txt.html#Unicode" class="d">Unicode</a> can be encoded in several ways.  The most popular one <a href="motion.txt.html#is" class="d">is</a> UTF-8, which
+uses one or more bytes <a href="luaref.txt.html#for" class="d">for</a> each character and <a href="motion.txt.html#is" class="d">is</a> backwards compatible with
+ASCII.  On MS-Windows UTF-16 <a href="motion.txt.html#is" class="d">is</a> also used (previously UCS-2), which uses
+16-bit words.  Nvim supports all of these encodings, but always uses <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a>
+internally.
+
+Nvim supports double-width characters; works best with <a href="options.txt.html#%27guifontwide%27" class="o">'guifontwide'</a>.  When
+using only <a href="options.txt.html#%27guifont%27" class="o">'guifont'</a> the wide characters are drawn in the normal width and
+<a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#space" class="d">space</a> to fill the gap.
+
+<span class="c">EMOJI</span>							<span id="emoji" class="t">emoji</span>
+
+You can <a href="vimeval.txt.html#list" class="d">list</a> <a href="mbyte.txt.html#emoji" class="d">emoji</a> characters using this script: 
+<span class="e">    :source $VIMRUNTIME/scripts/emoji_list.lua</span>
+
+							<span id="bom-bytes" class="t">bom-bytes</span>
+When reading <a href="insert.txt.html#a" class="d">a</a> file <a href="insert.txt.html#a" class="d">a</a> BOM (Byte Order Mark) can be used to recognize the
+<a href="mbyte.txt.html#Unicode" class="d">Unicode</a> encoding:
+	EF BB BF     <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a>
+	FE FF        UTF-16 big endian
+	FF FE        UTF-16 little endian
+	00 00 FE FF  UTF-32 big endian
+	FF FE 00 00  UTF-32 little endian
+
+<a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> <a href="motion.txt.html#is" class="d">is</a> the recommended encoding.  <span class="n">Note</span> that it's difficult to tell UTF-16
+and UTF-32 apart.  UTF-16 <a href="motion.txt.html#is" class="d">is</a> often used on MS-Windows, UTF-32 <a href="motion.txt.html#is" class="d">is</a> not
+widespread <a href="motion.txt.html#as" class="d">as</a> file format.
+
+
+					<span id="mbyte-combining" class="t">mbyte-combining</span> <span id="mbyte-composing" class="t">mbyte-composing</span>
+<a href="insert.txt.html#A" class="d">A</a> composing or combining character <a href="motion.txt.html#is" class="d">is</a> used to change the meaning of the
+character before it.  The combining characters are drawn on top of the
+preceding character.
+
+Nvim largely follows the definition of extended grapheme clusters in UAX#29
+in the <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> standard, with some modifications: An ascii char will always
+start <a href="insert.txt.html#a" class="d">a</a> new cluster. In addition <a href="options.txt.html#%27arabicshape%27" class="o">'arabicshape'</a> enables the combining of some
+arabic letters, when they are shaped to be displayed together in <a href="insert.txt.html#a" class="d">a</a> single cell.
+
+Too big combined characters cannot be displayed, but they can still be
+inspected using the <a href="various.txt.html#g8" class="l">g8</a> and <a href="various.txt.html#ga" class="l">ga</a> commands described below.
+When editing text <a href="insert.txt.html#a" class="d">a</a> composing character <a href="motion.txt.html#is" class="d">is</a> mostly considered part of the
+preceding character.  For example "<a href="change.txt.html#x" class="d">x</a>" will delete <a href="insert.txt.html#a" class="d">a</a> character and its
+following composing characters by default.
+If the <a href="options.txt.html#%27delcombine%27" class="o">'delcombine'</a> option <a href="motion.txt.html#is" class="d">is</a> on, then pressing 'x' will delete the combining
+characters, one <a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> time, then the base character.  But when inserting, you
+type the first character and the following composing characters separately,
+after which they will be joined.  The "<a href="change.txt.html#r" class="d">r</a>" command will not allow you to type <a href="insert.txt.html#a" class="d">a</a>
+combining character, because <a href="motion.txt.html#it" class="d">it</a> doesn't know one <a href="motion.txt.html#is" class="d">is</a> coming.  Use "<a href="change.txt.html#R" class="d">R</a>" instead.
+
+Bytes which are not part of <a href="insert.txt.html#a" class="d">a</a> valid <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> byte sequence are handled like <a href="insert.txt.html#a" class="d">a</a>
+single character and displayed <a href="motion.txt.html#as" class="d">as</a> <span class="s">&lt;xx&gt;</span>, where "xx" <a href="motion.txt.html#is" class="d">is</a> the hex value of the
+byte.
+
+Overlong sequences are not handled specially and displayed like <a href="insert.txt.html#a" class="d">a</a> valid
+character.  However, search patterns may not match on an overlong sequence.
+(an overlong sequence <a href="motion.txt.html#is" class="d">is</a> where more bytes are used than required <a href="luaref.txt.html#for" class="d">for</a> the
+character.)  An exception <a href="motion.txt.html#is" class="d">is</a> NUL (zero) which <a href="motion.txt.html#is" class="d">is</a> displayed <a href="motion.txt.html#as" class="d">as</a> "<span class="s">&lt;00&gt;</span>"<a href="repeat.txt.html#." class="d">.</a>
+
+In the file and buffer the full range of <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> characters can be used (31
+bits).  However, displaying only works <a href="luaref.txt.html#for" class="d">for</a> the characters present in the
+selected font.
+
+Useful commands:
+<a href="motion.txt.html#-" class="d">-</a> "<a href="various.txt.html#ga" class="d">ga</a>" shows the decimal, hexadecimal and <a href="vimeval.txt.html#octal" class="d">octal</a> value of the character under
+  the cursor.  If there are composing characters these are shown too.  (If the
+  message <a href="motion.txt.html#is" class="d">is</a> truncated, use "<a href="message.txt.html#%3Amessages" class="d">:messages</a>").
+<a href="motion.txt.html#-" class="d">-</a> "<a href="various.txt.html#g8" class="d">g8</a>" shows the bytes used in <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> character, also the composing
+  characters, <a href="motion.txt.html#as" class="d">as</a> hex numbers.
+<a href="motion.txt.html#-" class="d">-</a> "<a href="options.txt.html#%3Aset" class="d">:set</a> fileencodings=" forces using <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> <a href="luaref.txt.html#for" class="d">for</a> all files.  The
+  default <a href="motion.txt.html#is" class="d">is</a> to automatically detect the encoding of <a href="insert.txt.html#a" class="d">a</a> file.
+
+
+<span class="c">STARTING VIM</span>
+
+You might want to select the font used <a href="luaref.txt.html#for" class="d">for</a> the menus.  Unfortunately this
+doesn't always work.  See the system specific remarks below, and <a href="options.txt.html#%27langmenu%27" class="o">'langmenu'</a>.
+
+
+<span class="c">USING UTF-8 IN X-WINDOWS</span>				<span id="utf-8-in-xwindows" class="t">utf-8-in-xwindows</span>
+
+You need to specify <a href="insert.txt.html#a" class="d">a</a> font to be used.  For double-wide characters another
+font <a href="motion.txt.html#is" class="d">is</a> required, which <a href="motion.txt.html#is" class="d">is</a> exactly twice <a href="motion.txt.html#as" class="d">as</a> wide.  There are three ways to <a href="diff.txt.html#do" class="d">do</a>
+this:
+
+1. Set <a href="options.txt.html#%27guifont%27" class="o">'guifont'</a> and let Nvim find <a href="insert.txt.html#a" class="d">a</a> matching <a href="options.txt.html#%27guifontwide%27" class="o">'guifontwide'</a>
+2. Set <a href="options.txt.html#%27guifont%27" class="o">'guifont'</a> and <a href="options.txt.html#%27guifontwide%27" class="o">'guifontwide'</a>
+
+See the documentation <a href="luaref.txt.html#for" class="d">for</a> each option <a href="luaref.txt.html#for" class="d">for</a> details.  Example: 
+<span class="e"></span>
+<span class="e">   :set guifont=-misc-fixed-medium-r-normal--15-140-75-75-c-90-iso10646-1</span>
+<span class="e"></span>
+You might also want to set the font used <a href="luaref.txt.html#for" class="d">for</a> the menus.  This only works <a href="luaref.txt.html#for" class="d">for</a>
+Motif.  Use the "<a href="syntax.txt.html#%3Ahi" class="d">:hi</a> Menu font={fontname}" command <a href="luaref.txt.html#for" class="d">for</a> this. <a href="syntax.txt.html#%3Ahighlight" class="l">:highlight</a>
+
+
+<span class="c">TYPING UTF-8</span>						<span id="utf-8-typing" class="t">utf-8-typing</span>
+
+If you are using X-Windows, you should find an input <a href="vimeval.txt.html#method" class="d">method</a> that supports
+UTF-8.
+
+If your system does not provide <a href="support.txt.html#support" class="d">support</a> <a href="luaref.txt.html#for" class="d">for</a> typing UTF-8, you can use the
+<a href="options.txt.html#%27keymap%27" class="o">'keymap'</a> feature.  This allows <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> keymap file, which defines <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a>
+character <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> sequence of ASCII characters.  See <a href="mbyte.txt.html#mbyte-keymap" class="l">mbyte-keymap</a><a href="repeat.txt.html#." class="d">.</a>
+
+If everything else fails, you can type any character <a href="motion.txt.html#as" class="d">as</a> four hex bytes: 
+<span class="e"></span>
+<span class="e">	CTRL-V u 1234</span>
+<span class="e"></span>
+"1234" <a href="motion.txt.html#is" class="d">is</a> interpreted <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> hex number.  You must type four characters, prepend
+<a href="insert.txt.html#a" class="d">a</a> zero if necessary.
+
+
+<span class="c">COMMAND ARGUMENTS</span>					<span id="utf-8-char-arg" class="t">utf-8-char-arg</span>
+
+Commands like <a href="motion.txt.html#f" class="l">f</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#F" class="l">F</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#t" class="l">t</a> and <a href="change.txt.html#r" class="l">r</a> take an argument of one character.  For
+<a href="mbyte.txt.html#UTF-8" class="d">UTF-8</a> this argument may include one or two composing characters.  These need
+to be produced together with the base character, Nvim doesn't wait <a href="luaref.txt.html#for" class="d">for</a> the next
+character to be typed to find out if <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> composing character or not.
+Using <a href="options.txt.html#%27keymap%27" class="o">'keymap'</a> or <a href="map.txt.html#%3Almap" class="l">:lmap</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> nice way to type these characters.
+
+The commands that search <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> character in <a href="insert.txt.html#a" class="d">a</a> line handle composing characters
+<a href="motion.txt.html#as" class="d">as</a> follows.  When searching <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> character without <a href="insert.txt.html#a" class="d">a</a> composing character,
+this will find matches in the text with or without composing characters.  When
+searching <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> character with <a href="insert.txt.html#a" class="d">a</a> composing character, this will only find
+matches with that composing character.  It was implemented this way, because
+not everybody <a href="motion.txt.html#is" class="d">is</a> able to type <a href="insert.txt.html#a" class="d">a</a> composing character.
+
+<span class="h">==============================================================================</span>
+Overview of <a href="options.txt.html#options" class="d">options</a>					<span id="mbyte-options" class="t">mbyte-options</span>
+
+These <a href="options.txt.html#options" class="d">options</a> are relevant <a href="luaref.txt.html#for" class="d">for</a> editing <a href="mbyte.txt.html#multibyte" class="d">multibyte</a> files.
+
+<a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a>	Encoding of <a href="insert.txt.html#a" class="d">a</a> file.  When it's different from "<a href="mbyte.txt.html#utf-8" class="d">utf-8</a>"
+		conversion <a href="motion.txt.html#is" class="d">is</a> done when reading or <a href="editing.txt.html#writing" class="d">writing</a> the file.
+
+<a href="options.txt.html#%27fileencodings%27" class="o">'fileencodings'</a>	<a href="vimeval.txt.html#List" class="d">List</a> of possible encodings of <a href="insert.txt.html#a" class="d">a</a> file.  When opening <a href="insert.txt.html#a" class="d">a</a> file
+		these will be tried and the first one that doesn't cause an
+		error <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> <a href="options.txt.html#%27fileencoding%27" class="o">'fileencoding'</a>.
+
+<a href="options.txt.html#%27charconvert%27" class="o">'charconvert'</a>	Expression used to convert files from one encoding to another.
+
+<a href="options.txt.html#%27formatoptions%27" class="o">'formatoptions'</a> The 'm' flag can be included to have <a href="change.txt.html#formatting" class="d">formatting</a> break <a href="insert.txt.html#a" class="d">a</a> line
+		<a href="motion.txt.html#at" class="d">at</a> <a href="insert.txt.html#a" class="d">a</a> <a href="mbyte.txt.html#multibyte" class="d">multibyte</a> character of 256 or higher.  Thus <a href="motion.txt.html#is" class="d">is</a> useful <a href="luaref.txt.html#for" class="d">for</a>
+		languages where <a href="insert.txt.html#a" class="d">a</a> sequence of characters can be broken
+		anywhere.
+
+<a href="options.txt.html#%27keymap%27" class="o">'keymap'</a>	Specify the name of <a href="insert.txt.html#a" class="d">a</a> keyboard mapping.
+
+<span class="h">==============================================================================</span>
+
+<span id="_contributions-specificall">Contributions specifically <a href="luaref.txt.html#for" class="d">for</a> the <a href="mbyte.txt.html#multibyte" class="d">multibyte</a> features by:</span>
+	Chi-Deok Hwang &lt;hwang@mizi.co.kr&gt;
+	SungHyun Nam &lt;goweol@gmail.com&gt;
+	K.Nagano &lt;nagano@atese.advantest.co.jp&gt;
+	Taro Muraoka  &lt;koron@tka.att.ne.jp&gt;
+	Yasuhiro Matsumoto &lt;mattn@mail.goo.ne.jp&gt;
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

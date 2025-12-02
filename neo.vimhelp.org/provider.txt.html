@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: provider.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="provider.txt.html#">↑Top↑</a></li>
+<li><a href="provider.txt.html#provider-python">Python integration</a></li>
+<li><a href="provider.txt.html#provider-ruby">Ruby integration</a></li>
+<li><a href="provider.txt.html#provider-perl">Perl integration</a></li>
+<li><a href="provider.txt.html#provider-nodejs">Node.js integration</a></li>
+<li><a href="provider.txt.html#provider-clipboard">Clipboard integration</a></li>
+<li><a href="provider.txt.html#provider-paste">Paste</a></li>
+<li><a href="provider.txt.html#clipboard-x11">X11 selection mechanism</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="provider.txt" class="t">provider.txt</span>  		Nvim
+
+
+		 <span class="i">NVIM REFERENCE MANUAL    by Thiago de Arruda</span>
+
+
+Providers					<span id="provider" class="t">provider</span>
+
+Nvim delegates some features to dynamic "providers"<a href="repeat.txt.html#." class="d">.</a> This document describes
+the providers and how to <a href="intro.txt.html#install" class="d">install</a> them.
+						<span id="E319" class="t">E319</span>
+Use of <a href="insert.txt.html#a" class="d">a</a> feature requiring <a href="insert.txt.html#a" class="d">a</a> missing <a href="provider.txt.html#provider" class="d">provider</a> <a href="motion.txt.html#is" class="d">is</a> an error: 
+<span class="e"></span>
+<span class="e">    E319: No "foo" provider found. Run ":checkhealth vim.provider"</span>
+<span class="e"></span>
+Run the <a href="health.txt.html#%3Acheckhealth" class="l">:checkhealth</a> command, and review the sections below.
+
+				      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+<a href="if_pyth.txt.html#Python" class="d">Python</a> integration				<span id="provider-python" class="t">provider-python</span>
+
+Nvim supports <a href="if_pyth.txt.html#Python" class="d">Python</a> <a href="remote_plugin.txt.html#remote-plugin" class="l">remote-plugin</a><a href="change.txt.html#s" class="d">s</a> and the Vim legacy <a href="if_pyth.txt.html#python3" class="l">python3</a> and
+<a href="if_pyth.txt.html#pythonx" class="l">pythonx</a> interfaces (which are implemented <a href="motion.txt.html#as" class="d">as</a> remote-plugins).
+
+<span class="n">Note:</span> Only the Vim 7.3 legacy interface <a href="motion.txt.html#is" class="d">is</a> supported, not later features such
+<a href="motion.txt.html#as" class="d">as</a> <a href="vim_diff.txt.html#python-bindeval" class="l">python-bindeval</a> (Vim 7.4); use the Nvim <a href="api.txt.html#API" class="d">API</a> instead. <a href="if_pyth.txt.html#Python" class="d">Python</a> 2 <a href="motion.txt.html#is" class="d">is</a> not
+supported.
+
+
+<span class="h">PYTHON QUICKSTART </span>
+
+To use <a href="if_pyth.txt.html#Python" class="d">Python</a> plugins, you need the "<a href="develop.txt.html#pynvim" class="d">pynvim</a>" module. Run <a href="health.txt.html#%3Acheckhealth" class="l">:checkhealth</a> to see
+if you already have <a href="motion.txt.html#it" class="d">it</a> (some package managers <a href="intro.txt.html#install" class="d">install</a> the module with Nvim
+itself).
+
+For <a href="if_pyth.txt.html#Python" class="d">Python</a> 3 plugins:
+1. Make sure <a href="if_pyth.txt.html#Python" class="d">Python</a> 3.9+ <a href="motion.txt.html#is" class="d">is</a> available in your $PATH.
+2. Install either <a href="luvref.txt.html#uv" class="d">uv</a> (https://docs.astral.sh/uv/) or pipx
+   (https://pipx.pypa.io/stable/).
+3. Install the module: &gt;bash
+   <a href="luvref.txt.html#uv" class="d">uv</a> tool <a href="intro.txt.html#install" class="d">install</a> --upgrade <a href="develop.txt.html#pynvim" class="d">pynvim</a>
+   <a href="pattern.txt.html#%23" class="d">#</a> or:
+   pipx <a href="intro.txt.html#install" class="d">install</a> --upgrade <a href="develop.txt.html#pynvim" class="d">pynvim</a>
+
+The <span class="e">--upgrade</span> flag ensures that you get the latest version even if
+<a href="insert.txt.html#a" class="d">a</a> previous version was already installed.
+
+See also <a href="provider.txt.html#python-virtualenv" class="l">python-virtualenv</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">PYTHON PROVIDER CONFIGURATION </span>
+						<span id="g%3Apython3_host_prog" class="t">g:python3_host_prog</span>
+Command to start <a href="if_pyth.txt.html#Python" class="d">Python</a> 3 (executable, not directory). Setting this makes
+<a href="starting.txt.html#startup" class="d">startup</a> faster. Useful <a href="luaref.txt.html#for" class="d">for</a> working with virtualenvs. Must be set before any
+check <a href="luaref.txt.html#for" class="d">for</a> has("<a href="if_pyth.txt.html#python3" class="d">python3</a>").  
+<span class="e">    let g:python3_host_prog = '/path/to/python3'</span>
+
+						<span id="g%3Aloaded_python3_provider" class="t">g:loaded_python3_provider</span>
+To disable <a href="if_pyth.txt.html#Python" class="d">Python</a> 3 support: 
+<span class="e">    let g:loaded_python3_provider = 0</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="h">PYTHON VIRTUALENVS </span>
+						<span id="python-virtualenv" class="t">python-virtualenv</span>
+Using <a href="develop.txt.html#pynvim" class="d">pynvim</a> 0.6.0+ installed via <a href="luvref.txt.html#uv" class="d">uv</a> or pipx, Nvim will automatically detect
+<a href="develop.txt.html#pynvim" class="d">pynvim</a> even if other <a href="if_pyth.txt.html#Python" class="d">Python</a> virtual environments are activated (technical
+<span class="n">note:</span> via the "pynvim-python" global <a href="if_pyth.txt.html#python" class="d">python</a> tool).  For older <a href="develop.txt.html#pynvim" class="d">pynvim</a> (or older
+Neovim), where detection involved finding the first <a href="if_pyth.txt.html#Python" class="d">Python</a> interpreter and
+checking if <a href="motion.txt.html#it" class="d">it</a> could import pynvim, automatic detection would fail when
+another virtual environment <a href="motion.txt.html#is" class="d">is</a> active.  Upgrading to the latest <a href="develop.txt.html#pynvim" class="d">pynvim</a> <a href="motion.txt.html#is" class="d">is</a> the
+recommended solution to this; but if that's not an option, then you can set
+the variable <a href="provider.txt.html#g%3Apython3_host_prog" class="l">g:python3_host_prog</a> in <span class="e">init.vim</span> to point to the full path to
+the <a href="if_pyth.txt.html#Python" class="d">Python</a> interpreter where <span class="e">pynvim</span> <a href="motion.txt.html#is" class="d">is</a> installed, e.g.: 
+<span class="e"></span>
+<span class="e">  let g:python3_host_prog = '/path/to/pynvim-venv/bin/python'</span>
+
+See also: <a class="u" href="https://github.com/zchee/deoplete-jedi/wiki/Setting-up-Python-for-Neovim">https://github.com/zchee/deoplete-jedi/wiki/Setting-up-Python-for-Neovim</a>
+
+<span class="h">==============================================================================</span>
+<a href="if_ruby.txt.html#Ruby" class="d">Ruby</a> integration			      <span id="provider-ruby" class="t">provider-ruby</span>
+
+Nvim supports <a href="if_ruby.txt.html#Ruby" class="d">Ruby</a> <a href="remote_plugin.txt.html#remote-plugin" class="l">remote-plugin</a><a href="change.txt.html#s" class="d">s</a> and the Vim legacy <a href="if_ruby.txt.html#ruby-vim" class="l">ruby-vim</a> interface
+(which <a href="motion.txt.html#is" class="d">is</a> itself implemented <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> Nvim remote-plugin).
+
+
+<span class="h">RUBY QUICKSTART </span>
+
+To use <a href="if_ruby.txt.html#Ruby" class="d">Ruby</a> plugins with Nvim, <a href="intro.txt.html#install" class="d">install</a> the latest "<a href="nvim.txt.html#neovim" class="d">neovim</a>" RubyGem: &gt;bash
+    gem <a href="intro.txt.html#install" class="d">install</a> <a href="nvim.txt.html#neovim" class="d">neovim</a>
+
+Run <a href="health.txt.html#%3Acheckhealth" class="l">:checkhealth</a> to see if your system <a href="motion.txt.html#is" class="d">is</a> up-to-date.
+
+
+<span class="h">RUBY PROVIDER CONFIGURATION </span>
+						<span id="g%3Aloaded_ruby_provider" class="t">g:loaded_ruby_provider</span>
+To disable <a href="if_ruby.txt.html#Ruby" class="d">Ruby</a> support: 
+<span class="e">    let g:loaded_ruby_provider = 0</span>
+
+						<span id="g%3Aruby_host_prog" class="t">g:ruby_host_prog</span>
+Command to start the <a href="if_ruby.txt.html#Ruby" class="d">Ruby</a> host. By default this <a href="motion.txt.html#is" class="d">is</a> "neovim-ruby-host"<a href="repeat.txt.html#." class="d">.</a> With
+project-local <a href="if_ruby.txt.html#Ruby" class="d">Ruby</a> versions (via tools like RVM or rbenv) setting this can
+avoid the need to <a href="intro.txt.html#install" class="d">install</a> the "<a href="nvim.txt.html#neovim" class="d">neovim</a>" gem in every project.
+
+To use an absolute path (e.g. to an rbenv installation): 
+<span class="e">    let g:ruby_host_prog = '~/.rbenv/versions/2.4.1/bin/neovim-ruby-host'</span>
+<span class="e"></span>
+To use the RVM "system" <a href="if_ruby.txt.html#Ruby" class="d">Ruby</a> installation: 
+<span class="e">    let g:ruby_host_prog = 'rvm system do neovim-ruby-host'</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+Perl integration				<span id="provider-perl" class="t">provider-perl</span>
+
+Nvim supports Perl <a href="remote_plugin.txt.html#remote-plugin" class="l">remote-plugin</a><a href="change.txt.html#s" class="d">s</a> on Unix platforms. Support <a href="luaref.txt.html#for" class="d">for</a> polling STDIN
+on MS-Windows <a href="motion.txt.html#is" class="d">is</a> currently lacking from all known event loop implementations.
+The Vim legacy <a href="if_perl.txt.html#perl-vim" class="l">perl-vim</a> interface <a href="motion.txt.html#is" class="d">is</a> also supported (which <a href="motion.txt.html#is" class="d">is</a> itself
+implemented <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> Nvim remote-plugin).
+<a class="u" href="https://github.com/jacquesg/p5-Neovim-Ext">https://github.com/jacquesg/p5-Neovim-Ext</a>
+
+<span class="n">Note:</span> Only <a href="if_perl.txt.html#perl" class="d">perl</a> versions from 5.22 onward are supported.
+
+<span class="h">PERL QUICKSTART</span>
+
+To use <a href="if_perl.txt.html#perl" class="d">perl</a> remote-plugins with Nvim, <a href="intro.txt.html#install" class="d">install</a> the "Neovim::Ext" cpan package: &gt;bash
+    cpanm <a href="starting.txt.html#-n" class="d">-n</a> Neovim::Ext
+
+Run <a href="health.txt.html#%3Acheckhealth" class="l">:checkhealth</a> to see if your system <a href="motion.txt.html#is" class="d">is</a> up-to-date.
+
+
+<span class="h">PERL PROVIDER CONFIGURATION</span>
+						<span id="g%3Aloaded_perl_provider" class="t">g:loaded_perl_provider</span>
+To disable Perl support: 
+<span class="e">    :let g:loaded_perl_provider = 0</span>
+
+						<span id="g%3Aperl_host_prog" class="t">g:perl_host_prog</span>
+Command to start the Perl executable. Must be set before any
+check <a href="luaref.txt.html#for" class="d">for</a> has("<a href="if_perl.txt.html#perl" class="d">perl</a>").  
+<span class="e">    let g:perl_host_prog = '/path/to/perl'</span>
+
+<span class="h">==============================================================================</span>
+Node.js integration				<span id="provider-nodejs" class="t">provider-nodejs</span>
+
+Nvim supports Node.js <a href="remote_plugin.txt.html#remote-plugin" class="l">remote-plugin</a>s.
+<a class="u" href="https://github.com/neovim/node-client/">https://github.com/neovim/node-client/</a>
+
+
+<span class="h">NODEJS QUICKSTART</span>
+
+To use javascript remote-plugins with Nvim, <a href="intro.txt.html#install" class="d">install</a> the "<a href="nvim.txt.html#neovim" class="d">neovim</a>" npm package: &gt;bash
+    npm <a href="intro.txt.html#install" class="d">install</a> -g <a href="nvim.txt.html#neovim" class="d">neovim</a>
+
+Run <a href="health.txt.html#%3Acheckhealth" class="l">:checkhealth</a> to see if your system <a href="motion.txt.html#is" class="d">is</a> up-to-date.
+
+
+<span class="h">NODEJS PROVIDER CONFIGURATION</span>
+						<span id="g%3Aloaded_node_provider" class="t">g:loaded_node_provider</span>
+To disable Node.js support: 
+<span class="e">    :let g:loaded_node_provider = 0</span>
+
+						<span id="g%3Anode_host_prog" class="t">g:node_host_prog</span>
+Command to start the Node.js host. Setting this makes <a href="starting.txt.html#startup" class="d">startup</a> faster.
+
+By default, Nvim searches <a href="luaref.txt.html#for" class="d">for</a> "neovim-node-host" using "npm root -g"<a href="motion.txt.html#%2C" class="d">,</a> which
+can be slow. To avoid this, set <a href="provider.txt.html#g%3Anode_host_prog" class="d">g:node_host_prog</a> to the host path: 
+<span class="e">    let g:node_host_prog = '/usr/local/bin/neovim-node-host'</span>
+
+<span class="h">==============================================================================</span>
+Clipboard integration			      <span id="provider-clipboard" class="t">provider-clipboard</span> <span id="clipboard" class="t">clipboard</span>
+
+Nvim has no direct connection to the system clipboard. Instead <a href="motion.txt.html#it" class="d">it</a> depends on
+<a href="insert.txt.html#a" class="d">a</a> <a href="provider.txt.html#provider" class="l">provider</a> which transparently uses shell commands to communicate with the
+system <a href="provider.txt.html#clipboard" class="d">clipboard</a> or any other <a href="provider.txt.html#clipboard" class="d">clipboard</a> "backend"<a href="repeat.txt.html#." class="d">.</a>
+
+To ALWAYS use the <a href="provider.txt.html#clipboard" class="d">clipboard</a> <a href="luaref.txt.html#for" class="d">for</a> ALL operations (instead of interacting with
+the "<a href="motion.txt.html#%2B" class="d">+</a>" and/or "*" <a href="change.txt.html#registers" class="d">registers</a> explicitly): 
+<span class="e">    set clipboard+=unnamedplus</span>
+<span class="e"></span>
+See <a href="options.txt.html#%27clipboard%27" class="o">'clipboard'</a> <a href="luaref.txt.html#for" class="d">for</a> details and options.
+
+							      <span id="clipboard-tool" class="t">clipboard-tool</span>
+The presence of <a href="insert.txt.html#a" class="d">a</a> working <a href="provider.txt.html#clipboard" class="d">clipboard</a> tool implicitly enables the "<a href="motion.txt.html#%2B" class="d">+</a>" and "*"
+registers. Nvim supports these <a href="provider.txt.html#clipboard" class="d">clipboard</a> tools, in order of priority:
+
+<a href="motion.txt.html#-" class="d">-</a> <a href="provider.txt.html#g%3Aclipboard" class="l">g:clipboard</a> <a href="cmdline.txt.html#%3A" class="d">:</a> <a href="autocmd.txt.html#User" class="d">User</a> override (if set to <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#dict" class="d">dict</a> or any <a href="vimeval.txt.html#string" class="d">string</a> "name" below;
+  e.g. <span class="e">g:clipboard="tmux"</span> forces tmux <a href="provider.txt.html#clipboard" class="d">clipboard</a> and skips auto-detection).
+<a href="motion.txt.html#-" class="d">-</a> "pbcopy"    <a href="cmdline.txt.html#%3A" class="d">:</a> pbcopy, pbpaste (macOS)
+<a href="motion.txt.html#-" class="d">-</a> "wl-copy"   <a href="cmdline.txt.html#%3A" class="d">:</a> wl-copy, wl-paste (if $WAYLAND_DISPLAY <a href="motion.txt.html#is" class="d">is</a> set)
+<a href="motion.txt.html#-" class="d">-</a> "wayclip"   <a href="cmdline.txt.html#%3A" class="d">:</a> waycopy, waypaste (if $WAYLAND_DISPLAY <a href="motion.txt.html#is" class="d">is</a> set)
+<a href="motion.txt.html#-" class="d">-</a> "xsel"      <a href="cmdline.txt.html#%3A" class="d">:</a> xsel (if $DISPLAY <a href="motion.txt.html#is" class="d">is</a> set)
+<a href="motion.txt.html#-" class="d">-</a> "xclip"     <a href="cmdline.txt.html#%3A" class="d">:</a> xclip (if $DISPLAY <a href="motion.txt.html#is" class="d">is</a> set)
+<a href="motion.txt.html#-" class="d">-</a> "lemonade"  <a href="cmdline.txt.html#%3A" class="d">:</a> lemonade (for SSH) <a class="u" href="https://github.com/pocke/lemonade">https://github.com/pocke/lemonade</a>
+<a href="motion.txt.html#-" class="d">-</a> "doitclient"<a href="cmdline.txt.html#%3A" class="d">:</a> doitclient (for SSH) <a class="u" href="https://www.chiark.greenend.org.uk/~sgtatham/doit/">https://www.chiark.greenend.org.uk/~sgtatham/doit/</a>
+<a href="motion.txt.html#-" class="d">-</a> "<a href="provider.txt.html#win32yank" class="d">win32yank</a>" <a href="cmdline.txt.html#%3A" class="d">:</a> <span id="win32yank" class="t">win32yank</span> (Windows)
+<a href="motion.txt.html#-" class="d">-</a> "putclip"   <a href="cmdline.txt.html#%3A" class="d">:</a> putclip, getclip (Windows) <a class="u" href="https://cygwin.com/packages/summary/cygutils.html">https://cygwin.com/packages/summary/cygutils.html</a>
+<a href="motion.txt.html#-" class="d">-</a> "clip"      <a href="cmdline.txt.html#%3A" class="d">:</a> clip, powershell (Windows) <a class="u" href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/clip">https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/clip</a>
+<a href="motion.txt.html#-" class="d">-</a> "termux"    <a href="cmdline.txt.html#%3A" class="d">:</a> termux (via termux-clipboard-set, termux-clipboard-set)
+<a href="motion.txt.html#-" class="d">-</a> "tmux"      <a href="cmdline.txt.html#%3A" class="d">:</a> tmux (if $TMUX <a href="motion.txt.html#is" class="d">is</a> set)
+<a href="motion.txt.html#-" class="d">-</a> "osc52"     <a href="cmdline.txt.html#%3A" class="d">:</a> <a href="provider.txt.html#clipboard-osc52" class="l">clipboard-osc52</a> (if supported by your terminal)
+
+								 <span id="g%3Aclipboard" class="t">g:clipboard</span>
+To configure <a href="insert.txt.html#a" class="d">a</a> custom <a href="provider.txt.html#clipboard" class="d">clipboard</a> tool, set <span class="e">g:clipboard</span> to <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#string" class="d">string</a> name (from
+the above <a href="provider.txt.html#clipboard-tool" class="l">clipboard-tool</a> list), or <a href="vimeval.txt.html#dict" class="d">dict</a> (to explicitly specify the shell
+commands or <a href="vimeval.txt.html#lambda" class="l">lambda</a> functions).
+
+If "cache_enabled" <a href="motion.txt.html#is" class="d">is</a> <a href="vimeval.txt.html#TRUE" class="l">TRUE</a> then when <a href="insert.txt.html#a" class="d">a</a> selection <a href="motion.txt.html#is" class="d">is</a> copied Nvim will cache
+the selection until the copy command process dies. When pasting, if the copy
+process has not died the cached selection <a href="motion.txt.html#is" class="d">is</a> applied.
+
+The "copy" function stores <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of lines and the <a href="intro.txt.html#register" class="d">register</a> type. The "<a href="provider.txt.html#paste" class="d">paste</a>"
+function returns the <a href="provider.txt.html#clipboard" class="d">clipboard</a> <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> `[lines, regtype]` list, where <span class="e">lines</span> <a href="motion.txt.html#is" class="d">is</a>
+<a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of lines and <span class="e">regtype</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> <a href="intro.txt.html#register" class="d">register</a> type conforming to <a href="vimfn.txt.html#setreg%28%29" class="l">setreg()</a><a href="repeat.txt.html#." class="d">.</a>
+
+Example: set to "osc52" to force OSC52, skipping auto-detection of <a href="terminal.txt.html#terminal" class="d">terminal</a>
+support: 
+<span class="e"></span>
+<span class="e">    let g:clipboard = 'osc52'</span>
+<span class="e"></span>
+Example: set to "wayclip" to force waycopy/waypaste: 
+<span class="e"></span>
+<span class="e">    let g:clipboard = 'wayclip'</span>
+<span class="e"></span>
+Example: set to <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#dict" class="d">dict</a> which integrates the tmux clipboard: 
+<span class="e"></span>
+<span class="e">    let g:clipboard = {</span>
+<span class="e">      \   'name': 'myClipboard',</span>
+<span class="e">      \   'copy': {</span>
+<span class="e">      \      '+': ['tmux', 'load-buffer', '-'],</span>
+<span class="e">      \      '*': ['tmux', 'load-buffer', '-'],</span>
+<span class="e">      \    },</span>
+<span class="e">      \   'paste': {</span>
+<span class="e">      \      '+': ['tmux', 'save-buffer', '-'],</span>
+<span class="e">      \      '*': ['tmux', 'save-buffer', '-'],</span>
+<span class="e">      \   },</span>
+<span class="e">      \   'cache_enabled': 1,</span>
+<span class="e">      \ }</span>
+<span class="e"></span>
+<span class="e"></span>
+Example: set to <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#dict" class="d">dict</a> which uses g:foo <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> fake clipboard: 
+<span class="e"></span>
+<span class="e">    let g:clipboard = {</span>
+<span class="e">      \   'name': 'myClipboard',</span>
+<span class="e">      \   'copy': {</span>
+<span class="e">      \      '+': {lines, regtype -&gt; extend(g:, {'foo': [lines, regtype]}) },</span>
+<span class="e">      \      '*': {lines, regtype -&gt; extend(g:, {'foo': [lines, regtype]}) },</span>
+<span class="e">      \    },</span>
+<span class="e">      \   'paste': {</span>
+<span class="e">      \      '+': {-&gt; get(g:, 'foo', [])},</span>
+<span class="e">      \      '*': {-&gt; get(g:, 'foo', [])},</span>
+<span class="e">      \   },</span>
+<span class="e">      \ }</span>
+
+							      <span id="clipboard-wsl" class="t">clipboard-wsl</span>
+For Windows WSL, try this <a href="provider.txt.html#g%3Aclipboard" class="d">g:clipboard</a> definition:
+
+<span class="e">    let g:clipboard = {</span>
+<span class="e">      \   'name': 'WslClipboard',</span>
+<span class="e">      \   'copy': {</span>
+<span class="e">      \      '+': 'clip.exe',</span>
+<span class="e">      \      '*': 'clip.exe',</span>
+<span class="e">      \    },</span>
+<span class="e">      \   'paste': {</span>
+<span class="e">      \      '+': 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',</span>
+<span class="e">      \      '*': 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',</span>
+<span class="e">      \   },</span>
+<span class="e">      \   'cache_enabled': 0,</span>
+<span class="e">      \ }</span>
+
+							    <span id="clipboard-osc52" class="t">clipboard-osc52</span>
+Nvim bundles <a href="insert.txt.html#a" class="d">a</a> <a href="provider.txt.html#clipboard" class="d">clipboard</a> <a href="provider.txt.html#provider" class="d">provider</a> that allows <a href="uganda.txt.html#copying" class="d">copying</a> to the system <a href="provider.txt.html#clipboard" class="d">clipboard</a>
+using OSC 52, an "Operating System Command" control-sequence that causes the
+<a href="terminal.txt.html#terminal" class="d">terminal</a> emulator to write to or read from the system clipboard.
+
+When Nvim <a href="motion.txt.html#is" class="d">is</a> running in the <a href="tui.txt.html#TUI" class="l">TUI</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="motion.txt.html#it" class="d">it</a> automatically detects host <a href="terminal.txt.html#terminal" class="d">terminal</a>
+<a href="support.txt.html#support" class="d">support</a> <a href="luaref.txt.html#for" class="d">for</a> OSC 52. If successful, then Nvim will use OSC 52 <a href="luaref.txt.html#for" class="d">for</a> <a href="uganda.txt.html#copying" class="d">copying</a> and
+pasting if no other <a href="provider.txt.html#clipboard-tool" class="l">clipboard-tool</a> <a href="motion.txt.html#is" class="d">is</a> found and when <a href="options.txt.html#%27clipboard%27" class="o">'clipboard'</a> <a href="motion.txt.html#is" class="d">is</a> unset.
+<span class="n">NOTE:</span> Using <a href="insert.txt.html#a" class="d">a</a> <a href="terminal.txt.html#terminal" class="d">terminal</a> multiplexer (e.g. tmux) may inhibit automatic OSC 52
+<a href="support.txt.html#support" class="d">support</a> detection.
+
+							<span id="g%3Atermfeatures" class="t">g:termfeatures</span>
+To disable the automatic detection, set the "osc52" key of <a href="provider.txt.html#g%3Atermfeatures" class="l">g:termfeatures</a> to
+false early in your <a href="starting.txt.html#config" class="l">config</a><a href="repeat.txt.html#." class="d">.</a> Example: 
+<span class="e">	local termfeatures = vim.g.termfeatures or {}</span>
+<span class="e">	termfeatures.osc52 = false</span>
+<span class="e">	vim.g.termfeatures = termfeatures</span>
+
+To force Nvim to use the OSC 52 <a href="provider.txt.html#provider" class="d">provider</a> you can set <a href="provider.txt.html#g%3Aclipboard" class="l">g:clipboard</a><a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"></span>
+<span class="e">    vim.g.clipboard = 'osc52'</span>
+<span class="e"></span>
+Which <a href="motion.txt.html#is" class="d">is</a> equivalent to: 
+<span class="e">    vim.g.clipboard = {</span>
+<span class="e">      name = 'OSC 52',</span>
+<span class="e">      copy = {</span>
+<span class="e">        ['+'] = require('vim.ui.clipboard.osc52').copy('+'),</span>
+<span class="e">        ['*'] = require('vim.ui.clipboard.osc52').copy('*'),</span>
+<span class="e">      },</span>
+<span class="e">      paste = {</span>
+<span class="e">        ['+'] = require('vim.ui.clipboard.osc52').paste('+'),</span>
+<span class="e">        ['*'] = require('vim.ui.clipboard.osc52').paste('*'),</span>
+<span class="e">      },</span>
+<span class="e">    }</span>
+
+<span class="n">Note:</span> not all <a href="terminal.txt.html#terminal" class="d">terminal</a> emulators <a href="support.txt.html#support" class="d">support</a> reading from the system <a href="provider.txt.html#clipboard" class="d">clipboard</a>
+(and even <a href="luaref.txt.html#for" class="d">for</a> those that do, users should be aware of the security
+implications), so using OSC 52 <a href="luaref.txt.html#for" class="d">for</a> pasting may not be possible (and not
+necessary, because you can <a href="provider.txt.html#paste" class="l">paste</a> instead using your system <a href="provider.txt.html#paste" class="d">paste</a> function).
+Users may need to configure their <a href="terminal.txt.html#terminal" class="d">terminal</a> emulator to allow reading from the
+clipboard.
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+<span class="h">==============================================================================</span>
+Paste							<span id="provider-paste" class="t">provider-paste</span> <span id="paste" class="t">paste</span>
+
+"Paste" <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> separate concept from <a href="provider.txt.html#clipboard" class="l">clipboard</a><a href="cmdline.txt.html#%3A" class="d">:</a> <a href="provider.txt.html#paste" class="d">paste</a> means "dump <a href="insert.txt.html#a" class="d">a</a> bunch of
+text to the editor"<a href="motion.txt.html#%2C" class="d">,</a> whereas <a href="provider.txt.html#clipboard" class="d">clipboard</a> provides features like <a href="provider.txt.html#quote%2B" class="l">quote+</a> to get
+and set the OS <a href="provider.txt.html#clipboard" class="d">clipboard</a> directly.  For example, middle-click or <span class="k">CTRL-SHIFT-v</span>
+(macOS: CMD-v) in your <a href="terminal.txt.html#terminal" class="d">terminal</a> <a href="motion.txt.html#is" class="d">is</a> "<a href="provider.txt.html#paste" class="d">paste</a>"<a href="motion.txt.html#%2C" class="d">,</a> not "<a href="provider.txt.html#clipboard" class="d">clipboard</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> the <a href="terminal.txt.html#terminal" class="d">terminal</a>
+application (Nvim) just gets <a href="insert.txt.html#a" class="d">a</a> stream of text, <a href="motion.txt.html#it" class="d">it</a> does not interact with the
+<a href="provider.txt.html#clipboard" class="d">clipboard</a> directly.
+
+							<span id="bracketed-paste-mode" class="t">bracketed-paste-mode</span>
+Pasting in the <a href="tui.txt.html#TUI" class="l">TUI</a> depends on the "bracketed <a href="provider.txt.html#paste" class="d">paste</a>" <a href="terminal.txt.html#terminal" class="d">terminal</a> capability,
+which allows <a href="terminal.txt.html#terminal" class="d">terminal</a> applications to distinguish between user input and
+pasted text.  <a class="u" href="https://cirw.in/blog/bracketed-paste">https://cirw.in/blog/bracketed-paste</a>
+This works automatically if your <a href="terminal.txt.html#terminal" class="d">terminal</a> supports it.
+
+							<span id="ui-paste" class="t">ui-paste</span>
+GUIs can <a href="provider.txt.html#paste" class="d">paste</a> by calling <a href="api.txt.html#nvim_paste%28%29" class="l">nvim_paste()</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">PASTE BEHAVIOR </span>
+
+Paste inserts text after the cursor.  Lines break <a href="motion.txt.html#at" class="d">at</a> <a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a>, <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a>, and <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a><a href="motion.txt.html#%3CNL%3E" class="s">&lt;NL&gt;</a>.
+When pasting <a href="insert.txt.html#a" class="d">a</a> huge amount of text, screen-updates are throttled and the
+message area shows <a href="insert.txt.html#a" class="d">a</a> "<a href="userfunc.txt.html#..." class="d">...</a>" pulse.
+
+In cmdline-mode only the first line <a href="motion.txt.html#is" class="d">is</a> pasted, to avoid accidentally executing
+many commands.  Use the <a href="cmdline.txt.html#cmdline-window" class="l">cmdline-window</a> if you really want to <a href="provider.txt.html#paste" class="d">paste</a> multiple
+lines to the cmdline.
+
+You can implement <a href="insert.txt.html#a" class="d">a</a> custom <a href="provider.txt.html#paste" class="d">paste</a> handler by redefining <a href="lua.txt.html#vim.paste%28%29" class="l">vim.paste()</a><a href="repeat.txt.html#." class="d">.</a>
+Example: 
+<span class="e"></span>
+<span class="e">  vim.paste = (function(lines, phase)</span>
+<span class="e">    vim.api.nvim_put(lines, 'c', true, true)</span>
+<span class="e">  end)</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+X11 selection mechanism			      <span id="clipboard-x11" class="t">clipboard-x11</span> <span id="x11-selection" class="t">x11-selection</span>
+
+X11 <a href="provider.txt.html#clipboard" class="d">clipboard</a> providers store text in "selections"<a href="repeat.txt.html#." class="d">.</a> Selections are owned by an
+application, so when the application gets closed, the selection text <a href="motion.txt.html#is" class="d">is</a> lost.
+The contents of selections are held by the originating application (e.g., upon
+<a href="insert.txt.html#a" class="d">a</a> copy), and only passed to another application when that other application
+requests them (e.g., upon <a href="insert.txt.html#a" class="d">a</a> paste).
+
+				<span id="primary-selection" class="t">primary-selection</span> <span id="quotestar" class="t">quotestar</span> <span id="quoteplus" class="t">quoteplus</span> <span id="quote%2B" class="t">quote+</span>
+
+There are three documented X11 selections: PRIMARY, SECONDARY, and CLIPBOARD.
+CLIPBOARD <a href="motion.txt.html#is" class="d">is</a> typically used in X11 applications <a href="luaref.txt.html#for" class="d">for</a> copy/paste operations
+(CTRL-c/CTRL-v), while PRIMARY <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> the last selected text, which <a href="motion.txt.html#is" class="d">is</a>
+generally inserted with the middle mouse button.
+
+Nvim's X11 <a href="provider.txt.html#clipboard" class="d">clipboard</a> providers only use the PRIMARY and CLIPBOARD selections,
+<a href="luaref.txt.html#for" class="d">for</a> the "*" and "<a href="motion.txt.html#%2B" class="d">+</a>" registers, respectively.
+
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

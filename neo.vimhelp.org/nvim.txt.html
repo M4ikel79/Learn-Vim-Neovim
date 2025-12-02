@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: nvim.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="nvim.txt.html#">↑Top↑</a></li>
+<li><a href="nvim.txt.html#nvim-quickstart">What now?</a></li>
+<li><a href="nvim.txt.html#nvim-from-vim">Transitioning from Vim</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="nvim.txt" class="t">nvim.txt</span>  	Nvim
+
+
+                            <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+Nvim                                              <span id="nvim" class="t">nvim</span> <span id="neovim" class="t">neovim</span> <span id="nvim-intro" class="t">nvim-intro</span>
+
+Nvim <a href="motion.txt.html#is" class="d">is</a> based on Vim by <a href="intro.txt.html#Bram" class="d">Bram</a> Moolenaar. Nvim <a href="motion.txt.html#is" class="d">is</a> emphatically <a href="insert.txt.html#a" class="d">a</a> fork of Vim,
+not <a href="insert.txt.html#a" class="d">a</a> clone: compatibility with Vim (especially editor and Vimscript features,
+except <a href="vim_diff.txt.html#Vim9script" class="l">Vim9script</a><a href="motion.txt.html#%29" class="d">)</a> <a href="motion.txt.html#is" class="d">is</a> maintained where possible. See <a href="vim_diff.txt.html#vim-differences" class="l">vim-differences</a> <a href="luaref.txt.html#for" class="d">for</a>
+the complete reference.
+
+<a href="motion.txt.html#-" class="d">-</a> If you already use Vim, see <a href="nvim.txt.html#nvim-from-vim" class="l">nvim-from-vim</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> quickstart.
+<a href="motion.txt.html#-" class="d">-</a> If you have never used Vim or Nvim before, see below.
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+What now?                                                    <span id="nvim-quickstart" class="t">nvim-quickstart</span>
+
+To learn how to use Vim in 30 minutes, try the tutorial: 
+<span class="e"></span>
+<span class="e">    :Tutor&lt;Enter&gt;</span>
+
+Or watch this 10-minute video: <a class="u" href="https://youtu.be/TQn2hJeHQbM">https://youtu.be/TQn2hJeHQbM</a> <a href="repeat.txt.html#." class="d">.</a>
+
+To customize Nvim, you will need <a href="insert.txt.html#a" class="d">a</a> <a href="starting.txt.html#config" class="d">config</a> file. Create your <a href="starting.txt.html#init.lua" class="l">init.lua</a> by
+<a href="uganda.txt.html#copying" class="d">copying</a> the "example_init.lua" file: 
+<span class="e"></span>
+<span class="e">    :exe 'edit' stdpath('config') .. '/init.lua'</span>
+<span class="e">    :read $VIMRUNTIME/example_init.lua</span>
+
+See <a href="lua-guide.txt.html#lua-guide" class="l">lua-guide</a> <a href="luaref.txt.html#for" class="d">for</a> practical notes on using <a href="lua.txt.html#Lua" class="d">Lua</a> to configure Nvim.
+
+"IDE" features in Nvim are provided by <a href="lsp.txt.html#LSP" class="l">LSP</a><a href="repeat.txt.html#." class="d">.</a>
+
+If you are just trying out Nvim <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> few minutes, and want to see the
+extremes of what <a href="motion.txt.html#it" class="d">it</a> can do, try one of these popular "extension packs" or
+"distributions" (Note: Nvim <a href="motion.txt.html#is" class="d">is</a> not affiliated with these projects, and does
+not <a href="support.txt.html#support" class="d">support</a> them):
+
+<a href="motion.txt.html#-" class="d">-</a> <span id="lazyvim" class="t">lazyvim</span> <a class="u" href="https://www.lazyvim.org/">https://www.lazyvim.org/</a>
+<a href="motion.txt.html#-" class="d">-</a> <span id="nvchad" class="t">nvchad</span> <a class="u" href="https://nvchad.com/">https://nvchad.com/</a>
+<a href="motion.txt.html#-" class="d">-</a> <span id="kickstart" class="t">kickstart</span> <a class="u" href="https://github.com/nvim-lua/kickstart.nvim">https://github.com/nvim-lua/kickstart.nvim</a>
+  <a href="motion.txt.html#-" class="d">-</a> Not recommended; use <span class="e">$VIMRUNTIME/example_init.lua</span> instead.
+
+However, we recommend (eventually) taking time to learn Nvim from its stock
+configuration, and incrementally setting <a href="options.txt.html#options" class="d">options</a> and adding plugins to your
+<a href="starting.txt.html#config" class="l">config</a> <a href="motion.txt.html#as" class="d">as</a> you discover <a href="insert.txt.html#a" class="d">a</a> need.
+
+<span class="h">==============================================================================</span>
+Transitioning from Vim                                         <span id="nvim-from-vim" class="t">nvim-from-vim</span>
+
+1. To start the transition, create your <a href="starting.txt.html#init.vim" class="l">init.vim</a> (user config) file: 
+<span class="e"></span>
+<span class="e">    :exe 'edit '.stdpath('config').'/init.vim'</span>
+<span class="e">    :write ++p</span>
+<span class="e"></span>
+2. Add these contents to the file: 
+<span class="e"></span>
+<span class="e">    set runtimepath^=~/.vim runtimepath+=~/.vim/after</span>
+<span class="e">    let &amp;packpath = &amp;runtimepath</span>
+<span class="e">    source ~/.vimrc</span>
+<span class="e"></span>
+3. Restart Nvim, your existing Vim <a href="starting.txt.html#config" class="d">config</a> will be loaded.
+
+See <a href="provider.txt.html#provider-python" class="l">provider-python</a> and <a href="provider.txt.html#provider-clipboard" class="l">provider-clipboard</a> <a href="luaref.txt.html#for" class="d">for</a> additional software you
+might need to use some features.
+
+Your Vim configuration might not be entirely Nvim-compatible (see
+<a href="vim_diff.txt.html#vim-differences" class="l">vim-differences</a>). For example the <a href="vim_diff.txt.html#%27ttymouse%27" class="l">'ttymouse'</a> option was removed from Nvim,
+because mouse <a href="support.txt.html#support" class="d">support</a> <a href="motion.txt.html#is" class="d">is</a> always enabled if possible. If you use the same
+<a href="starting.txt.html#vimrc" class="l">vimrc</a> <a href="luaref.txt.html#for" class="d">for</a> Vim and Nvim you could guard <a href="vim_diff.txt.html#%27ttymouse%27" class="l">'ttymouse'</a> in your configuration
+like so:
+
+<span class="e">    if !has('nvim')</span>
+<span class="e">        set ttymouse=xterm2</span>
+<span class="e">    endif</span>
+<span class="e"></span>
+And <a href="luaref.txt.html#for" class="d">for</a> Nvim-specific configuration, you can <a href="diff.txt.html#do" class="d">do</a> this:
+
+<span class="e">    if has('nvim')</span>
+<span class="e">        tnoremap &lt;Esc&gt; &lt;C-\&gt;&lt;C-n&gt;</span>
+<span class="e">    endif</span>
+<span class="e"></span>
+For <a href="insert.txt.html#a" class="d">a</a> more granular approach use <a href="vimfn.txt.html#exists%28%29" class="l">exists()</a><a href="cmdline.txt.html#%3A" class="d">:</a>
+
+<span class="e">    if exists(':tnoremap')</span>
+<span class="e">        tnoremap &lt;Esc&gt; &lt;C-\&gt;&lt;C-n&gt;</span>
+<span class="e">    endif</span>
+<span class="e"></span>
+Now you should be able to explore Nvim more comfortably. Check <a href="vim_diff.txt.html#nvim-features" class="l">nvim-features</a>
+<a href="luaref.txt.html#for" class="d">for</a> more information.
+
+                                                        <span id="portable-config" class="t">portable-config</span>
+Because Nvim follows the XDG <a href="starting.txt.html#base-directories" class="l">base-directories</a> standard, configuration on
+Windows <a href="motion.txt.html#is" class="d">is</a> stored in ~/AppData instead of ~/.config. But you can still share
+the same Nvim configuration on all of your machines, by creating
+~/AppData/Local/nvim/init.vim containing just this line: 
+<span class="e">    source ~/.config/nvim/init.vim</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=8:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: os_390.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="os_390.txt.html#">↑Top↑</a></li>
+<li><a href="os_390.txt.html#OS390-has-ebcdic">ASCII/EBCDIC dependent scripts</a></li>
+<li><a href="os_390.txt.html#OS390-PuTTY">PuTTY and Colors</a></li>
+<li><a href="os_390.txt.html#OS390-Motif">Motif Problems</a></li>
+<li><a href="os_390.txt.html#OS390-bugs">Bugs</a></li>
+<li><a href="os_390.txt.html#OS390-limitations">Limitations</a></li>
+<li><a href="os_390.txt.html#OS390-open-source">Open source on z/OS UNIX</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="os_390.txt" class="t">os_390.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Nov 09
+
+
+		  <span class="i">VIM REFERENCE MANUAL	  by Ralf Schandl</span>
+
+
+					<span id="zOS" class="t">zOS</span> <span id="z%2FOS" class="t">z/OS</span> <span id="OS390" class="t">OS390</span> <span id="os390" class="t">os390</span> <span id="MVS" class="t">MVS</span>
+This file contains the particulars for the <a href="os_390.txt.html#z%2FOS" class="d">z/OS</a> UNIX version of Vim.
+
+1. ASCII/EBCDIC dependent scripts	<a href="os_390.txt.html#zOS-has-ebcdic" class="l">zOS-has-ebcdic</a>
+2. Putty and Colors                     <a href="os_390.txt.html#zOS-PuTTY" class="l">zOS-PuTTY</a>
+3. <a href="gui_x11.txt.html#Motif" class="d">Motif</a> Problems			<a href="os_390.txt.html#zOS-Motif" class="l">zOS-Motif</a>
+4. Bugs					<a href="os_390.txt.html#zOS-Bugs" class="l">zOS-Bugs</a>
+5. Limitations				<a href="os_390.txt.html#zOS-limitations" class="l">zOS-limitations</a>
+6. Open source on <a href="os_390.txt.html#z%2FOS" class="d">z/OS</a> UNIX		<a href="os_390.txt.html#zOS-open-source" class="l">zOS-open-source</a>
+
+<span class="h">Contributors: </span>
+The port to <a href="os_390.txt.html#z%2FOS" class="d">z/OS</a> UNIX was done by Ralf Schandl for the Redbook mentioned
+below.
+
+Changes, bug-reports, or both by:
+
+	David Moore
+	Anthony Giorgio
+	and others
+
+<span class="h">==============================================================================</span>
+1. ASCII/EBCDIC dependent scripts	<span id="OS390-has-ebcdic" class="t">OS390-has-ebcdic</span> <span id="zOS-has-ebcdic" class="t">zOS-has-ebcdic</span>
+
+For the internal <a href="usr_41.txt.html#script" class="d">script</a> language the feature "ebcdic" was added.  With this
+you can fix ASCII dependent scripts like this:
+
+<span class="e">    if has("ebcdic")</span>
+<span class="e">	let space = 64</span>
+<span class="e">    else</span>
+<span class="e">	let space = 32</span>
+<span class="e">    endif</span>
+
+
+<span class="h">==============================================================================</span>
+2. PuTTY and Colors			<span id="OS390-PuTTY" class="t">OS390-PuTTY</span> <span id="zOS-PuTTY" class="t">zOS-PuTTY</span>
+
+If you see problems with <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting or screen corruptions when you
+connect to <a href="os_390.txt.html#z%2FOS" class="d">z/OS</a> using Putty, try the following:
+
+<a href="motion.txt.html#-" class="d">-</a> Configure Putty <a href="motion.txt.html#as" class="d">as</a> "vt220" <a href="terminal.txt.html#terminal" class="d">terminal</a> (Connection-&gt;Data)
+<a href="motion.txt.html#-" class="d">-</a> Add the following 3 lines to your vimrc:
+
+
+<span class="e">    set t_AB=[4%p1%dm</span>
+<span class="e">    set t_AF=[3%p1%dm</span>
+<span class="e">    set t_CO=8</span>
+
+
+<span class="n">Note:</span>  <a href="motion.txt.html#is" class="d">is</a> one character use <span class="s">&lt;C-V&gt;</span><a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> to enter it.
+
+<span class="h">==============================================================================</span>
+3. <a href="gui_x11.txt.html#Motif" class="d">Motif</a> Problems			<span id="OS390-Motif" class="t">OS390-Motif</span> <span id="zOS-Motif" class="t">zOS-Motif</span>
+
+<span class="n">Note:</span> Seen with Vim 6.*<a href="motion.txt.html#%2C" class="d">,</a> never tested since.
+
+It seems that in porting the <a href="gui_x11.txt.html#Motif" class="d">Motif</a> library to z/OS, <a href="insert.txt.html#a" class="d">a</a> translation from EBCDIC
+to ASCII for the accelerator characters of the pull-down <a href="gui.txt.html#menus" class="d">menus</a> was forgotten.
+Even after <a href="insert.txt.html#I" class="d">I</a> tried to hand convert the menus, the accelerator keys continued
+to only work for the opening of <a href="gui.txt.html#menus" class="d">menus</a> (like <span class="s">&lt;Alt-F&gt;</span> to open the file menu).
+They still <a href="diff.txt.html#do" class="d">do</a> not work for the menu items themselves (like <span class="s">&lt;Alt-F&gt;</span>O to open
+the file browser).
+
+There <a href="motion.txt.html#is" class="d">is</a> no solution for this yet.
+
+<span class="h">==============================================================================</span>
+4. Bugs					<span id="OS390-bugs" class="t">OS390-bugs</span> <span id="zOS-Bugs" class="t">zOS-Bugs</span>
+
+<a href="motion.txt.html#-" class="d">-</a> Vim will consistently hang when <a href="insert.txt.html#a" class="d">a</a> large amount of text <a href="motion.txt.html#is" class="d">is</a> selected in
+  visual block mode.  This may be due to <a href="insert.txt.html#a" class="d">a</a> memory corruption issue.  <span class="n">Note</span> that
+  this occurs in both the <a href="terminal.txt.html#terminal" class="d">terminal</a> and <a href="gui.txt.html#gui" class="d">gui</a> versions.
+
+<span class="h">==============================================================================</span>
+5. Limitations				<span id="OS390-limitations" class="t">OS390-limitations</span> <span id="zOS-limitations" class="t">zOS-limitations</span>
+
+<a href="motion.txt.html#-" class="d">-</a> No binary search in <a href="tagsrch.txt.html#tag" class="d">tag</a> files.
+  The program /bin/sort sorts by ASCII value by default.  This program <a href="motion.txt.html#is" class="d">is</a>
+  normally used by <a href="tagsrch.txt.html#ctags" class="d">ctags</a> to sort the tags.  There might be <a href="insert.txt.html#a" class="d">a</a> version of
+  <a href="tagsrch.txt.html#ctags" class="d">ctags</a> out there, that does <a href="motion.txt.html#it" class="d">it</a> right, but we can't be sure.  So this seems to
+  be <a href="insert.txt.html#a" class="d">a</a> permanent restriction.
+
+<a href="motion.txt.html#-" class="d">-</a> The <a href="if_cscop.txt.html#cscope" class="d">cscope</a> interface <a href="motion.txt.html#%28" class="d">(</a><a href="if_cscop.txt.html#cscope" class="l">cscope</a><a href="motion.txt.html#%29" class="d">)</a> doesn't work for the version of <a href="if_cscop.txt.html#cscope" class="d">cscope</a> that
+  we use on our mainframe.  We have <a href="insert.txt.html#a" class="d">a</a> copy of version 15.0b12, and <a href="motion.txt.html#it" class="d">it</a> causes
+  Vim to hang when using the "<a href="if_cscop.txt.html#cscope" class="d">cscope</a> add" command.  I'm guessing that the
+  binary format of the <a href="if_cscop.txt.html#cscope" class="d">cscope</a> database isn't quite what Vim <a href="motion.txt.html#is" class="d">is</a> expecting.
+  I've tried to port the current version of <a href="if_cscop.txt.html#cscope" class="d">cscope</a> (15.3) to z/OS, without
+  much success.  If anyone <a href="motion.txt.html#is" class="d">is</a> interested in trying, drop me <a href="insert.txt.html#a" class="d">a</a> line if you
+  make any progress.
+
+<a href="motion.txt.html#-" class="d">-</a> No glib/gtk support.  <a href="insert.txt.html#I" class="d">I</a> have not been able to successfully compile glib on
+  <a href="os_390.txt.html#z%2FOS" class="d">z/OS</a> UNIX.  This means you'll have to live without the pretty gtk toolbar.
+
+Disabled <a href="motion.txt.html#at" class="d">at</a> compile time:
+    <a href="motion.txt.html#-" class="d">-</a> Multibyte support         <a href="motion.txt.html#%28" class="d">(</a><a href="mbyte.txt.html#multibyte" class="l">multibyte</a><a href="motion.txt.html#%29" class="d">)</a>
+    <a href="motion.txt.html#-" class="d">-</a> Right-to-left mode        <a href="motion.txt.html#%28" class="d">(</a><a href="rileft.txt.html#rileft" class="l">rileft</a><a href="motion.txt.html#%29" class="d">)</a>
+    <a href="motion.txt.html#-" class="d">-</a> <a href="farsi.txt.html#Farsi" class="d">Farsi</a> key map             <a href="motion.txt.html#%28" class="d">(</a><a href="farsi.txt.html#Farsi" class="l">Farsi</a><a href="motion.txt.html#%29" class="d">)</a>
+    <a href="motion.txt.html#-" class="d">-</a> <a href="arabic.txt.html#Arabic" class="d">Arabic</a> language support   <a href="motion.txt.html#%28" class="d">(</a><a href="arabic.txt.html#Arabic" class="l">Arabic</a><a href="motion.txt.html#%29" class="d">)</a>
+    <a href="motion.txt.html#-" class="d">-</a> Spell checking            <a href="motion.txt.html#%28" class="d">(</a><a href="spell.txt.html#spell" class="l">spell</a><a href="motion.txt.html#%29" class="d">)</a>
+
+Never tested:
+    <a href="motion.txt.html#-" class="d">-</a> <a href="if_perl.txt.html#Perl" class="d">Perl</a> interface		<a href="motion.txt.html#%28" class="d">(</a><a href="if_perl.txt.html#perl" class="l">perl</a><a href="motion.txt.html#%29" class="d">)</a>
+    <a href="motion.txt.html#-" class="d">-</a> Hangul input		<a href="motion.txt.html#%28" class="d">(</a><a href="hangulin.txt.html#hangul" class="l">hangul</a><a href="motion.txt.html#%29" class="d">)</a>
+    <a href="motion.txt.html#-" class="d">-</a> Encryption support	<a href="motion.txt.html#%28" class="d">(</a><a href="editing.txt.html#encryption" class="l">encryption</a><a href="motion.txt.html#%29" class="d">)</a>
+    <a href="motion.txt.html#-" class="d">-</a> Langmap			('langmap')
+    <a href="motion.txt.html#-" class="d">-</a> <a href="if_pyth.txt.html#Python" class="d">Python</a> support		<a href="motion.txt.html#%28" class="d">(</a><a href="if_pyth.txt.html#Python" class="l">Python</a><a href="motion.txt.html#%29" class="d">)</a>
+    <a href="motion.txt.html#-" class="d">-</a> Right-to-left mode	('rightleft')
+    <a href="motion.txt.html#-" class="d">-</a> <a href="if_tcl.txt.html#TCL" class="d">TCL</a> interface		<a href="motion.txt.html#%28" class="d">(</a><a href="if_tcl.txt.html#tcl" class="l">tcl</a><a href="motion.txt.html#%29" class="d">)</a>
+    <a href="userfunc.txt.html#..." class="d">...</a>
+
+<span class="h">==============================================================================</span>
+6. Open source on <a href="os_390.txt.html#z%2FOS" class="d">z/OS</a> UNIX		<span id="OS390-open-source" class="t">OS390-open-source</span> <span id="zOS-open-source" class="t">zOS-open-source</span>
+
+If you are interested in other Open Source Software on <a href="os_390.txt.html#z%2FOS" class="d">z/OS</a> UNIX, have <a href="insert.txt.html#a" class="d">a</a>
+look <a href="motion.txt.html#at" class="d">at</a> the following Redbook:
+
+    Mike MacIsaac et al
+    "Open Source Software for <a href="os_390.txt.html#z%2FOS" class="d">z/OS</a> and OS/390 UNIX"
+    IBM Form Number: SG24-5944-01
+    ISBN: 0738424633
+    <a class="u" href="http://www-03.ibm.com/systems/resources/servers_eserver_zseries_zos_unix_redbook_sg245944.pdf">http://www-03.ibm.com/systems/resources/servers_eserver_zseries_zos_unix_redbook_sg245944.pdf</a>
+
+Also look at:
+    <a class="u" href="http://www.redbooks.ibm.com">http://www.redbooks.ibm.com</a>
+    <a class="u" href="http://www-03.ibm.com/systems/z/os/zos/features/unix/">http://www-03.ibm.com/systems/z/os/zos/features/unix/</a>
+    <a class="u" href="http://www-03.ibm.com/systems/z/os/zos/features/unix/library/IBM+Redbooks/index.html">http://www-03.ibm.com/systems/z/os/zos/features/unix/library/IBM+Redbooks/index.html</a>
+
+
+
+<span class="h">------------------------------------------------------------------------------</span>
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

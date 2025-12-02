@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vim help pages, always up-to-date">
+<title>Vim: pi_tar.txt</title>
+<link rel="shortcut icon" href="s/KXPobNpJBGAI5V1t/favicon-vim.ico">
+<!-- favicon is based on http://amnoid.de/tmp/vim_solidbright_512.png and is used with permission by its author -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="pi_tar.txt.html#">↑Top↑</a></li>
+<li><a href="pi_tar.txt.html#tar">Contents</a></li>
+<li><a href="pi_tar.txt.html#tar-usage">Usage</a></li>
+<li><a href="pi_tar.txt.html#tar-options">Options</a></li>
+<li><a href="pi_tar.txt.html#tar-history">History</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="pi_tar.txt" class="t">pi_tar.txt</span>  	For <span class="i">Vim version 9.1.</span>  Last change: 2025 Aug 10
+
+		       +====================+
+		       | Tar File <a href="vim9class.txt.html#Interface" class="d">Interface</a> |
+		       +====================+
+
+Original Author:  Charles E. Campbell
+Copyright 2005-2017:					<span id="tar-copyright" class="t">tar-copyright</span>
+	The VIM LICENSE (see <a href="uganda.txt.html#copyright" class="l">copyright</a><a href="motion.txt.html#%29" class="d">)</a> applies to the files in this
+	package, including tarPlugin.vim, tar.vim, and pi_tar.txt.  Like
+	anything else that's except use "tar.vim" instead of "VIM"<a href="repeat.txt.html#." class="d">.</a>  Like
+	anything else that's free, tar.vim and its associated files are
+	provided *<a href="motion.txt.html#as" class="d">as</a> <a href="motion.txt.html#is" class="d">is</a>* and comes with no warranty of any kind, either
+	expressed or implied.  No guarantees of merchantability.  No
+	guarantees of suitability for any purpose.  By using this plugin, you
+	agree that in no event will the <a href="uganda.txt.html#copyright" class="d">copyright</a> holder be liable for any
+	damages resulting from the use of this software. Use <a href="motion.txt.html#at" class="d">at</a> your own risk!
+
+<span class="h">==============================================================================</span>
+1. <a href="quickref.txt.html#Contents" class="d">Contents</a>					<span id="tar" class="t">tar</span> <span id="tar-contents" class="t">tar-contents</span>
+   1. Contents..................................................<a href="pi_tar.txt.html#tar-contents" class="l">tar-contents</a>
+   2. Usage.....................................................<a href="pi_tar.txt.html#tar-usage" class="l">tar-usage</a>
+   3. Options...................................................<a href="pi_tar.txt.html#tar-options" class="l">tar-options</a>
+   4. History...................................................<a href="pi_tar.txt.html#tar-history" class="l">tar-history</a>
+
+<span class="h">==============================================================================</span>
+2. Usage					<span id="tar-usage" class="t">tar-usage</span> <span id="tar-manual" class="t">tar-manual</span>
+
+   When one edits <a href="insert.txt.html#a" class="d">a</a> *.tar file, this <a href="usr_05.txt.html#plugin" class="d">plugin</a> will handle displaying <a href="insert.txt.html#a" class="d">a</a>
+   contents page.  <a href="visual.txt.html#Select" class="d">Select</a> <a href="insert.txt.html#a" class="d">a</a> file to edit by moving the cursor atop
+   the desired file, then hit the <span class="s">&lt;return&gt;</span> key.  After editing, one may
+   also write to the file.  Currently, one may not make <a href="insert.txt.html#a" class="d">a</a> new file in
+   <a href="pi_tar.txt.html#tar" class="d">tar</a> archives via the plugin.
+
+						<span id="%3AVimuntar" class="t">:Vimuntar</span>
+<span class="h">   VIMUNTAR</span>
+
+   <a href="pi_tar.txt.html#%3AVimuntar" class="d">:Vimuntar</a> <span class="s">[vimhome]</span>
+
+	This command copies, if necessary, the tarball to the .vim or <a href="options.txt.html#vimfiles" class="d">vimfiles</a>
+	directory using the first writable directory in the <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> when
+	no <span class="s">[vimhome]</span> <a href="motion.txt.html#is" class="d">is</a> specified.  Otherwise, the <span class="s">[vimhome]</span> argument allows
+	the user to specify that directory, instead.
+
+	The copy <a href="motion.txt.html#is" class="d">is</a> done using the command in <span id="g%3Atar_copycmd" class="t">g:tar_copycmd</span> <a href="motion.txt.html#%2C" class="d">,</a> which <a href="motion.txt.html#is" class="d">is</a> 
+<span class="e">		cp   for cygwin, unix, macunix</span>
+<span class="e">		copy for windows (32, 95, 64, 16)</span>
+	The extraction <a href="motion.txt.html#is" class="d">is</a> done with the command specified with
+	<span id="g%3Atar_extractcmd" class="t">g:tar_extractcmd</span> <a href="motion.txt.html#%2C" class="d">,</a> which by default <a href="motion.txt.html#is" class="d">is</a> 
+<span class="e">		"tar -xf"</span>
+
+						<span id="%3ATarDiff" class="t">:TarDiff</span>
+<span class="h">   DIFFERENCING SUPPORT</span>
+
+   <a href="pi_tar.txt.html#%3ATarDiff" class="d">:TarDiff</a> <span class="s">[filename]</span>
+
+	This command will attempt to show the differences between the tarball
+	version of <a href="insert.txt.html#a" class="d">a</a> file and the associated file on the system.  In order to
+	find that file on the system, the <a href="usr_41.txt.html#script" class="d">script</a> uses the path associated with
+	the file mentioned in the tarball.  If the current directory <a href="motion.txt.html#is" class="d">is</a> not
+	correct for that path, <a href="pi_tar.txt.html#%3ATarDiff" class="d">:TarDiff</a> will fail to find the associated file.
+
+	If the <span class="s">[filename]</span> <a href="motion.txt.html#is" class="d">is</a> given, that filename (and path) will be used
+	to specify the associated file.
+
+
+<span class="h">   PREVENTING LOADING</span>
+
+   If for some reason you <a href="diff.txt.html#do" class="d">do</a> not wish to use vim to examine tar'd files,
+   you may <a href="change.txt.html#put" class="d">put</a> the following two <a href="eval.txt.html#variables" class="d">variables</a> into your &lt;.vimrc&gt; to prevent
+   the <a href="pi_tar.txt.html#tar" class="d">tar</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> from loading: 
+<span class="e"></span>
+<span class="e">	let g:loaded_tarPlugin= 1</span>
+<span class="e">	let g:loaded_tar      = 1</span>
+
+							<span id="tar-mappings" class="t">tar-mappings</span>
+<span class="h">   MAPPINGS</span>
+
+   The following (buffer-local) mappings are available in <a href="insert.txt.html#a" class="d">a</a> <a href="pi_tar.txt.html#tar" class="d">tar</a> buffer:
+
+	<a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a>		Open selected file for editing, any changes will be
+			written back to the archive.
+	<a href="visual.txt.html#%3CLeftMouse%3E" class="s">&lt;LeftMouse&gt;</a>	same <a href="motion.txt.html#as" class="d">as</a> <a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a>
+	<a href="change.txt.html#x" class="d">x</a>		Extract selected file.
+
+<span class="h">==============================================================================</span>
+3. Options						<span id="tar-options" class="t">tar-options</span>
+
+   These <a href="options.txt.html#options" class="d">options</a> are <a href="eval.txt.html#variables" class="d">variables</a> that one may change, typically in one's
+   &lt;.vimrc&gt; file.
+			 Default
+   Variable		  Value   Explanation
+   <span id="g%3Atar_browseoptions" class="t">g:tar_browseoptions</span>    "Ptf"   used to get <a href="insert.txt.html#a" class="d">a</a> <a href="eval.txt.html#list" class="d">list</a> of contents
+   <span id="g%3Atar_readoptions" class="t">g:tar_readoptions</span>  	  "OPxf"  used to extract <a href="insert.txt.html#a" class="d">a</a> file from <a href="insert.txt.html#a" class="d">a</a> tarball
+   <span id="g%3Atar_cmd" class="t">g:tar_cmd</span>  		  "<a href="pi_tar.txt.html#tar" class="d">tar</a>"   the name of the <a href="pi_tar.txt.html#tar" class="d">tar</a> program
+   <span id="g%3Atar_nomax" class="t">g:tar_nomax</span>  	    <a href="motion.txt.html#0" class="d">0</a>	  if true, file <a href="windows.txt.html#window" class="d">window</a> will not be maximized
+   <span id="g%3Atar_writeoptions" class="t">g:tar_writeoptions</span>  	  "uf"    used to update/replace <a href="insert.txt.html#a" class="d">a</a> file
+
+
+<span class="h">==============================================================================</span>
+4. History						<span id="tar-history" class="t">tar-history</span>
+
+	unreleased:
+		Jul 13, 2025	* drop leading <a href="pattern.txt.html#%2F" class="d">/</a>
+		May 19, 2025	* restore working directory after read/write
+		Apr 16, 2025	* decouple from <a href="pi_netrw.txt.html#netrw" class="d">netrw</a> by adding s:WinPath()
+				instead of shelling out to file(1)
+		Mar 02, 2025	* determine the compression using <a href="builtin.txt.html#readblob%28%29" class="d">readblob()</a>
+		Mar 02, 2025	* <a href="intro.txt.html#escape" class="d">escape</a> the filename before using <a href="insert.txt.html#%3Aread" class="d">:read</a>
+		Mar 01, 2025	* fix <a href="syntax.txt.html#syntax" class="d">syntax</a> error in tar#Read()
+		Feb 28, 2025	* add support for bzip3 (#16755)
+		Feb 06, 2025	* add support for lz4 (#16591)
+		Nov 11, 2024	* support permissions (#7379)
+		Feb 19, 2024	* announce adoption
+		Jan 08, 2024	* fix <a href="insert.txt.html#a" class="d">a</a> few problems (#138331, #12637, #8109)
+	v31	Apr 02, 2017	* (klartext) reported that browsing encrypted
+				  files in <a href="insert.txt.html#a" class="d">a</a> <a href="pi_zip.txt.html#zip" class="d">zip</a> archive created unencrypted
+				  swap files.  <a href="insert.txt.html#I" class="d">I</a> am applying <a href="insert.txt.html#a" class="d">a</a> similar fix
+				  used on zip.vim to tar.vim: new <a href="windows.txt.html#buffers" class="d">buffers</a>
+				  are opened with <a href="recover.txt.html#%3Anoswapfile" class="l">:noswapfile</a><a href="repeat.txt.html#." class="d">.</a>
+		May 16, 2017	* When the mouse option isn't empty, the
+				  leftmouse can be used to select <a href="insert.txt.html#a" class="d">a</a> file
+				  in the tar-file listing.
+	v30	Apr 22, 2014	* .tgz files are ambiguous: they may have been
+				  compressed with either <a href="pi_gzip.txt.html#gzip" class="d">gzip</a> or bzip2.  Tar.vim
+				  disambiguates by using unix's "file" command.
+		Feb 18, 2016	* Changed =~ to =~# where appropriate
+		Feb 18, 2017	* Now also permits xz decompression
+	v28	Jun 23, 2011	* <a href="insert.txt.html#a" class="d">a</a> few more decompression <a href="options.txt.html#options" class="d">options</a> (tbz tb2 txz)
+	v27	May 31, 2011	* moved cygwin detection before <a href="pi_tar.txt.html#g%3Atar_copycmd" class="d">g:tar_copycmd</a>
+				  handling
+				* inserted additional <a href="motion.txt.html#%3Akeepj" class="l">:keepj</a> modifiers
+				* changed silent  to  sil!  <a href="motion.txt.html#%28" class="d">(</a><a href="various.txt.html#%3Asilent" class="l">:silent</a><a href="motion.txt.html#%29" class="d">)</a>
+	v26	Aug 09, 2010	* uses buffer-local instead of <a href="windows.txt.html#window" class="d">window</a> <a href="eval.txt.html#variables" class="d">variables</a>
+				  to hold tarfile name
+				* inserted keepj before 0d to protect jump <a href="eval.txt.html#list" class="d">list</a>
+	v25	Jun 19, 2010	* (Jan Steffens) added support for xz
+				  compression
+	v24	Apr 07, 2009	* :Untarvim command implemented
+		Sep 28, 2009	* Added lzma support
+	v22	Aug 08, 2008	* security fixes
+	v16	Jun 06, 2008	* tarfile:: used instead of tarfile: when
+				  editing files inside tarballs.  Fixes <a href="insert.txt.html#a" class="d">a</a>
+				  problem with tarballs called things like
+				  c:\abc.tar. (tnx to Bill McCarthy)
+	v14	May 09, 2008	* arno caught <a href="insert.txt.html#a" class="d">a</a> security bug
+		May 28, 2008	* <a href="various.txt.html#various" class="d">various</a> security improvements.  Now requires
+				  patch 299 which provides the <a href="builtin.txt.html#fnameescape%28%29" class="d">fnameescape()</a>
+				  function
+		May 30, 2008	* allows one to <a href="starting.txt.html#view" class="d">view</a> *.gz and *.bz2 files that
+				  are in *.tar files.
+	v12	Sep 07, 2007	* &amp;shq now used if not the empty <a href="eval.txt.html#string" class="d">string</a> for
+				  g:tar_shq
+	v10	May 02, 2006	* now using "redraw then echo" to show messages,
+				  instead of "echo and prompt user"
+	v9	May 02, 2006	* improved detection of masquerading <a href="motion.txt.html#as" class="d">as</a> <a href="pi_tar.txt.html#tar" class="d">tar</a> file
+	v8	May 02, 2006	* allows editing of files that merely masquerade
+				  <a href="motion.txt.html#as" class="d">as</a> <a href="pi_tar.txt.html#tar" class="d">tar</a> files
+	v7	Mar 22, 2006	* work on making <a href="pi_tar.txt.html#tar" class="d">tar</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> work across <a href="pi_netrw.txt.html#network" class="d">network</a>
+		Mar 27, 2006	* <a href="pi_tar.txt.html#g%3Atar_cmd" class="d">g:tar_cmd</a> now available for users to change
+				  the name of the <a href="pi_tar.txt.html#tar" class="d">tar</a> program to be used.  By
+				  default, of course, it's "<a href="pi_tar.txt.html#tar" class="d">tar</a>"<a href="repeat.txt.html#." class="d">.</a>
+	v6	Dec 21, 2005	* <a href="editing.txt.html#writing" class="d">writing</a> to files not in directories caused
+				  problems <a href="motion.txt.html#-" class="d">-</a> fixed (pointed out by
+				  Christian Robinson)
+	v5	Nov 22, 2005	* report option workaround installed
+	v3	Sep 16, 2005	* handles <a href="editing.txt.html#writing" class="d">writing</a> files in an archive back to
+				  the archive
+		Oct 18, 2005	* <a href="cmdline.txt.html#%3Camatch%3E" class="s">&lt;amatch&gt;</a> used instead of <a href="cmdline.txt.html#%3Cafile%3E" class="s">&lt;afile&gt;</a> in autocmds
+		Oct 18, 2005	* handles <a href="editing.txt.html#writing" class="d">writing</a> to compressed archives
+		Nov 03, 2005	* handles <a href="editing.txt.html#writing" class="d">writing</a> tarfiles across <a href="insert.txt.html#a" class="d">a</a> <a href="pi_netrw.txt.html#network" class="d">network</a>
+				  using netrw#NetWrite()
+	v2			* converted to use Vim7's new <a href="userfunc.txt.html#autoload" class="d">autoload</a> feature
+				  by <a href="version9.txt.html#Bram" class="d">Bram</a> <a href="version9.txt.html#Moolenaar" class="d">Moolenaar</a>
+	v1	(original)	* Michael Toren
+				  (see michael.toren.net/code/
+				   link seems dead)
+
+<span class="h">==============================================================================</span>
+vim:tw=78:ts=8:noet:ft=help
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+&middot; <a href="vim_faq.txt.html">faq</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

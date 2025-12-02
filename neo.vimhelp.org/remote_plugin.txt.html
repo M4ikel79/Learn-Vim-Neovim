@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: remote_plugin.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="remote_plugin.txt.html#">↑Top↑</a></li>
+<li><a href="remote_plugin.txt.html#remote-plugin-intro">Introduction</a></li>
+<li><a href="remote_plugin.txt.html#remote-plugin-hosts">Plugin hosts</a></li>
+<li><a href="remote_plugin.txt.html#remote-plugin-example">Example</a></li>
+<li><a href="remote_plugin.txt.html#remote-plugin-manifest">Remote plugin manifest</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="remote_plugin.txt" class="t">remote_plugin.txt</span>    Nvim
+
+
+		 <span class="i">NVIM REFERENCE MANUAL    by Thiago de Arruda</span>
+
+
+Nvim <a href="support.txt.html#support" class="d">support</a> <a href="luaref.txt.html#for" class="d">for</a> remote plugins			  <span id="remote-plugin" class="t">remote-plugin</span>
+
+				      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+1. Introduction					    <span id="remote-plugin-intro" class="t">remote-plugin-intro</span>
+
+Extensibility <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> primary goal of Nvim. Any programming language may be used
+to extend Nvim without changes to Nvim itself. This <a href="motion.txt.html#is" class="d">is</a> achieved with remote
+plugins, coprocesses that have <a href="insert.txt.html#a" class="d">a</a> direct communication <a href="channel.txt.html#channel" class="d">channel</a> (via <a href="api.txt.html#RPC" class="l">RPC</a><a href="motion.txt.html#%29" class="d">)</a> with
+the Nvim process.
+
+Even though these plugins run in separate processes they can call, be called,
+and receive <a href="autocmd.txt.html#events" class="d">events</a> just <a href="motion.txt.html#as" class="d">as</a> if the plugin's code were executed in the main
+process.
+
+<span class="h">==============================================================================</span>
+2. Plugin hosts					    <span id="remote-plugin-hosts" class="t">remote-plugin-hosts</span>
+
+While plugins can be implemented <a href="motion.txt.html#as" class="d">as</a> arbitrary programs that communicate
+directly with the high-level Nvim <a href="api.txt.html#API" class="d">API</a> and are called via <a href="vimfn.txt.html#rpcrequest%28%29" class="l">rpcrequest()</a> and
+<a href="vimfn.txt.html#rpcnotify%28%29" class="l">rpcnotify()</a><a href="motion.txt.html#%2C" class="d">,</a> that <a href="motion.txt.html#is" class="d">is</a> not the best approach. Instead, developers should first
+check whether <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> host <a href="motion.txt.html#is" class="d">is</a> available <a href="luaref.txt.html#for" class="d">for</a> their chosen programming language.
+
+Plugin hosts are programs that provide <a href="insert.txt.html#a" class="d">a</a> high-level environment <a href="luaref.txt.html#for" class="d">for</a> plugins,
+taking care of most boilerplate involved in defining commands, autocmds, and
+<a href="vimeval.txt.html#functions" class="d">functions</a> implemented over <a href="api.txt.html#RPC" class="l">RPC</a> connections. Hosts are loaded only when one
+of their registered plugins require it, keeping Nvim's <a href="starting.txt.html#startup" class="d">startup</a> <a href="motion.txt.html#as" class="d">as</a> fast <a href="motion.txt.html#as" class="d">as</a>
+possible, even if many plugins/hosts are installed.
+
+<span class="h">==============================================================================</span>
+3. Example					    <span id="remote-plugin-example" class="t">remote-plugin-example</span>
+
+The best way to learn about remote plugins <a href="motion.txt.html#is" class="d">is</a> with an example, so let's see
+what <a href="insert.txt.html#a" class="d">a</a> <a href="if_pyth.txt.html#Python" class="d">Python</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> looks like. This <a href="usr_05.txt.html#plugin" class="d">plugin</a> exports <a href="insert.txt.html#a" class="d">a</a> command, <a href="insert.txt.html#a" class="d">a</a> function, and
+an autocmd. The <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> called 'Limit', and all <a href="motion.txt.html#it" class="d">it</a> does <a href="motion.txt.html#is" class="d">is</a> limit the number
+of requests made to it. Here's the <a href="usr_05.txt.html#plugin" class="d">plugin</a> source code: &gt;python
+
+    import <a href="develop.txt.html#pynvim" class="d">pynvim</a>
+
+    @pynvim.plugin
+    class Limit(object):
+        def __init__(self, vim):
+            self.vim <a href="change.txt.html#%3D" class="d">=</a> vim
+            self.calls <a href="change.txt.html#%3D" class="d">=</a> <a href="motion.txt.html#0" class="d">0</a>
+
+        @pynvim.command('Cmd', range='', nargs='*', sync=True)
+        def command_handler(self, args, range):
+            self._increment_calls()
+            self.vim.current.line <a href="change.txt.html#%3D" class="d">=</a> <a href="motion.txt.html#%28" class="d">(</a>
+                'Command: Called %d times, args: %s, range: %s' <a href="motion.txt.html#%25" class="d">%</a> (self.calls,
+                                                                   args,
+                                                                   range))
+
+        @pynvim.autocmd('BufEnter', pattern='*.py', eval='expand("<a href="cmdline.txt.html#%3Cafile%3E" class="s">&lt;afile&gt;</a>")',
+                        sync=True)
+        def autocmd_handler(self, filename):
+            self._increment_calls()
+            self.vim.current.line <a href="change.txt.html#%3D" class="d">=</a> <a href="motion.txt.html#%28" class="d">(</a>
+                'Autocmd: Called %s times, file: %s' <a href="motion.txt.html#%25" class="d">%</a> (self.calls, filename))
+
+        @pynvim.function('Func')
+        def function_handler(self, args):
+            self._increment_calls()
+            self.vim.current.line <a href="change.txt.html#%3D" class="d">=</a> <a href="motion.txt.html#%28" class="d">(</a>
+                'Function: Called %d times, args: %s' <a href="motion.txt.html#%25" class="d">%</a> (self.calls, args))
+
+        def _increment_calls(self):
+            if self.calls <a href="change.txt.html#%3D%3D" class="d">==</a> 5:
+                raise Exception('Too many calls!')
+            self.calls += 1
+<a href="change.txt.html#%3C" class="d">&lt;</a>
+
+As can be seen, the <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> implemented using idiomatic <a href="if_pyth.txt.html#Python" class="d">Python</a> (classes,
+methods, and decorators). The translation between these language-specific
+idioms to Vimscript occurs while the <a href="usr_05.txt.html#plugin" class="d">plugin</a> manifest <a href="motion.txt.html#is" class="d">is</a> being generated (see
+the next section).
+
+Notice that the exported command and <a href="autocmd.txt.html#autocmd" class="d">autocmd</a> are defined with the "sync" flag,
+which affects how Nvim calls the plugin: with "sync" the <a href="vimfn.txt.html#rpcrequest%28%29" class="l">rpcrequest()</a>
+function <a href="motion.txt.html#is" class="d">is</a> used, which will block Nvim until the handler function returns <a href="insert.txt.html#a" class="d">a</a>
+value. Without the "sync" flag, the call <a href="motion.txt.html#is" class="d">is</a> made using <a href="insert.txt.html#a" class="d">a</a> fire and forget
+approach with <a href="vimfn.txt.html#rpcnotify%28%29" class="l">rpcnotify()</a><a href="motion.txt.html#%2C" class="d">,</a> meaning return values or exceptions raised in the
+handler function are ignored.
+
+To test the above plugin, <a href="motion.txt.html#it" class="d">it</a> must be saved in "rplugin/python" in <a href="insert.txt.html#a" class="d">a</a>
+<a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> directory (~/.config/nvim/rplugin/python/limit.py <a href="luaref.txt.html#for" class="d">for</a> example).
+Then, the remote <a href="usr_05.txt.html#plugin" class="d">plugin</a> manifest must be generated with
+<a href="remote_plugin.txt.html#%3AUpdateRemotePlugins" class="l">:UpdateRemotePlugins</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+4. Remote <a href="usr_05.txt.html#plugin" class="d">plugin</a> manifest			    <span id="remote-plugin-manifest" class="t">remote-plugin-manifest</span>
+						      <span id="%3AUpdateRemotePlugins" class="t">:UpdateRemotePlugins</span>
+
+Just installing remote plugins to "rplugin/{host}" isn't enough <a href="luaref.txt.html#for" class="d">for</a> them to be
+automatically loaded when required. You must execute <a href="remote_plugin.txt.html#%3AUpdateRemotePlugins" class="l">:UpdateRemotePlugins</a>
+every time <a href="insert.txt.html#a" class="d">a</a> remote <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> installed, updated, or deleted.
+
+<a href="remote_plugin.txt.html#%3AUpdateRemotePlugins" class="l">:UpdateRemotePlugins</a> generates the remote <a href="usr_05.txt.html#plugin" class="d">plugin</a> manifest, <a href="insert.txt.html#a" class="d">a</a> special
+Vimscript file containing declarations <a href="luaref.txt.html#for" class="d">for</a> all Vimscript entities
+(commands/autocommands/functions) defined by all remote plugins, with each
+entity associated with the host and <a href="usr_05.txt.html#plugin" class="d">plugin</a> path.
+
+Manifest declarations are just calls to the <span class="e">remote#host#RegisterPlugin</span>
+function, which takes care of bootstrapping the host <a href="motion.txt.html#as" class="d">as</a> soon <a href="motion.txt.html#as" class="d">as</a> the declared
+command, autocommand, or function <a href="motion.txt.html#is" class="d">is</a> used <a href="luaref.txt.html#for" class="d">for</a> the first time.
+
+The manifest generation step <a href="motion.txt.html#is" class="d">is</a> necessary to keep Nvim's <a href="starting.txt.html#startup" class="d">startup</a> fast in
+situations where <a href="insert.txt.html#a" class="d">a</a> user has remote plugins with different hosts. For example,
+say <a href="insert.txt.html#a" class="d">a</a> user has three plugins, <a href="luaref.txt.html#for" class="d">for</a> Python, Java and .NET hosts respectively. If
+we were to load all three plugins <a href="motion.txt.html#at" class="d">at</a> startup, then three language runtimes
+would also be spawned, which could take seconds!
+
+With the manifest, each host will only be loaded when required. Continuing with
+the example, say the Java <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> semantic completion engine <a href="luaref.txt.html#for" class="d">for</a> Java code.
+If <a href="motion.txt.html#it" class="d">it</a> defines the <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> `BufEnter *.java`, then the Java host <a href="motion.txt.html#is" class="d">is</a> spawned
+only when Nvim loads <a href="insert.txt.html#a" class="d">a</a> buffer matching "*.java"<a href="repeat.txt.html#." class="d">.</a>
+
+If the explicit call to <a href="remote_plugin.txt.html#%3AUpdateRemotePlugins" class="l">:UpdateRemotePlugins</a> seems inconvenient, try to see
+<a href="motion.txt.html#it" class="d">it</a> like this: It's <a href="insert.txt.html#a" class="d">a</a> way to provide IDE capabilities in Nvim while still
+keeping <a href="motion.txt.html#it" class="d">it</a> fast and lightweight <a href="luaref.txt.html#for" class="d">for</a> general use. It's also analogous to the
+<a href="helphelp.txt.html#%3Ahelptags" class="l">:helptags</a> command.
+
+						<span id="%24NVIM_RPLUGIN_MANIFEST" class="t">$NVIM_RPLUGIN_MANIFEST</span>
+Unless <a href="remote_plugin.txt.html#%24NVIM_RPLUGIN_MANIFEST" class="d">$NVIM_RPLUGIN_MANIFEST</a> <a href="motion.txt.html#is" class="d">is</a> set the manifest will be written to <a href="insert.txt.html#a" class="d">a</a> file
+named <span class="e">rplugin.vim</span> at:
+
+<span class="h">	Unix </span>
+	  $XDG_DATA_HOME/nvim/ or ~/.local/share/nvim/
+
+<span class="h">	Windows </span>
+	  $LOCALAPPDATA/nvim/ or ~/AppData/Local/nvim/
+
+<span class="h">==============================================================================</span>
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: digraph.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="digraph.txt.html#">↑Top↑</a></li>
+<li><a href="digraph.txt.html#digraphs-define">Defining digraphs</a></li>
+<li><a href="digraph.txt.html#digraphs-use">Using digraphs</a></li>
+<li><a href="digraph.txt.html#digraphs-default">Default digraphs</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="digraph.txt" class="t">digraph.txt</span>   Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL    by Bram Moolenaar</span>
+
+
+<a href="digraph.txt.html#Digraphs" class="d">Digraphs</a>					<span id="digraph" class="t">digraph</span> <span id="digraphs" class="t">digraphs</span> <span id="Digraphs" class="t">Digraphs</span>
+
+<a href="digraph.txt.html#Digraphs" class="d">Digraphs</a> are used to enter characters that normally cannot be entered by
+an ordinary keyboard.  These are mostly printable non-ASCII characters.  The
+<a href="digraph.txt.html#digraphs" class="d">digraphs</a> are easier to remember than the decimal number that can be entered
+with <a href="visual.txt.html#CTRL-V" class="k">CTRL-V</a> (see <a href="insert.txt.html#i_CTRL-V" class="l">i_CTRL-V</a>).
+
+There <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> brief introduction on <a href="digraph.txt.html#digraphs" class="d">digraphs</a> in the user manual: <a href="usr_24.txt.html#24.9" class="l">24.9</a>
+An alternative <a href="motion.txt.html#is" class="d">is</a> using the <a href="options.txt.html#%27keymap%27" class="o">'keymap'</a> option.
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+1. Defining <a href="digraph.txt.html#digraphs" class="d">digraphs</a>					<span id="digraphs-define" class="t">digraphs-define</span>
+
+						<span id="%3Adig" class="t">:dig</span> <span id="%3Adigraphs" class="t">:digraphs</span>
+:dig[raphs][!]		Show currently defined digraphs.
+			With [!] headers are used to make <a href="motion.txt.html#it" class="d">it</a> <a href="insert.txt.html#a" class="d">a</a> bit easier to
+			find <a href="insert.txt.html#a" class="d">a</a> specific character.
+							<span id="E104" class="t">E104</span> <span id="E39" class="t">E39</span>
+:dig[raphs] <span class="s">{char1}</span><span class="s">{char2}</span> <span class="s">{number}</span> <a href="userfunc.txt.html#..." class="d">...</a>
+			Add <a href="digraph.txt.html#digraph" class="d">digraph</a> <span class="s">{char1}</span><span class="s">{char2}</span> to the list.  <span class="s">{number}</span> <a href="motion.txt.html#is" class="d">is</a>
+			the decimal representation of the character.  Normally
+			<a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a> the <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> character, see <a href="digraph.txt.html#digraph-encoding" class="l">digraph-encoding</a><a href="repeat.txt.html#." class="d">.</a>
+			Example: 
+<span class="e">	:digr e: 235 a: 228</span>
+			You can use <span class="e">:exe</span> to enter <a href="insert.txt.html#a" class="d">a</a> hex number: 
+<span class="e">	:exe 'digr += ' .. 0x2A72</span>
+			Avoid defining <a href="insert.txt.html#a" class="d">a</a> <a href="digraph.txt.html#digraph" class="d">digraph</a> with '_' (underscore) <a href="motion.txt.html#as" class="d">as</a> the
+			first character, <a href="motion.txt.html#it" class="d">it</a> has <a href="insert.txt.html#a" class="d">a</a> special meaning in the
+			future.
+			<span class="n">NOTE:</span> This command cannot add <a href="insert.txt.html#a" class="d">a</a> <a href="digraph.txt.html#digraph" class="d">digraph</a> that starts
+			with <a href="insert.txt.html#a" class="d">a</a> white space.  If you want to add such digraph,
+			you can use <a href="vimfn.txt.html#digraph_set%28%29" class="l">digraph_set()</a> instead.
+
+Example of the output of "<a href="digraph.txt.html#%3Adigraphs" class="d">:digraphs</a>"<a href="cmdline.txt.html#%3A" class="d">:</a> 
+<span class="e"> TH Þ  222  ss ß  223  a! à  224  a' á  225  a&gt; â  226  a? ã  227  a: ä  228</span>
+<span class="e"></span>
+The first two characters in each column are the characters you have to type to
+enter the digraph.
+
+In the middle of each column <a href="motion.txt.html#is" class="d">is</a> the resulting character.  This may be mangled
+if you look <a href="motion.txt.html#at" class="d">at</a> <a href="motion.txt.html#it" class="d">it</a> on <a href="insert.txt.html#a" class="d">a</a> system that does not <a href="support.txt.html#support" class="d">support</a> <a href="digraph.txt.html#digraphs" class="d">digraphs</a> or if you print
+this file.
+
+							<span id="digraph-encoding" class="t">digraph-encoding</span>
+The decimal number normally <a href="motion.txt.html#is" class="d">is</a> the <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> number of the character.  <span class="n">Note</span> that
+the meaning doesn't change when <a href="options.txt.html#%27encoding%27" class="o">'encoding'</a> changes.  The character will be
+converted from <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> to <a href="options.txt.html#%27encoding%27" class="o">'encoding'</a> when needed.  This does require the
+conversion to be available, <a href="motion.txt.html#it" class="d">it</a> might fail.  For the NUL character you will see
+"10"<a href="repeat.txt.html#." class="d">.</a>  That's because NUL characters are internally represented with <a href="insert.txt.html#a" class="d">a</a> NL
+character.  When you write the file <a href="motion.txt.html#it" class="d">it</a> will become <a href="insert.txt.html#a" class="d">a</a> NUL character.
+
+Example: 
+<span class="e">	digraph oe 339</span>
+This defines the "oe" <a href="digraph.txt.html#digraph" class="d">digraph</a> <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> character that <a href="motion.txt.html#is" class="d">is</a> number 339 in Unicode.
+
+<span class="h">==============================================================================</span>
+2. Using <a href="digraph.txt.html#digraphs" class="d">digraphs</a>					<span id="digraphs-use" class="t">digraphs-use</span>
+
+There are two methods to enter digraphs:			<span id="i_digraph" class="t">i_digraph</span>
+	<span class="k">CTRL-K</span> <span class="s">{char1}</span> <span class="s">{char2}</span>		or
+	<span class="s">{char1}</span> <a href="motion.txt.html#%3CBS%3E" class="s">&lt;BS&gt;</a> <span class="s">{char2}</span>
+The first <a href="motion.txt.html#is" class="d">is</a> always available; the second only when the <a href="options.txt.html#%27digraph%27" class="o">'digraph'</a> option <a href="motion.txt.html#is" class="d">is</a>
+set.
+
+If <a href="insert.txt.html#a" class="d">a</a> <a href="digraph.txt.html#digraph" class="d">digraph</a> with <span class="s">{char1}</span><span class="s">{char2}</span> does not exist, Vim searches <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="digraph.txt.html#digraph" class="d">digraph</a>
+<span class="s">{char2}</span><span class="s">{char1}</span>.  This helps when you don't remember which character comes
+first.
+
+<span class="n">Note</span> that when you enter <span class="k">CTRL-K</span> <span class="s">{char1}</span>, where <span class="s">{char1}</span> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> special key, Vim
+enters the code <a href="luaref.txt.html#for" class="d">for</a> that special key.  This <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a> digraph.
+
+Once you have entered the digraph, Vim treats the character like <a href="insert.txt.html#a" class="d">a</a> normal
+character that occupies only one character in the file and on the screen.
+Example: 
+<span class="e">	'B' &lt;BS&gt; 'B'	will enter the broken '|' character (166)</span>
+<span class="e">	'a' &lt;BS&gt; '&gt;'	will enter an 'a' with a circumflex (226)</span>
+<span class="e">	CTRL-K '-' '-'	will enter a soft hyphen (173)</span>
+<span class="e"></span>
+The current <a href="digraph.txt.html#digraphs" class="d">digraphs</a> are listed with the "<a href="digraph.txt.html#%3Adigraphs" class="d">:digraphs</a>" command.  Some of the
+default ones are listed below <a href="digraph.txt.html#digraph-table" class="l">digraph-table</a><a href="repeat.txt.html#." class="d">.</a>
+
+For <span class="k">CTRL-K</span>, there <a href="motion.txt.html#is" class="d">is</a> one general digraph: <span class="k">CTRL-K</span> <a href="motion.txt.html#%3CSpace%3E" class="s">&lt;Space&gt;</a> <span class="s">{char}</span> will enter
+<span class="s">{char}</span> with the highest bit set.  You can use this to enter meta-characters.
+
+The <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> character cannot be part of <a href="insert.txt.html#a" class="d">a</a> digraph.  When hitting <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a>, Vim
+stops <a href="digraph.txt.html#digraph" class="d">digraph</a> entry and ends <a href="insert.txt.html#Insert" class="d">Insert</a> mode or <a href="cmdline.txt.html#Command-line" class="d">Command-line</a> mode, just like
+hitting an <a href="intro.txt.html#%3CEsc%3E" class="s">&lt;Esc&gt;</a> out of <a href="digraph.txt.html#digraph" class="d">digraph</a> context.  Use <a href="visual.txt.html#CTRL-V" class="k">CTRL-V</a> 155 to enter meta-ESC
+(CSI).
+
+If you accidentally typed an 'a' that should be an 'e', you will type 'a' <a href="motion.txt.html#%3CBS%3E" class="s">&lt;BS&gt;</a>
+'e'.  But that <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> digraph, so you will not get what you want.  To correct
+this, you will have to type <a href="motion.txt.html#%3CBS%3E" class="s">&lt;BS&gt;</a> <a href="motion.txt.html#e" class="d">e</a> again.  To avoid this don't set the
+<a href="options.txt.html#%27digraph%27" class="o">'digraph'</a> option and use <span class="k">CTRL-K</span> to enter digraphs.
+
+You may have problems using Vim with characters which have <a href="insert.txt.html#a" class="d">a</a> value above 128.
+For example: You <a href="insert.txt.html#insert" class="d">insert</a> ue (u-umlaut) and the editor echoes \334 in <a href="insert.txt.html#Insert" class="d">Insert</a>
+mode.  After leaving the <a href="insert.txt.html#Insert" class="d">Insert</a> mode everything <a href="motion.txt.html#is" class="d">is</a> fine.  On some Unix systems
+this means you have to define the environment-variable LC_CTYPE.  If you are
+using csh, then <a href="change.txt.html#put" class="d">put</a> the following line in your .cshrc: 
+<span class="e">	setenv LC_CTYPE en_US.utf8</span>
+(or similar <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> different language or country). The value must be <a href="insert.txt.html#a" class="d">a</a> valid
+<a href="mbyte.txt.html#locale" class="d">locale</a> on your system, i.e. on Unix-like systems <a href="motion.txt.html#it" class="d">it</a> must be present in the
+output of 
+<span class="e">	locale -a</span>
+<span class="e"></span>
+<span class="h">==============================================================================</span>
+3. Default <a href="digraph.txt.html#digraphs" class="d">digraphs</a>					<span id="digraphs-default" class="t">digraphs-default</span>
+
+Vim comes with <a href="insert.txt.html#a" class="d">a</a> set of default digraphs.  Check the output of "<a href="digraph.txt.html#%3Adigraphs" class="d">:digraphs</a>" to
+see them.
+
+On most systems Vim uses the same digraphs.  They work <a href="luaref.txt.html#for" class="d">for</a> the <a href="mbyte.txt.html#Unicode" class="d">Unicode</a> and
+ISO-8859-1 character sets.  These default <a href="digraph.txt.html#digraphs" class="d">digraphs</a> are taken from the RFC1345
+mnemonics (with some additions).  To make <a href="motion.txt.html#it" class="d">it</a> easy to remember the mnemonic,
+the second character has <a href="insert.txt.html#a" class="d">a</a> standard meaning:
+
+<span class="h">	char name		char	meaning </span>
+	Exclamation <a href="motion.txt.html#mark" class="d">mark</a>	<a href="change.txt.html#%21" class="d">!</a>	Grave
+	Apostrophe		<a href="motion.txt.html#%27" class="d">'</a>	Acute accent
+	Greater-Than sign	<a href="change.txt.html#%3E" class="d">&gt;</a>	Circumflex accent
+	Question <a href="motion.txt.html#mark" class="d">mark</a>		<a href="pattern.txt.html#%3F" class="d">?</a>	Tilde
+	Hyphen-Minus		<a href="motion.txt.html#-" class="d">-</a>	Macron
+	Left parenthesis	<a href="motion.txt.html#%28" class="d">(</a>	Breve
+	Full stop		<a href="repeat.txt.html#." class="d">.</a>	Dot above
+	Colon			<a href="cmdline.txt.html#%3A" class="d">:</a>	Diaeresis
+	Comma			<a href="motion.txt.html#%2C" class="d">,</a>	Cedilla
+	Underline		<a href="motion.txt.html#_" class="d">_</a>	Underline
+	Solidus			<a href="pattern.txt.html#%2F" class="d">/</a>	Stroke
+	Quotation <a href="motion.txt.html#mark" class="d">mark</a>		"	Double acute accent
+	Semicolon		<a href="motion.txt.html#%3B" class="d">;</a>	Ogonek
+	Less-Than sign		<a href="change.txt.html#%3C" class="d">&lt;</a>	Caron
+	Zero			<a href="motion.txt.html#0" class="d">0</a>	Ring above
+	Two			2	Hook
+	Nine			9	Horn
+
+	Equals			<a href="change.txt.html#%3D" class="d">=</a>	Cyrillic (= used <a href="motion.txt.html#as" class="d">as</a> second char)
+	Asterisk		*	Greek
+	Percent sign		<a href="motion.txt.html#%25" class="d">%</a>	Greek/Cyrillic special
+	Plus			<a href="motion.txt.html#%2B" class="d">+</a>	smalls: Arabic, capitals: Hebrew
+	Three			3	some Latin/Greek/Cyrillic letters
+	Four			4	Bopomofo
+	Five			5	Hiragana
+	Six			6	Katakana
+
+Example: a: <a href="motion.txt.html#is" class="d">is</a> ä  and o: <a href="motion.txt.html#is" class="d">is</a> ö
+
+These are the RFC1345 <a href="digraph.txt.html#digraphs" class="d">digraphs</a> <a href="luaref.txt.html#for" class="d">for</a> the one-byte characters.  See the output of
+"<a href="digraph.txt.html#%3Adigraphs" class="d">:digraphs</a>" <a href="luaref.txt.html#for" class="d">for</a> the others.
+
+<span class="c">EURO</span>
+							<span id="euro" class="t">euro</span> <span id="euro-digraph" class="t">euro-digraph</span>
+Exception: RFC1345 doesn't specify the <a href="digraph.txt.html#euro" class="d">euro</a> sign.  In Vim the <a href="digraph.txt.html#digraph" class="d">digraph</a> =e was
+added <a href="luaref.txt.html#for" class="d">for</a> this.  <span class="n">Note</span> the difference between latin1, where the <a href="digraph.txt.html#digraph" class="d">digraph</a> Cu <a href="motion.txt.html#is" class="d">is</a>
+used <a href="luaref.txt.html#for" class="d">for</a> the currency sign, and latin9 (iso-8859-15), where the <a href="digraph.txt.html#digraph" class="d">digraph</a> =e <a href="motion.txt.html#is" class="d">is</a>
+used <a href="luaref.txt.html#for" class="d">for</a> the <a href="digraph.txt.html#euro" class="d">euro</a> sign, while both of them are the character 164, 0xa4.  For
+compatibility with zsh Eu can also be used <a href="luaref.txt.html#for" class="d">for</a> the <a href="digraph.txt.html#euro" class="d">euro</a> sign.
+
+<span class="c">ROUBLE</span>
+
+The rouble sign was added in 2014 <a href="motion.txt.html#as" class="d">as</a> 0x20bd.  Vim supports the <a href="digraph.txt.html#digraphs" class="d">digraphs</a> =R and
+=P <a href="luaref.txt.html#for" class="d">for</a> this.  <span class="n">Note</span> that R= and P= are other characters.
+
+<span class="c">QUADRUPLE PRIME</span>
+
+The quadruple prime using the <a href="digraph.txt.html#digraph" class="d">digraph</a> 4' was added in 2023.  Although <a href="motion.txt.html#it" class="d">it</a> <a href="motion.txt.html#is" class="d">is</a>
+not part of RFC 1345, <a href="motion.txt.html#it" class="d">it</a> supplements the existing <a href="digraph.txt.html#digraph" class="d">digraph</a> implementation <a href="motion.txt.html#as" class="d">as</a>
+there already exist <a href="digraph.txt.html#digraphs" class="d">digraphs</a> <a href="luaref.txt.html#for" class="d">for</a> PRIME, DOUBLE PRIME and TRIPLE PRIME using
+the 1', 2' and 3' digraphs.
+
+						<span id="digraph-table" class="t">digraph-table</span> <span id="digraph-table-mbyte" class="t">digraph-table-mbyte</span>
+
+<span class="e">  char  digraph	hex	dec	official name</span>
+<span class="e">  ^@	NU	0x00	  0	NULL (NUL)</span>
+<span class="e">  ^A	SH	0x01	  1	START OF HEADING (SOH)</span>
+<span class="e">  ^B	SX	0x02	  2	START OF TEXT (STX)</span>
+<span class="e">  ^C	EX	0x03	  3	END OF TEXT (ETX)</span>
+<span class="e">  ^D	ET	0x04	  4	END OF TRANSMISSION (EOT)</span>
+<span class="e">  ^E	EQ	0x05	  5	ENQUIRY (ENQ)</span>
+<span class="e">  ^F	AK	0x06	  6	ACKNOWLEDGE (ACK)</span>
+<span class="e">  ^G	BL	0x07	  7	BELL (BEL)</span>
+<span class="e">  ^H	BS	0x08	  8	BACKSPACE (BS)</span>
+<span class="e">  ^I	HT	0x09	  9	CHARACTER TABULATION (HT)</span>
+<span class="e">  ^@	LF	0x0a	 10	LINE FEED (LF)</span>
+<span class="e">  ^K	VT	0x0b	 11	LINE TABULATION (VT)</span>
+<span class="e">  ^L	FF	0x0c	 12	FORM FEED (FF)</span>
+<span class="e">  ^M	CR	0x0d	 13	CARRIAGE RETURN (CR)</span>
+<span class="e">  ^N	SO	0x0e	 14	SHIFT OUT (SO)</span>
+<span class="e">  ^O	SI	0x0f	 15	SHIFT IN (SI)</span>
+<span class="e">  ^P	DL	0x10	 16	DATALINK ESCAPE (DLE)</span>
+<span class="e">  ^Q	D1	0x11	 17	DEVICE CONTROL ONE (DC1)</span>
+<span class="e">  ^R	D2	0x12	 18	DEVICE CONTROL TWO (DC2)</span>
+<span class="e">  ^S	D3	0x13	 19	DEVICE CONTROL THREE (DC3)</span>
+<span class="e">  ^T	D4	0x14	 20	DEVICE CONTROL FOUR (DC4)</span>
+<span class="e">  ^U	NK	0x15	 21	NEGATIVE ACKNOWLEDGE (NAK)</span>
+<span class="e">  ^V	SY	0x16	 22	SYNCHRONOUS IDLE (SYN)</span>
+<span class="e">  ^W	EB	0x17	 23	END OF TRANSMISSION BLOCK (ETB)</span>
+<span class="e">  ^X	CN	0x18	 24	CANCEL (CAN)</span>
+<span class="e">  ^Y	EM	0x19	 25	END OF MEDIUM (EM)</span>
+<span class="e">  ^Z	SB	0x1a	 26	SUBSTITUTE (SUB)</span>
+<span class="e">  ^[	EC	0x1b	 27	ESCAPE (ESC)</span>
+<span class="e">  ^\	FS	0x1c	 28	FILE SEPARATOR (IS4)</span>
+<span class="e">  ^]	GS	0x1d	 29	GROUP SEPARATOR (IS3)</span>
+<span class="e">  ^^	RS	0x1e	 30	RECORD SEPARATOR (IS2)</span>
+<span class="e">  ^_	US	0x1f	 31	UNIT SEPARATOR (IS1)</span>
+<span class="e">	SP	0x20	 32	SPACE</span>
+<span class="e">  #	Nb	0x23	 35	NUMBER SIGN</span>
+<span class="e">  $	DO	0x24	 36	DOLLAR SIGN</span>
+<span class="e">  @	At	0x40	 64	COMMERCIAL AT</span>
+<span class="e">  [	&lt;(	0x5b	 91	LEFT SQUARE BRACKET</span>
+<span class="e">  \	//	0x5c	 92	REVERSE SOLIDUS</span>
+<span class="e">  ]	)&gt;	0x5d	 93	RIGHT SQUARE BRACKET</span>
+<span class="e">  ^	'&gt;	0x5e	 94	CIRCUMFLEX ACCENT</span>
+<span class="e">  `	'!	0x60	 96	GRAVE ACCENT</span>
+<span class="e">  {	(!	0x7b	123	LEFT CURLY BRACKET</span>
+<span class="e">  |	!!	0x7c	124	VERTICAL LINE</span>
+<span class="e">  }	!)	0x7d	125	RIGHT CURLY BRACKET</span>
+<span class="e">  ~	'?	0x7e	126	TILDE</span>
+<span class="e">  ^?	DT	0x7f	127	DELETE (DEL)</span>
+<span class="e">  ~@	PA	0x80	128	PADDING CHARACTER (PAD)</span>
+<span class="e">  ~A	HO	0x81	129	HIGH OCTET PRESET (HOP)</span>
+<span class="e">  ~B	BH	0x82	130	BREAK PERMITTED HERE (BPH)</span>
+<span class="e">  ~C	NH	0x83	131	NO BREAK HERE (NBH)</span>
+<span class="e">  ~D	IN	0x84	132	INDEX (IND)</span>
+<span class="e">  ~E	NL	0x85	133	NEXT LINE (NEL)</span>
+<span class="e">  ~F	SA	0x86	134	START OF SELECTED AREA (SSA)</span>
+<span class="e">  ~G	ES	0x87	135	END OF SELECTED AREA (ESA)</span>
+<span class="e">  ~H	HS	0x88	136	CHARACTER TABULATION SET (HTS)</span>
+<span class="e">  ~I	HJ	0x89	137	CHARACTER TABULATION WITH JUSTIFICATION (HTJ)</span>
+<span class="e">  ~J	VS	0x8a	138	LINE TABULATION SET (VTS)</span>
+<span class="e">  ~K	PD	0x8b	139	PARTIAL LINE FORWARD (PLD)</span>
+<span class="e">  ~L	PU	0x8c	140	PARTIAL LINE BACKWARD (PLU)</span>
+<span class="e">  ~M	RI	0x8d	141	REVERSE LINE FEED (RI)</span>
+<span class="e">  ~N	S2	0x8e	142	SINGLE-SHIFT TWO (SS2)</span>
+<span class="e">  ~O	S3	0x8f	143	SINGLE-SHIFT THREE (SS3)</span>
+<span class="e">  ~P	DC	0x90	144	DEVICE CONTROL STRING (DCS)</span>
+<span class="e">  ~Q	P1	0x91	145	PRIVATE USE ONE (PU1)</span>
+<span class="e">  ~R	P2	0x92	146	PRIVATE USE TWO (PU2)</span>
+<span class="e">  ~S	TS	0x93	147	SET TRANSMIT STATE (STS)</span>
+<span class="e">  ~T	CC	0x94	148	CANCEL CHARACTER (CCH)</span>
+<span class="e">  ~U	MW	0x95	149	MESSAGE WAITING (MW)</span>
+<span class="e">  ~V	SG	0x96	150	START OF GUARDED AREA (SPA)</span>
+<span class="e">  ~W	EG	0x97	151	END OF GUARDED AREA (EPA)</span>
+<span class="e">  ~X	SS	0x98	152	START OF STRING (SOS)</span>
+<span class="e">  ~Y	GC	0x99	153	SINGLE GRAPHIC CHARACTER INTRODUCER (SGCI)</span>
+<span class="e">  ~Z	SC	0x9a	154	SINGLE CHARACTER INTRODUCER (SCI)</span>
+<span class="e">  ~[	CI	0x9b	155	CONTROL SEQUENCE INTRODUCER (CSI)</span>
+<span class="e">  ~\	ST	0x9c	156	STRING TERMINATOR (ST)</span>
+<span class="e">  ~]	OC	0x9d	157	OPERATING SYSTEM COMMAND (OSC)</span>
+<span class="e">  ~^	PM	0x9e	158	PRIVACY MESSAGE (PM)</span>
+<span class="e">  ~_	AC	0x9f	159	APPLICATION PROGRAM COMMAND (APC)</span>
+<span class="e">  |	NS	0xa0	160	NO-BREAK SPACE</span>
+<span class="e">  ¡	!I	0xa1	161	INVERTED EXCLAMATION MARK</span>
+<span class="e">  ¢	Ct	0xa2	162	CENT SIGN</span>
+<span class="e">  £	Pd	0xa3	163	POUND SIGN</span>
+<span class="e">  ¤	Cu	0xa4	164	CURRENCY SIGN</span>
+<span class="e">  ¥	Ye	0xa5	165	YEN SIGN</span>
+<span class="e">  ¦	BB	0xa6	166	BROKEN BAR</span>
+<span class="e">  §	SE	0xa7	167	SECTION SIGN</span>
+<span class="e">  ¨	':	0xa8	168	DIAERESIS</span>
+<span class="e">  ©	Co	0xa9	169	COPYRIGHT SIGN</span>
+<span class="e">  ª	-a	0xaa	170	FEMININE ORDINAL INDICATOR</span>
+<span class="e">  «	&lt;&lt;	0xab	171	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK</span>
+<span class="e">  ¬	NO	0xac	172	NOT SIGN</span>
+<span class="e">  ­	--	0xad	173	SOFT HYPHEN</span>
+<span class="e">  ®	Rg	0xae	174	REGISTERED SIGN</span>
+<span class="e">  ¯	'm	0xaf	175	MACRON</span>
+<span class="e">  °	DG	0xb0	176	DEGREE SIGN</span>
+<span class="e">  ±	+-	0xb1	177	PLUS-MINUS SIGN</span>
+<span class="e">  ²	2S	0xb2	178	SUPERSCRIPT TWO</span>
+<span class="e">  ³	3S	0xb3	179	SUPERSCRIPT THREE</span>
+<span class="e">  ´	''	0xb4	180	ACUTE ACCENT</span>
+<span class="e">  µ	My	0xb5	181	MICRO SIGN</span>
+<span class="e">  ¶	PI	0xb6	182	PILCROW SIGN</span>
+<span class="e">  ·	.M	0xb7	183	MIDDLE DOT</span>
+<span class="e">  ¸	',	0xb8	184	CEDILLA</span>
+<span class="e">  ¹	1S	0xb9	185	SUPERSCRIPT ONE</span>
+<span class="e">  º	-o	0xba	186	MASCULINE ORDINAL INDICATOR</span>
+<span class="e">  »	&gt;&gt;	0xbb	187	RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK</span>
+<span class="e">  ¼	14	0xbc	188	VULGAR FRACTION ONE QUARTER</span>
+<span class="e">  ½	12	0xbd	189	VULGAR FRACTION ONE HALF</span>
+<span class="e">  ¾	34	0xbe	190	VULGAR FRACTION THREE QUARTERS</span>
+<span class="e">  ¿	?I	0xbf	191	INVERTED QUESTION MARK</span>
+<span class="e">  À	A!	0xc0	192	LATIN CAPITAL LETTER A WITH GRAVE</span>
+<span class="e">  Á	A'	0xc1	193	LATIN CAPITAL LETTER A WITH ACUTE</span>
+<span class="e">  Â	A&gt;	0xc2	194	LATIN CAPITAL LETTER A WITH CIRCUMFLEX</span>
+<span class="e">  Ã	A?	0xc3	195	LATIN CAPITAL LETTER A WITH TILDE</span>
+<span class="e">  Ä	A:	0xc4	196	LATIN CAPITAL LETTER A WITH DIAERESIS</span>
+<span class="e">  Å	AA	0xc5	197	LATIN CAPITAL LETTER A WITH RING ABOVE</span>
+<span class="e">  Æ	AE	0xc6	198	LATIN CAPITAL LETTER AE</span>
+<span class="e">  Ç	C,	0xc7	199	LATIN CAPITAL LETTER C WITH CEDILLA</span>
+<span class="e">  È	E!	0xc8	200	LATIN CAPITAL LETTER E WITH GRAVE</span>
+<span class="e">  É	E'	0xc9	201	LATIN CAPITAL LETTER E WITH ACUTE</span>
+<span class="e">  Ê	E&gt;	0xca	202	LATIN CAPITAL LETTER E WITH CIRCUMFLEX</span>
+<span class="e">  Ë	E:	0xcb	203	LATIN CAPITAL LETTER E WITH DIAERESIS</span>
+<span class="e">  Ì	I!	0xcc	204	LATIN CAPITAL LETTER I WITH GRAVE</span>
+<span class="e">  Í	I'	0xcd	205	LATIN CAPITAL LETTER I WITH ACUTE</span>
+<span class="e">  Î	I&gt;	0xce	206	LATIN CAPITAL LETTER I WITH CIRCUMFLEX</span>
+<span class="e">  Ï	I:	0xcf	207	LATIN CAPITAL LETTER I WITH DIAERESIS</span>
+<span class="e">  Ð	D-	0xd0	208	LATIN CAPITAL LETTER ETH (Icelandic)</span>
+<span class="e">  Ñ	N?	0xd1	209	LATIN CAPITAL LETTER N WITH TILDE</span>
+<span class="e">  Ò	O!	0xd2	210	LATIN CAPITAL LETTER O WITH GRAVE</span>
+<span class="e">  Ó	O'	0xd3	211	LATIN CAPITAL LETTER O WITH ACUTE</span>
+<span class="e">  Ô	O&gt;	0xd4	212	LATIN CAPITAL LETTER O WITH CIRCUMFLEX</span>
+<span class="e">  Õ	O?	0xd5	213	LATIN CAPITAL LETTER O WITH TILDE</span>
+<span class="e">  Ö	O:	0xd6	214	LATIN CAPITAL LETTER O WITH DIAERESIS</span>
+<span class="e">  ×	*X	0xd7	215	MULTIPLICATION SIGN</span>
+<span class="e">  Ø	O/	0xd8	216	LATIN CAPITAL LETTER O WITH STROKE</span>
+<span class="e">  Ù	U!	0xd9	217	LATIN CAPITAL LETTER U WITH GRAVE</span>
+<span class="e">  Ú	U'	0xda	218	LATIN CAPITAL LETTER U WITH ACUTE</span>
+<span class="e">  Û	U&gt;	0xdb	219	LATIN CAPITAL LETTER U WITH CIRCUMFLEX</span>
+<span class="e">  Ü	U:	0xdc	220	LATIN CAPITAL LETTER U WITH DIAERESIS</span>
+<span class="e">  Ý	Y'	0xdd	221	LATIN CAPITAL LETTER Y WITH ACUTE</span>
+<span class="e">  Þ	TH	0xde	222	LATIN CAPITAL LETTER THORN (Icelandic)</span>
+<span class="e">  ß	ss	0xdf	223	LATIN SMALL LETTER SHARP S (German)</span>
+<span class="e">  à	a!	0xe0	224	LATIN SMALL LETTER A WITH GRAVE</span>
+<span class="e">  á	a'	0xe1	225	LATIN SMALL LETTER A WITH ACUTE</span>
+<span class="e">  â	a&gt;	0xe2	226	LATIN SMALL LETTER A WITH CIRCUMFLEX</span>
+<span class="e">  ã	a?	0xe3	227	LATIN SMALL LETTER A WITH TILDE</span>
+<span class="e">  ä	a:	0xe4	228	LATIN SMALL LETTER A WITH DIAERESIS</span>
+<span class="e">  å	aa	0xe5	229	LATIN SMALL LETTER A WITH RING ABOVE</span>
+<span class="e">  æ	ae	0xe6	230	LATIN SMALL LETTER AE</span>
+<span class="e">  ç	c,	0xe7	231	LATIN SMALL LETTER C WITH CEDILLA</span>
+<span class="e">  è	e!	0xe8	232	LATIN SMALL LETTER E WITH GRAVE</span>
+<span class="e">  é	e'	0xe9	233	LATIN SMALL LETTER E WITH ACUTE</span>
+<span class="e">  ê	e&gt;	0xea	234	LATIN SMALL LETTER E WITH CIRCUMFLEX</span>
+<span class="e">  ë	e:	0xeb	235	LATIN SMALL LETTER E WITH DIAERESIS</span>
+<span class="e">  ì	i!	0xec	236	LATIN SMALL LETTER I WITH GRAVE</span>
+<span class="e">  í	i'	0xed	237	LATIN SMALL LETTER I WITH ACUTE</span>
+<span class="e">  î	i&gt;	0xee	238	LATIN SMALL LETTER I WITH CIRCUMFLEX</span>
+<span class="e">  ï	i:	0xef	239	LATIN SMALL LETTER I WITH DIAERESIS</span>
+<span class="e">  ð	d-	0xf0	240	LATIN SMALL LETTER ETH (Icelandic)</span>
+<span class="e">  ñ	n?	0xf1	241	LATIN SMALL LETTER N WITH TILDE</span>
+<span class="e">  ò	o!	0xf2	242	LATIN SMALL LETTER O WITH GRAVE</span>
+<span class="e">  ó	o'	0xf3	243	LATIN SMALL LETTER O WITH ACUTE</span>
+<span class="e">  ô	o&gt;	0xf4	244	LATIN SMALL LETTER O WITH CIRCUMFLEX</span>
+<span class="e">  õ	o?	0xf5	245	LATIN SMALL LETTER O WITH TILDE</span>
+<span class="e">  ö	o:	0xf6	246	LATIN SMALL LETTER O WITH DIAERESIS</span>
+<span class="e">  ÷	-:	0xf7	247	DIVISION SIGN</span>
+<span class="e">  ø	o/	0xf8	248	LATIN SMALL LETTER O WITH STROKE</span>
+<span class="e">  ù	u!	0xf9	249	LATIN SMALL LETTER U WITH GRAVE</span>
+<span class="e">  ú	u'	0xfa	250	LATIN SMALL LETTER U WITH ACUTE</span>
+<span class="e">  û	u&gt;	0xfb	251	LATIN SMALL LETTER U WITH CIRCUMFLEX</span>
+<span class="e">  ü	u:	0xfc	252	LATIN SMALL LETTER U WITH DIAERESIS</span>
+<span class="e">  ý	y'	0xfd	253	LATIN SMALL LETTER Y WITH ACUTE</span>
+<span class="e">  þ	th	0xfe	254	LATIN SMALL LETTER THORN (Icelandic)</span>
+<span class="e">  ÿ	y:	0xff	255	LATIN SMALL LETTER Y WITH DIAERESIS</span>
+<span class="e">  Ā	A-	0100	0256	LATIN CAPITAL LETTER A WITH MACRON</span>
+<span class="e">  ā	a-	0101	0257	LATIN SMALL LETTER A WITH MACRON</span>
+<span class="e">  Ă	A(	0102	0258	LATIN CAPITAL LETTER A WITH BREVE</span>
+<span class="e">  ă	a(	0103	0259	LATIN SMALL LETTER A WITH BREVE</span>
+<span class="e">  Ą	A;	0104	0260	LATIN CAPITAL LETTER A WITH OGONEK</span>
+<span class="e">  ą	a;	0105	0261	LATIN SMALL LETTER A WITH OGONEK</span>
+<span class="e">  Ć	C'	0106	0262	LATIN CAPITAL LETTER C WITH ACUTE</span>
+<span class="e">  ć	c'	0107	0263	LATIN SMALL LETTER C WITH ACUTE</span>
+<span class="e">  Ĉ	C&gt;	0108	0264	LATIN CAPITAL LETTER C WITH CIRCUMFLEX</span>
+<span class="e">  ĉ	c&gt;	0109	0265	LATIN SMALL LETTER C WITH CIRCUMFLEX</span>
+<span class="e">  Ċ	C.	010A	0266	LATIN CAPITAL LETTER C WITH DOT ABOVE</span>
+<span class="e">  ċ	c.	010B	0267	LATIN SMALL LETTER C WITH DOT ABOVE</span>
+<span class="e">  Č	C&lt;	010C	0268	LATIN CAPITAL LETTER C WITH CARON</span>
+<span class="e">  č	c&lt;	010D	0269	LATIN SMALL LETTER C WITH CARON</span>
+<span class="e">  Ď	D&lt;	010E	0270	LATIN CAPITAL LETTER D WITH CARON</span>
+<span class="e">  ď	d&lt;	010F	0271	LATIN SMALL LETTER D WITH CARON</span>
+<span class="e">  Đ	D/	0110	0272	LATIN CAPITAL LETTER D WITH STROKE</span>
+<span class="e">  đ	d/	0111	0273	LATIN SMALL LETTER D WITH STROKE</span>
+<span class="e">  Ē	E-	0112	0274	LATIN CAPITAL LETTER E WITH MACRON</span>
+<span class="e">  ē	e-	0113	0275	LATIN SMALL LETTER E WITH MACRON</span>
+<span class="e">  Ĕ	E(	0114	0276	LATIN CAPITAL LETTER E WITH BREVE</span>
+<span class="e">  ĕ	e(	0115	0277	LATIN SMALL LETTER E WITH BREVE</span>
+<span class="e">  Ė	E.	0116	0278	LATIN CAPITAL LETTER E WITH DOT ABOVE</span>
+<span class="e">  ė	e.	0117	0279	LATIN SMALL LETTER E WITH DOT ABOVE</span>
+<span class="e">  Ę	E;	0118	0280	LATIN CAPITAL LETTER E WITH OGONEK</span>
+<span class="e">  ę	e;	0119	0281	LATIN SMALL LETTER E WITH OGONEK</span>
+<span class="e">  Ě	E&lt;	011A	0282	LATIN CAPITAL LETTER E WITH CARON</span>
+<span class="e">  ě	e&lt;	011B	0283	LATIN SMALL LETTER E WITH CARON</span>
+<span class="e">  Ĝ	G&gt;	011C	0284	LATIN CAPITAL LETTER G WITH CIRCUMFLEX</span>
+<span class="e">  ĝ	g&gt;	011D	0285	LATIN SMALL LETTER G WITH CIRCUMFLEX</span>
+<span class="e">  Ğ	G(	011E	0286	LATIN CAPITAL LETTER G WITH BREVE</span>
+<span class="e">  ğ	g(	011F	0287	LATIN SMALL LETTER G WITH BREVE</span>
+<span class="e">  Ġ	G.	0120	0288	LATIN CAPITAL LETTER G WITH DOT ABOVE</span>
+<span class="e">  ġ	g.	0121	0289	LATIN SMALL LETTER G WITH DOT ABOVE</span>
+<span class="e">  Ģ	G,	0122	0290	LATIN CAPITAL LETTER G WITH CEDILLA</span>
+<span class="e">  ģ	g,	0123	0291	LATIN SMALL LETTER G WITH CEDILLA</span>
+<span class="e">  Ĥ	H&gt;	0124	0292	LATIN CAPITAL LETTER H WITH CIRCUMFLEX</span>
+<span class="e">  ĥ	h&gt;	0125	0293	LATIN SMALL LETTER H WITH CIRCUMFLEX</span>
+<span class="e">  Ħ	H/	0126	0294	LATIN CAPITAL LETTER H WITH STROKE</span>
+<span class="e">  ħ	h/	0127	0295	LATIN SMALL LETTER H WITH STROKE</span>
+<span class="e">  Ĩ	I?	0128	0296	LATIN CAPITAL LETTER I WITH TILDE</span>
+<span class="e">  ĩ	i?	0129	0297	LATIN SMALL LETTER I WITH TILDE</span>
+<span class="e">  Ī	I-	012A	0298	LATIN CAPITAL LETTER I WITH MACRON</span>
+<span class="e">  ī	i-	012B	0299	LATIN SMALL LETTER I WITH MACRON</span>
+<span class="e">  Ĭ	I(	012C	0300	LATIN CAPITAL LETTER I WITH BREVE</span>
+<span class="e">  ĭ	i(	012D	0301	LATIN SMALL LETTER I WITH BREVE</span>
+<span class="e">  Į	I;	012E	0302	LATIN CAPITAL LETTER I WITH OGONEK</span>
+<span class="e">  į	i;	012F	0303	LATIN SMALL LETTER I WITH OGONEK</span>
+<span class="e">  İ	I.	0130	0304	LATIN CAPITAL LETTER I WITH DOT ABOVE</span>
+<span class="e">  ı	i.	0131	0305	LATIN SMALL LETTER DOTLESS I</span>
+<span class="e">  Ĳ	IJ	0132	0306	LATIN CAPITAL LIGATURE IJ</span>
+<span class="e">  ĳ	ij	0133	0307	LATIN SMALL LIGATURE IJ</span>
+<span class="e">  Ĵ	J&gt;	0134	0308	LATIN CAPITAL LETTER J WITH CIRCUMFLEX</span>
+<span class="e">  ĵ	j&gt;	0135	0309	LATIN SMALL LETTER J WITH CIRCUMFLEX</span>
+<span class="e">  Ķ	K,	0136	0310	LATIN CAPITAL LETTER K WITH CEDILLA</span>
+<span class="e">  ķ	k,	0137	0311	LATIN SMALL LETTER K WITH CEDILLA</span>
+<span class="e">  ĸ	kk	0138	0312	LATIN SMALL LETTER KRA</span>
+<span class="e">  Ĺ	L'	0139	0313	LATIN CAPITAL LETTER L WITH ACUTE</span>
+<span class="e">  ĺ	l'	013A	0314	LATIN SMALL LETTER L WITH ACUTE</span>
+<span class="e">  Ļ	L,	013B	0315	LATIN CAPITAL LETTER L WITH CEDILLA</span>
+<span class="e">  ļ	l,	013C	0316	LATIN SMALL LETTER L WITH CEDILLA</span>
+<span class="e">  Ľ	L&lt;	013D	0317	LATIN CAPITAL LETTER L WITH CARON</span>
+<span class="e">  ľ	l&lt;	013E	0318	LATIN SMALL LETTER L WITH CARON</span>
+<span class="e">  Ŀ	L.	013F	0319	LATIN CAPITAL LETTER L WITH MIDDLE DOT</span>
+<span class="e">  ŀ	l.	0140	0320	LATIN SMALL LETTER L WITH MIDDLE DOT</span>
+<span class="e">  Ł	L/	0141	0321	LATIN CAPITAL LETTER L WITH STROKE</span>
+<span class="e">  ł	l/	0142	0322	LATIN SMALL LETTER L WITH STROKE</span>
+<span class="e">  Ń	N'	0143	0323	LATIN CAPITAL LETTER N WITH ACUTE `</span>
+<span class="e">  ń	n'	0144	0324	LATIN SMALL LETTER N WITH ACUTE `</span>
+<span class="e">  Ņ	N,	0145	0325	LATIN CAPITAL LETTER N WITH CEDILLA `</span>
+<span class="e">  ņ	n,	0146	0326	LATIN SMALL LETTER N WITH CEDILLA `</span>
+<span class="e">  Ň	N&lt;	0147	0327	LATIN CAPITAL LETTER N WITH CARON `</span>
+<span class="e">  ň	n&lt;	0148	0328	LATIN SMALL LETTER N WITH CARON `</span>
+<span class="e">  ŉ	'n	0149	0329	LATIN SMALL LETTER N PRECEDED BY APOSTROPHE `</span>
+<span class="e">  Ŋ	NG	014A	0330	LATIN CAPITAL LETTER ENG</span>
+<span class="e">  ŋ	ng	014B	0331	LATIN SMALL LETTER ENG</span>
+<span class="e">  Ō	O-	014C	0332	LATIN CAPITAL LETTER O WITH MACRON</span>
+<span class="e">  ō	o-	014D	0333	LATIN SMALL LETTER O WITH MACRON</span>
+<span class="e">  Ŏ	O(	014E	0334	LATIN CAPITAL LETTER O WITH BREVE</span>
+<span class="e">  ŏ	o(	014F	0335	LATIN SMALL LETTER O WITH BREVE</span>
+<span class="e">  Ő	O"	0150	0336	LATIN CAPITAL LETTER O WITH DOUBLE ACUTE</span>
+<span class="e">  ő	o"	0151	0337	LATIN SMALL LETTER O WITH DOUBLE ACUTE</span>
+<span class="e">  Œ	OE	0152	0338	LATIN CAPITAL LIGATURE OE</span>
+<span class="e">  œ	oe	0153	0339	LATIN SMALL LIGATURE OE</span>
+<span class="e">  Ŕ	R'	0154	0340	LATIN CAPITAL LETTER R WITH ACUTE</span>
+<span class="e">  ŕ	r'	0155	0341	LATIN SMALL LETTER R WITH ACUTE</span>
+<span class="e">  Ŗ	R,	0156	0342	LATIN CAPITAL LETTER R WITH CEDILLA</span>
+<span class="e">  ŗ	r,	0157	0343	LATIN SMALL LETTER R WITH CEDILLA</span>
+<span class="e">  Ř	R&lt;	0158	0344	LATIN CAPITAL LETTER R WITH CARON</span>
+<span class="e">  ř	r&lt;	0159	0345	LATIN SMALL LETTER R WITH CARON</span>
+<span class="e">  Ś	S'	015A	0346	LATIN CAPITAL LETTER S WITH ACUTE</span>
+<span class="e">  ś	s'	015B	0347	LATIN SMALL LETTER S WITH ACUTE</span>
+<span class="e">  Ŝ	S&gt;	015C	0348	LATIN CAPITAL LETTER S WITH CIRCUMFLEX</span>
+<span class="e">  ŝ	s&gt;	015D	0349	LATIN SMALL LETTER S WITH CIRCUMFLEX</span>
+<span class="e">  Ş	S,	015E	0350	LATIN CAPITAL LETTER S WITH CEDILLA</span>
+<span class="e">  ş	s,	015F	0351	LATIN SMALL LETTER S WITH CEDILLA</span>
+<span class="e">  Š	S&lt;	0160	0352	LATIN CAPITAL LETTER S WITH CARON</span>
+<span class="e">  š	s&lt;	0161	0353	LATIN SMALL LETTER S WITH CARON</span>
+<span class="e">  Ţ	T,	0162	0354	LATIN CAPITAL LETTER T WITH CEDILLA</span>
+<span class="e">  ţ	t,	0163	0355	LATIN SMALL LETTER T WITH CEDILLA</span>
+<span class="e">  Ť	T&lt;	0164	0356	LATIN CAPITAL LETTER T WITH CARON</span>
+<span class="e">  ť	t&lt;	0165	0357	LATIN SMALL LETTER T WITH CARON</span>
+<span class="e">  Ŧ	T/	0166	0358	LATIN CAPITAL LETTER T WITH STROKE</span>
+<span class="e">  ŧ	t/	0167	0359	LATIN SMALL LETTER T WITH STROKE</span>
+<span class="e">  Ũ	U?	0168	0360	LATIN CAPITAL LETTER U WITH TILDE</span>
+<span class="e">  ũ	u?	0169	0361	LATIN SMALL LETTER U WITH TILDE</span>
+<span class="e">  Ū	U-	016A	0362	LATIN CAPITAL LETTER U WITH MACRON</span>
+<span class="e">  ū	u-	016B	0363	LATIN SMALL LETTER U WITH MACRON</span>
+<span class="e">  Ŭ	U(	016C	0364	LATIN CAPITAL LETTER U WITH BREVE</span>
+<span class="e">  ŭ	u(	016D	0365	LATIN SMALL LETTER U WITH BREVE</span>
+<span class="e">  Ů	U0	016E	0366	LATIN CAPITAL LETTER U WITH RING ABOVE</span>
+<span class="e">  ů	u0	016F	0367	LATIN SMALL LETTER U WITH RING ABOVE</span>
+<span class="e">  Ű	U"	0170	0368	LATIN CAPITAL LETTER U WITH DOUBLE ACUTE</span>
+<span class="e">  ű	u"	0171	0369	LATIN SMALL LETTER U WITH DOUBLE ACUTE</span>
+<span class="e">  Ų	U;	0172	0370	LATIN CAPITAL LETTER U WITH OGONEK</span>
+<span class="e">  ų	u;	0173	0371	LATIN SMALL LETTER U WITH OGONEK</span>
+<span class="e">  Ŵ	W&gt;	0174	0372	LATIN CAPITAL LETTER W WITH CIRCUMFLEX</span>
+<span class="e">  ŵ	w&gt;	0175	0373	LATIN SMALL LETTER W WITH CIRCUMFLEX</span>
+<span class="e">  Ŷ	Y&gt;	0176	0374	LATIN CAPITAL LETTER Y WITH CIRCUMFLEX</span>
+<span class="e">  ŷ	y&gt;	0177	0375	LATIN SMALL LETTER Y WITH CIRCUMFLEX</span>
+<span class="e">  Ÿ	Y:	0178	0376	LATIN CAPITAL LETTER Y WITH DIAERESIS</span>
+<span class="e">  Ź	Z'	0179	0377	LATIN CAPITAL LETTER Z WITH ACUTE</span>
+<span class="e">  ź	z'	017A	0378	LATIN SMALL LETTER Z WITH ACUTE</span>
+<span class="e">  Ż	Z.	017B	0379	LATIN CAPITAL LETTER Z WITH DOT ABOVE</span>
+<span class="e">  ż	z.	017C	0380	LATIN SMALL LETTER Z WITH DOT ABOVE</span>
+<span class="e">  Ž	Z&lt;	017D	0381	LATIN CAPITAL LETTER Z WITH CARON</span>
+<span class="e">  ž	z&lt;	017E	0382	LATIN SMALL LETTER Z WITH CARON</span>
+<span class="e">  Ơ	O9	01A0	0416	LATIN CAPITAL LETTER O WITH HORN</span>
+<span class="e">  ơ	o9	01A1	0417	LATIN SMALL LETTER O WITH HORN</span>
+<span class="e">  Ƣ	OI	01A2	0418	LATIN CAPITAL LETTER OI</span>
+<span class="e">  ƣ	oi	01A3	0419	LATIN SMALL LETTER OI</span>
+<span class="e">  Ʀ	yr	01A6	0422	LATIN LETTER YR</span>
+<span class="e">  Ư	U9	01AF	0431	LATIN CAPITAL LETTER U WITH HORN</span>
+<span class="e">  ư	u9	01B0	0432	LATIN SMALL LETTER U WITH HORN</span>
+<span class="e">  Ƶ	Z/	01B5	0437	LATIN CAPITAL LETTER Z WITH STROKE</span>
+<span class="e">  ƶ	z/	01B6	0438	LATIN SMALL LETTER Z WITH STROKE</span>
+<span class="e">  Ʒ	ED	01B7	0439	LATIN CAPITAL LETTER EZH</span>
+<span class="e">  Ǎ	A&lt;	01CD	0461	LATIN CAPITAL LETTER A WITH CARON</span>
+<span class="e">  ǎ	a&lt;	01CE	0462	LATIN SMALL LETTER A WITH CARON</span>
+<span class="e">  Ǐ	I&lt;	01CF	0463	LATIN CAPITAL LETTER I WITH CARON</span>
+<span class="e">  ǐ	i&lt;	01D0	0464	LATIN SMALL LETTER I WITH CARON</span>
+<span class="e">  Ǒ	O&lt;	01D1	0465	LATIN CAPITAL LETTER O WITH CARON</span>
+<span class="e">  ǒ	o&lt;	01D2	0466	LATIN SMALL LETTER O WITH CARON</span>
+<span class="e">  Ǔ	U&lt;	01D3	0467	LATIN CAPITAL LETTER U WITH CARON</span>
+<span class="e">  ǔ	u&lt;	01D4	0468	LATIN SMALL LETTER U WITH CARON</span>
+<span class="e">  Ǟ	A1	01DE	0478	LATIN CAPITAL LETTER A WITH DIAERESIS AND MACRON</span>
+<span class="e">  ǟ	a1	01DF	0479	LATIN SMALL LETTER A WITH DIAERESIS AND MACRON</span>
+<span class="e">  Ǡ	A7	01E0	0480	LATIN CAPITAL LETTER A WITH DOT ABOVE AND MACRON</span>
+<span class="e">  ǡ	a7	01E1	0481	LATIN SMALL LETTER A WITH DOT ABOVE AND MACRON</span>
+<span class="e">  Ǣ	A3	01E2	0482	LATIN CAPITAL LETTER AE WITH MACRON</span>
+<span class="e">  ǣ	a3	01E3	0483	LATIN SMALL LETTER AE WITH MACRON</span>
+<span class="e">  Ǥ	G/	01E4	0484	LATIN CAPITAL LETTER G WITH STROKE</span>
+<span class="e">  ǥ	g/	01E5	0485	LATIN SMALL LETTER G WITH STROKE</span>
+<span class="e">  Ǧ	G&lt;	01E6	0486	LATIN CAPITAL LETTER G WITH CARON</span>
+<span class="e">  ǧ	g&lt;	01E7	0487	LATIN SMALL LETTER G WITH CARON</span>
+<span class="e">  Ǩ	K&lt;	01E8	0488	LATIN CAPITAL LETTER K WITH CARON</span>
+<span class="e">  ǩ	k&lt;	01E9	0489	LATIN SMALL LETTER K WITH CARON</span>
+<span class="e">  Ǫ	O;	01EA	0490	LATIN CAPITAL LETTER O WITH OGONEK</span>
+<span class="e">  ǫ	o;	01EB	0491	LATIN SMALL LETTER O WITH OGONEK</span>
+<span class="e">  Ǭ	O1	01EC	0492	LATIN CAPITAL LETTER O WITH OGONEK AND MACRON</span>
+<span class="e">  ǭ	o1	01ED	0493	LATIN SMALL LETTER O WITH OGONEK AND MACRON</span>
+<span class="e">  Ǯ	EZ	01EE	0494	LATIN CAPITAL LETTER EZH WITH CARON</span>
+<span class="e">  ǯ	ez	01EF	0495	LATIN SMALL LETTER EZH WITH CARON</span>
+<span class="e">  ǰ	j&lt;	01F0	0496	LATIN SMALL LETTER J WITH CARON</span>
+<span class="e">  Ǵ	G'	01F4	0500	LATIN CAPITAL LETTER G WITH ACUTE</span>
+<span class="e">  ǵ	g'	01F5	0501	LATIN SMALL LETTER G WITH ACUTE</span>
+<span class="e">  ʿ	;S	02BF	0703	MODIFIER LETTER LEFT HALF RING</span>
+<span class="e">  ˇ	'&lt;	02C7	0711	CARON</span>
+<span class="e">  ˘	'(	02D8	0728	BREVE</span>
+<span class="e">  ˙	'.	02D9	0729	DOT ABOVE</span>
+<span class="e">  ˚	'0	02DA	0730	RING ABOVE</span>
+<span class="e">  ˛	';	02DB	0731	OGONEK</span>
+<span class="e">  ˝	'"	02DD	0733	DOUBLE ACUTE ACCENT</span>
+<span class="e">  Ά	A%	0386	0902	GREEK CAPITAL LETTER ALPHA WITH TONOS</span>
+<span class="e">  Έ	E%	0388	0904	GREEK CAPITAL LETTER EPSILON WITH TONOS</span>
+<span class="e">  Ή	Y%	0389	0905	GREEK CAPITAL LETTER ETA WITH TONOS</span>
+<span class="e">  Ί	I%	038A	0906	GREEK CAPITAL LETTER IOTA WITH TONOS</span>
+<span class="e">  Ό	O%	038C	0908	GREEK CAPITAL LETTER OMICRON WITH TONOS</span>
+<span class="e">  Ύ	U%	038E	0910	GREEK CAPITAL LETTER UPSILON WITH TONOS</span>
+<span class="e">  Ώ	W%	038F	0911	GREEK CAPITAL LETTER OMEGA WITH TONOS</span>
+<span class="e">  ΐ	i3	0390	0912	GREEK SMALL LETTER IOTA WITH DIALYTIKA AND TONOS</span>
+<span class="e">  Α	A*	0391	0913	GREEK CAPITAL LETTER ALPHA</span>
+<span class="e">  Β	B*	0392	0914	GREEK CAPITAL LETTER BETA</span>
+<span class="e">  Γ	G*	0393	0915	GREEK CAPITAL LETTER GAMMA</span>
+<span class="e">  Δ	D*	0394	0916	GREEK CAPITAL LETTER DELTA</span>
+<span class="e">  Ε	E*	0395	0917	GREEK CAPITAL LETTER EPSILON</span>
+<span class="e">  Ζ	Z*	0396	0918	GREEK CAPITAL LETTER ZETA</span>
+<span class="e">  Η	Y*	0397	0919	GREEK CAPITAL LETTER ETA</span>
+<span class="e">  Θ	H*	0398	0920	GREEK CAPITAL LETTER THETA</span>
+<span class="e">  Ι	I*	0399	0921	GREEK CAPITAL LETTER IOTA</span>
+<span class="e">  Κ	K*	039A	0922	GREEK CAPITAL LETTER KAPPA</span>
+<span class="e">  Λ	L*	039B	0923	GREEK CAPITAL LETTER LAMDA (aka LAMBDA)</span>
+<span class="e">  Μ	M*	039C	0924	GREEK CAPITAL LETTER MU</span>
+<span class="e">  Ν	N*	039D	0925	GREEK CAPITAL LETTER NU</span>
+<span class="e">  Ξ	C*	039E	0926	GREEK CAPITAL LETTER XI</span>
+<span class="e">  Ο	O*	039F	0927	GREEK CAPITAL LETTER OMICRON</span>
+<span class="e">  Π	P*	03A0	0928	GREEK CAPITAL LETTER PI</span>
+<span class="e">  Ρ	R*	03A1	0929	GREEK CAPITAL LETTER RHO</span>
+<span class="e">  Σ	S*	03A3	0931	GREEK CAPITAL LETTER SIGMA</span>
+<span class="e">  Τ	T*	03A4	0932	GREEK CAPITAL LETTER TAU</span>
+<span class="e">  Υ	U*	03A5	0933	GREEK CAPITAL LETTER UPSILON</span>
+<span class="e">  Φ	F*	03A6	0934	GREEK CAPITAL LETTER PHI</span>
+<span class="e">  Χ	X*	03A7	0935	GREEK CAPITAL LETTER CHI</span>
+<span class="e">  Ψ	Q*	03A8	0936	GREEK CAPITAL LETTER PSI</span>
+<span class="e">  Ω	W*	03A9	0937	GREEK CAPITAL LETTER OMEGA</span>
+<span class="e">  Ϊ	J*	03AA	0938	GREEK CAPITAL LETTER IOTA WITH DIALYTIKA</span>
+<span class="e">  Ϋ	V*	03AB	0939	GREEK CAPITAL LETTER UPSILON WITH DIALYTIKA</span>
+<span class="e">  ά	a%	03AC	0940	GREEK SMALL LETTER ALPHA WITH TONOS</span>
+<span class="e">  έ	e%	03AD	0941	GREEK SMALL LETTER EPSILON WITH TONOS</span>
+<span class="e">  ή	y%	03AE	0942	GREEK SMALL LETTER ETA WITH TONOS</span>
+<span class="e">  ί	i%	03AF	0943	GREEK SMALL LETTER IOTA WITH TONOS</span>
+<span class="e">  ΰ	u3	03B0	0944	GREEK SMALL LETTER UPSILON WITH DIALYTIKA AND TONOS</span>
+<span class="e">  α	a*	03B1	0945	GREEK SMALL LETTER ALPHA</span>
+<span class="e">  β	b*	03B2	0946	GREEK SMALL LETTER BETA</span>
+<span class="e">  γ	g*	03B3	0947	GREEK SMALL LETTER GAMMA</span>
+<span class="e">  δ	d*	03B4	0948	GREEK SMALL LETTER DELTA</span>
+<span class="e">  ε	e*	03B5	0949	GREEK SMALL LETTER EPSILON</span>
+<span class="e">  ζ	z*	03B6	0950	GREEK SMALL LETTER ZETA</span>
+<span class="e">  η	y*	03B7	0951	GREEK SMALL LETTER ETA</span>
+<span class="e">  θ	h*	03B8	0952	GREEK SMALL LETTER THETA</span>
+<span class="e">  ι	i*	03B9	0953	GREEK SMALL LETTER IOTA</span>
+<span class="e">  κ	k*	03BA	0954	GREEK SMALL LETTER KAPPA</span>
+<span class="e">  λ	l*	03BB	0955	GREEK SMALL LETTER LAMDA (aka LAMBDA)</span>
+<span class="e">  μ	m*	03BC	0956	GREEK SMALL LETTER MU</span>
+<span class="e">  ν	n*	03BD	0957	GREEK SMALL LETTER NU</span>
+<span class="e">  ξ	c*	03BE	0958	GREEK SMALL LETTER XI</span>
+<span class="e">  ο	o*	03BF	0959	GREEK SMALL LETTER OMICRON</span>
+<span class="e">  π	p*	03C0	0960	GREEK SMALL LETTER PI</span>
+<span class="e">  ρ	r*	03C1	0961	GREEK SMALL LETTER RHO</span>
+<span class="e">  ς	*s	03C2	0962	GREEK SMALL LETTER FINAL SIGMA</span>
+<span class="e">  σ	s*	03C3	0963	GREEK SMALL LETTER SIGMA</span>
+<span class="e">  τ	t*	03C4	0964	GREEK SMALL LETTER TAU</span>
+<span class="e">  υ	u*	03C5	0965	GREEK SMALL LETTER UPSILON</span>
+<span class="e">  φ	f*	03C6	0966	GREEK SMALL LETTER PHI</span>
+<span class="e">  χ	x*	03C7	0967	GREEK SMALL LETTER CHI</span>
+<span class="e">  ψ	q*	03C8	0968	GREEK SMALL LETTER PSI</span>
+<span class="e">  ω	w*	03C9	0969	GREEK SMALL LETTER OMEGA</span>
+<span class="e">  ϊ	j*	03CA	0970	GREEK SMALL LETTER IOTA WITH DIALYTIKA</span>
+<span class="e">  ϋ	v*	03CB	0971	GREEK SMALL LETTER UPSILON WITH DIALYTIKA</span>
+<span class="e">  ό	o%	03CC	0972	GREEK SMALL LETTER OMICRON WITH TONOS</span>
+<span class="e">  ύ	u%	03CD	0973	GREEK SMALL LETTER UPSILON WITH TONOS</span>
+<span class="e">  ώ	w%	03CE	0974	GREEK SMALL LETTER OMEGA WITH TONOS</span>
+<span class="e">  Ϙ	'G	03D8	0984	GREEK LETTER ARCHAIC KOPPA</span>
+<span class="e">  ϙ	,G	03D9	0985	GREEK SMALL LETTER ARCHAIC KOPPA</span>
+<span class="e">  Ϛ	T3	03DA	0986	GREEK LETTER STIGMA</span>
+<span class="e">  ϛ	t3	03DB	0987	GREEK SMALL LETTER STIGMA</span>
+<span class="e">  Ϝ	M3	03DC	0988	GREEK LETTER DIGAMMA</span>
+<span class="e">  ϝ	m3	03DD	0989	GREEK SMALL LETTER DIGAMMA</span>
+<span class="e">  Ϟ	K3	03DE	0990	GREEK LETTER KOPPA</span>
+<span class="e">  ϟ	k3	03DF	0991	GREEK SMALL LETTER KOPPA</span>
+<span class="e">  Ϡ	P3	03E0	0992	GREEK LETTER SAMPI</span>
+<span class="e">  ϡ	p3	03E1	0993	GREEK SMALL LETTER SAMPI</span>
+<span class="e">  ϴ	'%	03F4	1012	GREEK CAPITAL THETA SYMBOL</span>
+<span class="e">  ϵ	j3	03F5	1013	GREEK LUNATE EPSILON SYMBOL</span>
+<span class="e">  Ё	IO	0401	1025	CYRILLIC CAPITAL LETTER IO</span>
+<span class="e">  Ђ	D%	0402	1026	CYRILLIC CAPITAL LETTER DJE</span>
+<span class="e">  Ѓ	G%	0403	1027	CYRILLIC CAPITAL LETTER GJE</span>
+<span class="e">  Є	IE	0404	1028	CYRILLIC CAPITAL LETTER UKRAINIAN IE</span>
+<span class="e">  Ѕ	DS	0405	1029	CYRILLIC CAPITAL LETTER DZE</span>
+<span class="e">  І	II	0406	1030	CYRILLIC CAPITAL LETTER BYELORUSSIAN-UKRAINIAN I</span>
+<span class="e">  Ї	YI	0407	1031	CYRILLIC CAPITAL LETTER YI</span>
+<span class="e">  Ј	J%	0408	1032	CYRILLIC CAPITAL LETTER JE</span>
+<span class="e">  Љ	LJ	0409	1033	CYRILLIC CAPITAL LETTER LJE</span>
+<span class="e">  Њ	NJ	040A	1034	CYRILLIC CAPITAL LETTER NJE</span>
+<span class="e">  Ћ	Ts	040B	1035	CYRILLIC CAPITAL LETTER TSHE</span>
+<span class="e">  Ќ	KJ	040C	1036	CYRILLIC CAPITAL LETTER KJE</span>
+<span class="e">  Ў	V%	040E	1038	CYRILLIC CAPITAL LETTER SHORT U</span>
+<span class="e">  Џ	DZ	040F	1039	CYRILLIC CAPITAL LETTER DZHE</span>
+<span class="e">  А	A=	0410	1040	CYRILLIC CAPITAL LETTER A</span>
+<span class="e">  Б	B=	0411	1041	CYRILLIC CAPITAL LETTER BE</span>
+<span class="e">  В	V=	0412	1042	CYRILLIC CAPITAL LETTER VE</span>
+<span class="e">  Г	G=	0413	1043	CYRILLIC CAPITAL LETTER GHE</span>
+<span class="e">  Д	D=	0414	1044	CYRILLIC CAPITAL LETTER DE</span>
+<span class="e">  Е	E=	0415	1045	CYRILLIC CAPITAL LETTER IE</span>
+<span class="e">  Ж	Z%	0416	1046	CYRILLIC CAPITAL LETTER ZHE</span>
+<span class="e">  З	Z=	0417	1047	CYRILLIC CAPITAL LETTER ZE</span>
+<span class="e">  И	I=	0418	1048	CYRILLIC CAPITAL LETTER I</span>
+<span class="e">  Й	J=	0419	1049	CYRILLIC CAPITAL LETTER SHORT I</span>
+<span class="e">  К	K=	041A	1050	CYRILLIC CAPITAL LETTER KA</span>
+<span class="e">  Л	L=	041B	1051	CYRILLIC CAPITAL LETTER EL</span>
+<span class="e">  М	M=	041C	1052	CYRILLIC CAPITAL LETTER EM</span>
+<span class="e">  Н	N=	041D	1053	CYRILLIC CAPITAL LETTER EN</span>
+<span class="e">  О	O=	041E	1054	CYRILLIC CAPITAL LETTER O</span>
+<span class="e">  П	P=	041F	1055	CYRILLIC CAPITAL LETTER PE</span>
+<span class="e">  Р	R=	0420	1056	CYRILLIC CAPITAL LETTER ER</span>
+<span class="e">  С	S=	0421	1057	CYRILLIC CAPITAL LETTER ES</span>
+<span class="e">  Т	T=	0422	1058	CYRILLIC CAPITAL LETTER TE</span>
+<span class="e">  У	U=	0423	1059	CYRILLIC CAPITAL LETTER U</span>
+<span class="e">  Ф	F=	0424	1060	CYRILLIC CAPITAL LETTER EF</span>
+<span class="e">  Х	H=	0425	1061	CYRILLIC CAPITAL LETTER HA</span>
+<span class="e">  Ц	C=	0426	1062	CYRILLIC CAPITAL LETTER TSE</span>
+<span class="e">  Ч	C%	0427	1063	CYRILLIC CAPITAL LETTER CHE</span>
+<span class="e">  Ш	S%	0428	1064	CYRILLIC CAPITAL LETTER SHA</span>
+<span class="e">  Щ	Sc	0429	1065	CYRILLIC CAPITAL LETTER SHCHA</span>
+<span class="e">  Ъ	="	042A	1066	CYRILLIC CAPITAL LETTER HARD SIGN</span>
+<span class="e">  Ы	Y=	042B	1067	CYRILLIC CAPITAL LETTER YERU</span>
+<span class="e">  Ь	%"	042C	1068	CYRILLIC CAPITAL LETTER SOFT SIGN</span>
+<span class="e">  Э	JE	042D	1069	CYRILLIC CAPITAL LETTER E</span>
+<span class="e">  Ю	JU	042E	1070	CYRILLIC CAPITAL LETTER YU</span>
+<span class="e">  Я	JA	042F	1071	CYRILLIC CAPITAL LETTER YA</span>
+<span class="e">  а	a=	0430	1072	CYRILLIC SMALL LETTER A</span>
+<span class="e">  б	b=	0431	1073	CYRILLIC SMALL LETTER BE</span>
+<span class="e">  в	v=	0432	1074	CYRILLIC SMALL LETTER VE</span>
+<span class="e">  г	g=	0433	1075	CYRILLIC SMALL LETTER GHE</span>
+<span class="e">  д	d=	0434	1076	CYRILLIC SMALL LETTER DE</span>
+<span class="e">  е	e=	0435	1077	CYRILLIC SMALL LETTER IE</span>
+<span class="e">  ж	z%	0436	1078	CYRILLIC SMALL LETTER ZHE</span>
+<span class="e">  з	z=	0437	1079	CYRILLIC SMALL LETTER ZE</span>
+<span class="e">  и	i=	0438	1080	CYRILLIC SMALL LETTER I</span>
+<span class="e">  й	j=	0439	1081	CYRILLIC SMALL LETTER SHORT I</span>
+<span class="e">  к	k=	043A	1082	CYRILLIC SMALL LETTER KA</span>
+<span class="e">  л	l=	043B	1083	CYRILLIC SMALL LETTER EL</span>
+<span class="e">  м	m=	043C	1084	CYRILLIC SMALL LETTER EM</span>
+<span class="e">  н	n=	043D	1085	CYRILLIC SMALL LETTER EN</span>
+<span class="e">  о	o=	043E	1086	CYRILLIC SMALL LETTER O</span>
+<span class="e">  п	p=	043F	1087	CYRILLIC SMALL LETTER PE</span>
+<span class="e">  р	r=	0440	1088	CYRILLIC SMALL LETTER ER</span>
+<span class="e">  с	s=	0441	1089	CYRILLIC SMALL LETTER ES</span>
+<span class="e">  т	t=	0442	1090	CYRILLIC SMALL LETTER TE</span>
+<span class="e">  у	u=	0443	1091	CYRILLIC SMALL LETTER U</span>
+<span class="e">  ф	f=	0444	1092	CYRILLIC SMALL LETTER EF</span>
+<span class="e">  х	h=	0445	1093	CYRILLIC SMALL LETTER HA</span>
+<span class="e">  ц	c=	0446	1094	CYRILLIC SMALL LETTER TSE</span>
+<span class="e">  ч	c%	0447	1095	CYRILLIC SMALL LETTER CHE</span>
+<span class="e">  ш	s%	0448	1096	CYRILLIC SMALL LETTER SHA</span>
+<span class="e">  щ	sc	0449	1097	CYRILLIC SMALL LETTER SHCHA</span>
+<span class="e">  ъ	='	044A	1098	CYRILLIC SMALL LETTER HARD SIGN</span>
+<span class="e">  ы	y=	044B	1099	CYRILLIC SMALL LETTER YERU</span>
+<span class="e">  ь	%'	044C	1100	CYRILLIC SMALL LETTER SOFT SIGN</span>
+<span class="e">  э	je	044D	1101	CYRILLIC SMALL LETTER E</span>
+<span class="e">  ю	ju	044E	1102	CYRILLIC SMALL LETTER YU</span>
+<span class="e">  я	ja	044F	1103	CYRILLIC SMALL LETTER YA</span>
+<span class="e">  ё	io	0451	1105	CYRILLIC SMALL LETTER IO</span>
+<span class="e">  ђ	d%	0452	1106	CYRILLIC SMALL LETTER DJE</span>
+<span class="e">  ѓ	g%	0453	1107	CYRILLIC SMALL LETTER GJE</span>
+<span class="e">  є	ie	0454	1108	CYRILLIC SMALL LETTER UKRAINIAN IE</span>
+<span class="e">  ѕ	ds	0455	1109	CYRILLIC SMALL LETTER DZE</span>
+<span class="e">  і	ii	0456	1110	CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I</span>
+<span class="e">  ї	yi	0457	1111	CYRILLIC SMALL LETTER YI</span>
+<span class="e">  ј	j%	0458	1112	CYRILLIC SMALL LETTER JE</span>
+<span class="e">  љ	lj	0459	1113	CYRILLIC SMALL LETTER LJE</span>
+<span class="e">  њ	nj	045A	1114	CYRILLIC SMALL LETTER NJE</span>
+<span class="e">  ћ	ts	045B	1115	CYRILLIC SMALL LETTER TSHE</span>
+<span class="e">  ќ	kj	045C	1116	CYRILLIC SMALL LETTER KJE</span>
+<span class="e">  ў	v%	045E	1118	CYRILLIC SMALL LETTER SHORT U</span>
+<span class="e">  џ	dz	045F	1119	CYRILLIC SMALL LETTER DZHE</span>
+<span class="e">  Ѣ	Y3	0462	1122	CYRILLIC CAPITAL LETTER YAT</span>
+<span class="e">  ѣ	y3	0463	1123	CYRILLIC SMALL LETTER YAT</span>
+<span class="e">  Ѫ	O3	046A	1130	CYRILLIC CAPITAL LETTER BIG YUS</span>
+<span class="e">  ѫ	o3	046B	1131	CYRILLIC SMALL LETTER BIG YUS</span>
+<span class="e">  Ѳ	F3	0472	1138	CYRILLIC CAPITAL LETTER FITA</span>
+<span class="e">  ѳ	f3	0473	1139	CYRILLIC SMALL LETTER FITA</span>
+<span class="e">  Ѵ	V3	0474	1140	CYRILLIC CAPITAL LETTER IZHITSA</span>
+<span class="e">  ѵ	v3	0475	1141	CYRILLIC SMALL LETTER IZHITSA</span>
+<span class="e">  Ҁ	C3	0480	1152	CYRILLIC CAPITAL LETTER KOPPA</span>
+<span class="e">  ҁ	c3	0481	1153	CYRILLIC SMALL LETTER KOPPA</span>
+<span class="e">  Ґ	G3	0490	1168	CYRILLIC CAPITAL LETTER GHE WITH UPTURN</span>
+<span class="e">  ґ	g3	0491	1169	CYRILLIC SMALL LETTER GHE WITH UPTURN</span>
+<span class="e">  א	A+	05D0	1488	HEBREW LETTER ALEF</span>
+<span class="e">  ב	B+	05D1	1489	HEBREW LETTER BET</span>
+<span class="e">  ג	G+	05D2	1490	HEBREW LETTER GIMEL</span>
+<span class="e">  ד	D+	05D3	1491	HEBREW LETTER DALET</span>
+<span class="e">  ה	H+	05D4	1492	HEBREW LETTER HE</span>
+<span class="e">  ו	W+	05D5	1493	HEBREW LETTER VAV</span>
+<span class="e">  ז	Z+	05D6	1494	HEBREW LETTER ZAYIN</span>
+<span class="e">  ח	X+	05D7	1495	HEBREW LETTER HET</span>
+<span class="e">  ט	Tj	05D8	1496	HEBREW LETTER TET</span>
+<span class="e">  י	J+	05D9	1497	HEBREW LETTER YOD</span>
+<span class="e">  ך	K%	05DA	1498	HEBREW LETTER FINAL KAF</span>
+<span class="e">  כ	K+	05DB	1499	HEBREW LETTER KAF</span>
+<span class="e">  ל	L+	05DC	1500	HEBREW LETTER LAMED</span>
+<span class="e">  ם	M%	05DD	1501	HEBREW LETTER FINAL MEM</span>
+<span class="e">  מ	M+	05DE	1502	HEBREW LETTER MEM</span>
+<span class="e">  ן	N%	05DF	1503	HEBREW LETTER FINAL NUN `</span>
+<span class="e">  נ	N+	05E0	1504	HEBREW LETTER NUN `</span>
+<span class="e">  ס	S+	05E1	1505	HEBREW LETTER SAMEKH</span>
+<span class="e">  ע	E+	05E2	1506	HEBREW LETTER AYIN</span>
+<span class="e">  ף	P%	05E3	1507	HEBREW LETTER FINAL PE</span>
+<span class="e">  פ	P+	05E4	1508	HEBREW LETTER PE</span>
+<span class="e">  ץ	Zj	05E5	1509	HEBREW LETTER FINAL TSADI</span>
+<span class="e">  צ	ZJ	05E6	1510	HEBREW LETTER TSADI</span>
+<span class="e">  ק	Q+	05E7	1511	HEBREW LETTER QOF</span>
+<span class="e">  ר	R+	05E8	1512	HEBREW LETTER RESH</span>
+<span class="e">  ש	Sh	05E9	1513	HEBREW LETTER SHIN</span>
+<span class="e">  ת	T+	05EA	1514	HEBREW LETTER TAV</span>
+<span class="e">  ،	,+	060C	1548	ARABIC COMMA</span>
+<span class="e">  ؛	;+	061B	1563	ARABIC SEMICOLON</span>
+<span class="e">  ؟	?+	061F	1567	ARABIC QUESTION MARK</span>
+<span class="e">  ء	H'	0621	1569	ARABIC LETTER HAMZA</span>
+<span class="e">  آ	aM	0622	1570	ARABIC LETTER ALEF WITH MADDA ABOVE</span>
+<span class="e">  أ	aH	0623	1571	ARABIC LETTER ALEF WITH HAMZA ABOVE</span>
+<span class="e">  ؤ	wH	0624	1572	ARABIC LETTER WAW WITH HAMZA ABOVE</span>
+<span class="e">  إ	ah	0625	1573	ARABIC LETTER ALEF WITH HAMZA BELOW</span>
+<span class="e">  ئ	yH	0626	1574	ARABIC LETTER YEH WITH HAMZA ABOVE</span>
+<span class="e">  ا	a+	0627	1575	ARABIC LETTER ALEF</span>
+<span class="e">  ب	b+	0628	1576	ARABIC LETTER BEH</span>
+<span class="e">  ة	tm	0629	1577	ARABIC LETTER TEH MARBUTA</span>
+<span class="e">  ت	t+	062A	1578	ARABIC LETTER TEH</span>
+<span class="e">  ث	tk	062B	1579	ARABIC LETTER THEH</span>
+<span class="e">  ج	g+	062C	1580	ARABIC LETTER JEEM</span>
+<span class="e">  ح	hk	062D	1581	ARABIC LETTER HAH</span>
+<span class="e">  خ	x+	062E	1582	ARABIC LETTER KHAH</span>
+<span class="e">  د	d+	062F	1583	ARABIC LETTER DAL</span>
+<span class="e">  ذ	dk	0630	1584	ARABIC LETTER THAL</span>
+<span class="e">  ر	r+	0631	1585	ARABIC LETTER REH</span>
+<span class="e">  ز	z+	0632	1586	ARABIC LETTER ZAIN</span>
+<span class="e">  س	s+	0633	1587	ARABIC LETTER SEEN</span>
+<span class="e">  ش	sn	0634	1588	ARABIC LETTER SHEEN</span>
+<span class="e">  ص	c+	0635	1589	ARABIC LETTER SAD</span>
+<span class="e">  ض	dd	0636	1590	ARABIC LETTER DAD</span>
+<span class="e">  ط	tj	0637	1591	ARABIC LETTER TAH</span>
+<span class="e">  ظ	zH	0638	1592	ARABIC LETTER ZAH</span>
+<span class="e">  ع	e+	0639	1593	ARABIC LETTER AIN</span>
+<span class="e">  غ	i+	063A	1594	ARABIC LETTER GHAIN</span>
+<span class="e">  ـ	++	0640	1600	ARABIC TATWEEL</span>
+<span class="e">  ف	f+	0641	1601	ARABIC LETTER FEH</span>
+<span class="e">  ق	q+	0642	1602	ARABIC LETTER QAF</span>
+<span class="e">  ك	k+	0643	1603	ARABIC LETTER KAF</span>
+<span class="e">  ل	l+	0644	1604	ARABIC LETTER LAM</span>
+<span class="e">  م	m+	0645	1605	ARABIC LETTER MEEM</span>
+<span class="e">  ن	n+	0646	1606	ARABIC LETTER NOON</span>
+<span class="e">  ه	h+	0647	1607	ARABIC LETTER HEH</span>
+<span class="e">  و	w+	0648	1608	ARABIC LETTER WAW</span>
+<span class="e">  ى	j+	0649	1609	ARABIC LETTER ALEF MAKSURA</span>
+<span class="e">  ي	y+	064A	1610	ARABIC LETTER YEH</span>
+<span class="e">  ً	:+	064B	1611	ARABIC FATHATAN</span>
+<span class="e">  ٌ	"+	064C	1612	ARABIC DAMMATAN</span>
+<span class="e">  ٍ	=+	064D	1613	ARABIC KASRATAN</span>
+<span class="e">  َ	/+	064E	1614	ARABIC FATHA</span>
+<span class="e">  ُ	'+	064F	1615	ARABIC DAMMA</span>
+<span class="e">  ِ	1+	0650	1616	ARABIC KASRA</span>
+<span class="e">  ّ	3+	0651	1617	ARABIC SHADDA</span>
+<span class="e">  ْ	0+	0652	1618	ARABIC SUKUN</span>
+<span class="e">  ٰ	aS	0670	1648	ARABIC LETTER SUPERSCRIPT ALEF</span>
+<span class="e">  پ	p+	067E	1662	ARABIC LETTER PEH</span>
+<span class="e">  ڤ	v+	06A4	1700	ARABIC LETTER VEH</span>
+<span class="e">  گ	gf	06AF	1711	ARABIC LETTER GAF</span>
+<span class="e">  ۰	0a	06F0	1776	EXTENDED ARABIC-INDIC DIGIT ZERO</span>
+<span class="e">  ۱	1a	06F1	1777	EXTENDED ARABIC-INDIC DIGIT ONE</span>
+<span class="e">  ۲	2a	06F2	1778	EXTENDED ARABIC-INDIC DIGIT TWO</span>
+<span class="e">  ۳	3a	06F3	1779	EXTENDED ARABIC-INDIC DIGIT THREE</span>
+<span class="e">  ۴	4a	06F4	1780	EXTENDED ARABIC-INDIC DIGIT FOUR</span>
+<span class="e">  ۵	5a	06F5	1781	EXTENDED ARABIC-INDIC DIGIT FIVE</span>
+<span class="e">  ۶	6a	06F6	1782	EXTENDED ARABIC-INDIC DIGIT SIX</span>
+<span class="e">  ۷	7a	06F7	1783	EXTENDED ARABIC-INDIC DIGIT SEVEN</span>
+<span class="e">  ۸	8a	06F8	1784	EXTENDED ARABIC-INDIC DIGIT EIGHT</span>
+<span class="e">  ۹	9a	06F9	1785	EXTENDED ARABIC-INDIC DIGIT NINE</span>
+<span class="e">  Ḃ	B.	1E02	7682	LATIN CAPITAL LETTER B WITH DOT ABOVE</span>
+<span class="e">  ḃ	b.	1E03	7683	LATIN SMALL LETTER B WITH DOT ABOVE</span>
+<span class="e">  Ḇ	B_	1E06	7686	LATIN CAPITAL LETTER B WITH LINE BELOW</span>
+<span class="e">  ḇ	b_	1E07	7687	LATIN SMALL LETTER B WITH LINE BELOW</span>
+<span class="e">  Ḋ	D.	1E0A	7690	LATIN CAPITAL LETTER D WITH DOT ABOVE</span>
+<span class="e">  ḋ	d.	1E0B	7691	LATIN SMALL LETTER D WITH DOT ABOVE</span>
+<span class="e">  Ḏ	D_	1E0E	7694	LATIN CAPITAL LETTER D WITH LINE BELOW</span>
+<span class="e">  ḏ	d_	1E0F	7695	LATIN SMALL LETTER D WITH LINE BELOW</span>
+<span class="e">  Ḑ	D,	1E10	7696	LATIN CAPITAL LETTER D WITH CEDILLA</span>
+<span class="e">  ḑ	d,	1E11	7697	LATIN SMALL LETTER D WITH CEDILLA</span>
+<span class="e">  Ḟ	F.	1E1E	7710	LATIN CAPITAL LETTER F WITH DOT ABOVE</span>
+<span class="e">  ḟ	f.	1E1F	7711	LATIN SMALL LETTER F WITH DOT ABOVE</span>
+<span class="e">  Ḡ	G-	1E20	7712	LATIN CAPITAL LETTER G WITH MACRON</span>
+<span class="e">  ḡ	g-	1E21	7713	LATIN SMALL LETTER G WITH MACRON</span>
+<span class="e">  Ḣ	H.	1E22	7714	LATIN CAPITAL LETTER H WITH DOT ABOVE</span>
+<span class="e">  ḣ	h.	1E23	7715	LATIN SMALL LETTER H WITH DOT ABOVE</span>
+<span class="e">  Ḧ	H:	1E26	7718	LATIN CAPITAL LETTER H WITH DIAERESIS</span>
+<span class="e">  ḧ	h:	1E27	7719	LATIN SMALL LETTER H WITH DIAERESIS</span>
+<span class="e">  Ḩ	H,	1E28	7720	LATIN CAPITAL LETTER H WITH CEDILLA</span>
+<span class="e">  ḩ	h,	1E29	7721	LATIN SMALL LETTER H WITH CEDILLA</span>
+<span class="e">  Ḱ	K'	1E30	7728	LATIN CAPITAL LETTER K WITH ACUTE</span>
+<span class="e">  ḱ	k'	1E31	7729	LATIN SMALL LETTER K WITH ACUTE</span>
+<span class="e">  Ḵ	K_	1E34	7732	LATIN CAPITAL LETTER K WITH LINE BELOW</span>
+<span class="e">  ḵ	k_	1E35	7733	LATIN SMALL LETTER K WITH LINE BELOW</span>
+<span class="e">  Ḻ	L_	1E3A	7738	LATIN CAPITAL LETTER L WITH LINE BELOW</span>
+<span class="e">  ḻ	l_	1E3B	7739	LATIN SMALL LETTER L WITH LINE BELOW</span>
+<span class="e">  Ḿ	M'	1E3E	7742	LATIN CAPITAL LETTER M WITH ACUTE</span>
+<span class="e">  ḿ	m'	1E3F	7743	LATIN SMALL LETTER M WITH ACUTE</span>
+<span class="e">  Ṁ	M.	1E40	7744	LATIN CAPITAL LETTER M WITH DOT ABOVE</span>
+<span class="e">  ṁ	m.	1E41	7745	LATIN SMALL LETTER M WITH DOT ABOVE</span>
+<span class="e">  Ṅ	N.	1E44	7748	LATIN CAPITAL LETTER N WITH DOT ABOVE `</span>
+<span class="e">  ṅ	n.	1E45	7749	LATIN SMALL LETTER N WITH DOT ABOVE `</span>
+<span class="e">  Ṉ	N_	1E48	7752	LATIN CAPITAL LETTER N WITH LINE BELOW `</span>
+<span class="e">  ṉ	n_	1E49	7753	LATIN SMALL LETTER N WITH LINE BELOW `</span>
+<span class="e">  Ṕ	P'	1E54	7764	LATIN CAPITAL LETTER P WITH ACUTE</span>
+<span class="e">  ṕ	p'	1E55	7765	LATIN SMALL LETTER P WITH ACUTE</span>
+<span class="e">  Ṗ	P.	1E56	7766	LATIN CAPITAL LETTER P WITH DOT ABOVE</span>
+<span class="e">  ṗ	p.	1E57	7767	LATIN SMALL LETTER P WITH DOT ABOVE</span>
+<span class="e">  Ṙ	R.	1E58	7768	LATIN CAPITAL LETTER R WITH DOT ABOVE</span>
+<span class="e">  ṙ	r.	1E59	7769	LATIN SMALL LETTER R WITH DOT ABOVE</span>
+<span class="e">  Ṟ	R_	1E5E	7774	LATIN CAPITAL LETTER R WITH LINE BELOW</span>
+<span class="e">  ṟ	r_	1E5F	7775	LATIN SMALL LETTER R WITH LINE BELOW</span>
+<span class="e">  Ṡ	S.	1E60	7776	LATIN CAPITAL LETTER S WITH DOT ABOVE</span>
+<span class="e">  ṡ	s.	1E61	7777	LATIN SMALL LETTER S WITH DOT ABOVE</span>
+<span class="e">  Ṫ	T.	1E6A	7786	LATIN CAPITAL LETTER T WITH DOT ABOVE</span>
+<span class="e">  ṫ	t.	1E6B	7787	LATIN SMALL LETTER T WITH DOT ABOVE</span>
+<span class="e">  Ṯ	T_	1E6E	7790	LATIN CAPITAL LETTER T WITH LINE BELOW</span>
+<span class="e">  ṯ	t_	1E6F	7791	LATIN SMALL LETTER T WITH LINE BELOW</span>
+<span class="e">  Ṽ	V?	1E7C	7804	LATIN CAPITAL LETTER V WITH TILDE</span>
+<span class="e">  ṽ	v?	1E7D	7805	LATIN SMALL LETTER V WITH TILDE</span>
+<span class="e">  Ẁ	W!	1E80	7808	LATIN CAPITAL LETTER W WITH GRAVE</span>
+<span class="e">  ẁ	w!	1E81	7809	LATIN SMALL LETTER W WITH GRAVE</span>
+<span class="e">  Ẃ	W'	1E82	7810	LATIN CAPITAL LETTER W WITH ACUTE</span>
+<span class="e">  ẃ	w'	1E83	7811	LATIN SMALL LETTER W WITH ACUTE</span>
+<span class="e">  Ẅ	W:	1E84	7812	LATIN CAPITAL LETTER W WITH DIAERESIS</span>
+<span class="e">  ẅ	w:	1E85	7813	LATIN SMALL LETTER W WITH DIAERESIS</span>
+<span class="e">  Ẇ	W.	1E86	7814	LATIN CAPITAL LETTER W WITH DOT ABOVE</span>
+<span class="e">  ẇ	w.	1E87	7815	LATIN SMALL LETTER W WITH DOT ABOVE</span>
+<span class="e">  Ẋ	X.	1E8A	7818	LATIN CAPITAL LETTER X WITH DOT ABOVE</span>
+<span class="e">  ẋ	x.	1E8B	7819	LATIN SMALL LETTER X WITH DOT ABOVE</span>
+<span class="e">  Ẍ	X:	1E8C	7820	LATIN CAPITAL LETTER X WITH DIAERESIS</span>
+<span class="e">  ẍ	x:	1E8D	7821	LATIN SMALL LETTER X WITH DIAERESIS</span>
+<span class="e">  Ẏ	Y.	1E8E	7822	LATIN CAPITAL LETTER Y WITH DOT ABOVE</span>
+<span class="e">  ẏ	y.	1E8F	7823	LATIN SMALL LETTER Y WITH DOT ABOVE</span>
+<span class="e">  Ẑ	Z&gt;	1E90	7824	LATIN CAPITAL LETTER Z WITH CIRCUMFLEX</span>
+<span class="e">  ẑ	z&gt;	1E91	7825	LATIN SMALL LETTER Z WITH CIRCUMFLEX</span>
+<span class="e">  Ẕ	Z_	1E94	7828	LATIN CAPITAL LETTER Z WITH LINE BELOW</span>
+<span class="e">  ẕ	z_	1E95	7829	LATIN SMALL LETTER Z WITH LINE BELOW</span>
+<span class="e">  ẖ	h_	1E96	7830	LATIN SMALL LETTER H WITH LINE BELOW</span>
+<span class="e">  ẗ	t:	1E97	7831	LATIN SMALL LETTER T WITH DIAERESIS</span>
+<span class="e">  ẘ	w0	1E98	7832	LATIN SMALL LETTER W WITH RING ABOVE</span>
+<span class="e">  ẙ	y0	1E99	7833	LATIN SMALL LETTER Y WITH RING ABOVE</span>
+<span class="e">  Ả	A2	1EA2	7842	LATIN CAPITAL LETTER A WITH HOOK ABOVE</span>
+<span class="e">  ả	a2	1EA3	7843	LATIN SMALL LETTER A WITH HOOK ABOVE</span>
+<span class="e">  Ẻ	E2	1EBA	7866	LATIN CAPITAL LETTER E WITH HOOK ABOVE</span>
+<span class="e">  ẻ	e2	1EBB	7867	LATIN SMALL LETTER E WITH HOOK ABOVE</span>
+<span class="e">  Ẽ	E?	1EBC	7868	LATIN CAPITAL LETTER E WITH TILDE</span>
+<span class="e">  ẽ	e?	1EBD	7869	LATIN SMALL LETTER E WITH TILDE</span>
+<span class="e">  Ỉ	I2	1EC8	7880	LATIN CAPITAL LETTER I WITH HOOK ABOVE</span>
+<span class="e">  ỉ	i2	1EC9	7881	LATIN SMALL LETTER I WITH HOOK ABOVE</span>
+<span class="e">  Ỏ	O2	1ECE	7886	LATIN CAPITAL LETTER O WITH HOOK ABOVE</span>
+<span class="e">  ỏ	o2	1ECF	7887	LATIN SMALL LETTER O WITH HOOK ABOVE</span>
+<span class="e">  Ủ	U2	1EE6	7910	LATIN CAPITAL LETTER U WITH HOOK ABOVE</span>
+<span class="e">  ủ	u2	1EE7	7911	LATIN SMALL LETTER U WITH HOOK ABOVE</span>
+<span class="e">  Ỳ	Y!	1EF2	7922	LATIN CAPITAL LETTER Y WITH GRAVE</span>
+<span class="e">  ỳ	y!	1EF3	7923	LATIN SMALL LETTER Y WITH GRAVE</span>
+<span class="e">  Ỷ	Y2	1EF6	7926	LATIN CAPITAL LETTER Y WITH HOOK ABOVE</span>
+<span class="e">  ỷ	y2	1EF7	7927	LATIN SMALL LETTER Y WITH HOOK ABOVE</span>
+<span class="e">  Ỹ	Y?	1EF8	7928	LATIN CAPITAL LETTER Y WITH TILDE</span>
+<span class="e">  ỹ	y?	1EF9	7929	LATIN SMALL LETTER Y WITH TILDE</span>
+<span class="e">  ἀ	;'	1F00	7936	GREEK SMALL LETTER ALPHA WITH PSILI</span>
+<span class="e">  ἁ	,'	1F01	7937	GREEK SMALL LETTER ALPHA WITH DASIA</span>
+<span class="e">  ἂ	;!	1F02	7938	GREEK SMALL LETTER ALPHA WITH PSILI AND VARIA</span>
+<span class="e">  ἃ	,!	1F03	7939	GREEK SMALL LETTER ALPHA WITH DASIA AND VARIA</span>
+<span class="e">  ἄ	?;	1F04	7940	GREEK SMALL LETTER ALPHA WITH PSILI AND OXIA</span>
+<span class="e">  ἅ	?,	1F05	7941	GREEK SMALL LETTER ALPHA WITH DASIA AND OXIA</span>
+<span class="e">  ἆ	!:	1F06	7942	GREEK SMALL LETTER ALPHA WITH PSILI AND PERISPOMENI</span>
+<span class="e">  ἇ	?:	1F07	7943	GREEK SMALL LETTER ALPHA WITH DASIA AND PERISPOMENI</span>
+<span class="e">   	1N	2002	8194	EN SPACE</span>
+<span class="e">   	1M	2003	8195	EM SPACE</span>
+<span class="e">   	3M	2004	8196	THREE-PER-EM SPACE</span>
+<span class="e">   	4M	2005	8197	FOUR-PER-EM SPACE</span>
+<span class="e">   	6M	2006	8198	SIX-PER-EM SPACE</span>
+<span class="e">   	1T	2009	8201	THIN SPACE</span>
+<span class="e">   	1H	200A	8202	HAIR SPACE</span>
+<span class="e">  ‐	-1	2010	8208	HYPHEN</span>
+<span class="e">  –	-N	2013	8211	EN DASH `</span>
+<span class="e">  —	-M	2014	8212	EM DASH</span>
+<span class="e">  ―	-3	2015	8213	HORIZONTAL BAR</span>
+<span class="e">  ‖	!2	2016	8214	DOUBLE VERTICAL LINE</span>
+<span class="e">  ‗	=2	2017	8215	DOUBLE LOW LINE</span>
+<span class="e">  ‘	'6	2018	8216	LEFT SINGLE QUOTATION MARK</span>
+<span class="e">  ’	'9	2019	8217	RIGHT SINGLE QUOTATION MARK</span>
+<span class="e">  ‚	.9	201A	8218	SINGLE LOW-9 QUOTATION MARK</span>
+<span class="e">  ‛	9'	201B	8219	SINGLE HIGH-REVERSED-9 QUOTATION MARK</span>
+<span class="e">  “	"6	201C	8220	LEFT DOUBLE QUOTATION MARK</span>
+<span class="e">  ”	"9	201D	8221	RIGHT DOUBLE QUOTATION MARK</span>
+<span class="e">  „	:9	201E	8222	DOUBLE LOW-9 QUOTATION MARK</span>
+<span class="e">  ‟	9"	201F	8223	DOUBLE HIGH-REVERSED-9 QUOTATION MARK</span>
+<span class="e">  †	/-	2020	8224	DAGGER</span>
+<span class="e">  ‡	/=	2021	8225	DOUBLE DAGGER</span>
+<span class="e">  •	oo	2022	8226	BULLET</span>
+<span class="e">  ‥	..	2025	8229	TWO DOT LEADER</span>
+<span class="e">  …	,.	2026	8230	HORIZONTAL ELLIPSIS</span>
+<span class="e">  ‰	%0	2030	8240	PER MILLE SIGN</span>
+<span class="e">  ′	1'	2032	8242	PRIME</span>
+<span class="e">  ″	2'	2033	8243	DOUBLE PRIME</span>
+<span class="e">  ‴	3'	2034	8244	TRIPLE PRIME</span>
+<span class="e">  ⁗	4'	2057	8279	QUADRUPLE PRIME</span>
+<span class="e">  ‵	1"	2035	8245	REVERSED PRIME</span>
+<span class="e">  ‶	2"	2036	8246	REVERSED DOUBLE PRIME</span>
+<span class="e">  ‷	3"	2037	8247	REVERSED TRIPLE PRIME</span>
+<span class="e">  ‸	Ca	2038	8248	CARET</span>
+<span class="e">  ‹	&lt;1	2039	8249	SINGLE LEFT-POINTING ANGLE QUOTATION MARK</span>
+<span class="e">  ›	&gt;1	203A	8250	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK</span>
+<span class="e">  ※	:X	203B	8251	REFERENCE MARK</span>
+<span class="e">  ‾	'-	203E	8254	OVERLINE</span>
+<span class="e">  ⁄	/f	2044	8260	FRACTION SLASH</span>
+<span class="e">  ⁰	0S	2070	8304	SUPERSCRIPT ZERO</span>
+<span class="e">  ⁴	4S	2074	8308	SUPERSCRIPT FOUR</span>
+<span class="e">  ⁵	5S	2075	8309	SUPERSCRIPT FIVE</span>
+<span class="e">  ⁶	6S	2076	8310	SUPERSCRIPT SIX</span>
+<span class="e">  ⁷	7S	2077	8311	SUPERSCRIPT SEVEN</span>
+<span class="e">  ⁸	8S	2078	8312	SUPERSCRIPT EIGHT</span>
+<span class="e">  ⁹	9S	2079	8313	SUPERSCRIPT NINE</span>
+<span class="e">  ⁺	+S	207A	8314	SUPERSCRIPT PLUS SIGN</span>
+<span class="e">  ⁻	-S	207B	8315	SUPERSCRIPT MINUS</span>
+<span class="e">  ⁼	=S	207C	8316	SUPERSCRIPT EQUALS SIGN</span>
+<span class="e">  ⁽	(S	207D	8317	SUPERSCRIPT LEFT PARENTHESIS</span>
+<span class="e">  ⁾	)S	207E	8318	SUPERSCRIPT RIGHT PARENTHESIS</span>
+<span class="e">  ⁿ	nS	207F	8319	SUPERSCRIPT LATIN SMALL LETTER N `</span>
+<span class="e">  ₀	0s	2080	8320	SUBSCRIPT ZERO</span>
+<span class="e">  ₁	1s	2081	8321	SUBSCRIPT ONE</span>
+<span class="e">  ₂	2s	2082	8322	SUBSCRIPT TWO</span>
+<span class="e">  ₃	3s	2083	8323	SUBSCRIPT THREE</span>
+<span class="e">  ₄	4s	2084	8324	SUBSCRIPT FOUR</span>
+<span class="e">  ₅	5s	2085	8325	SUBSCRIPT FIVE</span>
+<span class="e">  ₆	6s	2086	8326	SUBSCRIPT SIX</span>
+<span class="e">  ₇	7s	2087	8327	SUBSCRIPT SEVEN</span>
+<span class="e">  ₈	8s	2088	8328	SUBSCRIPT EIGHT</span>
+<span class="e">  ₉	9s	2089	8329	SUBSCRIPT NINE</span>
+<span class="e">  ₊	+s	208A	8330	SUBSCRIPT PLUS SIGN</span>
+<span class="e">  ₋	-s	208B	8331	SUBSCRIPT MINUS</span>
+<span class="e">  ₌	=s	208C	8332	SUBSCRIPT EQUALS SIGN</span>
+<span class="e">  ₍	(s	208D	8333	SUBSCRIPT LEFT PARENTHESIS</span>
+<span class="e">  ₎	)s	208E	8334	SUBSCRIPT RIGHT PARENTHESIS</span>
+<span class="e">  ₤	Li	20A4	8356	LIRA SIGN</span>
+<span class="e">  ₧	Pt	20A7	8359	PESETA SIGN</span>
+<span class="e">  ₩	W=	20A9	8361	WON SIGN</span>
+<span class="e">  €	Eu	20AC	8364	EURO SIGN</span>
+<span class="e">  ₽	=R	20BD	8381	ROUBLE SIGN</span>
+<span class="e">  ₽	=P	20BD	8381	ROUBLE SIGN</span>
+<span class="e">  ℃	oC	2103	8451	DEGREE CELSIUS</span>
+<span class="e">  ℅	co	2105	8453	CARE OF</span>
+<span class="e">  ℉	oF	2109	8457	DEGREE FAHRENHEIT</span>
+<span class="e">  №	N0	2116	8470	NUMERO SIGN</span>
+<span class="e">  ℗	PO	2117	8471	SOUND RECORDING COPYRIGHT</span>
+<span class="e">  ℞	Rx	211E	8478	PRESCRIPTION TAKE</span>
+<span class="e">  ℠	SM	2120	8480	SERVICE MARK</span>
+<span class="e">  ™	TM	2122	8482	TRADE MARK SIGN</span>
+<span class="e">  Ω	Om	2126	8486	OHM SIGN</span>
+<span class="e">  Å	AO	212B	8491	ANGSTROM SIGN</span>
+<span class="e">  ⅓	13	2153	8531	VULGAR FRACTION ONE THIRD</span>
+<span class="e">  ⅔	23	2154	8532	VULGAR FRACTION TWO THIRDS</span>
+<span class="e">  ⅕	15	2155	8533	VULGAR FRACTION ONE FIFTH</span>
+<span class="e">  ⅖	25	2156	8534	VULGAR FRACTION TWO FIFTHS</span>
+<span class="e">  ⅗	35	2157	8535	VULGAR FRACTION THREE FIFTHS</span>
+<span class="e">  ⅘	45	2158	8536	VULGAR FRACTION FOUR FIFTHS</span>
+<span class="e">  ⅙	16	2159	8537	VULGAR FRACTION ONE SIXTH</span>
+<span class="e">  ⅚	56	215A	8538	VULGAR FRACTION FIVE SIXTHS</span>
+<span class="e">  ⅛	18	215B	8539	VULGAR FRACTION ONE EIGHTH</span>
+<span class="e">  ⅜	38	215C	8540	VULGAR FRACTION THREE EIGHTHS</span>
+<span class="e">  ⅝	58	215D	8541	VULGAR FRACTION FIVE EIGHTHS</span>
+<span class="e">  ⅞	78	215E	8542	VULGAR FRACTION SEVEN EIGHTHS</span>
+<span class="e">  Ⅰ	1R	2160	8544	ROMAN NUMERAL ONE</span>
+<span class="e">  Ⅱ	2R	2161	8545	ROMAN NUMERAL TWO</span>
+<span class="e">  Ⅲ	3R	2162	8546	ROMAN NUMERAL THREE</span>
+<span class="e">  Ⅳ	4R	2163	8547	ROMAN NUMERAL FOUR</span>
+<span class="e">  Ⅴ	5R	2164	8548	ROMAN NUMERAL FIVE</span>
+<span class="e">  Ⅵ	6R	2165	8549	ROMAN NUMERAL SIX</span>
+<span class="e">  Ⅶ	7R	2166	8550	ROMAN NUMERAL SEVEN</span>
+<span class="e">  Ⅷ	8R	2167	8551	ROMAN NUMERAL EIGHT</span>
+<span class="e">  Ⅸ	9R	2168	8552	ROMAN NUMERAL NINE</span>
+<span class="e">  Ⅹ	aR	2169	8553	ROMAN NUMERAL TEN</span>
+<span class="e">  Ⅺ	bR	216A	8554	ROMAN NUMERAL ELEVEN</span>
+<span class="e">  Ⅻ	cR	216B	8555	ROMAN NUMERAL TWELVE</span>
+<span class="e">  ⅰ	1r	2170	8560	SMALL ROMAN NUMERAL ONE</span>
+<span class="e">  ⅱ	2r	2171	8561	SMALL ROMAN NUMERAL TWO</span>
+<span class="e">  ⅲ	3r	2172	8562	SMALL ROMAN NUMERAL THREE</span>
+<span class="e">  ⅳ	4r	2173	8563	SMALL ROMAN NUMERAL FOUR</span>
+<span class="e">  ⅴ	5r	2174	8564	SMALL ROMAN NUMERAL FIVE</span>
+<span class="e">  ⅵ	6r	2175	8565	SMALL ROMAN NUMERAL SIX</span>
+<span class="e">  ⅶ	7r	2176	8566	SMALL ROMAN NUMERAL SEVEN</span>
+<span class="e">  ⅷ	8r	2177	8567	SMALL ROMAN NUMERAL EIGHT</span>
+<span class="e">  ⅸ	9r	2178	8568	SMALL ROMAN NUMERAL NINE</span>
+<span class="e">  ⅹ	ar	2179	8569	SMALL ROMAN NUMERAL TEN</span>
+<span class="e">  ⅺ	br	217A	8570	SMALL ROMAN NUMERAL ELEVEN</span>
+<span class="e">  ⅻ	cr	217B	8571	SMALL ROMAN NUMERAL TWELVE</span>
+<span class="e">  ←	&lt;-	2190	8592	LEFTWARDS ARROW</span>
+<span class="e">  ↑	-!	2191	8593	UPWARDS ARROW</span>
+<span class="e">  →	-&gt;	2192	8594	RIGHTWARDS ARROW</span>
+<span class="e">  ↓	-v	2193	8595	DOWNWARDS ARROW</span>
+<span class="e">  ↔	&lt;&gt;	2194	8596	LEFT RIGHT ARROW</span>
+<span class="e">  ↕	UD	2195	8597	UP DOWN ARROW</span>
+<span class="e">  ⇐	&lt;=	21D0	8656	LEFTWARDS DOUBLE ARROW</span>
+<span class="e">  ⇒	=&gt;	21D2	8658	RIGHTWARDS DOUBLE ARROW</span>
+<span class="e">  ⇔	==	21D4	8660	LEFT RIGHT DOUBLE ARROW</span>
+<span class="e">  ∀	FA	2200	8704	FOR ALL</span>
+<span class="e">  ∂	dP	2202	8706	PARTIAL DIFFERENTIAL</span>
+<span class="e">  ∃	TE	2203	8707	THERE EXISTS</span>
+<span class="e">  ∅	/0	2205	8709	EMPTY SET</span>
+<span class="e">  ∆	DE	2206	8710	INCREMENT</span>
+<span class="e">  ∇	NB	2207	8711	NABLA</span>
+<span class="e">  ∈	(-	2208	8712	ELEMENT OF</span>
+<span class="e">  ∋	-)	220B	8715	CONTAINS AS MEMBER</span>
+<span class="e">  ∏	*P	220F	8719	N-ARY PRODUCT `</span>
+<span class="e">  ∑	+Z	2211	8721	N-ARY SUMMATION `</span>
+<span class="e">  −	-2	2212	8722	MINUS SIGN</span>
+<span class="e">  ∓	-+	2213	8723	MINUS-OR-PLUS SIGN</span>
+<span class="e">  ∗	*-	2217	8727	ASTERISK OPERATOR</span>
+<span class="e">  ∘	Ob	2218	8728	RING OPERATOR</span>
+<span class="e">  ∙	Sb	2219	8729	BULLET OPERATOR</span>
+<span class="e">  √	RT	221A	8730	SQUARE ROOT</span>
+<span class="e">  ∝	0(	221D	8733	PROPORTIONAL TO</span>
+<span class="e">  ∞	00	221E	8734	INFINITY</span>
+<span class="e">  ∟	-L	221F	8735	RIGHT ANGLE</span>
+<span class="e">  ∠	-V	2220	8736	ANGLE</span>
+<span class="e">  ∥	PP	2225	8741	PARALLEL TO</span>
+<span class="e">  ∧	AN	2227	8743	LOGICAL AND</span>
+<span class="e">  ∨	OR	2228	8744	LOGICAL OR</span>
+<span class="e">  ∩	(U	2229	8745	INTERSECTION</span>
+<span class="e">  ∪	)U	222A	8746	UNION</span>
+<span class="e">  ∫	In	222B	8747	INTEGRAL</span>
+<span class="e">  ∬	DI	222C	8748	DOUBLE INTEGRAL</span>
+<span class="e">  ∮	Io	222E	8750	CONTOUR INTEGRAL</span>
+<span class="e">  ∴	.:	2234	8756	THEREFORE</span>
+<span class="e">  ∵	:.	2235	8757	BECAUSE</span>
+<span class="e">  ∶	:R	2236	8758	RATIO</span>
+<span class="e">  ∷	::	2237	8759	PROPORTION</span>
+<span class="e">  ∼	?1	223C	8764	TILDE OPERATOR</span>
+<span class="e">  ∾	CG	223E	8766	INVERTED LAZY S</span>
+<span class="e">  ≃	?-	2243	8771	ASYMPTOTICALLY EQUAL TO</span>
+<span class="e">  ≅	?=	2245	8773	APPROXIMATELY EQUAL TO</span>
+<span class="e">  ≈	?2	2248	8776	ALMOST EQUAL TO</span>
+<span class="e">  ≌	=?	224C	8780	ALL EQUAL TO</span>
+<span class="e">  ≐	.=	2250	8784	APPROACHES THE LIMIT</span>
+<span class="e">  ≓	HI	2253	8787	IMAGE OF OR APPROXIMATELY EQUAL TO</span>
+<span class="e">  ≠	!=	2260	8800	NOT EQUAL TO</span>
+<span class="e">  ≡	=3	2261	8801	IDENTICAL TO</span>
+<span class="e">  ≤	=&lt;	2264	8804	LESS-THAN OR EQUAL TO</span>
+<span class="e">  ≥	&gt;=	2265	8805	GREATER-THAN OR EQUAL TO</span>
+<span class="e">  ≪	&lt;*	226A	8810	MUCH LESS-THAN</span>
+<span class="e">  ≫	*&gt;	226B	8811	MUCH GREATER-THAN</span>
+<span class="e">  ≮	!&lt;	226E	8814	NOT LESS-THAN</span>
+<span class="e">  ≯	!&gt;	226F	8815	NOT GREATER-THAN</span>
+<span class="e">  ⊂	(C	2282	8834	SUBSET OF</span>
+<span class="e">  ⊃	)C	2283	8835	SUPERSET OF</span>
+<span class="e">  ⊆	(_	2286	8838	SUBSET OF OR EQUAL TO</span>
+<span class="e">  ⊇	)_	2287	8839	SUPERSET OF OR EQUAL TO</span>
+<span class="e">  ⊙	0.	2299	8857	CIRCLED DOT OPERATOR</span>
+<span class="e">  ⊚	02	229A	8858	CIRCLED RING OPERATOR</span>
+<span class="e">  ⊥	-T	22A5	8869	UP TACK</span>
+<span class="e">  ⋅	.P	22C5	8901	DOT OPERATOR</span>
+<span class="e">  ⋮	:3	22EE	8942	VERTICAL ELLIPSIS</span>
+<span class="e">  ⋯	.3	22EF	8943	MIDLINE HORIZONTAL ELLIPSIS</span>
+<span class="e">  ⌂	Eh	2302	8962	HOUSE</span>
+<span class="e">  ⌈	&lt;7	2308	8968	LEFT CEILING</span>
+<span class="e">  ⌉	&gt;7	2309	8969	RIGHT CEILING</span>
+<span class="e">  ⌊	7&lt;	230A	8970	LEFT FLOOR</span>
+<span class="e">  ⌋	7&gt;	230B	8971	RIGHT FLOOR</span>
+<span class="e">  ⌐	NI	2310	8976	REVERSED NOT SIGN</span>
+<span class="e">  ⌒	(A	2312	8978	ARC</span>
+<span class="e">  ⌕	TR	2315	8981	TELEPHONE RECORDER</span>
+<span class="e">  ⌠	Iu	2320	8992	TOP HALF INTEGRAL</span>
+<span class="e">  ⌡	Il	2321	8993	BOTTOM HALF INTEGRAL</span>
+<span class="e">  〈	&lt;/	2329	9001	LEFT-POINTING ANGLE BRACKET</span>
+<span class="e">  〉	/&gt;	232A	9002	RIGHT-POINTING ANGLE BRACKET</span>
+<span class="e">  ␣	Vs	2423	9251	OPEN BOX</span>
+<span class="e">  ⑀	1h	2440	9280	OCR HOOK</span>
+<span class="e">  ⑁	3h	2441	9281	OCR CHAIR</span>
+<span class="e">  ⑂	2h	2442	9282	OCR FORK</span>
+<span class="e">  ⑃	4h	2443	9283	OCR INVERTED FORK</span>
+<span class="e">  ⑆	1j	2446	9286	OCR BRANCH BANK IDENTIFICATION</span>
+<span class="e">  ⑇	2j	2447	9287	OCR AMOUNT OF CHECK</span>
+<span class="e">  ⑈	3j	2448	9288	OCR DASH</span>
+<span class="e">  ⑉	4j	2449	9289	OCR CUSTOMER ACCOUNT NUMBER</span>
+<span class="e">  ⒈	1.	2488	9352	DIGIT ONE FULL STOP</span>
+<span class="e">  ⒉	2.	2489	9353	DIGIT TWO FULL STOP</span>
+<span class="e">  ⒊	3.	248A	9354	DIGIT THREE FULL STOP</span>
+<span class="e">  ⒋	4.	248B	9355	DIGIT FOUR FULL STOP</span>
+<span class="e">  ⒌	5.	248C	9356	DIGIT FIVE FULL STOP</span>
+<span class="e">  ⒍	6.	248D	9357	DIGIT SIX FULL STOP</span>
+<span class="e">  ⒎	7.	248E	9358	DIGIT SEVEN FULL STOP</span>
+<span class="e">  ⒏	8.	248F	9359	DIGIT EIGHT FULL STOP</span>
+<span class="e">  ⒐	9.	2490	9360	DIGIT NINE FULL STOP</span>
+<span class="e">  ─	hh	2500	9472	BOX DRAWINGS LIGHT HORIZONTAL</span>
+<span class="e">  ━	HH	2501	9473	BOX DRAWINGS HEAVY HORIZONTAL</span>
+<span class="e">  │	vv	2502	9474	BOX DRAWINGS LIGHT VERTICAL</span>
+<span class="e">  ┃	VV	2503	9475	BOX DRAWINGS HEAVY VERTICAL</span>
+<span class="e">  ┄	3-	2504	9476	BOX DRAWINGS LIGHT TRIPLE DASH HORIZONTAL</span>
+<span class="e">  ┅	3_	2505	9477	BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL</span>
+<span class="e">  ┆	3!	2506	9478	BOX DRAWINGS LIGHT TRIPLE DASH VERTICAL</span>
+<span class="e">  ┇	3/	2507	9479	BOX DRAWINGS HEAVY TRIPLE DASH VERTICAL</span>
+<span class="e">  ┈	4-	2508	9480	BOX DRAWINGS LIGHT QUADRUPLE DASH HORIZONTAL</span>
+<span class="e">  ┉	4_	2509	9481	BOX DRAWINGS HEAVY QUADRUPLE DASH HORIZONTAL</span>
+<span class="e">  ┊	4!	250A	9482	BOX DRAWINGS LIGHT QUADRUPLE DASH VERTICAL</span>
+<span class="e">  ┋	4/	250B	9483	BOX DRAWINGS HEAVY QUADRUPLE DASH VERTICAL</span>
+<span class="e">  ┌	dr	250C	9484	BOX DRAWINGS LIGHT DOWN AND RIGHT</span>
+<span class="e">  ┍	dR	250D	9485	BOX DRAWINGS DOWN LIGHT AND RIGHT HEAVY</span>
+<span class="e">  ┎	Dr	250E	9486	BOX DRAWINGS DOWN HEAVY AND RIGHT LIGHT</span>
+<span class="e">  ┏	DR	250F	9487	BOX DRAWINGS HEAVY DOWN AND RIGHT</span>
+<span class="e">  ┐	dl	2510	9488	BOX DRAWINGS LIGHT DOWN AND LEFT</span>
+<span class="e">  ┑	dL	2511	9489	BOX DRAWINGS DOWN LIGHT AND LEFT HEAVY</span>
+<span class="e">  ┒	Dl	2512	9490	BOX DRAWINGS DOWN HEAVY AND LEFT LIGHT</span>
+<span class="e">  ┓	LD	2513	9491	BOX DRAWINGS HEAVY DOWN AND LEFT</span>
+<span class="e">  └	ur	2514	9492	BOX DRAWINGS LIGHT UP AND RIGHT</span>
+<span class="e">  ┕	uR	2515	9493	BOX DRAWINGS UP LIGHT AND RIGHT HEAVY</span>
+<span class="e">  ┖	Ur	2516	9494	BOX DRAWINGS UP HEAVY AND RIGHT LIGHT</span>
+<span class="e">  ┗	UR	2517	9495	BOX DRAWINGS HEAVY UP AND RIGHT</span>
+<span class="e">  ┘	ul	2518	9496	BOX DRAWINGS LIGHT UP AND LEFT</span>
+<span class="e">  ┙	uL	2519	9497	BOX DRAWINGS UP LIGHT AND LEFT HEAVY</span>
+<span class="e">  ┚	Ul	251A	9498	BOX DRAWINGS UP HEAVY AND LEFT LIGHT</span>
+<span class="e">  ┛	UL	251B	9499	BOX DRAWINGS HEAVY UP AND LEFT</span>
+<span class="e">  ├	vr	251C	9500	BOX DRAWINGS LIGHT VERTICAL AND RIGHT</span>
+<span class="e">  ┝	vR	251D	9501	BOX DRAWINGS VERTICAL LIGHT AND RIGHT HEAVY</span>
+<span class="e">  ┠	Vr	2520	9504	BOX DRAWINGS VERTICAL HEAVY AND RIGHT LIGHT</span>
+<span class="e">  ┣	VR	2523	9507	BOX DRAWINGS HEAVY VERTICAL AND RIGHT</span>
+<span class="e">  ┤	vl	2524	9508	BOX DRAWINGS LIGHT VERTICAL AND LEFT</span>
+<span class="e">  ┥	vL	2525	9509	BOX DRAWINGS VERTICAL LIGHT AND LEFT HEAVY</span>
+<span class="e">  ┨	Vl	2528	9512	BOX DRAWINGS VERTICAL HEAVY AND LEFT LIGHT</span>
+<span class="e">  ┫	VL	252B	9515	BOX DRAWINGS HEAVY VERTICAL AND LEFT</span>
+<span class="e">  ┬	dh	252C	9516	BOX DRAWINGS LIGHT DOWN AND HORIZONTAL</span>
+<span class="e">  ┯	dH	252F	9519	BOX DRAWINGS DOWN LIGHT AND HORIZONTAL HEAVY</span>
+<span class="e">  ┰	Dh	2530	9520	BOX DRAWINGS DOWN HEAVY AND HORIZONTAL LIGHT</span>
+<span class="e">  ┳	DH	2533	9523	BOX DRAWINGS HEAVY DOWN AND HORIZONTAL</span>
+<span class="e">  ┴	uh	2534	9524	BOX DRAWINGS LIGHT UP AND HORIZONTAL</span>
+<span class="e">  ┷	uH	2537	9527	BOX DRAWINGS UP LIGHT AND HORIZONTAL HEAVY</span>
+<span class="e">  ┸	Uh	2538	9528	BOX DRAWINGS UP HEAVY AND HORIZONTAL LIGHT</span>
+<span class="e">  ┻	UH	253B	9531	BOX DRAWINGS HEAVY UP AND HORIZONTAL</span>
+<span class="e">  ┼	vh	253C	9532	BOX DRAWINGS LIGHT VERTICAL AND HORIZONTAL</span>
+<span class="e">  ┿	vH	253F	9535	BOX DRAWINGS VERTICAL LIGHT AND HORIZONTAL HEAVY</span>
+<span class="e">  ╂	Vh	2542	9538	BOX DRAWINGS VERTICAL HEAVY AND HORIZONTAL LIGHT</span>
+<span class="e">  ╋	VH	254B	9547	BOX DRAWINGS HEAVY VERTICAL AND HORIZONTAL</span>
+<span class="e">  ╱	FD	2571	9585	BOX DRAWINGS LIGHT DIAGONAL UPPER RIGHT TO LOWER LEFT</span>
+<span class="e">  ╲	BD	2572	9586	BOX DRAWINGS LIGHT DIAGONAL UPPER LEFT TO LOWER RIGHT</span>
+<span class="e">  ▀	TB	2580	9600	UPPER HALF BLOCK</span>
+<span class="e">  ▄	LB	2584	9604	LOWER HALF BLOCK</span>
+<span class="e">  █	FB	2588	9608	FULL BLOCK</span>
+<span class="e">  ▌	lB	258C	9612	LEFT HALF BLOCK</span>
+<span class="e">  ▐	RB	2590	9616	RIGHT HALF BLOCK</span>
+<span class="e">  ░	.S	2591	9617	LIGHT SHADE</span>
+<span class="e">  ▒	:S	2592	9618	MEDIUM SHADE</span>
+<span class="e">  ▓	?S	2593	9619	DARK SHADE</span>
+<span class="e">  ■	fS	25A0	9632	BLACK SQUARE</span>
+<span class="e">  □	OS	25A1	9633	WHITE SQUARE</span>
+<span class="e">  ▢	RO	25A2	9634	WHITE SQUARE WITH ROUNDED CORNERS</span>
+<span class="e">  ▣	Rr	25A3	9635	WHITE SQUARE CONTAINING BLACK SMALL SQUARE</span>
+<span class="e">  ▤	RF	25A4	9636	SQUARE WITH HORIZONTAL FILL</span>
+<span class="e">  ▥	RY	25A5	9637	SQUARE WITH VERTICAL FILL</span>
+<span class="e">  ▦	RH	25A6	9638	SQUARE WITH ORTHOGONAL CROSSHATCH FILL</span>
+<span class="e">  ▧	RZ	25A7	9639	SQUARE WITH UPPER LEFT TO LOWER RIGHT FILL</span>
+<span class="e">  ▨	RK	25A8	9640	SQUARE WITH UPPER RIGHT TO LOWER LEFT FILL</span>
+<span class="e">  ▩	RX	25A9	9641	SQUARE WITH DIAGONAL CROSSHATCH FILL</span>
+<span class="e">  ▪	sB	25AA	9642	BLACK SMALL SQUARE</span>
+<span class="e">  ▬	SR	25AC	9644	BLACK RECTANGLE</span>
+<span class="e">  ▭	Or	25AD	9645	WHITE RECTANGLE</span>
+<span class="e">  ▲	UT	25B2	9650	BLACK UP-POINTING TRIANGLE</span>
+<span class="e">  △	uT	25B3	9651	WHITE UP-POINTING TRIANGLE</span>
+<span class="e">  ▶	PR	25B6	9654	BLACK RIGHT-POINTING TRIANGLE</span>
+<span class="e">  ▷	Tr	25B7	9655	WHITE RIGHT-POINTING TRIANGLE</span>
+<span class="e">  ▼	Dt	25BC	9660	BLACK DOWN-POINTING TRIANGLE</span>
+<span class="e">  ▽	dT	25BD	9661	WHITE DOWN-POINTING TRIANGLE</span>
+<span class="e">  ◀	PL	25C0	9664	BLACK LEFT-POINTING TRIANGLE</span>
+<span class="e">  ◁	Tl	25C1	9665	WHITE LEFT-POINTING TRIANGLE</span>
+<span class="e">  ◆	Db	25C6	9670	BLACK DIAMOND</span>
+<span class="e">  ◇	Dw	25C7	9671	WHITE DIAMOND</span>
+<span class="e">  ◊	LZ	25CA	9674	LOZENGE</span>
+<span class="e">  ○	0m	25CB	9675	WHITE CIRCLE</span>
+<span class="e">  ◎	0o	25CE	9678	BULLSEYE</span>
+<span class="e">  ●	0M	25CF	9679	BLACK CIRCLE</span>
+<span class="e">  ◐	0L	25D0	9680	CIRCLE WITH LEFT HALF BLACK</span>
+<span class="e">  ◑	0R	25D1	9681	CIRCLE WITH RIGHT HALF BLACK</span>
+<span class="e">  ◘	Sn	25D8	9688	INVERSE BULLET</span>
+<span class="e">  ◙	Ic	25D9	9689	INVERSE WHITE CIRCLE</span>
+<span class="e">  ◢	Fd	25E2	9698	BLACK LOWER RIGHT TRIANGLE</span>
+<span class="e">  ◣	Bd	25E3	9699	BLACK LOWER LEFT TRIANGLE</span>
+<span class="e">  ★	*2	2605	9733	BLACK STAR</span>
+<span class="e">  ☆	*1	2606	9734	WHITE STAR</span>
+<span class="e">  ☜	&lt;H	261C	9756	WHITE LEFT POINTING INDEX</span>
+<span class="e">  ☞	&gt;H	261E	9758	WHITE RIGHT POINTING INDEX</span>
+<span class="e">  ☺	0u	263A	9786	WHITE SMILING FACE</span>
+<span class="e">  ☻	0U	263B	9787	BLACK SMILING FACE</span>
+<span class="e">  ☼	SU	263C	9788	WHITE SUN WITH RAYS</span>
+<span class="e">  ♀	Fm	2640	9792	FEMALE SIGN</span>
+<span class="e">  ♂	Ml	2642	9794	MALE SIGN</span>
+<span class="e">  ♠	cS	2660	9824	BLACK SPADE SUIT</span>
+<span class="e">  ♡	cH	2661	9825	WHITE HEART SUIT</span>
+<span class="e">  ♢	cD	2662	9826	WHITE DIAMOND SUIT</span>
+<span class="e">  ♣	cC	2663	9827	BLACK CLUB SUIT</span>
+<span class="e">  ♩	Md	2669	9833	QUARTER NOTE `</span>
+<span class="e">  ♪	M8	266A	9834	EIGHTH NOTE `</span>
+<span class="e">  ♫	M2	266B	9835	BEAMED EIGHTH NOTES</span>
+<span class="e">  ♭	Mb	266D	9837	MUSIC FLAT SIGN</span>
+<span class="e">  ♮	Mx	266E	9838	MUSIC NATURAL SIGN</span>
+<span class="e">  ♯	MX	266F	9839	MUSIC SHARP SIGN</span>
+<span class="e">  ✓	OK	2713	10003	CHECK MARK</span>
+<span class="e">  ✗	XX	2717	10007	BALLOT X</span>
+<span class="e">  ✠	-X	2720	10016	MALTESE CROSS</span>
+<span class="e">  　	IS	3000	12288	IDEOGRAPHIC SPACE</span>
+<span class="e">  、	,_	3001	12289	IDEOGRAPHIC COMMA</span>
+<span class="e">  。	._	3002	12290	IDEOGRAPHIC FULL STOP</span>
+<span class="e">  〃	+"	3003	12291	DITTO MARK</span>
+<span class="e">  〄	+_	3004	12292	JAPANESE INDUSTRIAL STANDARD SYMBOL</span>
+<span class="e">  々	*_	3005	12293	IDEOGRAPHIC ITERATION MARK</span>
+<span class="e">  〆	;_	3006	12294	IDEOGRAPHIC CLOSING MARK</span>
+<span class="e">  〇	0_	3007	12295	IDEOGRAPHIC NUMBER ZERO</span>
+<span class="e">  《	&lt;+	300A	12298	LEFT DOUBLE ANGLE BRACKET</span>
+<span class="e">  》	&gt;+	300B	12299	RIGHT DOUBLE ANGLE BRACKET</span>
+<span class="e">  「	&lt;'	300C	12300	LEFT CORNER BRACKET</span>
+<span class="e">  」	&gt;'	300D	12301	RIGHT CORNER BRACKET</span>
+<span class="e">  『	&lt;"	300E	12302	LEFT WHITE CORNER BRACKET</span>
+<span class="e">  』	&gt;"	300F	12303	RIGHT WHITE CORNER BRACKET</span>
+<span class="e">  【	("	3010	12304	LEFT BLACK LENTICULAR BRACKET</span>
+<span class="e">  】	)"	3011	12305	RIGHT BLACK LENTICULAR BRACKET</span>
+<span class="e">  〒	=T	3012	12306	POSTAL MARK</span>
+<span class="e">  〓	=_	3013	12307	GETA MARK</span>
+<span class="e">  〔	('	3014	12308	LEFT TORTOISE SHELL BRACKET</span>
+<span class="e">  〕	)'	3015	12309	RIGHT TORTOISE SHELL BRACKET</span>
+<span class="e">  〖	(I	3016	12310	LEFT WHITE LENTICULAR BRACKET</span>
+<span class="e">  〗	)I	3017	12311	RIGHT WHITE LENTICULAR BRACKET</span>
+<span class="e">  〜	-?	301C	12316	WAVE DASH</span>
+<span class="e">  ぁ	A5	3041	12353	HIRAGANA LETTER SMALL A</span>
+<span class="e">  あ	a5	3042	12354	HIRAGANA LETTER A</span>
+<span class="e">  ぃ	I5	3043	12355	HIRAGANA LETTER SMALL I</span>
+<span class="e">  い	i5	3044	12356	HIRAGANA LETTER I</span>
+<span class="e">  ぅ	U5	3045	12357	HIRAGANA LETTER SMALL U</span>
+<span class="e">  う	u5	3046	12358	HIRAGANA LETTER U</span>
+<span class="e">  ぇ	E5	3047	12359	HIRAGANA LETTER SMALL E</span>
+<span class="e">  え	e5	3048	12360	HIRAGANA LETTER E</span>
+<span class="e">  ぉ	O5	3049	12361	HIRAGANA LETTER SMALL O</span>
+<span class="e">  お	o5	304A	12362	HIRAGANA LETTER O</span>
+<span class="e">  か	ka	304B	12363	HIRAGANA LETTER KA</span>
+<span class="e">  が	ga	304C	12364	HIRAGANA LETTER GA</span>
+<span class="e">  き	ki	304D	12365	HIRAGANA LETTER KI</span>
+<span class="e">  ぎ	gi	304E	12366	HIRAGANA LETTER GI</span>
+<span class="e">  く	ku	304F	12367	HIRAGANA LETTER KU</span>
+<span class="e">  ぐ	gu	3050	12368	HIRAGANA LETTER GU</span>
+<span class="e">  け	ke	3051	12369	HIRAGANA LETTER KE</span>
+<span class="e">  げ	ge	3052	12370	HIRAGANA LETTER GE</span>
+<span class="e">  こ	ko	3053	12371	HIRAGANA LETTER KO</span>
+<span class="e">  ご	go	3054	12372	HIRAGANA LETTER GO</span>
+<span class="e">  さ	sa	3055	12373	HIRAGANA LETTER SA</span>
+<span class="e">  ざ	za	3056	12374	HIRAGANA LETTER ZA</span>
+<span class="e">  し	si	3057	12375	HIRAGANA LETTER SI</span>
+<span class="e">  じ	zi	3058	12376	HIRAGANA LETTER ZI</span>
+<span class="e">  す	su	3059	12377	HIRAGANA LETTER SU</span>
+<span class="e">  ず	zu	305A	12378	HIRAGANA LETTER ZU</span>
+<span class="e">  せ	se	305B	12379	HIRAGANA LETTER SE</span>
+<span class="e">  ぜ	ze	305C	12380	HIRAGANA LETTER ZE</span>
+<span class="e">  そ	so	305D	12381	HIRAGANA LETTER SO</span>
+<span class="e">  ぞ	zo	305E	12382	HIRAGANA LETTER ZO</span>
+<span class="e">  た	ta	305F	12383	HIRAGANA LETTER TA</span>
+<span class="e">  だ	da	3060	12384	HIRAGANA LETTER DA</span>
+<span class="e">  ち	ti	3061	12385	HIRAGANA LETTER TI</span>
+<span class="e">  ぢ	di	3062	12386	HIRAGANA LETTER DI</span>
+<span class="e">  っ	tU	3063	12387	HIRAGANA LETTER SMALL TU</span>
+<span class="e">  つ	tu	3064	12388	HIRAGANA LETTER TU</span>
+<span class="e">  づ	du	3065	12389	HIRAGANA LETTER DU</span>
+<span class="e">  て	te	3066	12390	HIRAGANA LETTER TE</span>
+<span class="e">  で	de	3067	12391	HIRAGANA LETTER DE</span>
+<span class="e">  と	to	3068	12392	HIRAGANA LETTER TO</span>
+<span class="e">  ど	do	3069	12393	HIRAGANA LETTER DO</span>
+<span class="e">  な	na	306A	12394	HIRAGANA LETTER NA</span>
+<span class="e">  に	ni	306B	12395	HIRAGANA LETTER NI</span>
+<span class="e">  ぬ	nu	306C	12396	HIRAGANA LETTER NU</span>
+<span class="e">  ね	ne	306D	12397	HIRAGANA LETTER NE</span>
+<span class="e">  の	no	306E	12398	HIRAGANA LETTER NO</span>
+<span class="e">  は	ha	306F	12399	HIRAGANA LETTER HA</span>
+<span class="e">  ば	ba	3070	12400	HIRAGANA LETTER BA</span>
+<span class="e">  ぱ	pa	3071	12401	HIRAGANA LETTER PA</span>
+<span class="e">  ひ	hi	3072	12402	HIRAGANA LETTER HI</span>
+<span class="e">  び	bi	3073	12403	HIRAGANA LETTER BI</span>
+<span class="e">  ぴ	pi	3074	12404	HIRAGANA LETTER PI</span>
+<span class="e">  ふ	hu	3075	12405	HIRAGANA LETTER HU</span>
+<span class="e">  ぶ	bu	3076	12406	HIRAGANA LETTER BU</span>
+<span class="e">  ぷ	pu	3077	12407	HIRAGANA LETTER PU</span>
+<span class="e">  へ	he	3078	12408	HIRAGANA LETTER HE</span>
+<span class="e">  べ	be	3079	12409	HIRAGANA LETTER BE</span>
+<span class="e">  ぺ	pe	307A	12410	HIRAGANA LETTER PE</span>
+<span class="e">  ほ	ho	307B	12411	HIRAGANA LETTER HO</span>
+<span class="e">  ぼ	bo	307C	12412	HIRAGANA LETTER BO</span>
+<span class="e">  ぽ	po	307D	12413	HIRAGANA LETTER PO</span>
+<span class="e">  ま	ma	307E	12414	HIRAGANA LETTER MA</span>
+<span class="e">  み	mi	307F	12415	HIRAGANA LETTER MI</span>
+<span class="e">  む	mu	3080	12416	HIRAGANA LETTER MU</span>
+<span class="e">  め	me	3081	12417	HIRAGANA LETTER ME</span>
+<span class="e">  も	mo	3082	12418	HIRAGANA LETTER MO</span>
+<span class="e">  ゃ	yA	3083	12419	HIRAGANA LETTER SMALL YA</span>
+<span class="e">  や	ya	3084	12420	HIRAGANA LETTER YA</span>
+<span class="e">  ゅ	yU	3085	12421	HIRAGANA LETTER SMALL YU</span>
+<span class="e">  ゆ	yu	3086	12422	HIRAGANA LETTER YU</span>
+<span class="e">  ょ	yO	3087	12423	HIRAGANA LETTER SMALL YO</span>
+<span class="e">  よ	yo	3088	12424	HIRAGANA LETTER YO</span>
+<span class="e">  ら	ra	3089	12425	HIRAGANA LETTER RA</span>
+<span class="e">  り	ri	308A	12426	HIRAGANA LETTER RI</span>
+<span class="e">  る	ru	308B	12427	HIRAGANA LETTER RU</span>
+<span class="e">  れ	re	308C	12428	HIRAGANA LETTER RE</span>
+<span class="e">  ろ	ro	308D	12429	HIRAGANA LETTER RO</span>
+<span class="e">  ゎ	wA	308E	12430	HIRAGANA LETTER SMALL WA</span>
+<span class="e">  わ	wa	308F	12431	HIRAGANA LETTER WA</span>
+<span class="e">  ゐ	wi	3090	12432	HIRAGANA LETTER WI</span>
+<span class="e">  ゑ	we	3091	12433	HIRAGANA LETTER WE</span>
+<span class="e">  を	wo	3092	12434	HIRAGANA LETTER WO</span>
+<span class="e">  ん	n5	3093	12435	HIRAGANA LETTER N `</span>
+<span class="e">  ゔ	vu	3094	12436	HIRAGANA LETTER VU</span>
+<span class="e">  ゛	"5	309B	12443	KATAKANA-HIRAGANA VOICED SOUND MARK</span>
+<span class="e">  ゜	05	309C	12444	KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK</span>
+<span class="e">  ゝ	*5	309D	12445	HIRAGANA ITERATION MARK</span>
+<span class="e">  ゞ	+5	309E	12446	HIRAGANA VOICED ITERATION MARK</span>
+<span class="e">  ァ	a6	30A1	12449	KATAKANA LETTER SMALL A</span>
+<span class="e">  ア	A6	30A2	12450	KATAKANA LETTER A</span>
+<span class="e">  ィ	i6	30A3	12451	KATAKANA LETTER SMALL I</span>
+<span class="e">  イ	I6	30A4	12452	KATAKANA LETTER I</span>
+<span class="e">  ゥ	u6	30A5	12453	KATAKANA LETTER SMALL U</span>
+<span class="e">  ウ	U6	30A6	12454	KATAKANA LETTER U</span>
+<span class="e">  ェ	e6	30A7	12455	KATAKANA LETTER SMALL E</span>
+<span class="e">  エ	E6	30A8	12456	KATAKANA LETTER E</span>
+<span class="e">  ォ	o6	30A9	12457	KATAKANA LETTER SMALL O</span>
+<span class="e">  オ	O6	30AA	12458	KATAKANA LETTER O</span>
+<span class="e">  カ	Ka	30AB	12459	KATAKANA LETTER KA</span>
+<span class="e">  ガ	Ga	30AC	12460	KATAKANA LETTER GA</span>
+<span class="e">  キ	Ki	30AD	12461	KATAKANA LETTER KI</span>
+<span class="e">  ギ	Gi	30AE	12462	KATAKANA LETTER GI</span>
+<span class="e">  ク	Ku	30AF	12463	KATAKANA LETTER KU</span>
+<span class="e">  グ	Gu	30B0	12464	KATAKANA LETTER GU</span>
+<span class="e">  ケ	Ke	30B1	12465	KATAKANA LETTER KE</span>
+<span class="e">  ゲ	Ge	30B2	12466	KATAKANA LETTER GE</span>
+<span class="e">  コ	Ko	30B3	12467	KATAKANA LETTER KO</span>
+<span class="e">  ゴ	Go	30B4	12468	KATAKANA LETTER GO</span>
+<span class="e">  サ	Sa	30B5	12469	KATAKANA LETTER SA</span>
+<span class="e">  ザ	Za	30B6	12470	KATAKANA LETTER ZA</span>
+<span class="e">  シ	Si	30B7	12471	KATAKANA LETTER SI</span>
+<span class="e">  ジ	Zi	30B8	12472	KATAKANA LETTER ZI</span>
+<span class="e">  ス	Su	30B9	12473	KATAKANA LETTER SU</span>
+<span class="e">  ズ	Zu	30BA	12474	KATAKANA LETTER ZU</span>
+<span class="e">  セ	Se	30BB	12475	KATAKANA LETTER SE</span>
+<span class="e">  ゼ	Ze	30BC	12476	KATAKANA LETTER ZE</span>
+<span class="e">  ソ	So	30BD	12477	KATAKANA LETTER SO</span>
+<span class="e">  ゾ	Zo	30BE	12478	KATAKANA LETTER ZO</span>
+<span class="e">  タ	Ta	30BF	12479	KATAKANA LETTER TA</span>
+<span class="e">  ダ	Da	30C0	12480	KATAKANA LETTER DA</span>
+<span class="e">  チ	Ti	30C1	12481	KATAKANA LETTER TI</span>
+<span class="e">  ヂ	Di	30C2	12482	KATAKANA LETTER DI</span>
+<span class="e">  ッ	TU	30C3	12483	KATAKANA LETTER SMALL TU</span>
+<span class="e">  ツ	Tu	30C4	12484	KATAKANA LETTER TU</span>
+<span class="e">  ヅ	Du	30C5	12485	KATAKANA LETTER DU</span>
+<span class="e">  テ	Te	30C6	12486	KATAKANA LETTER TE</span>
+<span class="e">  デ	De	30C7	12487	KATAKANA LETTER DE</span>
+<span class="e">  ト	To	30C8	12488	KATAKANA LETTER TO</span>
+<span class="e">  ド	Do	30C9	12489	KATAKANA LETTER DO</span>
+<span class="e">  ナ	Na	30CA	12490	KATAKANA LETTER NA</span>
+<span class="e">  ニ	Ni	30CB	12491	KATAKANA LETTER NI</span>
+<span class="e">  ヌ	Nu	30CC	12492	KATAKANA LETTER NU</span>
+<span class="e">  ネ	Ne	30CD	12493	KATAKANA LETTER NE</span>
+<span class="e">  ノ	No	30CE	12494	KATAKANA LETTER NO</span>
+<span class="e">  ハ	Ha	30CF	12495	KATAKANA LETTER HA</span>
+<span class="e">  バ	Ba	30D0	12496	KATAKANA LETTER BA</span>
+<span class="e">  パ	Pa	30D1	12497	KATAKANA LETTER PA</span>
+<span class="e">  ヒ	Hi	30D2	12498	KATAKANA LETTER HI</span>
+<span class="e">  ビ	Bi	30D3	12499	KATAKANA LETTER BI</span>
+<span class="e">  ピ	Pi	30D4	12500	KATAKANA LETTER PI</span>
+<span class="e">  フ	Hu	30D5	12501	KATAKANA LETTER HU</span>
+<span class="e">  ブ	Bu	30D6	12502	KATAKANA LETTER BU</span>
+<span class="e">  プ	Pu	30D7	12503	KATAKANA LETTER PU</span>
+<span class="e">  ヘ	He	30D8	12504	KATAKANA LETTER HE</span>
+<span class="e">  ベ	Be	30D9	12505	KATAKANA LETTER BE</span>
+<span class="e">  ペ	Pe	30DA	12506	KATAKANA LETTER PE</span>
+<span class="e">  ホ	Ho	30DB	12507	KATAKANA LETTER HO</span>
+<span class="e">  ボ	Bo	30DC	12508	KATAKANA LETTER BO</span>
+<span class="e">  ポ	Po	30DD	12509	KATAKANA LETTER PO</span>
+<span class="e">  マ	Ma	30DE	12510	KATAKANA LETTER MA</span>
+<span class="e">  ミ	Mi	30DF	12511	KATAKANA LETTER MI</span>
+<span class="e">  ム	Mu	30E0	12512	KATAKANA LETTER MU</span>
+<span class="e">  メ	Me	30E1	12513	KATAKANA LETTER ME</span>
+<span class="e">  モ	Mo	30E2	12514	KATAKANA LETTER MO</span>
+<span class="e">  ャ	YA	30E3	12515	KATAKANA LETTER SMALL YA</span>
+<span class="e">  ヤ	Ya	30E4	12516	KATAKANA LETTER YA</span>
+<span class="e">  ュ	YU	30E5	12517	KATAKANA LETTER SMALL YU</span>
+<span class="e">  ユ	Yu	30E6	12518	KATAKANA LETTER YU</span>
+<span class="e">  ョ	YO	30E7	12519	KATAKANA LETTER SMALL YO</span>
+<span class="e">  ヨ	Yo	30E8	12520	KATAKANA LETTER YO</span>
+<span class="e">  ラ	Ra	30E9	12521	KATAKANA LETTER RA</span>
+<span class="e">  リ	Ri	30EA	12522	KATAKANA LETTER RI</span>
+<span class="e">  ル	Ru	30EB	12523	KATAKANA LETTER RU</span>
+<span class="e">  レ	Re	30EC	12524	KATAKANA LETTER RE</span>
+<span class="e">  ロ	Ro	30ED	12525	KATAKANA LETTER RO</span>
+<span class="e">  ヮ	WA	30EE	12526	KATAKANA LETTER SMALL WA</span>
+<span class="e">  ワ	Wa	30EF	12527	KATAKANA LETTER WA</span>
+<span class="e">  ヰ	Wi	30F0	12528	KATAKANA LETTER WI</span>
+<span class="e">  ヱ	We	30F1	12529	KATAKANA LETTER WE</span>
+<span class="e">  ヲ	Wo	30F2	12530	KATAKANA LETTER WO</span>
+<span class="e">  ン	N6	30F3	12531	KATAKANA LETTER N `</span>
+<span class="e">  ヴ	Vu	30F4	12532	KATAKANA LETTER VU</span>
+<span class="e">  ヵ	KA	30F5	12533	KATAKANA LETTER SMALL KA</span>
+<span class="e">  ヶ	KE	30F6	12534	KATAKANA LETTER SMALL KE</span>
+<span class="e">  ヷ	Va	30F7	12535	KATAKANA LETTER VA</span>
+<span class="e">  ヸ	Vi	30F8	12536	KATAKANA LETTER VI</span>
+<span class="e">  ヹ	Ve	30F9	12537	KATAKANA LETTER VE</span>
+<span class="e">  ヺ	Vo	30FA	12538	KATAKANA LETTER VO</span>
+<span class="e">  ・	.6	30FB	12539	KATAKANA MIDDLE DOT</span>
+<span class="e">  ー	-6	30FC	12540	KATAKANA-HIRAGANA PROLONGED SOUND MARK</span>
+<span class="e">  ヽ	*6	30FD	12541	KATAKANA ITERATION MARK</span>
+<span class="e">  ヾ	+6	30FE	12542	KATAKANA VOICED ITERATION MARK</span>
+<span class="e">  ㄅ	b4	3105	12549	BOPOMOFO LETTER B</span>
+<span class="e">  ㄆ	p4	3106	12550	BOPOMOFO LETTER P</span>
+<span class="e">  ㄇ	m4	3107	12551	BOPOMOFO LETTER M</span>
+<span class="e">  ㄈ	f4	3108	12552	BOPOMOFO LETTER F</span>
+<span class="e">  ㄉ	d4	3109	12553	BOPOMOFO LETTER D</span>
+<span class="e">  ㄊ	t4	310A	12554	BOPOMOFO LETTER T</span>
+<span class="e">  ㄋ	n4	310B	12555	BOPOMOFO LETTER N `</span>
+<span class="e">  ㄌ	l4	310C	12556	BOPOMOFO LETTER L</span>
+<span class="e">  ㄍ	g4	310D	12557	BOPOMOFO LETTER G</span>
+<span class="e">  ㄎ	k4	310E	12558	BOPOMOFO LETTER K</span>
+<span class="e">  ㄏ	h4	310F	12559	BOPOMOFO LETTER H</span>
+<span class="e">  ㄐ	j4	3110	12560	BOPOMOFO LETTER J</span>
+<span class="e">  ㄑ	q4	3111	12561	BOPOMOFO LETTER Q</span>
+<span class="e">  ㄒ	x4	3112	12562	BOPOMOFO LETTER X</span>
+<span class="e">  ㄓ	zh	3113	12563	BOPOMOFO LETTER ZH</span>
+<span class="e">  ㄔ	ch	3114	12564	BOPOMOFO LETTER CH</span>
+<span class="e">  ㄕ	sh	3115	12565	BOPOMOFO LETTER SH</span>
+<span class="e">  ㄖ	r4	3116	12566	BOPOMOFO LETTER R</span>
+<span class="e">  ㄗ	z4	3117	12567	BOPOMOFO LETTER Z</span>
+<span class="e">  ㄘ	c4	3118	12568	BOPOMOFO LETTER C</span>
+<span class="e">  ㄙ	s4	3119	12569	BOPOMOFO LETTER S</span>
+<span class="e">  ㄚ	a4	311A	12570	BOPOMOFO LETTER A</span>
+<span class="e">  ㄛ	o4	311B	12571	BOPOMOFO LETTER O</span>
+<span class="e">  ㄜ	e4	311C	12572	BOPOMOFO LETTER E</span>
+<span class="e">  ㄞ	ai	311E	12574	BOPOMOFO LETTER AI</span>
+<span class="e">  ㄟ	ei	311F	12575	BOPOMOFO LETTER EI</span>
+<span class="e">  ㄠ	au	3120	12576	BOPOMOFO LETTER AU</span>
+<span class="e">  ㄡ	ou	3121	12577	BOPOMOFO LETTER OU</span>
+<span class="e">  ㄢ	an	3122	12578	BOPOMOFO LETTER AN</span>
+<span class="e">  ㄣ	en	3123	12579	BOPOMOFO LETTER EN</span>
+<span class="e">  ㄤ	aN	3124	12580	BOPOMOFO LETTER ANG</span>
+<span class="e">  ㄥ	eN	3125	12581	BOPOMOFO LETTER ENG</span>
+<span class="e">  ㄦ	er	3126	12582	BOPOMOFO LETTER ER</span>
+<span class="e">  ㄧ	i4	3127	12583	BOPOMOFO LETTER I</span>
+<span class="e">  ㄨ	u4	3128	12584	BOPOMOFO LETTER U</span>
+<span class="e">  ㄩ	iu	3129	12585	BOPOMOFO LETTER IU</span>
+<span class="e">  ㄪ	v4	312A	12586	BOPOMOFO LETTER V</span>
+<span class="e">  ㄫ	nG	312B	12587	BOPOMOFO LETTER NG</span>
+<span class="e">  ㄬ	gn	312C	12588	BOPOMOFO LETTER GN</span>
+<span class="e">  ㈠	1c	3220	12832	PARENTHESIZED IDEOGRAPH ONE</span>
+<span class="e">  ㈡	2c	3221	12833	PARENTHESIZED IDEOGRAPH TWO</span>
+<span class="e">  ㈢	3c	3222	12834	PARENTHESIZED IDEOGRAPH THREE</span>
+<span class="e">  ㈣	4c	3223	12835	PARENTHESIZED IDEOGRAPH FOUR</span>
+<span class="e">  ㈤	5c	3224	12836	PARENTHESIZED IDEOGRAPH FIVE</span>
+<span class="e">  ㈥	6c	3225	12837	PARENTHESIZED IDEOGRAPH SIX</span>
+<span class="e">  ㈦	7c	3226	12838	PARENTHESIZED IDEOGRAPH SEVEN</span>
+<span class="e">  ㈧	8c	3227	12839	PARENTHESIZED IDEOGRAPH EIGHT</span>
+<span class="e">  ㈨	9c	3228	12840	PARENTHESIZED IDEOGRAPH NINE</span>
+<span class="e">  ﬀ	ff	FB00	64256	LATIN SMALL LIGATURE FF</span>
+<span class="e">  ﬁ	fi	FB01	64257	LATIN SMALL LIGATURE FI</span>
+<span class="e">  ﬂ	fl	FB02	64258	LATIN SMALL LIGATURE FL</span>
+<span class="e">  ﬅ	ft	FB05	64261	LATIN SMALL LIGATURE LONG S T</span>
+<span class="e">  ﬆ	st	FB06	64262	LATIN SMALL LIGATURE ST</span>
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

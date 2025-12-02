@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: health.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="health.txt.html#">↑Top↑</a></li>
+<li><a href="health.txt.html#vim.health">Checkhealth</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="health.txt" class="t">health.txt</span>               Nvim
+
+
+                 <span class="i">NVIM REFERENCE MANUAL</span>
+
+
+                                       Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+Checkhealth                                              <span id="vim.health" class="t">vim.health</span> <span id="health" class="t">health</span>
+
+<a href="health.txt.html#vim.health" class="d">vim.health</a> <a href="motion.txt.html#is" class="d">is</a> <a href="insert.txt.html#a" class="d">a</a> minimal framework to <a href="helphelp.txt.html#help" class="d">help</a> users troubleshoot configuration and
+any other environment conditions that <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> might care about. Nvim ships
+with healthchecks <a href="luaref.txt.html#for" class="d">for</a> configuration, performance, <a href="if_pyth.txt.html#python" class="d">python</a> support, <a href="if_ruby.txt.html#ruby" class="d">ruby</a>
+support, <a href="provider.txt.html#clipboard" class="d">clipboard</a> support, and more.
+
+To run all healthchecks, use: 
+<span class="e">    :checkhealth</span>
+
+
+Plugin authors are encouraged to write new healthchecks. <a href="health.txt.html#health-dev" class="l">health-dev</a>
+
+
+<span class="c">COMMANDS</span>                                                     <span id="health-commands" class="t">health-commands</span>
+
+                                                           <span id="%3Ache" class="t">:che</span> <span id="%3Acheckhealth" class="t">:checkhealth</span>
+:che[ckhealth]  Run all healthchecks.
+                                                                       <span id="E5009" class="t">E5009</span>
+                Nvim depends on <a href="starting.txt.html#%24VIMRUNTIME" class="l">$VIMRUNTIME</a><a href="motion.txt.html#%2C" class="d">,</a> <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> and <a href="options.txt.html#%27packpath%27" class="o">'packpath'</a> to
+                find the standard "runtime files" <a href="luaref.txt.html#for" class="d">for</a> <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighting,
+                filetype-specific behavior, and standard plugins (including
+                :checkhealth).  If the runtime files cannot be found then
+                those features will not work.
+
+:che[ckhealth] <span class="s">{plugins}</span>
+                Run healthcheck(s) <a href="luaref.txt.html#for" class="d">for</a> one or more plugins. E.g. to run only
+                the standard Nvim healthcheck: 
+<span class="e">                        :checkhealth vim.health</span>
+
+                To run the healthchecks <a href="luaref.txt.html#for" class="d">for</a> the "foo" and "<a href="motion.txt.html#bar" class="d">bar</a>" plugins
+                (assuming they are on <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> and they have implemented
+                the <a href="lua.txt.html#Lua" class="d">Lua</a> <span class="e">require("foo.health").check()</span> interface): 
+<span class="e">                        :checkhealth foo bar</span>
+
+                To run healthchecks <a href="luaref.txt.html#for" class="d">for</a> <a href="lua.txt.html#Lua" class="d">Lua</a> submodules, use dot <a href="intro.txt.html#notation" class="d">notation</a> or
+                "*" to refer to all submodules. For example Nvim provides
+                <span class="e">vim.lsp</span> and <span class="e">vim.treesitter</span>:  
+<span class="e">                        :checkhealth vim.lsp vim.treesitter</span>
+<span class="e">                        :checkhealth vim*</span>
+
+
+<span class="c">USAGE</span>                                                           <span id="health-usage" class="t">health-usage</span>
+
+Local mappings in the healthcheck buffer:
+
+<a href="repeat.txt.html#q" class="d">q</a>               Closes the window.
+
+Global configuration:
+                                                                    <span id="g%3Ahealth" class="t">g:health</span>
+<a href="health.txt.html#g%3Ahealth" class="d">g:health</a>  <a href="vimeval.txt.html#Dictionary" class="d">Dictionary</a> with the following optional keys:
+          <a href="motion.txt.html#-" class="d">-</a> <span class="e">style</span> (`'float'|nil`) Set to "float" to display <a href="health.txt.html#%3Acheckhealth" class="d">:checkhealth</a> in
+          <a href="insert.txt.html#a" class="d">a</a> floating <a href="windows.txt.html#window" class="d">window</a> instead of the default behavior.
+
+          Example: 
+<span class="e">            vim.g.health = { style = 'float' }</span>
+<span class="e"></span>
+<span class="e"></span>
+Local configuration:
+
+Checkhealth sets its buffer <a href="filetype.txt.html#filetype" class="d">filetype</a> to "checkhealth"<a href="repeat.txt.html#." class="d">.</a> You can customize the
+buffer by handling the <a href="autocmd.txt.html#FileType" class="l">FileType</a> event. For example if you don't want emojis
+in the <a href="health.txt.html#health" class="d">health</a> report: 
+<span class="e">    autocmd FileType checkhealth :set modifiable | silent! %s/\v( ?[^\x00-\x7F])//g</span>
+
+
+
+<span class="h">--------------------------------------------------------------------------------</span>
+Create <a href="insert.txt.html#a" class="d">a</a> healthcheck                                              <span id="health-dev" class="t">health-dev</span>
+
+Healthchecks are <a href="vimeval.txt.html#functions" class="d">functions</a> that check the user environment, configuration, or
+any other prerequisites that <a href="insert.txt.html#a" class="d">a</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> cares about. Nvim ships with
+healthchecks in:
+• $VIMRUNTIME/autoload/health/
+• $VIMRUNTIME/lua/vim/lsp/health.lua
+• $VIMRUNTIME/lua/vim/treesitter/health.lua
+• and more...
+
+To add <a href="insert.txt.html#a" class="d">a</a> new healthcheck <a href="luaref.txt.html#for" class="d">for</a> your own plugin, simply create <a href="insert.txt.html#a" class="d">a</a> "health.lua"
+module on <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> that returns <a href="insert.txt.html#a" class="d">a</a> table with <a href="insert.txt.html#a" class="d">a</a> "check()" function. Then
+<a href="health.txt.html#%3Acheckhealth" class="l">:checkhealth</a> will automatically find and invoke the function.
+
+For example if your <a href="usr_05.txt.html#plugin" class="d">plugin</a> <a href="motion.txt.html#is" class="d">is</a> named "foo"<a href="motion.txt.html#%2C" class="d">,</a> define your healthcheck module <a href="motion.txt.html#at" class="d">at</a>
+one of these locations (on <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>):
+• lua/foo/health/init.lua
+• lua/foo/health.lua
+
+If your <a href="usr_05.txt.html#plugin" class="d">plugin</a> also provides <a href="insert.txt.html#a" class="d">a</a> submodule named "<a href="motion.txt.html#bar" class="d">bar</a>" <a href="luaref.txt.html#for" class="d">for</a> which you want <a href="insert.txt.html#a" class="d">a</a>
+separate healthcheck, define the healthcheck <a href="motion.txt.html#at" class="d">at</a> one of these locations:
+• lua/foo/bar/health/init.lua
+• lua/foo/bar/health.lua
+
+All such <a href="health.txt.html#health" class="d">health</a> modules must return <a href="insert.txt.html#a" class="d">a</a> <a href="lua.txt.html#Lua" class="d">Lua</a> table containing <a href="insert.txt.html#a" class="d">a</a> <span class="e">check()</span>
+function.
+
+Copy this sample code into <span class="e">lua/foo/health.lua</span>, <a href="change.txt.html#replacing" class="d">replacing</a> "foo" in the path
+with your <a href="usr_05.txt.html#plugin" class="d">plugin</a> name: 
+<span class="e">    local M = {}</span>
+<span class="e"></span>
+<span class="e">    M.check = function()</span>
+<span class="e">      vim.health.start("foo report")</span>
+<span class="e">      -- make sure setup function parameters are ok</span>
+<span class="e">      if check_setup() then</span>
+<span class="e">        vim.health.ok("Setup is correct")</span>
+<span class="e">      else</span>
+<span class="e">        vim.health.error("Setup is incorrect")</span>
+<span class="e">      end</span>
+<span class="e">      -- do some more checking</span>
+<span class="e">      -- ...</span>
+<span class="e">    end</span>
+<span class="e"></span>
+<span class="e">    return M</span>
+
+
+
+error({msg}, <span class="s">{...}</span>)                                       <span id="vim.health.error%28%29" class="t">vim.health.error()</span>
+    Reports an error.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{msg}</span>  (`string`)
+      • <span class="s">{...}</span>  (`string|string[]`) Optional advice
+
+info({msg})                                                <span id="vim.health.info%28%29" class="t">vim.health.info()</span>
+    Reports an informational message.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{msg}</span>  (`string`)
+
+ok({msg})                                                    <span id="vim.health.ok%28%29" class="t">vim.health.ok()</span>
+    Reports <a href="insert.txt.html#a" class="d">a</a> "success" message.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{msg}</span>  (`string`)
+
+start({name})                                             <span id="vim.health.start%28%29" class="t">vim.health.start()</span>
+    Starts <a href="insert.txt.html#a" class="d">a</a> new report. Most plugins should call this only once, but if you
+    want different sections to appear in your report, call this once per
+    section.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{name}</span>  (`string`)
+
+warn({msg}, <span class="s">{...}</span>)                                         <span id="vim.health.warn%28%29" class="t">vim.health.warn()</span>
+    Reports <a href="insert.txt.html#a" class="d">a</a> warning.
+
+<span class="h">    Parameters: </span>
+      • <span class="s">{msg}</span>  (`string`)
+      • <span class="s">{...}</span>  (`string|string[]`) Optional advice
+
+
+ vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

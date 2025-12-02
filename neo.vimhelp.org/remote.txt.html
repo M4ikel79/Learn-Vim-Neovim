@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: remote.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="remote.txt.html#">↑Top↑</a></li>
+<li><a href="remote.txt.html#clientserver">Common functionality</a></li>
+<li><a href="remote.txt.html#E5600">Missing functionality</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="remote.txt" class="t">remote.txt</span>    Nvim
+
+
+		  <span class="i">VIM REFERENCE MANUAL    by Bram Moolenaar</span>
+
+
+Vim <a href="remote.txt.html#client-server" class="d">client-server</a> communication				<span id="client-server" class="t">client-server</span>
+
+                                      Type <a href="various.txt.html#gO" class="l">gO</a> to see the table of contents.
+
+<span class="h">==============================================================================</span>
+1. Common functionality					<span id="clientserver" class="t">clientserver</span>
+
+Nvim's <a href="api.txt.html#RPC" class="l">RPC</a> functionality allows clients to programmatically <a href="intro.txt.html#control" class="d">control</a> Nvim. Nvim
+itself takes command-line arguments that cause <a href="motion.txt.html#it" class="d">it</a> to become <a href="insert.txt.html#a" class="d">a</a> client to another
+Nvim running <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> server. These arguments match those provided by Vim's
+<a href="remote.txt.html#clientserver" class="d">clientserver</a> option.
+
+The following command line arguments are available:
+
+<span class="h">    argument			meaning	</span>
+
+   <a href="remote.txt.html#--remote" class="d">--remote</a> [+{cmd}] <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> <a href="userfunc.txt.html#..." class="d">...</a>					<span id="--remote" class="t">--remote</span>
+				Open the file <a href="vimeval.txt.html#list" class="d">list</a> in <a href="insert.txt.html#a" class="d">a</a> remote Vim.  When
+				there <a href="motion.txt.html#is" class="d">is</a> no Vim server, execute locally.
+				Vim allows one init command: +{cmd}.
+				This must be an <a href="intro.txt.html#Ex" class="d">Ex</a> command that can be
+				followed by "|"<a href="repeat.txt.html#." class="d">.</a> It's not yet supported by
+				Nvim.
+				The rest of the command line <a href="motion.txt.html#is" class="d">is</a> taken <a href="motion.txt.html#as" class="d">as</a> the
+				file list.  Thus any non-file arguments must
+				come before this.
+				You cannot edit stdin this way <a href="starting.txt.html#--" class="l">--</a><a href="repeat.txt.html#." class="d">.</a>
+				The remote Vim <a href="motion.txt.html#is" class="d">is</a> raised.  If you don't want
+				this use 
+<span class="e">				 nvim --remote-send "&lt;C-\&gt;&lt;C-N&gt;:n filename&lt;CR&gt;"</span>
+
+   <a href="remote.txt.html#--remote-silent" class="d">--remote-silent</a> [+{cmd}] <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> <a href="userfunc.txt.html#..." class="d">...</a>			<span id="--remote-silent" class="t">--remote-silent</span>
+				As above, but don't complain if there <a href="motion.txt.html#is" class="d">is</a> no
+				server and the file <a href="motion.txt.html#is" class="d">is</a> edited locally.
+							<span id="--remote-tab" class="t">--remote-tab</span>
+   <a href="remote.txt.html#--remote-tab" class="d">--remote-tab</a>			Like <a href="remote.txt.html#--remote" class="d">--remote</a> but open each file in <a href="insert.txt.html#a" class="d">a</a> new
+				tabpage.
+							<span id="--remote-tab-silent" class="t">--remote-tab-silent</span>
+   <a href="remote.txt.html#--remote-tab-silent" class="d">--remote-tab-silent</a>		Like <a href="remote.txt.html#--remote-silent" class="d">--remote-silent</a> but open each file in <a href="insert.txt.html#a" class="d">a</a>
+				new tabpage.
+								<span id="--remote-send" class="t">--remote-send</span>
+   <a href="remote.txt.html#--remote-send" class="d">--remote-send</a> <span class="s">{keys}</span>		Send <span class="s">{keys}</span> to server and exit.  The <span class="s">{keys}</span>
+				are not mapped.  Special key names are
+				recognized, e.g., "<a href="motion.txt.html#%3CCR%3E" class="s">&lt;CR&gt;</a>" results in <a href="insert.txt.html#a" class="d">a</a> CR
+				character.
+								<span id="--remote-expr" class="t">--remote-expr</span>
+   <a href="remote.txt.html#--remote-expr" class="d">--remote-expr</a> <span class="s">{expr}</span>		Evaluate <span class="s">{expr}</span> in server and print the result
+				on stdout.
+								<span id="--remote-ui" class="t">--remote-ui</span>
+   <a href="remote.txt.html#--remote-ui" class="d">--remote-ui</a>			Display the <a href="ui.txt.html#UI" class="d">UI</a> of the server in the terminal.
+				Fully interactive: keyboard and mouse input
+				are forwarded to the server.
+								<span id="--server" class="t">--server</span>
+   <a href="remote.txt.html#--server" class="d">--server</a> <span class="s">{addr}</span>		Connect to the named pipe or socket <a href="motion.txt.html#at" class="d">at</a> the
+				given address <a href="luaref.txt.html#for" class="d">for</a> executing remote commands.
+				See <a href="starting.txt.html#--listen" class="l">--listen</a> <a href="luaref.txt.html#for" class="d">for</a> specifying an address when
+				<a href="starting.txt.html#starting" class="d">starting</a> <a href="insert.txt.html#a" class="d">a</a> server.
+
+<span class="h">Examples </span>
+
+Start an Nvim server listening on <a href="insert.txt.html#a" class="d">a</a> named pipe <a href="motion.txt.html#at" class="d">at</a> '~/.cache/nvim/server.pipe': 
+<span class="e">    nvim --listen ~/.cache/nvim/server.pipe</span>
+<span class="e"></span>
+Edit "file.txt" in an Nvim server listening <a href="motion.txt.html#at" class="d">at</a> '~/.cache/nvim/server.pipe': 
+<span class="e">    nvim --server ~/.cache/nvim/server.pipe --remote file.txt</span>
+<span class="e"></span>
+This doesn't work, all arguments after <a href="remote.txt.html#--remote" class="d">--remote</a> will be used <a href="motion.txt.html#as" class="d">as</a> file names: 
+<span class="e">    nvim --remote --server ~/.cache/nvim/server.pipe file.txt</span>
+<span class="e"></span>
+Tell the remote server to write all files and exit: 
+<span class="e">    nvim --server ~/.cache/nvim/server.pipe --remote-send '&lt;C-\&gt;&lt;C-N&gt;:wqa&lt;CR&gt;'</span>
+<span class="e"></span>
+<span class="e"></span>
+<span class="c">REMOTE EDITING</span>
+
+The <a href="remote.txt.html#--remote" class="d">--remote</a> argument will cause <a href="insert.txt.html#a" class="d">a</a> <a href="windows.txt.html#%3Adrop" class="l">:drop</a> command to be constructed from the
+rest of the command line and sent <a href="motion.txt.html#as" class="d">as</a> described above.
+<span class="n">Note</span> that the <a href="remote.txt.html#--remote" class="d">--remote</a> and <a href="remote.txt.html#--remote-wait" class="d">--remote-wait</a> arguments will consume the rest of
+the command line.  I.e. all remaining arguments will be regarded <a href="motion.txt.html#as" class="d">as</a> filenames.
+You can not <a href="change.txt.html#put" class="d">put</a> <a href="options.txt.html#options" class="d">options</a> there!
+
+
+<span class="h">==============================================================================</span>
+2. Missing functionality			<span id="E5600" class="t">E5600</span> <span id="clientserver-missing" class="t">clientserver-missing</span>
+
+Vim supports additional functionality in <a href="remote.txt.html#clientserver" class="d">clientserver</a> that's not yet
+implemented in Nvim. In particular, none of the "wait" variants are supported
+yet. The following command line arguments are not yet available:
+
+<span class="h">    argument			meaning	</span>
+
+   <a href="remote.txt.html#--remote-wait" class="d">--remote-wait</a> [+{cmd}] <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> <a href="userfunc.txt.html#..." class="d">...</a>				<span id="--remote-wait" class="t">--remote-wait</span>
+				Not yet supported by Nvim.
+				As --remote, but wait <a href="luaref.txt.html#for" class="d">for</a> files to complete
+				(unload) in remote Vim.
+   <a href="remote.txt.html#--remote-wait-silent" class="d">--remote-wait-silent</a> [+{cmd}] <a href="editing.txt.html#%7Bfile%7D" class="s">{file}</a> <a href="userfunc.txt.html#..." class="d">...</a>		<span id="--remote-wait-silent" class="t">--remote-wait-silent</span>
+				Not yet supported by Nvim.
+				As --remote-wait, but don't complain if there
+				<a href="motion.txt.html#is" class="d">is</a> no server.
+							<span id="--remote-tab-wait" class="t">--remote-tab-wait</span>
+   <a href="remote.txt.html#--remote-tab-wait" class="d">--remote-tab-wait</a>		Not yet supported by Nvim.
+				Like <a href="remote.txt.html#--remote-wait" class="d">--remote-wait</a> but open each file in <a href="insert.txt.html#a" class="d">a</a> new
+				tabpage.
+						<span id="--remote-tab-wait-silent" class="t">--remote-tab-wait-silent</span>
+   <a href="remote.txt.html#--remote-tab-wait-silent" class="d">--remote-tab-wait-silent</a>	Not yet supported by Nvim.
+				Like <a href="remote.txt.html#--remote-wait-silent" class="d">--remote-wait-silent</a> but open each file
+				in <a href="insert.txt.html#a" class="d">a</a> new tabpage.
+							    <span id="--servername" class="t">--servername</span>
+   <a href="remote.txt.html#--servername" class="d">--servername</a> <span class="s">{name}</span>          Not yet supported by Nvim.
+				Become the server <span class="s">{name}</span>.  When used together
+                                with one of the <a href="remote.txt.html#--remote" class="d">--remote</a> commands: connect to
+                                server <span class="s">{name}</span> instead of the default (see
+                                below).  The name used will be uppercase.
+
+								<span id="--serverlist" class="t">--serverlist</span>
+   <a href="remote.txt.html#--serverlist" class="d">--serverlist</a>			Not yet supported by Nvim.
+				Output <a href="insert.txt.html#a" class="d">a</a> <a href="vimeval.txt.html#list" class="d">list</a> of server names.
+
+
+
+
+<span class="c">SERVER NAME</span>						<span id="client-server-name" class="t">client-server-name</span>
+
+By default Vim will try to <a href="intro.txt.html#register" class="d">register</a> the name under which <a href="motion.txt.html#it" class="d">it</a> was invoked (gvim,
+egvim ...).  This can be overridden with the <a href="remote.txt.html#--servername" class="d">--servername</a> argument.  Nvim
+either listens on <a href="insert.txt.html#a" class="d">a</a> named pipe or <a href="insert.txt.html#a" class="d">a</a> socket and does not yet <a href="support.txt.html#support" class="d">support</a> this
+<a href="remote.txt.html#--servername" class="d">--servername</a> functionality.
+
+ vim:tw=78:sw=4:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>

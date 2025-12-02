@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Neovim help pages, always up-to-date">
+<title>Neovim: usr_43.txt</title>
+<link rel="shortcut icon" href="s/h3E0J2MHNKfIuCqP/favicon-neovim.ico">
+<!-- favicon taken from https://neovim.io/favicon.ico, which is licensed under CC-BY-3.0: https://creativecommons.org/licenses/by/3.0/ -->
+
+<link rel="stylesheet" href="s/MsMIu46igYudff1x/tom-select.min.css">
+<script defer src="s/RLcAbtLBYX-q5me0/tom-select.base.min.js"></script>
+
+<link rel="stylesheet" href="s/QRMkrs52-wJfIQ-w/vimhelp.css">
+<noscript><link rel="stylesheet" href="s/eRFCn9A-K4lmzV_A/noscript.css"></noscript>
+<script defer src="s/KpwrKyx19dtnhPoe/vimhelp.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="bar">
+  <div class="ql">Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</div>
+  <div class="tag srch need-js">
+    <select id="vh-select-tag"></select>
+    <div class="placeholder">Go to keyword<span class="not-mobile">&nbsp;(shortcut: <kbd>k</kbd>)</span></div>
+  </div>
+  <form class="site srch" action="https://duckduckgo.com" method="get" target="_blank" rel="noopener noreferrer">
+    <input type="hidden" name="sites" value="neo.vimhelp.org">
+    <input type="search" name="q" id="vh-srch-input" placeholder="Site search">
+    <div class="placeholder need-js">Site search<span class="not-mobile">&nbsp;(shortcut: <kbd>s</kbd>)</span></div>
+  </form>
+  <div id="theme-switcher" class="need-js">
+  <button id="theme-current" title="Switch theme">Theme</button>
+  <div id="theme-dropdown"><ul>
+    <li><button id="theme-native" title="Switch to native theme">Native</button></li>
+    <li><button id="theme-light" title="Switch to light theme">Light</button></li>
+    <li><button id="theme-dark" title="Switch to dark theme">Dark</button></li>
+  </ul></div>
+</div>
+
+</div>
+
+<main>
+<div id="vh-sidebar">
+<ul><li><a href="usr_43.txt.html#">↑Top↑</a></li>
+<li><a href="usr_43.txt.html#43.1">Plugins for a filetype</a></li>
+<li><a href="usr_43.txt.html#43.2">Adding a filetype</a></li>
+</ul>
+</div>
+<div id="vh-content">
+<pre>
+<span id="usr_43.txt" class="t">usr_43.txt</span>  	Nvim
+
+		     VIM USER MANUAL <a href="motion.txt.html#-" class="d">-</a> by <a href="intro.txt.html#Bram" class="d">Bram</a> <a href="intro.txt.html#Moolenaar" class="d">Moolenaar</a>
+
+			       Using <a href="filetype.txt.html#filetypes" class="d">filetypes</a>
+
+
+When you are editing <a href="insert.txt.html#a" class="d">a</a> file of <a href="insert.txt.html#a" class="d">a</a> certain type, <a href="luaref.txt.html#for" class="d">for</a> example <a href="insert.txt.html#a" class="d">a</a> <a href="change.txt.html#C" class="d">C</a> program or <a href="insert.txt.html#a" class="d">a</a>
+shell script, you often use the same option settings and mappings.  You
+quickly get tired of manually setting these each time.  This chapter explains
+how to <a href="diff.txt.html#do" class="d">do</a> <a href="motion.txt.html#it" class="d">it</a> automatically.
+
+<a href="usr_43.txt.html#43.1" class="l">43.1</a>  	Plugins <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a>
+<a href="usr_43.txt.html#43.2" class="l">43.2</a>  	Adding <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a>
+
+     Next chapter: <a href="usr_44.txt.html#usr_44.txt" class="l">usr_44.txt</a>  Your own <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighted
+ Previous chapter: <a href="usr_42.txt.html#usr_42.txt" class="l">usr_42.txt</a>  Add new <a href="gui.txt.html#menus" class="d">menus</a>
+Table of contents: <a href="usr_toc.txt.html#usr_toc.txt" class="l">usr_toc.txt</a>
+
+<span class="h">==============================================================================</span>
+<span id="43.1" class="t">43.1</span>  	Plugins <a href="luaref.txt.html#for" class="d">for</a> <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a>				<span id="filetype-plugin" class="t">filetype-plugin</span>
+
+How to start using <a href="filetype.txt.html#filetype" class="d">filetype</a> plugins has already been discussed here:
+<a href="usr_05.txt.html#add-filetype-plugin" class="l">add-filetype-plugin</a><a href="repeat.txt.html#." class="d">.</a>  But you probably are not satisfied with the default
+settings, because they have been kept minimal.  Suppose that <a href="luaref.txt.html#for" class="d">for</a> <a href="change.txt.html#C" class="d">C</a> files you
+want to set the <a href="options.txt.html#%27softtabstop%27" class="o">'softtabstop'</a> option to 4 and define <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> to <a href="insert.txt.html#insert" class="d">insert</a> <a href="insert.txt.html#a" class="d">a</a>
+three-line comment.  You <a href="diff.txt.html#do" class="d">do</a> this with only two steps:
+
+							<span id="your-runtime-dir" class="t">your-runtime-dir</span>
+1. Create your own runtime directory.  On Unix this usually <a href="motion.txt.html#is" class="d">is</a>
+   "~/.config/nvim"<a href="repeat.txt.html#." class="d">.</a>  In this directory create the "<a href="usr_41.txt.html#ftplugin" class="d">ftplugin</a>" directory: 
+<span class="e"></span>
+<span class="e">	mkdir -p ~/.config/nvim/ftplugin</span>
+
+   When you are not on Unix, check the value of the <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> option to
+   see where Vim will look <a href="luaref.txt.html#for" class="d">for</a> the "<a href="usr_41.txt.html#ftplugin" class="d">ftplugin</a>" directory: 
+<span class="e"></span>
+<span class="e">	set runtimepath?</span>
+<span class="e"></span>
+  You would normally use the first directory name (before the first comma).
+   You might want to prepend <a href="insert.txt.html#a" class="d">a</a> directory name to the <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> option in
+   your <a href="starting.txt.html#init.vim" class="l">init.vim</a> file if you don't like the default value.
+
+2. Create the file "~/.config/nvim/ftplugin/c.vim"<a href="motion.txt.html#%2C" class="d">,</a> with the contents: 
+<span class="e"></span>
+<span class="e">	setlocal softtabstop=4</span>
+<span class="e">	noremap &lt;buffer&gt; &lt;LocalLeader&gt;c o/**************&lt;CR&gt;&lt;CR&gt;/&lt;Esc&gt;</span>
+<span class="e">	let b:undo_ftplugin = "setl softtabstop&lt; | unmap &lt;buffer&gt; &lt;LocalLeader&gt;c"</span>
+<span class="e"></span>
+Try editing <a href="insert.txt.html#a" class="d">a</a> <a href="change.txt.html#C" class="d">C</a> file.  You should notice that the <a href="options.txt.html#%27softtabstop%27" class="o">'softtabstop'</a> option <a href="motion.txt.html#is" class="d">is</a> set
+to 4.  But when you edit another file it's reset to the default zero.  That <a href="motion.txt.html#is" class="d">is</a>
+because the "<a href="options.txt.html#%3Asetlocal" class="d">:setlocal</a>" command was used.  This sets the <a href="options.txt.html#%27softtabstop%27" class="o">'softtabstop'</a> option
+only locally to the buffer.  As soon <a href="motion.txt.html#as" class="d">as</a> you edit another buffer, <a href="motion.txt.html#it" class="d">it</a> will be
+set to the value set <a href="luaref.txt.html#for" class="d">for</a> that buffer.  For <a href="insert.txt.html#a" class="d">a</a> new buffer <a href="motion.txt.html#it" class="d">it</a> will get the
+default value or the value from the last "<a href="options.txt.html#%3Aset" class="d">:set</a>" command.
+
+Likewise, the <a href="map.txt.html#mapping" class="d">mapping</a> <a href="luaref.txt.html#for" class="d">for</a> "\c" will disappear when editing another buffer.
+The "<a href="map.txt.html#%3Amap" class="d">:map</a> <a href="autocmd.txt.html#%3Cbuffer%3E" class="s">&lt;buffer&gt;</a>" command creates <a href="insert.txt.html#a" class="d">a</a> <a href="map.txt.html#mapping" class="d">mapping</a> that <a href="motion.txt.html#is" class="d">is</a> local to the current
+buffer.  This works with any <a href="map.txt.html#mapping" class="d">mapping</a> command: "<a href="map.txt.html#%3Amap%21" class="d">:map!</a>"<a href="motion.txt.html#%2C" class="d">,</a> "<a href="map.txt.html#%3Avmap" class="d">:vmap</a>"<a href="motion.txt.html#%2C" class="d">,</a> etc.  The
+<a href="map.txt.html#%3CLocalLeader%3E" class="l">&lt;LocalLeader&gt;</a> in the <a href="map.txt.html#mapping" class="d">mapping</a> <a href="motion.txt.html#is" class="d">is</a> replaced with the value of the
+"<a href="map.txt.html#maplocalleader" class="d">maplocalleader</a>" variable.
+
+The line to set b:undo_ftplugin <a href="motion.txt.html#is" class="d">is</a> <a href="luaref.txt.html#for" class="d">for</a> when the <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="motion.txt.html#is" class="d">is</a> set to another
+value.  In that <a href="change.txt.html#case" class="d">case</a> you will want to <a href="undo.txt.html#undo" class="d">undo</a> your preferences.  The
+b:undo_ftplugin variable <a href="motion.txt.html#is" class="d">is</a> executed <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> command. Watch out <a href="luaref.txt.html#for" class="d">for</a> characters
+with <a href="insert.txt.html#a" class="d">a</a> special meaning inside <a href="insert.txt.html#a" class="d">a</a> string, such <a href="motion.txt.html#as" class="d">as</a> <a href="insert.txt.html#a" class="d">a</a> backslash.
+
+You can find examples <a href="luaref.txt.html#for" class="d">for</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> plugins in this directory: 
+<span class="e"></span>
+<span class="e">	$VIMRUNTIME/ftplugin/</span>
+<span class="e"></span>
+More details about <a href="editing.txt.html#writing" class="d">writing</a> <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> <a href="usr_05.txt.html#plugin" class="d">plugin</a> can be found here:
+<a href="usr_41.txt.html#write-plugin" class="l">write-plugin</a><a href="repeat.txt.html#." class="d">.</a>
+
+<span class="h">==============================================================================</span>
+<span id="43.2" class="t">43.2</span>  	Adding <a href="insert.txt.html#a" class="d">a</a> <a href="filetype.txt.html#filetype" class="d">filetype</a>
+
+If you are using <a href="insert.txt.html#a" class="d">a</a> type of file that <a href="motion.txt.html#is" class="d">is</a> not recognized by Vim, this <a href="motion.txt.html#is" class="d">is</a> how to
+get <a href="motion.txt.html#it" class="d">it</a> recognized.  You need <a href="insert.txt.html#a" class="d">a</a> runtime directory of your own.  See
+<a href="usr_43.txt.html#your-runtime-dir" class="l">your-runtime-dir</a> above.
+
+Create <a href="insert.txt.html#a" class="d">a</a> file "filetype.vim" which contains an <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> <a href="luaref.txt.html#for" class="d">for</a> your filetype.
+(Autocommands were explained in <a href="motion.txt.html#section" class="d">section</a> <a href="usr_40.txt.html#40.3" class="l">40.3</a>.)  Example: 
+<span class="e"></span>
+<span class="e">	augroup filetypedetect</span>
+<span class="e">	au BufNewFile,BufRead *.xyz	setf xyz</span>
+<span class="e">	augroup END</span>
+<span class="e"></span>
+This will recognize all files that <a href="intro.txt.html#end" class="d">end</a> in ".xyz" <a href="motion.txt.html#as" class="d">as</a> the "xyz" filetype.  The
+"<a href="autocmd.txt.html#%3Aaugroup" class="d">:augroup</a>" commands <a href="change.txt.html#put" class="d">put</a> this <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> in the "filetypedetect" group.  This
+allows removing all autocommands <a href="luaref.txt.html#for" class="d">for</a> <a href="filetype.txt.html#filetype" class="d">filetype</a> detection when doing "<a href="filetype.txt.html#%3Afiletype" class="d">:filetype</a>
+off"<a href="repeat.txt.html#." class="d">.</a>  The "setf" command will set the <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> option to its argument,
+unless <a href="motion.txt.html#it" class="d">it</a> was set already.  This will make sure that <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> isn't set
+twice.
+
+You can use many different patterns to match the name of your file.  Directory
+names can also be included.  See <a href="autocmd.txt.html#autocmd-pattern" class="l">autocmd-pattern</a><a href="repeat.txt.html#." class="d">.</a>  For example, the files
+under "/usr/share/scripts/" are all "<a href="if_ruby.txt.html#ruby" class="d">ruby</a>" files, but don't have the expected
+file name extension.  Adding this to the example above: 
+<span class="e"></span>
+<span class="e">	augroup filetypedetect</span>
+<span class="e">	au BufNewFile,BufRead *.xyz			setf xyz</span>
+<span class="e">	au BufNewFile,BufRead /usr/share/scripts/*	setf ruby</span>
+<span class="e">	augroup END</span>
+<span class="e"></span>
+However, if you now edit <a href="insert.txt.html#a" class="d">a</a> file /usr/share/scripts/README.txt, this <a href="motion.txt.html#is" class="d">is</a> not <a href="insert.txt.html#a" class="d">a</a>
+<a href="if_ruby.txt.html#ruby" class="d">ruby</a> file.  The danger of <a href="insert.txt.html#a" class="d">a</a> <a href="pattern.txt.html#pattern" class="d">pattern</a> ending in "*" <a href="motion.txt.html#is" class="d">is</a> that <a href="motion.txt.html#it" class="d">it</a> quickly matches
+too many files.  To avoid trouble with this, <a href="change.txt.html#put" class="d">put</a> the filetype.vim file in
+another directory, one that <a href="motion.txt.html#is" class="d">is</a> <a href="motion.txt.html#at" class="d">at</a> the <a href="intro.txt.html#end" class="d">end</a> of <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  For Unix <a href="luaref.txt.html#for" class="d">for</a>
+example, you could use "~/.config/nvim/after/filetype.vim"<a href="repeat.txt.html#." class="d">.</a>
+   You now <a href="change.txt.html#put" class="d">put</a> the detection of text files in ~/.config/nvim/filetype.vim: 
+<span class="e"></span>
+<span class="e">	augroup filetypedetect</span>
+<span class="e">	au BufNewFile,BufRead *.txt			setf text</span>
+<span class="e">	augroup END</span>
+<span class="e"></span>
+That file <a href="motion.txt.html#is" class="d">is</a> found in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a> first.  Then use this in
+~/.config/nvim/after/filetype.vim, which <a href="motion.txt.html#is" class="d">is</a> found last: 
+<span class="e"></span>
+<span class="e">	augroup filetypedetect</span>
+<span class="e">	au BufNewFile,BufRead /usr/share/scripts/*	setf ruby</span>
+<span class="e">	augroup END</span>
+<span class="e"></span>
+What will happen now <a href="motion.txt.html#is" class="d">is</a> that Vim searches <a href="luaref.txt.html#for" class="d">for</a> "filetype.vim" files in each
+directory in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  First ~/.config/nvim/filetype.vim <a href="motion.txt.html#is" class="d">is</a> found.  The
+<a href="autocmd.txt.html#autocommand" class="d">autocommand</a> to catch <span class="e">*.txt</span> files <a href="motion.txt.html#is" class="d">is</a> defined there.  Then Vim finds the
+filetype.vim file in $VIMRUNTIME, which <a href="motion.txt.html#is" class="d">is</a> halfway <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>.  Finally
+~/.config/nvim/after/filetype.vim <a href="motion.txt.html#is" class="d">is</a> found and the <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> <a href="luaref.txt.html#for" class="d">for</a> detecting
+<a href="if_ruby.txt.html#ruby" class="d">ruby</a> files in /usr/share/scripts <a href="motion.txt.html#is" class="d">is</a> added.
+   When you now edit /usr/share/scripts/README.txt, the autocommands are
+checked in the order in which they were defined.  The <span class="e">*.txt</span> <a href="pattern.txt.html#pattern" class="d">pattern</a> matches,
+thus "setf text" <a href="motion.txt.html#is" class="d">is</a> executed to set the <a href="filetype.txt.html#filetype" class="d">filetype</a> to "text"<a href="repeat.txt.html#." class="d">.</a>  The <a href="pattern.txt.html#pattern" class="d">pattern</a> <a href="luaref.txt.html#for" class="d">for</a>
+<a href="if_ruby.txt.html#ruby" class="d">ruby</a> matches too, and the "setf <a href="if_ruby.txt.html#ruby" class="d">ruby</a>" <a href="motion.txt.html#is" class="d">is</a> executed.  But since <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> was
+already set to "text"<a href="motion.txt.html#%2C" class="d">,</a> nothing happens here.
+   When you edit the file /usr/share/scripts/foobar the same autocommands are
+checked.  Only the one <a href="luaref.txt.html#for" class="d">for</a> <a href="if_ruby.txt.html#ruby" class="d">ruby</a> matches and "setf <a href="if_ruby.txt.html#ruby" class="d">ruby</a>" sets <a href="options.txt.html#%27filetype%27" class="o">'filetype'</a> to
+ruby.
+
+
+<span class="c">RECOGNIZING BY CONTENTS</span>
+
+If your file cannot be recognized by its file name, you might be able to
+recognize <a href="motion.txt.html#it" class="d">it</a> by its contents.  For example, many <a href="usr_41.txt.html#script" class="d">script</a> files start with <a href="insert.txt.html#a" class="d">a</a>
+line like:
+
+<span class="h">	#!/bin/xyz </span>
+
+To recognize this <a href="usr_41.txt.html#script" class="d">script</a> create <a href="insert.txt.html#a" class="d">a</a> file "scripts.vim" in your runtime directory
+(same place where filetype.vim goes).  It might look like this: 
+<span class="e"></span>
+<span class="e">	if did_filetype()</span>
+<span class="e">	  finish</span>
+<span class="e">	endif</span>
+<span class="e">	if getline(1) =~ '^#!.*[/\\]xyz\&gt;'</span>
+<span class="e">	  setf xyz</span>
+<span class="e">	endif</span>
+<span class="e"></span>
+The first check with <a href="vimfn.txt.html#did_filetype%28%29" class="d">did_filetype()</a> <a href="motion.txt.html#is" class="d">is</a> to avoid that you will check the
+contents of files <a href="luaref.txt.html#for" class="d">for</a> which the <a href="filetype.txt.html#filetype" class="d">filetype</a> was already detected by the file
+name.  That avoids wasting time on checking the file when the "setf" command
+won't <a href="diff.txt.html#do" class="d">do</a> anything.
+   The scripts.vim file <a href="motion.txt.html#is" class="d">is</a> sourced by an <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> in the default
+filetype.vim file.  Therefore, the order of checks is:
+
+	1. filetype.vim files before <a href="starting.txt.html#%24VIMRUNTIME" class="d">$VIMRUNTIME</a> in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>
+	2. first part of $VIMRUNTIME/filetype.vim
+	3. all scripts.vim files in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>
+	4. remainder of $VIMRUNTIME/filetype.vim
+	5. filetype.vim files after <a href="starting.txt.html#%24VIMRUNTIME" class="d">$VIMRUNTIME</a> in <a href="options.txt.html#%27runtimepath%27" class="o">'runtimepath'</a>
+
+If this <a href="motion.txt.html#is" class="d">is</a> not sufficient <a href="luaref.txt.html#for" class="d">for</a> you, add an <a href="autocmd.txt.html#autocommand" class="d">autocommand</a> that matches all files
+and sources <a href="insert.txt.html#a" class="d">a</a> <a href="usr_41.txt.html#script" class="d">script</a> or executes <a href="insert.txt.html#a" class="d">a</a> function to check the contents of the file.
+
+<span class="h">==============================================================================</span>
+
+Next chapter: <a href="usr_44.txt.html#usr_44.txt" class="l">usr_44.txt</a>  Your own <a href="syntax.txt.html#syntax" class="d">syntax</a> highlighted
+
+Copyright: see <a href="usr_01.txt.html#manual-copyright" class="l">manual-copyright</a>  vim:tw=78:ts=8:noet:ft=help:norl:
+
+
+</pre>
+</div>
+</main>
+<p>Quick links:
+<a href="index.html">help overview</a> &middot;
+<a href="quickref.txt.html">quick reference</a> &middot;
+<a href="usr_toc.txt.html">user manual toc</a> &middot;
+<a href="index.html#reference_toc">reference manual toc</a>
+</p>
+<footer>This site is maintained by Carlo Teubner (<i>(my first name) at cteubner dot net</i>).</footer>
+</body>
+</html>
