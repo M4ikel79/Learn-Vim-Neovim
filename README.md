@@ -40,6 +40,26 @@ Open HTML help files in your browser (if present):
 xdg-open docs/index.html   # or open on macOS with `open`
 ```
 
+Recommended: run a local static server with live-server
+- Open the directory that contains the HTML help files (for example docs/ or help/) — or open the repo root if the HTML files are in the root.
+- Run once without installing globally:
+```
+npx live-server
+```
+- Or install live-server via npm:
+```
+# install globally
+npm install -g live-server
+# or add as a dev dependency
+npm install --save-dev live-server
+```
+- Then run:
+```
+live-server
+```
+
+This starts a local server (e.g. http://127.0.0.1:8080) so you can browse the help in your browser. Opening the directory "between the two" and running `npx live-server` (as you prefer) is the recommended workflow for this repo.
+
 Or open the text help files directly in Vim/Neovim after installing (see below).
 
 ## Installing help files into Vim / Neovim
@@ -69,7 +89,7 @@ Notes:
 
 ## Viewing the help locally
 - Text help files: open directly in Vim/Neovim with :help {tag} after generating helptags.
-- HTML files: open in any browser.
+- HTML files: open in any browser or use live-server as recommended above.
 - Quick search: use grep or ripgrep inside the repo:
 ```
 rg "search-term" .
